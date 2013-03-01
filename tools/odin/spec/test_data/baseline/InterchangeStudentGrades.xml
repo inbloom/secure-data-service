@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2001-08-27</DateAssigned>
@@ -54932,6 +54931,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -54956,6 +54956,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -54980,6 +54981,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55004,6 +55006,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55028,6 +55031,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55052,6 +55056,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
@@ -55076,6 +55081,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55100,6 +55106,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
@@ -55124,6 +55131,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55148,6 +55156,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55172,6 +55181,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55196,6 +55206,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55220,6 +55231,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55244,6 +55256,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55268,6 +55281,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
@@ -55292,6 +55306,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55316,6 +55331,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
@@ -55340,6 +55356,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
@@ -55364,6 +55381,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55388,6 +55406,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55412,6 +55431,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
@@ -55436,6 +55456,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55460,6 +55481,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55484,6 +55506,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55508,6 +55531,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
@@ -55532,6 +55556,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
@@ -55556,6 +55581,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
@@ -55580,6 +55606,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55604,6 +55631,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
@@ -55628,6 +55656,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55652,6 +55681,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
@@ -55676,6 +55706,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55700,6 +55731,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55724,6 +55756,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55748,6 +55781,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55772,6 +55806,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55796,6 +55831,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55820,6 +55856,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55844,6 +55881,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55868,6 +55906,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55892,6 +55931,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55916,6 +55956,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55940,6 +55981,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -55964,6 +56006,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -55988,6 +56031,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -56012,6 +56056,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -56036,6 +56081,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -56060,6 +56106,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <StudentCompetency>
     <LearningObjectiveReference>
@@ -56070,7 +56117,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56102,7 +56149,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56134,7 +56181,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56166,7 +56213,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56198,7 +56245,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56230,7 +56277,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56262,7 +56309,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56294,7 +56341,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56326,7 +56373,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56358,7 +56405,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56390,7 +56437,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56422,7 +56469,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56454,7 +56501,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56486,7 +56533,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56518,7 +56565,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56550,7 +56597,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56582,7 +56629,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56614,7 +56661,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56646,7 +56693,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56678,7 +56725,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56710,7 +56757,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56742,7 +56789,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56774,7 +56821,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56806,7 +56853,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56838,7 +56885,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56870,7 +56917,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56902,7 +56949,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56934,7 +56981,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56966,7 +57013,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -56998,7 +57045,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57030,7 +57077,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57062,7 +57109,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57094,7 +57141,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57126,7 +57173,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57158,7 +57205,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57190,7 +57237,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57222,7 +57269,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57254,7 +57301,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57286,7 +57333,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57318,7 +57365,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57350,7 +57397,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57382,7 +57429,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57414,7 +57461,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57446,7 +57493,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57478,7 +57525,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57510,7 +57557,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57542,7 +57589,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57574,7 +57621,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57606,7 +57653,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57638,7 +57685,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57670,7 +57717,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57702,7 +57749,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57734,7 +57781,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57766,7 +57813,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57798,7 +57845,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57830,7 +57877,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57862,7 +57909,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57894,7 +57941,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57926,7 +57973,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57958,7 +58005,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -57990,7 +58037,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58022,7 +58069,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58054,7 +58101,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58086,7 +58133,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58118,7 +58165,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58150,7 +58197,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58182,7 +58229,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58214,7 +58261,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58246,7 +58293,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58278,7 +58325,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58310,7 +58357,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58342,7 +58389,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58374,7 +58421,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58406,7 +58453,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58438,7 +58485,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58470,7 +58517,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58502,7 +58549,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58534,7 +58581,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58566,7 +58613,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58598,7 +58645,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58630,7 +58677,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58662,7 +58709,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58694,7 +58741,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58726,7 +58773,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58758,7 +58805,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58790,7 +58837,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58822,7 +58869,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58854,7 +58901,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58886,7 +58933,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58918,7 +58965,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58950,7 +58997,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -58982,7 +59029,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59014,7 +59061,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59046,7 +59093,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59078,7 +59125,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59110,7 +59157,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59142,7 +59189,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59174,7 +59221,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59206,7 +59253,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59238,7 +59285,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59270,7 +59317,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59302,7 +59349,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59334,7 +59381,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59366,7 +59413,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59398,7 +59445,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59430,7 +59477,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59462,7 +59509,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59494,7 +59541,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59526,7 +59573,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59558,7 +59605,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59590,7 +59637,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59622,7 +59669,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59654,7 +59701,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59686,7 +59733,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59718,7 +59765,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59750,7 +59797,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59782,7 +59829,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59814,7 +59861,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59846,7 +59893,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59878,7 +59925,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59910,7 +59957,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59942,7 +59989,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -59974,7 +60021,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60006,7 +60053,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60038,7 +60085,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60070,7 +60117,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60102,7 +60149,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60134,7 +60181,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60166,7 +60213,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60198,7 +60245,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60230,7 +60277,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60262,7 +60309,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60294,7 +60341,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60326,7 +60373,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60358,7 +60405,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60390,7 +60437,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60422,7 +60469,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60454,7 +60501,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60486,7 +60533,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60518,7 +60565,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60550,7 +60597,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60582,7 +60629,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60614,7 +60661,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60646,7 +60693,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60678,7 +60725,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60710,7 +60757,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60742,7 +60789,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60774,7 +60821,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60806,7 +60853,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60838,7 +60885,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60870,7 +60917,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60902,7 +60949,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60934,7 +60981,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60966,7 +61013,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -60998,7 +61045,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61030,7 +61077,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61062,7 +61109,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61094,7 +61141,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61126,7 +61173,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61158,7 +61205,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61190,7 +61237,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61222,7 +61269,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61254,7 +61301,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61286,7 +61333,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61318,7 +61365,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61350,7 +61397,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61382,7 +61429,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61414,7 +61461,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61446,7 +61493,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61478,7 +61525,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61510,7 +61557,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61542,7 +61589,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61574,7 +61621,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61606,7 +61653,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61638,7 +61685,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61670,7 +61717,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61702,7 +61749,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61734,7 +61781,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61766,7 +61813,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61798,7 +61845,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61830,7 +61877,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61862,7 +61909,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61894,7 +61941,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61926,7 +61973,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61958,7 +62005,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -61990,7 +62037,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62022,7 +62069,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62054,7 +62101,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62086,7 +62133,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62118,7 +62165,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62150,7 +62197,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62182,7 +62229,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62214,7 +62261,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62246,7 +62293,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62278,7 +62325,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62310,7 +62357,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62342,7 +62389,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62374,7 +62421,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62406,7 +62453,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62438,7 +62485,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62470,7 +62517,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62502,7 +62549,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62534,7 +62581,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62566,7 +62613,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62598,7 +62645,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62630,7 +62677,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62662,7 +62709,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62694,7 +62741,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62726,7 +62773,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62758,7 +62805,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62790,7 +62837,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62822,7 +62869,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62854,7 +62901,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62886,7 +62933,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62918,7 +62965,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62950,7 +62997,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -62982,7 +63029,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63014,7 +63061,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63046,7 +63093,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63078,7 +63125,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63110,7 +63157,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63142,7 +63189,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63174,7 +63221,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63206,7 +63253,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63238,7 +63285,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63270,7 +63317,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63302,7 +63349,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63334,7 +63381,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63366,7 +63413,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63398,7 +63445,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63430,7 +63477,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63462,7 +63509,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63494,7 +63541,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63526,7 +63573,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63558,7 +63605,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63590,7 +63637,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63622,7 +63669,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63654,7 +63701,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63686,7 +63733,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -63718,7 +63765,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -87526,6 +87573,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -87550,6 +87598,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -87574,6 +87623,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
@@ -87598,6 +87648,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
@@ -87622,6 +87673,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
@@ -87646,6 +87698,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
@@ -87670,6 +87723,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -87694,6 +87748,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -87718,6 +87773,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
@@ -87742,6 +87798,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -87766,6 +87823,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -87790,6 +87848,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -87814,6 +87873,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
@@ -87838,6 +87898,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -87862,6 +87923,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -87886,6 +87948,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
@@ -87910,6 +87973,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
@@ -87934,6 +87998,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -87958,6 +88023,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2001-08-27</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2001-2002</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -87982,6 +88048,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
@@ -88006,6 +88073,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -88030,6 +88098,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B</LetterGradeEarned>
@@ -88054,6 +88123,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2002-09-05</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2002-2003</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
@@ -88078,6 +88148,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
@@ -88102,6 +88173,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -88126,6 +88198,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
@@ -88150,6 +88223,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <BeginDate>2003-09-04</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
+    <SchoolYear>2003-2004</SchoolYear>
   </Grade>
   <StudentCompetency>
     <LearningObjectiveReference>
@@ -88160,7 +88234,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88192,7 +88266,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88224,7 +88298,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88256,7 +88330,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88288,7 +88362,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88320,7 +88394,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88352,7 +88426,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88384,7 +88458,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88416,7 +88490,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88448,7 +88522,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88480,7 +88554,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88512,7 +88586,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88544,7 +88618,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88576,7 +88650,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88608,7 +88682,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88640,7 +88714,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88672,7 +88746,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88704,7 +88778,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88736,7 +88810,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88768,7 +88842,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88800,7 +88874,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88832,7 +88906,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88864,7 +88938,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88896,7 +88970,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88928,7 +89002,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88960,7 +89034,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -88992,7 +89066,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89024,7 +89098,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89056,7 +89130,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89088,7 +89162,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89120,7 +89194,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89152,7 +89226,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89184,7 +89258,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89216,7 +89290,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89248,7 +89322,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89280,7 +89354,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89312,7 +89386,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89344,7 +89418,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89376,7 +89450,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89408,7 +89482,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89440,7 +89514,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89472,7 +89546,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89504,7 +89578,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89536,7 +89610,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89568,7 +89642,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89600,7 +89674,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89632,7 +89706,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89664,7 +89738,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89696,7 +89770,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89728,7 +89802,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89760,7 +89834,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89792,7 +89866,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89824,7 +89898,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89856,7 +89930,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89888,7 +89962,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89920,7 +89994,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89952,7 +90026,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -89984,7 +90058,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90016,7 +90090,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90048,7 +90122,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90080,7 +90154,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90112,7 +90186,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90144,7 +90218,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90176,7 +90250,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90208,7 +90282,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90240,7 +90314,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90272,7 +90346,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90304,7 +90378,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90336,7 +90410,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90368,7 +90442,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90400,7 +90474,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90432,7 +90506,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90464,7 +90538,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90496,7 +90570,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90528,7 +90602,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90560,7 +90634,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90592,7 +90666,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90624,7 +90698,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90656,7 +90730,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90688,7 +90762,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90720,7 +90794,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90752,7 +90826,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90784,7 +90858,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90816,7 +90890,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90848,7 +90922,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90880,7 +90954,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90912,7 +90986,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90944,7 +91018,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -90976,7 +91050,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91008,7 +91082,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91040,7 +91114,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91072,7 +91146,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91104,7 +91178,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91136,7 +91210,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91168,7 +91242,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91200,7 +91274,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91232,7 +91306,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91264,7 +91338,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91296,7 +91370,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91328,7 +91402,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91360,7 +91434,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91392,7 +91466,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91424,7 +91498,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91456,7 +91530,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91488,7 +91562,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91520,7 +91594,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91552,7 +91626,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91584,7 +91658,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91616,7 +91690,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91648,7 +91722,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91680,7 +91754,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91712,7 +91786,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91744,7 +91818,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91776,7 +91850,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91808,7 +91882,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91840,7 +91914,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91872,7 +91946,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91904,7 +91978,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91936,7 +92010,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -91968,7 +92042,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92000,7 +92074,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92032,7 +92106,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92064,7 +92138,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92096,7 +92170,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92128,7 +92202,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92160,7 +92234,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92192,7 +92266,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92224,7 +92298,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92256,7 +92330,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92288,7 +92362,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92320,7 +92394,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92352,7 +92426,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92384,7 +92458,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92416,7 +92490,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -92448,7 +92522,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevel>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevel>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
