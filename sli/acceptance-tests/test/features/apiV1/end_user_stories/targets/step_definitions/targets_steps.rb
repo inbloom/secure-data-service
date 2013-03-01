@@ -40,7 +40,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "teachers"                                   if human_readable_id == "TEACHER URI"
   id = "schools"                                    if human_readable_id == "SCHOOL URI"
   id = "sections"                                   if human_readable_id == "SECTION URI"
-  id = "studentAssessments"			                if human_readable_id == "STUDENT ASSESSMENT ASSOC URI"
+  id = "studentAssessments"                            if human_readable_id == "STUDENT ASSESSMENT ASSOC URI"
   id = "teacherSectionAssociations"                 if human_readable_id == "TEACHER SECTION ASSOC URI"
   id = "teacherSchoolAssociations"                  if human_readable_id == "TEACHER SCHOOL ASSOC URI"
 

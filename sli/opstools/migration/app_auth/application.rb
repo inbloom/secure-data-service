@@ -4,8 +4,8 @@ require 'logger'
 require 'digest/sha1'
 
 def get_sha1_hash(entityType, tenantId, stateOrganizationId)
-	key = "#{entityType}|~#{tenantId}|~#{stateOrganizationId}|~"
-    Digest::SHA1.hexdigest key	
+    key = "#{entityType}|~#{tenantId}|~#{stateOrganizationId}|~"
+    Digest::SHA1.hexdigest key    
 end
 
 if ARGV.count < 1
@@ -35,28 +35,28 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
   ed_orgs = app_auth['body']['authorized_ed_orgs']
 
   unless ed_orgs.nil?
-  	new_ed_orgs = Array.new
+      new_ed_orgs = Array.new
   
-  	ed_orgs.each do |ed_org_id|  	
-  		unless ed_org_id.nil?
-  			ed_org = @db[:educationOrganization].find_one({"_id" => ed_org_id})
-  			
-  			unless ed_org.nil?
-				stateOrganizationId = ed_org['body']['stateOrganizationId']
-				tenantId = ed_org['metaData']['tenantId']
-				entityType = 'educationOrganization'
-				sha1_hash = get_sha1_hash(entityType, tenantId, stateOrganizationId)
-		
-				@log.info "keys: #{entityType}, #{tenantId}, #{stateOrganizationId}"
-				new_ed_orgs.push(sha1_hash + "_id")
-				@log.info "converted : #{ed_org_id} -> #{sha1_hash}_id"
-			end
-  		end 	  	  	
-  	end
+      ed_orgs.each do |ed_org_id|      
+          unless ed_org_id.nil?
+              ed_org = @db[:educationOrganization].find_one({"_id" => ed_org_id})
+              
+              unless ed_org.nil?
+                stateOrganizationId = ed_org['body']['stateOrganizationId']
+                tenantId = ed_org['metaData']['tenantId']
+                entityType = 'educationOrganization'
+                sha1_hash = get_sha1_hash(entityType, tenantId, stateOrganizationId)
+        
+                @log.info "keys: #{entityType}, #{tenantId}, #{stateOrganizationId}"
+                new_ed_orgs.push(sha1_hash + "_id")
+                @log.info "converted : #{ed_org_id} -> #{sha1_hash}_id"
+            end
+          end                 
+      end
 
-  	unless new_ed_orgs.empty?
-  	    @db[:application].update({'_id' => app_auth['_id']}, '$set' => {'body.authorized_ed_orgs' => new_ed_orgs})
-  	end
+      unless new_ed_orgs.empty?
+          @db[:application].update({'_id' => app_auth['_id']}, '$set' => {'body.authorized_ed_orgs' => new_ed_orgs})
+      end
   end
   
   @log.info "migrated application #{app_auth['_id']} #{app_auth['body']['name']}"

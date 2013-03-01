@@ -36,9 +36,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 public class ValidateSchema {
-	public static String SCHEMA_DIR;
+    public static String SCHEMA_DIR;
 
-	public static List<String> SCHEMAS = new ArrayList<String>();
+    public static List<String> SCHEMAS = new ArrayList<String>();
 
     public static void getSchemaVersion(){
         if("sliXsd-R1".equalsIgnoreCase(org.slc.sli.test.xmlgen.StateEdFiXmlGenerator.XSDVersionPath)){
@@ -66,12 +66,12 @@ public class ValidateSchema {
         } else {
             SCHEMAS.add("Interchange-Section.xsd");
         }
-	}	
+    }    
 
     public static String check(String xmlDir) throws Exception {
   
-    	org.slc.sli.test.xmlgen.StateEdFiXmlGenerator.XSDVersionPath = "sliXsd";
-    	getSchemaVersion();
+        org.slc.sli.test.xmlgen.StateEdFiXmlGenerator.XSDVersionPath = "sliXsd";
+        getSchemaVersion();
         Map<String, String> schemaMap = new HashMap<String, String>();
         for (String schema : SCHEMAS) {
             String schemaBase = schema.replace("Interchange", "").replace("-", "").replace("_", "").replace(".xsd", "");
@@ -164,7 +164,7 @@ public class ValidateSchema {
     }
 
 
-					
+                    
     
     public static void main(String[] args) throws SAXException, IOException, Exception {
         ValidateSchema.check("./data/");

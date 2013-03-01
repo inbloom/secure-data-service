@@ -22,14 +22,14 @@ require 'json'
 #Talk to maestro's mongos
 mongohost = ARGV[1]
 if (mongohost.nil?) 
-	mongohost = "nxmaestro.slidev.org"
+    mongohost = "nxmaestro.slidev.org"
 end
 
 mongoport = 27017
 
 dbName = ARGV[2]
 if ( dbName.nil? ) 
-	dbName = "sli"
+    dbName = "sli"
 end
 
 puts ""

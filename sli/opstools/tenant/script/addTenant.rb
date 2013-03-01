@@ -55,12 +55,12 @@ puts "Inserting tenant #{tenant}"
 
 doc = { "_id" => "2012aT-" + SecureRandom.uuid,
         "type" => "teanant",
-	"body" => { "tenantId" => tenant, "landingZone" => [] },
+    "body" => { "tenantId" => tenant, "landingZone" => [] },
         "metadata" => {
           "tenantId" => tenant,
-	  "createdBy" => tenant,
-	  "isOrphaned" => "true"
-	  }
+      "createdBy" => tenant,
+      "isOrphaned" => "true"
+      }
       }
 coll.insert(doc)
 

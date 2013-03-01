@@ -16,9 +16,9 @@ import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public class InterchangeSectionGenerator {
-	
-	
-	  /**
+    
+    
+      /**
      * Sets up a new Section Interchange and populates it
      *
      * @return
@@ -57,11 +57,11 @@ public class InterchangeSectionGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 section = null;
             } else {
-            	
-            	section = SectionGenerator.generateMediumFiSliXsdRI(superSectionMetas.id, superSectionMetas.schoolId, superSectionMetas.courseOffering.courseMeta.id,
-            			superSectionMetas.sessionId, superSectionMetas.programId, superSectionMetas.studentIds, superSectionMetas.teacherIds);
-             	
-            	
+                
+                section = SectionGenerator.generateMediumFiSliXsdRI(superSectionMetas.id, superSectionMetas.schoolId, superSectionMetas.courseOffering.courseMeta.id,
+                        superSectionMetas.sessionId, superSectionMetas.programId, superSectionMetas.studentIds, superSectionMetas.teacherIds);
+                 
+                
             }
             iWriter.marshal(section);
            

@@ -34,29 +34,29 @@ public class GenerateAssessment {
         .toString();
 
     private String body = new StringBuilder()
-//		.append("	<Assessment id=\"--Assessment_id--\">\n")
-        .append("	<Assessment>\n")
-        .append("		<AssessmentTitle>--AssessmentTitle--</AssessmentTitle>\n")
+//        .append("    <Assessment id=\"--Assessment_id--\">\n")
+        .append("    <Assessment>\n")
+        .append("        <AssessmentTitle>--AssessmentTitle--</AssessmentTitle>\n")
 
         .append("--AssessmentIdentificationCodes--\n")
 
-        .append("		<AssessmentCategory>--AssessmentCategory--</AssessmentCategory>\n")
-        .append("		<AcademicSubject>--AcademicSubject--</AcademicSubject>\n")
-        .append("		<GradeLevelAssessed>--GradeLevelAssessed--</GradeLevelAssessed>\n")
-        .append("		<LowestGradeLevelAssessed>--LowestGradeLevelAssessed--</LowestGradeLevelAssessed>\n")
+        .append("        <AssessmentCategory>--AssessmentCategory--</AssessmentCategory>\n")
+        .append("        <AcademicSubject>--AcademicSubject--</AcademicSubject>\n")
+        .append("        <GradeLevelAssessed>--GradeLevelAssessed--</GradeLevelAssessed>\n")
+        .append("        <LowestGradeLevelAssessed>--LowestGradeLevelAssessed--</LowestGradeLevelAssessed>\n")
 
         .append("--AssessmentPerformanceLevels--\n")
 
-        .append("		<ContentStandard>--ContentStandard--</ContentStandard>\n")
-        .append("		<AssessmentForm>--AssessmentForm--</AssessmentForm>\n")
-        .append("		<Version>--Version--</Version>\n")
-        .append("		<RevisionDate>--RevisionDate--</RevisionDate>\n")
-        .append("		<MaxRawScore>--MaxRawScore--</MaxRawScore>\n")
-        .append("		<Nomenclature>--Nomenclature--</Nomenclature>\n")
-//		.append("		<AssessmentPeriod id=\"--AssessmentPeriod_id--\" ref=\"--AssessmentPeriod_ref--\">\n")
-        .append("		<AssessmentPeriod>\n")
-        .append("			<CodeValue>--AssessmentPeriod--</CodeValue>\n")
-        .append("		</AssessmentPeriod>\n")
+        .append("        <ContentStandard>--ContentStandard--</ContentStandard>\n")
+        .append("        <AssessmentForm>--AssessmentForm--</AssessmentForm>\n")
+        .append("        <Version>--Version--</Version>\n")
+        .append("        <RevisionDate>--RevisionDate--</RevisionDate>\n")
+        .append("        <MaxRawScore>--MaxRawScore--</MaxRawScore>\n")
+        .append("        <Nomenclature>--Nomenclature--</Nomenclature>\n")
+//        .append("        <AssessmentPeriod id=\"--AssessmentPeriod_id--\" ref=\"--AssessmentPeriod_ref--\">\n")
+        .append("        <AssessmentPeriod>\n")
+        .append("            <CodeValue>--AssessmentPeriod--</CodeValue>\n")
+        .append("        </AssessmentPeriod>\n")
 
         .append("--AssessmentItemReferences--\n")
 
@@ -66,56 +66,56 @@ public class GenerateAssessment {
 
         .append("--SectionReferences--\n")
 
-        .append("	</Assessment>\n")
+        .append("    </Assessment>\n")
         .toString();
 
     private String assessmentIdentificationCodes = new StringBuilder()
-        .append("		<AssessmentIdentificationCode IdentificationSystem=\"--AssessmentIdentificationCode_IdentificationSystem--\" AssigningOrganizationCode=\"--AssessmentIdentificationCode_AssigningOrganizationCode--\">\n")
-        .append("			<ID>--Assessment_id--</ID>\n")
-        .append("		</AssessmentIdentificationCode>\n")
+        .append("        <AssessmentIdentificationCode IdentificationSystem=\"--AssessmentIdentificationCode_IdentificationSystem--\" AssigningOrganizationCode=\"--AssessmentIdentificationCode_AssigningOrganizationCode--\">\n")
+        .append("            <ID>--Assessment_id--</ID>\n")
+        .append("        </AssessmentIdentificationCode>\n")
         .toString();
 
     private String assessmentPerformanceLevels = new StringBuilder()
-        .append("		<AssessmentPerformanceLevel>\n")
-//		.append("			<PerformanceLevel id=\"--PerformanceLevel_id--\" ref=\"--PerformanceLevel_ref--\">\n")
-        .append("			<PerformanceLevel>\n")
-        .append("				<CodeValue>--PerformanceLevel--</CodeValue>\n")
-        .append("			</PerformanceLevel>\n")
-        .append("			<AssessmentReportingMethod>--AssessmentReportingMethod--</AssessmentReportingMethod>\n")
-        .append("			<MinimumScore>--MinimumScore--</MinimumScore>\n")
-        .append("			<MaximumScore>--MaximumScore--</MaximumScore>\n")
-        .append("		</AssessmentPerformanceLevel>\n")
+        .append("        <AssessmentPerformanceLevel>\n")
+//        .append("            <PerformanceLevel id=\"--PerformanceLevel_id--\" ref=\"--PerformanceLevel_ref--\">\n")
+        .append("            <PerformanceLevel>\n")
+        .append("                <CodeValue>--PerformanceLevel--</CodeValue>\n")
+        .append("            </PerformanceLevel>\n")
+        .append("            <AssessmentReportingMethod>--AssessmentReportingMethod--</AssessmentReportingMethod>\n")
+        .append("            <MinimumScore>--MinimumScore--</MinimumScore>\n")
+        .append("            <MaximumScore>--MaximumScore--</MaximumScore>\n")
+        .append("        </AssessmentPerformanceLevel>\n")
         .toString();
 
     private String assessmentItemReferences = new StringBuilder()
-//		.append("		<AssessmentItemReference id=\"--AssessmentItemReference_id--\" ref=\"--AssessmentItemReference_ref--\"/>\n")
-        .append("		<AssessmentItemReference/>\n")
+//        .append("        <AssessmentItemReference id=\"--AssessmentItemReference_id--\" ref=\"--AssessmentItemReference_ref--\"/>\n")
+        .append("        <AssessmentItemReference/>\n")
         .toString();
 
     private String objectiveAssessmentReferences = new StringBuilder()
-//		.append("		<ObjectiveAssessmentReference id=\"--ObjectiveAssessmentReference_id--\" ref=\"--ObjectiveAssessmentReference_ref--\"/>\n")
-        .append("		<ObjectiveAssessmentReference/>\n")
+//        .append("        <ObjectiveAssessmentReference id=\"--ObjectiveAssessmentReference_id--\" ref=\"--ObjectiveAssessmentReference_ref--\"/>\n")
+        .append("        <ObjectiveAssessmentReference/>\n")
         .toString();
 
     private String assessmentFamilyReferences = new StringBuilder()
-//		.append("		<AssessmentFamilyReference id=\"--AssessmentFamilyReference_id--\" ref=\"--AssessmentFamilyReference_ref--\">\n")
-        .append("		<AssessmentFamilyReference>\n")
-        .append("			<AssessmentFamilyIdentity>\n")
-        .append("				<AssessmentFamilyIdentificationCode IdentificationSystem=\"--AssessmentFamilyIdentificationCode_IdentificationSystem--\" AssigningOrganizationCode=\"--AssessmentFamilyIdentificationCode_AssigningOrganizationCode--\">\n")
-        .append("					<ID>--AssessmentFamilyIdentificationCode--</ID>\n")
-        .append("				</AssessmentFamilyIdentificationCode>\n")
-        .append("			</AssessmentFamilyIdentity>\n")
-        .append("		</AssessmentFamilyReference>\n")
+//        .append("        <AssessmentFamilyReference id=\"--AssessmentFamilyReference_id--\" ref=\"--AssessmentFamilyReference_ref--\">\n")
+        .append("        <AssessmentFamilyReference>\n")
+        .append("            <AssessmentFamilyIdentity>\n")
+        .append("                <AssessmentFamilyIdentificationCode IdentificationSystem=\"--AssessmentFamilyIdentificationCode_IdentificationSystem--\" AssigningOrganizationCode=\"--AssessmentFamilyIdentificationCode_AssigningOrganizationCode--\">\n")
+        .append("                    <ID>--AssessmentFamilyIdentificationCode--</ID>\n")
+        .append("                </AssessmentFamilyIdentificationCode>\n")
+        .append("            </AssessmentFamilyIdentity>\n")
+        .append("        </AssessmentFamilyReference>\n")
         .toString();
 
     private String sectionReferences = new StringBuilder()
-//		.append("		<SectionReference id=\"--SectionReference_id--\" ref=\"--SectionReference_ref--\">\n")
-        .append("		<SectionReference>\n")
-        .append("			<SectionIdentity>\n")
-        .append("				<StateOrganizationId>--StateOrganizationId--</StateOrganizationId>\n")
-        .append("				<UniqueSectionCode>--UniqueSectionCode--</UniqueSectionCode>\n")
-        .append("			</SectionIdentity>\n")
-        .append("		</SectionReference>\n")
+//        .append("        <SectionReference id=\"--SectionReference_id--\" ref=\"--SectionReference_ref--\">\n")
+        .append("        <SectionReference>\n")
+        .append("            <SectionIdentity>\n")
+        .append("                <StateOrganizationId>--StateOrganizationId--</StateOrganizationId>\n")
+        .append("                <UniqueSectionCode>--UniqueSectionCode--</UniqueSectionCode>\n")
+        .append("            </SectionIdentity>\n")
+        .append("        </SectionReference>\n")
         .toString();
 
     private ResultSet assessmentResultSet;

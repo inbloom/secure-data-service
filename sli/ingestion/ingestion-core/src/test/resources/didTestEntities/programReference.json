@@ -1,13 +1,13 @@
 {
-	"recordType":"cohort",
-	"attributes":
-	{
-		"ProgramReference":
-		{
-			"ProgramIdentity":
-			{
-				"ProgramId":"program ID"
-			}
-		}
-	}
+    "recordType":"cohort",
+    "attributes":
+    {
+        "ProgramReference":
+        {
+            "ProgramIdentity":
+            {
+                "ProgramId":"program ID"
+            }
+        }
+    }
 }

@@ -1,24 +1,24 @@
 {
     "keyFields" : [ "body.incidentIdentifier", "body.schoolId"],
-	"references" :
-	[{
+    "references" :
+    [{
         "fieldPath" : "body.StaffReference",
         "deprecated" : true,
         "ref" :
         {
-	        "entityType" : "staff",
-	        "choiceOfFields" :
-	        [
-	            [
-		            { 
-		           	    "path" : "body.staffUniqueStateId",
+            "entityType" : "staff",
+            "choiceOfFields" :
+            [
+                [
+                    { 
+                           "path" : "body.staffUniqueStateId",
                         "values" :
                         [{
                             "valueSource" : "body.StaffReference.StaffIdentity.StaffUniqueStateId"
                         }]
-		            }
-	            ]
-	        ]
+                    }
+                ]
+            ]
         }
     },
     {
@@ -26,19 +26,19 @@
         "deprecated" : true,
         "ref" :
         {
-	        "entityType" : "educationOrganization",
-	        "choiceOfFields" :
-	        [
-	            [
-		            { 
-		           	    "path" : "body.stateOrganizationId",
-		                "values" : 
-		                [{
-			                "valueSource" : "body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "educationOrganization",
+            "choiceOfFields" :
+            [
+                [
+                    { 
+                           "path" : "body.stateOrganizationId",
+                        "values" : 
+                        [{
+                            "valueSource" : "body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"
+                        }]
+                    }
+                ]
+            ]
         }
     }]
 }

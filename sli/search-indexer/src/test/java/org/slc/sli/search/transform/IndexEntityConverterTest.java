@@ -61,7 +61,7 @@ public class IndexEntityConverterTest {
           indexEntityConverter.fromEntityJson(null, entity);
           Assert.fail("Does not include metaData - should fail");
         } catch (SearchIndexerException sie) {
-        	LOG.info("There was a SearchIndexerException exception.", sie);
+            LOG.info("There was a SearchIndexerException exception.", sie);
         }
     }
     

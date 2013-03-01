@@ -395,7 +395,7 @@ public class Denormalizer {
         }
 
         public boolean delete(Entity providedEntity, String id) {
-        	Entity entity = providedEntity == null ? findTypeEntity(id) : providedEntity;
+            Entity entity = providedEntity == null ? findTypeEntity(id) : providedEntity;
 
             if (entity == null) {
                 return false;
@@ -419,8 +419,8 @@ public class Denormalizer {
 
         public boolean doUpdate(Entity parentEntity, Update update) {
             if (parentEntity == null) {
-				return false;
-			}
+                return false;
+            }
 
             DBObject parentQuery = getParentQuery(parentEntity.getBody());
             parentQuery.put(denormalizedToField + "._id", parentEntity.getBody().get(denormalizedIdKey));

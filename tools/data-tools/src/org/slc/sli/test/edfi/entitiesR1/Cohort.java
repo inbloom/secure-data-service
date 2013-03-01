@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * 				This entity represents any type of list of
- * 				designated students for tracking, analysis, or intervention.
- * 			
+ *                 This entity represents any type of list of
+ *                 designated students for tracking, analysis, or intervention.
+ *             
  * 
  * <p>Java class for cohort complex type.
  * 
