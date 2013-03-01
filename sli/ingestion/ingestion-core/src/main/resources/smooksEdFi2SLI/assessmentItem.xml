@@ -22,17 +22,17 @@
         <jb:wiring property="body" beanIdRef="assessmentItemBody" />
     </jb:bean>
 
-    <jb:bean beanId="AssessmentItemBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:bean beanId="assessmentItemBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="assessmentId" data="attributes AssessmentReference" />
         <jb:value property="identificationCode" data="attributes IdentificationCode _value" />
         <jb:value property="itemCategory" data="attributes ItemCategory _value" />
         <jb:value property="maxRawScore" data="attributes MaxRawScore _value" />
         <jb:value property="correctResponse" data="attributes CorrectResponse _value" />
-        <jb:value property="nomenclature" data="attributes AssessmentItemReference element Nomenclature _value" />
+        <jb:value property="nomenclature" data="attributes Nomenclature _value" />
         <jb:wiring property="learningStandards" beanIdRef="LearningStandards" />
     </jb:bean>
 
-   <jb:bean beanId="LearningStandards" class="java.util.ArrayList" createOnElement="attributes AssessmentItemReference element LearningStandardReference">
+   <jb:bean beanId="LearningStandards" class="java.util.ArrayList" createOnElement="attributes LearningStandardReference">
     <jb:value data="attributes LearningStandardReference element" />
   </jb:bean> 
 
