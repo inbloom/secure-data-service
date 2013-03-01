@@ -32,7 +32,7 @@
     <jb:wiring property="address" beanIdRef="Addresses" />
     <jb:wiring property="telephone" beanIdRef="Telephones" />
     <jb:wiring property="electronicMail" beanIdRef="ElectronicMails" />
-    <jb:value property="hispanicLatinoEthnicity" data="attributes HispanicLatinoEthnicity _value"  decoder="Boolean" />
+    <jb:value property="hispanicLatinoEthnicity" data="attributes HispanicLatinoEthnicity _value" decoder="Boolean" />
     <jb:value property="oldEthnicity" data="attributes OldEthnicity _value"/>
     <jb:wiring property="race" beanIdRef="Races" />
     <jb:value property="highestLevelOfEducationCompleted" data="attributes HighestLevelOfEducationCompleted _value" />
@@ -40,6 +40,8 @@
     <jb:value property="yearsOfPriorTeachingExperience" data="attributes YearsOfPriorTeachingExperience _value" decoder="Integer"/>
     <jb:wiring property="credentials" beanIdRef="Credentials" />
     <jb:value property="loginId" data="attributes LoginId _value" />
+    <jb:value property="teacherUniqueStateId" data="attributes TeacherUniqueStateId _value" />
+    <jb:value property="highlyQualifiedTeacher" data="attributes HighlyQualifiedTeacher _value" decoder="Boolean"/>
   </jb:bean>
   
   <jb:bean beanId="Name"  class="java.util.HashMap" createOnElement="attributes Name">
