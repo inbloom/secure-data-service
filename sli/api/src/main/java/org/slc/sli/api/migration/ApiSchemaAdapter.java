@@ -147,7 +147,10 @@ public class ApiSchemaAdapter {
     public List<MigrationStrategy> getEntityTransformMigrationStrategies(String entityType, int versionNumber) {
 
         List<MigrationStrategy> strategies = null;
-        Map<Integer, List<MigrationStrategy>> entityMigrations = entityTransformStrategyMap.get(entityType);
+        Map<Integer, List<MigrationStrategy>> entityMigrations = null;
+        if(entityTransformStrategyMap.containsKey(entityType)) {
+            entityMigrations = entityTransformStrategyMap.get(entityType);
+        }
 
         if (entityMigrations != null) {
             strategies = entityMigrations.get(versionNumber);
