@@ -43,7 +43,7 @@
     </jb:bean>
 
     <jb:bean beanId="gradesOfferedArray" class="java.util.ArrayList" createOnElement="attributes GradesOffered">
-      <jb:value data="attributes GradesOffered element _value" />
+      <jb:value data="attributes GradesOffered GradeLevel element _value" />
     </jb:bean>
 
     <jb:bean beanId="courseCodeTypeArray" class="java.util.ArrayList" createOnElement="attributes">
@@ -58,7 +58,7 @@
 
 
        <jb:bean beanId="CourseLevelCharacteristicsArray" class="java.util.ArrayList" createOnElement="attributes CourseLevelCharacteristics">
-            <jb:value data="attributes CourseLevelCharacteristics element _value" />
+            <jb:value data="attributes CourseLevelCharacteristics CourseLevelCharacteristic element _value" />
         </jb:bean>
 
 

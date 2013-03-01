@@ -40,8 +40,8 @@
         <jb:wiring beanIdRef="EducationOrgIdentificationCode" />
     </jb:bean>
     <jb:bean beanId="EducationOrgIdentificationCode" class="java.util.HashMap" createOnElement="attributes EducationOrgIdentificationCode element">
-        <jb:value property="identificationSystem" data="attributes EducationOrgIdentificationCode a_IdentificationSystem" />
-        <jb:value property="ID" data="attributes EducationOrgIdentificationCode ID _value" />
+        <jb:value property="identificationSystem" data="attributes EducationOrgIdentificationCode element a_IdentificationSystem" />
+        <jb:value property="ID" data="attributes EducationOrgIdentificationCode element ID _value" />
     </jb:bean>
 
     <jb:bean beanId="OrganizationCategories" class="java.util.ArrayList" createOnElement="attributes OrganizationCategories OrganizationCategory">
