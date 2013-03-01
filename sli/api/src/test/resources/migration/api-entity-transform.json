@@ -63,7 +63,7 @@
                                 "rank": 2,
                                 "rule": {
                                     "collection": "gradingPeriod",
-                                    "field": "gradingPeriodIdentity.schoolYear"
+                                    "field": "gradingPeriodIdentity,schoolYear"
                                 }
                             }
                         ]

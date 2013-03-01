@@ -151,4 +151,9 @@ public class CardinalityStrategy implements MigrationStrategy<Entity> {
         this.defaultValue = DEFAULT_VALUE;
     }
 
+    @Override
+    public List<Entity> migrate(List<Entity> entityList) throws MigrationException {
+        throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
+    }
+
 }

@@ -17,6 +17,7 @@
 package org.slc.sli.common.migration.strategy;
 
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,5 +43,7 @@ public interface MigrationStrategy<T> {
      * @param parameter
      */
     public void setParameters(Map<String, Object> parameters) throws MigrationException;
+
+    public List<T> migrate(List<T> entityList) throws MigrationException;
 
 }
