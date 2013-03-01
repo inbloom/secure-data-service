@@ -10,7 +10,7 @@
                                 "rank": 1,
                                 "rule": {
                                     "collection": "grade",
-                                    "field": "studentScetionAssociationId"
+                                    "field": "studentSectionAssociationId"
                                 }
                             }
                         ]
