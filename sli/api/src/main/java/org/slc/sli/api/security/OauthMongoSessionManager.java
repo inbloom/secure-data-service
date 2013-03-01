@@ -292,7 +292,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         OAuth2Authentication auth = createAnonymousAuth();
         String accessToken = getTokenFromAuthHeader(authz);
         if (accessToken != null) {
-            OAuth2Authentication cached = this.sessions.get(accessToken);
+            OAuth2Authentication cached = null;//this.sessions.get(accessToken);
 
             if (cached != null) {
                 auth=cached;
