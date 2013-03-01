@@ -276,7 +276,6 @@ Examples:
   @US5365 @AssmtTest
   Scenario: crud on super assessment and super studentAssessment 
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-    Given I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeGreen"
       And entity URI "/v1/assessments"
       And format "application/vnd.slc+json"
       And a valid entity json document for a "super_assessment"
@@ -284,6 +283,7 @@ Examples:
       Then I should receive a return code of 201
         And I should receive a new entity URI
         And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
+        And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeGreen" in mongo
       When I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
         Then I should receive a return code of 200
         And I verify "objectiveAssessment, assessmentPeriodDescriptor" and "assessmentItem" is collapsed in response body 
@@ -294,8 +294,8 @@ Examples:
         Then I should receive a return code of 204
         And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
          #assessmentPeriodDecriptor is read 
-         And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeRed"
-         And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeGreen"
+         And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeRed" in mongo
+         And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeGreen" in mongo
          And I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
          And "lowestGradeLevelAssessed" should be "Sixth grade"
          And I verify "objectiveAssessment, assessmentPeriodDescriptor" and "assessmentItem" is collapsed in response body 

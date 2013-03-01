@@ -401,6 +401,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Map<String, Object> entityMetaData = entity.getMetaData();
         Update update = new Update();
         update.set("body", entityBody).set("metaData", entityMetaData);
+        
+        //update should also set type in case of upsert
+        String entityType = entity.getType();
+        if(entityType != null && !entityType.isEmpty()) {
+        	update.set("type", entityType);
+        }
         // superdoc need to update subdoc fields outside body
         if (isSuperdoc && entity.getEmbeddedData() != null) {
             Set<String> subdocFields = FullSuperDoc.FULL_ENTITIES.get(entity.getType());
