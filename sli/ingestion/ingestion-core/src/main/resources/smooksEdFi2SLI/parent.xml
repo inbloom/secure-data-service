@@ -60,7 +60,7 @@
         <jb:wiring beanIdRef="Address" />
     </jb:bean>
     <jb:bean beanId="Address"  class="java.util.HashMap" createOnElement="attributes Address element">
-        <jb:value property="addressType " data="attributes Address element AddressType _value" />
+        <jb:value property="addressType " data="attributes Address element a_AddressType" />
         <jb:value property="streetNumberName " data="attributes Address element StreetNumberName _value" />
         <jb:value property="apartmentRoomSuiteNumber " data="attributes Address element ApartmentRoomSuiteNumber _value" />
         <jb:value property="buildingSiteNumber " data="attributes Address element BuildingSiteNumber _value" />
@@ -82,7 +82,7 @@
     <jb:bean beanId="Telephone" class="java.util.HashMap" createOnElement="attributes Telephone element">
         <jb:value property="telephoneNumberType" data="attributes Telephone element a_TelephoneNumberType" />
         <jb:value property="telephoneNumber" data="attributes Telephone element TelephoneNumber _value" />
-        <jb:value property="primaryTelephoneNumberIndicator" data="attributes Telephone element PrimaryTelephoneNumberIndicator _value" decoder="Boolean"/>
+        <jb:value property="primaryTelephoneNumberIndicator" data="attributes Telephone element a_PrimaryTelephoneNumberIndicator" decoder="Boolean"/>
     </jb:bean>
 
     <jb:bean beanId="ElectronicMails" class="java.util.ArrayList"  createOnElement="attributes">
@@ -90,7 +90,7 @@
     </jb:bean>
     <jb:bean beanId="ElectronicMail" class="java.util.HashMap" createOnElement="attributes ElectronicMail element">
         <jb:value property="emailAddress" data="attributes ElectronicMail element EmailAddress _value" />
-        <jb:value property="emailAddressType" data="attributes ElectronicMail element EmailAddressType _value" />
+        <jb:value property="emailAddressType" data="attributes ElectronicMail element a_EmailAddressType" />
     </jb:bean>
     
 </smooks-resource-list>
