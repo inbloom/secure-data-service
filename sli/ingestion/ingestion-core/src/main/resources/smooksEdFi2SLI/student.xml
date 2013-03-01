@@ -116,7 +116,7 @@
         <jb:wiring beanIdRef="Telephone" />
     </jb:bean>
     <jb:bean beanId="Telephone" class="java.util.HashMap" createOnElement="attributes Telephone element">
-        <jb:value property="institutionTelephoneNumberType" data="attributes Telephone element InstitutionTelephoneNumberType _value" />
+        <jb:value property="telephoneNumberType" data="attributes Telephone element A_TelephoneNumberType" />
         <jb:value property="telephoneNumber" data="attributes Telephone element TelephoneNumber _value" />
         <jb:value property="primaryTelephoneNumberIndicator" data="attributes Telephone element PrimaryTelephoneNumberIndicator _value" decoder="Boolean"/>
     </jb:bean>
