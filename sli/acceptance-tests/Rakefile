@@ -1213,6 +1213,7 @@ task :importSandboxHyruleData do
     "student" => "Hyrule_data/student_fixture.json",
     "staff" => "Hyrule_data/staff_fixture.json",
     "assessment" => "Hyrule_data/assessment_fixture.json",
+    "assessmentPeriodDescriptor" => "Hyrule_data/assessmentPeriodDescriptor_fixture.json",
     "studentSchoolAssociation" => "Hyrule_data/studentSchoolAssociation_fixture.json",
     "teacherSchoolAssociation" => "Hyrule_data/teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "Hyrule_data/educationOrganization_fixture.json",
@@ -1318,6 +1319,7 @@ desc "Import Unified Data Set"
 task :importUnifiedData => [:realmInit] do
   testHash = Hash[
     "assessment" => "unified_data/uds_assessment.json",
+    "assessmentPeriodDescriptor" => "unified_data/uds_assessmentPeriodDescriptor.json",
     "studentAssessment" => "unified_data/uds_studentAssessment_fixture.json",
     "attendance" => "unified_data/uds_attendance.json",
     "course" => "unified_data/uds_course.json",

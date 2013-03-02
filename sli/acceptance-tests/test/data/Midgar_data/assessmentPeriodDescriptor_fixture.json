@@ -1,1 +1,2 @@
-{"_id":"634b22500e9822f4d0e125b7031f34bf39f8294a_id","body":{"codeValue":"codeGreen"}, "type":"assessmentPeriodDescriptor"}
+{"_id":"eea0d254263c26a8f9e76dbdc8e8e1659ad50cf3_id", "body":{"codeValue":"assessment_2011", "description":"assessment", "beginDate":"2011-01-01", "endDate":"2011-02-01"}, "type":"assessmentPeriodDescriptor"}
+{"_id":"486b2868f8556c81e7d2094845bf3a40a0abef02_id", "body":{"codeValue":"assessment_2012", "description":"assessment", "beginDate":"2012-01-01", "endDate":"2012-02-01"}, "type":"assessmentPeriodDescriptor"}
