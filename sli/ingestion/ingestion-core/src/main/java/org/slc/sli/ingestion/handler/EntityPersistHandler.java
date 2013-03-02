@@ -226,7 +226,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             // "new" style -> based on natural keys from schema
             String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
             List<Object> keyValues = new ArrayList<Object>();
-            if(entity.getType().equals("attendance")) {
+            if (entity.getType().equals("attendance")) {
                 keyValues.add(entity.getBody());
             }
             keyValues.add(id);
@@ -245,7 +245,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 try {
                     keyValues.add(PropertyUtils.getProperty(entity, field));
                 } catch (Exception e) {
-                    report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0008, null, field, entity.getType());
+                    report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0008, null, field,
+                            entity.getType());
                 }
 
                 if (complexField != null) {
@@ -254,7 +255,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     try {
                         keyValues.add(PropertyUtils.getProperty(entity, propertyString));
                     } catch (Exception e) {
-                        report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0052, null, field, entity.getType());
+                        report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0052, null,
+                                field, entity.getType());
                     }
                 }
 

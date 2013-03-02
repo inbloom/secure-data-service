@@ -123,6 +123,7 @@ public class NeutralSchemaValidationTest {
 
     @Test
     public void testValidAssessment() throws Exception {
+        addDummyEntity("assessmentFamily", "123_id");
         readAndValidateFixtureData("src/test/resources/assessment_fixture_neutral.json", "assessment");
     }
 

@@ -29,10 +29,20 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamily" type="assessmentFamily">
+            <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamily" type="reference">
                 <xs:annotation>
                     <xs:documentation>Assessment family associated with this
                         assessment.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamilyHierarchyName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Hierarchical name for the assessment using '.' separators</xs:documentation>
                     <xs:appinfo>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
@@ -270,7 +280,6 @@
                         by a school, school system, a state, or other agency or
                         entity.</xs:documentation>
                     <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>                        
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
@@ -376,13 +385,25 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="assessmentFamily" type="assessmentFamily"
+            <xs:element name="assessmentFamilyReference" type="reference"
                 minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>References the higher level AssessmentFamily this one belongs
                         to.</xs:documentation>
                     <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="parentAssessmentFamilyTitle" type="assessmentTitle"
+                minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>References the higher level AssessmentFamily this one belongs
+                        to.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>

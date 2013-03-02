@@ -140,7 +140,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         String theFamilyHierarchyName = familyHierarchyName;
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        query.addCriteria(Criteria.where("body.AssessmentFamilyTitle").is(assessmentFamilyTitle));
+        query.addCriteria(Criteria.where("body.assessmentFamilyTitle").is(assessmentFamilyTitle));
         Iterable<NeutralRecord> neutralRecords = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(ASSESSMENT_FAMILY, query);
 
         // Should only iterate exactly once because AssessmentFamilyTitle should be unique for each AssessmentFamily.
@@ -148,11 +148,11 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             Map<String, Object> associationAttrs = neutralRecord.getAttributes();
 
             if ("".equals(theFamilyHierarchyName)) {
-                theFamilyHierarchyName = (String) associationAttrs.get("AssessmentFamilyTitle");
+                theFamilyHierarchyName = (String) associationAttrs.get("assessmentFamilyTitle");
             } else {
-                theFamilyHierarchyName = associationAttrs.get("AssessmentFamilyTitle") + "." + theFamilyHierarchyName;
+                theFamilyHierarchyName = associationAttrs.get("assessmentFamilyTitle") + "." + theFamilyHierarchyName;
             }
-            deepFamilyMap.put((String) associationAttrs.get("AssessmentFamilyTitle"), associationAttrs);
+            deepFamilyMap.put((String) associationAttrs.get("assessmentFamilyTitle"), associationAttrs);
 
             // check if there are parent nodes
             if (associationAttrs.containsKey("parentAssessmentFamilyTitle")

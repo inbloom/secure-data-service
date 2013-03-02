@@ -23,6 +23,7 @@
   <!-- collections that should be persisted using the new pipeline but no transformation has been performed -->
   <util:set id="passthroughEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessmentItem</value>
+    <value>assessmentFamily</value>
     <value>attendance</value>
     <value>calendarDate</value>
     <value>cohort</value>
@@ -81,7 +82,6 @@
   <!-- collections that only exist in the staging database because they are combined into a _transformed collection for another
     entity -->
   <util:set id="stagedOnlyEntities" set-class="java.util.HashSet" value-type="java.lang.String">
-    <value>assessmentFamily</value>
     <value>assessmentPeriodDescriptor</value>
   </util:set>
 

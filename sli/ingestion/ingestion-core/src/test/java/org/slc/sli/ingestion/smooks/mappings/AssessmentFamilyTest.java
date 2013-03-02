@@ -143,17 +143,17 @@ public class AssessmentFamilyTest {
         assertEquals("record type was not AssessmentFamily", "assessmentFamily", neutralRecord.getRecordType());
 
         assertEquals("AssessmentFamilyTitle does not match", "familyTitle",
-                neutralRecord.getAttributes().get("AssessmentFamilyTitle"));
+                neutralRecord.getAttributes().get("assessmentFamilyTitle"));
 
-        List identificationCodeList = (List) neutralRecord.getAttributes().get("AssessmentFamilyIdentificationCode");
+        List identificationCodeList = (List) neutralRecord.getAttributes().get("assessmentFamilyIdentificationCode");
         assertNotNull("AssessmentFamilyIdentificationCode list is null", identificationCodeList);
         assertFalse("empty AssessmentFamilyIdentificationCode list", identificationCodeList.isEmpty());
 
         Map firstIdCodeMap = (Map) identificationCodeList.get(0);
         assertNotNull("first AssessmentFamilyIdentificationCode map is null", firstIdCodeMap);
         EntityTestUtils.assertObjectInMapEquals(firstIdCodeMap, "ID", "firstId");
-        EntityTestUtils.assertObjectInMapEquals(firstIdCodeMap, "IdentificationSystem", "firstIdentificationSystem");
-        EntityTestUtils.assertObjectInMapEquals(firstIdCodeMap, "AssigningOrganizationCode",
+        EntityTestUtils.assertObjectInMapEquals(firstIdCodeMap, "identificationSystem", "firstIdentificationSystem");
+        EntityTestUtils.assertObjectInMapEquals(firstIdCodeMap, "assigningOrganizationCode",
                 "firstAssigningOrganizationCode");
 
         if (identificationCodeList.size() > 1) {
@@ -161,28 +161,28 @@ public class AssessmentFamilyTest {
             Map secondIdCodeMap = (Map) identificationCodeList.get(1);
             assertNotNull("second AssessmentFamilyIdentificationCode map is null", secondIdCodeMap);
             EntityTestUtils.assertObjectInMapEquals(secondIdCodeMap, "ID", "secondId");
-            EntityTestUtils.assertObjectInMapEquals(secondIdCodeMap, "IdentificationSystem",
+            EntityTestUtils.assertObjectInMapEquals(secondIdCodeMap, "identificationSystem",
                     "secondIdentificationSystem");
-            EntityTestUtils.assertObjectInMapEquals(secondIdCodeMap, "AssigningOrganizationCode",
+            EntityTestUtils.assertObjectInMapEquals(secondIdCodeMap, "assigningOrganizationCode",
                     "secondAssigningOrganizationCode");
         }
 
         assertEquals("AssessmentCategory does not match", "State summative assessment 3-8 general", neutralRecord
-                .getAttributes().get("AssessmentCategory"));
-        assertEquals("AcademicSubject does not match", "Reading", neutralRecord.getAttributes().get("AcademicSubject"));
+                .getAttributes().get("assessmentCategory"));
+        assertEquals("AcademicSubject does not match", "Reading", neutralRecord.getAttributes().get("academicSubject"));
         assertEquals("GradeLevelAssessed does not match", "Third grade",
-                neutralRecord.getAttributes().get("GradeLevelAssessed"));
+                neutralRecord.getAttributes().get("gradeLevelAssessed"));
 
         assertEquals("LowestGradeLevelAssessed does not match", "Fourth grade",
-                neutralRecord.getAttributes().get("LowestGradeLevelAssessed"));
+                neutralRecord.getAttributes().get("lowestGradeLevelAssessed"));
 
         assertEquals("ContentStandard does not match", "State Standard",
-                neutralRecord.getAttributes().get("ContentStandard"));
-        assertEquals("Version does not match", "2002", neutralRecord.getAttributes().get("Version"));
+                neutralRecord.getAttributes().get("contentStandard"));
+        assertEquals("Version does not match", "2002", neutralRecord.getAttributes().get("version"));
         assertEquals("Nomenclature does not match", "the nomenclature",
-                neutralRecord.getAttributes().get("Nomenclature"));
+                neutralRecord.getAttributes().get("nomenclature"));
 
-        List assessmentPeriodsList = (List) neutralRecord.getAttributes().get("AssessmentPeriods");
+        List assessmentPeriodsList = (List) neutralRecord.getAttributes().get("assessmentPeriods");
         assertNotNull("AssessmentPeriods list is null", assessmentPeriodsList);
         assertFalse("empty AssessmentPeriods list", assessmentPeriodsList.isEmpty());
         Map firstAssesmentPeriod = (Map) assessmentPeriodsList.get(0);
