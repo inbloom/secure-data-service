@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -51,8 +52,10 @@ public class AssessmentConverterTest {
     private Map<String, Object> item2 = new HashMap<String, Object>();
     private Map<String, Object> item3 = new HashMap<String, Object>();
     private Map<String, Object> item4 = new HashMap<String, Object>();
-    private Map<String, Object> apdBody = new HashMap<String, Object>();
     private Entity assessmentPeriodDescriptor;
+    private Entity assessmentFamilyC;
+    private Entity assessmentFamilyB;
+    private Entity assessmentFamilyA;
 
     @Before
     public void setup() throws NoNaturalKeysDefinedException {
@@ -69,8 +72,23 @@ public class AssessmentConverterTest {
         item4.put("_id", "item4");
         item4.put("abc", "somevalue4");
         
+        Map<String, Object> apdBody = new HashMap<String, Object>();
         apdBody.put("codeValue", "green");
         assessmentPeriodDescriptor = new MongoEntity("assessmentPeriodDescriptor", "mydescriptorid", apdBody, null);
+        
+        Map<String, Object> rootBody = new HashMap<String, Object>();
+        rootBody.put("assessmentFamilyTitle", "A");
+        assessmentFamilyA = new MongoEntity("assessmentFamily", "AF-A", rootBody, null);
+        
+        Map<String, Object> parentBody = new HashMap<String, Object>();
+        parentBody.put("assessmentFamilyTitle", "B");
+        parentBody.put(AssessmentConverter.ASSESSMENT_FAMILY_ASSESSMENT_FAMILY_REFERENCE, "AF-A");
+        assessmentFamilyB = new MongoEntity("assessmentFamily", "AF-B", parentBody, null);
+        
+        Map<String, Object> leafBody = new HashMap<String, Object>();
+        leafBody.put("assessmentFamilyTitle", "C");
+        leafBody.put(AssessmentConverter.ASSESSMENT_FAMILY_ASSESSMENT_FAMILY_REFERENCE, "AF-B");
+        assessmentFamilyC = new MongoEntity("assessmentFamily", "AF-C", leafBody, null);
         
         naturalKeyExtractor = Mockito.mock(NaturalKeyExtractor.class);
         repo = Mockito.mock(MongoEntityRepository.class);
@@ -80,6 +98,9 @@ public class AssessmentConverterTest {
         when(repo.getTemplate()).thenReturn(template);
         when(repo.update(eq(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR), any(Entity.class), eq(false))).thenReturn(true);
         when(template.findById("mydescriptorid", Entity.class, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR)).thenReturn(assessmentPeriodDescriptor);
+        when(template.findById("AF-A", Entity.class, EntityNames.ASSESSMENT_FAMILY)).thenReturn(assessmentFamilyA);
+        when(template.findById("AF-B", Entity.class, EntityNames.ASSESSMENT_FAMILY)).thenReturn(assessmentFamilyB);
+        when(template.findById("AF-C", Entity.class, EntityNames.ASSESSMENT_FAMILY)).thenReturn(assessmentFamilyC);
     }
 
     /*
@@ -90,6 +111,7 @@ public class AssessmentConverterTest {
         String entityId = "ID";
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("assessmentPeriodDescriptorId", "mydescriptorid");
+        body.put(AssessmentConverter.ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE, assessmentFamilyC.getEntityId());
         Map<String, Object> metaData = new HashMap<String, Object>();
         Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
 
@@ -119,7 +141,7 @@ public class AssessmentConverterTest {
         apdBody.put("codeValue", "green");
         apdBody.put("description", "something not really useful");
         body.put("assessmentPeriodDescriptor", apdBody);
-
+        body.put(AssessmentConverter.ASSESSMENT_FAMILY_HIERARCHY_STRING, "A.B.C");
         return new MongoEntity(entityType, entityId, body, metaData);
     }
 
@@ -136,6 +158,21 @@ public class AssessmentConverterTest {
         Entity clone = createDownConvertEntity();
         assessmentConverter.subdocToBodyField(entity);
         assertEquals(clone.getBody(), entity.get(0).getBody());
+    }
+    
+    @Test @Ignore
+    public void upconvertShouldConstructAssessmentFamilyHierarchy() {
+        Entity entity = createUpConvertEntity();
+        assessmentConverter.subdocToBodyField(entity);
+        assertNull(entity.getBody().get(AssessmentConverter.ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE));
+        assertEquals("A.B.C", entity.getBody().get(AssessmentConverter.ASSESSMENT_FAMILY_HIERARCHY_STRING));
+    }
+    
+    @Test @Ignore
+    public void downconvertShouldDeleteAssessmentFamilyHierarchy() {
+        Entity entity = createDownConvertEntity();
+        assessmentConverter.bodyFieldToSubdoc(entity);
+        assertNull(entity.getBody().get(AssessmentConverter.ASSESSMENT_FAMILY_HIERARCHY_STRING));
     }
 
     @SuppressWarnings("unchecked")
