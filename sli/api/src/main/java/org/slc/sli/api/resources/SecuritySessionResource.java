@@ -86,7 +86,12 @@ public class SecuritySessionResource {
             logoutMap.put("logout", this.sessionManager.logout((String) userAuth.getCredentials()));
         }
 
-        this.sessions.remove(headers.getRequestHeader("Authorization").get(0));
+        try {
+            this.sessions.remove(headers.getRequestHeader("Authorization").get(0).split(" ")[1]);
+        }
+        catch(Exception e) {
+            error("Error removing session from cache", e);
+        }
         
         return logoutMap;
     }

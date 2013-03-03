@@ -6,8 +6,6 @@
 	<ObjectiveAssessment>
 		<IdentificationCode>ACT-English</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
 		<AssessmentReference>
 			<AssessmentIdentity>
 				<AssessmentTitle>ACT</AssessmentTitle>

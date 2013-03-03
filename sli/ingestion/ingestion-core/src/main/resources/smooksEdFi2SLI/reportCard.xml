@@ -30,6 +30,7 @@
         <jb:value property="numberOfDaysAbsent" data="attributes NumberOfDaysAbsent _value" decoder="Double" />
         <jb:value property="numberOfDaysInAttendance" data="attributes NumberOfDaysInAttendance _value" decoder="Double" />
         <jb:value property="numberOfDaysTardy" data="attributes NumberOfDaysTardy _value" decoder="Integer" />
+        <jb:value property="schoolYear" data="attributes SchoolYear _value" />
         <jb:value property="studentId" data="attributes StudentReference" />
         <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />
     </jb:bean>

@@ -43,10 +43,8 @@ import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
 /**
- * Pre-request processing filter.
- * Adds security information for the user
- * Records start time of the request
- *
+ * Pre-request processing filter. Adds security information for the user Records start time of the request
+ * 
  * @author dkornishev
  */
 @Component
@@ -75,16 +73,13 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
     @Autowired
     private DateFilterCriteriaGenerator criteriaGenerator;
-    
-    @Resource
-    private SessionCache sessions;
 
     @Override
     public ContainerRequest filter(ContainerRequest request) {
         recordStartTime(request);
         validate(request);
         populateSecurityContext(request);
-//        mongoStat.clear();
+        // mongoStat.clear();
         mongoStat.startRequest();
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -100,14 +95,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
     }
 
     private void populateSecurityContext(ContainerRequest request) {
-        String bearer = request.getHeaderValue("Authorization");
-        
-        OAuth2Authentication auth = this.sessions.get(bearer);
-        if (auth == null) {
-            auth = manager.getAuthentication(bearer);
-            this.sessions.put(bearer, auth);
-        }
-
+        OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
         SecurityContextHolder.getContext().setAuthentication(auth);
         TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal()).getTenantId());
     }
@@ -118,7 +106,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
     /**
      * Validate the request url
-     *
+     * 
      * @param request
      */
     private void validate(ContainerRequest request) {
@@ -128,8 +116,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
             if (!validator.validate(request.getRequestUri())) {
                 request.getProperties().put("logIntoDb", false);
                 List<ValidationError> errors = new ArrayList<ValidationError>();
-                errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request
-                        .getRequestUri().toString(), null));
+                errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request.getRequestUri().toString(), null));
                 throw new EntityValidationException("", "", errors);
             }
         }

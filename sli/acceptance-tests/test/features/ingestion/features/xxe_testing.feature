@@ -18,4 +18,5 @@ Scenario: Post a zip file with an external entity that attempts to access a loca
   And I should see "Processed 1 records." in the resulting batch job file
 
   And I should see "CORE_0006" in the resulting error log file
+  And I should not see a warning log file created
 

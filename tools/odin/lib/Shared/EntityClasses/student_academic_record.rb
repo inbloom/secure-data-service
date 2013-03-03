@@ -20,7 +20,7 @@ require_relative 'baseEntity'
 
 # creates a student academic record
 class StudentAcademicRecord < BaseEntity
-  attr_accessor :student_id, :report_card, :cumulative_credits, :session,
+  attr_accessor :student_id, :report_card, :cumulative_credits, :session, :school_year,
                 :cumulativeCreditsEarned, :cumulativeGradePointsEarned,
                 :gradeValueQualifier, :classRanking, :academicHonors,
                 :recognitions, :projectedGraduationDate, :sessionCreditsEarned,
@@ -31,6 +31,7 @@ class StudentAcademicRecord < BaseEntity
     @student_id = student_id
     @session = session
     @report_card = report_card
+    @school_year = session['year'].to_s + "-" + (session['year'] + 1).to_s
 
     optional {@cumulativeCreditsEarned = @rand.rand(10)/10}
 
@@ -94,7 +95,6 @@ class StudentAcademicRecord < BaseEntity
     optional {@sessionCreditsAttempted = @rand.rand(10)/10}
 
     optional {@sessionGradePointsEarned = @rand.rand(10)/10}
-
   end
 
   def ed_org_id

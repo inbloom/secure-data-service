@@ -29,6 +29,7 @@
     <jb:value property="diagnosticStatement" data="attributes DiagnosticStatement _value" />
     <jb:value property="gradeType" data="attributes GradeType _value" />
     <jb:value property="performanceBaseConversion" data="attributes PerformanceBaseConversion _value" />
+    <jb:value property="schoolYear" data="attributes SchoolYear _value" />
     <jb:value property="studentSectionAssociationId" data="attributes StudentSectionAssociationReference" />
     <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />
   </jb:bean>
