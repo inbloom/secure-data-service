@@ -782,7 +782,12 @@ desc "Run Ingestion Acceptances Tests"
 #                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
 #                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
 #                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
-task :ingestionTests => [:loadDefaultIngestionTenants, :ingestionErrorWarnCountTest, :ingestionRevertDataTest, :ingestionUniqueSectionCodeTest, :ingestionSecurityEventTest] do
+task :ingestionTests => [:loadDefaultIngestionTenants, :IngestionIndexValidationTest, :ingestionTenantPurgeTests, :ingestionJobFailOnMissingIndexTest, :ingestionDbSpinupTest,  :ingestionDupDetectTest, :ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
+                         :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
+                         :ingestionBatchJobTest, :ingestionIgnoreIDRefsTest,
+                         :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
+                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
+                         :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest, :ingestionUniqueSectionCodeTest, :ingestionSecurityEventTest] do
 
   displayFailureReport()
   if $SUCCESS
