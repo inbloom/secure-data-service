@@ -27,7 +27,8 @@ public enum Strategy {
     ADD("addStrategy"),
     REMOVE("removeFieldStrategy"),
     RENAME("renameFieldStrategy"),
-    ADD_FIELD("addFieldStrategy");
+    ADD_FIELD("addFieldStrategy"),
+    ATTENDANCE("attendanceStrategy");
 
     private String implementationClassName;
 
