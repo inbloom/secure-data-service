@@ -27,6 +27,7 @@ Feature: Missing Index Alert
     And a batch job log has been created
     And I should see "INFO  Not all records were processed completely due to errors." in the resulting batch job file
     And I should see "CORE_0038" in the resulting error log file
+    And I should see "Internal error occurred. Please contact the operator for assistance resolving this problem." in the resulting error log file
     And I should not see a warning log file created
     When the tenant indexes are applied to the tenant "Midgar"
     #And the old files are removed from the "Midgar-Daybreak" landing zone
