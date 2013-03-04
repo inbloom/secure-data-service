@@ -226,8 +226,10 @@ public class ApiSchemaAdapter {
         List<EntityBody> entityBodies = new ArrayList<EntityBody>();
         entityBodies.add(entityBody);
         List<MigrationStrategy> migrationStrategies = getEntityTransformMigrationStrategies(entityType, versionNumber);
-        for(MigrationStrategy migrationStrategy: migrationStrategies) {
-            entityBodies = migrationStrategy.migrate(entityBodies);
+        if (migrationStrategies != null) {
+            for(MigrationStrategy migrationStrategy: migrationStrategies) {
+                entityBodies = migrationStrategy.migrate(entityBodies);
+            }
         }
        return  entityBodies;
     }
@@ -238,10 +240,15 @@ public class ApiSchemaAdapter {
         }
 
         List<MigrationStrategy> migrationStrategies = getEntityTransformMigrationStrategies(entityType, versionNumber);
-        for(MigrationStrategy migrationStrategy: migrationStrategies) {
-             migrationStrategy.migrate(entityBodies);
+        List<EntityBody> returnList = null;
+        if (migrationStrategies != null) {
+            for(MigrationStrategy migrationStrategy: migrationStrategies) {
+                returnList = migrationStrategy.migrate(entityBodies);
+            }
+            return returnList;
+        } else {
+           return entityBodies;
         }
-        return  entityBodies;
     }
     public Resource getUpMigrationConfigResource() {
         return upMigrationConfigResource;
