@@ -59,49 +59,36 @@ public class SecurityEventBuilder {
         thisProcess = ManagementFactory.getRuntimeMXBean().getName();
     }
 
+
+
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage) {
-        SecurityEvent event = new SecurityEvent();
 
-        try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            SLIPrincipal principal =null ;
+            Entity realmEntity = null;
             if (auth != null) {
-                SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-                if (principal != null) {
-                    event.setTenantId(principal.getTenantId());
-                    event.setUser(principal.getExternalId() + ", " + principal.getName());
-                    Entity realmEntity = realmHelper.getRealmFromSession(principal.getSessionId());
-            		if (realmEntity != null) {
-                        String realmId = realmEntity.getEntityId();
-                        Map<String, Object> body = realmEntity.getBody();
-                        if (body != null) {
-                            event.setUserEdOrg((String) body.get("edOrg"));
-            				String stateOrgId = (String) body.get("edOrg");
-        		            event.setTargetEdOrg(stateOrgId);
-				            event.setTargetEdOrgList(Arrays.asList(stateOrgId));
-            			}
-            		}
-                }
-                Object credential = auth.getCredentials();
-                if (credential != null) {
-                    event.setCredential(credential.toString());
-                }
+                 principal = (SLIPrincipal) auth.getPrincipal();
+                 if(principal!=null) {
+                	 realmEntity = realmHelper.getRealmFromSession(principal.getSessionId());
+                 }
             }
-
-            setSecurityEvent(loggingClass, requestUri, slMessage, event);
-
-            debug(event.toString());
-
-        } catch (Exception e) {
-            info("Could not build SecurityEvent for [" + requestUri + "] [" + slMessage + "]");
-        }
-        return event;
+            return createSecurityEvent( loggingClass,  requestUri,  slMessage,  principal,  realmEntity);
     }
 
 
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage, SLIPrincipal principal, Entity realmEntity) {
-        SecurityEvent event = new SecurityEvent();
+    	    SecurityEvent event = new SecurityEvent();
+    		if (requestUri != null) {
+    		    event.setActionUri(requestUri.toString());
+    		}
+    		event.setAppId(callingApplicationInfoProvider.getClientId());
+    		event.setTimeStamp(new Date());
+    		event.setProcessNameOrId(thisProcess);
+    		event.setExecutedOn(thisNode);
+    		event.setClassName(loggingClass);
+    		event.setLogLevel(LogLevelType.TYPE_INFO);
+    		event.setLogMessage(slMessage);
 
-        try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth != null) {
                 if (principal != null) {
@@ -111,8 +98,8 @@ public class SecurityEventBuilder {
                         String realmId = realmEntity.getEntityId();
                         Map<String, Object> body = realmEntity.getBody();
                         if (body != null) {
-                            event.setUserEdOrg((String) body.get("edOrg"));
             				String stateOrgId = (String) body.get("edOrg");
+            				event.setUserEdOrg(stateOrgId);
 				            event.setTargetEdOrg(stateOrgId);
 				            event.setTargetEdOrgList(Arrays.asList(stateOrgId));
             			}
@@ -124,29 +111,11 @@ public class SecurityEventBuilder {
                 }
             }
 
-            setSecurityEvent(loggingClass, requestUri, slMessage, event);
-
             debug(event.toString());
 
-        } catch (Exception e) {
-            info("Could not build SecurityEvent for [" + requestUri + "] [" + slMessage + "]");
-        }
         return event;
     }
 
-	private void setSecurityEvent(String loggingClass, URI requestUri,
-			String slMessage, SecurityEvent event) {
-		if (requestUri != null) {
-		    event.setActionUri(requestUri.toString());
-		}
-		event.setAppId(callingApplicationInfoProvider.getClientId());
-		event.setTimeStamp(new Date());
-		event.setProcessNameOrId(thisProcess);
-		event.setExecutedOn(thisNode);
-		event.setClassName(loggingClass);
-		event.setLogLevel(LogLevelType.TYPE_INFO);
-		event.setLogMessage(slMessage);
-	}
 
     public CallingApplicationInfoProvider getCallingApplicationInfoProvider() {
         return callingApplicationInfoProvider;
