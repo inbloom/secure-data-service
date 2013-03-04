@@ -9,6 +9,7 @@
 
   <xs:element name="assessment" type="assessment" />
   <xs:element name="assessmentFamily" type="assessmentFamily"/>
+  <xs:element name="assessmentPeriodDescriptor" type="assessmentPeriodDescriptor" />
   <xs:element name="attendance" type="attendance" />
   <xs:element name="cohort" type="cohort" />
   <xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />

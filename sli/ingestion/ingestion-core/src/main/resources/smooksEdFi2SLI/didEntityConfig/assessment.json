@@ -1,5 +1,10 @@
 {
     "referenceSources" :
-    [
-    ]
+        [
+            {
+                "entityType" : "assessmentPeriodDescriptor",
+                "sourceRefPath": "body.assessmentPeriodDescriptorId",
+                "optional" : true
+            }
+        ]
 }

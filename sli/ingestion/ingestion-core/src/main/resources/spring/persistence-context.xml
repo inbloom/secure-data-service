@@ -25,6 +25,7 @@
     <value>assessmentItem</value>
     <value>assessmentFamily</value>
     <value>attendanceEvent</value>
+    <value>assessmentPeriodDescriptor</value>
     <value>calendarDate</value>
     <value>cohort</value>
     <value>competencyLevelDescriptor</value>
@@ -82,7 +83,6 @@
   <!-- collections that only exist in the staging database because they are combined into a _transformed collection for another
     entity -->
   <util:set id="stagedOnlyEntities" set-class="java.util.HashSet" value-type="java.lang.String">
-    <value>assessmentPeriodDescriptor</value>
   </util:set>
 
   <util:map id="entityPersistTypeMap" key-type="java.lang.String" value-type="java.util.Set">
