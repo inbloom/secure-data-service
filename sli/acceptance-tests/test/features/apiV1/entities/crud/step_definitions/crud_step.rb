@@ -51,6 +51,10 @@ Given /^entity URI "([^"]*)"$/ do |arg1|
 end
 
 
+Given /^an entity json document for a "([^"]*)"$/ do |arg1|
+  step "a valid entity json document for a \"#{arg1}\""
+end
+
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
 @entityData = {
   "gradingPeriod" => {
@@ -98,7 +102,37 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       }
     ]
   },
-  "studentAcademicRecord" => {
+  "duplicateYearlyAttendance" => {
+    "entityType" => "attendance",
+    "studentId" => "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+    "schoolYear" => "2010-2011",
+    "attendanceEvent" => [
+      {
+        "date" => "2010-09-16",
+        "event" => "Tardy"
+      }
+    ]
+  },
+  "invalidYearlyAttendance" => {
+    "entityType" => "attendance",
+    "studentId" => "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+    "schoolYear" => "2010-2011"
+  },
+ "multiSchoolsPerYearYearlyAttendance" => {
+    "entityType" => "attendance",
+    "studentId" => "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
+    "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731",
+    "schoolYear" => "2010-2011",
+    "attendanceEvent" => [
+      {
+        "date" => "2010-01-16",
+        "event" => "Tardy"
+      }
+    ]
+  },
+ "studentAcademicRecord" => {
     "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3_id",
     "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072"
   },
