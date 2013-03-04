@@ -52,17 +52,17 @@
       decoder="Double" />
   </jb:bean>
 
-  <jb:bean beanId="CreditsByCourse" class="java.util.ArrayList" createOnElement="attributes">
+  <jb:bean beanId="CreditsByCourses" class="java.util.ArrayList" createOnElement="attributes CreditsByCourse">
     <jb:wiring beanIdRef="CreditsByCourse" />
   </jb:bean>
 
-  <jb:bean beanId="CreditsByCourse" class="java.util.HashMap" createOnElement="attributes creditsByCourse element">
+  <jb:bean beanId="CreditsByCourse" class="java.util.HashMap" createOnElement="attributes CreditsByCourse element">
     <jb:wiring property="credits" beanIdRef="CreditsByCourse_Credits" />
-    <jb:value property="gradeLevel" data="attributes CreditByCourse element GradeLevel _value" />
+    <jb:value property="gradeLevel" data="attributes CreditsByCourse element GradeLevel _value" />
     <jb:wiring property="courseCode" beanIdRef="CourseCodes" />
   </jb:bean>
 
-  <jb:bean beanId="CreditsByCourse_Credits" class="java.util.HashMap" createOnElement="attributes CreditsByCourse element Credits element">
+  <jb:bean beanId="CreditsByCourse_Credits" class="java.util.HashMap" createOnElement="attributes CreditsByCourse element Credits">
     <jb:value property="credit" data="attributes CreditsByCourse element Credits Credit _value" decoder="Double" />
     <jb:value property="creditType" data="attributes CreditsByCourse element Credits a_CreditType" />
     <jb:value property="creditConversion" data="attributes CreditsByCourse element Credits a_CreditConversion"
