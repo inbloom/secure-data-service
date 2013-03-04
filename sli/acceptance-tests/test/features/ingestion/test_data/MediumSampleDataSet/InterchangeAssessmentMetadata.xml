@@ -220,9 +220,7 @@
 		<RevisionDate>2012-03-24</RevisionDate>
 		<MaxRawScore>100</MaxRawScore>
 		<Nomenclature>Nomenclature</Nomenclature>
-		<AssessmentPeriod>
-			<CodeValue>apd0</CodeValue>
-		</AssessmentPeriod>
+<AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>apd0</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 				<ObjectiveAssessmentIdentificationCode>objas0</ObjectiveAssessmentIdentificationCode>

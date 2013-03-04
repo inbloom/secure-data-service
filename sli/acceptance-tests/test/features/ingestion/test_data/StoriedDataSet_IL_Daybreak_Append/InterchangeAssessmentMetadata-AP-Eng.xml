@@ -303,9 +303,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		<Version>1</Version>
 		<RevisionDate>2005-01-12</RevisionDate>
 		<MaxRawScore>122</MaxRawScore>
-		<AssessmentPeriod>
-			<CodeValue>BOY</CodeValue>
-		</AssessmentPeriod>
+<AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>BOY</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
               <AssessmentFamilyTitle>READ 2.0 Kindergarten</AssessmentFamilyTitle>
@@ -334,9 +332,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<MaxRawScore>122</MaxRawScore>
-		<AssessmentPeriod>
-			<CodeValue>MOY</CodeValue>
-		</AssessmentPeriod>
+<AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>MOY</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
               <AssessmentFamilyTitle>READ 2.0 Kindergarten</AssessmentFamilyTitle>
@@ -365,9 +361,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		<Version>1</Version>
 		<RevisionDate>2005-05-12</RevisionDate>
 		<MaxRawScore>122</MaxRawScore>
-		<AssessmentPeriod>
-			<CodeValue>EOY</CodeValue>
-		</AssessmentPeriod>
+<AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>EOY</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
               <AssessmentFamilyTitle>READ 2.0 Kindergarten</AssessmentFamilyTitle>
