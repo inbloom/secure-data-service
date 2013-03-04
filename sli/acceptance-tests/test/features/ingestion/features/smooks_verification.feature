@@ -65,6 +65,7 @@ Scenario: Assessment and StudentAssessment Verification
     And I should see "stu_assess.xml records considered: 1" in the resulting batch job file
     And I should see "stu_assess.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "stu_assess.xml records failed: 0" in the resulting batch job file
+    And I should not see a warning log file created
 
     And I should see following map of entry counts in the corresponding collections:
         | collectionName                 | count |
