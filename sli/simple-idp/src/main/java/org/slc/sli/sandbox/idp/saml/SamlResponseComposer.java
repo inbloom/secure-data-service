@@ -37,6 +37,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
@@ -117,7 +118,7 @@ public class SamlResponseComposer {
     
     private void addAttribute(StringBuilder buf, String key, String value) {
         buf.append(ATTRIBUTE_NAME_BEGIN_TEMPLATE.replace("__NAME__", key));
-        buf.append(ATTRIBUTE_VALUE_TEMPLATE.replace("__VALUE__", value));
+        buf.append(ATTRIBUTE_VALUE_TEMPLATE.replace("__VALUE__", StringEscapeUtils.escapeXml(value)));
         buf.append(ATTRIBUTE_NAME_END_TEMPLATE);
     }
     

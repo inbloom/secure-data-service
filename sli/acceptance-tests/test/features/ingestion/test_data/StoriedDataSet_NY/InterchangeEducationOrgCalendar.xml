@@ -31,16 +31,6 @@
 				<StateOrganizationId>NY</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrgReference>
-		<EducationOrgReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>NY</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrgReference>
-		<EducationOrgReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>NY</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrgReference>
 	</CalendarDate>
 	<CalendarDate>
 		<Date>2011-08-25</Date>
