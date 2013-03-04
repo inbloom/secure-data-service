@@ -41,6 +41,11 @@ Scenario: Create new realms
     Then I should receive a return code of 201
     And I should receive a new ID for my new realm of "Realm1"
     And a security event matching "^Realm .* created" should be in the sli db
+     And I check to find if record is in sli db collection:
+     | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+     | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234  |
+     | securityEvent       | 1                   | body.targetEdOrgList  | fakeab32-b493-999b-a6f3-sliedorg1234  |
+     
     #Test that a default custom role doc was created for the new realm
     When I GET the custom role doc for realm "Realm1"
     Then I should receive a return code of 200

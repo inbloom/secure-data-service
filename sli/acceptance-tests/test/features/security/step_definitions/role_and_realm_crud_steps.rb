@@ -21,6 +21,7 @@ require 'json'
 require 'mongo'
 
 require_relative '../../utils/sli_utils.rb'
+require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 def init_realm_map
   @realm_lookup_map = Hash["IL-Sunset","e5c12cb0-1bad-4606-a936-097b30bd47fe",
