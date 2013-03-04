@@ -75,6 +75,7 @@ public class SliSchemaVersionValidatorTest {
     public static final String SECTION = "section";
     public static final String TEACHER = "teacher";
     @InjectMocks
+    @Autowired
     private SliSchemaVersionValidator sliSchemaVersionValidator;
 
     @Mock
@@ -84,13 +85,14 @@ public class SliSchemaVersionValidatorTest {
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    ApplicationContext context;
+    ApplicationContext beanFactory;
 
     @Before
     public void setUp() throws Exception {
-        sliSchemaVersionValidator = new SliSchemaVersionValidator();
+        //sliSchemaVersionValidator = new SliSchemaVersionValidator();
         sliSchemaVersionValidator.migrationConfigResource = new ClassPathResource(
                 "migration/test-migration-config.json");
+        //sliSchemaVersionValidator.getClass().getDeclaredField("beanFactory");
         MockitoAnnotations.initMocks(this);
     }
 
