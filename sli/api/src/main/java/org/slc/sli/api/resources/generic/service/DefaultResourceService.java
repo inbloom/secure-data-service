@@ -25,6 +25,8 @@ import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilter;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilterProvider;
+import org.slc.sli.api.migration.ApiSchemaAdapter;
+import org.slc.sli.api.migration.strategy.impl.AddFieldStrategy;
 import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
@@ -40,6 +42,7 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.aspect.ApiMigrationAspect.MigratePostedEntity;
 import org.slc.sli.aspect.ApiMigrationAspect.MigrateResponse;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
+import org.slc.sli.common.util.entity.EntityManipulator;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -89,6 +92,9 @@ public class DefaultResourceService implements ResourceService {
 
     @Autowired
     private InProcessDateQueryEvaluator inProcessDateQueryEvaluator;
+
+    @Autowired
+    private ApiSchemaAdapter adapter;
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
@@ -228,7 +234,7 @@ public class DefaultResourceService implements ResourceService {
     @MigratePostedEntity
     public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
-
+        adapter.migrate(entity, definition.getType(), 1);
         return definition.getService().create(entity);
     }
 

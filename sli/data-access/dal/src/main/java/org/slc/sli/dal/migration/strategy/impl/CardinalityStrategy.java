@@ -20,6 +20,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slc.sli.common.migration.strategy.MigrationException;
 import org.slc.sli.common.migration.strategy.MigrationStrategy;
 import org.slc.sli.domain.Entity;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ import java.util.Map;
  * @author jcole
  */
 
+@Scope("prototype")
+@Component
 public class CardinalityStrategy implements MigrationStrategy<Entity> {
 
     public static final String FIELD_NAME = "fieldName";

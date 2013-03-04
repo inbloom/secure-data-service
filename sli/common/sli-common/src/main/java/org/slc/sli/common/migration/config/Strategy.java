@@ -16,9 +16,6 @@
 
 package org.slc.sli.common.migration.config;
 
-import org.slc.sli.common.migration.strategy.MigrationException;
-import org.slc.sli.common.migration.strategy.MigrationStrategy;
-
 /**
  * A list of all supported strategies and the classes that implement those strategies.
  * 
@@ -27,26 +24,18 @@ import org.slc.sli.common.migration.strategy.MigrationStrategy;
  */
 public enum Strategy {
     
-    ADD("org.slc.sli.dal.migration.strategy.impl.AddStrategy"),
-    REMOVE("org.slc.sli.dal.migration.strategy.impl.RemoveFieldStrategy"),
-    RENAME("org.slc.sli.dal.migration.strategy.impl.RenameFieldStrategy"),
-    ADD_FIELD("org.slc.sli.api.migration.strategy.impl.AddFieldStrategy");
+    ADD("addStrategy"),
+    REMOVE("removeFieldStrategy"),
+    RENAME("renameFieldStrategy"),
+    ADD_FIELD("addFieldStrategy");
 
     private String implementationClassName;
 
     private Strategy(String implementingClassName) {
         this.implementationClassName = implementingClassName;
     }
-    
-    public MigrationStrategy getNewImplementation() throws MigrationException {
-        try {
-            return (MigrationStrategy)Class.forName(implementationClassName).newInstance();
-        } catch (InstantiationException e) {
-            throw new MigrationException(e);
-        } catch (IllegalAccessException e) {
-            throw new MigrationException(e);
-        } catch (ClassNotFoundException e) {
-            throw new MigrationException(e);
-        }
+
+    public String getBeanName() {
+        return implementationClassName;
     }
 }

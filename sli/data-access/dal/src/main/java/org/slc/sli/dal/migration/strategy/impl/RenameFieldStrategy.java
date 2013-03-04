@@ -19,6 +19,8 @@ package org.slc.sli.dal.migration.strategy.impl;
 import org.slc.sli.common.migration.strategy.MigrationException;
 import org.slc.sli.common.migration.strategy.MigrationStrategy;
 import org.slc.sli.domain.Entity;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,8 @@ import java.util.Map;
  * @author kmyers
  */
 
+@Scope("prototype")
+@Component
 public class RenameFieldStrategy implements MigrationStrategy<Entity> {
 
     public static final String OLD_FIELD_NAME = "oldFieldName";

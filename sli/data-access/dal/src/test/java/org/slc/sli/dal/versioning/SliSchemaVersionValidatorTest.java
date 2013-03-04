@@ -21,6 +21,7 @@ import com.mongodb.DBObject;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -35,10 +36,14 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.NeutralSchema;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,6 +67,8 @@ import static org.mockito.Mockito.when;
  * @author kmyers
  * 
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SliSchemaVersionValidatorTest {
 
     public static final String STUDENT = "student";
@@ -75,6 +82,9 @@ public class SliSchemaVersionValidatorTest {
 
     @Mock
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    ApplicationContext context;
 
     @Before
     public void setUp() throws Exception {
