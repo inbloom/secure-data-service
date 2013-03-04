@@ -56,7 +56,7 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffProgramAssociation.xml" />
       </bean>
     </entry>
-    <entry key="attendance">
+    <entry key="attendanceEvent">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/attendance.xml" />
       </bean>
@@ -139,7 +139,7 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/teacherSchoolAssociation.xml" />
       </bean>
     </entry>
-    <entry key="staffEducationOrganizationAssociation">
+    <entry key="staffEducationOrgAssignmentAssociation">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffEducationOrganizationAssociation.xml" />
       </bean>
@@ -194,11 +194,76 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/learningObjective.xml" />
       </bean>
     </entry>
-<!--     <entry key="objectiveAssessment">
+    <entry key="learningStandard">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/learningStandard.xml" />
+      </bean>
+    </entry>
+    <entry key="student">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/student.xml" />
+      </bean>
+    </entry>
+    
+    <entry key="staff">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staff.xml" />
+      </bean>
+    </entry>
+    
+    <entry key="teacher">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/teacher.xml" />
+      </bean>
+    </entry>
+    
+    <entry key="parent">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/parent.xml" />
+      </bean>
+    </entry>
+    <entry key="competencyLevelDescriptor">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/competencyLevelDescriptor.xml" />
+      </bean>
+    </entry>
+    
+    <entry key="assessment">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessment.xml" />
+      </bean>
+    </entry>
+        
+    <entry key="assessmentItem">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessmentItem.xml" />
+      </bean>
+    </entry>
+    
+    <entry key="objectiveAssessment">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/objectiveAssessment.xml" />
       </bean>
-    </entry> -->
+    </entry>
+    
+    <entry key="studentAssessment">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentAssessment.xml" />
+      </bean>
+    </entry>
+
+     <entry key="studentObjectiveAssessment">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentObjectiveAssessment.xml" />
+      </bean>
+    </entry>
+    
+    <entry key="studentAssessmentItem">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentAssessmentItem.xml" />
+      </bean>
+    </entry>
+    
   </util:map>
 
   <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">

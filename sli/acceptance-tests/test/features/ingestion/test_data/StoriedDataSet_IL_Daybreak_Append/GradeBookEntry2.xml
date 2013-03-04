@@ -1,17 +1,17 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
-    <GradebookEntry>
-        <GradebookEntryType>Quiz</GradebookEntryType>
-        <DateAssigned>2011-10-13</DateAssigned>
-        <SectionReference>
-            <SectionIdentity>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-    </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Quiz</GradebookEntryType>
+    <DateAssigned>2011-10-13</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
 </InterchangeStudentGrade>

@@ -1,9 +1,9 @@
 
-	{
-		"type" : "type1",
-		"selector" : ":()"
-	},
-	{
-		"type" : "type2",
-		"selector" : ":(*)"
-	}
+    {
+        "type" : "type1",
+        "selector" : ":()"
+    },
+    {
+        "type" : "type2",
+        "selector" : ":(*)"
+    }

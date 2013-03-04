@@ -19,31 +19,27 @@
 
     <jb:bean beanId="reportCard" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'reportCard'</jb:expression>
-        <jb:wiring property="metaData" beanIdRef="reportCardMeta" />
         <jb:wiring property="body" beanIdRef="reportCardBody" />
     </jb:bean>
 
-    <jb:bean beanId="reportCardMeta" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="attributes reportCardId" />
-    </jb:bean>
-
     <jb:bean beanId="reportCardBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:wiring property="grades" beanIdRef="Grades"/>
+        <jb:wiring property="studentCompetencyId" beanIdRef="StudentCompetency" />
+        <jb:value property="gpaGivenGradingPeriod" data="attributes GPAGivenGradingPeriod _value" decoder="Double" />
+        <jb:value property="gpaCumulative" data="attributes GPACumulative _value" decoder="Double" />
+        <jb:value property="numberOfDaysAbsent" data="attributes NumberOfDaysAbsent _value" decoder="Double" />
+        <jb:value property="numberOfDaysInAttendance" data="attributes NumberOfDaysInAttendance _value" decoder="Double" />
+        <jb:value property="numberOfDaysTardy" data="attributes NumberOfDaysTardy _value" decoder="Integer" />
+        <jb:value property="schoolYear" data="attributes SchoolYear _value" />
         <jb:value property="studentId" data="attributes StudentReference" />
-        <jb:wiring property="studentCompetencyId" beanIdRef="reportCard_studentCompetencyIdArray" />
         <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />
-        <jb:value property="gpaGivenGradingPeriod" data="attributes gpaGivenGradingPeriod" decoder="Double" />
-        <jb:value property="gpaCumulative" data="attributes gpaCumulative" decoder="Double" />
-        <jb:value property="numberOfDaysAbsent" data="attributes numberOfDaysAbsent" decoder="Integer" />
-        <jb:value property="numberOfDaysInAttendance" data="attributes numberOfDaysInAttendance" decoder="Integer" />
-        <jb:value property="numberOfDaysTardy" data="attributes numberOfDaysTardy" decoder="Integer" />
-        <jb:wiring property="grades" beanIdRef="reportCard_gradesArray"/>
     </jb:bean>
 
-     <jb:bean beanId="reportCard_gradesArray" class="java.util.ArrayList" createOnElement="attributes">
+     <jb:bean beanId="Grades" class="java.util.ArrayList" createOnElement="attributes GradeReference">
         <jb:value data="attributes GradeReference element" />
     </jb:bean>
 
-    <jb:bean beanId="reportCard_studentCompetencyIdArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="StudentCompetency" class="java.util.ArrayList" createOnElement="attributes">
         <jb:value data="attributes StudentCompetencyReference element" />
     </jb:bean>
 

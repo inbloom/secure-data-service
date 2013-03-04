@@ -23,17 +23,17 @@
     </jb:bean>
 
     <jb:bean beanId="ssBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="sessionName" data="attributes sessionName" />
-        <jb:value property="schoolYear" data="attributes schoolYear" />
-        <jb:value property="term" data="attributes term" />
-        <jb:value property="beginDate" data="attributes beginDate" />
-        <jb:value property="endDate" data="attributes endDate" />
-        <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" />
-        <jb:wiring property="gradingPeriodReference" beanIdRef="session_gradingPeriodReferenceArray" />
+        <jb:value property="sessionName" data="attributes SessionName _value" />
+        <jb:value property="schoolYear" data="attributes SchoolYear _value" />
+        <jb:value property="term" data="attributes Term _value" />
+        <jb:value property="beginDate" data="attributes BeginDate _value" />
+        <jb:value property="endDate" data="attributes EndDate _value" />
+        <jb:value property="totalInstructionalDays" data="attributes TotalInstructionalDays _value" />
+        <jb:wiring property="gradingPeriodReference" beanIdRef="GradingPeriodReference" />
         <jb:value property="schoolId" data="attributes EducationOrganizationReference" />
     </jb:bean>
 
-    <jb:bean beanId="session_gradingPeriodReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="GradingPeriodReference" class="java.util.ArrayList" createOnElement="GradingPeriodReference">
         <jb:value data="attributes GradingPeriodReference element" />
     </jb:bean>
 

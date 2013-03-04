@@ -1,14 +1,14 @@
 {
-	id: "edorg",
-	name: "inBloom - Ed Org Profile",
-	type: "LAYOUT",
-	data :{
-		entity: "edorgInfo",
-		cacheKey: "edorgInfo"
-	},
-	items: [
-		{id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},
-		{id: "edorgInfo", type: "PANEL"},
-		{id: "tab1", name: "Schools",  type : "TAB", items: [{id : "schoolList", type: "GRID"}]}
-	]
+    id: "edorg",
+    name: "inBloom - Ed Org Profile",
+    type: "LAYOUT",
+    data :{
+        entity: "edorgInfo",
+        cacheKey: "edorgInfo"
+    },
+    items: [
+        {id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},
+        {id: "edorgInfo", type: "PANEL"},
+        {id: "tab1", name: "Schools",  type : "TAB", items: [{id : "schoolList", type: "GRID"}]}
+    ]
 }

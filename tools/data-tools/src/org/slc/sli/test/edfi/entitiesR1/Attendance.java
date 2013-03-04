@@ -18,10 +18,10 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * 				Daily attendance for the student at the school.
- * 				Attendance is partitioned by school year. School years must be
- * 				unique per school year attendance.
- * 			
+ *                 Daily attendance for the student at the school.
+ *                 Attendance is partitioned by school year. School years must be
+ *                 unique per school year attendance.
+ *             
  * 
  * <p>Java class for attendance complex type.
  * 

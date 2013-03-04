@@ -6,7 +6,7 @@
         {
             "StaffIdentity":
             {
-                "StaffUniqueStateId":"jjackson"
+                "StaffUniqueStateId":{"_value":"jjackson"}
             }
         },
         "SectionReference":
@@ -17,10 +17,10 @@
                 {
                     "EducationalOrgIdentity":
                     {
-                        "StateOrganizationId":"this school"
+                        "StateOrganizationId":{"_value":"this school"}
                     }
                 },
-                "UniqueSectionCode":"this section"
+                "UniqueSectionCode":{"_value":"this section"}
             }
         }
     }

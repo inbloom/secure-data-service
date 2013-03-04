@@ -85,10 +85,10 @@ public class AttendanceEventGenerator {
 
     public static AttendanceEventCategoryType getAttendanceEventCategoryType() {
         Random random = new Random(31);
-    	int index = random.nextInt(AttendanceEventCategoryType.values().length);
-    	if (index == 1)
-    		index = index + 1;
-    	
+        int index = random.nextInt(AttendanceEventCategoryType.values().length);
+        if (index == 1)
+            index = index + 1;
+        
         return AttendanceEventCategoryType.values()[index];
     }
 
@@ -99,53 +99,53 @@ public class AttendanceEventGenerator {
     public static AttendanceEventCategoryType getAttendanceEventCategoryTypeMedFi() {
 
         Random seededRandom = new Random(31);
-    	int roll = seededRandom.nextInt(100);
-		
-		switch (roll) {
-		case 1 :
-			return AttendanceEventCategoryType.fromValue(attendance[1]);		
-		case 2 :
-			return AttendanceEventCategoryType.fromValue(attendance[2]);
-		case 3 : 
-			return AttendanceEventCategoryType.fromValue(attendance[1]);
-		case 4 :
-			return AttendanceEventCategoryType.fromValue(attendance[2]);
-		case 5 : 
-			return AttendanceEventCategoryType.fromValue(attendance[1]);
-		case 6:
-			return AttendanceEventCategoryType.fromValue(attendance[2]);
-		case 7 :
-			return AttendanceEventCategoryType.fromValue(attendance[1]);		
-		case 8 :
-			return AttendanceEventCategoryType.fromValue(attendance[2]);
-		case 9 :
-			return AttendanceEventCategoryType.fromValue(attendance[1]);		
-		case 10 :
-			return AttendanceEventCategoryType.fromValue(attendance[2]);
-		case 11 :
-			return AttendanceEventCategoryType.fromValue(attendance[1]);		
-		case 12 :
-			return AttendanceEventCategoryType.fromValue(attendance[2]);
-		case 13 :
-			return AttendanceEventCategoryType.fromValue(attendance[1]);		
-		case 14 :
-			return AttendanceEventCategoryType.fromValue(attendance[2]);
-		case 15 :
-			return AttendanceEventCategoryType.fromValue(attendance[1]);
-		case 16 :
-			return AttendanceEventCategoryType.fromValue(attendance[2]);
-		case 17 :
-			return AttendanceEventCategoryType.fromValue(attendance[1]);
-		case 18:
-			return AttendanceEventCategoryType.fromValue(attendance[3]);
-		case 19:
-			return AttendanceEventCategoryType.fromValue(attendance[4]);
-		default : 
-			return AttendanceEventCategoryType.fromValue(attendance[0]);
-					
-		}
+        int roll = seededRandom.nextInt(100);
+        
+        switch (roll) {
+        case 1 :
+            return AttendanceEventCategoryType.fromValue(attendance[1]);        
+        case 2 :
+            return AttendanceEventCategoryType.fromValue(attendance[2]);
+        case 3 : 
+            return AttendanceEventCategoryType.fromValue(attendance[1]);
+        case 4 :
+            return AttendanceEventCategoryType.fromValue(attendance[2]);
+        case 5 : 
+            return AttendanceEventCategoryType.fromValue(attendance[1]);
+        case 6:
+            return AttendanceEventCategoryType.fromValue(attendance[2]);
+        case 7 :
+            return AttendanceEventCategoryType.fromValue(attendance[1]);        
+        case 8 :
+            return AttendanceEventCategoryType.fromValue(attendance[2]);
+        case 9 :
+            return AttendanceEventCategoryType.fromValue(attendance[1]);        
+        case 10 :
+            return AttendanceEventCategoryType.fromValue(attendance[2]);
+        case 11 :
+            return AttendanceEventCategoryType.fromValue(attendance[1]);        
+        case 12 :
+            return AttendanceEventCategoryType.fromValue(attendance[2]);
+        case 13 :
+            return AttendanceEventCategoryType.fromValue(attendance[1]);        
+        case 14 :
+            return AttendanceEventCategoryType.fromValue(attendance[2]);
+        case 15 :
+            return AttendanceEventCategoryType.fromValue(attendance[1]);
+        case 16 :
+            return AttendanceEventCategoryType.fromValue(attendance[2]);
+        case 17 :
+            return AttendanceEventCategoryType.fromValue(attendance[1]);
+        case 18:
+            return AttendanceEventCategoryType.fromValue(attendance[3]);
+        case 19:
+            return AttendanceEventCategoryType.fromValue(attendance[4]);
+        default : 
+            return AttendanceEventCategoryType.fromValue(attendance[0]);
+                    
+        }
     }
-		
+        
     
     public static EducationalEnvironmentType getEducationalEnvironmentType() {
         return EducationalEnvironmentType.values()[RANDOM.nextInt(EducationalEnvironmentType.values().length)];
@@ -157,16 +157,16 @@ public class AttendanceEventGenerator {
 
     public static void main(String args[]) throws Exception{
     
-    	
-    	AttendanceEventGenerator test = new AttendanceEventGenerator();
-    	test.getAttendanceEventCategoryTypeMedFi();
-    	String studentID = "sid";
-    	String schoolID = "schid";
-    	String sectionCode = "secode";
-    	test.generateLowFi(studentID, schoolID, sectionCode);
-    	test.generateLowFi(studentID, schoolID, sectionCode);
-    	test.generateLowFi(studentID, schoolID, sectionCode);
-    	
+        
+        AttendanceEventGenerator test = new AttendanceEventGenerator();
+        test.getAttendanceEventCategoryTypeMedFi();
+        String studentID = "sid";
+        String schoolID = "schid";
+        String sectionCode = "secode";
+        test.generateLowFi(studentID, schoolID, sectionCode);
+        test.generateLowFi(studentID, schoolID, sectionCode);
+        test.generateLowFi(studentID, schoolID, sectionCode);
+        
     }
 }
 

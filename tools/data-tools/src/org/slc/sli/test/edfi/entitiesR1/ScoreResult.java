@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * A meaningful raw score or statistical expression of
- * 				the performance of an individual. The results can be expressed as a
- * 				number, percentile, range, level, etc.
- * 			
+ *                 the performance of an individual. The results can be expressed as a
+ *                 number, percentile, range, level, etc.
+ *             
  * 
  * <p>Java class for scoreResult complex type.
  * 

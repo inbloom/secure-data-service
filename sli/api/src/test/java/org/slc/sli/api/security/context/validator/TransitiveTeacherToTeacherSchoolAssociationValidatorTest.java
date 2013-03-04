@@ -44,76 +44,76 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TransitiveTeacherToTeacherSchoolAssociationValidatorTest {
 
-	private static final String CORRECT_ENTITY_TYPE = EntityNames.TEACHER_SCHOOL_ASSOCIATION;
-	private static final String SCHOOL_ID = "Myrran";
-	private static final String USER_ID = "Master of Magic";
+    private static final String CORRECT_ENTITY_TYPE = EntityNames.TEACHER_SCHOOL_ASSOCIATION;
+    private static final String SCHOOL_ID = "Myrran";
+    private static final String USER_ID = "Master of Magic";
 
-	@Resource
-	private TransitiveTeacherToTeacherSchoolAssociationValidator val;
+    @Resource
+    private TransitiveTeacherToTeacherSchoolAssociationValidator val;
 
-	@Resource
-	private SecurityContextInjector injector;
+    @Resource
+    private SecurityContextInjector injector;
 
-	@Resource
-	private ValidatorTestHelper vth;
+    @Resource
+    private ValidatorTestHelper vth;
 
-	@Before
-	public void init() {
-		injector.setEducatorContext(USER_ID);
-	}
+    @Before
+    public void init() {
+        injector.setEducatorContext(USER_ID);
+    }
 
-	@After
-	public void cleanUp() {
-	    SecurityContextHolder.clearContext();
-	    try {
+    @After
+    public void cleanUp() {
+        SecurityContextHolder.clearContext();
+        try {
             vth.resetRepo();
         } catch (Exception e) {
         }
-	}
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testValidateWrongType() {
-		val.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));
-	}
+    @Test(expected = IllegalArgumentException.class)
+    public void testValidateWrongType() {
+        val.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));
+    }
 
-	@Test
-	public void testSuccessOne() {
-		this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID);
+    @Test
+    public void testSuccessOne() {
+        this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID);
 
-		Entity tsa = this.vth.generateTeacherSchool("Heru-er", SCHOOL_ID);
-		Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
+        Entity tsa = this.vth.generateTeacherSchool("Heru-er", SCHOOL_ID);
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
 
-		tsa = this.vth.generateTeacherSchool("Izida", SCHOOL_ID);
-		Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
+        tsa = this.vth.generateTeacherSchool("Izida", SCHOOL_ID);
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
 
-		tsa = this.vth.generateTeacherSchool("Ptah", SCHOOL_ID);
-		Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
-	}
+        tsa = this.vth.generateTeacherSchool("Ptah", SCHOOL_ID);
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
+    }
 
-	@Test
-	public void testSuccessMulti() {
-		this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID);
-		Set<String> ids = new HashSet<String>();
+    @Test
+    public void testSuccessMulti() {
+        this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID);
+        Set<String> ids = new HashSet<String>();
 
-		for (int i = 0; i < 100; i++) {
-			ids.add(this.vth.generateTeacherSchool("Thor" + i, SCHOOL_ID).getEntityId());
-		}
+        for (int i = 0; i < 100; i++) {
+            ids.add(this.vth.generateTeacherSchool("Thor" + i, SCHOOL_ID).getEntityId());
+        }
 
-		Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids));
-	}
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids));
+    }
 
-	@Test
-	public void testWrongId() {
-		Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Hammerhands")));
-		Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Nagas")));
-		Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Phantom Warriors")));
-	}
+    @Test
+    public void testWrongId() {
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Hammerhands")));
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Nagas")));
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Phantom Warriors")));
+    }
 
-	@Test
-	public void testHeterogenousList() {
-		Assert.assertFalse(val.validate(
-				CORRECT_ENTITY_TYPE,
-				new HashSet<String>(Arrays.asList(this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID).getEntityId(), this.vth.generateTeacherSchool("Ssss'ra", "Arcanus").getEntityId(), this.vth.generateTeacherSchool("Kali", "Arcanus")
-						.getEntityId()))));
-	}
+    @Test
+    public void testHeterogenousList() {
+        Assert.assertFalse(val.validate(
+                CORRECT_ENTITY_TYPE,
+                new HashSet<String>(Arrays.asList(this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID).getEntityId(), this.vth.generateTeacherSchool("Ssss'ra", "Arcanus").getEntityId(), this.vth.generateTeacherSchool("Kali", "Arcanus")
+                        .getEntityId()))));
+    }
 }

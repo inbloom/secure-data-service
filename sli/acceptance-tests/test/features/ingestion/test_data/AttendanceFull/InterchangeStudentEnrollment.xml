@@ -7,12 +7,12 @@
                     <StudentUniqueStateId>530425896</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
 			<ClassOf>2011-2012</ClassOf>
         </StudentSchoolAssociation>

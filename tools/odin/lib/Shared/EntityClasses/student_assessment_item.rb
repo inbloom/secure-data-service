@@ -18,12 +18,24 @@ limitations under the License.
 
 require_relative 'baseEntity'
 class StudentAssessmentItem < BaseEntity
-  attr_accessor :response, :result, :student_assessment, :assessment_item
+  attr_accessor :response, :result, :student_assessment, :assessment_item,
+                :responseIndicator, :rawScoreResult
 
   def initialize(response, student_assessment, assessment_item)
+    @rand = Random.new(student_assessment.hash + assessment_item.hash)
     @response = response
     @result = response == assessment_item.correctResponse ? "Correct" : "Incorrect"
     @student_assessment = student_assessment
     @assessment_item = assessment_item
+
+    optional {@responseIndicator = choose([
+      "Nonscorable response",
+      "Ineffective response",
+      "Effective response",
+      "Partial response"])
+    }
+
+    optional {@rawScoreResult = @rand.rand(100)+1}
+
   end
 end

@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * 
- * 				This entity captures significant postsecondary
- * 				events during a student's high school tenure (e.g.,
- * 				FASFSA
- * 				application, or college application, acceptance, and enrollment).
- * 			
+ *                 This entity captures significant postsecondary
+ *                 events during a student's high school tenure (e.g.,
+ *                 FASFSA
+ *                 application, or college application, acceptance, and enrollment).
+ *             
  * 
  * <p>Java class for postSecondaryEvent complex type.
  * 

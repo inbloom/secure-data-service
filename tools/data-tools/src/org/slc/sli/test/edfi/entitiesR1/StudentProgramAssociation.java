@@ -20,9 +20,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * 
- * 				This association represents the program(s) that a
- * 				student participates in or is served by.
- * 			
+ *                 This association represents the program(s) that a
+ *                 student participates in or is served by.
+ *             
  * 
  * <p>Java class for studentProgramAssociation complex type.
  * 

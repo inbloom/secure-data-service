@@ -16,8 +16,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This indicates the sessions a
- * 				student is assigned to.
- * 			
+ *                 student is assigned to.
+ *             
  * 
  * <p>Java class for studentSession complex type.
  * 

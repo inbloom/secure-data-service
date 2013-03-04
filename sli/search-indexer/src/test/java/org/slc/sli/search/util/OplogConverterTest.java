@@ -110,7 +110,7 @@ public class OplogConverterTest {
                 sb.append(line);
             }
         } catch (Exception e) {
-    		LOG.info("There was an exception in getOplogJsonFile", e);
+            LOG.info("There was an exception in getOplogJsonFile", e);
         }
         return sb.toString();
     }

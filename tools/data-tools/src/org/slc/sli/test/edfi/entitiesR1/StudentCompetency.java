@@ -16,8 +16,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity represents the competency assessed or
- * 				evaluated for the student against a specific Learning Objective.
- * 			
+ *                 evaluated for the student against a specific Learning Objective.
+ *             
  * 
  * <p>Java class for studentCompetency complex type.
  * 

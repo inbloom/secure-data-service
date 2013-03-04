@@ -375,7 +375,10 @@ class StudentWorkOrder
         numeric += (weight * average).floor
       end
     end
-    return Grade.new(DataUtility.get_letter_grade_from_number(numeric), numeric, :FINAL, get_student_section_association(school_id, section_id, session['interval'].get_begin_date))
+
+    return Grade.new(DataUtility.get_letter_grade_from_number(numeric), numeric, :FINAL, 
+                     get_student_section_association(school_id, section_id, session['interval'].get_begin_date), 
+                     session['year'])
   end
 
   # translates the attributes for the student section association into a map (with values that mustache templates will recognize/expect)

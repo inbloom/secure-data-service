@@ -22,11 +22,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Transformer for CourseTranscript Entities
@@ -85,12 +86,14 @@ public class CourseTranscriptCombiner extends AbstractTransformationStrategy {
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : courseTranscripts.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
-            if (attributes.get("creditsAttempted") == null) {
-                attributes.remove("creditsAttempted");
+            if (attributes.get("CreditsAttemptedValue") == null) {
+                attributes.remove("CreditsAttemptedValue");
             }
 
-            if (attributes.get("gradeType") == null) {
-                attributes.put("gradeType", "Final");
+            if (attributes.get("GradeType") == null) {
+                Map<String, Object> value = new HashMap<String,Object>();
+                value.put("_value", "Final");
+                attributes.put("GradeType", value);
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());

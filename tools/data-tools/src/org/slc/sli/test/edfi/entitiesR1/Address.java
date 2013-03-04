@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * The set of elements that describes an address,
- * 				including the street
- * 				address, city, state, and ZIP code.
- * 			
+ *                 including the street
+ *                 address, city, state, and ZIP code.
+ *             
  * 
  * <p>Java class for address complex type.
  * 

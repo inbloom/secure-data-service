@@ -15,14 +15,63 @@ limitations under the License.
 }}
 {{#entity}}
   <StudentAcademicRecord>
+    {{#cumulativeCreditsEarned}}
+    <CumulativeCreditsEarned>
+      <Credit>{{cumulativeCreditsEarned}}</Credit>
+    </CumulativeCreditsEarned>
+    {{/cumulativeCreditsEarned}}
     {{#cumulative_credits}}
     <CumulativeCreditsAttempted>
       <Credit>{{cumulative_credits}}</Credit>
     </CumulativeCreditsAttempted>
     {{/cumulative_credits}}
+    {{#cumulativeGradePointsEarned}}
+    <CumulativeGradePointsEarned>{{cumulativeGradePointsEarned}}</CumulativeGradePointsEarned>
+    {{/cumulativeGradePointsEarned}}
     {{#cumulative_gpa}}
     <CumulativeGradePointAverage>{{cumulative_gpa}}</CumulativeGradePointAverage>
     {{/cumulative_gpa}}
+    {{#gradeValueQualifier}}
+    <GradeValueQualifier>{{gradeValueQualifier}}</GradeValueQualifier>
+    {{/gradeValueQualifier}}
+    {{#classRanking}}
+    <ClassRanking>
+      <ClassRank>{{classRank}}</ClassRank>
+      <TotalNumberInClass>{{totalNumberInClass}}</TotalNumberInClass>
+      <PercentageRanking>{{percentageRanking}}</PercentageRanking>
+      <ClassRankingDate>{{classRankingDate}}</ClassRankingDate>
+    </ClassRanking>
+    {{/classRanking}}
+    {{#academicHonors}}
+    <AcademicHonors>
+      <AcademicHonorsType>{{academicHonorsType}}</AcademicHonorsType>
+      <HonorsDescription>{{honorsDescription}}</HonorsDescription>
+      <HonorAwardDate>{{honorAwardDate}}</HonorAwardDate>
+    </AcademicHonors>
+    {{/academicHonors}}
+    {{#recognitions}}
+    <Recognitions>
+      <RecognitionType>{{recognitionType}}</RecognitionType>
+      <RecognitionDescription>{{recognitionDescription}}</RecognitionDescription>
+      <RecognitionAwardDate>{{recognitionAwardDate}}</RecognitionAwardDate>
+    </Recognitions>
+    {{/recognitions}}
+    {{#projectedGraduationDate}}
+    <ProjectedGraduationDate>{{projectedGraduationDate}}</ProjectedGraduationDate>
+    {{/projectedGraduationDate}}
+    {{#sessionCreditsEarned}}
+      <SessionCreditsEarned>
+        <Credit>{{sessionCreditsEarned}}</Credit>
+      </SessionCreditsEarned>
+    {{/sessionCreditsEarned}}
+    {{#sessionCreditsAttempted}}
+      <SessionCreditsAttempted>
+        <Credit>{{sessionCreditsAttempted}}</Credit>
+      </SessionCreditsAttempted>
+    {{/sessionCreditsAttempted}}
+    {{#sessionGradePointsEarned}}
+    <SessionGradePointsEarned>{{sessionGradePointsEarned}}</SessionGradePointsEarned>
+    {{/sessionGradePointsEarned}}
     {{#session_gpa}}
     <SessionGradePointAverage>{{session_gpa}}</SessionGradePointAverage>
     {{/session_gpa}}
@@ -65,5 +114,8 @@ limitations under the License.
       </ReportCardIdentity>
     </ReportCardReference>
     {{/report_card}}
+    {{#school_year}}
+    <SchoolYear>{{school_year}}</SchoolYear>
+    {{/school_year}}
   </StudentAcademicRecord>
 {{/entity}}

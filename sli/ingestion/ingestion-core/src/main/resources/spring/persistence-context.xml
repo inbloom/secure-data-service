@@ -25,6 +25,7 @@
     <value>assessmentItem</value>
     <value>assessmentFamily</value>
     <value>attendance</value>
+    <value>attendanceEvent</value>
     <value>calendarDate</value>
     <value>cohort</value>
     <value>competencyLevelDescriptor</value>
@@ -48,7 +49,7 @@
     <value>session</value>
     <value>staff</value>
     <value>staffCohortAssociation</value>
-    <value>staffEducationOrganizationAssociation</value>
+    <value>staffEducationOrgAssignmentAssociation</value>
     <value>staffProgramAssociation</value>
     <value>stateEducationAgency</value>
     <value>student</value>

@@ -47,8 +47,8 @@ if operation == "STOR"
 
   active_mq_host = DEFAULT_ACTIVEMQ_HOST
   unless ARGV[2].nil?
-  	# use specified host, if provided
-  	active_mq_host = ARGV[2]
+      # use specified host, if provided
+      active_mq_host = ARGV[2]
   end
 
   client = Stomp::Client.new "", "", active_mq_host, ACTIVEMQ_PORT, false

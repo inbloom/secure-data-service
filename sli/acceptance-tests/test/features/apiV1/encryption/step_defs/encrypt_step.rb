@@ -105,97 +105,97 @@ end
 
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-  		"loginId" => "rsd",
-  		"sex" => "Female",
-  		"studentCharacteristics" => [
-  			{
-  				"beginDate" => "2000-10-01",
-  				"characteristic" => "Parent in Military"
-  			}
-  		],
-  		"disabilities" => [
-  			{
-  				"disability" => "Other Health Impairment"
-  			}
-  		],
-  		"hispanicLatinoEthnicity" => false,
-  		"economicDisadvantaged" => false,
-  		"cohortYears" => [
-  			{
-  				"schoolYear" => "2010-2011",
-  				"cohortYearType" => "First grade"
-  			}
-  		],
-  		"section504Disabilities" => [
-  			"Medical Condition"
-  		],
-  		"oldEthnicity" => "Black, Not Of Hispanic Origin",
-  		"race" => [
-  			"Black - African American"
-  		],
-  		"programParticipations" => [
-  			{
-  				"program" => "Section 504 Placement"
-  			}
-  		],
-  		"languages" => [
-  			"English"
-  		],
-  		"studentUniqueStateId" => "530425896",
-  		"name" => {
-  			"middleName" => "Shannon",
-  			"generationCodeSuffix" => "Jr",
-  			"lastSurname" => "Delgado",
-  			"firstName" => "Rhonda"
-  		},
-  		"birthData" => {
-  			"birthDate" => "2006-07-02"
-  		},
-  		"otherName" => [
-  			{
-  				"middleName" => "Wren",
-  				"lastSurname" => "Einstein",
-  				"firstName" => "Julie",
-  				"otherNameType" => "Nickname"
-  			}
-  		],
-  		"studentIndicators" => [
-  			{
-  				"indicator" => "At risk",
-  				"indicatorName" => "At risk"
-  			}
-  		],
-  		"homeLanguages" => [
-  			"English"
-  		],
-  		"learningStyles" => {
-  			"visualLearning" => 33,
-  			"tactileLearning" => 33,
-  			"auditoryLearning" => 33
-  		},
-  		"limitedEnglishProficiency" => "NotLimited",
-  		"studentIdentificationCode" => [ ],
-  		"address" => [
-  			{
-  				"postalCode" => "27701",
-  				"streetNumberName" => "1234 Shaggy",
-  				"stateAbbreviation" => "NC",
-  				"city" => "Durham"
-  			}
-  		],
-  		"electronicMail" => [
-  			{
-  				"emailAddress" => "rsd@summer.nc.edu"
-  			}
-  		],
-  		"schoolFoodServicesEligibility" => "Reduced price",
-  		"displacementStatus" => "Slightly to the right",
-  		"telephone" => [
-  			{
-  				"telephoneNumber" => "919-555-8765"
-  			}
-  		]
-  	}
+          "loginId" => "rsd",
+          "sex" => "Female",
+          "studentCharacteristics" => [
+              {
+                  "beginDate" => "2000-10-01",
+                  "characteristic" => "Parent in Military"
+              }
+          ],
+          "disabilities" => [
+              {
+                  "disability" => "Other Health Impairment"
+              }
+          ],
+          "hispanicLatinoEthnicity" => false,
+          "economicDisadvantaged" => false,
+          "cohortYears" => [
+              {
+                  "schoolYear" => "2010-2011",
+                  "cohortYearType" => "First grade"
+              }
+          ],
+          "section504Disabilities" => [
+              "Medical Condition"
+          ],
+          "oldEthnicity" => "Black, Not Of Hispanic Origin",
+          "race" => [
+              "Black - African American"
+          ],
+          "programParticipations" => [
+              {
+                  "program" => "Section 504 Placement"
+              }
+          ],
+          "languages" => [
+              "English"
+          ],
+          "studentUniqueStateId" => "530425896",
+          "name" => {
+              "middleName" => "Shannon",
+              "generationCodeSuffix" => "Jr",
+              "lastSurname" => "Delgado",
+              "firstName" => "Rhonda"
+          },
+          "birthData" => {
+              "birthDate" => "2006-07-02"
+          },
+          "otherName" => [
+              {
+                  "middleName" => "Wren",
+                  "lastSurname" => "Einstein",
+                  "firstName" => "Julie",
+                  "otherNameType" => "Nickname"
+              }
+          ],
+          "studentIndicators" => [
+              {
+                  "indicator" => "At risk",
+                  "indicatorName" => "At risk"
+              }
+          ],
+          "homeLanguages" => [
+              "English"
+          ],
+          "learningStyles" => {
+              "visualLearning" => 33,
+              "tactileLearning" => 33,
+              "auditoryLearning" => 33
+          },
+          "limitedEnglishProficiency" => "NotLimited",
+          "studentIdentificationCode" => [ ],
+          "address" => [
+              {
+                  "postalCode" => "27701",
+                  "streetNumberName" => "1234 Shaggy",
+                  "stateAbbreviation" => "NC",
+                  "city" => "Durham"
+              }
+          ],
+          "electronicMail" => [
+              {
+                  "emailAddress" => "rsd@summer.nc.edu"
+              }
+          ],
+          "schoolFoodServicesEligibility" => "Reduced price",
+          "displacementStatus" => "Slightly to the right",
+          "telephone" => [
+              {
+                  "telephoneNumber" => "919-555-8765"
+              }
+          ]
+      }
 end
 
 Given /^student Rhonda Delagio exists$/ do

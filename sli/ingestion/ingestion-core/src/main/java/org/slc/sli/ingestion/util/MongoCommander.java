@@ -92,8 +92,8 @@ public final class MongoCommander {
                 indexOrder++;
                 String result = ensureIndexes(indexEntry, dbConn, indexOrder);
                 if (result != null) {
-					return result;
-				}
+                    return result;
+                }
             }
             return null;
         } else {
@@ -182,9 +182,9 @@ public final class MongoCommander {
         // Calculate where to split and do it
         //
         for (int shard = 1; shard <= numShards-1; shard++) {
-        	//
-        	// Split points based on the fraction of 256 that each chunk should occupy
-        	//
+            //
+            // Split points based on the fraction of 256 that each chunk should occupy
+            //
             String splitString = Integer.toHexString(charOffset * shard);
             moveStrings.add(splitString);
             CommandResult result = dbConn.command(buildSplitCommand(collection, splitString));
@@ -207,10 +207,10 @@ public final class MongoCommander {
 
             CommandResult result = dbConn.command(moveCommand);
             if (!result.ok()) {
-            	if (!result.getErrorMessage().equals("that chunk is already on that shard")) {
-            		LOG.error("Error moving chunk in {}: {}", collection, result.getErrorMessage());
-            		return result.getErrorMessage();
-            	}
+                if (!result.getErrorMessage().equals("that chunk is already on that shard")) {
+                    LOG.error("Error moving chunk in {}: {}", collection, result.getErrorMessage());
+                    return result.getErrorMessage();
+                }
             }
         }
         return null;
@@ -258,7 +258,7 @@ public final class MongoCommander {
         //set balancer off
         String sresult = setBalancerState(dbConn, false);
         if (sresult != null) {
-        	return sresult;
+            return sresult;
         }
 
         // Enable sharding for this database
@@ -284,8 +284,8 @@ public final class MongoCommander {
 
             sresult = moveChunks(collection, shards, dbConn);
             if (sresult != null) {
-				return sresult;
-			}
+                return sresult;
+            }
         }
         return preSplitRecordHash(dbName, mongoTemplate);
     }
@@ -337,10 +337,10 @@ public final class MongoCommander {
                 moveCommand.put("to", shards.get(index));
                 result = dbConn.command(moveCommand);
                 if (!result.ok()) {
-                	if (!result.getErrorMessage().equals("that chunk is already on that shard")) {
-                		LOG.error("Error moving chunk in recordHash: {}", result.getErrorMessage());
-                		return result.getErrorMessage();
-                	}
+                    if (!result.getErrorMessage().equals("that chunk is already on that shard")) {
+                        LOG.error("Error moving chunk in recordHash: {}", result.getErrorMessage());
+                        return result.getErrorMessage();
+                    }
                 }
             }
         } else {

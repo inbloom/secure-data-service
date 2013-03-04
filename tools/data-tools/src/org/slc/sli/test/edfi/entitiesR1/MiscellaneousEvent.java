@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * A miscellaneous event, such as recess or lunch
- * 			
+ *             
  * 
  * <p>Java class for miscellaneousEvent complex type.
  * 

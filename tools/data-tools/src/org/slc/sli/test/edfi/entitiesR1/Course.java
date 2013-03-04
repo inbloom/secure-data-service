@@ -20,14 +20,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Course
- * 				This educational entity represents the
- * 				organization
- * 				of subject matter and related learning experiences
- * 				provided for the
- * 				instruction of students on a regular or systematic
- * 				basis.
- * 				If you are looking for a specific course instance, use section
- * 				instead.
+ *                 This educational entity represents the
+ *                 organization
+ *                 of subject matter and related learning experiences
+ *                 provided for the
+ *                 instruction of students on a regular or systematic
+ *                 basis.
+ *                 If you are looking for a specific course instance, use section
+ *                 instead.
  *
  *
  * <p>Java class for course complex type.

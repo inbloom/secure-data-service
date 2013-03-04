@@ -1,19 +1,19 @@
 {
-	id: "schoolList",
-	type: "GRID",
-	name: "",
-	
-	data: {
-		entity: "edorgInfo",
-		cacheKey: "edorgInfo"
-	},
-	
-	root: "schoolList",
-	items: [
-		{id: "col1", name: "School", type: "FIELD", datatype: "string", field: "nameOfInstitution", width: 200, formatter:restLink, style:'ui-ellipsis', params: {link:'school', target:"_self"}} 
-	],
-	params: {
+    id: "schoolList",
+    type: "GRID",
+    name: "",
+    
+    data: {
+        entity: "edorgInfo",
+        cacheKey: "edorgInfo"
+    },
+    
+    root: "schoolList",
+    items: [
+        {id: "col1", name: "School", type: "FIELD", datatype: "string", field: "nameOfInstitution", width: 200, formatter:restLink, style:'ui-ellipsis', params: {link:'school', target:"_self"}} 
+    ],
+    params: {
       layout: ["edorg"]
     }
-	
+    
 }

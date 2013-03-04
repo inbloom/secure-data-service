@@ -20,28 +20,28 @@ package org.slc.sli.test.edfi.entities.meta;
 import org.slc.sli.test.generators.CalendarDateGenerator;
 
 public class CalendarMeta {
-	 
-	public final String id;
-	
-	public String sessionId;
-	
-	public String gradingPeriodId;
-	
-	public String date;
-	
-	public CalendarMeta (String id, SessionMeta sessionMeta) {
-		this.id = id;
-		this.sessionId = sessionMeta.id;	
-		this.date = CalendarDateGenerator.generatDate();
-	}
-	
-	
-	public CalendarMeta (String id, GradingPeriodMeta gradingPeriodMeta) {
-		this.id = id;
-		this.gradingPeriodId = gradingPeriodMeta.id;
-		this.date = CalendarDateGenerator.generatDate();
-	}
-	
+     
+    public final String id;
+    
+    public String sessionId;
+    
+    public String gradingPeriodId;
+    
+    public String date;
+    
+    public CalendarMeta (String id, SessionMeta sessionMeta) {
+        this.id = id;
+        this.sessionId = sessionMeta.id;    
+        this.date = CalendarDateGenerator.generatDate();
+    }
+    
+    
+    public CalendarMeta (String id, GradingPeriodMeta gradingPeriodMeta) {
+        this.id = id;
+        this.gradingPeriodId = gradingPeriodMeta.id;
+        this.date = CalendarDateGenerator.generatDate();
+    }
+    
     @Override
     public String toString() {
         return "CalendarMeta [id=" + id + ", sessionId=" + sessionId + "]";

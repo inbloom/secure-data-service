@@ -3,7 +3,7 @@
 if [ -z "$SLI_ROOT" ]; then
     echo "Need to set SLI_ROOT to the fully qualified path of your local SLI git source tree."
     echo "Example: export SLI_ROOT=/users/chung/Documents/workspace/sli/sli"
-	exit 1
+    exit 1
 fi
 
 echo "Generating properties file..."
@@ -54,11 +54,11 @@ fi
 echo "Stopping rails apps..."
 echo "Shutting down databrowser and admin-rails..."
 if [ -f ${ADMIN_RAILS_DIR}/target/pids/admin-rails.pid ]; then
-	kill -9 < cat ${ADMIN_RAILS_DIR}/target/pids/admin-rails.pid
-	rm -f ${ADMIN_RAILS_DIR}/target/pids/admin-rails.pid
+    kill -9 < cat ${ADMIN_RAILS_DIR}/target/pids/admin-rails.pid
+    rm -f ${ADMIN_RAILS_DIR}/target/pids/admin-rails.pid
 fi
 
 if [ -f ${DATABROWSER_DIR}/target/pids/databrowser.pid ]; then
-	kill -9 < cat ${DATABROWSER_DIR}/target/pids/databrowser.pid
-	rm -f ${DATABROWSER_DIR}/target/pids/databrowser.pid
+    kill -9 < cat ${DATABROWSER_DIR}/target/pids/databrowser.pid
+    rm -f ${DATABROWSER_DIR}/target/pids/databrowser.pid
 fi

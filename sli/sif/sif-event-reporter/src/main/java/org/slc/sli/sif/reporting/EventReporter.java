@@ -111,7 +111,7 @@ public class EventReporter implements Publisher {
                 reporter.runReportScript(script, waitTime);
             }
         } catch (Exception e) { // Have to catch top-level Exception due to agent.startAgent()
-        	EventReporter.LOG.error("Exception trying to report event", e);
+            EventReporter.LOG.error("Exception trying to report event", e);
         }
 
         System.exit(0);

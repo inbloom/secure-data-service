@@ -21,31 +21,31 @@ import org.slc.sli.test.edfi.entities.*;
 
 public class DisciplineDescriptorGenerator {
     public DisciplineDescriptor generate(int iBehavior, String schoolId) {
-    	DisciplineDescriptor disciplineDescriptor = new DisciplineDescriptor();
+        DisciplineDescriptor disciplineDescriptor = new DisciplineDescriptor();
 
-    	try {
+        try {
             EducationalOrgReferenceType eor = SchoolGenerator.getNonSLCEducationalOrgReferenceType(schoolId);
             switch (iBehavior) {
             case 0:
-            	disciplineDescriptor.setCodeValue("DET");
-            	disciplineDescriptor.setShortDescription("Detention");
-            	disciplineDescriptor.getEducationOrganizationReference().add(eor);
-            	break;
+                disciplineDescriptor.setCodeValue("DET");
+                disciplineDescriptor.setShortDescription("Detention");
+                disciplineDescriptor.getEducationOrganizationReference().add(eor);
+                break;
             case 1:
-            	disciplineDescriptor.setCodeValue("SUS");
-            	disciplineDescriptor.setShortDescription("Suspension");
-            	disciplineDescriptor.getEducationOrganizationReference().add(eor);
-            	break;
+                disciplineDescriptor.setCodeValue("SUS");
+                disciplineDescriptor.setShortDescription("Suspension");
+                disciplineDescriptor.getEducationOrganizationReference().add(eor);
+                break;
             case 2:
-            	disciplineDescriptor.setCodeValue("EXP");
-            	disciplineDescriptor.setShortDescription("Expulsion");
-            	disciplineDescriptor.getEducationOrganizationReference().add(eor);
-            	break;
+                disciplineDescriptor.setCodeValue("EXP");
+                disciplineDescriptor.setShortDescription("Expulsion");
+                disciplineDescriptor.getEducationOrganizationReference().add(eor);
+                break;
             default:
-            	disciplineDescriptor.setCodeValue("ISS");
-            	disciplineDescriptor.setShortDescription("In-School Suspension");
-            	disciplineDescriptor.getEducationOrganizationReference().add(eor);
-            	break;
+                disciplineDescriptor.setCodeValue("ISS");
+                disciplineDescriptor.setShortDescription("In-School Suspension");
+                disciplineDescriptor.getEducationOrganizationReference().add(eor);
+                break;
             }
               
         } catch (Exception e) {

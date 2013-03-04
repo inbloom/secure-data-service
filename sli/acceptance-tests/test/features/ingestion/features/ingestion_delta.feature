@@ -80,7 +80,7 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And I should see "InterchangeStaffAssociation.xml teacherSchoolAssociation 3 deltas!" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml staff 11 deltas!" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml teacherSectionAssociation 11 deltas!" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml staffEducationOrganizationAssociation 13 deltas!" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml staffEducationOrgAssignmentAssociation 13 deltas!" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml teacher 3 deltas!" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml staffProgramAssociation 7 deltas!" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml studentSchoolAssociation 167 deltas!" in the resulting batch job file
@@ -108,11 +108,11 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And I should see "InterchangeAssessmentMetadata-CCS-English.xml learningObjective 70 deltas!" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-Math.xml learningObjective 65 deltas!" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml learningObjective 63 deltas!" in the resulting batch job file
-    And I should see "InterchangeAttendance.xml attendance 5550 deltas!" in the resulting batch job file
+    And I should see "InterchangeAttendance.xml attendanceEvent 5550 deltas!" in the resulting batch job file
     And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone with name "StoriedDataSet_IL_Daybreak_Deltas.zip"
     And a batch job for file "StoriedDataSet_IL_Daybreak_Deltas.zip" is completed in database
-    And I should see "InterchangeAttendance.xml attendance 2 deltas!" in the resulting batch job file
+    And I should see "InterchangeAttendance.xml attendanceEvent 2 deltas!" in the resulting batch job file
     And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                                 | searchValue       |
         | attendance                  | 1                   | body.attendanceEvent.reason| test for 100000000|

@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <InterchangeStudentDiscipline xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
-    <BehaviorDescriptor>
+    <!-- BehaviorDescriptor>
         <CodeValue>BEH01</CodeValue>
         <ShortDescription>Disruption</ShortDescription>
         <Description>Disruption of classroom order</Description>
@@ -72,7 +72,7 @@
                 <StateOrganizationId>IL</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </DisciplineDescriptor>
+    </DisciplineDescriptor-->
     <DisciplineIncident>
         <IncidentIdentifier>Disruption</IncidentIdentifier>
         <IncidentDate>2011-02-01</IncidentDate>

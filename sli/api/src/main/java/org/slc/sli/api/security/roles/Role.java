@@ -82,7 +82,7 @@ public class Role {
     }
 
     public void addSelfRight(GrantedAuthority right) {
-    	selfRights.add(right);
+        selfRights.add(right);
     }
 
     public void setAdmin(boolean admin) {

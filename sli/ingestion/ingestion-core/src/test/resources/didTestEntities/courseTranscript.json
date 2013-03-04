@@ -10,10 +10,10 @@
                {
                    "EducationalOrgIdentity":
                     {
-                        "StateOrganizationId":"testSchoolId"
+                        "StateOrganizationId":{"_value":"testSchoolId"}
                     }
                },
-               "UniqueCourseId":"testCourseId"
+               "UniqueCourseId":{"_value":"testCourseId"}
            }
         },
         "StudentAcademicRecordReference":
@@ -24,7 +24,7 @@
                 {
                     "StudentIdentity":
                     {
-                        "StudentUniqueStateId":"100000000"
+                        "StudentUniqueStateId":{"_value":"100000000"}
                     }
                 },
                 "SessionReference":
@@ -35,10 +35,10 @@
                        {
                            "EducationalOrgIdentity":
                             {
-                                "StateOrganizationId":"testSchoolId"
+                                "StateOrganizationId":{"_value":"testSchoolId"}
                             }
                        },
-                       "SessionName":"theSessionName"
+                       "SessionName":{"_value":"theSessionName"}
                    }
                 }
             }

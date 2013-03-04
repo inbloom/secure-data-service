@@ -16,7 +16,7 @@
 				<xs:element name="ObjectiveAssessment" type="SLC-ObjectiveAssessment"/>
 				<xs:element name="AssessmentItem" type="SLC-AssessmentItem"/>
 				<xs:element name="LearningObjective" type="SLC-LearningObjective"/>
-				<xs:element name="LearningStandard" type="LearningStandard"/>
+				<xs:element name="LearningStandard" type="SLC-LearningStandard"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

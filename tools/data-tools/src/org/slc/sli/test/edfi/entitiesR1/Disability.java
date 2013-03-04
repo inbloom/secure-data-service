@@ -16,12 +16,12 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This type represents an impairment of body
- * 				structure or function, a
- * 				limitation in activities, or a restriction
- * 				in participation, as ordered by
- * 				severity
- * 				of impairment.
- * 			
+ *                 structure or function, a
+ *                 limitation in activities, or a restriction
+ *                 in participation, as ordered by
+ *                 severity
+ *                 of impairment.
+ *             
  * 
  * <p>Java class for disability complex type.
  * 

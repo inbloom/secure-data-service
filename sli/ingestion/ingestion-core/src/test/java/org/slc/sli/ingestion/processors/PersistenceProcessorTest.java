@@ -180,6 +180,7 @@ public class PersistenceProcessorTest {
     @Test
     public void testRecordHashIngestedforTransformedEntity() {
         NeutralRecord originalRecord = createBaseNeutralRecord("transformed");
+        @SuppressWarnings("unchecked")
         List<Map<String, Object>> rhData = (List<Map<String, Object>>) originalRecord.getMetaDataByName("rhData");
         testRecordHashIngested(originalRecord, rhData.size());
     }
@@ -195,6 +196,7 @@ public class PersistenceProcessorTest {
     }
 
     private  NeutralRecord addRecordHashMetadata(NeutralRecord originalRecord) {
+        @SuppressWarnings("unchecked")
         List<Map<String, Object>> rhDataList = (List<Map<String, Object>>)originalRecord.getMetaDataByName("rhData");
         for(Map<String, Object> rhDataItem: rhDataList) {
             Map<String, Object> hashData = new HashMap<String, Object>();
@@ -213,18 +215,9 @@ public class PersistenceProcessorTest {
         BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
         processor.setBatchJobDAO(batchJobDAO);
 
-        Set<String> recordTypes = new HashSet();
+        Set<String> recordTypes = new HashSet<String>();
         recordTypes.add("recordType");
         processor.setRecordLvlHashNeutralRecordTypes(recordTypes);
-    }
-
-    private RecordHash createRecordHash(String rHash) {
-        RecordHash hash = new RecordHash();
-        hash.setId("RECORD_ID");
-        hash.setHash(rHash);
-        hash.setCreated(12345);
-        hash.setUpdated(23456);
-        return hash;
     }
 
     private NeutralRecord createBaseNeutralRecord(String entityType) {

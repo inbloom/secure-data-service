@@ -34,6 +34,7 @@ public class DidRefConfig {
 
     private String entityType;
     private List<KeyFieldDef> keyFields;
+    private List<KeyFieldDef> externalKeyFields;
 
     public DidRefConfig() {
         keyFields = new ArrayList<KeyFieldDef>();
@@ -66,6 +67,14 @@ public class DidRefConfig {
         } catch (java.io.IOException e) {
             return super.toString();
         }
+    }
+
+    public List<KeyFieldDef> getExternalKeyFields() {
+        return externalKeyFields;
+    }
+
+    public void setExternalKeyFields(List<KeyFieldDef> externalKeyFields) {
+        this.externalKeyFields = externalKeyFields;
     }
 
 }

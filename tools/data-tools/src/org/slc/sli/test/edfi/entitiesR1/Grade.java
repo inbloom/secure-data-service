@@ -17,10 +17,10 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This educational entity represents an overall score
- * 				or assessment tied to a course over a period of time (i.e., the
- * 				grading period). Student grades are usually a compilation of marks
- * 				and other scores.
- * 			
+ *                 or assessment tied to a course over a period of time (i.e., the
+ *                 grading period). Student grades are usually a compilation of marks
+ *                 and other scores.
+ *             
  * 
  * <p>Java class for grade complex type.
  * 

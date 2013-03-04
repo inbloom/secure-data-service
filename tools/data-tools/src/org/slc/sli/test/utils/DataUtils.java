@@ -46,76 +46,76 @@ public class DataUtils {
      *
      * @path path where *.xml input files are and where output.zip will be written
      */
-	public static final boolean zipIngestionData(String path) {
+    public static final boolean zipIngestionData(String path) {
 
-		final class OnlyIngestionFiles implements FilenameFilter {
-			public boolean accept(File dir, String name) {
-				return (name.endsWith(".xml") || name.endsWith(".ctl"));
-			}
-		}
+        final class OnlyIngestionFiles implements FilenameFilter {
+            public boolean accept(File dir, String name) {
+                return (name.endsWith(".xml") || name.endsWith(".ctl"));
+            }
+        }
 
-		File pathDir = new File(path);
+        File pathDir = new File(path);
         File output = new File(pathDir, ZIP_FILE_NAME);
         if (output.exists()) {
             output.delete();
         }
 
-		try {
+        try {
             File zipFile = new File(pathDir, ZIP_FILE_NAME);
             FileOutputStream dest = null;
             try {
                 dest = new FileOutputStream(zipFile);
-    			ZipOutputStream out = null;
-    			try {
-        			out = new ZipOutputStream(new BufferedOutputStream(
-        					dest));
-        			// out.setMethod(ZipOutputStream.DEFLATED);
-        			byte data[] = new byte[BUFFER];
-        			// get a list of files from the path
-        			String files[] = pathDir.list(new OnlyIngestionFiles());
+                ZipOutputStream out = null;
+                try {
+                    out = new ZipOutputStream(new BufferedOutputStream(
+                            dest));
+                    // out.setMethod(ZipOutputStream.DEFLATED);
+                    byte data[] = new byte[BUFFER];
+                    // get a list of files from the path
+                    String files[] = pathDir.list(new OnlyIngestionFiles());
         
                     BufferedInputStream origin = null;
-        			for (String basename : files) {
-        				File filename = new File(pathDir, basename);
+                    for (String basename : files) {
+                        File filename = new File(pathDir, basename);
                         System.out.println("Adding: " + filename.getPath());
-        				FileInputStream fi = null;
-        				try {
-            				fi = new FileInputStream(filename);
-            				try {
-                				origin = new BufferedInputStream(fi, BUFFER);
-                				ZipEntry entry = new ZipEntry(basename);
-                				out.putNextEntry(entry);
-                				int count;
-                				while ((count = origin.read(data, 0, BUFFER)) != -1) {
-                					out.write(data, 0, count);
-                				}
-            				} finally {
-            				    if (null != origin) {
-            				        origin.close();
-            				    }
-            				}
-        				} finally {
-        				    if (null != fi) {
-        				        fi.close();
-        				    }
-        				}
-            		}
-    			} finally {
-    			    if (null != out) {
-            			out.close();
-    			    }
-    			}
-    			return true;
-			} finally {
-			    if (null != dest) {
-			        dest.close();
-			    }
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
+                        FileInputStream fi = null;
+                        try {
+                            fi = new FileInputStream(filename);
+                            try {
+                                origin = new BufferedInputStream(fi, BUFFER);
+                                ZipEntry entry = new ZipEntry(basename);
+                                out.putNextEntry(entry);
+                                int count;
+                                while ((count = origin.read(data, 0, BUFFER)) != -1) {
+                                    out.write(data, 0, count);
+                                }
+                            } finally {
+                                if (null != origin) {
+                                    origin.close();
+                                }
+                            }
+                        } finally {
+                            if (null != fi) {
+                                fi.close();
+                            }
+                        }
+                    }
+                } finally {
+                    if (null != out) {
+                        out.close();
+                    }
+                }
+                return true;
+            } finally {
+                if (null != dest) {
+                    dest.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static final String createMd5ForFile(String file) {
         File myFile = new File(file);
@@ -140,35 +140,35 @@ public class DataUtils {
      * @fileName input file
      */
     public static final InterchangeType determineInterchange(String fileName) {
-    	String lowerCaseBaseName = FilenameUtils.getBaseName(fileName).toLowerCase();
+        String lowerCaseBaseName = FilenameUtils.getBaseName(fileName).toLowerCase();
 
-    	// TODO this should parse the xml header to determine the interchange
+        // TODO this should parse the xml header to determine the interchange
 
-    	if (lowerCaseBaseName.startsWith("interchangeeducationorganization")) {
-    		return InterchangeType.EDUCATION_ORGANIZATION;
-    	} else if (lowerCaseBaseName.startsWith("interchangeeducationorgcalendar")) {
-    		return InterchangeType.EDUCATION_ORG_CALENDAR;
-    	} else if (lowerCaseBaseName.startsWith("interchangemasterschedule")) {
-    		return InterchangeType.MASTER_SCHEDULE;
-    	} else if (lowerCaseBaseName.startsWith("interchangestaffassociation")) {
-    		return InterchangeType.STAFF_ASSOCIATION;
-    	} else if (lowerCaseBaseName.startsWith("interchangestudentenrollment")) {
-    		return InterchangeType.STUDENT_ENROLLMENT;
-    	} else if (lowerCaseBaseName.startsWith("interchangestudentgrade")) {
-    		return InterchangeType.STUDENT_GRADES;
-    	} else if (lowerCaseBaseName.startsWith("interchangeassessmentmetadata")) {
-    		return InterchangeType.ASSESSMENT_METADATA;
-    	} else if (lowerCaseBaseName.startsWith("interchangestudentassessment")) {
-    		return InterchangeType.STUDENT_ASSESSMENT;
-    	} else if (lowerCaseBaseName.startsWith("interchangestudentattendance")) {
-    		return InterchangeType.STUDENT_ATTENDANCE;
-    	} else if (lowerCaseBaseName.startsWith("interchangestudentparent")) {
-    		return InterchangeType.STUDENT_PARENT_ASSOCIATION;
-    	} else if (lowerCaseBaseName.startsWith("interchangestudent")) {  // must be after other interchanges it's name is a subset of
-    		return InterchangeType.STUDENT;
-    	}
+        if (lowerCaseBaseName.startsWith("interchangeeducationorganization")) {
+            return InterchangeType.EDUCATION_ORGANIZATION;
+        } else if (lowerCaseBaseName.startsWith("interchangeeducationorgcalendar")) {
+            return InterchangeType.EDUCATION_ORG_CALENDAR;
+        } else if (lowerCaseBaseName.startsWith("interchangemasterschedule")) {
+            return InterchangeType.MASTER_SCHEDULE;
+        } else if (lowerCaseBaseName.startsWith("interchangestaffassociation")) {
+            return InterchangeType.STAFF_ASSOCIATION;
+        } else if (lowerCaseBaseName.startsWith("interchangestudentenrollment")) {
+            return InterchangeType.STUDENT_ENROLLMENT;
+        } else if (lowerCaseBaseName.startsWith("interchangestudentgrade")) {
+            return InterchangeType.STUDENT_GRADES;
+        } else if (lowerCaseBaseName.startsWith("interchangeassessmentmetadata")) {
+            return InterchangeType.ASSESSMENT_METADATA;
+        } else if (lowerCaseBaseName.startsWith("interchangestudentassessment")) {
+            return InterchangeType.STUDENT_ASSESSMENT;
+        } else if (lowerCaseBaseName.startsWith("interchangestudentattendance")) {
+            return InterchangeType.STUDENT_ATTENDANCE;
+        } else if (lowerCaseBaseName.startsWith("interchangestudentparent")) {
+            return InterchangeType.STUDENT_PARENT_ASSOCIATION;
+        } else if (lowerCaseBaseName.startsWith("interchangestudent")) {  // must be after other interchanges it's name is a subset of
+            return InterchangeType.STUDENT;
+        }
 
-    	return null;
+        return null;
     }
 
     public static final boolean writeControlFile(String fileToWrite, String interchange, String filename) {

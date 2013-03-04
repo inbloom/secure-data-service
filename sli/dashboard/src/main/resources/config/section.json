@@ -1,15 +1,15 @@
 {
-	id: "section",
-	name: "inBloom - Section Profile",
-	type: "LAYOUT",
-	data :{
-		entity: "sectionInfo",
-		cacheKey: "sectionInfo",
-		lazy: true
-	}, 
-	items: [
-		{id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},
-		{id: "sectionInfo", type: "PANEL"},
-		{id: "tab3", name: "List of Students",  type : "TAB", items: [{id : "listOfStudents", type: "PANEL"}]}
-	]
+    id: "section",
+    name: "inBloom - Section Profile",
+    type: "LAYOUT",
+    data :{
+        entity: "sectionInfo",
+        cacheKey: "sectionInfo",
+        lazy: true
+    }, 
+    items: [
+        {id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},
+        {id: "sectionInfo", type: "PANEL"},
+        {id: "tab3", name: "List of Students",  type : "TAB", items: [{id : "listOfStudents", type: "PANEL"}]}
+    ]
 }
