@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,7 +64,7 @@ public class AssessmentEntityTest {
     }
 
     @Test
-    public void edfiXmlAssessmentTest() throws IOException, SAXException {
+    public void edfiXmlAssessmentTest() throws Exception {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
@@ -103,9 +104,9 @@ public class AssessmentEntityTest {
                 + "  <MaxRawScore>36</MaxRawScore>"
                 + "  <Nomenclature>the nomenclature</Nomenclature>"
                 + "  <AssessmentPeriod>"
-                + "    <CodeValue>code value</CodeValue>"
-                + "    <ShortDescription>short desc</ShortDescription>"
-                + "    <Description>descript</Description>"
+                + "    <AssessmentPeriodDescriptorIdentity>"
+                + "      <AssessmentPeriodDescriptorCodeValue>code value</AssessmentPeriodDescriptorCodeValue>"
+                + "    </AssessmentPeriodDescriptorIdentity>"
                 + "  </AssessmentPeriod>"
                 + "  <AssessmentItemReference>"
                 + "    <AssessmentItemIdentity>"
@@ -168,7 +169,7 @@ public class AssessmentEntityTest {
     }
 
     @SuppressWarnings("rawtypes")
-    private void checkValidAssessmentNeutralRecord(NeutralRecord assessmentNeutralRecord) {
+    private void checkValidAssessmentNeutralRecord(NeutralRecord assessmentNeutralRecord) throws Exception {
 
         assertEquals("assessment", assessmentNeutralRecord.getRecordType());
         assertEquals("TAKS 3rd Grade Reading", assessmentNeutralRecord.getLocalId());
@@ -221,6 +222,6 @@ public class AssessmentEntityTest {
         assertEquals(36, assessmentNeutralRecord.getAttributes().get("maxRawScore"));
         assertEquals("the nomenclature", assessmentNeutralRecord.getAttributes().get("nomenclature"));
 
-        assertEquals("code value", assessmentNeutralRecord.getAttributes().get("periodDescriptorRef"));
+        assertEquals("code value", PropertyUtils.getProperty(assessmentNeutralRecord.getAttributes(), "assessmentPeriodDescriptorId.AssessmentPeriodDescriptorIdentity.AssessmentPeriodDescriptorCodeValue"));
     }
 }
