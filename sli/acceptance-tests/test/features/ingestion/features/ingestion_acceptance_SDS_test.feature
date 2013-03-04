@@ -130,7 +130,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 11    |
    Then I should see following map of entry counts in the corresponding sli db collections:
         | collectionName              | count |
-        | securityEvent               | 120   |
+        | securityEvent               | 149   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | attendance                  | 11                  | body.attendanceEvent.event | Tardy         | string     |
