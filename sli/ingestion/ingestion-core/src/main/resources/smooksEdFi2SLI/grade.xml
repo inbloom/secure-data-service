@@ -17,7 +17,6 @@
     <jb:wiring beanIdRef="grade" />
   </jb:bean>
 
-  <!-- Start Grade mapping -->
   <jb:bean beanId="grade" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
     <jb:expression property="type">'grade'</jb:expression>
     <jb:wiring property="body" beanIdRef="gradeBody" />
@@ -25,13 +24,14 @@
 
   <jb:bean beanId="gradeBody" class="java.util.HashMap"
            createOnElement="attributes">
-    <jb:value property="letterGradeEarned" data="attributes letterGradeEarned" />
-    <jb:value property="numericGradeEarned" data="attributes numericGradeEarned" decoder="Integer"/>
-    <jb:value property="diagnosticStatement" data="attributes diagnosticStatement" />
-    <jb:value property="gradeType" data="attributes gradeType" />
-    <jb:value property="performanceBaseConversion" data="attributes performanceBaseConversion" />
-    <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />
+    <jb:value property="letterGradeEarned" data="attributes LetterGradeEarned _value" />
+    <jb:value property="numericGradeEarned" data="attributes NumericGradeEarned _value" decoder="Integer"/>
+    <jb:value property="diagnosticStatement" data="attributes DiagnosticStatement _value" />
+    <jb:value property="gradeType" data="attributes GradeType _value" />
+    <jb:value property="performanceBaseConversion" data="attributes PerformanceBaseConversion _value" />
+    <jb:value property="schoolYear" data="attributes SchoolYear _value" />
     <jb:value property="studentSectionAssociationId" data="attributes StudentSectionAssociationReference" />
+    <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />
   </jb:bean>
 
 </smooks-resource-list>

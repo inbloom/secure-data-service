@@ -1,45 +1,45 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
-    <!-- learning objectives for kindergartners -->
-    <StudentCompetencyObjective>
-        <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
-        <Objective>Phonemic Awareness</Objective>
-        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-    </StudentCompetencyObjective>
-    <StudentCompetencyObjective>
-        <StudentCompetencyObjectiveId>SCO-K-2</StudentCompetencyObjectiveId>
-        <Objective>Phonics</Objective>
-        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-    </StudentCompetencyObjective>
-    <StudentCompetencyObjective>
-        <StudentCompetencyObjectiveId>SCO-K-3</StudentCompetencyObjectiveId>
-        <Objective>Comprehension</Objective>
-        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-    </StudentCompetencyObjective>
-    <StudentCompetencyObjective>
-        <StudentCompetencyObjectiveId>SCO-K-4</StudentCompetencyObjectiveId>
-        <Objective>Fluency</Objective>
-        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-    </StudentCompetencyObjective>
+  <!-- learning objectives for kindergartners -->
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
+    <Objective>Phonemic Awareness</Objective>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO-K-2</StudentCompetencyObjectiveId>
+    <Objective>Phonics</Objective>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO-K-3</StudentCompetencyObjectiveId>
+    <Objective>Comprehension</Objective>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO-K-4</StudentCompetencyObjectiveId>
+    <Objective>Fluency</Objective>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
 </InterchangeStudentGrade>

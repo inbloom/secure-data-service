@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -279,6 +280,24 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
 
     public void reportWarnings(String fileName, Source source, MessageCode code, Object... args) {
         databaseMessageReport.warning(getReportStats(fileName), source, code, args);
+    }
+
+    /**
+     * This method return an OPTIONAL field from attributes.
+     * @param attributes
+     * @param name : the xpath of the field
+     * @return The string value of the name. Null if not exists.
+     */
+    public static Object getProperty(Object attributes, String name){
+        String res = null;
+        try {
+            res = (String) PropertyUtils.getNestedProperty(attributes, name);
+        } catch (Exception e) {
+            LOG.debug("Field: {} not defined", name);
+            res = null;
+        }
+
+        return res;
     }
 
 }

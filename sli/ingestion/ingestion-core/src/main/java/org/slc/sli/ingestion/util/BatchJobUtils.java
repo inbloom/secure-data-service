@@ -20,11 +20,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 
-import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
-import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 
 /**
@@ -61,33 +57,13 @@ public final class BatchJobUtils {
     }
 
     public static void completeStageAndJob(Stage stage, NewBatchJob job) {
-        job.stop();
         stopStageAndAddToJob(stage, job);
+        job.stop();
     }
 
     public static void stopStageAndAddToJob(Stage stage, NewBatchJob job) {
         stage.stopStage();
         job.addStage(stage);
-    }
-
-    public static void stopStageChunkAndAddToJob(Stage stage, NewBatchJob job) {
-        stage.stopStage();
-        job.addStageChunk(stage);
-    }
-
-    public static ResourceEntry createResourceForOutputFile(IngestionFileEntry fe, FileProcessStatus fileProcessStatus) {
-        ResourceEntry resource = new ResourceEntry();
-        String rId = fileProcessStatus.getOutputFileName();
-        if (rId == null) {
-            rId = "Empty_" + (fe.getFileName());
-        }
-        resource.setResourceId(rId);
-        resource.setResourceName(fileProcessStatus.getOutputFilePath());
-        resource.setResourceFormat(FileFormat.NEUTRALRECORD.getCode());
-        resource.setResourceType(fe.getFileType().getName());
-        resource.setRecordCount((int) fileProcessStatus.getTotalRecordCount());
-        resource.setExternallyUploadedResourceId(fe.getFileName());
-        return resource;
     }
 
     public static String jobIdToDbName(String jobId) {

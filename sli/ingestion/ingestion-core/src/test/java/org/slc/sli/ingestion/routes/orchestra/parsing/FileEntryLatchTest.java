@@ -40,8 +40,6 @@ import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
  *
  */
 public class FileEntryLatchTest {
-    private static final String FILE_ENTRY_LATCH = "fileEntryLatch";
-
     @InjectMocks
     FileEntryLatch fileEntryLatch = new FileEntryLatch();
 
@@ -58,17 +56,18 @@ public class FileEntryLatchTest {
     public void testReceive() throws Exception {
         Exchange exchange =  new DefaultExchange(new DefaultCamelContext());
         IngestionFileEntry entry = new IngestionFileEntry("/", FileFormat.EDFI_XML, FileType.XML_STUDENT_PROGRAM, "fileName", "111");
-        FileEntryWorkNote workNote = new FileEntryWorkNote("batchJobId", "SLI", entry, false);
+        FileEntryWorkNote workNote = new FileEntryWorkNote("batchJobId", entry, false);
+        boolean fileEntryLatchOpened;
 
         exchange.getIn().setBody(workNote, FileEntryWorkNote.class);
 
-        fileEntryLatch.receive(exchange);
+        fileEntryLatchOpened = fileEntryLatch.lastFileProcessed(exchange);
 
-        Assert.assertEquals(false, exchange.getIn().getHeader("fileEntryLatchOpened"));
+        Assert.assertFalse(fileEntryLatchOpened);
 
-        fileEntryLatch.receive(exchange);
+        fileEntryLatchOpened = fileEntryLatch.lastFileProcessed(exchange);
 
-        Assert.assertEquals(true, exchange.getIn().getHeader("fileEntryLatchOpened"));
+        Assert.assertTrue(fileEntryLatchOpened);
     }
 
 }

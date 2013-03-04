@@ -137,7 +137,7 @@ public class ZipFileProcessor implements Processor {
     }
 
     private void setExchangeBody(Exchange exchange, NewBatchJob job, boolean hasErrors) {
-        WorkNote workNote = new WorkNote(job.getId(), job.getTenantId(), hasErrors);
+        WorkNote workNote = new WorkNote(job.getId(), hasErrors);
         exchange.getIn().setBody(workNote, WorkNote.class);
     }
 
