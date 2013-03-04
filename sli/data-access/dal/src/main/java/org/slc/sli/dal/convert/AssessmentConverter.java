@@ -69,26 +69,26 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     }
 
     private void collapseAssessmentPeriodDescriptor(Entity entity) {
-    	Object apdId = entity.getBody().remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID); 
-    	if (apdId != null && apdId instanceof String) {
-    		Entity apd = retrieveAccessmentPeriodDecriptor((String) apdId);
-    		if (apd != null) {
-    			entity.getBody().put("assessmentPeriodDescriptor", apd.getBody());
-    		}
-    	}
-	}
+        Object apdId = entity.getBody().remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID); 
+        if (apdId != null && apdId instanceof String) {
+            Entity apd = retrieveAccessmentPeriodDecriptor((String) apdId);
+            if (apd != null) {
+                entity.getBody().put("assessmentPeriodDescriptor", apd.getBody());
+            }
+        }
+    }
 
-	private Entity retrieveAccessmentPeriodDecriptor(String apdId) {
+    private Entity retrieveAccessmentPeriodDecriptor(String apdId) {
         Entity apd = ((MongoEntityRepository) repo).getTemplate().findById(apdId, Entity.class,
                 EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
 
         return apd;
-	}
+    }
 
-	@Override
+    @Override
     public void bodyFieldToSubdoc(Entity entity) {
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
-        	//objectiveAssessment
+            //objectiveAssessment
             String parentKey = generateDid(entity);
             @SuppressWarnings("unchecked")
             List<Entity> objectiveAssessments = transformFromHierarchy((List<Map<String, Object>>) entity.getBody()
@@ -110,15 +110,15 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             //assessmentPeriodDescriptor
             Object assessmentPeriodDescrptor = entity.getBody().remove(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
             if (assessmentPeriodDescrptor instanceof Map<?,?>) {
-            	//update embedded assessmentPeriodDescriptor
-            	@SuppressWarnings("unchecked")
-            	String did = generateSubdocDid((Map<String, Object>) assessmentPeriodDescrptor, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
-            	@SuppressWarnings("unchecked")
-            	MongoEntity apdEntity = new MongoEntity(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, did, (Map<String, Object>) assessmentPeriodDescrptor, null);
-            	if (repo.update(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, apdEntity, false)) {
-            		//only record the id if it was successfully updated
-            		entity.getBody().put(ASSESSMENT_PERIOD_DESCRIPTOR_ID, did);
-            	}
+                //update embedded assessmentPeriodDescriptor
+                @SuppressWarnings("unchecked")
+                String did = generateSubdocDid((Map<String, Object>) assessmentPeriodDescrptor, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
+                @SuppressWarnings("unchecked")
+                MongoEntity apdEntity = new MongoEntity(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, did, (Map<String, Object>) assessmentPeriodDescrptor, null);
+                if (repo.update(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, apdEntity, false)) {
+                    //only record the id if it was successfully updated
+                    entity.getBody().put(ASSESSMENT_PERIOD_DESCRIPTOR_ID, did);
+                }
             }
             
             //assessmentFamilyHierarchy is ignored on create/update
@@ -301,7 +301,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     private List<String> makeAssessmentItemRefs(List<Map<String, Object>> items, String parentKey) {
         List<String> refs = new ArrayList<String>(items.size());
         for (Map<String, Object> item : items) {
-        	item.put("assessmentId", parentKey);
+            item.put("assessmentId", parentKey);
             refs.add(generateSubdocDid(item, "assessmentItem"));
         }
         return refs;

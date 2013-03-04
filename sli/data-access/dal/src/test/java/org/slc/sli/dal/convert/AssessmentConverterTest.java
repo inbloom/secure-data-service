@@ -209,7 +209,7 @@ public class AssessmentConverterTest {
         assertNull(entity.getBody().get("assessmentPeriodDescriptorId"));
         assertNotNull(entity.getBody().get("assessmentPeriodDescriptor"));
         assertEquals(((Map<String, Object>)(entity.getBody().get("assessmentPeriodDescriptor"))).get("codeValue"),
-        		assessmentPeriodDescriptor.getBody().get("codeValue"));
+        assessmentPeriodDescriptor.getBody().get("codeValue"));
     }
 
     @Test
@@ -245,10 +245,10 @@ public class AssessmentConverterTest {
     @Test
     public void invalidApdIdShouldBeFilteredOutInUp() {
         when(template.findById("mydescriptorid", Entity.class, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR)).thenReturn(null);
-    	Entity entity = createUpConvertEntity();
-    	assessmentConverter.subdocToBodyField(Arrays.asList(entity));
-    	assertNull(entity.getBody().get("assessmentPeriodDescriptor"));
-    	assertNull(entity.getBody().get("assessmentPeriodDescriptorId"));
+        Entity entity = createUpConvertEntity();
+        assessmentConverter.subdocToBodyField(Arrays.asList(entity));
+        assertNull(entity.getBody().get("assessmentPeriodDescriptor"));
+        assertNull(entity.getBody().get("assessmentPeriodDescriptorId"));
     }
     
     @Test
