@@ -95,7 +95,20 @@ Scenario: Deny the same role being listed in two different groups
     When I add a role "Foo" in group "Leader"
     Then I should receive a return code of 400
     And a security event matching "^Failed to create custom role" should be in the sli db
-
+    
+Scenario: Update a custom role doc    
+    Given the sli securityEvent collection is empty
+    Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+    And I am editing the custom role document for realm "Fake Realm"
+    When I add a role "Foo" in group "Educator"
+    Then I should receive a return code of 204
+    And a security event matching "^Updated role with id" should be in the sli db
+    And I check to find if record is in sli db collection:
+     | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+     | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234  |
+     | securityEvent       | 1                   | body.targetEdOrg      | fakeab32-b493-999b-a6f3-sliedorg1234  |   
+     | securityEvent       | 1                   | body.targetEdOrgList  | fakeab32-b493-999b-a6f3-sliedorg1234  |
+    
 Scenario: Deny the same role being listed twice in one group
     Given the sli securityEvent collection is empty
     And I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
@@ -122,6 +135,7 @@ Scenario: Deny creating a new role with a realm I do not have access to
     When I POST a new custom role document for realm "IL-Sunset"
     Then I should receive a return code of 403
     And a security event matching "^Failed to create custom role" should be in the sli db
+    
   
 @sandbox
 Scenario: Sandbox developer creating a custom role doc
