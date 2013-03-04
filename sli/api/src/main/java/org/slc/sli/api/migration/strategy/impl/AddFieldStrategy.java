@@ -22,11 +22,8 @@ import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.common.migration.strategy.MigrationException;
 import org.slc.sli.common.migration.strategy.MigrationStrategy;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
@@ -38,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Scope("prototype")
 @Component
 public class AddFieldStrategy implements MigrationStrategy<EntityBody> {
 
