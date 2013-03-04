@@ -15,15 +15,12 @@
  */
 package org.slc.sli.api.migration.strategy.impl;
 
-import ch.qos.logback.core.joran.conditional.ElseAction;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.common.migration.strategy.MigrationException;
 import org.slc.sli.common.migration.strategy.MigrationStrategy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
