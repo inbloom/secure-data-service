@@ -18,7 +18,7 @@ package org.slc.sli.api.config;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.domain.Entity;
