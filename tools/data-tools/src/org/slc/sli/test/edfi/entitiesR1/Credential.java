@@ -19,9 +19,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * The legal document or authorization giving
- * 				authorization to perform
- * 				teaching assignment services.
- * 			
+ *                 authorization to perform
+ *                 teaching assignment services.
+ *             
  * 
  * <p>Java class for credential complex type.
  * 

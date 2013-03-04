@@ -7,13 +7,12 @@
                     <StudentUniqueStateId>111111111</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
 			<ClassOf>2011-2012</ClassOf>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -22,13 +21,12 @@
                     <StudentUniqueStateId>222222222</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
 			<ClassOf>2011-2012</ClassOf>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -37,13 +35,12 @@
                     <StudentUniqueStateId>333333333</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
 			<ClassOf>2011-2012</ClassOf>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -52,13 +49,12 @@
                     <StudentUniqueStateId>444444444</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
 			<ClassOf>2011-2012</ClassOf>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -67,15 +63,15 @@
                     <StudentUniqueStateId>453827070</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-			<ClassOf>2011-2012</ClassOf>
+            <ClassOf>2011-2012</ClassOf>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -83,13 +79,12 @@
                     <StudentUniqueStateId>943715230</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
 			<ClassOf>2011-2012</ClassOf>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -98,13 +93,12 @@
                     <StudentUniqueStateId>164420088</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
 			<ClassOf>2011-2012</ClassOf>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -113,13 +107,12 @@
                     <StudentUniqueStateId>505331723</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -127,13 +120,12 @@
                     <StudentUniqueStateId>530425896</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -141,13 +133,12 @@
                     <StudentUniqueStateId>429526969</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -155,13 +146,12 @@
                     <StudentUniqueStateId>178828452</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -169,13 +159,12 @@
                     <StudentUniqueStateId>525878920</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -183,13 +172,12 @@
                     <StudentUniqueStateId>510152105</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -197,13 +185,12 @@
                     <StudentUniqueStateId>802709591</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -211,13 +198,12 @@
                     <StudentUniqueStateId>437680177</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -225,13 +211,12 @@
                     <StudentUniqueStateId>170011136</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -239,13 +224,12 @@
                     <StudentUniqueStateId>547028299</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -253,13 +237,12 @@
                     <StudentUniqueStateId>258392050</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -267,13 +250,12 @@
                     <StudentUniqueStateId>178875887</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -281,13 +263,12 @@
                     <StudentUniqueStateId>100644447</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -295,13 +276,12 @@
                     <StudentUniqueStateId>376191021</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -309,13 +289,12 @@
                     <StudentUniqueStateId>336344132</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -323,13 +302,12 @@
                     <StudentUniqueStateId>711411586</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -337,13 +315,12 @@
                     <StudentUniqueStateId>131758477</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -351,13 +328,12 @@
                     <StudentUniqueStateId>670703438</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -365,13 +341,12 @@
                     <StudentUniqueStateId>851123275</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -379,13 +354,12 @@
                     <StudentUniqueStateId>423037202</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -393,13 +367,12 @@
                     <StudentUniqueStateId>250918988</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -407,13 +380,12 @@
                     <StudentUniqueStateId>421216329</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
-            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <EntryDate>2012-01-01</EntryDate>            <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -421,12 +393,13 @@
                     <StudentUniqueStateId>288598192</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -435,14 +408,16 @@
                     <StudentUniqueStateId>530425896</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -450,14 +425,16 @@
                     <StudentUniqueStateId>429526969</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -465,14 +442,16 @@
                     <StudentUniqueStateId>178828452</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -480,14 +459,16 @@
                     <StudentUniqueStateId>525878920</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -495,14 +476,16 @@
                     <StudentUniqueStateId>510152105</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -510,14 +493,16 @@
                     <StudentUniqueStateId>802709591</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -525,14 +510,16 @@
                     <StudentUniqueStateId>437680177</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -540,14 +527,16 @@
                     <StudentUniqueStateId>170011136</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -555,14 +544,16 @@
                     <StudentUniqueStateId>547028299</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -570,14 +561,16 @@
                     <StudentUniqueStateId>258392050</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -585,14 +578,16 @@
                     <StudentUniqueStateId>100644447</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -600,14 +595,16 @@
                     <StudentUniqueStateId>376191021</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -615,14 +612,16 @@
                     <StudentUniqueStateId>336344132</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -630,14 +629,16 @@
                     <StudentUniqueStateId>711411586</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -645,14 +646,16 @@
                     <StudentUniqueStateId>131758477</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -660,14 +663,16 @@
                     <StudentUniqueStateId>670703438</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -675,14 +680,16 @@
                     <StudentUniqueStateId>851123275</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -690,14 +697,16 @@
                     <StudentUniqueStateId>423037202</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -705,14 +714,16 @@
                     <StudentUniqueStateId>250918988</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -720,14 +731,16 @@
                     <StudentUniqueStateId>421216329</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -735,14 +748,16 @@
                     <StudentUniqueStateId>525878920</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -750,14 +765,16 @@
                     <StudentUniqueStateId>510152105</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -765,14 +782,16 @@
                     <StudentUniqueStateId>802709591</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -780,14 +799,16 @@
                     <StudentUniqueStateId>437680177</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -795,14 +816,16 @@
                     <StudentUniqueStateId>170011136</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -810,14 +833,16 @@
                     <StudentUniqueStateId>547028299</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -825,14 +850,16 @@
                     <StudentUniqueStateId>258392050</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -840,14 +867,16 @@
                     <StudentUniqueStateId>100644447</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -855,14 +884,16 @@
                     <StudentUniqueStateId>376191021</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -870,14 +901,16 @@
                     <StudentUniqueStateId>336344132</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -885,14 +918,16 @@
                     <StudentUniqueStateId>711411586</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -900,14 +935,16 @@
                     <StudentUniqueStateId>131758477</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -915,14 +952,16 @@
                     <StudentUniqueStateId>670703438</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -930,14 +969,16 @@
                     <StudentUniqueStateId>851123275</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -945,14 +986,16 @@
                     <StudentUniqueStateId>423037202</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -960,14 +1003,16 @@
                     <StudentUniqueStateId>250918988</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -975,14 +1020,16 @@
                     <StudentUniqueStateId>421216329</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -990,12 +1037,15 @@
                     <StudentUniqueStateId>746199592</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1004,12 +1054,15 @@
                     <StudentUniqueStateId>323538529</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1018,12 +1071,15 @@
                     <StudentUniqueStateId>428250371</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1032,12 +1088,15 @@
                     <StudentUniqueStateId>114989598</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1046,12 +1105,15 @@
                     <StudentUniqueStateId>558780133</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1060,12 +1122,15 @@
                     <StudentUniqueStateId>196038854</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1074,12 +1139,15 @@
                     <StudentUniqueStateId>992193581</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1088,12 +1156,15 @@
                     <StudentUniqueStateId>541397175</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1102,12 +1173,15 @@
                     <StudentUniqueStateId>555685100</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1116,12 +1190,15 @@
                     <StudentUniqueStateId>453827023</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1130,12 +1207,15 @@
                     <StudentUniqueStateId>555685177</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1144,14 +1224,16 @@
                     <StudentUniqueStateId>453827070</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -1159,14 +1241,16 @@
                     <StudentUniqueStateId>943715230</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -1174,14 +1258,16 @@
                     <StudentUniqueStateId>164420088</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -1189,14 +1275,16 @@
                     <StudentUniqueStateId>505331723</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -1204,14 +1292,16 @@
                     <StudentUniqueStateId>530425896</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -1219,14 +1309,16 @@
                     <StudentUniqueStateId>429526969</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -1234,14 +1326,16 @@
                     <StudentUniqueStateId>178828452</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+             <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+
+
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -1249,12 +1343,15 @@
                     <StudentUniqueStateId>91919001</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1263,12 +1360,15 @@
                     <StudentUniqueStateId>91919002</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1277,12 +1377,15 @@
                     <StudentUniqueStateId>91919003</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1291,12 +1394,15 @@
                     <StudentUniqueStateId>91919004</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1305,12 +1411,15 @@
                     <StudentUniqueStateId>91919005</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1319,12 +1428,15 @@
                     <StudentUniqueStateId>91919006</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1333,12 +1445,15 @@
                     <StudentUniqueStateId>91919007</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1347,12 +1462,15 @@
                     <StudentUniqueStateId>91919008</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1361,12 +1479,15 @@
                     <StudentUniqueStateId>91919009</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1375,12 +1496,15 @@
                     <StudentUniqueStateId>91919010</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1389,12 +1513,15 @@
                     <StudentUniqueStateId>91919011</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1403,12 +1530,15 @@
                     <StudentUniqueStateId>91919012</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1417,12 +1547,15 @@
                     <StudentUniqueStateId>91919013</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1431,12 +1564,15 @@
                     <StudentUniqueStateId>91919014</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1445,12 +1581,15 @@
                     <StudentUniqueStateId>91919015</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1459,12 +1598,15 @@
                     <StudentUniqueStateId>91919016</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1473,12 +1615,15 @@
                     <StudentUniqueStateId>91919017</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1487,12 +1632,15 @@
                     <StudentUniqueStateId>91919018</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1501,12 +1649,15 @@
                     <StudentUniqueStateId>91919019</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1515,12 +1666,15 @@
                     <StudentUniqueStateId>91919020</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
+
+
             <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1529,12 +1683,13 @@
                     <StudentUniqueStateId>20174708</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1543,12 +1698,13 @@
                     <StudentUniqueStateId>20174706</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1557,12 +1713,13 @@
                     <StudentUniqueStateId>20174705</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1571,14 +1728,14 @@
                     <StudentUniqueStateId>20174705</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
+            <SchoolReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </SchoolReference>
             <EntryDate>2012-01-01</EntryDate>
+            <EntryGradeLevel>First grade</EntryGradeLevel>
             <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
-            <SchoolReference>
-                <EducationalOrgIdentity>
-                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                </EducationalOrgIdentity>
-            </SchoolReference>
-            <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -1586,12 +1743,13 @@
                     <StudentUniqueStateId>20174704</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1600,12 +1758,13 @@
                     <StudentUniqueStateId>20174703</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1614,12 +1773,13 @@
                     <StudentUniqueStateId>20174702</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1628,12 +1788,13 @@
                     <StudentUniqueStateId>20174701</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1642,12 +1803,13 @@
                     <StudentUniqueStateId>20174700</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1656,12 +1818,13 @@
                     <StudentUniqueStateId>187780388</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1670,14 +1833,14 @@
                     <StudentUniqueStateId>20174700</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
-            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
             <EntryGradeLevel>First grade</EntryGradeLevel>
+            <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
@@ -1685,12 +1848,13 @@
                     <StudentUniqueStateId>20174699</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1699,12 +1863,13 @@
                     <StudentUniqueStateId>20174698</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1713,12 +1878,13 @@
                     <StudentUniqueStateId>20174697</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1727,12 +1893,13 @@
                     <StudentUniqueStateId>20174696</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1741,12 +1908,13 @@
                     <StudentUniqueStateId>20174695</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1755,12 +1923,13 @@
                     <StudentUniqueStateId>20174694</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1769,12 +1938,13 @@
                     <StudentUniqueStateId>20174693</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1783,12 +1953,13 @@
                     <StudentUniqueStateId>20174692</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
         <StudentSchoolAssociation>
@@ -1797,12 +1968,13 @@
                     <StudentUniqueStateId>20174689</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
-            <EntryDate>2012-01-01</EntryDate>
             <SchoolReference>
                 <EducationalOrgIdentity>
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </SchoolReference>
+            <EntryDate>2012-01-01</EntryDate>
+
             <EntryGradeLevel>First grade</EntryGradeLevel>
         </StudentSchoolAssociation>
 

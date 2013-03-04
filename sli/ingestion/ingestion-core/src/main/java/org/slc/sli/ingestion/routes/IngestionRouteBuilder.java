@@ -23,6 +23,7 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.IndexValidationException;
+import org.slc.sli.ingestion.validation.IndexValidatorExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,6 @@ import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.CommandProcessor;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
-import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
 import org.slc.sli.ingestion.processors.LandingZoneProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
@@ -48,7 +48,6 @@ import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
 import org.slc.sli.ingestion.routes.orchestra.parsing.FileEntryLatch;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
-import org.slc.sli.ingestion.validation.IndexValidatorExecutor;
 
 
 
@@ -74,9 +73,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private ControlFileProcessor ctlFileProcessor;
-
-    @Autowired
-    private EdFiProcessor edFiProcessor;
 
     @Autowired
     private PurgeProcessor purgeProcessor;
@@ -109,10 +105,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private BatchJobManager batchJobManager;
 
     @Autowired
-    private IndexValidatorExecutor indexValidatorExecutor;
-
-    @Autowired
     private NodeInfo nodeInfo;
+    
+    @Autowired
+    private IndexValidatorExecutor indexValidatorExecutor;
 
     @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
@@ -167,8 +163,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Value("${sli.ingestion.tenant.loadDefaultTenants}")
     private boolean loadDefaultTenants;
-
-    private static final String HAS_ERRORS = "hasErrors";
 
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
 
@@ -248,7 +242,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .process(landingZoneProcessor)
             .choice().when()
                 .method(batchJobManager, "hasErrors")
-                .log(LoggingLevel.WARN, "CamelRouting", "Invalid landing zone detected.").to("direct:stop")
+                .log(LoggingLevel.WARN, "CamelRouting", "Invalid landing zone detected.")
+                .to("direct:stop")
             .otherwise()
                 .log(LoggingLevel.INFO, "CamelRouting", "Landing zone is valid. Routing to ZipFileProcessor.")
                 .to("direct:processZipFile");
@@ -353,17 +348,32 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to zipFileSplitter.")
+                .choice()
+                .when().method(batchJobManager, "isEligibleForDeltaPurge")
+                .beanRef("deltaHashPurgeProcessor")
+                .endChoice()
                 .split().method("ZipFileSplitter", "splitZipFile")
                 .log(LoggingLevel.INFO, "CamemRoutring", "Zip file split").to(parserQueueUri);
 
-        from(parserQueueUri).routeId("edFiProcessor")
-            .log(LoggingLevel.INFO, "CamelRouting", "File entry received. Processing: ${body}")
-            .process(edFiProcessor).to("direct:fileEntryLatch");
+        from(parserQueueUri).routeId("edFiParser")
+            .log(LoggingLevel.INFO, "File entry received. Processing: ${body}")
+            .beanRef("edFiParserProcessor")
+            .to("direct:fileEntryLatch");
+
+        from("direct:deltaFilter").routeId("deltaFilter")
+            .log(LoggingLevel.INFO, "CamelRouting", "Batch of ${body.neutralRecords.size} is recieved for delta processing")
+            .beanRef("deltaFilterProcessor")
+            .to("direct:staging");
+
+        from("direct:staging").routeId("staging")
+            .log(LoggingLevel.INFO, "CamelRouting", "Batch of ${body.neutralRecords.size} is recieved to stage")
+            .beanRef("stagingProcessor");
 
         // file entry Latch
         from("direct:fileEntryLatch").routeId("fileEntryLatch")
-                .bean(this.lookup(FileEntryLatch.class))
-                .choice().when(header("fileENtryLatchOpened").isEqualTo(true))
+            .log(LoggingLevel.INFO, "Removing file entry from latch. Processing: ${body}")
+            .choice()
+                .when().method("fileEntryLatch", "lastFileProcessed")
                     .log(LoggingLevel.INFO, "CamelRouting", "FileEntryWorkNote latch opened.")
                     .to("direct:postExtract");
 

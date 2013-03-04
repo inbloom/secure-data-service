@@ -20,8 +20,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This descriptor defines various levels or
- * 				thresholds for performance on the assessment.
- * 			
+ *                 thresholds for performance on the assessment.
+ *             
  * 
  * <p>Java class for performanceLevelDescriptor complex type.
  * 

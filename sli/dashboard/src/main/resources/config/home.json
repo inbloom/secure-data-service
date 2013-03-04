@@ -1,13 +1,13 @@
 {
-	id: "home",
-	name: "inBloom Dashboard",
-	type: "LAYOUT",
-	data :{
-		entity: "homeInfo",
-		cacheKey: "homeInfo",
-		lazy: true
-	}, 
-	items: [
-		{id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"}
-	]
+    id: "home",
+    name: "inBloom Dashboard",
+    type: "LAYOUT",
+    data :{
+        entity: "homeInfo",
+        cacheKey: "homeInfo",
+        lazy: true
+    }, 
+    items: [
+        {id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"}
+    ]
 }

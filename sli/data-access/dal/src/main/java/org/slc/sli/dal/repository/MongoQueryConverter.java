@@ -548,7 +548,7 @@ public class MongoQueryConverter {
     }
 
     private NeutralSchema getFieldSchema(NeutralSchema schema, String dottedField) {
-    	NeutralSchema tempSchema = schema;
+        NeutralSchema tempSchema = schema;
         for (String field : dottedField.split("\\.")) {
             tempSchema = this.getNestedSchema(tempSchema, field);
             if (tempSchema != null) {

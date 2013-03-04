@@ -55,10 +55,10 @@ public class AssessmentFamilyGenerator {
         }
         
 
-		if (assessFamilyMeta.relatedAssessmentFamilyId != null) {
-			assessFamily
-					.setAssessmentFamilyReference(getAssessmentFamilyReferenceType(assessFamilyMeta.relatedAssessmentFamilyId));
-		}
+        if (assessFamilyMeta.relatedAssessmentFamilyId != null) {
+            assessFamily
+                    .setAssessmentFamilyReference(getAssessmentFamilyReferenceType(assessFamilyMeta.relatedAssessmentFamilyId));
+        }
 
         return assessFamily;
     }

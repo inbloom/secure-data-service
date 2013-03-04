@@ -78,7 +78,8 @@ public class SmooksEdFi2SLITransformerTest {
         directlyMapped.setAttributeField("field2", "Test String");
         ReportStats reportStats = new SimpleReportStats();
 
-        List<? extends Entity> result = transformer.transform(directlyMapped, new DummyMessageReport(), reportStats);
+        List<? extends Entity> result = transformer.transform(directlyMapped,
+                new DummyMessageReport(), reportStats);
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
@@ -88,63 +89,12 @@ public class SmooksEdFi2SLITransformerTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testAssessmentMapping() {
-        NeutralRecord assessment = new NeutralRecord();
-        assessment.setRecordType("assessment");
-        assessment.setAttributeField("assessmentTitle", "assessmentTitle");
-        assessment.setAttributeField("assessmentFamilyHierarchyName", "assessmentFamilyHierarchyName");
+        NeutralRecord assessment = createAssessmentNeutralRecord(false);
 
-        List<Map<String, Object>> assessmentIdentificationCodeList = new ArrayList<Map<String, Object>>();
-        Map<String, Object> assessmentIdentificationCode1 = new HashMap<String, Object>();
-        assessmentIdentificationCode1.put("ID", "202A1");
-        assessmentIdentificationCode1.put("identificationSystem", "School");
-        assessmentIdentificationCode1.put("assigningOrganizationCode", "assigningOrganizationCode");
-        Map<String, Object> assessmentIdentificationCode2 = new HashMap<String, Object>();
-        assessmentIdentificationCode2.put("ID", "303A1");
-        assessmentIdentificationCode2.put("identificationSystem", "State");
-        assessmentIdentificationCode2.put("assigningOrganizationCode", "assigningOrganizationCode2");
-        assessmentIdentificationCodeList.add(assessmentIdentificationCode1);
-        assessmentIdentificationCodeList.add(assessmentIdentificationCode2);
-        assessment.setAttributeField("assessmentIdentificationCode", assessmentIdentificationCodeList);
-
-        assessment.setAttributeField("assessmentCategory", "Achievement test");
-        assessment.setAttributeField("academicSubject", "English");
-        assessment.setAttributeField("gradeLevelAssessed", "Adult Education");
-        assessment.setAttributeField("lowestGradeLevelAssessed", "Early Education");
-
-        List<Map<String, Object>> assessmentPerformanceLevelList = new ArrayList<Map<String, Object>>();
-        Map<String, Object> assessmentPerformanceLevel1 = new HashMap<String, Object>();
-        assessmentPerformanceLevel1.put("maximumScore", "1600");
-        assessmentPerformanceLevel1.put("minimumScore", "2400");
-        assessmentPerformanceLevel1.put("assessmentReportingMethod", "C-scaled scores");
-        ArrayList<Map<String, Object>> performanceLevelDescriptor1 = new ArrayList<Map<String, Object>>();
-        Map<String, Object> pldmap = new HashMap<String, Object>();
-        pldmap.put("description", "description1");
-        performanceLevelDescriptor1.add(pldmap);
-        assessmentPerformanceLevel1.put("performanceLevelDescriptor", performanceLevelDescriptor1);
-
-        Map<String, Object> assessmentPerformanceLevel2 = new HashMap<String, Object>();
-        assessmentPerformanceLevel2.put("maximumScore", "1800");
-        assessmentPerformanceLevel2.put("minimumScore", "2600");
-        assessmentPerformanceLevel2.put("assessmentReportingMethod", "ACT score");
-        ArrayList<Map<String, Object>> performanceLevelDescriptor2 = new ArrayList<Map<String, Object>>();
-        Map<String, Object> pldmap2 = new HashMap<String, Object>();
-        pldmap2.put("description", "description2");
-        performanceLevelDescriptor2.add(pldmap2);
-        assessmentPerformanceLevel2.put("performanceLevelDescriptor", performanceLevelDescriptor2);
-
-        assessmentPerformanceLevelList.add(assessmentPerformanceLevel1);
-        assessmentPerformanceLevelList.add(assessmentPerformanceLevel2);
-        assessment.setAttributeField("assessmentPerformanceLevel", assessmentPerformanceLevelList);
-
-        assessment.setAttributeField("contentStandard", "SAT");
-        assessment.setAttributeField("assessmentForm", "assessmentForm");
-        assessment.setAttributeField("version", "1");
-        assessment.setAttributeField("revisionDate", "1999-01-01");
-        assessment.setAttributeField("maxRawScore", "2400");
-        assessment.setAttributeField("nomenclature", "nomenclature");
         ReportStats reportStats = new SimpleReportStats();
 
-        List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
+        List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(),
+                reportStats);
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
@@ -153,50 +103,53 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals("assessmentFamilyHierarchyName",
                 result.get(0).getBody().get("assessmentFamilyHierarchyName"));
 
-        List<Map<String, Object>> assessmentIDCodeList = (List<Map<String, Object>>) result.get(0).getBody()
-                .get("assessmentIdentificationCode");
+        List<Map<String, Object>> assessmentIDCodeList = (List<Map<String, Object>>) result.get(0)
+                .getBody().get("assessmentIdentificationCode");
         Assert.assertNotNull(assessmentIDCodeList);
         Assert.assertEquals(2, assessmentIDCodeList.size());
         Map<String, Object> assessmentIDCode1 = assessmentIDCodeList.get(0);
         Assert.assertNotNull(assessmentIDCode1);
         Assert.assertEquals("202A1", assessmentIDCode1.get("ID"));
         Assert.assertEquals("School", assessmentIDCode1.get("identificationSystem"));
-        Assert.assertEquals("assigningOrganizationCode", assessmentIDCode1.get("assigningOrganizationCode"));
+        Assert.assertEquals("assigningOrganizationCode",
+                assessmentIDCode1.get("assigningOrganizationCode"));
 
         Map<String, Object> assessmentIDCode2 = assessmentIDCodeList.get(1);
         Assert.assertNotNull(assessmentIDCode2);
         Assert.assertEquals("303A1", assessmentIDCode2.get("ID"));
         Assert.assertEquals("State", assessmentIDCode2.get("identificationSystem"));
-        Assert.assertEquals("assigningOrganizationCode2", assessmentIDCode2.get("assigningOrganizationCode"));
+        Assert.assertEquals("assigningOrganizationCode2",
+                assessmentIDCode2.get("assigningOrganizationCode"));
 
-        List<Map<String, Object>> assessmentPerfLevelList = (List<Map<String, Object>>) result.get(0).getBody()
-                .get("assessmentPerformanceLevel");
+        List<Map<String, Object>> assessmentPerfLevelList = (List<Map<String, Object>>) result
+                .get(0).getBody().get("assessmentPerformanceLevel");
         Assert.assertNotNull(assessmentPerfLevelList);
         Assert.assertEquals(2, assessmentPerfLevelList.size());
+
         Map<String, Object> assessmentPerfLevel1 = assessmentPerfLevelList.get(0);
         Assert.assertNotNull(assessmentPerfLevel1);
-        Assert.assertEquals(1600, assessmentPerfLevel1.get("maximumScore"));
-        Assert.assertEquals(2400, assessmentPerfLevel1.get("minimumScore"));
-        Assert.assertEquals("C-scaled scores", assessmentPerfLevel1.get("assessmentReportingMethod"));
+        Assert.assertEquals(2400, assessmentPerfLevel1.get("maximumScore"));
+        Assert.assertEquals(1600, assessmentPerfLevel1.get("minimumScore"));
+        Assert.assertEquals("C-scaled scores",
+                assessmentPerfLevel1.get("assessmentReportingMethod"));
         List<Map<String, Object>> perfLevelDescriptor1 = (List<Map<String, Object>>) assessmentPerfLevel1
                 .get("performanceLevelDescriptor");
-        Assert.assertNotNull(perfLevelDescriptor1);
         Assert.assertEquals("description1", perfLevelDescriptor1.get(0).get("description"));
 
         Map<String, Object> assessmentPerfLevel2 = assessmentPerfLevelList.get(1);
         Assert.assertNotNull(assessmentPerfLevel2);
-        Assert.assertEquals(1800, assessmentPerfLevel2.get("maximumScore"));
-        Assert.assertEquals(2600, assessmentPerfLevel2.get("minimumScore"));
+        Assert.assertEquals(2600, assessmentPerfLevel2.get("maximumScore"));
+        Assert.assertEquals(1800, assessmentPerfLevel2.get("minimumScore"));
         Assert.assertEquals("ACT score", assessmentPerfLevel2.get("assessmentReportingMethod"));
         List<Map<String, Object>> perfLevelDescriptor2 = (List<Map<String, Object>>) assessmentPerfLevel2
                 .get("performanceLevelDescriptor");
-        Assert.assertNotNull(perfLevelDescriptor2.get(0));
         Assert.assertEquals("description2", perfLevelDescriptor2.get(0).get("description"));
 
         Assert.assertEquals("Achievement test", result.get(0).getBody().get("assessmentCategory"));
         Assert.assertEquals("English", result.get(0).getBody().get("academicSubject"));
         Assert.assertEquals("Adult Education", result.get(0).getBody().get("gradeLevelAssessed"));
-        Assert.assertEquals("Early Education", result.get(0).getBody().get("lowestGradeLevelAssessed"));
+        Assert.assertEquals("Early Education",
+                result.get(0).getBody().get("lowestGradeLevelAssessed"));
         Assert.assertEquals("SAT", result.get(0).getBody().get("contentStandard"));
         Assert.assertEquals("assessmentForm", result.get(0).getBody().get("assessmentForm"));
         Assert.assertEquals(1, result.get(0).getBody().get("version"));
@@ -207,67 +160,12 @@ public class SmooksEdFi2SLITransformerTest {
 
     @Test
     public void testAssessmentValidation() {
-        NeutralRecord assessment = new NeutralRecord();
-        assessment.setRecordType("assessment");
-        assessment.setAttributeField("assessmentTitle", "assessmentTitle");
-        //assessment.setAttributeField("assessmentFamilyHierarchyName", "assessmentFamilyHierarchyName");
+        NeutralRecord assessment = createAssessmentNeutralRecord(false);
 
-        List<Map<String, Object>> assessmentIdentificationCodeList = new ArrayList<Map<String, Object>>();
-        Map<String, Object> assessmentIdentificationCode1 = new HashMap<String, Object>();
-        assessmentIdentificationCode1.put("ID", "202A1");
-        assessmentIdentificationCode1.put("identificationSystem", "School");
-        assessmentIdentificationCode1.put("assigningOrganizationCode", "assigningOrganizationCode");
-        Map<String, Object> assessmentIdentificationCode2 = new HashMap<String, Object>();
-        assessmentIdentificationCode2.put("ID", "303A1");
-        assessmentIdentificationCode2.put("identificationSystem", "State");
-        assessmentIdentificationCode2.put("assigningOrganizationCode", "assigningOrganizationCode2");
-        assessmentIdentificationCodeList.add(assessmentIdentificationCode1);
-        assessmentIdentificationCodeList.add(assessmentIdentificationCode2);
-        assessment.setAttributeField("assessmentIdentificationCode", assessmentIdentificationCodeList);
-
-        assessment.setAttributeField("assessmentCategory", "Achievement test");
-        assessment.setAttributeField("academicSubject", "English");
-        assessment.setAttributeField("gradeLevelAssessed", "Adult Education");
-        assessment.setAttributeField("lowestGradeLevelAssessed", "Early Education");
-
-        List<Map<String, Object>> assessmentPerformanceLevelList = new ArrayList<Map<String, Object>>();
-        Map<String, Object> assessmentPerformanceLevel1 = new HashMap<String, Object>();
-        assessmentPerformanceLevel1.put("maximumScore", "1600");
-        assessmentPerformanceLevel1.put("minimumScore", "2400");
-        assessmentPerformanceLevel1.put("assessmentReportingMethod", "C-scaled scores");
-        List<Object> performanceLevelDescriptor1 = new ArrayList<Object>();
-        Map<String, Object> description = new HashMap<String, Object>();
-        Map<String, Object> codeValue = new HashMap<String, Object>();
-        description.put("description", "description1");
-        codeValue.put("codeValue", "codeValue");
-        performanceLevelDescriptor1.add(description);
-        performanceLevelDescriptor1.add(codeValue);
-        assessmentPerformanceLevel1.put("performanceLevelDescriptor", performanceLevelDescriptor1);
-
-        Map<String, Object> assessmentPerformanceLevel2 = new HashMap<String, Object>();
-        assessmentPerformanceLevel2.put("maximumScore", "1800");
-        assessmentPerformanceLevel2.put("minimumScore", "2600");
-        assessmentPerformanceLevel2.put("assessmentReportingMethod", "ACT score");
-        List<Object> performanceLevelDescriptor2 = new ArrayList<Object>();
-        description.put("description", "description1");
-        codeValue.put("codeValue", "codeValue");
-        performanceLevelDescriptor2.add(description);
-        performanceLevelDescriptor2.add(codeValue);
-        assessmentPerformanceLevel2.put("performanceLevelDescriptor", performanceLevelDescriptor2);
-
-        assessmentPerformanceLevelList.add(assessmentPerformanceLevel1);
-        assessmentPerformanceLevelList.add(assessmentPerformanceLevel2);
-        assessment.setAttributeField("assessmentPerformanceLevel", assessmentPerformanceLevelList);
-
-        assessment.setAttributeField("contentStandard", "SAT");
-        assessment.setAttributeField("assessmentForm", "assessmentForm");
-        assessment.setAttributeField("version", 1);
-        assessment.setAttributeField("revisionDate", "1999-01-01");
-        assessment.setAttributeField("maxRawScore", "2400");
-        assessment.setAttributeField("nomenclature", "nomenclature");
         ReportStats reportStats = new SimpleReportStats();
 
-        List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
+        List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(),
+                reportStats);
 
         Entity entity = result.get(0);
 
@@ -275,8 +173,7 @@ public class SmooksEdFi2SLITransformerTest {
     }
 
     /**
-     * @author tke
-     *         Test the transformation and matching steps behave as expected
+     * @author tke Test the transformation and matching steps behave as expected
      */
     @SuppressWarnings("deprecation")
     @Test
@@ -305,14 +202,16 @@ public class SmooksEdFi2SLITransformerTest {
         List<Entity> le = new ArrayList<Entity>();
         le.add(createAssessmentEntity(true));
 
-        when(mockedEntityRepository.findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0))).thenReturn(
-                le);
+        when(
+                mockedEntityRepository.findByQuery(eq("assessment"), Mockito.any(Query.class),
+                        eq(0), eq(0))).thenReturn(le);
         AbstractMessageReport errorReport = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
 
         List<SimpleEntity> res = transformer.handle(assessmentRC, errorReport, reportStats);
 
-        verify(mockedEntityRepository).findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0));
+        verify(mockedEntityRepository).findByQuery(eq("assessment"), Mockito.any(Query.class),
+                eq(0), eq(0));
 
         Assert.assertNotNull(res);
         Assert.assertEquals(ASSESSMENT_TITLE, res.get(0).getBody().get("assessmentTitle"));
@@ -335,58 +234,106 @@ public class SmooksEdFi2SLITransformerTest {
             assessment.setLocalId(STUDENT_ID);
         }
 
-        // This will become tenantId field after transformed into neutral record entity
+        // This will become tenantId field after transformed into neutral record
+        // entity
         assessment.setSourceId(TENANT_ID);
 
         assessment.setRecordType("assessment");
-        assessment.setAttributeField("assessmentTitle", "assessmentTitle");
-        assessment.setAttributeField("assessmentFamilyHierarchyName", "assessmentFamilyHierarchyName");
+        Map<String, Object> assessmentTitle = new HashMap<String, Object>();
+        assessmentTitle.put("_value", "assessmentTitle");
+        assessment.setAttributeField("AssessmentTitle", assessmentTitle);
+        assessment.setAttributeField("assessmentFamilyHierarchyName",
+                "assessmentFamilyHierarchyName");
 
         List<Map<String, Object>> assessmentIdentificationCodeList = new ArrayList<Map<String, Object>>();
         Map<String, Object> assessmentIdentificationCode1 = new HashMap<String, Object>();
-        assessmentIdentificationCode1.put("ID", "202A1");
-        assessmentIdentificationCode1.put("identificationSystem", "School");
-        assessmentIdentificationCode1.put("assigningOrganizationCode", "assigningOrganizationCode");
+        Map<String, Object> ID1 = new HashMap<String, Object>();
+        ID1.put("_value", "202A1");
+        assessmentIdentificationCode1.put("ID", ID1);
+        assessmentIdentificationCode1.put("a_IdentificationSystem", "School");
+        assessmentIdentificationCode1.put("a_AssigningOrganizationCode",
+                "assigningOrganizationCode");
         Map<String, Object> assessmentIdentificationCode2 = new HashMap<String, Object>();
-        assessmentIdentificationCode2.put("ID", "303A1");
-        assessmentIdentificationCode2.put("identificationSystem", "State");
-        assessmentIdentificationCode2.put("assigningOrganizationCode", "assigningOrganizationCode2");
+        Map<String, Object> ID2 = new HashMap<String, Object>();
+        ID2.put("_value", "303A1");
+        assessmentIdentificationCode2.put("ID", ID2);
+        assessmentIdentificationCode2.put("a_IdentificationSystem", "State");
+        assessmentIdentificationCode2.put("a_AssigningOrganizationCode",
+                "assigningOrganizationCode2");
         assessmentIdentificationCodeList.add(assessmentIdentificationCode1);
         assessmentIdentificationCodeList.add(assessmentIdentificationCode2);
-        assessment.setAttributeField("assessmentIdentificationCode", assessmentIdentificationCodeList);
+        assessment.setAttributeField("AssessmentIdentificationCode",
+                assessmentIdentificationCodeList);
 
-        assessment.setAttributeField("assessmentCategory", "Achievement test");
-        assessment.setAttributeField("academicSubject", "English");
-        assessment.setAttributeField("gradeLevelAssessed", "Adult Education");
-        assessment.setAttributeField("lowestGradeLevelAssessed", "Early Education");
+        Map<String, Object> assessmentCategory = new HashMap<String, Object>();
+        assessmentCategory.put("_value", "Achievement test");
+        assessment.setAttributeField("AssessmentCategory", assessmentCategory);
+        Map<String, Object> academicSubject = new HashMap<String, Object>();
+        academicSubject.put("_value", "English");
+        assessment.setAttributeField("AcademicSubject", academicSubject);
+        Map<String, Object> gradeLevelAssessed = new HashMap<String, Object>();
+        gradeLevelAssessed.put("_value", "Adult Education");
+        assessment.setAttributeField("GradeLevelAssessed", gradeLevelAssessed);
+        Map<String, Object> lowestGradeLevelAssessed = new HashMap<String, Object>();
+        lowestGradeLevelAssessed.put("_value", "Early Education");
+        assessment.setAttributeField("LowestGradeLevelAssessed", lowestGradeLevelAssessed);
 
         List<Map<String, Object>> assessmentPerformanceLevelList = new ArrayList<Map<String, Object>>();
+
         Map<String, Object> assessmentPerformanceLevel1 = new HashMap<String, Object>();
-        assessmentPerformanceLevel1.put("maximumScore", "1600");
-        assessmentPerformanceLevel1.put("minimumScore", "2400");
-        assessmentPerformanceLevel1.put("assessmentReportingMethod", "C-scaled scores");
-        Map<String, Object> performanceLevelDescriptor1 = new HashMap<String, Object>();
-        performanceLevelDescriptor1.put("description", "description1");
-        assessmentPerformanceLevel1.put("performanceLevelDescriptor", performanceLevelDescriptor1);
+        Map<String, Object> maximumScore1 = new HashMap<String, Object>();
+        maximumScore1.put("_value", 2400);
+        assessmentPerformanceLevel1.put("MaximumScore", maximumScore1);
+        Map<String, Object> minimumScore1 = new HashMap<String, Object>();
+        minimumScore1.put("_value", 1600);
+        assessmentPerformanceLevel1.put("MinimumScore", minimumScore1);
+        Map<String, Object> assessmentReportingMethod1 = new HashMap<String, Object>();
+        assessmentReportingMethod1.put("_value", "C-scaled scores");
+        assessmentPerformanceLevel1.put("AssessmentReportingMethod", assessmentReportingMethod1);
+        Map<String, Object> performanceLevel1 = new HashMap<String, Object>();
+        Map<String, Object> description1 = new HashMap<String, Object>();
+        description1.put("_value", "description1");
+        performanceLevel1.put("Description", description1);
+        assessmentPerformanceLevel1.put("PerformanceLevel", performanceLevel1);
 
         Map<String, Object> assessmentPerformanceLevel2 = new HashMap<String, Object>();
-        assessmentPerformanceLevel2.put("maximumScore", "1800");
-        assessmentPerformanceLevel2.put("minimumScore", "2600");
-        assessmentPerformanceLevel2.put("assessmentReportingMethod", "ACT score");
-        Map<String, Object> performanceLevelDescriptor2 = new HashMap<String, Object>();
-        performanceLevelDescriptor2.put("description", "description2");
-        assessmentPerformanceLevel2.put("performanceLevelDescriptor", performanceLevelDescriptor2);
+        Map<String, Object> maximumScore2 = new HashMap<String, Object>();
+        maximumScore2.put("_value", 2600);
+        assessmentPerformanceLevel2.put("MaximumScore", maximumScore2);
+        Map<String, Object> minimumScore2 = new HashMap<String, Object>();
+        minimumScore2.put("_value", 1800);
+        assessmentPerformanceLevel2.put("MinimumScore", minimumScore2);
+        Map<String, Object> assessmentReportingMethod2 = new HashMap<String, Object>();
+        assessmentReportingMethod2.put("_value", "ACT score");
+        assessmentPerformanceLevel2.put("AssessmentReportingMethod", assessmentReportingMethod2);
+        Map<String, Object> performanceLevel2 = new HashMap<String, Object>();
+        Map<String, Object> description2 = new HashMap<String, Object>();
+        description2.put("_value", "description2");
+        performanceLevel2.put("Description", description2);
+        assessmentPerformanceLevel2.put("PerformanceLevel", performanceLevel2);
 
         assessmentPerformanceLevelList.add(assessmentPerformanceLevel1);
         assessmentPerformanceLevelList.add(assessmentPerformanceLevel2);
-        assessment.setAttributeField("assessmentPerformanceLevel", assessmentPerformanceLevelList);
+        assessment.setAttributeField("AssessmentPerformanceLevel", assessmentPerformanceLevelList);
 
-        assessment.setAttributeField("contentStandard", "SAT");
-        assessment.setAttributeField("assessmentForm", "assessmentForm");
-        assessment.setAttributeField("version", 1);
-        assessment.setAttributeField("revisionDate", "1999-01-01");
-        assessment.setAttributeField("maxRawScore", "2400");
-        assessment.setAttributeField("nomenclature", "nomenclature");
+        Map<String, Object> contentStandard = new HashMap<String, Object>();
+        contentStandard.put("_value", "SAT");
+        assessment.setAttributeField("ContentStandard", contentStandard);
+        Map<String, Object> assessmentForm = new HashMap<String, Object>();
+        assessmentForm.put("_value", "assessmentForm");
+        assessment.setAttributeField("AssessmentForm", assessmentForm);
+        Map<String, Object> version = new HashMap<String, Object>();
+        version.put("_value", 1);
+        assessment.setAttributeField("Version", version);
+        Map<String, Object> revisionDate = new HashMap<String, Object>();
+        revisionDate.put("_value", "1999-01-01");
+        assessment.setAttributeField("RevisionDate", revisionDate);
+        Map<String, Object> maxRawScore = new HashMap<String, Object>();
+        maxRawScore.put("_value", 2400);
+        assessment.setAttributeField("MaxRawScore", maxRawScore);
+        Map<String, Object> nomenclature = new HashMap<String, Object>();
+        nomenclature.put("_value", "nomenclature");
+        assessment.setAttributeField("Nomenclature", nomenclature);
 
         return assessment;
     }

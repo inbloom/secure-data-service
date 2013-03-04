@@ -132,8 +132,8 @@ public class JobReportingProcessorTest {
         // mock the WorkNote
         RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(BATCHJOBID);
 
-        List<Stage> mockEdFiStages = new LinkedList<Stage>();
-        List<Metrics> mockEdFiMetrics = new LinkedList<Metrics>();
+        List<Stage> mockDeltaStage = new LinkedList<Stage>();
+        List<Metrics> mockDeltaMetrics = new LinkedList<Metrics>();
 
         List<Stage> mockPersistenceStages = new LinkedList<Stage>();
         List<Metrics> mockPersistenceMetrics = new LinkedList<Metrics>();
@@ -142,9 +142,9 @@ public class JobReportingProcessorTest {
         HashMap<String, Long> dupMap = new HashMap<String, Long>();
         dupMap.put(DUP_ENTITY, DUP_COUNT);
         duplicateCountMetric.setDuplicateCounts(dupMap);
-        mockEdFiMetrics.add(duplicateCountMetric);
-        mockEdFiStages.add(new Stage(BatchJobStageType.EDFI_PROCESSOR.getName(), "Parse xml and persist records to the staging database", "finished",
-                new Date(), new Date(), mockEdFiMetrics));
+        mockDeltaMetrics.add(duplicateCountMetric);
+        mockDeltaStage.add(new Stage(BatchJobStageType.DELTA_PROCESSOR.getName(), "Drop records that are duplicates", "finished",
+                new Date(), new Date(), mockDeltaMetrics));
 
         mockPersistenceMetrics.add(new Metrics(RESOURCEID, RECORDS_CONSIDERED, RECORDS_FAILED));
         mockPersistenceStages.add(new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "Persists records to the sli database", "finished",
@@ -152,7 +152,7 @@ public class JobReportingProcessorTest {
 
         // set mocked BatchJobMongoDA in jobReportingProcessor
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(mockedJob);
-        Mockito.when(mockedBatchJobDAO.getBatchJobStages(Matchers.eq(BATCHJOBID), Matchers.eq(BatchJobStageType.EDFI_PROCESSOR))).thenReturn(mockEdFiStages);
+        Mockito.when(mockedBatchJobDAO.getBatchJobStages(Matchers.eq(BATCHJOBID), Matchers.eq(BatchJobStageType.DELTA_PROCESSOR))).thenReturn(mockDeltaStage);
         Mockito.when(mockedBatchJobDAO.getBatchJobStages(Matchers.eq(BATCHJOBID), Matchers.eq(BatchJobStageType.PERSISTENCE_PROCESSOR))).thenReturn(mockPersistenceStages);
         Mockito.when(
                 mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.eq(RESOURCEID),

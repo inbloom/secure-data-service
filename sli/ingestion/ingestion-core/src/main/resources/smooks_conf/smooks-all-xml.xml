@@ -2278,6 +2278,7 @@
   <jb:bean beanId="studentAcademicRecordAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
     <jb:wiring property="cumulativeCreditsEarned" beanIdRef="studentAcademicRecordCumulativeCreditsEarnedValue" />
     <jb:wiring property="cumulativeCreditsAttempted" beanIdRef="studentAcademicRecordCumulativeCreditsAttemptedValue" />
+    <jb:value property="schoolYear" data="StudentAcademicRecord/SchoolYear" />
     <jb:value property="cumulativeGradePointsEarned" data="StudentAcademicRecord/CumulativeGradePointsEarned" decoder="Double" />
     <jb:value property="cumulativeGradePointAverage" data="StudentAcademicRecord/CumulativeGradePointAverage" decoder="Double" />
     <jb:wiring property="classRanking" beanIdRef="studentAcademicRecordClassRanking" />
@@ -3728,6 +3729,7 @@
 
   <jb:bean beanId="gradeAttributes" class="java.util.HashMap"
            createOnElement="InterchangeStudentGrade/Grade">
+    <jb:value property="schoolYear" data="Grade/SchoolYear" />
     <jb:value property="letterGradeEarned" data="InterchangeStudentGrade/Grade/LetterGradeEarned" />
     <jb:value property="numericGradeEarned" data="InterchangeStudentGrade/Grade/NumericGradeEarned" decoder="Integer"/>
     <jb:value property="diagnosticStatement" data="InterchangeStudentGrade/Grade/DiagnosticStatement" />
@@ -4045,6 +4047,7 @@
              createOnElement="InterchangeStudentGrade/ReportCard">
         <jb:wiring beanIdRef="SLC-ReportCard_Attributes_SLC-StudentReferenceType" property="StudentReference"/>
         <jb:wiring beanIdRef="SLC-ReportCard_Attributes_SLC-GradingPeriodReferenceType" property="GradingPeriodReference"/>
+        <jb:value property="schoolYear" data="ReportCard/SchoolYear" />
         <jb:value property="gpaGivenGradingPeriod" data="ReportCard/GPAGivenGradingPeriod" decoder="Double" />
         <jb:value property="gpaCumulative" data="ReportCard/GPACumulative" decoder="Double" />
         <jb:value property="numberOfDaysAbsent" data="ReportCard/NumberOfDaysAbsent" decoder="Integer" />

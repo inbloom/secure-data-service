@@ -18,16 +18,16 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity is a plan outlining the required
- * 				credits, credits by
- * 				subject, credits by course, and other criteria
- * 				required for graduation. A
- * 				graduation
- * 				plan may be one or more standard
- * 				plans defined by an education
- * 				organization and/or
- * 				individual plans for
- * 				some or all students.
- * 			
+ *                 credits, credits by
+ *                 subject, credits by course, and other criteria
+ *                 required for graduation. A
+ *                 graduation
+ *                 plan may be one or more standard
+ *                 plans defined by an education
+ *                 organization and/or
+ *                 individual plans for
+ *                 some or all students.
+ *             
  * 
  * <p>Java class for graduationPlan complex type.
  * 

@@ -2875,6 +2875,14 @@
                 </xs:annotation>
             </xs:element>
 
+      		<xs:element name='schoolYear' type='schoolYearType'>
+        		<xs:annotation>
+          		<xs:appinfo>
+            		<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+            		<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+          		</xs:appinfo>
+        		</xs:annotation>
+      		</xs:element>
         </xs:sequence>
     </xs:complexType>
 
@@ -6206,7 +6214,15 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-        </xs:sequence>
+      		<xs:element name='schoolYear' type='schoolYearType'>
+        		<xs:annotation>
+          			<xs:appinfo>
+            			<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+            			<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+          			</xs:appinfo>
+        		</xs:annotation>
+      		</xs:element>        
+		</xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="gradebookEntry">
@@ -7760,7 +7776,7 @@
                     </xs:appinfo>
                 </xs:annotation>
                 <xs:simpleType>
-                    <xs:restriction base="xs:int">
+                    <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
                     </xs:restriction>
                 </xs:simpleType>
@@ -7775,7 +7791,7 @@
                     </xs:appinfo>
                 </xs:annotation>
                 <xs:simpleType>
-                    <xs:restriction base="xs:int">
+                    <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
                     </xs:restriction>
                 </xs:simpleType>
@@ -7817,7 +7833,15 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-        </xs:sequence>
+      		<xs:element name='schoolYear' type='schoolYearType'>
+        		<xs:annotation>
+          		<xs:appinfo>
+            		<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+            		<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+          		</xs:appinfo>
+        		</xs:annotation>
+      		</xs:element>        
+		</xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="competencyLevelDescriptor">

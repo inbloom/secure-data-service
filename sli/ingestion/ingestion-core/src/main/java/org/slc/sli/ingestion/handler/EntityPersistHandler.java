@@ -217,9 +217,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
 
         if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
-            String message = "Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
-                    + "       Instance   " + entity.getRecordNumber();
-            LOG.error(message);
+            LOG.error("Unable to find natural keys fields for Entity {}, at line {} column {}",
+                    new Object[] { entity.getType(), entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber() });
 
             preMatchEntityWithNaturalKeys(memory, entityConfig, report, entity, reportStats);
         } else {
@@ -293,7 +292,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             ReportStats reportStats, Source source) {
         for (ValidationError err : errors) {
             report.error(reportStats, source, CoreMessageCode.CORE_0006, err.getType().name(), entity.getType(),
-                    Long.toString(entity.getRecordNumber()), err.getFieldName(), err.getFieldValue(),
+                    err.getFieldName(), err.getFieldValue(),
                     Arrays.toString(err.getExpectedTypes()));
         }
     }

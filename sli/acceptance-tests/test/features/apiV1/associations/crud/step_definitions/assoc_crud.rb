@@ -120,7 +120,7 @@ $entityData = {
         },
         "gradeType" => "Final",
         "finalLetterGradeEarned" => "A",
-	"educationOrganizationReference" => ["92d6d5a0-852c-45f4-907a-912752831772"]
+    "educationOrganizationReference" => ["92d6d5a0-852c-45f4-907a-912752831772"]
     },
     "staffCohortAssociation" => {
         "staffId" => "04f708bc-928b-420d-a440-f1592a5d1073",

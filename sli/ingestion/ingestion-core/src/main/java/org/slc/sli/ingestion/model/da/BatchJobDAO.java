@@ -115,4 +115,5 @@ public interface BatchJobDAO {
 
     public boolean isDryRun(String jobId);
 
+    public String getDuplicateDetectionMode(String jobId);
 }

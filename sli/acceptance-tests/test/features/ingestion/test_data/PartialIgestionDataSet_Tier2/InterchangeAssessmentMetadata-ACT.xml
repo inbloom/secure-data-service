@@ -4,8 +4,6 @@
     <ObjectiveAssessment>
         <IdentificationCode>ACT-English</IdentificationCode>
         <MaxRawScore>36</MaxRawScore>
-        <ObjectiveAssessmentReference/>
-        <ObjectiveAssessmentReference/>
         <AssessmentReference>
                 <AssessmentIdentity>
                         <AssessmentTitle>ACT</AssessmentTitle>
@@ -17,9 +15,6 @@
     <ObjectiveAssessment>
         <IdentificationCode>ACT-Mathematics</IdentificationCode>
         <MaxRawScore>36</MaxRawScore>
-        <ObjectiveAssessmentReference/>
-        <ObjectiveAssessmentReference/>
-        <ObjectiveAssessmentReference/>
         <AssessmentReference>
                 <AssessmentIdentity>
                         <AssessmentTitle>ACT</AssessmentTitle>
@@ -31,15 +26,6 @@
     <ObjectiveAssessment>
         <IdentificationCode>ACT-Reading</IdentificationCode>
         <MaxRawScore>36</MaxRawScore>
-        <LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>BC475F1FEE074d699ABEAE3285BCB5C9</IdentificationCode>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <ObjectiveAssessmentReference/>
-        <ObjectiveAssessmentReference/>
         <AssessmentReference>
                 <AssessmentIdentity>
                         <AssessmentTitle>ACT</AssessmentTitle>
@@ -131,7 +117,6 @@
         <MaxRawScore>18</MaxRawScore>
         <!-- Commenting out circular reference -->
         <!-- ObjectiveAssessmentReference></ObjectiveAssessmentReference -->
-        <ObjectiveAssessmentReference/>
         <AssessmentReference>
                 <AssessmentIdentity>
                         <AssessmentTitle>ACT</AssessmentTitle>

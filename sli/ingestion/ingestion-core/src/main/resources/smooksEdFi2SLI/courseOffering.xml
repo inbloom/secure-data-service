@@ -24,8 +24,8 @@
 
     <jb:bean beanId="courseOfferingBody" class="java.util.HashMap"
             createOnElement="attributes">
-        <jb:value property="localCourseCode" data="attributes LocalCourseCode" />
-        <jb:value property="localCourseTitle" data="attributes LocalCourseTitle" />
+        <jb:value property="localCourseCode" data="attributes LocalCourseCode _value" />
+        <jb:value property="localCourseTitle" data="attributes LocalCourseTitle _value" />
         <jb:value property="schoolId" data="attributes SchoolReference" />
         <jb:value property="sessionId" data="attributes SessionReference" />
         <jb:value property="courseId" data="attributes CourseReference" />

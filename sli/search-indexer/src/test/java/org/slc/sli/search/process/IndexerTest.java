@@ -81,6 +81,6 @@ public class IndexerTest {
         // 2 class - _mget and _bulk 
         Assert.assertEquals(2, calls.size());
         Assert.assertEquals("{\"docs\": [{\"_index\":\"tests\", \"_type\":\"test\",\"_id\":\"1\"},\n" +
-        		                        "{\"_index\":\"tests1\", \"_type\":\"test1\",\"_id\":\"2\"}\n]}", calls.get(0).getBody());
+                                        "{\"_index\":\"tests1\", \"_type\":\"test1\",\"_id\":\"2\"}\n]}", calls.get(0).getBody());
     }
 }

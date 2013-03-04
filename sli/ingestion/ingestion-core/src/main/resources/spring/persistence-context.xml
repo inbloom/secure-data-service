@@ -24,8 +24,8 @@
   <util:set id="passthroughEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessmentItem</value>
     <value>assessmentFamily</value>
+    <value>attendanceEvent</value>
     <value>assessmentPeriodDescriptor</value>
-    <value>attendance</value>
     <value>calendarDate</value>
     <value>cohort</value>
     <value>competencyLevelDescriptor</value>
@@ -49,7 +49,7 @@
     <value>session</value>
     <value>staff</value>
     <value>staffCohortAssociation</value>
-    <value>staffEducationOrganizationAssociation</value>
+    <value>staffEducationOrgAssignmentAssociation</value>
     <value>staffProgramAssociation</value>
     <value>stateEducationAgency</value>
     <value>student</value>

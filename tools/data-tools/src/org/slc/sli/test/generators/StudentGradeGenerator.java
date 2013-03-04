@@ -104,8 +104,8 @@ public class StudentGradeGenerator {
 
     public static SLCStudentSectionAssociationReferenceType getStudentSectionAssociationReference(
             SLCStudentReferenceType student, SLCSectionReferenceType section) {
-    	SLCStudentSectionAssociationReferenceType ssaRef = new SLCStudentSectionAssociationReferenceType();
-    	SLCStudentSectionAssociationIdentityType ssaIdentity = new SLCStudentSectionAssociationIdentityType();
+        SLCStudentSectionAssociationReferenceType ssaRef = new SLCStudentSectionAssociationReferenceType();
+        SLCStudentSectionAssociationIdentityType ssaIdentity = new SLCStudentSectionAssociationIdentityType();
         ssaRef.setStudentSectionAssociationIdentity(ssaIdentity);
         ssaIdentity.setStudentReference(student);
         ssaIdentity.setSectionReference(section);
@@ -114,7 +114,7 @@ public class StudentGradeGenerator {
     }
 
     public static SLCStudentSectionAssociationReferenceType getSLCStudentSectionAssociationReference(
-    		SLCStudentReferenceType student, SLCSectionReferenceType section) {
+            SLCStudentReferenceType student, SLCSectionReferenceType section) {
         SLCStudentSectionAssociationReferenceType ssaRef = new SLCStudentSectionAssociationReferenceType();
         SLCStudentSectionAssociationIdentityType ssaIdentity = new SLCStudentSectionAssociationIdentityType();
         ssaRef.setStudentSectionAssociationIdentity(ssaIdentity);
@@ -173,7 +173,7 @@ public class StudentGradeGenerator {
         if (sessionRef != null)
             sar.setSessionReference(sessionRef);
         if (reportCardRef != null)
-        	sar.getReportCardReference().addAll(reportCardRef);
+            sar.getReportCardReference().addAll(reportCardRef);
         if (diplomaRef != null)
             sar.setDiplomaReference(diplomaRef);
         return sar;
@@ -217,7 +217,7 @@ public class StudentGradeGenerator {
 
     public static SLCStudentCompetency getStudentCompetency(SLCStudentSectionAssociationReferenceType ssaRef,
             SLCLearningObjectiveReferenceType learningObjectiveRef, SLCStudentCompetencyObjectiveReferenceType scoRef) {
-    	SLCStudentCompetency studentCompetancy = new SLCStudentCompetency();
+        SLCStudentCompetency studentCompetancy = new SLCStudentCompetency();
         CompetencyLevelDescriptorType cl = new CompetencyLevelDescriptorType();
         studentCompetancy.setCompetencyLevel(cl);
         // cl.getCodeValueOrDescription()
@@ -302,7 +302,7 @@ public class StudentGradeGenerator {
     }
 
     public static SLCGradebookEntry getGradeBookEntry(SLCGradingPeriodReferenceType gradingPeriodRef,
-    		SLCSectionReferenceType sectionRef) {
+            SLCSectionReferenceType sectionRef) {
         idCount++;
         SLCGradebookEntry gbe = new SLCGradebookEntry();
         gbe.setDateAssigned(thisDay);
@@ -316,7 +316,7 @@ public class StudentGradeGenerator {
     }
 
     public static SLCGradingPeriod getGradingPeriod() {
-    	SLCGradingPeriod period = new SLCGradingPeriod();
+        SLCGradingPeriod period = new SLCGradingPeriod();
         period.setBeginDate(oneYearAgo);
         period.setEndDate(thisDay);
 
@@ -332,7 +332,7 @@ public class StudentGradeGenerator {
 
     public static SLCGradingPeriodReferenceType getGradingPeriodReferenceType(SLCGradingPeriod period,
             EducationOrgIdentificationCode edOrg) {
-    	SLCGradingPeriodReferenceType ref = new SLCGradingPeriodReferenceType();
+        SLCGradingPeriodReferenceType ref = new SLCGradingPeriodReferenceType();
         SLCGradingPeriodIdentityType identity = new SLCGradingPeriodIdentityType();
         //identity.setGradingPeriod(period.getGradingPeriodIdentity().getGradingPeriod());
         identity.setGradingPeriod(period.getGradingPeriod());
@@ -344,8 +344,8 @@ public class StudentGradeGenerator {
     }
 
     public static SLCStudentGradebookEntry getStudentGradebookEntry(SLCSectionReferenceType section,
-    		SLCStudentReferenceType student) {
-    	SLCStudentGradebookEntry sgbe = new SLCStudentGradebookEntry();
+            SLCStudentReferenceType student) {
+        SLCStudentGradebookEntry sgbe = new SLCStudentGradebookEntry();
         sgbe.setDateFulfilled(thisDay);
         sgbe.setLetterGradeEarned(GRADES[rand.nextInt(GRADES.length)]);
         sgbe.setNumericGradeEarned(BigInteger.valueOf(1));

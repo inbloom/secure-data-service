@@ -21,36 +21,36 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This entity represents an individual who performs
- * 				specified activities
- * 				for any public or private education institution
- * 				or agency that provides
- * 				instructional and/or support services to
- * 				students or staff at the
- * 				early childhood
- * 				level through high school
- * 				completion. For example, this includes: 1) an
- * 				"employee"
- * 				who performs
- * 				services under the direction of the employing institution
- * 				or agency,
- * 				is
- * 				compensated for such services by the employer, and is eligible for
- * 				employee
- * 				benefits
- * 				and wage or salary tax withholdings; 2) a
- * 				"contractor" or "consultant"
- * 				who performs
- * 				services for an agreed upon
- * 				fee, or an employee of a management service
- * 				contracted
- * 				to work on
- * 				site; 3) a "volunteer" who performs services on a voluntary
- * 				and
- * 				uncompensated basis; 4) an in kind service provider; or 5) an
- * 				independent
- * 				contractor
- * 				or businessperson working at a school site.
- * 			
+ *                 specified activities
+ *                 for any public or private education institution
+ *                 or agency that provides
+ *                 instructional and/or support services to
+ *                 students or staff at the
+ *                 early childhood
+ *                 level through high school
+ *                 completion. For example, this includes: 1) an
+ *                 "employee"
+ *                 who performs
+ *                 services under the direction of the employing institution
+ *                 or agency,
+ *                 is
+ *                 compensated for such services by the employer, and is eligible for
+ *                 employee
+ *                 benefits
+ *                 and wage or salary tax withholdings; 2) a
+ *                 "contractor" or "consultant"
+ *                 who performs
+ *                 services for an agreed upon
+ *                 fee, or an employee of a management service
+ *                 contracted
+ *                 to work on
+ *                 site; 3) a "volunteer" who performs services on a voluntary
+ *                 and
+ *                 uncompensated basis; 4) an in kind service provider; or 5) an
+ *                 independent
+ *                 contractor
+ *                 or businessperson working at a school site.
+ *             
  * 
  * <p>Java class for staff complex type.
  * 

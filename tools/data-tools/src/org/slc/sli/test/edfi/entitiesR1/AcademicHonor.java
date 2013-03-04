@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Academic distinctions earned by or awarded to the
- * 				student
- * 			
+ *                 student
+ *             
  * 
  * <p>Java class for academicHonor complex type.
  * 

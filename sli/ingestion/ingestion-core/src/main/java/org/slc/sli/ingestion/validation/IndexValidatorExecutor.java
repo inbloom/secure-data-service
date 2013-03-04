@@ -24,21 +24,22 @@ public class IndexValidatorExecutor {
     @Autowired
     private LoggingMessageReport loggingMessageReport;
 
-	public ReportStats checkNonTenantIndexes() throws IndexValidationException{
-		loggingMessageReport.setLogger(LOG);
-		ReportStats reportStats = new SimpleReportStats();
+    public ReportStats checkNonTenantIndexes() throws IndexValidationException{
+        loggingMessageReport.setLogger(LOG);
+        ReportStats reportStats = new SimpleReportStats();
         Source source = new JobSource("IngestionService");
-		boolean indexValidated = systemValidatorStartUp.isValid(null, loggingMessageReport, reportStats, source);
+        boolean indexValidated = systemValidatorStartUp.isValid(null, loggingMessageReport, reportStats, source);
         return reportStats;
-	}
+    }
 
-	public void setValidator(Validator<?> systemValidator)
-	{
-		this.systemValidatorStartUp = systemValidator;
-	}
+    public void setValidator(Validator<?> systemValidator)
+    {
+        this.systemValidatorStartUp = systemValidator;
+    }
 
-	public void setLoggingMessageReport(LoggingMessageReport loggingMessageReport)
-	{
-		this.loggingMessageReport = loggingMessageReport;
-	}
+    public void setLoggingMessageReport(LoggingMessageReport loggingMessageReport)
+    {
+        this.loggingMessageReport = loggingMessageReport;
+    }
 }
+

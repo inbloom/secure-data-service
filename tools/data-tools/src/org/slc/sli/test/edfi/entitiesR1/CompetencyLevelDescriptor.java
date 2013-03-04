@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This descriptor defines various levels for assessed
- * 				competencies.
+ *                 competencies.
  * 
  * <p>Java class for competencyLevelDescriptor complex type.
  * 

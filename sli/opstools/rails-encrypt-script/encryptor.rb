@@ -19,7 +19,7 @@ limitations under the License.
 require 'openssl'
 
 def encrypt(keyFilePath, password, property)
-	aes = OpenSSL::Cipher::Cipher.new('AES-256-CBC')
+    aes = OpenSSL::Cipher::Cipher.new('AES-256-CBC')
     aes.encrypt
     
     #retrieve key and iv

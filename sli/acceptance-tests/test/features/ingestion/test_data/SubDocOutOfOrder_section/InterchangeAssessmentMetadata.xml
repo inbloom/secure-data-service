@@ -10,8 +10,6 @@
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
 		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
-		<LearningStandardReference />
-		<LearningObjectiveReference />
 	</LearningObjective>
 	<LearningObjective>
 		<LearningObjectiveId ContentStandardName="Common Core">
@@ -21,8 +19,6 @@
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
 		<ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
-		<LearningStandardReference />
-		<LearningObjectiveReference />
 	</LearningObjective>
 	<LearningObjective>
 		<LearningObjectiveId ContentStandardName="Common Core">
@@ -32,8 +28,6 @@
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
 		<ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
-		<LearningStandardReference />
-		<LearningObjectiveReference />
 	</LearningObjective>
 	<LearningObjective>
 		<LearningObjectiveId ContentStandardName="Common Core">
@@ -43,8 +37,6 @@
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
 		<ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
-		<LearningStandardReference />
-		<LearningObjectiveReference />
 	</LearningObjective>
 	<LearningObjective>
 		<LearningObjectiveId ContentStandardName="Common Core">
@@ -54,8 +46,6 @@
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningStandardReference />
-		<LearningObjectiveReference />
 	</LearningObjective>
 
 	<LearningStandard>

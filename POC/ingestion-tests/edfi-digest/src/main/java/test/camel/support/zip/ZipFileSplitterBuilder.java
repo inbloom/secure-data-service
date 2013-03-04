@@ -4,10 +4,10 @@ import org.apache.camel.Expression;
 
 public final class ZipFileSplitterBuilder {
 
-	private ZipFileSplitterBuilder() {
-	}
+    private ZipFileSplitterBuilder() {
+    }
 
-	public static Expression unzip() {
-		return new ZipFileIteratorExpression();
-	}
+    public static Expression unzip() {
+        return new ZipFileIteratorExpression();
+    }
 }

@@ -16,8 +16,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Additional credits or units of value awarded for
- * 				the completion of a course (e.g., AP, IB, Dual credits)
- * 			
+ *                 the completion of a course (e.g., AP, IB, Dual credits)
+ *             
  * 
  * <p>Java class for additionalCredits complex type.
  * 

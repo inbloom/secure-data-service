@@ -19,12 +19,12 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity represents any public or private
- * 				institution,
- * 				organization, or agency that provides instructional or
- * 				support services to
- * 				students
- * 				or staff at any level.
- * 			
+ *                 institution,
+ *                 organization, or agency that provides instructional or
+ *                 support services to
+ *                 students
+ *                 or staff at any level.
+ *             
  * 
  * <p>Java class for educationOrganization complex type.
  * 

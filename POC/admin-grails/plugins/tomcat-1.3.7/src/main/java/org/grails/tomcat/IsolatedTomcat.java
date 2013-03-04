@@ -33,91 +33,91 @@ import org.apache.catalina.startup.Tomcat;
  */
 public class IsolatedTomcat {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {	
-		
-		if(args.length < 3) {
-			System.err.println("Usage: IsolatedTomcat [tomcat_path] [war_path] [context_path] [host] [port]");
-			System.exit(1);
-		}
-		else {
-			String tomcatDir = args[0];
-			String warPath = args[1];
-			String contextPath = args[2];
-			String host = "localhost";
-			if(args.length>3) host = args[3];
-			int port = 8080;
-			try {
-				if(args.length>4) port = Integer.parseInt(args[4]);
-			} catch (NumberFormatException e) {
-				// ignore
-			}
-			
-			final Tomcat tomcat = new Tomcat();
-			tomcat.setPort(port);
-			
-			tomcat.setBaseDir(tomcatDir);
-			try {
-				tomcat.addWebapp(contextPath, warPath);
-			} catch (ServletException e) {
-				e.printStackTrace();
-				System.err.println("Error loading Tomcat: " + e.getMessage());
-				System.exit(1);
-			}
-			tomcat.enableNaming();
-			
-			final Connector connector = tomcat.getConnector();
-			connector.setAttribute("address", host);
-			connector.setURIEncoding("UTF-8");
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {    
+        
+        if(args.length < 3) {
+            System.err.println("Usage: IsolatedTomcat [tomcat_path] [war_path] [context_path] [host] [port]");
+            System.exit(1);
+        }
+        else {
+            String tomcatDir = args[0];
+            String warPath = args[1];
+            String contextPath = args[2];
+            String host = "localhost";
+            if(args.length>3) host = args[3];
+            int port = 8080;
+            try {
+                if(args.length>4) port = Integer.parseInt(args[4]);
+            } catch (NumberFormatException e) {
+                // ignore
+            }
+            
+            final Tomcat tomcat = new Tomcat();
+            tomcat.setPort(port);
+            
+            tomcat.setBaseDir(tomcatDir);
+            try {
+                tomcat.addWebapp(contextPath, warPath);
+            } catch (ServletException e) {
+                e.printStackTrace();
+                System.err.println("Error loading Tomcat: " + e.getMessage());
+                System.exit(1);
+            }
+            tomcat.enableNaming();
+            
+            final Connector connector = tomcat.getConnector();
+            connector.setAttribute("address", host);
+            connector.setURIEncoding("UTF-8");
 
-			final int serverPort = port;
-			new Thread(new Runnable() {
-				public void run() {
-					int killListenerPort = serverPort + 1;
-					ServerSocket serverSocket;
-					
-					serverSocket= createKillSwitch(killListenerPort);
-					
-					if(serverSocket!=null) {
-						try {
-							serverSocket.accept();
-							try {
-								tomcat.stop();
-							} catch (LifecycleException e) {
-								System.err.println("Error stopping Tomcat: " + e.getMessage());
-								System.exit(1);
-							}
-						} catch (IOException e) {
-							// just exit
-						}
-					}
-					
-				}
-			}).start();
-			
-			try {
-				tomcat.start();
-				String message = "Server running. Browse to http://"+(host != null ? host : "localhost")+":"+port+contextPath;
-				System.out.println(message);
-			} catch (LifecycleException e) {
-				e.printStackTrace();
-				System.err.println("Error loading Tomcat: " + e.getMessage());
-				System.exit(1);
-			}
-			
-			
+            final int serverPort = port;
+            new Thread(new Runnable() {
+                public void run() {
+                    int killListenerPort = serverPort + 1;
+                    ServerSocket serverSocket;
+                    
+                    serverSocket= createKillSwitch(killListenerPort);
+                    
+                    if(serverSocket!=null) {
+                        try {
+                            serverSocket.accept();
+                            try {
+                                tomcat.stop();
+                            } catch (LifecycleException e) {
+                                System.err.println("Error stopping Tomcat: " + e.getMessage());
+                                System.exit(1);
+                            }
+                        } catch (IOException e) {
+                            // just exit
+                        }
+                    }
+                    
+                }
+            }).start();
+            
+            try {
+                tomcat.start();
+                String message = "Server running. Browse to http://"+(host != null ? host : "localhost")+":"+port+contextPath;
+                System.out.println(message);
+            } catch (LifecycleException e) {
+                e.printStackTrace();
+                System.err.println("Error loading Tomcat: " + e.getMessage());
+                System.exit(1);
+            }
+            
+            
 
-		}
-	}
+        }
+    }
 
-	private static ServerSocket createKillSwitch(int killListenerPort) {
-		try {
-			return new ServerSocket(killListenerPort);
-		} catch (IOException e) {
-			return null;
-		}
-	}
+    private static ServerSocket createKillSwitch(int killListenerPort) {
+        try {
+            return new ServerSocket(killListenerPort);
+        } catch (IOException e) {
+            return null;
+        }
+    }
 
 }

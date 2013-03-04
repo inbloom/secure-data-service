@@ -66,7 +66,7 @@ end
 
 When /^an operator approves the "([^"]*)" application$/ do |arg1|
   @format = "application/json"
-  dataObj = DataProvider.getValidAppData()	
+  dataObj = DataProvider.getValidAppData()    
   dataObj["client_secret"] = @client_secret
   dataObj["client_id"] = @client_id
   dataObj["registration"]  = @registration

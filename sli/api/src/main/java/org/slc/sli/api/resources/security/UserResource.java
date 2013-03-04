@@ -256,7 +256,7 @@ public class UserResource {
         }
 
         if (isSandboxAdministrator()) {
-        	user.setVendor(secUtil.getVendor());
+            user.setVendor(secUtil.getVendor());
         }
         
         updateUnmodifiableFields(user, null);
@@ -609,7 +609,7 @@ public class UserResource {
      * Determine if current logged in user is a Sandbox Administrator
      */
     private boolean isSandboxAdministrator() {
-    	return secUtil.hasRole(RoleInitializer.SANDBOX_ADMINISTRATOR);
+        return secUtil.hasRole(RoleInitializer.SANDBOX_ADMINISTRATOR);
     }
 
     /*

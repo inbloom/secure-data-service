@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Programs the student is participating in or
- * 				receiving services.
- * 			
+ *                 receiving services.
+ *             
  * 
  * <p>Java class for programParticipation complex type.
  * 

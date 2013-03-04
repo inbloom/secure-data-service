@@ -70,17 +70,17 @@ public enum GraduationPlanType {
 
     //in order to be unique, a school can't have two graduationPlans of the same type, so iterate through
     public static GraduationPlanType fromIndex(int i) {
-    	switch (i % NUM_TYPES) {
-    	case 0:
-    		return CAREER_AND_TECHNICAL_EDUCATION;
-    	case 1:
-    		return DISTINGUISHED;
-    	case 2:
-    		return MINIMUM;
-    	case 3:
-    		return RECOMMENDED;
-    	default:
-    		return STANDARD;
-    	}
+        switch (i % NUM_TYPES) {
+        case 0:
+            return CAREER_AND_TECHNICAL_EDUCATION;
+        case 1:
+            return DISTINGUISHED;
+        case 2:
+            return MINIMUM;
+        case 3:
+            return RECOMMENDED;
+        default:
+            return STANDARD;
+        }
     }
 }

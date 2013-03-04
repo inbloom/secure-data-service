@@ -20,12 +20,12 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This association contains the cumulative
- * 				record of
- * 				academic
- * 				achievements and the collection of student grades for the
- * 				student at the
- * 				end of a semester or school year.
- * 			
+ *                 record of
+ *                 academic
+ *                 achievements and the collection of student grades for the
+ *                 student at the
+ *                 end of a semester or school year.
+ *             
  * 
  * <p>Java class for studentAcademicRecord complex type.
  * 

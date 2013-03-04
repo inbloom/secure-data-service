@@ -3,12 +3,12 @@
     [
         {
             "entityType" : "learningStandard",
-            "sourceRefPath": "body.learningStandards",
+            "sourceRefPath": "body.LearningStandardReference",
             "optional" : true
         },
         {
             "entityType" : "assessment",
-            "sourceRefPath": "body.assessmentId"
+            "sourceRefPath": "body.AssessmentReference"
         }
         
     ]
