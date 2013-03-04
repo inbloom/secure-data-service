@@ -158,6 +158,7 @@ public class AdminDelegationResource {
                 return Response.status(Status.BAD_REQUEST).build();
             } else {
                 SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA has delegated AppAuth and SecEvent to SEA!");
+                audit(event);
                 return Response.status(Status.CREATED).build();
             }
 
