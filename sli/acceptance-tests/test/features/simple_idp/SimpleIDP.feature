@@ -74,3 +74,7 @@ Scenario: Use Sandbox IDP to log in to two apps as the same impersonation user w
   Then I should be redirected to the databrowser web page
   Then I should see the name "Rick Rogers" on the page
   When I navigate to the Sample App I should see the name "Rick Rogers" on the page
+  When I logout of the databrowser
+    Then I should see the logout message
+  When I navigate to the Sample App it should crash and burn
+  
