@@ -167,6 +167,7 @@ Then I should see following map of entry counts in the corresponding collections
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
     And I should see "Processed 10107 records." in the resulting batch job file
     And I should not see an error log file created
+    And I should not see a warning log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
@@ -652,8 +653,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | body.stateOrganizationId | IL                         | string               |
 
     And I should see "Processed 343 records." in the resulting batch job file
-    #TODO - this test data generates a warn file
-    #And I should not see a warning log file created
+    And I should not see a warning log file created
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 105" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 105" in the resulting batch job file
@@ -766,8 +766,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | body.stateOrganizationId | NY                         | string               |
     And I should see "Processed 742 records." in the resulting batch job file
     And I should not see an error log file created
-    #TODO warning files generated - data needs to be cleaned
-    #And I should not see a warning log file created
+    And I should not see a warning log file created
     And I should see "InterchangeStudent.xml records considered: 8" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
@@ -1030,6 +1029,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeEducationOrganization.xml records considered: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
+  And I should not see a warning log file created
   
 Scenario: Concurrent job processing
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -1123,6 +1123,7 @@ When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
   And zip file is scp to ingestion landing zone for "Hyrule-NYC"
   And a batch job for file "StoriedDataSet_IL_Daybreak.zip" is completed in database
   And a batch job for file "StoriedDataSet_NY.zip" is completed in database
+  And I should not see a warning log file created
 
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
@@ -1199,8 +1200,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
     And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone
     And a batch job for file "StoriedDataSet_IL_Daybreak_Deltas.zip" is completed in database
-    #TODO Test data generates warn file
-    #And I should not see a warning log file created
+    And I should not see a warning log file created
     And I should not see an error log file created
     Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
