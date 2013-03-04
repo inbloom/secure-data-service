@@ -37,7 +37,7 @@
         <jb:value property="parentEducationAgencyReference" data="attributes LocalEducationAgencyReference" />
         
         <jb:wiring property="gradesOffered" beanIdRef="GradesOffered" />
-        <jb:wiring property="schoolCategories" beanIdRef="SchoolCategories _value" />
+        <jb:wiring property="schoolCategories" beanIdRef="SchoolCategories" />
         <jb:value property="schoolType" data="attributes SchoolType _value" />
         <jb:value property="charterStatus" data="attributes CharterStatus _value" />
         <jb:value property="titleIPartASchoolDesignation" data="attributes TitleIPartASchoolDesignation _value" />
