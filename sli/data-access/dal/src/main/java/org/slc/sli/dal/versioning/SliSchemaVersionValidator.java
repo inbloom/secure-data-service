@@ -84,7 +84,7 @@ public class SliSchemaVersionValidator {
     private Map<String, Integer> entityTypesBeingMigrated;
     private Map<String, Integer> currentEntityTypeVersions;
 
-    private Map<String, Map<Integer, List<MigrationStrategy>>> migrationStrategyMap;
+    private Map<String, Map<String, List<MigrationStrategy>>> migrationStrategyMap;
     
     /**
      * If the entity is non null, has a metaData map, and its entity type has a version,
@@ -267,9 +267,9 @@ public class SliSchemaVersionValidator {
     /**
      * This method should be called post construct to load the strategies per entity type
      */
-    private Map<String, Map<Integer, List<MigrationStrategy>>> buildMigrationStrategyMap() {
+    private Map<String, Map<String, List<MigrationStrategy>>> buildMigrationStrategyMap() {
 
-        Map<String, Map<Integer, List<MigrationStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<MigrationStrategy>>>();
+        Map<String, Map<String, List<MigrationStrategy>>> migrationStrategyMap = new HashMap<String, Map<String, List<MigrationStrategy>>>();
         
         MigrationConfig config = null;
         try {
@@ -279,21 +279,21 @@ public class SliSchemaVersionValidator {
             return migrationStrategyMap;
         }
 
-        Map<String, Map<Integer, List<Map<Strategy, Map<String, Object>>>>> entityConfig = config.getEntities();
+        Map<String, Map<String, List<Map<Strategy, Map<String, Object>>>>> entityConfig = config.getEntities();
 
         // iterate over entities
-        for (Map.Entry<String, Map<Integer, List<Map<Strategy, Map<String, Object>>>>> entityEntry : entityConfig
+        for (Map.Entry<String, Map<String, List<Map<Strategy, Map<String, Object>>>>> entityEntry : entityConfig
                 .entrySet()) {
 
             String entityType = entityEntry.getKey();
-            Map<Integer, List<Map<Strategy, Map<String, Object>>>> versionUpdates = entityEntry.getValue();
+            Map<String, List<Map<Strategy, Map<String, Object>>>> versionUpdates = entityEntry.getValue();
 
-            Map<Integer, List<MigrationStrategy>> migrationsForVersion = new HashMap<Integer, List<MigrationStrategy>>();
+            Map<String, List<MigrationStrategy>> migrationsForVersion = new HashMap<String, List<MigrationStrategy>>();
 
             // iterate over version updates for a single entity
-            for (Map.Entry<Integer, List<Map<Strategy, Map<String, Object>>>> versionEntry : versionUpdates.entrySet()) {
+            for (Map.Entry<String, List<Map<Strategy, Map<String, Object>>>> versionEntry : versionUpdates.entrySet()) {
 
-                Integer versionNumber = versionEntry.getKey();
+                String versionNumber = versionEntry.getKey();
                 List<Map<Strategy, Map<String, Object>>> versionStrategies = versionEntry.getValue();
 
                 List<MigrationStrategy> strategies = new ArrayList<MigrationStrategy>();
@@ -324,12 +324,12 @@ public class SliSchemaVersionValidator {
 
     protected List<MigrationStrategy> getMigrationStrategies(String entityType, int entityVersionNumber, int newVersionNumber) {
 
-        Map<Integer, List<MigrationStrategy>> entityMigrations = migrationStrategyMap.get(entityType);
+        Map<String, List<MigrationStrategy>> entityMigrations = migrationStrategyMap.get(entityType);
         List<MigrationStrategy> allStrategies = new LinkedList<MigrationStrategy>();
 
         if (entityMigrations != null) {
-            for (int version = entityVersionNumber+1; version <= newVersionNumber; version++) {
-                List<MigrationStrategy> strategies = entityMigrations.get(version);
+            for (Integer version = entityVersionNumber+1; version <= newVersionNumber; version++) {
+                List<MigrationStrategy> strategies = entityMigrations.get(version.toString());
 
                 if (strategies != null) {
                     allStrategies.addAll(strategies);

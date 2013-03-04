@@ -135,7 +135,7 @@ public class ApiMigrationAspect {
         return new ServiceResponse(translatedEntities, response.getEntityCount());
     }
 
-    private EntityBody transformEntityBody(EntityBody entityBody, int version, boolean upTransform) {
+    private EntityBody transformEntityBody(EntityBody entityBody, Integer version, boolean upTransform) {
         EntityBody translated = entityBody;
 
         Object entityTypeObj = entityBody.get(ENTITY_TYPE);
@@ -144,7 +144,7 @@ public class ApiMigrationAspect {
 
             //transform entity - have to transform into an entity and back again to fit framework
             Entity entity =  new MongoEntity(entityType, entityBody);
-            Entity translatedEntity = apiSchemaAdapter.migrate(entity, version, upTransform);
+            Entity translatedEntity = apiSchemaAdapter.migrate(entity, version.toString(), upTransform);
             translated = new EntityBody();
             translated.putAll(translatedEntity.getBody());
         }
