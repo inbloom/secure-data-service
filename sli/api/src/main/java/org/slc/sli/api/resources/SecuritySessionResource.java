@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources;
 
 import java.util.HashMap;
@@ -22,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.annotation.Resource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -30,10 +28,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
-import org.slc.sli.api.cache.SessionCache;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -45,6 +39,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.SLIPrincipal;
 
 /**
  * System resource class for security session context.
@@ -62,14 +60,13 @@ public class SecuritySessionResource {
     @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
 
-    @Resource
-    private SessionCache sessions;
-    
     /**
-     * Method processing HTTP GET requests to the logout resource, and producing "application/json" MIME media
+     * Method processing HTTP GET requests to the logout resource, and producing "application/json"
+     * MIME media
      * type.
      *
-     * @return HashMap indicating success or failure for logout action (matches type "application/json" through jersey).
+     * @return HashMap indicating success or failure for logout action (matches type
+     *         "application/json" through jersey).
      */
     @GET
     @Path("logout")
@@ -86,18 +83,12 @@ public class SecuritySessionResource {
             logoutMap.put("logout", this.sessionManager.logout((String) userAuth.getCredentials()));
         }
 
-        try {
-            this.sessions.remove(headers.getRequestHeader("Authorization").get(0).split(" ")[1]);
-        }
-        catch(Exception e) {
-            error("Error removing session from cache", e);
-        }
-        
         return logoutMap;
     }
 
     /**
-     * Method processing HTTP GET requests to debug resource, producing "application/json" MIME media
+     * Method processing HTTP GET requests to debug resource, producing "application/json" MIME
+     * media
      * type.
      *
      * @return SecurityContext that will be send back as a response of type "application/json".
@@ -122,7 +113,8 @@ public class SecuritySessionResource {
     }
 
     /**
-     * Method processing HTTP GET requests to check resource, producing "application/json" MIME media
+     * Method processing HTTP GET requests to check resource, producing "application/json" MIME
+     * media
      * type.
      *
      * @return Map containing relevant user details (if authenticated).
@@ -136,7 +128,8 @@ public class SecuritySessionResource {
         if (isAuthenticated(SecurityContextHolder.getContext())) {
             sessionDetails.put("authenticated", true);
 
-            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
             sessionDetails.put("user_id", principal.getId());
             sessionDetails.put("full_name", principal.getName());
             sessionDetails.put("granted_authorities", principal.getRoles());
@@ -152,7 +145,7 @@ public class SecuritySessionResource {
             sessionDetails.put("selfRights", principal.getSelfRights());
             sessionDetails.put("isAdminUser", principal.isAdminUser());
             sessionDetails.put("userType", principal.getEntity().getType());
-            
+
             if (principal.getFirstName() != null) {
                 sessionDetails.put("first_name", principal.getFirstName());
             }
@@ -223,8 +216,10 @@ public class SecuritySessionResource {
     /**
      * Indicates whether or not the current user is authenticated into SLI.
      *
-     * @param securityContext User's Security Context (checked for authentication credentials).
-     * @return true (indicating user is authenticated) or false (indicating user is NOT authenticated).
+     * @param securityContext
+     *            User's Security Context (checked for authentication credentials).
+     * @return true (indicating user is authenticated) or false (indicating user is NOT
+     *         authenticated).
      */
     private boolean isAuthenticated(SecurityContext securityContext) {
         return securityContext.getAuthentication().isAuthenticated();
