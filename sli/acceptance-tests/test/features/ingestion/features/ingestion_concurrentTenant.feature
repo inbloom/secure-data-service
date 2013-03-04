@@ -93,3 +93,5 @@ When zip files are scped to the ingestion landing zone
         | teacherSchoolAssociation    | 19    |
         | teacherSectionAssociation   | 27    |
    Then I should not see an error log file created
+   And I should not see a warning log file created
+
