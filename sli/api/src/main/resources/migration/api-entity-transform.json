@@ -100,14 +100,21 @@
             "POST": [
                 {
                     "ATTENDANCE": {
-                        "operation": "unwrap"
+                        "operation": "post"
                     }
                 }
             ],
             "GET": [
                 {
                     "ATTENDANCE": {
-                        "operation": "wrap"
+                        "operation": "get"
+                    }
+                }
+            ],
+            "PUT": [
+                {
+                    "ATTENDANCE": {
+                        "operation": "put"
                     }
                 }
             ]
