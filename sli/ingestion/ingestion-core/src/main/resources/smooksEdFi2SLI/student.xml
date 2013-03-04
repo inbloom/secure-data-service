@@ -38,6 +38,7 @@
     <jb:value property="economicDisadvantaged" data="attributes economicDisadvantaged _value"  decoder="Boolean" />
     <jb:value property="schoolFoodServicesEligibility" data="attributes schoolFoodServicesEligibility _value" />
     <jb:wiring property="studentCharacteristics" beanIdRef="StudentCharacteristics" />
+    <jb:value property="profileThumbnail" data="attributes ProfileThumbnail _value" />
     <jb:value property="limitedEnglishProficiency" data="attributes LimitedEnglishProficiency _value" />
     <jb:wiring property="languages" beanIdRef="Languages" />
     <jb:wiring property="homeLanguages" beanIdRef="HomeLanguages" />
@@ -70,13 +71,13 @@
    </jb:bean>
     
   <jb:bean beanId="Name"  class="java.util.HashMap" createOnElement="attributes Name">
-        <jb:value property="verification" data="attributes Name Verification _value" />
+        <jb:value property="verification" data="attributes Name a_Verification" />
         <jb:value property="personalTitlePrefix" data="attributes Name PersonalTitlePrefix _value" />
         <jb:value property="firstName" data="attributes Name FirstName _value" />
         <jb:value property="middleName" data="attributes Name MiddleName _value" />
         <jb:value property="lastSurname" data="attributes Name LastSurname _value" />
         <jb:value property="generationCodeSuffix" data="attributes Name GenerationCodeSuffix _value" />
-        <jb:value property="madienName" data="attributes Name MadienName _value" />
+        <jb:value property="maidenName" data="attributes Name MaidenName _value" />
    </jb:bean>
    
     <jb:bean beanId="OtherNames" class="java.util.ArrayList" createOnElement="attributes OtherName">
@@ -108,8 +109,8 @@
         <jb:value property="countryCode " data="attributes Address element CountryCode _value" />
         <jb:value property="latitude" data="attributes Address element Latitude _value" />
         <jb:value property="longitude" data="attributes Address element Longitude _value" />
-        <jb:value property="openDate" data="attributes Address element OpenDate _value" />
-        <jb:value property="closeDate" data="attributes Address element CloseDate _value" />
+        <jb:value property="openDate" data="attributes Address element BeginDate _value" />
+        <jb:value property="closeDate" data="attributes Address element EndDate _value" />
     </jb:bean>
 
     <jb:bean beanId="Telephones" class="java.util.ArrayList"  createOnElement="attributes">
