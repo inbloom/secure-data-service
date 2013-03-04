@@ -68,7 +68,7 @@ public class SecurityEventBuilder {
             Entity realmEntity = null;
             if (auth != null) {
                  principal = (SLIPrincipal) auth.getPrincipal();
-                 if(principal!=null) {
+                 if(principal!=null && realmHelper != null) {
                 	 realmEntity = realmHelper.getRealmFromSession(principal.getSessionId());
                  }
             }

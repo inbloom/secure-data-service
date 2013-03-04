@@ -108,11 +108,13 @@ public class RealmHelper {
 				@SuppressWarnings("unchecked")
 				Map<String, Object> principal = (Map<String, Object>) body
 						.get("principal");
-				realmId = (String) principal.get("realm");
-				NeutralQuery realmQuery = new NeutralQuery();
-				realmQuery.addCriteria(new NeutralCriteria("_id",
-						NeutralCriteria.OPERATOR_EQUAL, realmId));
-				return repo.findOne("realm", realmQuery);
+                if(principal != null) {
+                    realmId = (String) principal.get("realm");
+                    NeutralQuery realmQuery = new NeutralQuery();
+                    realmQuery.addCriteria(new NeutralCriteria("_id",
+                            NeutralCriteria.OPERATOR_EQUAL, realmId));
+                    return repo.findOne("realm", realmQuery);
+                }
 			}
 		}
 		return null;
