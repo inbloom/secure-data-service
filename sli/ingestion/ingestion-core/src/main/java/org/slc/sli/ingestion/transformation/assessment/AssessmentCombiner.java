@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -97,10 +98,13 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             String familyHierarchyName = getAssocationFamilyMap(parentFamilyTitle, new HashMap<String, Map<String, Object>>(), "");
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
-
-            String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
-            if (assessmentPeriodDescriptorRef != null) {
-                attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
+            try {
+                String codeValue = PropertyUtils.getProperty(attrs, "assessmentPeriodDescriptorId.AssessmentPeriodDescriptorIdentity.AssessmentPeriodDescriptorCodeValue").toString();
+                if (codeValue != null) {
+                    attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(codeValue));
+                }
+            } catch(Exception e) {
+                throw new RuntimeException(e);
             }
 
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");

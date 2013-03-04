@@ -1534,7 +1534,15 @@
     <jb:value property="maxRawScore" data="Assessment/MaxRawScore" decoder="Integer" />
     <jb:value property="nomenclature" data="Assessment/Nomenclature" />
     <jb:value property="parentAssessmentFamilyTitle" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyTitle"/>
-    <jb:value property="periodDescriptorRef" data="Assessment/AssessmentPeriod/CodeValue"/>
+    <jb:wiring property="assessmentPeriodDescriptorId" beanIdRef="Assessment_AssessmentPeriod"/>
+  </jb:bean>
+
+  <jb:bean beanId="Assessment_AssessmentPeriod" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPeriod">
+    <jb:wiring property="AssessmentPeriodDescriptorIdentity" beanIdRef="Assessment_AssessmentPeriod_AssessmentPeriodDescriptorIdentity" />
+  </jb:bean>
+
+  <jb:bean beanId="Assessment_AssessmentPeriod_AssessmentPeriodDescriptorIdentity" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPeriod">
+    <jb:value property="AssessmentPeriodDescriptorCodeValue" data="InterchangeAssessmentMetadata/Assessment/AssessmentPeriod/AssessmentPeriodDescriptorIdentity/AssessmentPeriodDescriptorCodeValue" />
   </jb:bean>
 
   <jb:bean beanId="AssessmentItemArrayResolvedReferences" class="java.util.ArrayList"
