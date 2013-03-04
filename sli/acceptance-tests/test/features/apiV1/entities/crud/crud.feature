@@ -315,12 +315,18 @@ Examples:
 
     #yearlyAttendance entity CRUD tests
     @US5389 @wip
-    Scenario: Create CRUD operations for the yearlyAttendance endpoint
+    Scenario Outline: yearlyAttendance CRUD - Create operation
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And entity URI "/yearlyAttendance"
       And format "application/json"
-      And a valid entity json document for a "yearlyAttendance"
+      And an entity json document for a <yearlyAttendance Json>
     When I navigate to PUT "<ENTITY URI>"
-    Then I should receive a return code of 201
+    Then I should receive a return code of <Expected HTTP Code>
 
+    Examples:
+      | yearlyAttendance Json                 |  Expected HTTP Code |
+      | "yearlyAttendance"                    |         201         |
+      | "duplicateYearlyAttendance"           |         400         |
+      | "invalidYearlyAttendance"             |         400         |
+      | "multiSchoolsPerYearYearlyAttendance" |         201         |
 
