@@ -153,7 +153,7 @@ public class DefaultResourceService implements ResourceService {
                 //inject error entities if needed
                 finalResults = injectErrors(definition, ids, finalResults);
 
-                return new ServiceResponse(finalResults, idLength);
+                return new ServiceResponse(adapter.migrate(finalResults, definition.getType(), GET), idLength);
             }
         });
     }
@@ -196,7 +196,7 @@ public class DefaultResourceService implements ResourceService {
                     }
                     long count = getEntityCount(definition, apiQuery);
 
-                    return new ServiceResponse((List<EntityBody>) entityBodies, count);
+                    return new ServiceResponse(adapter.migrate((List<EntityBody>) entityBodies, definition.getType(), GET), count);
                 } catch (NoGranularAccessDatesException e) {
                     List<EntityBody> entityBodyList = Collections.emptyList();
                     return new ServiceResponse(entityBodyList, 0);
@@ -236,8 +236,8 @@ public class DefaultResourceService implements ResourceService {
     @MigratePostedEntity
     public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
-        adapter.migrate(entity, definition.getType(), POST);
-        return definition.getService().create(entity);
+        List<String> entityIds = definition.getService().create(adapter.migrate(entity, definition.getType(), POST));
+        return StringUtils.join(entityIds.toArray(), ",");
     }
 
     @Override
@@ -339,7 +339,7 @@ public class DefaultResourceService implements ResourceService {
             }
 
             long count = getEntityCount(definition, apiQuery);
-            return new ServiceResponse(entityBodyList, count);
+            return new ServiceResponse(adapter.migrate(entityBodyList, definition.getType(), GET), count);
         } catch (NoGranularAccessDatesException e) {
             List<EntityBody> entityBodyList = Collections.emptyList();
             return new ServiceResponse(entityBodyList, 0);
@@ -479,7 +479,7 @@ public class DefaultResourceService implements ResourceService {
 
             long count = getEntityCount(finalEntity, finalApiQuery);
 
-            return new ServiceResponse(entityBodyList, count);
+            return new ServiceResponse(adapter.migrate(entityBodyList,finalEntity.getType(), GET), count);
         } catch (NoGranularAccessDatesException e) {
             List<EntityBody> entityBodyList = Collections.emptyList();
             return new ServiceResponse(entityBodyList, 0);

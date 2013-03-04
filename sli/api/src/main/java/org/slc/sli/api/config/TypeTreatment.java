@@ -34,10 +34,8 @@ public class TypeTreatment implements Treatment {
     private static final String TYPE_STRING = "entityType";
 
     @Override
-    public List<EntityBody> toStored(List<EntityBody> exposed, EntityDefinition defn) {
-        for (EntityBody body : exposed) {
-            body.remove(TYPE_STRING);
-        }
+    public EntityBody toStored(EntityBody exposed, EntityDefinition defn) {
+        exposed.remove(TYPE_STRING);
         return exposed;
     }
 

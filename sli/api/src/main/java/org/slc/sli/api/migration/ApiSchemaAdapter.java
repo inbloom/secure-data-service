@@ -231,6 +231,18 @@ public class ApiSchemaAdapter {
         }
        return  entityBodies;
     }
+    public List<EntityBody> migrate(List<EntityBody> entityBodies, String entityType, String versionNumber) {
+
+        if (entityBodies == null) {
+            return null;
+        }
+
+        List<MigrationStrategy> migrationStrategies = getEntityTransformMigrationStrategies(entityType, versionNumber);
+        for(MigrationStrategy migrationStrategy: migrationStrategies) {
+             migrationStrategy.migrate(entityBodies);
+        }
+        return  entityBodies;
+    }
     public Resource getUpMigrationConfigResource() {
         return upMigrationConfigResource;
     }
