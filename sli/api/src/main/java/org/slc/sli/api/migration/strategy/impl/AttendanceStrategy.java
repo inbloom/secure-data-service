@@ -32,8 +32,9 @@ public class AttendanceStrategy implements MigrationStrategy<EntityBody> {
 
     public static final String OPERATION = "operation";
 
-    private static final String UNWRAP = "unwrap";
-    private static final String WRAP = "wrap";
+    private static final String POST = "post";
+    private static final String PUT = "put";
+    private static final String GET = "get";
     private static final String SCHOOL_YEAR_ATTENDANCE = "schoolYearAttendance";
     private static final String SCHOOL_YEAR = "schoolYear";
     private static final String ATTENDANCE_EVENT = "attendanceEvent";
@@ -54,9 +55,9 @@ public class AttendanceStrategy implements MigrationStrategy<EntityBody> {
     public List<EntityBody> migrate(List<EntityBody> entityList) throws MigrationException {
         List<EntityBody> returnList = new ArrayList<EntityBody>();
         for (EntityBody entityBody: entityList) {
-            if (operation.equals(UNWRAP)) {
+            if (operation.equals(POST) || operation.equals(PUT)) {
                 returnList.addAll(unwrap(entityBody));
-            } else if (operation.equals(WRAP)) {
+            } else if (operation.equals(GET)) {
                 returnList.addAll(wrap(entityBody));
             } else {
                 throw new MigrationException(new IllegalAccessException("Operation not supported."));
@@ -81,6 +82,10 @@ public class AttendanceStrategy implements MigrationStrategy<EntityBody> {
             copy.put(SCHOOL_YEAR, schoolYear);
             copy.remove(SCHOOL_YEAR_ATTENDANCE);
             splitBodies.add(copy);
+        }
+
+        if (splitBodies.size() > 1 && operation.equals(PUT)) {
+            throw new MigrationException(new IllegalAccessException("New entity should not be split."));
         }
 
         return splitBodies;
