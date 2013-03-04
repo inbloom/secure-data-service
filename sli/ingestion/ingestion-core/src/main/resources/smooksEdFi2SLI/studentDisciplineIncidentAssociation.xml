@@ -56,8 +56,8 @@
     <jb:wiring beanIdRef="SecondaryBehavior" />
   </jb:bean>
 
-  <jb:bean beanId="SecondaryBehavior" class="java.util.HashMap" createOnElement="attributes SecondaryBehaviors element">
-    <jb:value property="behaviorCategory" data="attributes SecondaryBehaviors element BehaviorCategory _value" />
+  <jb:bean beanId="SecondaryBehaviors" class="java.util.HashMap" createOnElement="attributes SecondaryBehaviors element">
+    <jb:value property="behaviorCategory" data="attributes SecondaryBehaviors element a_BehaviorCategory" />
     <jb:value property="secondaryBehavior" data="attributes StudentDisciplineIncidentAssociation element SecondaryBehaviors element SecondaryBehavior _value" />
   </jb:bean>
 
