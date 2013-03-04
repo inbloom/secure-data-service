@@ -110,7 +110,7 @@ Scenario: All-in-one scenario
 	And their id shown in proflie is "800000025"
 	And their grade is "8"
 	And the class is "8th Grade English - Sec 6"
-	And the lozenges count is "2"
+	And the lozenges count is "1"
 	And the lozenges include "ELL"
 	And Student Enrollment History has the following entries:
 	|Year   |School                     |Gr|Entry Date |Entry Type                                                                 |Transfer |Withdraw Date|Withdraw Type      |
