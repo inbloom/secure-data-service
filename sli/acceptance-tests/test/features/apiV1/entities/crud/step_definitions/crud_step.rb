@@ -723,7 +723,7 @@ Then /^I verify "(.*?)" and "(.*?)" is collapsed in response body$/ do |subdocs,
   }
 end
 
-Then /^"(.*?)" is hierachical with childrens at "(.*?)"$/ do |parent, child|
+Then /^"(.*?)" is hierachical with children at "(.*?)"$/ do |parent, child|
   result = JSON.parse(@res.body)
   assert(result[parent][0][child], "#{parent} does not contain any child at #{child}")
 end
