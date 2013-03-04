@@ -312,3 +312,15 @@ Examples:
          When I navigate to GET "/studentAssessments/<NEWLY CREATED ENTITY ID>"
          And "administrationEnvironment" should be "School"
      Then I delete both studentAssessment and Assessment
+
+    #yearlyAttendance entity CRUD tests
+    @US5389 @wip
+    Scenario: Create CRUD operations for the yearlyAttendance endpoint
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+      And entity URI "/yearlyAttendance"
+      And format "application/json"
+      And a valid entity json document for a "yearlyAttendance"
+    When I navigate to PUT "<ENTITY URI>"
+    Then I should receive a return code of 201
+
+
