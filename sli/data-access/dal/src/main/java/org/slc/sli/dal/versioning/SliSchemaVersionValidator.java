@@ -54,7 +54,6 @@ import java.util.Map.Entry;
  * @author kmyers
  * 
  */
-@Component
 public class SliSchemaVersionValidator {
 
     private static final Logger LOG = LoggerFactory.getLogger(SliSchemaVersionValidator.class);
