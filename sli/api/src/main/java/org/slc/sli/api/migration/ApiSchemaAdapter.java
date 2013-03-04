@@ -23,7 +23,11 @@ import org.slc.sli.common.migration.strategy.MigrationStrategy;
 import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -39,17 +43,24 @@ import java.util.Map;
  * @author jtully
  *
  */
+@Component
 public class ApiSchemaAdapter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApiSchemaAdapter.class);
 
+    @Value("classpath:migration/apiSchemaAdapterTest-down.json/")
     protected Resource upMigrationConfigResource;
+    @Value("classpath:migration/apiSchemaAdapterTest-up.json/")
     protected Resource downMigrationConfigResource;
+    @Value("classpath:migration/api-entity-transform.json/")
     protected Resource entityTransformConfigResource;
 
     private Map<String, Map<Integer, List<MigrationStrategy>>> upMigrationStrategyMap;
     private Map<String, Map<Integer, List<MigrationStrategy>>> downMigrationStrategyMap;
     private Map<String, Map<Integer, List<MigrationStrategy>>> entityTransformStrategyMap;
+
+    @Autowired
+    ApplicationContext beanFactory;
 
     @PostConstruct
     public void initMigration() {
@@ -99,7 +110,8 @@ public class ApiSchemaAdapter {
                     // iterate over migration strategies for a single version update
                     for (Map.Entry<Strategy, Map<String, Object>> strategy : versionStrategy.entrySet()) {
                         try {
-                            MigrationStrategy migrationStrategy = strategy.getKey().getNewImplementation();
+                            MigrationStrategy migrationStrategy = (MigrationStrategy) beanFactory
+                                    .getBean(strategy.getKey().getBeanName());
                             migrationStrategy.setParameters(strategy.getValue());
                             strategies.add(migrationStrategy);
                         } catch (MigrationException e) {

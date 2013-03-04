@@ -30,11 +30,13 @@ import org.slc.sli.validation.schema.NeutralSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -52,6 +54,7 @@ import java.util.Map.Entry;
  * @author kmyers
  * 
  */
+@Component
 public class SliSchemaVersionValidator {
 
     private static final Logger LOG = LoggerFactory.getLogger(SliSchemaVersionValidator.class);
@@ -72,6 +75,9 @@ public class SliSchemaVersionValidator {
 
     @Autowired
     protected Resource migrationConfigResource;
+
+    @Autowired
+    ApplicationContext beanFactory;
 
     protected MongoTemplate mongoTemplate;
     
@@ -299,7 +305,8 @@ public class SliSchemaVersionValidator {
                     // iterate over migration strategies for a single version update
                     for (Map.Entry<Strategy, Map<String, Object>> strategy : versionStrategy.entrySet()) {
                         try {
-                            MigrationStrategy migrationStrategy = strategy.getKey().getNewImplementation();
+                            MigrationStrategy migrationStrategy = (MigrationStrategy) beanFactory
+                                    .getBean(strategy.getKey().getBeanName());
                             migrationStrategy.setParameters(strategy.getValue());
                             strategies.add(migrationStrategy);
                         } catch (MigrationException e) {
