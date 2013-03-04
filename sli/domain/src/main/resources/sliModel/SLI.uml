@@ -26,7 +26,7 @@
       <fontname>Lucida Grande</fontname>
       <fontsize>13</fontsize>
       <defaultstereotypeview>0</defaultstereotypeview>
-      <activediagram>Class Diagram</activediagram>
+      <activediagram>Class Diagram 1</activediagram>
     </settings>
     <searchpath href="PROJECT_DIR" />
     <members>
@@ -38,6 +38,10 @@
               name="SLI_ClassDiagram.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="Class Diagram" />
+      <member type="pgml"
+              name="SLI_ClassDiagram1.pgml"
+              diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
+              diagramname="Class Diagram 1" />
       <member type="todo"
               name="SLI.todo" />
     </members>
@@ -54,7 +58,7 @@
 			CodeGeneration
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Feb 28 12:02:06 EST 2013'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Mar 01 13:41:45 EST 2013'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -7085,28 +7089,6 @@
                 <UML:DataType xmi.idref = '49fd2a6a-fba5-4fb8-b7a1-a0ea3a580066'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
-            <UML:Attribute xmi.id = '7eb64ff6-e6ac-4c8e-beaa-41347311b7b8' name = 'assessmentFamily'
-              isSpecification = 'false'>
-              <UML:StructuralFeature.multiplicity>
-                <UML:Multiplicity xmi.id = '065188ea-e859-42e8-a712-e5c4e08978e9'>
-                  <UML:Multiplicity.range>
-                    <UML:MultiplicityRange xmi.id = '3934284f-bfad-487e-b932-2256defefe56' lower = '0'
-                      upper = '1'/>
-                  </UML:Multiplicity.range>
-                </UML:Multiplicity>
-              </UML:StructuralFeature.multiplicity>
-              <UML:ModelElement.taggedValue>
-                <UML:TaggedValue xmi.id = '05495102-73cd-4e7d-ae0e-e7d8262b64f3' isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>Reference to the Assessment Family for this Assessment.</UML:TaggedValue.dataValue>
-                  <UML:TaggedValue.type>
-                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
-                  </UML:TaggedValue.type>
-                </UML:TaggedValue>
-              </UML:ModelElement.taggedValue>
-              <UML:StructuralFeature.type>
-                <UML:Class xmi.idref = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000213A'/>
-              </UML:StructuralFeature.type>
-            </UML:Attribute>
             <UML:Attribute xmi.id = '9134facd-6da9-47fa-85d3-7b182c75dfd8' name = 'assessmentIdentificationCode'
               isSpecification = 'false'>
               <UML:StructuralFeature.multiplicity>
@@ -7463,6 +7445,21 @@
               </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:Class xmi.idref = '162d235c-67c0-422c-8794-0d8a7d98badc'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:000000000000219A'
+              name = 'assessmentFamily' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:000000000000219E'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:000000000000219D'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:Class xmi.idref = '10-71-1-22-378f9188:13d270c8b4f:-8000:00000000000021A4'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
           </UML:Classifier.feature>
@@ -26969,29 +26966,55 @@
                 <UML:Class xmi.idref = '4e8c8a5e-b773-46f3-9f2c-77de83b7c782'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
-            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000217E'
+            <UML:Attribute xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:000000000000219F'
               name = 'assessmentFamily' visibility = 'public' isSpecification = 'false'
               ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
               <UML:StructuralFeature.multiplicity>
-                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002182'>
+                <UML:Multiplicity xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:00000000000021A3'>
                   <UML:Multiplicity.range>
-                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002181'
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:00000000000021A2'
                       lower = '0' upper = '1'/>
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
-              <UML:ModelElement.taggedValue>
-                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002183'
-                  isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>References the higher level AssessmentFamily this one belongs
-                        to.</UML:TaggedValue.dataValue>
-                  <UML:TaggedValue.type>
-                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
-                  </UML:TaggedValue.type>
-                </UML:TaggedValue>
-              </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
-                <UML:Class xmi.idref = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000213A'/>
+                <UML:Class xmi.idref = '10-71-1-22-378f9188:13d270c8b4f:-8000:00000000000021A4'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+          </UML:Classifier.feature>
+        </UML:Class>
+        <UML:Class xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:00000000000021A4'
+          name = 'AssessmentFamilyIdentityType' visibility = 'public' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:00000000000021A8'
+              name = 'assessmentFamilyTitle' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:00000000000021A9'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:00000000000021AA'
+                      lower = '1' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:DataType xmi.idref = '56a52704-422f-4339-80e6-ba2ec8725ae1'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:00000000000021AB'
+              name = 'version' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:00000000000021AF'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:00000000000021AE'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:DataType href = 'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087C'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
           </UML:Classifier.feature>
@@ -28172,6 +28195,740 @@
       <lineto x="1053"
               y="119" />
     </path>
+  </group>
+</pgml>
+<pgml description="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram|3ec2ba71-ce07-4dd9-8f64-9d3bc4576954"
+      name="Class Diagram 1"
+>
+  <group name="Fig0"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[144, 104, 372, 258]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
+       href="10-71-1-22-61e41853:13d2173505f:-8000:000000000000213A"
+       fill="1"
+       fillcolor="white"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig0.0"
+      x="144"
+      y="104"
+      width="372"
+      height="258"
+      fill="1"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig0.1"
+      x="145"
+      y="105"
+      width="370"
+      height="23"
+      fill="0"
+      fillcolor="white"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Lucida Grande"
+      italic="false"
+      bold="false"
+      textsize="13"
+      justification="Center"
+    >AssessmentFamily</text>
+    <group name="Fig0.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[145, 104, 353, 0]"
+         href="10-71-1-22-61e41853:13d2173505f:-8000:000000000000213A"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig0.2.0"
+        x="145"
+        y="104"
+        width="353"
+        height="0"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig0.3"
+      x="144"
+      y="128"
+      width="372"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig0.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[145, 129, 370, 212]"
+         href="10-71-1-22-61e41853:13d2173505f:-8000:000000000000213A"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig0.4.0"
+        x="145"
+        y="129"
+        width="370"
+        height="212"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig0.4.1"
+        x="145"
+        y="129"
+        width="370"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentFamilyTitle : string</text>
+      <text name="Fig0.4.2"
+        x="145"
+        y="146"
+        width="370"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentFamilyIdentificationCode [1..*] : string</text>
+      <text name="Fig0.4.3"
+        x="145"
+        y="163"
+        width="370"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentCategory [0..1] : AssessmentCategoryType</text>
+      <text name="Fig0.4.4"
+        x="145"
+        y="180"
+        width="370"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >academicSubject [0..1] : AcademicSubjectType</text>
+      <text name="Fig0.4.5"
+        x="145"
+        y="197"
+        width="370"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >gradeLevelAssessed [0..1] : GradeLevelType</text>
+      <text name="Fig0.4.6"
+        x="145"
+        y="214"
+        width="370"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >lowestGradeLevelAssessed [0..1] : GradeLevelType</text>
+      <text name="Fig0.4.7"
+        x="145"
+        y="231"
+        width="370"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >contentStandard [0..1] : ContentStandardType</text>
+      <text name="Fig0.4.8"
+        x="145"
+        y="248"
+        width="370"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >version [0..1] : Version</text>
+      <text name="Fig0.4.9"
+        x="145"
+        y="265"
+        width="370"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >revisionDate [0..1] : date</text>
+      <text name="Fig0.4.10"
+        x="145"
+        y="282"
+        width="370"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >nomenclature [0..1] : Nomenclature</text>
+      <text name="Fig0.4.11"
+        x="145"
+        y="299"
+        width="370"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentPeriods [0..*] : AssessmentPeriodDescriptor</text>
+      <text name="Fig0.4.12"
+        x="145"
+        y="316"
+        width="370"
+        height="23"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentFamily [0..1] : AssessmentFamilyIdentityType</text>
+    </group>
+    <rectangle name="Fig0.5"
+      x="144"
+      y="340"
+      width="372"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig0.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[145, 341, 370, 21]"
+         href="10-71-1-22-61e41853:13d2173505f:-8000:000000000000213A"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig0.6.0"
+        x="145"
+        y="341"
+        width="370"
+        height="21"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+  </group>
+  <group name="Fig1"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[928, 40, 436, 360]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
+       href="45597a02-4974-412d-b1b1-6491e4fc0873"
+       fill="1"
+       fillcolor="white"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig1.0"
+      x="928"
+      y="40"
+      width="436"
+      height="360"
+      fill="1"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig1.1"
+      x="929"
+      y="41"
+      width="434"
+      height="23"
+      fill="0"
+      fillcolor="white"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Lucida Grande"
+      italic="false"
+      bold="false"
+      textsize="13"
+      justification="Center"
+    >Assessment</text>
+    <group name="Fig1.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[929, 41, 434, 0]"
+         href="45597a02-4974-412d-b1b1-6491e4fc0873"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig1.2.0"
+        x="929"
+        y="41"
+        width="434"
+        height="0"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig1.3"
+      x="928"
+      y="64"
+      width="436"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig1.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[929, 65, 434, 314]"
+         href="45597a02-4974-412d-b1b1-6491e4fc0873"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig1.4.0"
+        x="929"
+        y="65"
+        width="434"
+        height="314"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig1.4.1"
+        x="929"
+        y="65"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentTitle : AssessmentTitle</text>
+      <text name="Fig1.4.2"
+        x="929"
+        y="82"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentIdentificationCode [1..*] : AssessmentIdentificationCode</text>
+      <text name="Fig1.4.3"
+        x="929"
+        y="99"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentCategory [0..1] : AssessmentCategoryType</text>
+      <text name="Fig1.4.4"
+        x="929"
+        y="116"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >academicSubject [0..1] : AcademicSubjectType</text>
+      <text name="Fig1.4.5"
+        x="929"
+        y="133"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >gradeLevelAssessed [0..1] : GradeLevelType</text>
+      <text name="Fig1.4.6"
+        x="929"
+        y="150"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >lowestGradeLevelAssessed [0..1] : GradeLevelType</text>
+      <text name="Fig1.4.7"
+        x="929"
+        y="167"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentPerformanceLevel [0..*] : AssessmentPerformanceLevel</text>
+      <text name="Fig1.4.8"
+        x="929"
+        y="184"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >contentStandard [0..1] : ContentStandardType</text>
+      <text name="Fig1.4.9"
+        x="929"
+        y="201"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentForm [0..1] : AssessmentForm</text>
+      <text name="Fig1.4.10"
+        x="929"
+        y="218"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >version [0..1] : Version</text>
+      <text name="Fig1.4.11"
+        x="929"
+        y="235"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >revisionDate [0..1] : date</text>
+      <text name="Fig1.4.12"
+        x="929"
+        y="252"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >maxRawScore [0..1] : int</text>
+      <text name="Fig1.4.13"
+        x="929"
+        y="269"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >minRawScore [0..1] : int</text>
+      <text name="Fig1.4.14"
+        x="929"
+        y="286"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >nomenclature [0..1] : Nomenclature</text>
+      <text name="Fig1.4.15"
+        x="929"
+        y="303"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentPeriodDescriptor [0..1] : AssessmentPeriodDescriptor</text>
+      <text name="Fig1.4.16"
+        x="929"
+        y="320"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >objectiveAssessment [0..*] : ObjectiveAssessment</text>
+      <text name="Fig1.4.17"
+        x="929"
+        y="337"
+        width="434"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentItem [0..*] : AssessmentItem</text>
+      <text name="Fig1.4.18"
+        x="929"
+        y="354"
+        width="434"
+        height="23"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >assessmentFamily [0..1] : AssessmentFamilyIdentityType</text>
+    </group>
+    <rectangle name="Fig1.5"
+      x="928"
+      y="378"
+      width="436"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig1.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[929, 379, 434, 21]"
+         href="45597a02-4974-412d-b1b1-6491e4fc0873"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig1.6.0"
+        x="929"
+        y="379"
+        width="434"
+        height="21"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
   </group>
 </pgml>
 <todo>

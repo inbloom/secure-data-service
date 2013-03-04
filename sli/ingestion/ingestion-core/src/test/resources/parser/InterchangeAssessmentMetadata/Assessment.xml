@@ -43,10 +43,7 @@
     </ObjectiveAssessmentReference>
     <AssessmentFamilyReference id="ID009" ref="ID003">
       <AssessmentFamilyIdentity>
-        <AssessmentFamilyIdentificationCode IdentificationSystem="Federal"
-          AssigningOrganizationCode="DWByg__HAWAAcr1Ldb4yHIAy">
-          <ID>BYt9iVcXMIKysptdpO1zFxm-Y2koGSyj9JIW4pE6wC4HWkILxF53zyrtoPIi</ID>
-        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyTitle>Test</AssessmentFamilyTitle>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
     <SectionReference>

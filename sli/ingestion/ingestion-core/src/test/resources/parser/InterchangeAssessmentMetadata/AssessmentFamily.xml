@@ -20,10 +20,7 @@
     </AssessmentPeriods>
     <AssessmentFamilyReference id="ID005" ref="ID002">
       <AssessmentFamilyIdentity>
-        <AssessmentFamilyIdentificationCode IdentificationSystem="District"
-          AssigningOrganizationCode="u.zXl85h0sKc9w9DUEiQLUX1s5H8Bs">
-          <ID>kkG3hnH</ID>
-        </AssessmentFamilyIdentificationCode>
+          <AssessmentFamilyTitle>Test</AssessmentFamilyTitle>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>

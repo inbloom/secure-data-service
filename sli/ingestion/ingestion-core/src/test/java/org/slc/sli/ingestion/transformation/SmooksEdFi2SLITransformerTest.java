@@ -100,8 +100,8 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals(1, result.size());
 
         Assert.assertEquals("assessmentTitle", result.get(0).getBody().get("assessmentTitle"));
-        Assert.assertEquals("assessmentFamilyHierarchyName",
-                result.get(0).getBody().get("assessmentFamilyHierarchyName"));
+        Assert.assertEquals("assessmentFamily",
+                result.get(0).getBody().get("assessmentFamily"));
 
         List<Map<String, Object>> assessmentIDCodeList = (List<Map<String, Object>>) result.get(0)
                 .getBody().get("assessmentIdentificationCode");

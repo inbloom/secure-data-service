@@ -48,11 +48,7 @@
     "a_id":"ID009",
     "a_ref":"ID003",
     "AssessmentFamilyIdentity":{
-      "AssessmentFamilyIdentificationCode":[{
-        "a_IdentificationSystem":"Federal",
-        "a_AssigningOrganizationCode":"DWByg__HAWAAcr1Ldb4yHIAy",
-        "ID":{"_value":"BYt9iVcXMIKysptdpO1zFxm-Y2koGSyj9JIW4pE6wC4HWkILxF53zyrtoPIi"}
-      }]
+      "AssessmentFamilyTitle":{"_value":"Test"}
     }
   },
   "SectionReference":[{
