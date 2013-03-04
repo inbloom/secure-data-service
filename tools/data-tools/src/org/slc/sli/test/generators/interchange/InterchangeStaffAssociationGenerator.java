@@ -106,7 +106,7 @@ public class InterchangeStaffAssociationGenerator {
                 teacher = null;
             } else {
                 //teacher = TeacherGenerator.generateLowFi(teacherMeta.id);
-            	teacher = TeacherGenerator.generateMediumFi(teacherMeta.id);
+                teacher = TeacherGenerator.generateMediumFi(teacherMeta.id);
             }
 
 

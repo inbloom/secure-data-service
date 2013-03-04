@@ -17,8 +17,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This educational entity represents the collection
- * 				of student grades for courses taken during a grading period.
- * 			
+ *                 of student grades for courses taken during a grading period.
+ *             
  * 
  * <p>Java class for reportCard complex type.
  * 

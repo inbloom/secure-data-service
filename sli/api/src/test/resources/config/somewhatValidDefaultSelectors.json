@@ -1,20 +1,20 @@
 [
-	{
-		"type" : "type1",
-		"selector" : ":()"
-	},
-	{
-		"type" : "type2",
-		"selector" : "INVALID SELECTOR SYNTAX"
-	},
-	{
-		"type" : "type3",
-		"selector" : ":()"
-	},
-	{
-		"type" : "type4"
-	},
-	{
-		"selector" : ":()"
-	}
+    {
+        "type" : "type1",
+        "selector" : ":()"
+    },
+    {
+        "type" : "type2",
+        "selector" : "INVALID SELECTOR SYNTAX"
+    },
+    {
+        "type" : "type3",
+        "selector" : ":()"
+    },
+    {
+        "type" : "type4"
+    },
+    {
+        "selector" : ":()"
+    }
 ]

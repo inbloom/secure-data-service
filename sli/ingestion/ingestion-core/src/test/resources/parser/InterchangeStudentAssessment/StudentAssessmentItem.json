@@ -23,7 +23,6 @@
       },
       "StudentReference":
       {
-        "a_id":"ID010",
         "StudentIdentity":
         {
           "StudentUniqueStateId":
@@ -57,14 +56,39 @@
           {
             "_value":"2006-05-04"
           },
-          "StudentReference":
-          {
-            "a_id":"ID012"
-          },
-          "AssessmentReference":
-          {
-            "a_id":"ID013"
-          }
+            "StudentReference":
+  {
+    "StudentIdentity":
+    {
+      "StudentUniqueStateId":
+      {
+        "_value":"StudentUniqueStateId1"
+      }
+    }
+  },
+  "AssessmentReference":
+  {
+    "a_id":"ID017",
+    "AssessmentIdentity":
+    {
+      "AssessmentTitle":
+      {
+        "_value":"AssessmentTitle3"
+      },
+      "AcademicSubject":
+      {
+        "_value":"English Language and Literature"
+      },
+      "GradeLevelAssessed":
+      {
+        "_value":"Adult Education"
+      },
+      "Version":
+      {
+        "_value":0
+      }
+    }
+  }
         }
       },
       "ObjectiveAssessmentReference":

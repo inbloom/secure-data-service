@@ -63,6 +63,23 @@
     </StudentObjectiveAssessment>
     <StudentAssessmentItem>
         <AssessmentItemResult>Incorrect</AssessmentItemResult>
+        <StudentAssessmentReference>
+            <StudentAssessmentIdentity>
+                <AdministrationDate>2011-05-10</AdministrationDate>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <AssessmentReference>
+                    <AssessmentIdentity>
+                        <AssessmentTitle>as0Title</AssessmentTitle>
+                        <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+                        <Version>1</Version>
+                    </AssessmentIdentity>
+                </AssessmentReference>
+            </StudentAssessmentIdentity>
+        </StudentAssessmentReference>
         <AssessmentItemReference>
             <AssessmentItemIdentity>
                 <AssessmentItemIdentificationCode>AssessmentItemReference</AssessmentItemIdentificationCode>

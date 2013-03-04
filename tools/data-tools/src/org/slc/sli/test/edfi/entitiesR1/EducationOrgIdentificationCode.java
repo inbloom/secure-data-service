@@ -16,10 +16,10 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * A unique number or alphanumeric code that is
- * 				assigned to an education
- * 				organization by a school, school system, a
- * 				state, or other agency or entity.
- * 			
+ *                 assigned to an education
+ *                 organization by a school, school system, a
+ *                 state, or other agency or entity.
+ *             
  * 
  * <p>Java class for educationOrgIdentificationCode complex type.
  * 

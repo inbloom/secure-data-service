@@ -35,21 +35,21 @@ public class EntityValidationException extends RuntimeException {
     final String entityType;
 
     public EntityValidationException(String entityId, String entityType, List<ValidationError> errors) {
-    	super();
+        super();
         this.entityId = entityId;
         this.entityType = entityType;
         this.errors = Collections.unmodifiableList(errors);
     }
     
     public EntityValidationException(Exception e, String entityId,
-			String entityType, ArrayList<ValidationError> errors) {
-    	super(e);
+            String entityType, ArrayList<ValidationError> errors) {
+        super(e);
         this.entityId = entityId;
         this.entityType = entityType;
         this.errors = Collections.unmodifiableList(errors);
-	}
+    }
 
-	public List<ValidationError> getValidationErrors() {
+    public List<ValidationError> getValidationErrors() {
         return errors;
     }
 

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.annotation.PostConstruct;
 import javax.xml.namespace.QName;
@@ -78,6 +79,8 @@ public class DidSchemaParser implements ResourceLoaderAware {
     // per reference configs for deterministic id resolution
     private Map<String, DidRefConfig> refConfigs;
 
+    private Map<String, List<DidNaturalKey>> naturalKeys;
+
     private String xsdLocation;
     private String xsdParentLocation;
 
@@ -90,12 +93,14 @@ public class DidSchemaParser implements ResourceLoaderAware {
     private static final String REFERENCE_TYPE = "ReferenceType";
     private static final String IDENTITY_TYPE = "IdentityType";
 
+
     // Did annotation constants
     private static final String APPLY_KEY_FIELDS = "applyKeyFields";
     private static final String REF_TYPE = "refType";
     private static final String RECORD_TYPE = "recordType";
     private static final String KEY_FIELD_NAME = "keyFieldName";
     private static final String XPATH_PREFIX = "body.";
+    private static final String XPATH_SUFFIX = "._value";
 
     private static final Logger LOG = LoggerFactory.getLogger(DidSchemaParser.class);
 
@@ -131,6 +136,14 @@ public class DidSchemaParser implements ResourceLoaderAware {
         this.xsdLocation = xsdLocation;
     }
 
+    public Map<String, List<DidNaturalKey>> getNaturalKeys() {
+        return naturalKeys;
+    }
+
+    public void setNaturalKeys(Map<String, List<DidNaturalKey>> naturalKeys) {
+        this.naturalKeys = naturalKeys;
+    }
+
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
@@ -160,7 +173,8 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
         // extract the Did configuration objects
         entityConfigs = extractEntityConfigs();
-        refConfigs = extractRefConfigs();
+        refConfigs = addExternalKeyFields(extractRefConfigs());
+        naturalKeys = extractNaturalKeys();
     }
 
     public Map<String, DidRefConfig> getRefConfigs() {
@@ -188,17 +202,19 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
             DidEntityConfig entityConfig = extractEntityConfig(complexType.getValue());
             if (entityConfig != null) {
-                //extract the entity annotations
+                // extract the entity annotations
                 XmlSchemaAnnotation annotation = complexType.getValue().getAnnotation();
                 if (annotation != null) {
                     String recordType = parseAnnotationForRecordType(annotation);
                     if (recordType != null) {
                         extractedEntityConfigs.put(recordType, entityConfig);
                     } else {
-                        LOG.error("Failed to extract DidEntityConfig for type " + complexType.getKey() + ", couldn't find recordType annotation");
+                        LOG.error("Failed to extract DidEntityConfig for type " + complexType.getKey()
+                                + ", couldn't find recordType annotation");
                     }
                 } else {
-                    LOG.error("Failed to extract DidEntityConfig for type " + complexType.getKey() + " - null annotation");
+                    LOG.error("Failed to extract DidEntityConfig for type " + complexType.getKey()
+                            + " - null annotation");
                 }
             }
         }
@@ -221,6 +237,41 @@ public class DidSchemaParser implements ResourceLoaderAware {
         }
 
         return extractedRefConfigs;
+    }
+
+    /**
+     * Add key fields that cannot be extracted directly from the edfi schema for the reference type
+     *
+     * @return
+     */
+    private Map<String, DidRefConfig> addExternalKeyFields(Map<String, DidRefConfig> configs) {
+        // references to assessment items in student assessment items need to get the assessment
+        // reference from the student assessment reference
+        // Yes, this is a hack, the proper solution would probably involve decoupling ingestion
+        // from the ed-fi schema.
+        DidRefConfig assessmentItemConfig = configs.get("assessmentItem");
+        if (assessmentItemConfig != null) {
+            KeyFieldDef assessment = new KeyFieldDef();
+            assessment.setKeyFieldName("assessmentId");
+            assessment.setRefConfig(configs.get("assessment"));
+            assessment.setValueSource("DiDResolved_AssessmentReference");
+            List<KeyFieldDef> externalRefs = new ArrayList<KeyFieldDef>();
+            externalRefs.add(assessment);
+            assessmentItemConfig.setExternalKeyFields(externalRefs);
+        }
+
+        DidRefConfig objectiveAssessmentConfig = configs.get("objectiveAssessment");
+        if (objectiveAssessmentConfig != null) {
+            KeyFieldDef assessment = new KeyFieldDef();
+            assessment.setKeyFieldName("assessmentId");
+            assessment.setRefConfig(configs.get("assessment"));
+            assessment.setValueSource("DiDResolved_AssessmentReference");
+            List<KeyFieldDef> externalRefs = new ArrayList<KeyFieldDef>();
+            externalRefs.add(assessment);
+            objectiveAssessmentConfig.setExternalKeyFields(externalRefs);    
+         }
+
+        return configs;
     }
 
     /**
@@ -357,6 +408,23 @@ public class DidSchemaParser implements ResourceLoaderAware {
     }
 
     /**
+     * Extract a particle from a complex type
+     * returns null if it can't be extracted.
+     */
+    private XmlSchemaParticle extractParticleWithRestriction(XmlSchemaComplexType complexType) {
+        XmlSchemaParticle particle = complexType.getParticle();
+
+        if (particle == null && complexType.getContentModel() != null
+                && complexType.getContentModel().getContent() != null) {
+            XmlSchemaContent content = complexType.getContentModel().getContent();
+            if (content instanceof XmlSchemaComplexContentRestriction) {
+                XmlSchemaComplexContentRestriction complexContent = (XmlSchemaComplexContentRestriction) content;
+                particle = complexContent.getParticle();
+            }
+        }
+        return particle;
+    }
+    /**
      * Extract a particle from a complex type, respecting both extensions and restrictions
      * returns null if there isn't one.
      */
@@ -410,6 +478,8 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 LOG.error("Failed to extract IdentityType for referenceType " + refType.getName());
                 return null;
             }
+            
+            refConfig.setExternalKeyFields(new ArrayList<KeyFieldDef>());
         }
         return refConfig;
     }
@@ -424,9 +494,9 @@ public class DidSchemaParser implements ResourceLoaderAware {
         List<DidRefSource> refSources = new ArrayList<DidRefSource>();
         parseParticleForRef(extractParticle(complexType), refSources, false);
 
-        //parse base type as well if it has one - we only ever need to go
+        // parse base type as well if it has one - we only ever need to go
         if (complexType.getBaseSchemaTypeName() != null) {
-            String baseTypeName =  complexType.getBaseSchemaTypeName().getLocalPart();
+            String baseTypeName = complexType.getBaseSchemaTypeName().getLocalPart();
             XmlSchemaComplexType baseType = complexTypes.get(baseTypeName);
             if (baseType != null) {
                 parseParticleForRef(extractParticle(baseType), refSources, false);
@@ -474,7 +544,8 @@ public class DidSchemaParser implements ResourceLoaderAware {
      * Recursively parse through an XmlSchemaPatricle to the elements
      * filling in the refConfig data, including nested refConfigs
      */
-    private void parseParticleForRefConfig(XmlSchemaParticle particle, DidRefConfig refConfig, String baseXPath, boolean isOptional) {
+    private void parseParticleForRefConfig(XmlSchemaParticle particle, DidRefConfig refConfig, String baseXPath,
+            boolean isOptional) {
         boolean isItOptional = isOptional;
         if (particle != null) {
             if (particle instanceof XmlSchemaElement) {
@@ -503,6 +574,8 @@ public class DidSchemaParser implements ResourceLoaderAware {
                         XmlSchemaComplexType nestedRefType = referenceTypes.get(elementType.getLocalPart());
                         DidRefConfig nestedRefConfig = extractRefConfig(nestedRefType);
                         keyfield.setRefConfig(nestedRefConfig);
+                    } else {
+                        xPath += XPATH_SUFFIX;
                     }
                     keyfield.setValueSource(xPath);
 
@@ -522,7 +595,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 XmlSchemaChoice xmlSchemaChoice = (XmlSchemaChoice) particle;
                 XmlSchemaObjectCollection choices = xmlSchemaChoice.getItems();
 
-                //treat fields within a choice as being optional
+                // treat fields within a choice as being optional
                 isItOptional = true;
 
                 for (int i = 0; i < choices.getCount(); i++) {
@@ -657,30 +730,53 @@ public class DidSchemaParser implements ResourceLoaderAware {
     }
 
     /**
-    * Parse an annotation for recordType annotation
-    */
-   private String parseAnnotationForRecordType(XmlSchemaAnnotation annotation) {
-       String recordType = null;
+     * Parse an annotation for recordType annotation
+     */
+    private String parseAnnotationForRecordType(XmlSchemaAnnotation annotation) {
+        String recordType = null;
+        XmlSchemaAppInfo appInfo = getAppInfo(annotation);
+        if (appInfo != null) {
+            NodeList nodes = appInfo.getMarkup();
+            for (int nodeIdx = 0; nodeIdx < nodes.getLength(); nodeIdx++) {
+                Node node = nodes.item(nodeIdx);
+                if (node instanceof Element) {
+                    String key = node.getLocalName().trim();
+                    String value = node.getFirstChild().getNodeValue().trim();
 
-       XmlSchemaAppInfo appInfo = getAppInfo(annotation);
-       if (appInfo != null) {
-           NodeList nodes = appInfo.getMarkup();
-           for (int nodeIdx = 0; nodeIdx < nodes.getLength(); nodeIdx++) {
-               Node node = nodes.item(nodeIdx);
-               if (node instanceof Element) {
-                   String key = node.getLocalName().trim();
-                   String value = node.getFirstChild().getNodeValue().trim();
+                    if (key.equals(RECORD_TYPE)) {
+                        recordType = value;
+                        break;
+                    }
+                }
+            }
+        }
+        return recordType;
+    }
 
-                   if (key.equals(RECORD_TYPE)) {
-                       recordType = value;
-                       break;
-                   }
-               }
-           }
-       }
-       return recordType;
-   }
+   /**
+   * Parse an annotation for naturalKeys annotation
+   */
+  private String parseAnnotationForNaturalKeys(XmlSchemaAnnotation annotation) {
+      String naturalKeys = null;
 
+      XmlSchemaAppInfo appInfo = getAppInfo(annotation);
+      if (appInfo != null) {
+          NodeList nodes = appInfo.getMarkup();
+          for (int nodeIdx = 0; nodeIdx < nodes.getLength(); nodeIdx++) {
+              Node node = nodes.item(nodeIdx);
+              if (node instanceof Element) {
+                  String key = node.getLocalName().trim();
+                  String value = node.getFirstChild().getNodeValue().trim();
+
+                  if (key.equals("naturalKeys")) {
+                      naturalKeys = value;
+                      break;
+                  }
+              }
+          }
+      }
+      return naturalKeys;
+  }
 
     /**
      * Parse an annotation for DidRefSource data
@@ -718,5 +814,133 @@ public class DidSchemaParser implements ResourceLoaderAware {
         }
 
         return refSource;
+    }
+
+    public Map<String, List<DidNaturalKey>> extractNaturalKeys() {
+        Map<String, List<DidNaturalKey>> entitiesWithKeys = new HashMap<String, List<DidNaturalKey>> ();
+        for (XmlSchemaComplexType complexType : complexTypes.values()) {
+            XmlSchemaAnnotation annotation = complexType.getAnnotation();
+            String naturalKeys = parseAnnotationForNaturalKeys(annotation);
+            if(naturalKeys != null) {
+                entitiesWithKeys.put(parseAnnotationForRecordType(annotation), getNaturalKeysForEntity(complexType, naturalKeys));
+
+            }
+        }
+        return entitiesWithKeys;
+    }
+
+    private List<DidNaturalKey> getNaturalKeysForEntity(XmlSchemaComplexType complexType, String keys) {
+        List<DidNaturalKey> naturalKeys = new ArrayList<DidNaturalKey>();
+
+        StringTokenizer keysTokenizer = new StringTokenizer(keys, ",");
+
+        while (keysTokenizer.hasMoreElements()) {
+
+            String key = (String) keysTokenizer.nextElement();
+            DidNaturalKey naturalKey = new DidNaturalKey();
+            naturalKey.setNaturalKeyName(key);
+            if(key.indexOf('.') != -1) {
+                key = key.substring(0, key.indexOf('.'));
+            }
+
+            XmlSchemaParticle particle = extractParticle(complexType);
+            if(particle == null) {
+                particle = extractParticleWithRestriction(complexType);
+            }
+
+            Long minOccurs = parseParticleForMinOccurs(particle, key);
+
+            if(minOccurs == null) {
+              //Check the parent entity for the natural key
+              String parent = complexType.getBaseSchemaTypeName().getLocalPart();
+              if(!parent.equals("ComplexObjectType")) {
+                XmlSchemaParticle parentParticle = getParticleByType(parent);
+                if(parentParticle != null) {
+                    minOccurs = parseParticleForMinOccurs(parentParticle, key);
+                }
+              }
+            }
+
+            if(minOccurs == null) {
+              //Check the reference types to find this field, should be don only after element comparison fails
+                minOccurs = parseRefParticleForMinOccurs(particle, key);
+            }
+
+            if(minOccurs != null && minOccurs != 0) {
+                naturalKey.setOptional(false);
+            } else {
+                naturalKey.setOptional(true);
+            }
+
+            naturalKeys.add(naturalKey);
+        }
+        return naturalKeys;
+    }
+
+    private XmlSchemaParticle getParticleByType(String name) {
+        XmlSchemaParticle particle = null;
+            for (XmlSchemaComplexType parentComplexType : complexTypes.values()) {
+                if(parentComplexType.getName().equals(name)) {
+                    particle = extractParticle(parentComplexType);
+                    break;
+                }
+        }
+        return particle;
+    }
+
+    private Long parseParticleForMinOccurs(XmlSchemaParticle particle, String naturalKeyElement) {
+        Long minOccurs = null;
+
+        if (particle != null) {
+            if (particle instanceof XmlSchemaElement) {
+                XmlSchemaElement element = (XmlSchemaElement) particle;
+                String elementName = element.getName();
+                if (elementName.equals(naturalKeyElement)) {
+                  minOccurs = element.getMinOccurs();
+                  return minOccurs;
+                }
+
+            } else if (particle instanceof XmlSchemaSequence) {
+                XmlSchemaSequence schemaSequence = (XmlSchemaSequence) particle;
+                for (int i = 0; i < schemaSequence.getItems().getCount(); i++) {
+                    XmlSchemaObject item = schemaSequence.getItems().getItem(i);
+                    if (item instanceof XmlSchemaParticle) {
+                        minOccurs = parseParticleForMinOccurs((XmlSchemaParticle) item, naturalKeyElement);
+                        if(minOccurs != null) {
+                            return minOccurs;
+                        }
+                    }
+                }
+            }
+        }
+        return minOccurs;
+    }
+
+    private Long parseRefParticleForMinOccurs(XmlSchemaParticle particle, String naturalKeyElement) {
+        Long minOccurs = null;
+
+        if (particle instanceof XmlSchemaSequence) {
+            XmlSchemaSequence schemaSequence = (XmlSchemaSequence) particle;
+
+            for (int i = 0; i < schemaSequence.getItems().getCount(); i++) {
+                XmlSchemaObject item = schemaSequence.getItems().getItem(i);
+                if (item instanceof XmlSchemaElement) {
+                    XmlSchemaElement element = (XmlSchemaElement) item;
+                    QName elementType = element.getSchemaTypeName();
+                    if (elementType != null && referenceTypes.containsKey(elementType.getLocalPart())) {
+
+                        //This element is of reference type check the elements of the identity type of this reference
+                        XmlSchemaParticle refParticle = getParticleByType(elementType.getLocalPart());
+                        XmlSchemaElement identityTypeElement = parseParticleForIdentityType(refParticle);
+                        XmlSchemaParticle identityTypeParticle = getParticleByType(identityTypeElement.getSchemaTypeName().getLocalPart());
+                        minOccurs = parseParticleForMinOccurs(identityTypeParticle, naturalKeyElement);
+                        if(minOccurs != null) {
+                            return minOccurs;
+                        }
+                    }
+                }
+            }
+        }
+        return minOccurs;
     }
 }

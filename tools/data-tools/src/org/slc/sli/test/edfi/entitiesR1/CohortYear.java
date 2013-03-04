@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * The type and year of a cohort (e.g., 9th grade) the
- * 				student belongs
- * 				to.
- * 			
+ *                 student belongs
+ *                 to.
+ *             
  * 
  * <p>Java class for cohortYear complex type.
  * 

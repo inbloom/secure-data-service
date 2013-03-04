@@ -85,7 +85,7 @@ public class WriteValidatorTest {
     }
 
     @SuppressWarnings("unchecked")
-	@Before
+    @Before
     public void setUp() {
         uriInfo = Mockito.mock(UriInfo.class);
         principal = Mockito.mock(SLIPrincipal.class);
@@ -112,9 +112,9 @@ public class WriteValidatorTest {
     @Test
     @ExpectedException(value = AccessDeniedException.class)
     public void testDenyWritingOutsideOfEdOrgHierarchyCreate() {
-    	
-    	EntityBody entityBody = new EntityBody();
-    	entityBody.put(ParameterConstants.SCHOOL_ID, UN_ASSOCIATED_ED_ORG);
+        
+        EntityBody entityBody = new EntityBody();
+        entityBody.put(ParameterConstants.SCHOOL_ID, UN_ASSOCIATED_ED_ORG);
 
         when(uriInfo.getPathSegments()).thenReturn(postPath);
 
@@ -125,7 +125,7 @@ public class WriteValidatorTest {
     public void testValidWritingInEdOrgHierarchyCreate() {
 
         EntityBody entityBody = new EntityBody();
-    	entityBody.put(ParameterConstants.SCHOOL_ID, ED_ORG_B);
+        entityBody.put(ParameterConstants.SCHOOL_ID, ED_ORG_B);
 
         when(uriInfo.getPathSegments()).thenReturn(postPath);
 
@@ -136,7 +136,7 @@ public class WriteValidatorTest {
     @ExpectedException(value = AccessDeniedException.class)
     public void testDenyUpdateWhenNoEdOrgMatchToExistingEntity() {
         EntityBody entityBody = new EntityBody();
-    	entityBody.put(ParameterConstants.SCHOOL_ID, ED_ORG_A);
+        entityBody.put(ParameterConstants.SCHOOL_ID, ED_ORG_A);
 
         existingSection.getBody().put(ParameterConstants.SCHOOL_ID, UN_ASSOCIATED_ED_ORG);
 

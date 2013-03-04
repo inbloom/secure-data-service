@@ -1,18 +1,18 @@
 {
-	id: "teachingSections",
-	name: "Current Sections",
-	type: "GRID",
-	data :{
-		entity: "teacherInfo",
-		cacheKey: "teacherInfo"
-	},
+    id: "teachingSections",
+    name: "Current Sections",
+    type: "GRID",
+    data :{
+        entity: "teacherInfo",
+        cacheKey: "teacherInfo"
+    },
         params: {
             layout: ["teacher"]
         },
-	root:"sections",
-	items: [{
-		items:[
-			{id: "SectionName", name: "Name of Section", type: "FIELD", datatype: "string", field: "uniqueSectionCode", width: 200,formatter:restLink, params: {link:'section', target:"getSection"}}
-		]
-	}]
+    root:"sections",
+    items: [{
+        items:[
+            {id: "SectionName", name: "Name of Section", type: "FIELD", datatype: "string", field: "uniqueSectionCode", width: 200,formatter:restLink, params: {link:'section', target:"getSection"}}
+        ]
+    }]
 }

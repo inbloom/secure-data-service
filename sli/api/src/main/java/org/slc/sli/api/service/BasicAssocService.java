@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
@@ -24,20 +23,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.FullSuperDoc;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.EntityValidationException;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of AssociationService.
- *
+ * 
  */
 @Scope("prototype")
 @Component("basicAssociationService")
@@ -117,8 +116,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
                 sourceEntity.getMetaData().remove("isOrphaned");
 
                 try {
-                    getRepo().update(sourceCollection, sourceEntity);
-                    getRepo().update(targetCollection, targetEntity);
+                    getRepo().update(sourceCollection, sourceEntity, FullSuperDoc.isFullSuperdoc(sourceEntity));
+                    getRepo().update(targetCollection, targetEntity, FullSuperDoc.isFullSuperdoc(targetEntity));
                 } catch (EntityValidationException e) {
                     error("Invariant violation.  Read entity couldn't be updated", e);
                 }
@@ -158,7 +157,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
 
     /**
      * Get associations to the entity of the given type and id, where id is keyed off of key
-     *
+     * 
      * @param type
      *            the type of the entity being queried
      * @param id
@@ -192,7 +191,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
 
     /**
      * Get associations to the entity of the given type and id, where id is keyed off of key
-     *
+     * 
      * @param type
      *            the type of the entity being queried
      * @param id
@@ -250,7 +249,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
 
     /**
      * Gets the actual association objects (and not just the ids
-     *
+     * 
      * @param type
      *            the type of the entity being queried
      * @param id
@@ -285,5 +284,5 @@ public class BasicAssocService extends BasicService implements AssociationServic
 
         return getRepo().count(getCollectionName(), localNeutralQuery);
     }
-
+    
 }

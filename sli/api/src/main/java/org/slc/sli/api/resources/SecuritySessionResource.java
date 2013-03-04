@@ -22,11 +22,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.annotation.Resource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
+import org.slc.sli.api.cache.SessionCache;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -38,10 +45,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.SLIPrincipal;
 
 /**
  * System resource class for security session context.
@@ -59,6 +62,9 @@ public class SecuritySessionResource {
     @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
 
+    @Resource
+    private SessionCache sessions;
+    
     /**
      * Method processing HTTP GET requests to the logout resource, and producing "application/json" MIME media
      * type.
@@ -67,7 +73,7 @@ public class SecuritySessionResource {
      */
     @GET
     @Path("logout")
-    public Map<String, Object> logoutUser() {
+    public Map<String, Object> logoutUser(@Context HttpHeaders headers) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Authentication oAuth = ((OAuth2Authentication) auth).getUserAuthentication();
@@ -80,6 +86,13 @@ public class SecuritySessionResource {
             logoutMap.put("logout", this.sessionManager.logout((String) userAuth.getCredentials()));
         }
 
+        try {
+            this.sessions.remove(headers.getRequestHeader("Authorization").get(0).split(" ")[1]);
+        }
+        catch(Exception e) {
+            error("Error removing session from cache", e);
+        }
+        
         return logoutMap;
     }
 

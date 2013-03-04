@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
@@ -45,4 +46,22 @@ public final class BatchJobManager {
         return workNote.hasErrors();
     }
 
+    public boolean isEligibleForDeltaPurge(Exchange exchange) {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        String jobId = workNote.getBatchJobId();
+        String deltaMode =  batchJobDAO.getDuplicateDetectionMode(jobId);
+
+        if(deltaMode != null && isDeltaPurgeMode(deltaMode)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isDeltaPurgeMode(String mode) {
+        if((mode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE) || mode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_RESET))) {
+            return true;
+        }
+            return false;
+    }
 }

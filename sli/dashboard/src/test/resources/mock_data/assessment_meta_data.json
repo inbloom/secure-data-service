@@ -1,69 +1,69 @@
 [
 {
-	"id" : "StateTest-Reading-8th-grade-2011",
-	"assessmentTitle" : "StateTest-Reading-8th-grade-2011",
-	"maxRawScore" : 364,
-	"minRawScore" : 120,
-	"assessmentPerformanceLevel" : [
-		{
-			"performanceLevel" : "1",
-			"assessmentReportingMethod" : "Scale score",
-			"minimumScore" : 120,
-			"maximumScore" : 180
-		},
-		{
-			"performanceLevel" : "2",
-			"assessmentReportingMethod" : "Scale score",
-			"minimumScore" : 180,
-			"maximumScore" : 231
-		},
-		{
-			"performanceLevel" : "3",
-			"assessmentReportingMethod" : "Scale score",
-			"minimumScore" : 231,
-			"maximumScore" : 278
-		},
-		{
-			"performanceLevel" : "4",
-			"assessmentReportingMethod" : "Scale score",
-			"minimumScore" : 278,
-			"maximumScore" : 364
-		}
-	],
-	"assessmentFamilyHierarchyName":"StateTest.StateTest Reading for Grades 3-8.StateTest Reading for Grade 8"
+    "id" : "StateTest-Reading-8th-grade-2011",
+    "assessmentTitle" : "StateTest-Reading-8th-grade-2011",
+    "maxRawScore" : 364,
+    "minRawScore" : 120,
+    "assessmentPerformanceLevel" : [
+        {
+            "performanceLevel" : "1",
+            "assessmentReportingMethod" : "Scale score",
+            "minimumScore" : 120,
+            "maximumScore" : 180
+        },
+        {
+            "performanceLevel" : "2",
+            "assessmentReportingMethod" : "Scale score",
+            "minimumScore" : 180,
+            "maximumScore" : 231
+        },
+        {
+            "performanceLevel" : "3",
+            "assessmentReportingMethod" : "Scale score",
+            "minimumScore" : 231,
+            "maximumScore" : 278
+        },
+        {
+            "performanceLevel" : "4",
+            "assessmentReportingMethod" : "Scale score",
+            "minimumScore" : 278,
+            "maximumScore" : 364
+        }
+    ],
+    "assessmentFamilyHierarchyName":"StateTest.StateTest Reading for Grades 3-8.StateTest Reading for Grade 8"
 },
 {
-	"id" : "StateTest-Writing-8th-grade-2011",
-	"assessmentTitle" : "StateTest-Writing-8th-grade-2011",
-	"maxRawScore" : 410,
-	"minRawScore" : 120,
-	"assessmentPerformanceLevel" : [
-		{
-			"performanceLevel" : "1",
-			"assessmentReportingMethod" : "Scale score",
-			"minimumScore" : 120,
-			"maximumScore" : 221
-		},
-		{
-			"performanceLevel" : "2",
-			"assessmentReportingMethod" : "Scale score",
-			"minimumScore" : 221,
-			"maximumScore" : 246
-		},
-		{
-			"performanceLevel" : "3",
-			"assessmentReportingMethod" : "Scale score",
-			"minimumScore" : 246,
-			"maximumScore" : 288
-		},
-		{
-			"performanceLevel" : "4",
-			"assessmentReportingMethod" : "Scale score",
-			"minimumScore" : 288,
-			"maximumScore" : 410
-		}
-	],
-	"assessmentFamilyHierarchyName":"StateTest.StateTest Writing for Grades 3-8.StateTest Writing for Grade 8"
+    "id" : "StateTest-Writing-8th-grade-2011",
+    "assessmentTitle" : "StateTest-Writing-8th-grade-2011",
+    "maxRawScore" : 410,
+    "minRawScore" : 120,
+    "assessmentPerformanceLevel" : [
+        {
+            "performanceLevel" : "1",
+            "assessmentReportingMethod" : "Scale score",
+            "minimumScore" : 120,
+            "maximumScore" : 221
+        },
+        {
+            "performanceLevel" : "2",
+            "assessmentReportingMethod" : "Scale score",
+            "minimumScore" : 221,
+            "maximumScore" : 246
+        },
+        {
+            "performanceLevel" : "3",
+            "assessmentReportingMethod" : "Scale score",
+            "minimumScore" : 246,
+            "maximumScore" : 288
+        },
+        {
+            "performanceLevel" : "4",
+            "assessmentReportingMethod" : "Scale score",
+            "minimumScore" : 288,
+            "maximumScore" : 410
+        }
+    ],
+    "assessmentFamilyHierarchyName":"StateTest.StateTest Writing for Grades 3-8.StateTest Writing for Grade 8"
 },
     {
         "id": "TRC_ASSESSMENT_GRADE_2_BOY_ID",
@@ -129,11 +129,11 @@
             }
         ],
         "assessmentPeriodDescriptor": {
-        	"codeValue": "READ2_NEXT_GRADE_2_BOY_2010",
-        	"description": "Beginning of Year",
-        	"shortDescription": "BOY",
-        	"beginDate": "2010-08-01",
-        	"endDate": "2010-12-31"
+            "codeValue": "READ2_NEXT_GRADE_2_BOY_2010",
+            "description": "Beginning of Year",
+            "shortDescription": "BOY",
+            "beginDate": "2010-08-01",
+            "endDate": "2010-12-31"
         }
     },
     {
@@ -168,11 +168,11 @@
             }
         ],
         "assessmentPeriodDescriptor": {
-        	"codeValue": "READ2_NEXT_GRADE_2_BOY_2011",
-        	"description": "Beginning of Year",
-        	"shortDescription": "BOY",
-        	"beginDate": "2011-08-01",
-        	"endDate": "2011-12-31"
+            "codeValue": "READ2_NEXT_GRADE_2_BOY_2011",
+            "description": "Beginning of Year",
+            "shortDescription": "BOY",
+            "beginDate": "2011-08-01",
+            "endDate": "2011-12-31"
         }
     },
     {

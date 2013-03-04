@@ -36,14 +36,14 @@ public final class AssessmentItemMeta {
     }
 
     public String getAssessmentId() {
-		return assessmentId;
-	}
+        return assessmentId;
+    }
 
-	public void setAssessmentId(String assessmentId) {
-		this.assessmentId = assessmentId;
-	}
+    public void setAssessmentId(String assessmentId) {
+        this.assessmentId = assessmentId;
+    }
 
-	@Override
+    @Override
     public String toString() {
         return "AssesssmentItemMeta [id=" + id + ", learningStandardIds=" + learningStandardIds + ", assessmentId=" + assessmentId + "]";
     }

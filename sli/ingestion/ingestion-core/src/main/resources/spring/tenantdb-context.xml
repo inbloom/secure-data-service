@@ -7,12 +7,16 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-
+ <context:annotation-config />
   <context:component-scan base-package="org.slc.sli">
     <context:exclude-filter type="regex" expression=".*AvroEntityValidator"></context:exclude-filter>
     <context:exclude-filter type="regex" expression=".*LdapServiceImpl" />
+    <context:exclude-filter type="regex" expression=".*GenericSuperdocConverter" />
+    <context:exclude-filter type="regex" expression=".*AssessmentConverter" />
+    <context:exclude-filter type="regex" expression=".*StudentAssessmentConverter" />
+    <context:exclude-filter type="regex" expression=".*SuperdocConverterRegistry" />
   </context:component-scan>
-  <context:annotation-config />
+  
 
   <util:set id="shardCollections" set-class="java.util.TreeSet">
     <value>attendance</value>

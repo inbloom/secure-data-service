@@ -8,8 +8,7 @@
     http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
-    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
-    >
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
   <bean id="ingestionPropertiesPlaceholder" class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
 
@@ -31,10 +30,10 @@
       </list>
     </property>
   </bean>
-
+  
   <import resource="activemq-context.xml" />
   <import resource="smooks-context.xml" />
-  <import resource="classpath:/spring/db.xml" />
+  
   <import resource="dal-context.xml" />
 
   <import resource="core-message-context.xml" />
@@ -45,6 +44,9 @@
   <import resource="recordLvlHash-context.xml" />
   <import resource="tenantdb-context.xml" />
   <import resource="systemValidator-context.xml" />
+  <import resource="classpath:/spring/db.xml" />
+
+  <import resource="camel-context.xml" />
 
   <context:component-scan base-package="org.slc.sli">
     <context:exclude-filter type="regex" expression=".*CustomImpl" />
@@ -53,6 +55,10 @@
     <context:exclude-filter type="regex" expression=".*AesCipher" />
     <context:exclude-filter type="regex" expression=".*MemcachedCacheProvider" />
     <context:exclude-filter type="regex" expression=".*LdapServiceImpl" />
+    <context:exclude-filter type="regex" expression=".*GenericSuperdocConverter" />
+    <context:exclude-filter type="regex" expression=".*AssessmentConverter" />
+    <context:exclude-filter type="regex" expression=".*StudentAssessmentConverter" />
+    <context:exclude-filter type="regex" expression=".*SuperdocConverterRegistry" />
   </context:component-scan>
 
 
@@ -61,8 +67,8 @@
   <!-- <bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
 
-  <bean id="repo"  name="validationRepo" class="org.slc.sli.validation.DummyEntityRepository">
-     <constructor-arg value="true" type="boolean" />
+  <bean id="repo" name="validationRepo" class="org.slc.sli.validation.DummyEntityRepository">
+    <constructor-arg value="true" type="boolean" />
   </bean>
 
   <context:annotation-config />
@@ -82,11 +88,9 @@
 
   <bean id="messageSource" parent="coreMessageSource" />
 
-  <camelContext xmlns="http://camel.apache.org/schema/spring" />
-
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
-  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA" >
+  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA">
     <property name="entityRepository" ref="mongoEntityRepository" />
   </bean>
 
@@ -109,7 +113,7 @@
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
     <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
-    <property name="recordLvlHashNeutralRecordTypes" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="recordLvlHashNeutralRecordTypes" ref="recordLevelDeltaEnabledEntities" />
   </bean>
 
   <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />

@@ -30,6 +30,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.EdfiEntity;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.RangedWorkNote;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
@@ -52,7 +53,7 @@ public class OrchestraPreProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
         String jobId = workNote.getBatchJobId();
         exchange.getIn().setHeader("jobId", jobId);

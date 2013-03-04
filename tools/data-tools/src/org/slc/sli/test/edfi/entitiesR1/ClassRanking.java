@@ -17,10 +17,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * 
- * 				The academic rank information of a student in
- * 				relation to his or her
- * 				graduating class
- * 			
+ *                 The academic rank information of a student in
+ *                 relation to his or her
+ *                 graduating class
+ *             
  * 
  * <p>Java class for classRanking complex type.
  * 

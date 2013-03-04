@@ -106,11 +106,11 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     }
     
     private Set<GrantedAuthority> getNeededRights(Role role, boolean isSelf) {
-    	if (isSelf) {
-    		return role.getSelfRights();
-    	} else {
-    		return role.getRights();
-    	}
+        if (isSelf) {
+            return role.getSelfRights();
+        } else {
+            return role.getRights();
+        }
     }
 
     @Override

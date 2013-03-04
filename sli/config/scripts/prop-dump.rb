@@ -24,12 +24,12 @@ require 'yaml'
 DEFAULT_ENV = "default"
 
 def read_config(fname)
-	parsed = begin
-    		YAML.load(File.open(fname))
-  		rescue ArgumentError => e
-    		puts "Could not parse YAML in file #{fname}: #{e.message}"
-	end
-	parsed
+    parsed = begin
+            YAML.load(File.open(fname))
+          rescue ArgumentError => e
+            puts "Could not parse YAML in file #{fname}: #{e.message}"
+    end
+    parsed
 end
 
 def iter_props(config)
@@ -49,7 +49,7 @@ end
 
 
 def check_properties(config)
-	# go through all sections and collect the union of properties 
+    # go through all sections and collect the union of properties 
     unique_props = []
     unique_sections = [] 
     props_by_env = iter_props(config) do |env, section, prop_name|
@@ -106,14 +106,14 @@ if __FILE__==$0
         exit(1)
     end
 
-	config_fname = ARGV[0]
-	config = read_config(config_fname)
-	check_properties(config)
+    config_fname = ARGV[0]
+    config = read_config(config_fname)
+    check_properties(config)
 =begin
-	unique_options.sort!
-	puts "Uniques: \n----------------------------------------------\n"
-	unique_options.each do |opt| 
-		puts opt 
-	end
+    unique_options.sort!
+    puts "Uniques: \n----------------------------------------------\n"
+    unique_options.each do |opt| 
+        puts opt 
+    end
 =end
 end

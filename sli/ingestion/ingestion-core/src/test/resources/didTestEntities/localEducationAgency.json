@@ -6,28 +6,28 @@
         {
             "EducationalOrgIdentity":
             {
-                "StateOrganizationId":"someLEAOrganizationID"
+                "StateOrganizationId":{"_value":"someLEAOrganizationID"}
             }
         },
         "EducationServiceCenterReference":
         {
             "EducationalOrgIdentity":
             {
-                "StateOrganizationId":"someEducationServiceCenterID"
+                "StateOrganizationId":{"_value":"someEducationServiceCenterID"}
             }
         },
         "StateEducationAgencyReference":
         {
             "EducationalOrgIdentity":
             {
-                "StateOrganizationId":"someSEAOrganizationID"
+                "StateOrganizationId":{"_value":"someSEAOrganizationID"}
             }
         },
         "ProgramReference":
         {
             "ProgramIdentity":
             {
-                "ProgramId":"testProgramId"
+                "ProgramId":{"_value":"testProgramId"}
             }
         }
     }

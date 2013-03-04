@@ -29,6 +29,7 @@
 			<xs:documentation>Assessment record with key fields: AssessmentTitle, AcademicSubject, GradeLevelAssessed and Version. Changed types of ObjectiveAssessmentReference, SectionReference and AssessmentItemReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>assessment</sli:recordType>
+				<sli:naturalKeys>AssessmentTitle,AcademicSubject,GradeLevelAssessed,Version</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -61,6 +62,7 @@
 			<xs:documentation>AssessmentItem record with key field: IdentificationCode. Changed types of AssessmentReference and LearningStandardReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>assessmentItem</sli:recordType>
+				<sli:naturalKeys>IdentificationCode</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -81,15 +83,16 @@
 		<xs:annotation>
 			<xs:documentation>AttendanceEvent record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId) and EventDate. Made SchoolReference required. Changed types of StudentReference, SchoolReference, SessionReference and SectionReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
-				<sli:recordType>attendance</sli:recordType>
+				<sli:recordType>attendanceEvent</sli:recordType>
+				<sli:naturalKeys>StudentReference,SchoolReference,SchoolYear</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-          <xs:element name="SchoolYear" type="SchoolYearType" />
+          			<xs:element name="SchoolYear" type="SchoolYearType" />
 					<xs:element name="EventDate" type="xs:date"/>
-          <xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0"/>
+          			<xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0"/>
 					<xs:element name="AttendanceEventCategory" type="AttendanceEventCategoryType"/>
 					<xs:element name="AttendanceEventReason" type="AttendanceEventReason" minOccurs="0"/>
 					<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0"/>
@@ -133,6 +136,7 @@
 			<xs:documentation>CalendarDate record with key fields: Date and EducationOrgReference (StateOrganizationId). Added EducationOrgReference.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>calendarDate</sli:recordType>
+				<sli:naturalKeys>Date,EducationOrgReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -150,6 +154,7 @@
 			<xs:documentation>Cohort record with key fields: EducationOrgReference (StateOrganizationId) and CohortIdentifier. Changed types of EducationOrgReference and ProgramReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>cohort</sli:recordType>
+				<sli:naturalKeys>EducationOrgReference,CohortIdentifier</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -171,6 +176,7 @@
 			<xs:documentation>Course record with key fields: EducationOrganizationReference (StateOrganizationId) and UniqueCourseId. Changed types of EducationOrganizationReference, LearningStandardReference and LearningObjectiveReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>course</sli:recordType>
+				<sli:naturalKeys>EducationOrganizationReference,UniqueCourseId</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -212,6 +218,7 @@
 			<xs:documentation>CourseOffering record with key fields: SchoolReference (StateOrganizationId),  SessionReference (StateOrganizationId, SessionName), and CourseReference (StateOrganizationId, UniqueCourseId).  Changed types of SchoolReference, SessionReference and CourseReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>courseOffering</sli:recordType>
+				<sli:naturalKeys>SchoolReference,SessionReference,LocalCourseCode</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -231,6 +238,7 @@
 			<xs:documentation>CourseTranscript record with key fields: CourseAttemptResult, CourseReference (StateOrganizationId, UniqueCourseId) and StudentAcademicRecordReference (StudentUniqueStateId, StateOrganizationId, SessionName). Changed types of CourseReference and StudentAcademicRecordReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>courseTranscript</sli:recordType>
+				<sli:naturalKeys>StudentAcademicRecordReference,CourseReference,CourseAttemptResult</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -263,6 +271,7 @@
 			<xs:documentation>DisciplineAction record with key fields: DisciplineActionIdentifier, ResponsibilitySchoolReference (StateOrganizationId). Changed types of StudentReference, DisciplineIncidentReference, StaffReference, ResponsibilitySchoolReference and AssignmentSchoolReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>disciplineAction</sli:recordType>
+				<sli:naturalKeys>ResponsibilitySchoolReference,DisciplineActionIdentifier</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -288,6 +297,7 @@
 			<xs:documentation>DisciplineIncident record with key fields: SchoolReference (StateOrganizationId) and IncidentIdentifier . Changed types of SchoolReference and StaffReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>disciplineIncident</sli:recordType>
+				<sli:naturalKeys>SchoolReference,IncidentIdentifier</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -356,6 +366,7 @@
 			<xs:documentation>Grade record with key fields: StudentSectionAssociationReference (StudentUniqueStateId, StateOrganizationId, UniqueSectionCode, BeginDate) and GradingPeriodReference (StateOrganizationId, GradingPeriod, BeginDate). Changed types of StudentSectionAssociationReference and GradingPeriodReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>grade</sli:recordType>
+				<sli:naturalKeys>StudentSectionAssociationReference,GradingPeriodReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -374,6 +385,7 @@
 					<xs:element name="PerformanceBaseConversion" type="PerformanceBaseType" minOccurs="0"/>
 					<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
 					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0"/>
+          <xs:element name="SchoolYear" type="SchoolYearType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -383,6 +395,7 @@
 			<xs:documentation>GradebookEntry record with key fields: GradebookEntryType, DateAssigned, SectionReference (StateOrganizationId, UniqueSectionCode).  Changed types of LearningStandardReference, LearningObjectiveReference, SectionReference and GradingPeriodReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>gradebookEntry</sli:recordType>
+				<sli:naturalKeys>SectionReference,GradebookEntryType,DateAssigned</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -404,6 +417,7 @@
 			<xs:documentation>GradingPeriod record with key fields: GradingPeriod, EducationOrganizationReference (StateOrganizationId) and BeginDate. Added GradingPeriod, SchoolYear and EducationOrganizationReference. Changed type of CalendarDateReference to SLC reference type.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>gradingPeriod</sli:recordType>
+				<sli:naturalKeys>GradingPeriod,EducationOrganizationReference,BeginDate</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -431,6 +445,7 @@
 			<xs:documentation>GraduationPlan record with key fields: GraduationPlanType and EducationOrganizationReference (StateOrganizationId). Changed type of EducationOrganizationReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>graduationPlan</sli:recordType>
+				<sli:naturalKeys>GraduationPlanType,EducationOrganizationReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -455,6 +470,7 @@
 			<xs:documentation>Learning objective record with key fields: Objective, AcademicSubject and ObjectiveGradeLevel. LocalChanged type of LearningStandardReference and LearningObjectiveReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>learningObjective</sli:recordType>
+				<sli:naturalKeys>Objective,AcademicSubject,ObjectiveGradeLevel</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -471,11 +487,51 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="SLC-LearningStandard">
+		<xs:annotation>
+			<xs:documentation>This entity is a subelement of a learning objective consisting of a precise statement of the expectation of a student's proficiency.</xs:documentation>
+			<xs:appinfo>
+				<sli:recordType>learningStandard</sli:recordType>
+				<sli:naturalKeys>LearningStandardId.IdentificationCode</sli:naturalKeys>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="LearningStandardId" type="LearningStandardId"/>
+					<xs:element name="Description" type="Description"/>
+					<xs:element name="ContentStandard" type="ContentStandardType"/>
+					<xs:element name="GradeLevel" type="GradeLevelType"/>
+					<xs:element name="SubjectArea" type="AcademicSubjectType"/>
+					<xs:element name="CourseTitle" type="CourseTitle" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-CompetencyLevelDescriptor">
+		<xs:annotation>
+			<xs:documentation>This descriptor defines various levels for assessed competencies.</xs:documentation>
+			<xs:appinfo>
+				<sli:recordType>competencyLevelDescriptor</sli:recordType>
+				<sli:naturalKeys>CodeValue</sli:naturalKeys>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="CodeValue" type="CodeValue"/>
+					<xs:element name="Description" type="Description" minOccurs="0"/>
+					<xs:element name="PerformanceBaseConversion" type="PerformanceBaseType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:complexType name="SLC-LocalEducationAgency">
 		<xs:annotation>
 			<xs:documentation>LocalEducationAgency record with key field: StateOrganizationId. Changed type of LocalEducationAgencyReference, EducationServiceCenterReference and StateEducationAgencyReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>localEducationAgency</sli:recordType>
+				<sli:naturalKeys>StateOrganizationId</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -495,6 +551,7 @@
 			<xs:documentation>ObjectiveAssessment record with key field: IdentificationCode. Changed type of LearningObjectiveReference, LearningStandardReference and ObjectiveAssessmentReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>objectiveAssessment</sli:recordType>
+				<sli:naturalKeys>IdentificationCode</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -505,10 +562,11 @@
 					<xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="PercentOfAssessment" type="percent" minOccurs="0"/>
 					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
-					<xs:element name="AssessmentItemReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentItemReference" type="SLC-AssessmentItemReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -518,6 +576,7 @@
 			<xs:documentation>Program record with key field: ProgramId. Made ProgramId a required field.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>program</sli:recordType>
+				<sli:naturalKeys>ProgramId</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -536,6 +595,7 @@
 			<xs:documentation>ReportCard record with key fields: StudentReference (StudentUniqueStateId) and GradingPeriodReference (StateOrganizationId, GradingPeriod, BeginDate). Changed type of StudentCompetencyReference, StudentReference and GradingPeriodReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>reportCard</sli:recordType>
+				<sli:naturalKeys>StudentReference,GradingPeriodReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -568,6 +628,7 @@
 					</xs:element>
 					<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
 					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"/>
+          <xs:element name="SchoolYear" type="SchoolYearType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -577,6 +638,7 @@
 			<xs:documentation>School record with key field: StateOrganizationId. Changed type of LocalEducationAgencyReference to SLC reference type.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>school</sli:recordType>
+				<sli:naturalKeys>StateOrganizationId</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -601,6 +663,7 @@
 			<xs:documentation>Section record with key fields: UniqueSectionCode and SchoolReference (StateOrganizationId). Changed types of CourseOfferingReference, SchoolReference, SessionReference and ProgramReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>section</sli:recordType>
+				<sli:naturalKeys>SchoolReference,UniqueSectionCode</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -629,11 +692,131 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="SLC-Teacher">
+		<xs:annotation>
+			<xs:documentation>This entity represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties.</xs:documentation>
+			<xs:appinfo>
+				<sli:recordType>teacher</sli:recordType>
+				<sli:naturalKeys>StaffUniqueStateId</sli:naturalKeys>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="SLC-Staff">
+				<xs:sequence>
+					<xs:element name="TeacherUniqueStateId" type="UniqueStateIdentifier" minOccurs="0"/>
+					<xs:element name="HighlyQualifiedTeacher" type="xs:boolean" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-Staff">
+		<xs:annotation>
+			<xs:documentation>This entity represents an individual who performs specified activities for any public or private education institution or agency that provides instructional and/or support services to students or staff at the early childhood level through high school completion. For example, this includes: 
+1) an "employee" who performs services under the direction of the employing institution or agency, is compensated for such services by the employer, and is eligible for employee benefits and wage or salary tax withholdings; 
+2) a "contractor" or "consultant" who performs services for an agreed upon fee, or an employee of a management service contracted to work on site; 
+3) a "volunteer" who performs services on a voluntary and uncompensated basis; 
+4) an in kind service provider; or 
+5) an independent contractor or businessperson working at a school site.</xs:documentation>
+		<xs:appinfo>
+			<sli:recordType>staff</sli:recordType>
+			<sli:naturalKeys>StaffUniqueStateId</sli:naturalKeys>
+		</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="StaffUniqueStateId" type="UniqueStateIdentifier"/>
+					<xs:element name="StaffIdentificationCode" type="StaffIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Name" type="Name"/>
+					<xs:element name="OtherName" type="OtherName" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Sex" type="SexType"/>
+					<xs:element name="BirthDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="Address" type="Address" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Telephone" type="Telephone" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="HispanicLatinoEthnicity" type="xs:boolean" nillable="true"/>
+					<xs:element name="OldEthnicity" type="OldEthnicityType" minOccurs="0"/>
+					<xs:element name="Race" type="RaceType"/>
+					<xs:element name="HighestLevelOfEducationCompleted" type="LevelOfEducationType"/>
+					<xs:element name="YearsOfPriorProfessionalExperience" type="xs:int" minOccurs="0"/>
+					<xs:element name="YearsOfPriorTeachingExperience" type="xs:int" minOccurs="0"/>
+					<xs:element name="Credentials" type="Credential" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LoginId" type="IdentificationCode" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+		<xs:complexType name="SLC-Parent">
+		<xs:annotation>
+			<xs:documentation>This entity represents a parent or guardian of a student, such as mother, father, or caretaker.</xs:documentation>
+			<xs:appinfo>
+				<sli:recordType>parent</sli:recordType>
+				<sli:naturalKeys>ParentUniqueStateId</sli:naturalKeys>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="ParentUniqueStateId" type="UniqueStateIdentifier"/>
+					<xs:element name="Name" type="Name"/>
+					<xs:element name="OtherName" type="OtherName" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Sex" type="SexType" minOccurs="0"/>
+					<xs:element name="Address" type="Address" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Telephone" type="Telephone" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LoginId" type="IdentificationCode" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-Student">
+		<xs:annotation>
+			<xs:documentation>This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program.  A student is a person who has been enrolled in a school or other educational institution.</xs:documentation>
+			<xs:appinfo>
+				<sli:recordType>student</sli:recordType>
+				<sli:naturalKeys>StudentUniqueStateId</sli:naturalKeys>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="StudentUniqueStateId" type="UniqueStateIdentifier"/>
+					<xs:element name="StudentIdentificationCode" type="StudentIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Name" type="Name"/>
+					<xs:element name="OtherName" type="OtherName" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Sex" type="SexType"/>
+					<xs:element name="BirthData" type="BirthData"/>
+					<xs:element name="Address" type="Address" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Telephone" type="Telephone" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ProfileThumbnail" type="ProfileThumbnail" minOccurs="0"/>
+					<xs:element name="HispanicLatinoEthnicity" type="xs:boolean" nillable="true"/>
+					<xs:element name="OldEthnicity" type="OldEthnicityType" minOccurs="0"/>
+					<xs:element name="Race" type="RaceType"/>
+					<xs:element name="EconomicDisadvantaged" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="SchoolFoodServicesEligibility" type="SchoolFoodServicesEligibilityType" minOccurs="0"/>
+					<xs:element name="StudentCharacteristics" type="StudentCharacteristic" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LimitedEnglishProficiency" type="LimitedEnglishProficiencyType" minOccurs="0"/>
+					<xs:element name="Languages" type="LanguagesType" minOccurs="0"/>
+					<xs:element name="HomeLanguages" type="LanguagesType" minOccurs="0"/>
+					<xs:element name="Disabilities" type="Disability" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Section504Disabilities" type="Section504DisabilitiesType" minOccurs="0"/>
+					<xs:element name="DisplacementStatus" type="DisplacementStatusType" minOccurs="0"/>
+					<xs:element name="ProgramParticipations" type="ProgramParticipation" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LearningStyles" type="LearningStyles" minOccurs="0"/>
+					<xs:element name="CohortYears" type="CohortYear" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="StudentIndicators" type="StudentIndicator" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LoginId" type="IdentificationCode" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:complexType name="SLC-Session">
 		<xs:annotation>
 			<xs:documentation>Session record with key fields: SessionName and EducationOrganizationReference (StateOrganizationId). Changed types of EducationOrganizationReference, GradingPeriodReference, CalendarDateReference and AcademicWeekReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>session</sli:recordType>
+				<sli:naturalKeys>EducationOrganizationReference,SessionName</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -658,6 +841,7 @@
 			<xs:documentation>StateEducationAgency with key field: StateOrganizationId.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>stateEducationAgency</sli:recordType>
+				<sli:naturalKeys>StateOrganizationId</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -669,6 +853,7 @@
 			<xs:documentation>StudentAcademicRecord record with key fields: StudentReference (StudentUniqueStateId) and SessionReference (SessionName, StateOrganizationId). Changed types of StudentReference, SessionReference, ReportCardReference and DiplomaReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentAcademicRecord</sli:recordType>
+				<sli:naturalKeys>StudentReference,SessionReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -691,6 +876,7 @@
 					<xs:element name="SessionReference" type="SLC-SessionReferenceType"/>
 					<xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="DiplomaReference" type="SLC-DiplomaReferenceType" minOccurs="0"/>
+          <xs:element name="SchoolYear" type="SchoolYearType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -700,6 +886,7 @@
 			<xs:documentation>StudentAssessment record with key fields: AdministrationDate, StudentReference (StudentUniqueStateId) and AssessmentReference (AssessmentTitle, AcademicSubject, GradeLevelAssessed, Version). Changed types of StudentReference and AssessmentReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentAssessment</sli:recordType>
+				<sli:naturalKeys>AdministrationDate,StudentReference,AssessmentReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -707,7 +894,7 @@
 				<xs:sequence>
 					<xs:element name="AdministrationDate" type="xs:date"/>
 					<xs:element name="AdministrationEndDate" type="xs:date" minOccurs="0"/>
-					<xs:element name="SerialNumber" type="IdentificationCode" minOccurs="0"/>
+				    <xs:element name="SerialNumber" type="IdentificationCode" minOccurs="0"/>
 					<xs:element name="AdministrationLanguage" type="LanguageItemType" minOccurs="0"/>
 					<xs:element name="AdministrationEnvironment" type="AdministrationEnvironmentType" minOccurs="0"/>
 					<xs:element name="SpecialAccommodations" type="SpecialAccommodationsType" minOccurs="0" maxOccurs="unbounded"/>
@@ -728,6 +915,7 @@
 			<xs:documentation>StudentAssessmentItem record with key field: StudentAssessmentReference (AdministrationDate, StudentUniqueStateId, AssessmentTitle, AcademicSubject, GradeLevelAssessed, Version) and AssessmentItemReference (AssessmentItemIdentificationCode). Changed types of StudentAssessmentReference, StudentObjectiveAssessmentReference and AssessmentItemReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentAssessmentItem</sli:recordType>
+				<sli:naturalKeys>StudentAssessmentReference,AssessmentItemReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -737,7 +925,7 @@
 					<xs:element name="ResponseIndicator" type="ResponseIndicatorType" minOccurs="0"/>
 					<xs:element name="AssessmentItemResult" type="AssessmentItemResultType"/>
 					<xs:element name="RawScoreResult" type="xs:int" minOccurs="0"/>
-					<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType" minOccurs="0"/>
+					<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType"/>
 					<xs:element name="StudentObjectiveAssessmentReference" type="SLC-StudentObjectiveAssessmentReferenceType" minOccurs="0"/>
 					<xs:element name="AssessmentItemReference" type="SLC-AssessmentItemReferenceType"/>
 				</xs:sequence>
@@ -749,6 +937,7 @@
 			<xs:documentation>StudentCompetency record with key fields: LearningObjectiveReference (Objective, AcademicSubject, ObjectiveGradeLevel), StudentCompetencyObjectiveReference (StudentCompetencyObjectiveId), CompetencyLevel (CodeValue) and StudentSectionAssociationReference (StudentUniqueStateId, StateOrganizationId, UniqueSectionCode, BeginDate). Made StudentSectionAssociationReference required. Changed types of LearningObjectiveReference, StudentCompetencyObjectiveReference and StudentSectionAssociationReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentCompetency</sli:recordType>
+				<sli:naturalKeys>StudentSectionAssociationReference,CompetencyLevel.CodeValue,StudentCompetencyObjectiveReference,LearningObjectiveReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -770,6 +959,7 @@
 			<xs:documentation>StudentCompetencyObjective record with key fields: StudentCompetencyObjectiveId. Made StudentCompetencyObjectiveId required. Changed type of EducationOrganizationReference to SLC reference type.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentCompetencyObjective</sli:recordType>
+				<sli:naturalKeys>StudentCompetencyObjectiveId</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -789,6 +979,7 @@
 			<xs:documentation>StudentGradebookEntry record with key fields: StudentSectionAssociationReference (StudentUniqueStateId, StateOrganizationId, UniqueSectionCode, BeginDate) and GradebookEntryReference (GradebookEntryType, DateAssigned, StateOrganizationId, UniqueSectionCode). Changed types of StudentSectionAssociationReference and GradebookEntryReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentGradebookEntry</sli:recordType>
+				<sli:naturalKeys>GradebookEntryReference,StudentSectionAssociationReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -816,6 +1007,7 @@
 			<xs:documentation>StudentObjectiveAssessment record with key fields: StudentAssessmentReference (AdministrationDate, StudentUniqueStateId, AssessmentTitle, AcademicSubject, GradeLevelAssessed, Version) and AssessmentItemReference (AssessmentItemIdentificationCode). Changed types of StudentAssessmentReference and ObjectiveAssessmentReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentObjectiveAssessment</sli:recordType>
+				<sli:naturalKeys>StudentAssessmentReference,ObjectiveAssessmentReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -837,6 +1029,7 @@
 			<xs:documentation>StaffCohortAssociation record  with key fields: StaffReference (StaffUniqueStateId), CohortReference (CohortIdentifier, StateOrganizationId) and BeginDate. Limited StaffReference and CohortReference to a single instance. Changed types of StaffReference and CohortReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>staffCohortAssociation</sli:recordType>
+				<sli:naturalKeys>StaffReference,CohortReference,BeginDate</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -855,7 +1048,8 @@
 		<xs:annotation>
 			<xs:documentation>StaffEducationOrganizationAssociation with key fields: StaffReference (StaffUniqueStateId), EducationOrganizationReference (StateOrganizationId), StaffClassification and BeginDate. Changed types of StaffReference and EducationOrganizationReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
-				<sli:recordType>staffEducationOrganizationAssociation</sli:recordType>
+				<sli:recordType>staffEducationOrgAssignmentAssociation</sli:recordType>
+				<sli:naturalKeys>EducationOrganizationReference,StaffReference,StaffClassification,BeginDate</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -872,6 +1066,7 @@
 			<xs:documentation>StaffProgramAssociation record with key fields: StaffReference (StaffUniqueStateId), ProgramReference (ProgramId) and BeginDate. Limited StaffReference and ProgramReference to a single instance. Changed types of StaffReference and ProgramReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>staffProgramAssociation</sli:recordType>
+				<sli:naturalKeys>StaffReference,ProgramReference,BeginDate</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -887,6 +1082,7 @@
 			<xs:documentation>StudentCohortAssociation record with key fields: StudentReference (StudentUniqueStateId), CohortReference (StateOrganizationId, CohortIdentifier) and BeginDate. Changed types of StudentReference and CohortReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentCohortAssociation</sli:recordType>
+				<sli:naturalKeys>StudentReference,CohortReference,BeginDate</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -905,6 +1101,7 @@
 			<xs:documentation>StudentDisciplineIncidentAssociation record with key fields: StudentReference (StudentUniqueStateId) and DisciplineIncidentReference (StateOrganizationId, IncidentIdentifier). Changed types of StudentReference and DisciplineIncidentReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentDisciplineIncidentAssociation</sli:recordType>
+				<sli:naturalKeys>StudentReference,DisciplineIncidentReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -924,6 +1121,7 @@
 			<xs:documentation>StudentParentAssociation record with key fields: StudentReference (StudentUniqueStateId)  and ParentReference (ParentUniqueStateId). Changed types of StudentReference and ParentReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentParentAssociation</sli:recordType>
+				<sli:naturalKeys>StudentReference,ParentReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -946,6 +1144,7 @@
 			<xs:documentation>StudentProgramAssociation record with key fields: StudentReference (StudentUniqueStateId), ProgramReference (ProgramId), BeginDate and EducationOrganizationReference(StateOrganizationId). Changed types of StudentReference, ProgramReference and EducationOrganizationReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentProgramAssociation</sli:recordType>
+				<sli:naturalKeys>StudentReference,ProgramReference,EducationOrganizationReference,BeginDate</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -967,6 +1166,7 @@
 			<xs:documentation>StudentSchoolAssociation record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId) and EntryDate. Changed types of StudentReference, SchoolReference and GraduationPlanReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentSchoolAssociation</sli:recordType>
+				<sli:naturalKeys>StudentReference,SchoolReference,EntryDate</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -994,6 +1194,7 @@
 			<xs:documentation>StudentSectionAssociation record with key fields: StudentReference (StudentUniqueStateId), SectionReference (StateOrganizationId, UniqueSectionCode) and BeginDate. Made BeginDate a required field. Changed types of StudentReference and SectionReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentSectionAssociation</sli:recordType>
+				<sli:naturalKeys>StudentReference,SectionReference,BeginDate</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -1010,6 +1211,7 @@
 			<xs:documentation>TeacherSchoolAssociation record with key fields: TeacherReference (StaffUniqueStateId), SchoolReference (StateOrganizationId) and ProgramAssignment. Limited SchoolReference to a single instance. Changed types of TeacherReference and SchoolReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>teacherSchoolAssociation</sli:recordType>
+				<sli:naturalKeys>TeacherReference,SchoolReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -1029,6 +1231,7 @@
 			<xs:documentation>TeacherSectionAssociation record with key fields: TeacherReference (StaffUniqueStateId) and SectionReference (StateOrganizationId, UniqueSectionCode). Changed types of TeacherReference and SectionReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>teacherSectionAssociation</sli:recordType>
+				<sli:naturalKeys>TeacherReference,SectionReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -1146,12 +1349,22 @@
 			<xs:documentation/>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="AssessmentItemIdentificationCode" type="IdentificationCode"/>
+			<xs:element name="AssessmentItemIdentificationCode" type="IdentificationCode">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>identificationCode</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+                        </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-AssessmentItemReferenceType">
 		<xs:annotation>
 			<xs:documentation>Changed to use a required SLC identity type.</xs:documentation>
+			<xs:appinfo>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>assessmentItem</sli:refType>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AssessmentItemIdentity" type="SLC-AssessmentItemIdentityType"/>
@@ -1168,7 +1381,7 @@
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
 				<xs:sequence>
-					<xs:element name="AssessmentIdentity" type="SLC-AssessmentIdentityType" minOccurs="0"/>
+					<xs:element name="AssessmentIdentity" type="SLC-AssessmentIdentityType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1949,7 +2162,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="StudentReference" type="StudentReferenceType">
+			<xs:element name="StudentReference" type="SLC-StudentReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>studentId</sli:keyFieldName>

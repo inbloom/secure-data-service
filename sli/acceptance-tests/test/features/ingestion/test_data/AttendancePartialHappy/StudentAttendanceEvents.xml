@@ -4,8 +4,8 @@
     <SchoolYear>2010-2011</SchoolYear>
     <EventDate>2010-09-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
-    <AttendanceEventReason>Dentist appointment</AttendanceEventReason>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
+    <AttendanceEventReason>Dentist appointment</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <StudentReference>
       <StudentIdentity>

@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * A standard code that identifies the organization of
- * 				subject matter and related learning experiences provided for the
- * 				instruction of students.
- * 			
+ *                 subject matter and related learning experiences provided for the
+ *                 instruction of students.
+ *             
  * 
  * <p>Java class for courseCode complex type.
  * 

@@ -1,0 +1,67 @@
+<InterchangeAssessmentMetadata
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+	<Assessment>
+		<AssessmentTitle>ACT</AssessmentTitle>
+		<AssessmentIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>ACT</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>College entrance exam</AssessmentCategory>
+		<GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		<Version>1</Version>
+		<RevisionDate>2005-03-12</RevisionDate>
+		<MaxRawScore>36</MaxRawScore>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Mathematics</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Reading</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Science</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Writing</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+              <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</Assessment>
+</InterchangeAssessmentMetadata>

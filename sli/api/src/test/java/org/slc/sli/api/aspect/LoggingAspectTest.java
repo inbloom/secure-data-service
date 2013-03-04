@@ -63,8 +63,8 @@ import com.mongodb.DBObject;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class LoggingAspectTest {
-	
-	 private MongoEntityRepository mockedMongoEntityRepository;
+    
+     private MongoEntityRepository mockedMongoEntityRepository;
 
 
     @Test
@@ -219,35 +219,35 @@ public class LoggingAspectTest {
         info("AOP: {} AVG: {}", aop.getTotalTimeMillis(), aop.getTotalTimeMillis() / (float) numIters);
     }
 
-	private SecurityEvent createSecurityEvent() {
-		 List<String> userRoles = Collections.emptyList();
-		 SecurityEvent event = new SecurityEvent();
-		 event.setTenantId("Midgar");
-		 event.setUser("");
-		 event.setTargetEdOrg("");
-		 event.setActionUri("AppProcessing");
-		 event.setAppId("app");
-		 event.setOrigin("");
-		 event.setCredential("");
-		 event.setUserOrigin("");
-		 event.setTimeStamp(new Date());
-		 event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
-		 event.setClassName(this.getClass().getName());
-		 event.setLogLevel(LogLevelType.TYPE_INFO);
-		 event.setRoles(userRoles);
-		 event.setLogMessage("App process started.");
-		 return event;
-		 } 
+    private SecurityEvent createSecurityEvent() {
+         List<String> userRoles = Collections.emptyList();
+         SecurityEvent event = new SecurityEvent();
+         event.setTenantId("Midgar");
+         event.setUser("");
+         event.setTargetEdOrg("");
+         event.setActionUri("AppProcessing");
+         event.setAppId("app");
+         event.setOrigin("");
+         event.setCredential("");
+         event.setUserOrigin("");
+         event.setTimeStamp(new Date());
+         event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
+         event.setClassName(this.getClass().getName());
+         event.setLogLevel(LogLevelType.TYPE_INFO);
+         event.setRoles(userRoles);
+         event.setLogMessage("App process started.");
+         return event;
+         } 
   
-	@Test 
- 	public void testAudit() { 
-		 mockedMongoEntityRepository = mock(MongoEntityRepository.class);
-		 DBCollection mockedCollection = Mockito.mock(DBCollection.class);
-		 DB mockedDB = Mockito.mock(DB.class);
-		 SecurityEvent event = createSecurityEvent();
-		 LoggerCarrierAspect.aspectOf().setMongoEntityRepository(mockedMongoEntityRepository);
-		 when(mockedMongoEntityRepository.collectionExists("securityEvent")).thenReturn(false);
-		 audit(event);
-		 Mockito.verify(mockedMongoEntityRepository, times(1)).create(any(String.class), any(Map.class),any(Map.class), any(String.class)); 
-	}
+    @Test 
+     public void testAudit() { 
+         mockedMongoEntityRepository = mock(MongoEntityRepository.class);
+         DBCollection mockedCollection = Mockito.mock(DBCollection.class);
+         DB mockedDB = Mockito.mock(DB.class);
+         SecurityEvent event = createSecurityEvent();
+         LoggerCarrierAspect.aspectOf().setMongoEntityRepository(mockedMongoEntityRepository);
+         when(mockedMongoEntityRepository.collectionExists("securityEvent")).thenReturn(false);
+         audit(event);
+         Mockito.verify(mockedMongoEntityRepository, times(1)).create(any(String.class), any(Map.class),any(Map.class), any(String.class)); 
+    }
 }

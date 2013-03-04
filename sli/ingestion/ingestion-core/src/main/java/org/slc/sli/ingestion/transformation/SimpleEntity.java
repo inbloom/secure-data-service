@@ -35,7 +35,6 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
     private String stagedEntityId;
     private Map<String, Object> body;
     private Map<String, Object> metaData;
-    private long recordNumber;
     private String sourceFile;
     private int visitBeforeLineNumber;
     private int visitBeforeColumnNumber;
@@ -76,14 +75,6 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
 
     public void setMetaData(Map<String, Object> metaData) {
         this.metaData = metaData;
-    }
-
-    public long getRecordNumber() {
-        return recordNumber;
-    }
-
-    public void setRecordNumber(long recordNumber) {
-        this.recordNumber = recordNumber;
     }
 
     @Override
@@ -151,7 +142,6 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
         entity.append("{staged id: ").append(getStagedEntityId()).append("},");
         entity.append("{body: ").append(getBody()).append("}, ");
         entity.append("{metadata: ").append(getMetaData()).append("}, ");
-        entity.append("{record number: ").append(getRecordNumber()).append("}");
         entity.append(" ]");
         return entity.toString();
     }

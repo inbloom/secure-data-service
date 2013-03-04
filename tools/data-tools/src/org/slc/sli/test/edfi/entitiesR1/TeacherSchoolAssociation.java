@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This association indicates the school(s) to which a
- * 				teacher provides
- * 				instructional services to.
- * 			
+ *                 teacher provides
+ *                 instructional services to.
+ *             
  * 
  * <p>Java class for teacherSchoolAssociation complex type.
  * 

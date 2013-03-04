@@ -1,20 +1,20 @@
 {
-	id: "currentCoursesAndGrades",
-	type: "GRID",
-	name : "Current Enrollment",
-	
-	data: {
-		entity: "coursesAndGrades",
-		cacheKey: "coursesAndGrades"
-	},
-	
-	root: 'coursesAndGrades',
-	items: [
-	{id: "col1", name: "Course", type: "FIELD", datatype: "string", field: "courseTitle", width: 150},
-	{id: "col2", name: "Subject", type: "FIELD", datatype: "string", field: "subjectArea", width: 150},
-	{id: "col3", name: "Teacher", type: "FIELD", datatype: "string", field: "teacherName", width: 150},
-	{id: "col4", name: "Marking Period 1", type: "FIELD", datatype: "string", field: "Mid-Term Grade", width: 100},
-	{id: "col5", name: "Marking Period 2", type: "FIELD", datatype: "string", field: "Final", width: 100}
-	]
+    id: "currentCoursesAndGrades",
+    type: "GRID",
+    name : "Current Enrollment",
+    
+    data: {
+        entity: "coursesAndGrades",
+        cacheKey: "coursesAndGrades"
+    },
+    
+    root: 'coursesAndGrades',
+    items: [
+    {id: "col1", name: "Course", type: "FIELD", datatype: "string", field: "courseTitle", width: 150},
+    {id: "col2", name: "Subject", type: "FIELD", datatype: "string", field: "subjectArea", width: 150},
+    {id: "col3", name: "Teacher", type: "FIELD", datatype: "string", field: "teacherName", width: 150},
+    {id: "col4", name: "Marking Period 1", type: "FIELD", datatype: "string", field: "Mid-Term Grade", width: 100},
+    {id: "col5", name: "Marking Period 2", type: "FIELD", datatype: "string", field: "Final", width: 100}
+    ]
 
 }

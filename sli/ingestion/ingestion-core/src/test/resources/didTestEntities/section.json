@@ -6,7 +6,7 @@
         {
             "EducationalOrgIdentity":
             {
-                "StateOrganizationId":"testSchoolId"
+                "StateOrganizationId":{"_value":"testSchoolId"}
             }
         },
         "SessionReference":
@@ -17,17 +17,17 @@
                {
                    "EducationalOrgIdentity":
                     {
-                        "StateOrganizationId":"testSchoolId"
+                        "StateOrganizationId":{"_value":"testSchoolId"}
                     }
                },
-               "SessionName":"theSessionName"
+               "SessionName":{"_value":"theSessionName"}
            }
         },
         "CourseOfferingReference":
         {
             "CourseOfferingIdentity":
             {
-                "LocalCourseCode":"local course code",
+                "LocalCourseCode":{"_value":"local course code"},
                 "SessionReference":
                 {
                     "SessionIdentity":
@@ -36,17 +36,17 @@
                         {
                             "EducationalOrgIdentity":
                             {
-                                "StateOrganizationId":"state organization id 1"
+                                "StateOrganizationId":{"_value":"state organization id 1"}
                             }
                         },
-                        "SessionName":"session name"
+                        "SessionName":{"_value":"session name"}
                     }
                 },
                 "EducationalOrgReference":
                 {
                     "EducationalOrgIdentity":
                     {
-                        "StateOrganizationId":"state organization id 2"
+                        "StateOrganizationId":{"_value":"state organization id 2"}
                     }
                 }
             }
@@ -55,7 +55,7 @@
         {
             "ProgramIdentity":
             {
-                "ProgramId":"testProgramId"
+                "ProgramId":{"_value":"testProgramId"}
             }
         }
     }

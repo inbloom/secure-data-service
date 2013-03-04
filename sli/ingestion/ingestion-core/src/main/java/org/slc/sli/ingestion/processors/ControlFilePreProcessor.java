@@ -233,21 +233,21 @@ public class ControlFilePreProcessor implements Processor {
         LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
         String result = MongoCommander.ensureIndexes(INDEX_SCRIPT, dbName, batchJobDAO.getMongoTemplate());
         if (result != null) {
-			return result;
-		}
+            return result;
+        }
 
         LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
         result = MongoCommander.preSplit(shardCollections, dbName, batchJobDAO.getMongoTemplate());
         if (result != null) {
-			return result;
-		}
+            return result;
+        }
 
         tenantDA.setTenantReadyFlag(tenantId);
         return null;
     }
 
     private void setExchangeBody(Exchange exchange, ReportStats reportStats, ControlFile controlFile, NewBatchJob job) {
-            WorkNote workNote = new ControlFileWorkNote(controlFile, job.getId(), job.getTenantId(), reportStats.hasErrors());
+            WorkNote workNote = new ControlFileWorkNote(controlFile, job.getId(), reportStats.hasErrors());
             exchange.getIn().setBody(workNote, ControlFileWorkNote.class);
     }
 
@@ -367,6 +367,6 @@ public class ControlFilePreProcessor implements Processor {
     }
 
     public void setTenantDA(TenantDA tenantDA) {
-    	this.tenantDA = tenantDA;
+        this.tenantDA = tenantDA;
     }
 }

@@ -60,7 +60,7 @@ public class FastStudentGenerator {
 
     public static final Calendar RIGHT_NOW = Calendar.getInstance();
     
-    FastStudentGenerator () throws Exception {	
+    FastStudentGenerator () throws Exception {    
     }
     
     public static AddressGenerator ag;
@@ -79,13 +79,13 @@ public class FastStudentGenerator {
 
         // Name
         if (student.getSex().equals(SexType.MALE)) {
-        	student.setName(nameGenerator.getMaleName());
+            student.setName(nameGenerator.getMaleName());
             student.getOtherName().add(nameGenerator.getMaleOtherName());
             student.getOtherName().add(nameGenerator.getMaleOtherName());
 
         } else {
-        	student.setName(nameGenerator.getFemaleName());
-        	student.getOtherName().add(nameGenerator.getFemaleOtherName());
+            student.setName(nameGenerator.getFemaleName());
+            student.getOtherName().add(nameGenerator.getFemaleOtherName());
             student.getOtherName().add(nameGenerator.getFemaleOtherName());
 
         }

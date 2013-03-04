@@ -10,8 +10,8 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
-				<xs:element name="Student" type="Student"/>
-				<xs:element name="Parent" type="Parent"/>
+				<xs:element name="Student" type="SLC-Student"/>
+				<xs:element name="Parent" type="SLC-Parent"/>
 				<xs:element name="StudentParentAssociation" type="SLC-StudentParentAssociation"/>
 			</xs:choice>
 		</xs:complexType>

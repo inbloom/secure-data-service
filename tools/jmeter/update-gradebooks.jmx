@@ -345,6 +345,7 @@ for (var i = 0; i &lt; resp.length; i++) {
             <stringProp name="CounterConfig.format"></stringProp>
             <boolProp name="CounterConfig.per_user">true</boolProp>
             <stringProp name="TestPlan.comments">Used to keep track of associations since we need to include the assoc reference</stringProp>
+            <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
           </CounterConfig>
           <hashTree/>
         </hashTree>
@@ -354,10 +355,10 @@ for (var i = 0; i &lt; resp.length; i++) {
               <stringProp name="Header.name">Authorization</stringProp>
               <stringProp name="Header.value">Bearer ${__P(accessToken)}</stringProp>
             </elementProp>
-	    <elementProp name="" elementType="Header">
-		    <stringProp name="Header.name">x-request-id</stringProp>
-		    <stringProp name="Header.value">${__TestPlanName()}:${__P(accessToken)}</stringProp>
-	    </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">x-request-id</stringProp>
+              <stringProp name="Header.value">${__TestPlanName()}:${__P(accessToken)}</stringProp>
+            </elementProp>
           </collectionProp>
         </HeaderManager>
         <hashTree/>

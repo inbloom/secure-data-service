@@ -26,6 +26,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,6 +43,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultProducerTemplate;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +66,6 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
@@ -335,25 +336,50 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
-        List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId(), BatchJobStageType.EDFI_PROCESSOR);
 
-        for (Stage stage : stages) {
-            List<Metrics> edfiMetrics = stage.getMetrics();
-            for (Metrics metric : edfiMetrics) {
-                Map<String, Long> duplicates = metric.getDuplicateCounts();
-
-                if (duplicates != null) {
-                    String resource = metric.getResourceId();
-                    for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
-                        Long count = dupEntry.getValue();
-                        if (count > 0) {
-                            writeInfoLine(job, jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
-                                    + " deltas!");
-                        }
-                    }
+        Map<String,Map<String, Long>> combinedMetrics = new HashMap<String, Map<String, Long>>();
+        List<Metrics> deltaStageMetrics = new ArrayList<Metrics>();
+        List<Stage> deltaStages = batchJobDAO.getBatchJobStages(job.getId(), BatchJobStageType.DELTA_PROCESSOR);
+        for(Stage stage : deltaStages) {
+            for(Metrics metric : stage.getMetrics()) {
+                if(metric.getDuplicateCounts() != null) {
+                    deltaStageMetrics.add(metric);
                 }
             }
         }
+
+        if(deltaStageMetrics != null) {
+            for(Metrics metrics : deltaStageMetrics) {
+                String resourceId = metrics.getResourceId();
+                Map<String, Long> combinedDuplicateCounts = combinedMetrics.containsKey(resourceId) ? collateDuplicateCounts(combinedMetrics.get(resourceId), metrics.getDuplicateCounts()) : metrics.getDuplicateCounts();
+                combinedMetrics.put(resourceId, combinedDuplicateCounts);
+            }
+        }
+
+        for(Entry<String, Map<String, Long>> entry : combinedMetrics.entrySet()) {
+            String resource = entry.getKey();
+            Map<String, Long> duplicates = entry.getValue();
+            if(duplicates != null) {
+                for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
+                  Long count = dupEntry.getValue();
+                  if (count > 0) {
+                      writeInfoLine(job, jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
+                              + " deltas!");
+                  }
+              }
+
+            }
+        }
+    }
+
+    private Map<String, Long> collateDuplicateCounts(Map<String, Long> currentCounts, Map<String, Long> metricsCount) {
+        Map<String, Long> combinedCounts = new HashMap<String, Long>();
+        combinedCounts.putAll(currentCounts);
+        for(Map.Entry<String,Long> entry : metricsCount.entrySet()) {
+            Long count = combinedCounts.containsKey(entry.getKey()) ? combinedCounts.get(entry.getKey()) + entry.getValue() : entry.getValue();
+            combinedCounts.put(entry.getKey(),count);
+        }
+        return combinedCounts;
     }
 
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {

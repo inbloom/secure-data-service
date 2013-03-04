@@ -1,28 +1,28 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
-    <GradebookEntry>
-        <GradebookEntryType>Assignment</GradebookEntryType>
-        <DateAssigned>2011-09-29</DateAssigned>
-        <SectionReference>
-            <SectionIdentity>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>Long Section Code 123456789_123456789_123456789_123456789_123456</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference>
-            <GradingPeriodIdentity>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <GradingPeriod>Second Six Weeks</GradingPeriod>
-                <BeginDate>2010-10-04</BeginDate>
-            </GradingPeriodIdentity>
-        </GradingPeriodReference>
-    </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Assignment</GradebookEntryType>
+    <DateAssigned>2011-09-29</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>Long Section Code 123456789_123456789_123456789_123456789_123456</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
 </InterchangeStudentGrade>

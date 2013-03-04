@@ -1,12 +1,40 @@
 {{#entity}}
 <StudentAssessment>
   <AdministrationDate>{{date}}</AdministrationDate>
+  {{#administrationEndDate}}
+    <AdministrationEndDate>{{administrationEndDate}}</AdministrationEndDate>
+  {{/administrationEndDate}}  
+  {{#serialNumber}}
+    <SerialNumber>{{serialNumber}}</SerialNumber>
+  {{/serialNumber}}
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  {{#specialAccommodations}}
+    <SpecialAccommodations>
+      <SpecialAccommodation>{{specialAccommodations}}</SpecialAccommodation>
+    </SpecialAccommodations>
+  {{/specialAccommodations}}  
+  {{#linguisticAccommodations}}
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>{{linguisticAccommodations}}</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  {{/linguisticAccommodations}}
   <RetestIndicator>Primary Administration</RetestIndicator>
+  {{#reasonNotTested}}
+    <ReasonNotTested>{{reasonNotTested}}</ReasonNotTested>
+  {{/reasonNotTested}}
   <ScoreResults AssessmentReportingMethod="Scale score">
     <Result>{{score}}</Result>
   </ScoreResults>
+  {{#gradeLevelWhenAssessed}}
+    <GradeLevelWhenAssessed>{{gradeLevelWhenAssessed}}</GradeLevelWhenAssessed>
+  {{/gradeLevelWhenAssessed}}
+  {{#performanceLevels}}
+    <PerformanceLevels>
+      <CodeValue>{{codeValue}}</CodeValue>
+      <PerformanceLevelMet>{{performanceLevelMet}}</PerformanceLevelMet>
+    </PerformanceLevels>
+  {{/performanceLevels}}
   <StudentReference>
     <StudentIdentity>
       <StudentUniqueStateId>{{studentId}}</StudentUniqueStateId>

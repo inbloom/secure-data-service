@@ -21,7 +21,19 @@
 <!-- 	    </bean> -->
 <!-- 	  </constructor-arg> -->
   </bean>
-
+  
+  <context:component-scan base-package="org.slc.sli.dal.convert">
+            <context:exclude-filter type="regex"
+            expression=".*GenericSuperdocConverter" />
+            <context:exclude-filter type="regex"
+            expression=".*AssessmentConverter" />
+            <context:exclude-filter type="regex"
+            expression=".*StudentAssessmentConverter" />
+            <context:exclude-filter type="regex"
+            expression=".*SuperdocConverterRegistry" />
+    </context:component-scan>
+  
+  
    <bean id="encryptor" class="org.slc.sli.encryption.tool.Encryptor">
       <constructor-arg name="keyStoreLocation" value="${sli.encryption.keyStore}" />
       <constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />

@@ -6,7 +6,7 @@
         {
             "ProgramIdentity":
             {
-                "ProgramId":"testProgramId"
+                "ProgramId":{"_value":"testProgramId"}
             }
         }
     }
