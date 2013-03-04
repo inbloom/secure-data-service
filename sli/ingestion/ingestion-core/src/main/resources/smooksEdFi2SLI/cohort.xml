@@ -33,7 +33,7 @@
         <jb:wiring property="programId" beanIdRef="cohort_programIdArray" />
     </jb:bean>
 
-    <jb:bean beanId="cohort_programIdArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="cohort_programIdArray" class="java.util.ArrayList" createOnElement="attributes ProgramReference">
       <jb:value data="attributes ProgramReference element" />
     </jb:bean>
 

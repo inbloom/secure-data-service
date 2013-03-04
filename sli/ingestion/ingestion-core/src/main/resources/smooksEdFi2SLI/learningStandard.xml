@@ -33,7 +33,7 @@
 
     <jb:bean beanId="LearningStandardId" class="java.util.HashMap" createOnElement="attributes LearningStandardId">
         <jb:value property="identificationCode" data="attributes LearningStandardId IdentificationCode _value" />
-        <jb:value property="contentStandardName" data="attributes LearningStandardId ContentStandardName _value" />
+        <jb:value property="contentStandardName" data="attributes LearningStandardId a_ContentStandardName" />
     </jb:bean>
 
 </smooks-resource-list>

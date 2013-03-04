@@ -33,6 +33,19 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
+import org.springframework.security.oauth2.provider.ClientToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.cache.SessionCache;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
@@ -48,22 +61,10 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
-import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
-import org.springframework.security.oauth2.provider.ClientToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
 
 /**
  * Manages SLI User/app sessions Provides functionality to update existing session based on Oauth life-cycle stages
- * 
+ *
  * @author dkornishev
  */
 @Component
@@ -179,7 +180,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     /**
      * Verifies and makes active an app session. Provides the token for the app.
-     * 
+     *
      * @throws OAuthAccessException
      * @throws OAuthException
      */
@@ -268,21 +269,21 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     /**
      * Loads session referenced by the headers
-     * 
+     *
      * If there's a problem with the token, we embed a relevant {@link OAuth2Exception} in the auth's details field
-     * 
+     *
      * Per Oauth spec:
-     * 
+     *
      * If the protected resource request included an access token and failed authentication, the resource server SHOULD
      * include the "error" attribute to provide the client with the reason why the access request was declined.
-     * 
+     *
      * In addition, the resource server MAY include the "error_description" attribute to provide developers a
      * human-readable explanation that is not meant to be displayed to end-users.
-     * 
+     *
      * If the request lacks any authentication information (e.g., the client was unaware that authentication is
      * necessary or attempted using an unsupported authentication method), the resource server SHOULD NOT include an
      * error code or other error information.
-     * 
+     *
      * @param headers
      * @return
      */
@@ -295,7 +296,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             OAuth2Authentication cached = this.sessions.get(accessToken);
 
             if (cached != null) {
-                auth=cached;
+                auth = cached;
             } else {
                 Entity sessionEntity = findEntityForAccessToken(accessToken);
                 if (sessionEntity != null) {
@@ -403,7 +404,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     /**
      * Determines if the specified mongo id maps to a valid OAuth access token.
-     * 
+     *
      * @param mongoId id of the oauth session in mongo.
      * @return id of realm (valid session) or null (not a valid session).
      */
@@ -427,6 +428,14 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         boolean deleted = false;
         if (session != null) {
             deleted = repo.delete(SESSION_COLLECTION, session.getEntityId());
+
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> individualSessions = (List<Map<String, Object>>) session.getBody().get("appSession");
+            for (Map<String, Object> individualSession : individualSessions) {
+                if (individualSession.containsKey("token")) {
+                    sessions.remove((String) individualSession.get("token"));
+                }
+            }
         }
 
         return deleted;
@@ -493,7 +502,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     /**
      * Sets the entity repository.
-     * 
+     *
      * @param repository New Entity Repository to be used.
      */
     public void setEntityRepository(Repository<Entity> repository) {
@@ -502,7 +511,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     /**
      * Compares the provided number of milliseconds converted to minutes against the configuration property
-     * 
+     *
      * @param actual
      * @return
      */

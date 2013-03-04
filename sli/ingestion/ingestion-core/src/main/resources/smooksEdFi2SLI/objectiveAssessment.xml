@@ -30,11 +30,11 @@
         <jb:value property="maxRawScore" data="attributes MaxRawScore _value" decoder="Integer" />
         <jb:wiring property="assessmentPerformanceLevel" beanIdRef="AssessmentPerformanceLevelTypeArray" />
         <jb:value property="percentOfAssessment" data="attributes PercentOfAssessment _value" decoder="Integer"/>
-        <jb:value property="nomenclature" data="ObjectiveAssessment element Nomenclature _value" />
+        <jb:value property="nomenclature" data="attributes Nomenclature _value" />
         <jb:wiring property="learningObjectives" beanIdRef="objectiveAssessment_learningObjectiveRefArray"/>
     </jb:bean>
 
-    <jb:bean beanId="AssessmentPerformanceLevelTypeArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="AssessmentPerformanceLevelTypeArray" class="java.util.ArrayList" createOnElement="attributes AssessmentPerformanceLevel">
         <jb:wiring beanIdRef="AssessmentPerformanceLevelType"/>
     </jb:bean>
 
@@ -57,15 +57,15 @@
   </jb:bean>
 
 
-    <jb:bean beanId="objectiveAssessment_assessmentItemRefArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="objectiveAssessment_assessmentItemRefArray" class="java.util.ArrayList" createOnElement="attributes ObjectiveAssessmentReference">
         <jb:value data="attributes AssessmentItemReference element" />
     </jb:bean>
 
-    <jb:bean beanId="objectiveAssessment_subObjectiveRefArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="objectiveAssessment_subObjectiveRefArray" class="java.util.ArrayList" createOnElement="attributes ObjectiveAssessmentReference">
         <jb:value data="attributes ObjectiveAssessmentReference element ObjectiveAssessmentIdentity ObjectiveAssessmentIdentificationCode _value" />
     </jb:bean>
 
-    <jb:bean beanId="objectiveAssessment_learningObjectiveRefArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="objectiveAssessment_learningObjectiveRefArray" class="java.util.ArrayList" createOnElement="attributes LearningObjectiveReference">
         <jb:value data="attributes LearningObjectiveReference element" />
     </jb:bean>
 
