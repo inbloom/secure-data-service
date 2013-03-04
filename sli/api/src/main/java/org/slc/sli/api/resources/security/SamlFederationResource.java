@@ -19,12 +19,10 @@ package org.slc.sli.api.resources.security;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,11 +150,8 @@ public class SamlFederationResource {
         try {
             doc = saml.decodeSamlPost(postData);
         } catch (Exception e) {
-            SecurityEvent event = new SecurityEvent();
+            SecurityEvent event = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uriInfo.getRequestUri(), "");
 
-            event.setClassName(this.getClass().toString());
-            event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
-            event.setTimeStamp(new Date());
 
             try {
                 event.setExecutedOn(InetAddress.getLocalHost().getHostName());
@@ -167,7 +162,6 @@ public class SamlFederationResource {
             if (httpServletRequest != null) {
                 event.setUserOrigin(httpServletRequest.getRemoteHost());
                 event.setAppId(httpServletRequest.getHeader("User-Agent"));
-                event.setActionUri(httpServletRequest.getRequestURI());
                 event.setUser(httpServletRequest.getRemoteUser());
 
                 // the origin header contains the uri info of the idp server that sends the SAML
@@ -522,6 +516,10 @@ public class SamlFederationResource {
             }
         }
         return true;
+    }
+
+    public void setSecurityEventBuilder(SecurityEventBuilder securityEventBuilder) {
+    	this.securityEventBuilder = securityEventBuilder;
     }
 
 }

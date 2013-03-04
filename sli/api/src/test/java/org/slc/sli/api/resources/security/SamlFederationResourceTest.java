@@ -17,12 +17,16 @@
 
 package org.slc.sli.api.resources.security;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.URI;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,7 +45,9 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.util.logging.SecurityEvent;
 
 /**
  * Unit tests for the Saml Federation Resource class.
@@ -86,7 +92,12 @@ public class SamlFederationResourceTest {
 
         Exception exception = null;
         UriInfo uriInfo = Mockito.mock(UriInfo.class);
+        SecurityEventBuilder securityEventBuilder = Mockito.mock(SecurityEventBuilder.class);
+        resource.setSecurityEventBuilder(securityEventBuilder);
+        SecurityEvent event = new SecurityEvent();
+        Mockito.when(securityEventBuilder.createSecurityEvent(any(String.class), any(URI.class), any(String.class))).thenReturn(event);
         resource.consume(postData, uriInfo);
+        Mockito.verify(securityEventBuilder, times(1)).createSecurityEvent(any(String.class), any(URI.class), any(String.class));
     }
 
 }
