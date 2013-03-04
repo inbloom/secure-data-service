@@ -87,10 +87,10 @@ Given I post "DailyAttendanceNoStudent.zip" file as the payload of the ingestion
 When zip file is scp to ingestion landing zone
   And a batch job for file "DailyAttendanceNoStudent.zip" is completed in database
   And a batch job log has been created
-  And I should see "Processed 1 records." in the resulting batch job file
-  And I should see "StudentAttendanceNoStudent.xml records considered: 1" in the resulting batch job file
+  And I should see "Processed 0 records." in the resulting batch job file
+  And I should see "StudentAttendanceNoStudent.xml records considered: 0" in the resulting batch job file
   And I should see "StudentAttendanceNoStudent.xml records ingested successfully: 0" in the resulting batch job file
-  And I should see "StudentAttendanceNoStudent.xml records failed: 1" in the resulting batch job file
+  And I should see "StudentAttendanceNoStudent.xml records failed xsd validation: 1" in the resulting batch job file
 
 Scenario: Post a zip file where an attendanceEvent occurs in a school's parent LEA session: Clean Database
 Given I post "DailyAttendanceInheritedSession.zip" file as the payload of the ingestion job
