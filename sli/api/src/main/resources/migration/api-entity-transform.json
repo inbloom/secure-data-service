@@ -1,7 +1,7 @@
 {
     "entities": {
         "grade": {
-            "1": [
+            "POST": [
                 {
                     "ADD_FIELD": {
                         "fieldName": "schoolYear",
@@ -47,7 +47,7 @@
             ]
         },
         "reportCard": {
-            "1": [
+            "POST": [
                 {
                     "ADD_FIELD": {
                         "fieldName": "schoolYear",
@@ -72,7 +72,7 @@
             ]
         },
         "studentAcademicRecord": {
-            "1": [
+            "POST": [
                 {
                     "ADD_FIELD": {
                         "fieldName": "schoolYear",
@@ -92,6 +92,22 @@
                                 }
                             }
                         ]
+                    }
+                }
+            ]
+        },
+        "attendance": {
+            "POST": [
+                {
+                    "ATTENDANCE": {
+                        "operation": "unwrap"
+                    }
+                }
+            ],
+            "GET": [
+                {
+                    "ATTENDANCE": {
+                        "operation": "wrap"
                     }
                 }
             ]
