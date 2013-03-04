@@ -97,6 +97,8 @@ public class DefaultResourceService implements ResourceService {
     private ApiSchemaAdapter adapter;
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
+    private static final String POST = "POST";
+    private static final String GET = "GET";
 
     /**
      * @author jstokes
@@ -234,7 +236,7 @@ public class DefaultResourceService implements ResourceService {
     @MigratePostedEntity
     public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
-        adapter.migrate(entity, definition.getType(), 1);
+        adapter.migrate(entity, definition.getType(), POST);
         return definition.getService().create(entity);
     }
 
