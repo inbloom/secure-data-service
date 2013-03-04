@@ -38,6 +38,7 @@ import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
@@ -69,12 +70,14 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
     // Internal state of the processor
     protected ThreadLocal<ParserState> state = new ThreadLocal<ParserState>();
+    protected ThreadLocal<Integer> ignoredRecordcount = new ThreadLocal<Integer>();
 
     @Override
     protected void process(Exchange exchange, ProcessorArgs<FileEntryWorkNote> args) {
         prepareState(exchange, args.workNote);
 
         Source source = new FileSource(args.workNote.getFileEntry().getResourceId());
+        Metrics metrics = Metrics.newInstance(args.workNote.getFileEntry().getResourceId());
 
         InputStream input = null;
         boolean validData = true;
@@ -83,6 +86,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             Resource xsdSchema = xsdSelector.provideXsdResource(args.workNote.getFileEntry());
 
             parse(input, xsdSchema);
+            metrics.setValidationErrorCount(ignoredRecordcount.get());
 
         } catch (IOException e) {
             getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0063);
@@ -102,6 +106,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
             // Get job from db to capture delta and staging processor information
             args.job = refreshjob(args.job.getId());
+            args.stage.addMetrics(metrics);
         }
     }
 
@@ -122,6 +127,8 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         newState.setWork(workNote);
 
         state.set(newState);
+
+        ignoredRecordcount.set(0);
     }
 
     /**
@@ -142,6 +149,11 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         if (state.get().getDataBatch().size() >= batchSize) {
             sendDataBatch();
         }
+    }
+
+    @Override
+    public void ignored() {
+        ignoredRecordcount.set(ignoredRecordcount.get() + 1);
     }
 
     public void sendDataBatch() {

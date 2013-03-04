@@ -148,8 +148,7 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | resourceEntries.2.resourceFormat | edfi-xml                             | string     |
   | newBatchJob    | 1                   | resourceEntries.2.resourceType   | EducationOrganization                | string     |
  #errors
-  | error          | 1                   | severity                         | WARNING                                 |string      |
-  | error          | 1                   | severity                         | ERROR                                   |string      |
+  | error          | 2                   | severity                         | ERROR                                   |string      |
 
    And I should see "Processed 0 records." in the resulting batch job file
    And I should see "CORE_0065" in the resulting error log file

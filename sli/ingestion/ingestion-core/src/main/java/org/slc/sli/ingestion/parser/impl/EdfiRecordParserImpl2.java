@@ -253,6 +253,10 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
             for (RecordVisitor visitor : recordVisitors) {
                 visitor.visit(pair.getLeft(), pair.getRight());
             }
+        } else {
+            for (RecordVisitor visitor : recordVisitors) {
+                visitor.ignored();
+            }
         }
     }
 
@@ -285,8 +289,7 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
     public void error(SAXParseException exception) throws SAXException {
         LOG.error("Error: {}", exception.getMessage());
 
-        // TODO: Reactivate this statement for strict validation and story US5061 acceptance!!!
-//        currentEntityValid = false;
+        currentEntityValid = false;
 
     }
 
@@ -294,8 +297,7 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
     public void fatalError(SAXParseException exception) throws SAXException {
         LOG.error("FatalError: {}", exception.getMessage());
 
-        // TODO: Reactivate this statement for strict validation and story US5061 acceptance!!!
-//        currentEntityValid = false;
+        currentEntityValid = false;
     }
 
     public void addVisitor(RecordVisitor recordVisitor) {

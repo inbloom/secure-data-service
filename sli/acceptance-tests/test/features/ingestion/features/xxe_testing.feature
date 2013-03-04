@@ -11,12 +11,10 @@ Scenario: Post a zip file with an external entity that attempts to access a loca
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "XXETest.zip" is completed in database
   And a batch job log has been created
-  And I should see "InterchangeEducationOrganization.xml records considered: 1" in the resulting batch job file
+  And I should see "InterchangeEducationOrganization.xml records considered: 0" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 0" in the resulting batch job file
-  And I should see "InterchangeEducationOrganization.xml records failed: 1" in the resulting batch job file
+  And I should see "InterchangeEducationOrganization.xml records failed xsd validation: 1" in the resulting batch job file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "Processed 1 records." in the resulting batch job file
-
-  And I should see "CORE_0006" in the resulting error log file
+  And I should see "Processed 0 records." in the resulting batch job file
   And I should not see a warning log file created
 
