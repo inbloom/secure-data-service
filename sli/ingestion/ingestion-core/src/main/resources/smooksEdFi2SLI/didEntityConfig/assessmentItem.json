@@ -1,0 +1,15 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "learningStandard",
+            "sourceRefPath": "body.LearningStandardReference",
+            "optional" : true
+        },
+        {
+            "entityType" : "assessment",
+            "sourceRefPath": "body.AssessmentReference"
+        }
+        
+    ]
+}

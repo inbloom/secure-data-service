@@ -16,11 +16,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * The numbers, letters, and symbols used to identify
- * 				an electronic mail
- * 				(e-mail) user within the network to which the
- * 				individual or organization
- * 				belongs.
- * 			
+ *                 an electronic mail
+ *                 (e-mail) user within the network to which the
+ *                 individual or organization
+ *                 belongs.
+ *             
  * 
  * <p>Java class for electronicMail complex type.
  * 

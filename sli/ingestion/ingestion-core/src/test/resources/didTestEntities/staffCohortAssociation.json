@@ -6,19 +6,19 @@
 	{
 		"StaffIdentity":
 		{
-			"StaffUniqueStateId":"jjackson"
+			"StaffUniqueStateId":{"_value":"jjackson"}
 		}
 	},
 	"CohortReference":
 	{
 		"CohortIdentity":
 		{
-			"CohortIdentifier":"ACC-TEST-COH-1",
+			"CohortIdentifier":{"_value":"ACC-TEST-COH-1"},
 			"EducationalOrgReference":
 			{
 				"EducationalOrgIdentity":
 				{
-					"StateOrganizationId":"STANDARD-SEA"
+					"StateOrganizationId":{"_value":"STANDARD-SEA"}
 				}
 			}
 		}

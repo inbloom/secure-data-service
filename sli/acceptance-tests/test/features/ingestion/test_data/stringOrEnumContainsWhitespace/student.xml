@@ -19,14 +19,12 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60908-1028</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
         </Address>
         <Address AddressType="Work">
             <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
             <City>Seattle</City>
             <StateAbbreviation>WA</StateAbbreviation>
             <PostalCode>98115</PostalCode>
-            <CountryCode>US</CountryCode>
         </Address>
         <ElectronicMail EmailAddressType="Other">
             <EmailAddress>Bennie.C@gmail.com</EmailAddress>

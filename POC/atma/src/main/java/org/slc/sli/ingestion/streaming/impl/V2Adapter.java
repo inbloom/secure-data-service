@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class V2Adapter implements VersionAwareAdapter {
 
-	@Override
-	public Map<String, Object> adapt(Map<String, Object> incoming) {
-		return incoming;
-	}
+    @Override
+    public Map<String, Object> adapt(Map<String, Object> incoming) {
+        return incoming;
+    }
 
 }

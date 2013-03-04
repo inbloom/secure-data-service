@@ -2,11 +2,11 @@
 "recordType":"attendance",
 "attributes":
 {
-    "schoolId":
+    "SchoolReference":
     {
         "EducationalOrgIdentity":
         {
-            "StateOrganizationId":"testSchoolId"
+            "StateOrganizationId":{"_value":"testSchoolId"}
         }
     }
 }

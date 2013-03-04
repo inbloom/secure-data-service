@@ -50,6 +50,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | studentCompetency                         |
      | studentCompetencyObjective                |
      | studentDisciplineIncidentAssociation      |
+     | studentObjectiveAssessment                |
      | studentParentAssociation                  |
      | studentProgramAssociation                 |
      | studentSchoolAssociation                  |
@@ -104,6 +105,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCompetency                        |                 59|
      | studentCompetencyObjective               |                  4|
      | studentDisciplineIncidentAssociation     |                  4|
+     | studentObjectiveAssessment               |                297|
      | studentParentAssociation                 |                  9|
      | studentProgramAssociation                |                  6|
      | studentSchoolAssociation                 |                167|
@@ -112,7 +114,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|
-    And I should see "Processed 4254 records." in the resulting batch job file
+    And I should see "Processed 10095 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 

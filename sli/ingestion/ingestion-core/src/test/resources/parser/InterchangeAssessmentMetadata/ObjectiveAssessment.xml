@@ -15,7 +15,11 @@
     </AssessmentPerformanceLevel>
     <PercentOfAssessment>-379146788</PercentOfAssessment>
     <Nomenclature>J</Nomenclature>
-    <AssessmentItemReference id="ID005" ref="ID002" />
+    <AssessmentItemReference>
+      <AssessmentItemIdentity>
+        <AssessmentItemIdentificationCode>IhKDMMqx5G6S5LVQCerE3</AssessmentItemIdentificationCode>
+      </AssessmentItemIdentity>
+    </AssessmentItemReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
         <Objective>piv</Objective>
@@ -33,5 +37,13 @@
         <ObjectiveAssessmentIdentificationCode>VZDSaOEQ6c5j2J.taMsH15xtlDp_OuPqujkxHwkLHQyrSG</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
     </ObjectiveAssessmentReference>
+        <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentTitle>vj8zbHeMTeYFobCU0TF21q-Cy8n</AssessmentTitle>
+        <AcademicSubject>Hospitality and Tourism</AcademicSubject>
+        <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+        <Version>-1179495731</Version>
+      </AssessmentIdentity>
+    </AssessmentReference>
   </ObjectiveAssessment>
 </InterchangeAssessmentMetadata>

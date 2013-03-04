@@ -20,8 +20,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This association indicates the staff associated
- * 				with a program.
- * 			
+ *                 with a program.
+ *             
  * 
  * <p>Java class for staffProgramAssociation complex type.
  * 

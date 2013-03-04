@@ -158,7 +158,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
                 }
             }
             else {
-            	LOG.error("Domain on the certificate does not match the issuer");
+                LOG.error("Domain on the certificate does not match the issuer");
             }
         } else {
             LOG.error("X509 Certificate is null --> no trust can be established.");
@@ -210,14 +210,14 @@ public class DefaultSAML2Validator implements SAML2Validator {
     private boolean issuerMatchesSubject(X509Certificate certificate, String issuer) {
         String subject = getSubjectFromCertificate(certificate);
         boolean verdict=false;
-		if (subject != null) {
-			String regexp = REGEX.replace("@domain", subject.replace(".","\\.").replace("*", "[\\w-]+"));
-			verdict = issuer.matches(regexp);
-		}
-		
-		LOG.info("[{}] Assertion issuer: {}. Certificate domain: {}.", new Object[] { verdict ? "MATCHED" : "MISMATCH", issuer, subject });
-		
-		return verdict;
+        if (subject != null) {
+            String regexp = REGEX.replace("@domain", subject.replace(".","\\.").replace("*", "[\\w-]+"));
+            verdict = issuer.matches(regexp);
+        }
+        
+        LOG.info("[{}] Assertion issuer: {}. Certificate domain: {}.", new Object[] { verdict ? "MATCHED" : "MISMATCH", issuer, subject });
+        
+        return verdict;
     }
 
     private String getSubjectFromCertificate(X509Certificate certificate) {

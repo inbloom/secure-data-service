@@ -45,7 +45,7 @@
     {
        "fieldPath" : "body.GradebookEntryReference",
        "deprecated" : true,
-	   "ref" :
+       "ref" :
         {
             "entityType" : "gradebookEntry",
             "choiceOfFields" :

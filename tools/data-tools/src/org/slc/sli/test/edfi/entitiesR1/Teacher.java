@@ -15,11 +15,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity represents a person that is employed by
- * 				an LEA or other educational unit engaged in student instruction.
- * 				These persons are instructional-type staff members. In the data
- * 				model, a teacher entity is a staff member with additional
- * 				properties.
- * 			
+ *                 an LEA or other educational unit engaged in student instruction.
+ *                 These persons are instructional-type staff members. In the data
+ *                 model, a teacher entity is a staff member with additional
+ *                 properties.
+ *             
  * 
  * <p>Java class for teacher complex type.
  * 

@@ -3,26 +3,21 @@
     [
         {
             "entityType" : "learningObjective",
-            "sourceRefPath": "body.studentObjectiveAssessments.objectiveAssessment.learningObjectives",
+            "sourceRefPath": "body.StudentObjectiveAssessments.ObjectiveAssessment.LearningObjectiveReference",
             "optional" : true
         },
         {
             "entityType" : "learningObjective",
-            "sourceRefPath": "body.studentObjectiveAssessments.objectiveAssessment.objectiveAssessments.learningObjectives",
-            "optional" : true
-        },
-        {
-            "entityType" : "learningStandard",
-            "sourceRefPath": "body.studentAssessmentItems.assessmentItem.learningStandards",
+            "sourceRefPath": "body.StudentObjectiveAssessments.ObjectiveAssessment.objectiveAssessments.LearningObjectiveReference",
             "optional" : true
         },
         {
             "entityType" : "student",
-            "sourceRefPath": "body.studentId"
+            "sourceRefPath": "body.StudentReference"
         },
         {
             "entityType" : "assessment",
-            "sourceRefPath": "body.assessmentId"
+            "sourceRefPath": "body.AssessmentReference"
         }
     ]
 }

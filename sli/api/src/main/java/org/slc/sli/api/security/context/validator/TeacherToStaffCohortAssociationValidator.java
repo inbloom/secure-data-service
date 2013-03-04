@@ -34,22 +34,22 @@ import java.util.Set;
 @Component
 public class TeacherToStaffCohortAssociationValidator extends AbstractContextValidator {
 
-	@Override
-	public boolean canValidate(String entityType, boolean isTransitive) {
-		return EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType) && isTeacher();
-	}
+    @Override
+    public boolean canValidate(String entityType, boolean isTransitive) {
+        return EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType) && isTeacher();
+    }
 
 	@Override
 	public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF_COHORT_ASSOCIATION, entityType, ids)) {
             return false;
         }
-		
+        
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
-		long result = getRepo().count(EntityNames.STAFF_COHORT_ASSOCIATION, nq);
-		return result==ids.size();
-	}
+        long result = getRepo().count(EntityNames.STAFF_COHORT_ASSOCIATION, nq);
+        return result==ids.size();
+    }
 
 }

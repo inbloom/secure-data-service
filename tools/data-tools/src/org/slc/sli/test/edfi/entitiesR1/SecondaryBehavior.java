@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Definition of the behavior coded for use in
- * 				describing an
- * 				incident.
- * 			
+ *                 describing an
+ *                 incident.
+ *             
  * 
  * <p>Java class for secondaryBehavior complex type.
  * 

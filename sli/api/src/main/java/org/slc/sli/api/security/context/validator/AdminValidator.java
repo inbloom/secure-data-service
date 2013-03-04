@@ -48,9 +48,10 @@ public class AdminValidator implements IContextValidator {
     //TODO: implement it
     @Override
     public Set<String> getValid(String entityType, Set<String> ids) {
-    	 if (entityType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
-    		 return ids;
-    	 }
-    	 return Collections.emptySet();
+         if (entityType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
+             return ids;
+         }
+         
+         return Collections.emptySet();
     }
 }

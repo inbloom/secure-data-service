@@ -17,7 +17,7 @@ Examples:
 	| "/gradingPeriods/@id/grades"           | "b40a7eb5-dd74-4666-a5b9-5c3f4425f130" | "/schools/@context/sections/studentSectionAssociations/grades?gradingPeriodId=@id"           |
     | "/sessions/@id/studentAcademicRecords" | "0410354d-dbcb-0214-250a-404401060c93" | "/schools/@context/studentSchoolAssociations/students/studentAcademicRecords?sessionId=@id" |
     | "/sessions/@id/sections"               | "0410354d-dbcb-0214-250a-404401060c93" | "/schools/@context/sections?sessionId=@id"                                                  |
-    | "/assessments/@id/studentAssessments"  | "29f044bd-1449-4fb7-8e9a-5e2cf9ad252a" | "/schools/@context/studentSchoolAssociations/students/studentAssessments?assessmentId=@id"  |
+    | "/assessments/@id/studentAssessments"  | "c757f9f2dc788924ce0715334c7e86735c5e1327_id" | "/schools/@context/studentSchoolAssociations/students/studentAssessments?assessmentId=@id"  |
     | "/courseOfferings/@id/sections"        | "01709b45-d323-4101-9918-34788dd77306" | "/schools/@context/sections?courseOfferingId=@id"                                           |
 
 
@@ -38,7 +38,7 @@ Examples:
 	| "/gradingPeriods/@id/grades"          | "8940897f-0e4b-4e88-9aa3-30cf040c0ebf" | "/sections/@context/studentSectionAssociations/grades?gradingPeriodId=@id"           |
     | "/sessions/@id/studentAcademicRecords"| "0410354d-dbcb-0214-250a-404401060c93" | "/sections/@context/studentSectionAssociations/students/studentAcademicRecords?sessionId=@id" |
     | "/sessions/@id/sections"              | "0410354d-dbcb-0214-250a-404401060c93" | "/sections/@context/?sessionId=@id"                        |
-    | "/assessments/@id/studentAssessments" | "dd916592-7d7e-5d27-a87d-dfc7fcb12346" | "/sections/@context/studentSectionAssociations/students/studentAssessments?assessmentId=@id"  |
+    | "/assessments/@id/studentAssessments" | "b94b5194d45cd707465627c0cd6c4f68f3558600_id" | "/sections/@context/studentSectionAssociations/students/studentAssessments?assessmentId=@id"  |
     | "/courseOfferings/@id/sections"       | "88ddb0c4-1787-4ed8-884e-96aa774e6d42" | "/sections/@context/?courseOfferingId=@id"                 |
 
 
@@ -162,7 +162,7 @@ Scenario Outline: Denied Paths for Teacher
 Examples:
     | Allowed Path           | Denied Path                                    | ID |
     | "/courses/@id"         | "/courses/@id/courseTranscripts/students"      | "e31f7583-417e-4c42-bd55-0bbe7518edf8" |
-    | "/assessments/@id"     | "/assessments/@id/studentAssessments/students" | "dd916592-7d7e-5d27-a87d-dfc7fcb12346" |
+    | "/assessments/@id"     | "/assessments/@id/studentAssessments/students" | "b94b5194d45cd707465627c0cd6c4f68f3558600_id" |
     | "/programs/@id"        | "/programs/@id/cohorts"                        | "f24e5725-c1e4-48db-9f62-381ab434c0ec_id" |
 	
 Scenario Outline: Denied Paths for Staff
@@ -174,7 +174,7 @@ Scenario Outline: Denied Paths for Staff
 Examples:
     | Allowed Path           | Denied Path                                    | ID |
     | "/courses/@id"         | "/courses/@id/courseTranscripts/students"      | "e31f7583-417e-4c42-bd55-0bbe7518edf8" |
-    | "/assessments/@id"     | "/assessments/@id/studentAssessments/students" | "dd916592-7d7e-5d27-a87d-dfc7fcb12346" |
+    | "/assessments/@id"     | "/assessments/@id/studentAssessments/students" | "b94b5194d45cd707465627c0cd6c4f68f3558600_id" |
     | "/programs/@id"        | "/programs/@id/cohorts"                        | "9b8c3aab-8fd5-11e1-86ec-0021701f543f_id" |
 	
 Scenario Outline: Deny multiple IDs in URI if those IDs are rewritten to query params
@@ -190,5 +190,5 @@ Examples:
   | "/gradingPeriods/@id/grades"           | "b40a7eb5-dd74-4666-a5b9-5c3f4425f130,ef72b883-90fa-40fa-afc2-4cb1ae17623b" |
   | "/sessions/@id/studentAcademicRecords" | "0410354d-dbcb-0214-250a-404401060c93,abcff7ae-1f01-46bc-8cc7-cf409819bbce" |
   | "/sessions/@id/sections"               | "0410354d-dbcb-0214-250a-404401060c93,abcff7ae-1f01-46bc-8cc7-cf409819bbce" |
-  | "/assessments/@id/studentAssessments"  | "29f044bd-1449-4fb7-8e9a-5e2cf9ad252a,7b2e6133-4224-4890-ac02-73962eb09645" |
+  | "/assessments/@id/studentAssessments"  | "c757f9f2dc788924ce0715334c7e86735c5e1327_id,7b2e6133-4224-4890-ac02-73962eb09645" |
   | "/courseOfferings/@id/sections"        | "01709b45-d323-4101-9918-34788dd77306,149fa66a-4a9c-4cca-a371-96fae55aaa8f" |

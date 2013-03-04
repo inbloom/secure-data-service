@@ -36,10 +36,10 @@ if __FILE__ == $0
 
   # set up ldap
   # ldap = LDAPStorage.new("ldap.slidev.org",
-  # 					   389,
-  # 					   "ou=SLIAdmin,dc=slidev,dc=org",
-  # 					   "cn=DevLDAP User, ou=People,dc=slidev,dc=org",
-  # 					   "Y;Gtf@w{", false)
+  #                        389,
+  #                        "ou=SLIAdmin,dc=slidev,dc=org",
+  #                        "cn=DevLDAP User, ou=People,dc=slidev,dc=org",
+  #                        "Y;Gtf@w{", false)
   ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org", "cn=Admin,dc=slidev,dc=org", "Y;Gtf@w{", true)
 
   # make sure the user is removed from all groups even if it doesn't exist in people anymore

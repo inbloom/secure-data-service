@@ -6,7 +6,7 @@
         {
             "StudentSectionAssociationIdentity":
             {
-                "BeginDate":"2011-09-01",
+                "BeginDate":{"_value":"2011-09-01"},
                 "SectionReference":
                 {
                     "SectionIdentity":
@@ -15,17 +15,17 @@
                         {
                             "EducationalOrgIdentity":
                             {
-                                "StateOrganizationId":"this school"
+                                "StateOrganizationId":{"_value":"this school"}
                             }
                         },
-                        "UniqueSectionCode":"this section"
+                        "UniqueSectionCode":{"_value":"this section"}
                     }
                 },
                 "StudentReference":
                 {
                     "StudentIdentity":
                     {
-                        "StudentUniqueStateId":"800000025"
+                        "StudentUniqueStateId":{"_value":"800000025"}
                     }
                 }
             }
@@ -34,8 +34,8 @@
         {
             "GradebookEntryIdentity":
             {
-                "GradebookEntryType":"Unit test",
-                "DateAssigned":"2011-09-15",
+                "GradebookEntryType":{"_value":"Unit test"},
+                "DateAssigned":{"_value":"2011-09-15"},
                 "SectionReference":
                 {
                     "SectionIdentity":
@@ -44,26 +44,12 @@
                         {
                             "EducationalOrgIdentity":
                             {
-                                "StateOrganizationId":"this school"
+                                "StateOrganizationId":{"_value":"this school"}
                             }
                         },
-                        "UniqueSectionCode":"this section"
+                        "UniqueSectionCode":{"_value":"this section"}
                     }
                 }
-            }
-        },
-        "SectionReference":
-        {
-            "SectionIdentity":
-            {
-                "EducationalOrgReference":
-                {
-                    "EducationalOrgIdentity":
-                    {
-                        "StateOrganizationId":"this school"
-                    }
-                },
-                "UniqueSectionCode":"this section"
             }
         }
     }

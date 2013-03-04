@@ -80,12 +80,12 @@ Nb28W0C5u7TvZrWgWTPbR6sZ2lK1dsmaXa+dsPWwHnvBPEGImThe/nyqIvpyIGXvlMd+4I
   test "Key should be copied to specified directory" do
     keyFilePath = File.join(APP_CONFIG['rsa_key_dir'], "test_key")
     
-  	LandingZoneHelper.create_key("the_key", "test_key")
-  	assert_equal true, File.file?(keyFilePath)
-  	#check keyFile contents
-  	keyFile = File.open(keyFilePath, 'rb')
-	contents = keyFile.read
-  	assert_equal "the_key\n", contents
+      LandingZoneHelper.create_key("the_key", "test_key")
+      assert_equal true, File.file?(keyFilePath)
+      #check keyFile contents
+      keyFile = File.open(keyFilePath, 'rb')
+    contents = keyFile.read
+      assert_equal "the_key\n", contents
   end
 
   test "OpenSSH style RSA key should be convertable to a valid RSA key" do

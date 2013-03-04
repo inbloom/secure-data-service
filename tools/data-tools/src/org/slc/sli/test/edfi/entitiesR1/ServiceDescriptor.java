@@ -16,11 +16,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * 				This descriptor defines the services provided an
- * 				education organization to populations of students
- * 				associated with a
- * 				program.
- * 			
+ *                 This descriptor defines the services provided an
+ *                 education organization to populations of students
+ *                 associated with a
+ *                 program.
+ *             
  * 
  * <p>Java class for serviceDescriptor complex type.
  * 

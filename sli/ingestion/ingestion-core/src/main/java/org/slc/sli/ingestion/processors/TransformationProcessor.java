@@ -110,7 +110,7 @@ public class TransformationProcessor implements Processor {
             handleProcessingExceptions(exchange, batchJobId, e);
         } finally {
             if (newJob != null) {
-                BatchJobUtils.stopStageChunkAndAddToJob(stage, newJob);
+                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
                 batchJobDAO.saveBatchJobStage(batchJobId, stage);
             }
         }

@@ -240,7 +240,7 @@ Then /^there should be no other contents in the response body other than links$/
   @result.delete('schoolCategories')
   @result.delete('metaData')
   @result.delete('parentEducationAgencyReference')
-  assert(@result == {}, "The response body still contains data that was previously there but *not* in the PUT data")
+  assert(@result == {}, "The response body still contains data that was previously there but *not* in the PUT data: #{@result}")
 end
 
 Then /^a collection of size (\d+)$/ do |arg1|

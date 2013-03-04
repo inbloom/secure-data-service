@@ -10,26 +10,26 @@ import org.apache.camel.support.ExpressionAdapter;
 
 public class ZipFileIteratorExpression extends ExpressionAdapter {
 
-	public ZipFileIteratorExpression() {
-	}
+    public ZipFileIteratorExpression() {
+    }
 
-	public Object evaluate(Exchange exchange) {
-		try {
-			String batchId = exchange.getIn().getHeader("batchId", String.class);
-			File zipFile = exchange.getIn().getMandatoryBody(File.class);
+    public Object evaluate(Exchange exchange) {
+        try {
+            String batchId = exchange.getIn().getHeader("batchId", String.class);
+            File zipFile = exchange.getIn().getMandatoryBody(File.class);
 
-			return createIterator(zipFile, batchId);
-		} catch (CamelExchangeException e) {
-			exchange.setException(e);
-			return null;
-		} catch (IOException e) {
-			exchange.setException(e);
-			return null;
-		}
-	}
+            return createIterator(zipFile, batchId);
+        } catch (CamelExchangeException e) {
+            exchange.setException(e);
+            return null;
+        } catch (IOException e) {
+            exchange.setException(e);
+            return null;
+        }
+    }
 
-	private Iterator<?> createIterator(File zipFile, String batchId) throws IOException {
-		return new ZipFileIterator(zipFile, batchId);
-	}
+    private Iterator<?> createIterator(File zipFile, String batchId) throws IOException {
+        return new ZipFileIterator(zipFile, batchId);
+    }
 
 }

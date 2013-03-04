@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity represents identified learning
- * 				objectives for courses in specific grades.
- * 			
+ *                 objectives for courses in specific grades.
+ *             
  * 
  * <p>Java class for learningObjective complex type.
  * 

@@ -71,7 +71,7 @@ public class ApplicationResourceService extends DefaultResourceService {
                 // is hosted by sandbox ldap
                 String sandboxTenancy = principal.getSandboxTenant();
                 if (sandboxTenancy != null && sandboxTenancy.length() > 0) {
-                	query.addOrQuery(new NeutralQuery(new NeutralCriteria(AUTHOR_SANDBOX_TENANT, NeutralCriteria.OPERATOR_EQUAL, sandboxTenancy)));
+                    query.addOrQuery(new NeutralQuery(new NeutralCriteria(AUTHOR_SANDBOX_TENANT, NeutralCriteria.OPERATOR_EQUAL, sandboxTenancy)));
                 }
             }
         } else if (!SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized

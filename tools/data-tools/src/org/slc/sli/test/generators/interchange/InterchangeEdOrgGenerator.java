@@ -61,19 +61,19 @@ import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 public class InterchangeEdOrgGenerator {
 
 
-	static CourseGenerator gen ;
+    static CourseGenerator gen ;
 
-	static {
-		try
-		{
-			gen = new CourseGenerator(GradeLevelType.SEVENTH_GRADE);
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
+    static {
+        try
+        {
+            gen = new CourseGenerator(GradeLevelType.SEVENTH_GRADE);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-	/**
+    /**
      * Sets up a new Education Organization Interchange and populates it
      *
      * @return
@@ -123,7 +123,7 @@ public class InterchangeEdOrgGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id, seaMeta);
             } else {
-            	sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id, seaMeta);
+                sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id, seaMeta);
             }
             iWriter.marshal(sea);
         }
@@ -198,9 +198,9 @@ public class InterchangeEdOrgGenerator {
             SLCLocalEducationAgency lea;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-            	lea = LocalEducationAgencyGenerator.generateMedFi(leaMeta.id, leaMeta.seaId, leaMeta);
+                lea = LocalEducationAgencyGenerator.generateMedFi(leaMeta.id, leaMeta.seaId, leaMeta);
             } else {
-            	lea = LocalEducationAgencyGenerator.generateMedFi(leaMeta.id, leaMeta.seaId, leaMeta);
+                lea = LocalEducationAgencyGenerator.generateMedFi(leaMeta.id, leaMeta.seaId, leaMeta);
             }
 
             iWriter.marshal(lea);
@@ -251,8 +251,8 @@ public class InterchangeEdOrgGenerator {
             SLCCourse course;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-            	//course = CourseGenerator.generateMidumFi(courseMeta.id, courseMeta.schoolId);
-            	course = null;
+                //course = CourseGenerator.generateMidumFi(courseMeta.id, courseMeta.schoolId);
+                course = null;
             } else {
                 //course = CourseGenerator.generateLowFi(courseMeta.id, courseMeta.schoolId);
                 course = gen.getCourse(courseMeta.id, courseMeta.schoolId, courseMeta.uniqueCourseId);

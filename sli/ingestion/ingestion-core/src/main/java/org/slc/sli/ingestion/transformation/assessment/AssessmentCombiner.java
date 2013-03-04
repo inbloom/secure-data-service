@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -31,11 +30,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.dal.NeutralRecordRepository;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
@@ -57,11 +52,12 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String ASSESSMENT_FAMILY = "assessmentFamily";
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     private static final String ASSESSMENT_TRANSFORMED = "assessment_transformed";
-    private static final String ASSESSMENT_ITEM = "assessmentItem";
-    private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
 
-    @Autowired
-    private ObjectiveAssessmentBuilder builder;
+    private static final String VALUE = "_value";
+    private static final String ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyTitle." + VALUE;
+    private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyReference.AssessmentFamilyIdentity." + ASSESSMENT_FAMILY_TITLE;
+
+    //private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
 
     /**
      * Default constructor.
@@ -97,54 +93,23 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void transform() {
         LOG.info("Transforming assessment data");
-        builder.setAbstractTransformationStrategy(this);
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : assessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 
             // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            String parentFamilyTitle = (String) attrs.remove(PARENT_ASSESSMENT_FAMILY_TITLE);
+            //String parentFamilyTitle = (String) attrs.remove(PARENT_ASSESSMENT_FAMILY_TITLE);
+            String parentFamilyTitle = (String) getProperty(attrs, PARENT_ASSESSMENT_FAMILY_TITLE);
             String familyHierarchyName = getAssocationFamilyMap(parentFamilyTitle, new HashMap<String, Map<String, Object>>(), "");
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
-            @SuppressWarnings("unchecked")
-            List<String> objectiveAssessmentRefs = (List<String>) attrs.get("objectiveAssessmentRefs");
-            attrs.remove("objectiveAssessmentRefs");
-            List<Map<String, Object>> familyObjectiveAssessments = new ArrayList<Map<String, Object>>();
-            if (objectiveAssessmentRefs != null && !(objectiveAssessmentRefs.isEmpty())) {
-                for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
-                    Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(
-                            getNeutralRecordMongoAccess(), getJob(), objectiveAssessmentRef);
-
-                    if (objectiveAssessment != null && !objectiveAssessment.isEmpty()) {
-                        LOG.info("Found objective assessment: {} for family: {}", objectiveAssessmentRef,
-                                familyHierarchyName);
-                        familyObjectiveAssessments.add(objectiveAssessment);
-                    } else {
-                        LOG.warn("Failed to match objective assessment: {} for family: {}", objectiveAssessmentRef,
-                                familyHierarchyName);
-                        builder.reportAggregatedWarnings(CoreMessageCode.CORE_0045, getNeutralRecordMongoAccess(), getJob(), objectiveAssessmentRef, familyHierarchyName);
-                    }
-                }
-                attrs.put("objectiveAssessment", familyObjectiveAssessments);
-            }
-
-            if (attrs.containsKey(ASSESSMENT_ITEM)) {
-                @SuppressWarnings("unchecked")
-                List<Map<String, Object>> items = (List<Map<String, Object>>) attrs.get(ASSESSMENT_ITEM);
-                if (items == null || items.size() == 0) {
-                    attrs.remove(ASSESSMENT_ITEM);
-                } else {
-                    List<Map<String, Object>> assessmentItems = getAssessmentItems(items);
-                    if (assessmentItems != null) {
-                        attrs.put(ASSESSMENT_ITEM, assessmentItems);
-                    }
-                }
-            }
-
-            String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
+            String assessmentPeriodDescriptorRef = (String) getProperty(attrs, "AssessmentPeriod.CodeValue._value");
             if (assessmentPeriodDescriptorRef != null) {
-                attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
+                attrs.remove("AssessmentPeriod");
+                Map<String, Object> assessmentPeriodDescriptors = getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef);
+                if (assessmentPeriodDescriptors != null) {
+                    attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, assessmentPeriodDescriptors);
+                }
             }
 
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
@@ -153,42 +118,11 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         }
     }
 
-    private List<Map<String, Object>> getAssessmentItems(List<Map<String, Object>> itemReferences) {
-        List<String> identificationCodes = new ArrayList<String>();
-        // build in clause
-        for (Map<String, Object> item : itemReferences) {
-            if (item.containsKey("identificationCode")) {
-                identificationCodes.add((String) item.get("identificationCode"));
-            }
-        }
-
-        if (identificationCodes.size() > 0) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("query for assessmentItems: {}", identificationCodes);
-            }
-            NeutralQuery constraint = new NeutralQuery();
-            constraint.addCriteria(new NeutralCriteria("identificationCode", NeutralCriteria.CRITERIA_IN,
-                    identificationCodes));
-            NeutralRecordRepository repo = getNeutralRecordMongoAccess().getRecordRepository();
-            Iterable<NeutralRecord> records = repo.findAllForJob(ASSESSMENT_ITEM, constraint);
-            List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
-            if (records != null) {
-                for (NeutralRecord record : records) {
-                    assessmentItems.add(record.getAttributes());
-                }
-
-                return assessmentItems;
-            }
-        }
-
-        return null;
-    }
-
     @SuppressWarnings("unchecked")
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        query.addCriteria(Criteria.where("body.codeValue").is(assessmentPeriodDescriptorRef));
+        query.addCriteria(Criteria.where("body.CodeValue._value").is(assessmentPeriodDescriptorRef));
 
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 ASSESSMENT_PERIOD_DESCRIPTOR, query);
@@ -204,7 +138,39 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             if (assessmentEntity != null) {
                 Map<String, Object> assessmentPeriodDescriptor = (Map<String, Object>) assessmentEntity.getBody().get(
                         ASSESSMENT_PERIOD_DESCRIPTOR);
-                return assessmentPeriodDescriptor;
+                // massage from entity to NR
+                Map<String, Object> assessmentPeriodDescriptor_value = new HashMap<String, Object>();
+                if (assessmentPeriodDescriptor.containsKey("shortDescription")) {
+                    Map<String, Object> m = new HashMap<String, Object>();
+                    m.put("_value", assessmentPeriodDescriptor.get("shortDescription"));
+                    assessmentPeriodDescriptor_value.put("ShortDescription", m);
+
+                }
+                if (assessmentPeriodDescriptor.containsKey("description")) {
+                    Map<String, Object> m = new HashMap<String, Object>();
+                    m.put("_value", assessmentPeriodDescriptor.get("description"));
+                    assessmentPeriodDescriptor_value.put("Description", m);
+
+                }
+                if (assessmentPeriodDescriptor.containsKey("codeValue")) {
+                    Map<String, Object> m = new HashMap<String, Object>();
+                    m.put("_value", assessmentPeriodDescriptor.get("codeValue"));
+                    assessmentPeriodDescriptor_value.put("CodeValue", m);
+
+                }
+                if (assessmentPeriodDescriptor.containsKey("endDate")) {
+                    Map<String, Object> m = new HashMap<String, Object>();
+                    m.put("_value", assessmentPeriodDescriptor.get("endDate"));
+                    assessmentPeriodDescriptor_value.put("EndDate", m);
+
+                }
+                if (assessmentPeriodDescriptor.containsKey("beginDate")) {
+                    Map<String, Object> m = new HashMap<String, Object>();
+                    m.put("_value", assessmentPeriodDescriptor.get("beginDate"));
+                    assessmentPeriodDescriptor_value.put("BeginDate", m);
+
+                }
+                return assessmentPeriodDescriptor_value;
             }
         }
         return null;
@@ -215,7 +181,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         String theFamilyHierarchyName = familyHierarchyName;
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        query.addCriteria(Criteria.where("body.AssessmentFamilyTitle").is(assessmentFamilyTitle));
+        query.addCriteria(Criteria.where("body." + ASSESSMENT_FAMILY_TITLE).is(assessmentFamilyTitle));
         Iterable<NeutralRecord> neutralRecords = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(ASSESSMENT_FAMILY, query);
 
         // Should only iterate exactly once because AssessmentFamilyTitle should be unique for each AssessmentFamily.
@@ -223,16 +189,17 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             Map<String, Object> associationAttrs = neutralRecord.getAttributes();
 
             if ("".equals(theFamilyHierarchyName)) {
-                theFamilyHierarchyName = (String) associationAttrs.get("AssessmentFamilyTitle");
+                theFamilyHierarchyName = (String) getProperty(associationAttrs, ASSESSMENT_FAMILY_TITLE);
             } else {
-                theFamilyHierarchyName = associationAttrs.get("AssessmentFamilyTitle") + "." + theFamilyHierarchyName;
+                theFamilyHierarchyName = (String) getProperty(associationAttrs, ASSESSMENT_FAMILY_TITLE) + "." + theFamilyHierarchyName;
             }
-            deepFamilyMap.put((String) associationAttrs.get("AssessmentFamilyTitle"), associationAttrs);
+            deepFamilyMap.put((String) getProperty(associationAttrs, ASSESSMENT_FAMILY_TITLE), associationAttrs);
 
             // check if there are parent nodes
-            if (associationAttrs.containsKey("parentAssessmentFamilyTitle")
-                    && !deepFamilyMap.containsKey(associationAttrs.get("parentAssessmentFamilyTitle"))) {
-                theFamilyHierarchyName = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyTitle"),
+            String parentAssessmentFamilyTitle = (String) getProperty(associationAttrs, "AssessmentFamilyReference.AssessmentFamilyIdentity.AssessmentFamilyTitle._value");
+            if (associationAttrs.containsKey("AssessmentFamilyReference")
+                    && !deepFamilyMap.containsKey(parentAssessmentFamilyTitle)) {
+                theFamilyHierarchyName = getAssocationFamilyMap(parentAssessmentFamilyTitle,
                         deepFamilyMap, theFamilyHierarchyName);
             }
         }

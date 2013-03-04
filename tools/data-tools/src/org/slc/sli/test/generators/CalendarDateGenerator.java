@@ -24,8 +24,8 @@ import org.slc.sli.test.edfi.entities.CalendarEventType;
 
 
 public class CalendarDateGenerator {
-	static private Random generator = new Random(31);
-	static private int dateCount  = 0;
+    static private Random generator = new Random(31);
+    static private int dateCount  = 0;
 
     public static String generatDate() {
 
@@ -35,16 +35,16 @@ public class CalendarDateGenerator {
 
         String dayString = "";
         if (day < 10) {
-        	dayString = "0" + day;
+            dayString = "0" + day;
         } else {
-        	dayString = "" + day;
+            dayString = "" + day;
         }
         
         String monthString = "";
         if (month < 10) {
-        	monthString = "0" + month;
+            monthString = "0" + month;
         } else {
-        	monthString = "" + month;
+            monthString = "" + month;
         }
         
         String yearString = "" + year;
@@ -57,7 +57,7 @@ public class CalendarDateGenerator {
     
 
     public static CalendarEventType getCalendarEventType() {
-    	int roll = generator.nextInt(8) + 1;
+        int roll = generator.nextInt(8) + 1;
         switch (roll) {
             case 1: return CalendarEventType.EMERGENCY_DAY;
             case 2: return CalendarEventType.HOLIDAY;

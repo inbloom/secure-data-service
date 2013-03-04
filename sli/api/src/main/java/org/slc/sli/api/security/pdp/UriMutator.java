@@ -118,9 +118,9 @@ public class UriMutator {
                         MutatedContainer newMutated = new MutatedContainer();
                         String path = String.format("/%s/%s", resource, e.getEntityId());
                         if (EntityNames.TEACHER.equals(e.getType())) {
-                        	path = String.format("/teachers/%s", e.getEntityId());
+                            path = String.format("/teachers/%s", e.getEntityId());
                         } else if (EntityNames.STAFF.equals(e.getType())) {
-                        	path = String.format("/staff/%s", e.getEntityId());
+                            path = String.format("/staff/%s", e.getEntityId());
                         }
 						newMutated.setPath(path);
 

@@ -16,10 +16,10 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity represents an administrative unit at the
- * 			local level which exists primarily to operate schools or to contract
- * 			for educational services.  It includes school districts, charter schools,
- * 			charter management organizations, or other local administrative organizations.
- * 			
+ *             local level which exists primarily to operate schools or to contract
+ *             for educational services.  It includes school districts, charter schools,
+ *             charter management organizations, or other local administrative organizations.
+ *             
  * 
  * <p>Java class for localEducationAgency complex type.
  * 

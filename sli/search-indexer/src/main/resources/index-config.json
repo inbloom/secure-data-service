@@ -1,447 +1,453 @@
 {
-	"student": {
-		"fields": [
-			"body.name.firstName", 
-			"body.name.middleName", 
-			"body.name.lastSurname", 
-			"body.otherName.firstName", 
-			"body.otherName.middleName", 
-			"body.otherName.lastSurname", 
-			"schools.exitWithdrawDate", 
-			"schools._id"
-		],
-		"append": {
-			"body.context.schoolId": {
-				"subdoc": "schools",
-				"field": "_id",
-				"condition": {
-					"exitWithdrawDate": null
-				}
-			}
-		},
-		"mapping": {
-			"student": {
-				"_timestamp": {
-					"enabled": true
-				},
-				"properties": {
-					"context": {
-						"include_in_all": false,
-						"properties": {
-							"schoolId": {
-								"type": "string",
-								"index": "not_analyzed"
-							}
-						}
-					}
-				}
-			}
-		}
-	},
-	"learningStandard": {
-		"fields": [
-			"body.contentStandard", 
-			"body.courseTitle", 
-			"body.description", 
-			"body.gradeLevel", 
-			"body.learningStandardId.identificationCode", 
-			"body.subjectArea"
-		],
-		"append": {
-			"body.context.schoolId": {
-				"value": "ALL"
-			}
-		},
-		"mapping": {
-			"learningStandard": {
-				"_timestamp": {
-					"enabled": true
-				},
-				"properties": {
-					"context": {
-						"include_in_all": false,
-						"properties": {
-							"schoolId": {
-								"type": "string",
-								"index": "not_analyzed"
-							}
-						}
-					},
-					"learningStandardId": {
-						"properties": {
-							"identificationCode": {
-								"type": "string",
-								"index": "not_analyzed"
-							}
-						}
-					}
-				}
-			}
-		}
-	},
-	"learningObjective": {
-		"fields": [
-			"body.academicSubject", 
-			"body.description", 
-			"body.learningObjectiveId.contentStandardName", 
-			"body.learningObjectiveId.identificationCode", 
-			"body.objective", 
-			"body.objectiveGradeLevel", 
-			"body.learningStandards", 
-			"body.parentLearningObjective"
-		],
-		"append": {
-			"body.context.schoolId": {
-				"value": "ALL"
-			}
-		},
-		"mapping": {
-			"learningObjective": {
-				"_timestamp": {
-					"enabled": true
-				},
-				"properties": {
-					"context": {
-						"include_in_all": false,
-						"properties": {
-							"schoolId": {
-								"type": "string",
-								"index": "not_analyzed"
-							}
-						}
-					},
-					"learningObjectiveId": {
-						"properties": {
-							"identificationCode": {
-								"type": "string",
-								"index": "not_analyzed"
-							}
-						}
-					},
-					"learningStandards": {
-						"type": "string",
-						"index": "not_analyzed"
-					},
-					"parentLearningObjective": {
-						"type": "string",
-						"index": "not_analyzed"
-					}
-				}
-			}
-		}
-	},
-	"competencyLevelDescriptor": {
-		"fields": [
-			"body.description", 
-			"body.codeValue", 
-			"body.performanceBaseConversion"
-		],
-		"append": {
-			"body.context.schoolId": {
-				"value": "ALL"
-			}
-		},
-		"mapping": {
-			"competencyLevelDescriptor": {
-				"_timestamp": {
-					"enabled": true
-				},
-				"properties": {
-					"context": {
-						"include_in_all": false,
-						"properties": {
-							"schoolId": {
-								"type": "string",
-								"index": "not_analyzed"
-							}
-						}
-					},
-					"performanceBaseConversion": {
-						"type": "string",
-						"index": "not_analyzed"
-					},
-					"codeValue": {
-						"type": "string",
-						"index": "not_analyzed"
-					}
-				}
-			}
-		}
-	},
-	"competencyLevelDescriptorType": {
-		"fields": [
-			"body.description", 
-			"body.codeValue"
-		],
-		"append": {
-			"body.context.schoolId": {
-				"value": "ALL"
-			}
-		},
-		"mapping": {
-			"competencyLevelDescriptorType": {
-				"_timestamp": {
-					"enabled": true
-				},
-				"properties": {
-					"context": {
-						"include_in_all": false,
-						"properties": {
-							"schoolId": {
-								"type": "string",
-								"index": "not_analyzed"
-							}
-						}
-					},
-					"codeValue": {
-						"type": "string",
-						"index": "not_analyzed"
-					}
-				}
-			}
-		}
-	},
-	"studentCompetencyObjective": {
-		"fields": [
-			"body.description", 
-			"body.objective", 
-			"body.objectiveGradeLevel", 
-			"body.studentCompetencyObjectiveId", 
-			"body.educationOrganizationId"
-		],
-		"append": {
-			"body.context.schoolId": {
-				"value": "ALL"
-			}
-		},
-		"mapping": {
-			"studentCompetencyObjective": {
-				"_timestamp": {
-					"enabled": true
-				},
-				"properties": {
-					"context": {
-						"include_in_all": false,
-						"properties": {
-							"schoolId": {
-								"type": "string",
-								"index": "not_analyzed"
-							}
-						}
-					},
-					"objectiveGradeLevel": {
-						"type": "string",
-						"index": "not_analyzed"
-					},
-					"educationOrganizationId": {
-						"type": "string",
-						"index": "not_analyzed"
-					}
-				}
-			}
-		}
-	},
-	"assessment": {
-		"fields": [
-			"body.academicSubject", 
-			"body.assessmentCategory", 
-			"body.assessmentFamilyHierarchyName", 
-			"body.assessmentForm", 
-			"body.assessmentIdentificationCode.assigningOrganizationCode", 
-			"body.assessmentIdentificationCode.ID", 
-			"body.assessmentIdentificationCode.identificationSystem", 
-			"body.assessmentItem", 
-			"body.assessmentPerformanceLevel.assessmentReportingMethodType", 
-			"body.assessmentPerformanceLevel.maximumScore", 
-			"body.assessmentPerformanceLevel.minimumScore", 
-			"body.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue", 
-			"body.assessmentPerformanceLevel.performanceLevelDescriptor.description", 
-			"body.assessmentPerformanceLevel.performanceLevelDescriptor.performanceBaseConversion", 
-			"body.assessmentPeriodDescriptor.beginDate",
-			"body.assessmentPeriodDescriptor.endDate",
-			"body.assessmentPeriodDescriptor.codeValue",
-			"body.assessmentPeriodDescriptor.description",
-			"body.assessmentPeriodDescriptor.shortDescription",
-			"body.assessmentTitle",
-			"body.contentStandard", 
-			"body.gradeLevelAssessed", 
-			"body.lowestGradeLevelAssessed", 
-			"body.maxRawScore", 
-			"body.minRawScore", 
-			"body.nomenclature", 
-			"body.objectiveAssessment.identificationCode", 
-			"body.objectiveAssessment.maxRowScore", 
-			"body.objectiveAssessment.assessmentPerformanceLevel.performanceLevel.codeValue", 
-			"body.objectiveAssessment.assessmentPerformanceLevel.performanceLevel.performanceLevelMet", 
-			"body.objectiveAssessment.assessmentPerformanceLevel.assessmentReportiongMethod", 
-			"body.objectiveAssessment.assessmentPerformanceLevel.minimumScore", 
-			"body.objectiveAssessment.assessmentPerformanceLevel.maximumScore", 
-			"body.objectiveAssessment.percentOfAssessment", 
-			"body.objectiveAssessment.nomenclature", 
-			"body.objectiveAssessment.learningStandardReference.learningStandardIdentity.learningStandardId.identificationCode", 
-			"body.revisionDate", 
-			"body.version"
-		],
-		"append": {
-			"body.context.schoolId": {
-				"value": "ALL"
-			}
-		},
-		"mapping": {
-			"assessment": {
-				"_timestamp": {
-					"enabled": true
-				},
-				"properties": {
-					"context": {
-						"include_in_all": false,
-						"properties": {
-							"schoolId": {
-								"type": "string",
-								"index": "not_analyzed"
-							}
-						}
-					},
-					"assessmentCategory": {
-						"type": "string",
-						"index": "not_analyzed"
-					},
-					"assessmentIdentificationCode": {
-						"properties": {
-							"ID": {
-								"type": "string",
-								"index": "not_analyzed"
-							},
-							"identificationSystem": {
-								"type": "string",
-								"index": "not_analyzed"
-							}
-						}
-					},
-					"assessmentPeriodDescriptor": {
-                    						"properties": {
-                    							"beginDate": {
-                    								"type": "string",
-                    								"index": "not_analyzed"
-                    							},
-                    							"endDate": {
-                    								"type": "string",
-                    								"index": "not_analyzed"
-                    							},
-                    							"codeValue": {
-                    							    "type" : "string",
-                    							    "index" : "not_analyzed"
-                    							}
-                    						}
-                    					},
-					"assessmentItem": {
-						"properties": {
-							"identificationCode": {
-								"type": "string",
-								"index": "not_analyzed"
-							},
-							"itemCategory": {
-								"type": "string",
-								"index": "not_analyzed"
-							},
-							"learningStandardId": {
-								"properties": {
-									"identificationCode": {
-										"type": "string",
-										"index": "not_analyzed"
-									}
-								}
-							}
-						}
-					},
-					"assessmentPerformanceLevel": {
-						"properties": {
-							"assessmentReportingMethodType": {
-								"type": "string",
-								"index": "not_analyzed"
-							},
-							"performanceLevelDescriptor": {
-								"properties": {
-									"performanceBaseConversion": {
-										"type": "string",
-										"index": "not_analyzed"
-									}
-								}
-							}
-						}
-					},
-					"contentStandard": {
-						"type": "string",
-						"index": "not_analyzed"
-					},
-					"lowestGradeLevelAssessed": {
-						"type": "string",
-						"index": "not_analyzed"
-					},
-					"objectiveAssessment": {
-						"properties": {
-							"assessmentPerformanceLevel": {
-								"properties": {
-									"assessmentReportingMethod": {
-										"type": "string",
-										"index": "not_analyzed"
-									},
-									"performanceLevelDescriptor": {
-										"properties": {
-											"performanceBaseConversion": {
-												"type": "string",
-												"index": "not_analyzed"
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"gradeLevelAssessed": {
-						"type": "string",
-						"index": "not_analyzed"
-					}
-				}
-			}
-		}
-	},
-    	"session": {
-		"fields": [
-			"body.schoolYear",
-			"body.sessionName",
+    "student": {
+        "fields": [
+            "body.name.firstName", 
+            "body.name.middleName", 
+            "body.name.lastSurname", 
+            "body.otherName.firstName", 
+            "body.otherName.middleName", 
+            "body.otherName.lastSurname", 
+            "schools.exitWithdrawDate", 
+            "schools._id"
+        ],
+        "append": {
+            "body.context.schoolId": {
+                "subdoc": "schools",
+                "field": "_id",
+                "condition": {
+                    "exitWithdrawDate": null
+                }
+            }
+        },
+        "mapping": {
+            "student": {
+                "_timestamp": {
+                    "enabled": true
+                },
+                "properties": {
+                    "context": {
+                        "include_in_all": false,
+                        "properties": {
+                            "schoolId": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "learningStandard": {
+        "fields": [
+            "body.contentStandard", 
+            "body.courseTitle", 
+            "body.description", 
+            "body.gradeLevel", 
+            "body.learningStandardId.identificationCode", 
+            "body.subjectArea"
+        ],
+        "append": {
+            "body.context.schoolId": {
+                "value": "ALL"
+            }
+        },
+        "mapping": {
+            "learningStandard": {
+                "_timestamp": {
+                    "enabled": true
+                },
+                "properties": {
+                    "context": {
+                        "include_in_all": false,
+                        "properties": {
+                            "schoolId": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "learningStandardId": {
+                        "properties": {
+                            "identificationCode": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "learningObjective": {
+        "fields": [
+            "body.academicSubject", 
+            "body.description", 
+            "body.learningObjectiveId.contentStandardName", 
+            "body.learningObjectiveId.identificationCode", 
+            "body.objective", 
+            "body.objectiveGradeLevel", 
+            "body.learningStandards", 
+            "body.parentLearningObjective"
+        ],
+        "append": {
+            "body.context.schoolId": {
+                "value": "ALL"
+            }
+        },
+        "mapping": {
+            "learningObjective": {
+                "_timestamp": {
+                    "enabled": true
+                },
+                "properties": {
+                    "context": {
+                        "include_in_all": false,
+                        "properties": {
+                            "schoolId": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "learningObjectiveId": {
+                        "properties": {
+                            "identificationCode": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "learningStandards": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "parentLearningObjective": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    }
+                }
+            }
+        }
+    },
+    "competencyLevelDescriptor": {
+        "fields": [
+            "body.description", 
+            "body.codeValue", 
+            "body.performanceBaseConversion"
+        ],
+        "append": {
+            "body.context.schoolId": {
+                "value": "ALL"
+            }
+        },
+        "mapping": {
+            "competencyLevelDescriptor": {
+                "_timestamp": {
+                    "enabled": true
+                },
+                "properties": {
+                    "context": {
+                        "include_in_all": false,
+                        "properties": {
+                            "schoolId": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "performanceBaseConversion": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "codeValue": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    }
+                }
+            }
+        }
+    },
+    "competencyLevelDescriptorType": {
+        "fields": [
+            "body.description", 
+            "body.codeValue"
+        ],
+        "append": {
+            "body.context.schoolId": {
+                "value": "ALL"
+            }
+        },
+        "mapping": {
+            "competencyLevelDescriptorType": {
+                "_timestamp": {
+                    "enabled": true
+                },
+                "properties": {
+                    "context": {
+                        "include_in_all": false,
+                        "properties": {
+                            "schoolId": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "codeValue": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    }
+                }
+            }
+        }
+    },
+    "studentCompetencyObjective": {
+        "fields": [
+            "body.description", 
+            "body.objective", 
+            "body.objectiveGradeLevel", 
+            "body.studentCompetencyObjectiveId", 
+            "body.educationOrganizationId"
+        ],
+        "append": {
+            "body.context.schoolId": {
+                "value": "ALL"
+            }
+        },
+        "mapping": {
+            "studentCompetencyObjective": {
+                "_timestamp": {
+                    "enabled": true
+                },
+                "properties": {
+                    "context": {
+                        "include_in_all": false,
+                        "properties": {
+                            "schoolId": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "objectiveGradeLevel": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "educationOrganizationId": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    }
+                }
+            }
+        }
+    },
+    "assessment": {
+        "fields": [
+            "body.academicSubject", 
+            "body.assessmentCategory", 
+            "body.assessmentFamilyHierarchyName", 
+            "body.assessmentForm", 
+            "body.assessmentIdentificationCode.assigningOrganizationCode", 
+            "body.assessmentIdentificationCode.ID", 
+            "body.assessmentIdentificationCode.identificationSystem", 
+            "body.assessmentPerformanceLevel.assessmentReportingMethodType", 
+            "body.assessmentPerformanceLevel.maximumScore", 
+            "body.assessmentPerformanceLevel.minimumScore", 
+            "body.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue", 
+            "body.assessmentPerformanceLevel.performanceLevelDescriptor.description", 
+            "body.assessmentPerformanceLevel.performanceLevelDescriptor.performanceBaseConversion", 
+            "body.assessmentPeriodDescriptor.beginDate",
+            "body.assessmentPeriodDescriptor.endDate",
+            "body.assessmentPeriodDescriptor.codeValue",
+            "body.assessmentPeriodDescriptor.description",
+            "body.assessmentPeriodDescriptor.shortDescription",
+            "body.assessmentTitle",
+            "body.contentStandard", 
+            "body.gradeLevelAssessed", 
+            "body.lowestGradeLevelAssessed", 
+            "body.maxRawScore", 
+            "body.minRawScore", 
+            "body.nomenclature", 
+            "objectiveAssessment.body.identificationCode", 
+            "objectiveAssessment.body.maxRowScore", 
+            "objectiveAssessment.body.assessmentPerformanceLevel.performanceLevel.codeValue", 
+            "objectiveAssessment.body.assessmentPerformanceLevel.performanceLevel.performanceLevelMet", 
+            "objectiveAssessment.body.assessmentPerformanceLevel.assessmentReportiongMethod", 
+            "objectiveAssessment.body.assessmentPerformanceLevel.minimumScore", 
+            "objectiveAssessment.body.assessmentPerformanceLevel.maximumScore", 
+            "objectiveAssessment.body.percentOfAssessment", 
+            "objectiveAssessment.body.nomenclature", 
+            "objectiveAssessment.body.learningStandardReference.learningStandardIdentity.learningStandardId.identificationCode", 
+            "assessmentItem", 
+            "body.revisionDate", 
+            "body.version"
+        ],
+        "append": {
+            "body.context.schoolId": {
+                "value": "ALL"
+            },
+            "body.objectiveAssessment": {
+                "subdoc": "objectiveAssessment.body" 
+            },
+            "body.assessmentItem": {
+                "subdoc": "assessmentItem.body" 
+            }
+        },
+        "mapping": {
+            "assessment": {
+                "_timestamp": {
+                    "enabled": true
+                },
+                "properties": {
+                    "context": {
+                        "include_in_all": false,
+                        "properties": {
+                            "schoolId": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "assessmentCategory": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "assessmentIdentificationCode": {
+                        "properties": {
+                            "ID": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "identificationSystem": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "assessmentPeriodDescriptor": {
+                                            "properties": {
+                                                "beginDate": {
+                                                    "type": "string",
+                                                    "index": "not_analyzed"
+                                                },
+                                                "endDate": {
+                                                    "type": "string",
+                                                    "index": "not_analyzed"
+                                                },
+                                                "codeValue": {
+                                                    "type" : "string",
+                                                    "index" : "not_analyzed"
+                                                }
+                                            }
+                                        },
+                    "assessmentItem": {
+                        "properties": {
+                            "identificationCode": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "itemCategory": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "learningStandardId": {
+                                "properties": {
+                                    "identificationCode": {
+                                        "type": "string",
+                                        "index": "not_analyzed"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "assessmentPerformanceLevel": {
+                        "properties": {
+                            "assessmentReportingMethodType": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "performanceLevelDescriptor": {
+                                "properties": {
+                                    "performanceBaseConversion": {
+                                        "type": "string",
+                                        "index": "not_analyzed"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "contentStandard": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "lowestGradeLevelAssessed": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "objectiveAssessment": {
+                        "properties": {
+                            "assessmentPerformanceLevel": {
+                                "properties": {
+                                    "assessmentReportingMethod": {
+                                        "type": "string",
+                                        "index": "not_analyzed"
+                                    },
+                                    "performanceLevelDescriptor": {
+                                        "properties": {
+                                            "performanceBaseConversion": {
+                                                "type": "string",
+                                                "index": "not_analyzed"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "gradeLevelAssessed": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    }
+                }
+            }
+        }
+    },
+        "session": {
+        "fields": [
+            "body.schoolYear",
+            "body.sessionName",
             "body.endDate",
             "body.beginDate",
             "body.schoolId"
-		],
-		"append": {
-			"body.context.schoolId": {
-				"value": "ALL"
-			}
-		},
-		"mapping": {
-			"session": {
-				"_timestamp": {
-					"enabled": true
-				},
-				"properties": {
-					"context": {
-						"include_in_all": false,
-						"properties": {
-							"schoolId": {
-								"type": "string",
-								"index": "not_analyzed"
-							}
-						}
-					},
+        ],
+        "append": {
+            "body.context.schoolId": {
+                "value": "ALL"
+            }
+        },
+        "mapping": {
+            "session": {
+                "_timestamp": {
+                    "enabled": true
+                },
+                "properties": {
+                    "context": {
+                        "include_in_all": false,
+                        "properties": {
+                            "schoolId": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
                     "schoolId": {
                         "type": "string",
                         "index": "not_analyzed"
                     }
-				}
-			}
-		}
-	},
+                }
+            }
+        }
+    },
          "gradingPeriod": {
         "fields": [
             "body.gradingPeriodIdentity.gradingPeriod",

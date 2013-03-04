@@ -86,54 +86,54 @@ end
 
 
 And /^the object includes an app URL, admin URL, image URL, description, title, vendor, version, display method, is admin app$/ do
-	assert(@result[0]["application_url"] != nil, "Contains app URL")
-	assert(@result[0]["administration_url"] != nil, "Contains administrative URL")
-	assert(@result[0]["image_url"] != nil, "Contains is image URL")
-	assert(@result[0]["description"] != nil, "Contains description")
-	assert(@result[0]["name"] != nil, "Contains title")
-	assert(@result[0]["vendor"] != nil, "Contains vendor")
-	assert(@result[0]["version"] != nil, "Contains version")
-	assert(@result[0]["behavior"] != nil, "Contains display method")
-	assert(@result[0]["is_admin"] != nil, "Contains is admin app")
+    assert(@result[0]["application_url"] != nil, "Contains app URL")
+    assert(@result[0]["administration_url"] != nil, "Contains administrative URL")
+    assert(@result[0]["image_url"] != nil, "Contains is image URL")
+    assert(@result[0]["description"] != nil, "Contains description")
+    assert(@result[0]["name"] != nil, "Contains title")
+    assert(@result[0]["vendor"] != nil, "Contains vendor")
+    assert(@result[0]["version"] != nil, "Contains version")
+    assert(@result[0]["behavior"] != nil, "Contains display method")
+    assert(@result[0]["is_admin"] != nil, "Contains is admin app")
 
 end
 
 And /^the list contains the admin app$/ do
-	@result.each do |app|
-		if app["name"] == "Admin Apps"
-			@admin_app = app
-		end
-	end
-	assert(@admin_app != nil, "Admin app found")
+    @result.each do |app|
+        if app["name"] == "Admin Apps"
+            @admin_app = app
+        end
+    end
+    assert(@admin_app != nil, "Admin app found")
 end
 
 Then /^the list contains and app named "(.*?)"$/ do |app_name|
-	@result.each do |app|
-		if app["name"] == app_name
-			@found_app = app
-		end
-	end
-	assert(@found_app != nil, "Did not find an app named #{app_name}")
+    @result.each do |app|
+        if app["name"] == app_name
+            @found_app = app
+        end
+    end
+    assert(@found_app != nil, "Did not find an app named #{app_name}")
 
 end
 
 Then /^the list does not contain and app named "(.*?)"$/ do |app_name|
-	@result.each do |app|
-		if app["name"] == app_name
-			@found_app = app
-		end
-	end
-	assert(@found_app == nil, "Found an app named #{app_name}")
+    @result.each do |app|
+        if app["name"] == app_name
+            @found_app = app
+        end
+    end
+    assert(@found_app == nil, "Found an app named #{app_name}")
 end
 
 And /^none of the apps are admin apps$/ do
-	@result.each do |app|
-		assert(app["is_admin"] == false, "#{app['name']} is non-admin app") 
-	end
+    @result.each do |app|
+        assert(app["is_admin"] == false, "#{app['name']} is non-admin app") 
+    end
 end
 
 And /^the resulting list is empty$/ do
-	assert(@result.length == 0, "list is empty")
+    assert(@result.length == 0, "list is empty")
 end
 
 Then /^the admin app endpoints contains (endpoints for the role ".*?")$/ do |arg1|

@@ -165,7 +165,7 @@ public class ApplicationResource extends UnversionedResource {
         newApp.put(CREATED_BY, principal.getExternalId());
         
         if (principal.getSandboxTenant() != null) {
-        	newApp.put(AUTHOR_SANDBOX_TENANT, principal.getSandboxTenant());
+            newApp.put(AUTHOR_SANDBOX_TENANT, principal.getSandboxTenant());
         }
         if (principal.getFirstName() != null) {
             newApp.put(AUTHOR_FIRST_NAME, principal.getFirstName());
@@ -381,7 +381,7 @@ public class ApplicationResource extends UnversionedResource {
             //so safe to update the app's sandbox tenant regardless
             SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
             if (!sandboxEnabled && principal.getSandboxTenant() != null && principal.getSandboxTenant().length() > 0) {
-            	 app.put(AUTHOR_SANDBOX_TENANT, principal.getSandboxTenant());
+                 app.put(AUTHOR_SANDBOX_TENANT, principal.getSandboxTenant());
             }
             
             if (!oldRegStatus.endsWith(newRegStatus)) {
@@ -451,12 +451,12 @@ public class ApplicationResource extends UnversionedResource {
     }
     
     private boolean belongToSameSandboxTenant(EntityBody app, String sandboxTenant) {
-    	Object appSandboxTenant = app.get(AUTHOR_SANDBOX_TENANT);
-    	if (appSandboxTenant == null || sandboxTenant == null) {
-    		return false;
-    	}
-    	
-    	return sandboxTenant.equals((String) appSandboxTenant);
+        Object appSandboxTenant = app.get(AUTHOR_SANDBOX_TENANT);
+        if (appSandboxTenant == null || sandboxTenant == null) {
+            return false;
+        }
+        
+        return sandboxTenant.equals((String) appSandboxTenant);
     }
 
     /**
@@ -481,8 +481,8 @@ public class ApplicationResource extends UnversionedResource {
         Set<String> authedEdOrgs = new HashSet<String>();
         authedEdOrgs.addAll(edOrgIds);
         for (String edOrgId : edOrgIds) {
-        	authedEdOrgs.addAll(getChildEdorgs(edOrgId));
-        	authedEdOrgs.addAll(getParentEdorgs(edOrgId));
+            authedEdOrgs.addAll(getChildEdorgs(edOrgId));
+            authedEdOrgs.addAll(getParentEdorgs(edOrgId));
         }
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, uuid));
@@ -494,13 +494,13 @@ public class ApplicationResource extends UnversionedResource {
             body.put("edorgs", new ArrayList<String>(authedEdOrgs));
             service.create(body);
         } else {
-        	Iterable<EntityBody> auths = service.list(query);
-        	for (EntityBody auth : auths) {
-        		String authId = (String) auth.get("_id");
-        		auth.remove("edorgs");
-        		auth.put("edorgs", new ArrayList<String>(authedEdOrgs));
-        		service.update(authId, auth);
-        	}
+            Iterable<EntityBody> auths = service.list(query);
+            for (EntityBody auth : auths) {
+                String authId = (String) auth.get("_id");
+                auth.remove("edorgs");
+                auth.put("edorgs", new ArrayList<String>(authedEdOrgs));
+                service.update(authId, auth);
+            }
         }
 
     }

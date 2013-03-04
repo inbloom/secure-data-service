@@ -54,10 +54,7 @@
       [
         {
           "a_IdentificationSystem":"State course code",
-          "AssigningOrganizationCode":
-          {
-            "_value":"LY-15VqyIdsM7R.nlD9FRlqm1sAyM0T9fW"
-          },
+          "a_AssigningOrganizationCode":"LY-15VqyIdsM7R.nlD9FRlqm1sAyM0T9fW",
           "ID":
           {
             "_value":"H4ObUGlzv_MrNKlqaL1iyj5pnC5aSBP.46rfkQBFJCSLrH"
@@ -65,10 +62,7 @@
         },
         {
           "a_IdentificationSystem":"Other",
-          "AssigningOrganizationCode":
-          {
-            "_value":"ozxAV-0BW00.JYL.W65RZTvqr6oiWQqKKSVRGwef4lvp4nsfBOXWf8"
-          },
+          "a_AssigningOrganizationCode":"ozxAV-0BW00.JYL.W65RZTvqr6oiWQqKKSVRGwef4lvp4nsfBOXWf8",
           "ID":
           {
             "_value":"AGrlESan_yIdhXRKVG"

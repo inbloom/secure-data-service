@@ -6,7 +6,7 @@
         {
             "StudentSectionAssociationIdentity":
             {
-                "BeginDate":"2011-09-01",
+                "BeginDate":{"_value":"2011-09-01"},
                 "SectionReference":
                 {
                     "SectionIdentity":
@@ -15,17 +15,17 @@
                         {
                             "EducationalOrgIdentity":
                             {
-                                "StateOrganizationId":"this school"
+                                "StateOrganizationId":{"_value":"this school"}
                             }
                         },
-                        "UniqueSectionCode":"this section"
+                        "UniqueSectionCode":{"_value":"this section"}
                     }
                 },
                 "StudentReference":
                 {
                     "StudentIdentity":
                     {
-                        "StudentUniqueStateId":"800000025"
+                        "StudentUniqueStateId":{"_value":"800000025"}
                     }
                 }
             }
@@ -38,11 +38,11 @@
                 {
                     "EducationalOrgIdentity":
                     {
-                        "StateOrganizationId":"this school"
+                        "StateOrganizationId":{"_value":"this school"}
                     }
                 },
-                "GradingPeriod":"First Six Weeks",
-                "BeginDate":"2011-09-01"
+                "GradingPeriod":{"_value":"First Six Weeks"},
+                "BeginDate":{"_value":"2011-09-01"}
             }
         }
     }

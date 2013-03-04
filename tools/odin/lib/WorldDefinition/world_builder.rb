@@ -72,7 +72,7 @@ class WorldBuilder
       build_world_from_students
     #elsif !@scenarioYAML["SCHOOL_COUNT"].nil?
     #  build_world_from_edOrgs()
-    #  --> not supported yet	
+    #  --> not supported yet    
     else
       @log.error "STUDENT_COUNT or SCHOOL_COUNT must be set for a world to be created --> Exiting..."
     end
@@ -457,7 +457,7 @@ class WorldBuilder
   end
 
   def build_world_from_edOrgs()
-  	num_schools = @scenarioYAML["SCHOOL_COUNT"]
+      num_schools = @scenarioYAML["SCHOOL_COUNT"]
     @log.info "Creating world from initial number of schools: #{num_schools}"
     # NOT CURRENTLY SUPPORTED
     # update structure with time information

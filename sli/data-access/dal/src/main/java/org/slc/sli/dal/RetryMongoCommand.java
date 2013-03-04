@@ -57,12 +57,12 @@ public abstract class RetryMongoCommand {
                 return execute();
             }
             catch (MongoException ex) {
-            	if (ex instanceof DuplicateKey) {
-            		throw ex;
-            	} 
-            	
-            	handleException(retryCounter, noOfRetries, ex);
-            	
+                if (ex instanceof DuplicateKey) {
+                    throw ex;
+                } 
+                
+                handleException(retryCounter, noOfRetries, ex);
+                
             } catch (DataAccessResourceFailureException ex) {
                 handleException(retryCounter, noOfRetries, ex);
 

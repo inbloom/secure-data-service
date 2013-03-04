@@ -71,6 +71,6 @@ public class GenericTransformerTest {
         IndexConfig config = store.getConfig("test2");
         GenericTransformer trans = new GenericTransformer();
         trans.transform(config, testMap);
-        Assert.assertEquals(2, NestedMapUtil.get(new DotPath("body.test"), testMap));
+        Assert.assertEquals(Arrays.asList(2), NestedMapUtil.get(new DotPath("body.test"), testMap));
     }
 }

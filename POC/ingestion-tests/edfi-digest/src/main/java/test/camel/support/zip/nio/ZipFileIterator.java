@@ -15,50 +15,50 @@ import org.springframework.util.StopWatch;
 
 public class ZipFileIterator implements Iterator<InputStream>, Closeable {
 
-	private ZipFile zipFile;
-	private File unzipFolder;
-	private Enumeration<ZipArchiveEntry> zipEntries;
+    private ZipFile zipFile;
+    private File unzipFolder;
+    private Enumeration<ZipArchiveEntry> zipEntries;
 
-	public ZipFileIterator(File file, String batchId) throws IOException {
-		this.zipFile = new ZipFile(file);
+    public ZipFileIterator(File file, String batchId) throws IOException {
+        this.zipFile = new ZipFile(file);
 
-		this.unzipFolder = new File(file.getParent(), batchId);
-		FileUtils.forceMkdir(this.unzipFolder);
+        this.unzipFolder = new File(file.getParent(), batchId);
+        FileUtils.forceMkdir(this.unzipFolder);
 
-		zipEntries = this.zipFile.getEntries();
-	}
+        zipEntries = this.zipFile.getEntries();
+    }
 
-	public boolean hasNext() {
-		return zipEntries.hasMoreElements();
-	}
+    public boolean hasNext() {
+        return zipEntries.hasMoreElements();
+    }
 
-	public InputStream next() {
-		ZipArchiveEntry zipEntry = zipEntries.nextElement();
+    public InputStream next() {
+        ZipArchiveEntry zipEntry = zipEntries.nextElement();
 
-		StopWatch sw = new StopWatch(zipEntry.getName());
+        StopWatch sw = new StopWatch(zipEntry.getName());
 
-		InputStream feStream = null;
+        InputStream feStream = null;
 
-		try {
-			return zipFile.getInputStream(zipEntry);
-		} catch (IOException e) {
-			IOUtils.closeQuietly(feStream);
+        try {
+            return zipFile.getInputStream(zipEntry);
+        } catch (IOException e) {
+            IOUtils.closeQuietly(feStream);
 
-			return null;
-		} finally {
-			IOUtils.closeQuietly(feStream);
+            return null;
+        } finally {
+            IOUtils.closeQuietly(feStream);
 
-			System.out.print(sw.prettyPrint());
-		}
-	}
+            System.out.print(sw.prettyPrint());
+        }
+    }
 
-	public void remove() {
-		throw new UnsupportedOperationException();
-	}
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public void close() throws IOException {
-		zipFile.close();
-	}
+    @Override
+    public void close() throws IOException {
+        zipFile.close();
+    }
 
 }

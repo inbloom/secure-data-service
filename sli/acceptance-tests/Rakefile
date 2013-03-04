@@ -1169,6 +1169,7 @@ task :importSandboxMidgarData do
     "parent" => "Midgar_data/parent_fixture.json",
     "staff" => "Midgar_data/staff_fixture.json",
     "assessment" => "Midgar_data/assessment_fixture.json",
+    "studentAssessment" => "Midgar_data/studentAssessment_fixture.json",
     "attendance" => "Midgar_data/attendance_fixture.json",
     "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",
     "teacherSchoolAssociation" => "Midgar_data/teacherSchoolAssociation_fixture.json",
@@ -1316,6 +1317,7 @@ desc "Import Unified Data Set"
 task :importUnifiedData => [:realmInit] do
   testHash = Hash[
     "assessment" => "unified_data/uds_assessment.json",
+    "studentAssessment" => "unified_data/uds_studentAssessment_fixture.json",
     "attendance" => "unified_data/uds_attendance.json",
     "course" => "unified_data/uds_course.json",
     "courseOffering" => "unified_data/uds_courseOffering.json",

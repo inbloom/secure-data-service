@@ -128,8 +128,7 @@
     <value>assessmentItem,false,creationTime</value>
     <value>assessmentPeriodDescriptor,false,creationTime</value>
     <value>assessment_transformed,false,creationTime</value>
-    <value>attendance,false,creationTime</value>
-    <value>attendance_transformed,false,creationTime</value>
+    <value>attendanceEvent,false,creationTime</value>
     <value>calendarDate,false,creationTime</value>
     <value>cohort,false,creationTime</value>
     <value>competencyLevelDescriptor,false,creationTime</value>
@@ -137,6 +136,7 @@
     <value>courseOffering,false,creationTime</value>
     <value>courseTranscript,false,creationTime</value>
     <value>courseTranscript_transformed,false,creationTime</value>
+    <value>diploma,false,creationTime</value>
     <value>disciplineAction,false,creationTime</value>
     <value>disciplineIncident,false,creationTime</value>
     <value>educationOrganization,false,creationTime</value>
@@ -159,7 +159,7 @@
     <value>session,false,creationTime</value>
     <value>staff,false,creationTime</value>
     <value>staffCohortAssociation,false,creationTime</value>
-    <value>staffEducationOrganizationAssociation,false,creationTime</value>
+    <value>staffEducationOrgAssignmentAssociation,false,creationTime</value>
     <value>staffProgramAssociation,false,creationTime</value>
     <value>stateEducationAgency,false,creationTime</value>
     <value>student,false,creationTime</value>
@@ -181,19 +181,17 @@
     <value>teacherSchoolAssociation,false,creationTime</value>
     <value>teacherSectionAssociation,false,creationTime</value>
     <!-- indexes for transformers -->
-    <value>assessmentFamily,false,body.AssessmentFamilyTitle</value>
-    <value>assessmentItem,false,body.identificationCode</value>
+    <value>assessmentFamily,false,body.AssessmentFamilyTitle._value</value>
+    <value>assessmentItem,false,body.IdentificationCode</value>
     <value>assessmentItem,false,localId</value>
-    <value>assessmentPeriodDescriptor,false,body.codeValue</value>
-    <value>attendance_transformed,true,body.studentId,body.schoolId</value>
-    <value>disciplineIncident,false,body.id</value>
-    <value>school,false,body.stateOrganizationId</value>
+    <value>assessmentPeriodDescriptor,false,body.CodeValue._value</value>
+    <value>school,false,body.StateOrganizationId</value>
     <value>session,false,body.schoolId</value>
     <value>studentAssessmentItem,false,localParentIds.studentResultRef</value>
     <value>studentAssessmentItem,false,localParentIds.studentAssessmentReference.studentReference.studentUniqueStateId,localParentIds.studentAssessmentReference.administrationDate
     </value>
-    <value>studentObjectiveAssessment,false,body.studentAssessmentRef</value>
-    <value>studentObjectiveAssessment,false,body.studentAssessmentReference.studentReference.studentUniqueStateId,body.studentAssessmentReference.administrationDate
+    <value>studentObjectiveAssessment,false,body.StudentAssessmentReference</value>
+    <value>studentObjectiveAssessment,false,body.StudentAssessmentReference.StudentReference.StudentUniqueStateId,body.StudentAssessmentReference.AdministrationDate
     </value>
     <value>studentSchoolAssociation,false,body.studentId</value>
   </util:set>

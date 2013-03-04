@@ -77,7 +77,8 @@
   "studentAcademicRecord": {
     "POST": {
       "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3_id",
-      "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072"
+      "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072",
+      "schoolYear": "2011-2012"
     },
     "UPDATE": {
       "field": "cumulativeGradePointsEarned",
@@ -390,7 +391,7 @@
       "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072",
       "courseOfferingId": "00291269-33e0-415e-a0a4-833f0ef38189",
       "assessmentReferences": [
-        "29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"
+        "c757f9f2dc788924ce0715334c7e86735c5e1327_id"
       ]
     },
     "UPDATE": {
@@ -576,7 +577,8 @@
     "POST": {
       "studentSectionAssociationId": "9b02fbd2-0892-4399-a4ea-e048b3315f25_id00cbf81b-41df-4bda-99ad-a5717d3e81a1_id",
       "letterGradeEarned": "B+",
-      "gradeType": "Final"
+      "gradeType": "Final",
+      "schoolYear": "2011-2012"
     },
     "UPDATE": {
       "field": "gradeType",
@@ -634,7 +636,8 @@
       "numberOfDaysInAttendance": 150,
       "numberOfDaysTardy": 10,
       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id",
-      "gradingPeriodId": "ef72b883-90fa-40fa-afc2-4cb1ae17623b"
+      "gradingPeriodId": "ef72b883-90fa-40fa-afc2-4cb1ae17623b",
+      "schoolYear": "2011-2012"
     },
     "UPDATE": {
       "field": "numberOfDaysAbsent",
@@ -810,7 +813,7 @@
   "studentAssessment": {
     "POST": {
       "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id",
-      "assessmentId": "dd916592-7d7e-5d27-a87d-dfc7fcb757f6",
+      "assessmentId": "2108c0c84ca6998eb157e1efd4d894746e1fdf8b_id",
       "administrationDate": "2011-10-01",
       "administrationEndDate": "2012-01-01",
       "retestIndicator": "1st Retest"

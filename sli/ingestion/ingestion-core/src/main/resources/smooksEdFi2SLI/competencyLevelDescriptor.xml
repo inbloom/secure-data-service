@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+  <json:reader rootName="json" />
+
+  <core:filterSettings type="SAX" readerPoolSize="5" />
+
+  <jb:bean beanId="competencyLevelDescriptors" class="java.util.ArrayList" createOnElement="#document">
+      <jb:wiring beanIdRef="competencyLevelDescriptor" />
+  </jb:bean>
+
+  <jb:bean beanId="competencyLevelDescriptor" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'competencyLevelDescriptor'</jb:expression>
+    <jb:wiring property="body" beanIdRef="competencyLevelDescriptorBody" />
+  </jb:bean>
+
+  <jb:bean beanId="competencyLevelDescriptorBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="codeValue" data="attributes CodeValue _value" />
+    <jb:value property="description" data="attributes Description _value"/>
+    <jb:value property="performanceBaseConversion" data="attributes PerformanceBaseConversion _value" />
+  </jb:bean>
+  
+</smooks-resource-list>

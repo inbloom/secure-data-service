@@ -106,15 +106,15 @@ public class Mocker {
         return rest;
     }
 
-	public static UserLocator getLocator() {
-		MongoUserLocator locator = Mockito.mock(MongoUserLocator.class);
-		Mockito.when(locator.locate(VALID_REALM, VALID_STAFF_ID, "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
-		Mockito.when(locator.locate("SLI", VALID_STAFF_ID, "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
-		Mockito.when(locator.locate("dc=slidev,dc=net", "demo", "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
-		Mockito.when(locator.locate("SLI", "demo", "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
-		locator.setRepo(getRepo());
-		return locator;
-	}
+    public static UserLocator getLocator() {
+        MongoUserLocator locator = Mockito.mock(MongoUserLocator.class);
+        Mockito.when(locator.locate(VALID_REALM, VALID_STAFF_ID, "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
+        Mockito.when(locator.locate("SLI", VALID_STAFF_ID, "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
+        Mockito.when(locator.locate("dc=slidev,dc=net", "demo", "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
+        Mockito.when(locator.locate("SLI", "demo", "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
+        locator.setRepo(getRepo());
+        return locator;
+    }
 
     private static Repository<Entity> getRepo() {
         return new MockRepo();

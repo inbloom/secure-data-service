@@ -60,58 +60,58 @@ import org.slc.sli.domain.Repository;
 @ContextConfiguration(locations = { "/spring/BatchJob-Mongo.xml" })
 public class LoggerCarrierAspectTest {
 
-	private MongoRepository<Entity> mockedEntityRepository;
+    private MongoRepository<Entity> mockedEntityRepository;
 
-	 @Test
-	 public void test() {
-		 mockedEntityRepository = mock(MongoRepository.class);
-		 DBCollection mockedCollection = Mockito.mock(DBCollection.class);
-		 DB mockedDB = Mockito.mock(DB.class);
-		 SecurityEvent event = createSecurityEvent();
-		 LoggerCarrierAspect.aspectOf().setEntityRepository(mockedEntityRepository);
-		 LoggerCarrierAspect.aspectOf().setCapSize(new String("100"));
-		 
-		 MongoTemplate mockedMongoTemplate = mock(MongoTemplate.class);
-		 when(mockedEntityRepository.getTemplate()).thenReturn(mockedMongoTemplate);
-		 
-		 when(mockedMongoTemplate.collectionExists("securityEvent")).thenReturn(false);
-		 audit(event);
-		 Mockito.verify(mockedMongoTemplate, times(1)).createCollection(any(String.class), any(CollectionOptions.class));
-		 Mockito.verify(mockedEntityRepository, times(1)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
+     @Test
+     public void test() {
+         mockedEntityRepository = mock(MongoRepository.class);
+         DBCollection mockedCollection = Mockito.mock(DBCollection.class);
+         DB mockedDB = Mockito.mock(DB.class);
+         SecurityEvent event = createSecurityEvent();
+         LoggerCarrierAspect.aspectOf().setEntityRepository(mockedEntityRepository);
+         LoggerCarrierAspect.aspectOf().setCapSize(new String("100"));
+         
+         MongoTemplate mockedMongoTemplate = mock(MongoTemplate.class);
+         when(mockedEntityRepository.getTemplate()).thenReturn(mockedMongoTemplate);
+         
+         when(mockedMongoTemplate.collectionExists("securityEvent")).thenReturn(false);
+         audit(event);
+         Mockito.verify(mockedMongoTemplate, times(1)).createCollection(any(String.class), any(CollectionOptions.class));
+         Mockito.verify(mockedEntityRepository, times(1)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
 
-		 when(mockedMongoTemplate.collectionExists("securityEvent")).thenReturn(true);
-		 when(mockedMongoTemplate.getCollection("securityEvent")).thenReturn(mockedCollection);
-		 when(mockedCollection.isCapped()).thenReturn(true);
-		 audit(event);
-		 Mockito.verify(mockedEntityRepository, times(2)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
+         when(mockedMongoTemplate.collectionExists("securityEvent")).thenReturn(true);
+         when(mockedMongoTemplate.getCollection("securityEvent")).thenReturn(mockedCollection);
+         when(mockedCollection.isCapped()).thenReturn(true);
+         audit(event);
+         Mockito.verify(mockedEntityRepository, times(2)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
 
-		 when(mockedMongoTemplate.collectionExists("securityEvent")).thenReturn(true);
-		 when(mockedMongoTemplate.getCollection("securityEvent")).thenReturn(mockedCollection);
-		 when(mockedMongoTemplate.getDb()).thenReturn(mockedDB);
-		 when(mockedCollection.isCapped()).thenReturn(false);
-		 audit(event);
-		 Mockito.verify(mockedDB, times(1)).command(any(DBObject.class));
-		 
-		 Mockito.verify(mockedEntityRepository, times(3)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
-	 }
+         when(mockedMongoTemplate.collectionExists("securityEvent")).thenReturn(true);
+         when(mockedMongoTemplate.getCollection("securityEvent")).thenReturn(mockedCollection);
+         when(mockedMongoTemplate.getDb()).thenReturn(mockedDB);
+         when(mockedCollection.isCapped()).thenReturn(false);
+         audit(event);
+         Mockito.verify(mockedDB, times(1)).command(any(DBObject.class));
+         
+         Mockito.verify(mockedEntityRepository, times(3)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
+     }
 
 
-	 @Test
-	 public void testAudit() {
-		SecurityEvent event = createSecurityEvent();
-		Reflections reflections = new Reflections("org.slc.sli");
-		Set<Class<? extends LoggerCarrier>> logs = reflections.getSubTypesOf(LoggerCarrier.class);
-		for (Class<? extends LoggerCarrier> cl : logs) {
+     @Test
+     public void testAudit() {
+        SecurityEvent event = createSecurityEvent();
+        Reflections reflections = new Reflections("org.slc.sli");
+        Set<Class<? extends LoggerCarrier>> logs = reflections.getSubTypesOf(LoggerCarrier.class);
+        for (Class<? extends LoggerCarrier> cl : logs) {
             if (!cl.isInterface() && !cl.isEnum() && !Modifier.isAbstract(cl.getModifiers())) {
-            	LoggerCarrier instance = getInstance(cl);
+                LoggerCarrier instance = getInstance(cl);
                 if (instance != null && !Modifier.isAbstract( cl.getModifiers())) {
-                	instance.audit(event);
+                    instance.audit(event);
                 }
             }
-		}
-	}
+        }
+    }
 
-	private SecurityEvent createSecurityEvent() {
+    private SecurityEvent createSecurityEvent() {
         List<String> userRoles = Collections.emptyList();
         SecurityEvent event = new SecurityEvent();
         event.setTenantId("Midgar");
@@ -129,7 +129,7 @@ public class LoggerCarrierAspectTest {
         event.setRoles(userRoles);
         event.setLogMessage("App process started.");
         return event;
-	}
+    }
 
     private LoggerCarrier getInstance(Class<? extends LoggerCarrier> clazz) {
         try {
@@ -137,7 +137,7 @@ public class LoggerCarrierAspectTest {
             return clazz.newInstance();
         } catch (Exception e) {
             //try alternative constructors
-        	LoggerFactory.getLogger(LoggerCarrierAspectTest.class).error("fail to get the constructor");
+            LoggerFactory.getLogger(LoggerCarrierAspectTest.class).error("fail to get the constructor");
             return null;
         }
     }

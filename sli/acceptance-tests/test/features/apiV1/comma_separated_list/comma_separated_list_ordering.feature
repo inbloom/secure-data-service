@@ -51,7 +51,7 @@ Feature: As an SLI application, I want to return the right order of entities.
  	    And I should see a total of 2 entities
  	    Examples:
  	    | ENDPOINT                  | ID1                                | ID2                                |
- 	    |assessments                |dd916592-7d7e-5d27-a87d-dfc7fcb12346|dd916592-7d3e-4f27-a8ac-bec5f4b757f6|
+ 	    |assessments                |b94b5194d45cd707465627c0cd6c4f68f3558600_id|c607aa848f00b4efa6bfb95fbe78a00338377f16_id|
  	    |attendances                |530f0704-c240-4ed9-0a64-55c0308f91ee|4beb72d4-0f76-4071-92b4-61982dba7a7b|
  	    |cohorts                    |b40926af-8fd5-11e1-86ec-0021701f543f_id|b408d88e-8fd5-11e1-86ec-0021701f543f_id|
  	    |courses                    |f9d960e4-682b-4ebe-96d8-c4c2fc803435|43ee8275-de7b-4a02-8ecb-21d25a45db36|
@@ -81,7 +81,7 @@ Feature: As an SLI application, I want to return the right order of entities.
  	    |staffCohortAssociations                |b41338da-8fd5-11e1-86ec-0021701f543f|b4e31b1a-8e55-8803-722c-14d8087c0712|
  	    |staffEducationOrgAssignmentAssociations|b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a|2e2c3dd7-d8d6-4966-82dc-cdc598aa7d2c|
  	    |staffProgramAssociations               |9bf7591b-8fd5-11e1-86ec-0021701f543f|9bfab47d-8fd5-11e1-86ec-0021701f5432|
- 	    |studentAssessments                     |0c2756fd-6a30-4010-af79-488d6ef2735a_ide5e13e61-01aa-066b-efe0-710f7a011115_id|5738d251-dd0b-4734-9ea6-417ac9320a15_id87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id|
+ 	    |studentAssessments                     |e5e13e61-01aa-066b-efe0-710f7a011115_id|87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id|
  	    |studentCohortAssociations              |b40926af-8fd5-11e1-86ec-0021701f543f_idb40ca923-8fd5-11e1-86ec-0021701f543f_id|b408d88e-8fd5-11e1-86ec-0021701f543f_idb40d6c75-8fd5-11e1-86ec-0021701f543f_id|
  	    |studentDisciplineIncidentAssociations  |0c2756fd-6a30-4010-af79-488d6ef2735a_id20120613-8d5a-c796-76e3-d77d5d497e6c_id|1563ec1d-924d-4c02-8099-3a0e314ef1d4_id3792acf6-8d5a-c796-76e3-d77d5d497e6c_id|
  	    |studentParentAssociations              |74cf790e-84c4-4322-84b8-fca7206f1085_iddd69083f-a053-4819-a3cd-a162cdc627d7_id|5738d251-dd0b-4734-9ea6-417ac9320a15_idc5aa1969-492a-5150-8479-71bfc4d57f1e_id|
@@ -120,7 +120,7 @@ Feature: As an SLI application, I want to return the right order of entities.
       |staffCohortAssociations                |b41338da-8fd5-11e1-86ec-0021701f543f|235b88ea-bfea-42ce-8b06-542143e19909|
       |staffEducationOrgAssignmentAssociations|b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a|05e3de47-9e41-c048-a572-3eb4c7ee9095|
       |staffProgramAssociations               |9bf7591b-8fd5-11e1-86ec-0021701f543f|04223945-b773-425c-8173-af090a960603|
-      |studentAssessments                     |0c2756fd-6a30-4010-af79-488d6ef2735a_ide5e13e61-01aa-066b-efe0-710f7a011115_id|034e6e7f-9da2-454a-b67c-b95bd9f36433_idc8672d3b-0953-4ad7-a1b5-d5395bc0150a_id|
+      |studentAssessments                     |e5e13e61-01aa-066b-efe0-710f7a011115_id|c8672d3b-0953-4ad7-a1b5-d5395bc0150a_id|
       |studentCohortAssociations              |b40926af-8fd5-11e1-86ec-0021701f543f_idb40ca923-8fd5-11e1-86ec-0021701f543f_id|a50121a2-c566-401b-99a5-71eb5cab5f4f_id32b4b1f1-f7c6-40c2-8de6-37e34f8051de_id|
       |studentDisciplineIncidentAssociations  |0c2756fd-6a30-4010-af79-488d6ef2735a_id20120613-8d5a-c796-76e3-d77d5d497e6c_id|714c1304-8a04-4e23-b043-4ad80eb60992_id0e26de6c-225b-9f67-8621-5113ad50a03b_id|
 #      |studentParentAssociations              |74cf790e-84c4-4322-84b8-fca7206f1085_iddd69083f-a053-4819-a3cd-a162cdc627d7_id|5738d251-dd0b-4734-9ea6-417ac9320a15_idc5aa1969-492a-5150-8479-71bfc4d57f1e_id| - Get a 404 when accessing a parent where you get a 403 for accessing their student
@@ -159,7 +159,7 @@ Scenario Outline: Validate CSL where teacher has access to one ID but not two
       |staffCohortAssociations                |2e1b42be-ff75-4e74-b9f1-cdcd9164b183|b41338da-8fd5-11e1-86ec-0021701f543f|
       |staffEducationOrgAssignmentAssociations|a29e3113-316d-bfd1-4b00-b9121b8fdfd3|b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a|
       |staffProgramAssociations               |971638e0-03a8-43df-b4d3-a577fa5ff59c|9bf7591b-8fd5-11e1-86ec-0021701f543f|
-      |studentAssessments                     |0c2756fd-6a30-4010-af79-488d6ef2735a_ide5e13e61-01aa-066b-efe0-710f7a011115_id|034e6e7f-9da2-454a-b67c-b95bd9f36433_idc8672d3b-0953-4ad7-a1b5-d5395bc0150a_id|
+      |studentAssessments                     |e5e13e61-01aa-066b-efe0-710f7a011115_id|c8672d3b-0953-4ad7-a1b5-d5395bc0150a_id|
       |studentCohortAssociations              |9ac7ad37-80aa-42ab-9d63-e48cc70a7863_id9f916af2-c178-49ca-b9c4-e52fc2f629ed_id|b40926af-8fd5-11e1-86ec-0021701f543f_idb40ca923-8fd5-11e1-86ec-0021701f543f_id|
       |studentDisciplineIncidentAssociations  |0c2756fd-6a30-4010-af79-488d6ef2735a_id20120613-8d5a-c796-76e3-d77d5d497e6c_id|714c1304-8a04-4e23-b043-4ad80eb60992_id0e26de6c-225b-9f67-8621-5113ad50a03b_id|
       |studentParentAssociations              |0c2756fd-6a30-4010-af79-488d6ef2735a_idc5aa1969-492a-5150-8479-71bfc4d87984_id|74cf790e-84c4-4322-84b8-fca7206f1085_iddd69083f-a053-4819-a3cd-a162cdc627d7_id|

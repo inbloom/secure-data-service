@@ -23,27 +23,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.MongoException;
+
 import org.milyn.container.ExecutionContext;
 import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.ResourceWriter;
-import org.slc.sli.ingestion.landingzone.AttributeType;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.RecordHash;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ElementSource;
-import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
-import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -52,7 +38,23 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.xml.sax.Locator;
 
-import com.mongodb.MongoException;
+import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.delta.SliDeltaManager;
+import org.slc.sli.ingestion.landingzone.AttributeType;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.RecordHash;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ElementSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.util.NeutralRecordUtils;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -221,10 +223,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
         if (this.occurences.containsKey(neutralRecord.getRecordType())) {
             int temp = this.occurences.get(neutralRecord.getRecordType()).intValue() + 1;
             this.occurences.put(neutralRecord.getRecordType(), temp);
-            neutralRecord.setLocationInSourceFile(temp);
         } else {
             this.occurences.put(neutralRecord.getRecordType(), FIRST_INSTANCE);
-            neutralRecord.setLocationInSourceFile(FIRST_INSTANCE);
         }
 
         neutralRecord.setVisitBeforeLineNumber(visitBeforeLineNumber);
@@ -313,7 +313,12 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     {
         return currentElement.getName().getLocalPart();
     }
-    
+
     private SAXElement currentElement;
+
+    public void audit(SecurityEvent event) {
+        // TODO Auto-generated method stub
+
+    }
 
 }

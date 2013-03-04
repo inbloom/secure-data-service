@@ -7,7 +7,7 @@
       "a_id":"ID003",
       "a_ref":"ID002",
       "CodeValue":{"_value":"Wsv8Xq4AlZ_JQFnv"},
-      "PerformanceLevelMet":true
+      "PerformanceLevelMet":{"_value":true}
     },
     "AssessmentReportingMethod":{"_value":"Z-score"},
     "MinimumScore":{"_value":-198225122},
@@ -16,8 +16,9 @@
   "PercentOfAssessment":{"_value":"-379146788"},
   "Nomenclature":{"_value":"J"},
   "AssessmentItemReference":[{
-    "a_id":"ID005",
-    "a_ref":"ID002"
+    "AssessmentItemIdentity":{
+      "AssessmentItemIdentificationCode":{"_value":"IhKDMMqx5G6S5LVQCerE3"}
+    }
   }],
   "LearningObjectiveReference":[{
       "LearningObjectiveIdentity":{
@@ -35,5 +36,14 @@
     "ObjectiveAssessmentIdentity":{
       "ObjectiveAssessmentIdentificationCode":{"_value":"VZDSaOEQ6c5j2J.taMsH15xtlDp_OuPqujkxHwkLHQyrSG"}
     }
-  }]
+  }],
+  "AssessmentReference":{
+    "AssessmentIdentity":{
+      "AssessmentTitle":{"_value":"vj8zbHeMTeYFobCU0TF21q-Cy8n"},
+      "AcademicSubject":{"_value":"Hospitality and Tourism"},
+      "GradeLevelAssessed":{"_value":"Tenth grade"},
+      "Version":{"_value":-1179495731}
+    }
+  }
+  
 }

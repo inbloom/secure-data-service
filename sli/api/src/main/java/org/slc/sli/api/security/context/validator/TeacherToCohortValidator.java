@@ -60,6 +60,6 @@ public class TeacherToCohortValidator extends AbstractContextValidator {
         }
 
         return validIds.containsAll(ids);
-	}
+    }
 
 }

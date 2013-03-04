@@ -3,169 +3,84 @@
     <CalendarDate>
         <Date>2010-09-02</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Able School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
     </CalendarDate>
     <CalendarDate>
         <Date>2010-09-03</Date>
         <CalendarEvent>Teacher only day</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Able School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
     </CalendarDate>
     <CalendarDate>
         <Date>2010-09-04</Date>
         <CalendarEvent>Holiday</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Able School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
     </CalendarDate>
     <CalendarDate>
         <Date>2010-09-05</Date>
         <CalendarEvent>Make-up day</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Able School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
     </CalendarDate>
     <CalendarDate>
         <Date>2010-09-06</Date>
         <CalendarEvent>Weather day</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Able School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
     </CalendarDate>
     <CalendarDate>
         <Date>2010-09-07</Date>
         <CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Able School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
     </CalendarDate>
     <CalendarDate>
         <Date>2010-09-08</Date>
         <CalendarEvent>Emergency day</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Able School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
     </CalendarDate>
     <CalendarDate>
         <Date>2010-09-09</Date>
         <CalendarEvent>Strike</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Able School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
     </CalendarDate>
     <CalendarDate>
         <Date>2010-09-10</Date>
         <CalendarEvent>Other</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Able School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
     </CalendarDate>
-    <GradingPeriod>
-        <GradingPeriod>First Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <BeginDate>2010-09-01</BeginDate>
-        <EndDate>2010-12-01</EndDate>
-        <TotalInstructionalDays>90</TotalInstructionalDays>
-        <CalendarDateReference/>
-    </GradingPeriod>
-    <GradingPeriod>
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <BeginDate>2011-01-01</BeginDate>
-        <EndDate>2011-04-01</EndDate>
-        <TotalInstructionalDays>90</TotalInstructionalDays>
-        <CalendarDateReference/>
-    </GradingPeriod>
-    <GradingPeriod>
-        <GradingPeriod>First Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Dog School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <BeginDate>2011-09-01</BeginDate>
-        <EndDate>2011-12-01</EndDate>
-        <TotalInstructionalDays>90</TotalInstructionalDays>
-        <CalendarDateReference/>
-    </GradingPeriod>
-    <GradingPeriod>
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Dog School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <BeginDate>2012-09-01</BeginDate>
-        <EndDate>2012-12-01</EndDate>
-        <TotalInstructionalDays>90</TotalInstructionalDays>
-        <CalendarDateReference/>
-    </GradingPeriod>
-    <GradingPeriod>
-        <GradingPeriod>First Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Echo School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <BeginDate>2013-01-01</BeginDate>
-        <EndDate>2013-04-01</EndDate>
-        <TotalInstructionalDays>90</TotalInstructionalDays>
-        <CalendarDateReference/>
-    </GradingPeriod>
-    <GradingPeriod>
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Echo School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <BeginDate>2013-09-01</BeginDate>
-        <EndDate>2013-12-01</EndDate>
-        <TotalInstructionalDays>90</TotalInstructionalDays>
-        <CalendarDateReference/>
-    </GradingPeriod>
-    <GradingPeriod>
-        <GradingPeriod>First Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Able School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <BeginDate>2010-05-01</BeginDate>
-        <EndDate>2010-08-01</EndDate>
-        <TotalInstructionalDays>90</TotalInstructionalDays>
-        <CalendarDateReference/>
-    </GradingPeriod>
-    <GradingPeriod>
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Able School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <BeginDate>2011-05-01</BeginDate>
-        <EndDate>2011-08-01</EndDate>
-        <TotalInstructionalDays>90</TotalInstructionalDays>
-        <CalendarDateReference/>
-    </GradingPeriod>
-    <GradingPeriod>
-        <GradingPeriod>First Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Baker School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <BeginDate>2012-05-01</BeginDate>
-        <EndDate>2012-08-01</EndDate>
-        <TotalInstructionalDays>90</TotalInstructionalDays>
-        <CalendarDateReference/>
-    </GradingPeriod>
-    <GradingPeriod>
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Baker School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <BeginDate>2012-09-01</BeginDate>
-        <EndDate>2012-12-01</EndDate>
-        <TotalInstructionalDays>90</TotalInstructionalDays>
-        <CalendarDateReference/>
-    </GradingPeriod>
     <Session>
         <SessionName>Fall 2011 Able School</SessionName>
         <SchoolYear>2011-2012</SchoolYear>

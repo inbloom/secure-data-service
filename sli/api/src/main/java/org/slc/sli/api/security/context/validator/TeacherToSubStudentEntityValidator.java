@@ -85,9 +85,9 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
             } else if (body.get(ParameterConstants.STUDENT_ID) instanceof List) {
                 students.addAll((List<String>) body.get(ParameterConstants.STUDENT_ID));
             } else {
-            	//Student ID was not a string or a list of strings, this is unexpected
-            	warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
-            	return false;
+                //Student ID was not a string or a list of strings, this is unexpected
+                warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
+                return false;
             }
         }
 

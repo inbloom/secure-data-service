@@ -31,15 +31,15 @@ public class IndexValidatorExecutorTest {
         //Validator<?> mockedSystemValidator = Mockito.mock(Validator.class);
         //LoggingMessageReport mockedLoggingMessageReport = Mockito.mock(LoggingMessageReport.class);
         //Source source = new JobSource(null);
-		//ReportStats reportStats = new SimpleReportStats();
-		//indexValidatorExecutor.setLoggingMessageReport(mockedLoggingMessageReport);
+        //ReportStats reportStats = new SimpleReportStats();
+        //indexValidatorExecutor.setLoggingMessageReport(mockedLoggingMessageReport);
         //indexValidatorExecutor.setValidator(mockedSystemValidator);
         //Mockito.when(mockedSystemValidator.isValid(null, mockedLoggingMessageReport, reportStats, source)).thenReturn(false);
         //try{
-        	//indexValidatorExecutor.init();
-        	//fail("Indexes validation error, some indexes are missing in the database.");
+            //indexValidatorExecutor.init();
+            //fail("Indexes validation error, some indexes are missing in the database.");
         //} catch(IndexValidationException e) {
-        	//assertNotNull(e.getMessage());
+            //assertNotNull(e.getMessage());
         //}
 //      Mockito.verify(mockedSystemValidator, times(1)).isValid(anyObject(), any(AbstractMessageReport.class), any(ReportStats.class), any(Source.class));
     }

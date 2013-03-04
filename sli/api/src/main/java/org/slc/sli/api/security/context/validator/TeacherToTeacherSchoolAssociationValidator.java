@@ -42,13 +42,13 @@ import java.util.Set;
 @Component
 public class TeacherToTeacherSchoolAssociationValidator extends AbstractContextValidator {
 
-	@Resource
-	private PagingRepositoryDelegate<Entity> repo;
+    @Resource
+    private PagingRepositoryDelegate<Entity> repo;
 
-	@Override
-	public boolean canValidate(String entityType, boolean isTransitive) {
-		return EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(entityType) && isTeacher() && !isTransitive;
-	}
+    @Override
+    public boolean canValidate(String entityType, boolean isTransitive) {
+        return EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(entityType) && isTeacher() && !isTransitive;
+    }
 
 	@Override
 	public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
@@ -58,14 +58,14 @@ public class TeacherToTeacherSchoolAssociationValidator extends AbstractContextV
 
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-		Iterable<Entity> it = this.repo.findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
-		
-		Set<String> fin = new HashSet<String>(ids);
-		for(Entity e : it) {
-			fin.remove(e.getEntityId());
-		}
-		
-		return fin.isEmpty();
-	}
+        Iterable<Entity> it = this.repo.findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
+        
+        Set<String> fin = new HashSet<String>(ids);
+        for(Entity e : it) {
+            fin.remove(e.getEntityId());
+        }
+        
+        return fin.isEmpty();
+    }
 
 }

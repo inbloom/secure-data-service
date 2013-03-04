@@ -28,7 +28,7 @@ require_relative '../../../utils/api_utils.rb'
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
-  id = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6"       if human_readable_id == "SAT ID"
+  id = "2108c0c84ca6998eb157e1efd4d894746e1fdf8b_id"       if human_readable_id == "SAT ID"
   id = "74cf790e-84c4-4322-84b8-fca7206f1085_id"    if human_readable_id == "Marvin ID"
   id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id"    if human_readable_id == "Matt Sollars ID"
   id = "bcfcc33f-f4a6-488f-baee-b92fbd062e8d"       if human_readable_id == "Braverman ID"
@@ -40,7 +40,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "teachers"                                   if human_readable_id == "TEACHER URI"
   id = "schools"                                    if human_readable_id == "SCHOOL URI"
   id = "sections"                                   if human_readable_id == "SECTION URI"
-  id = "studentAssessments"			                if human_readable_id == "STUDENT ASSESSMENT ASSOC URI"
+  id = "studentAssessments"                            if human_readable_id == "STUDENT ASSESSMENT ASSOC URI"
   id = "teacherSectionAssociations"                 if human_readable_id == "TEACHER SECTION ASSOC URI"
   id = "teacherSchoolAssociations"                  if human_readable_id == "TEACHER SCHOOL ASSOC URI"
 

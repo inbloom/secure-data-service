@@ -59,7 +59,7 @@ public class DidSchemaParserTest {
     @Test
     public void shouldExtractSimpleRefConfigs() {
         Map<String, DidRefConfig> refConfigs = didSchemaParser.getRefConfigs();
-        Assert.assertEquals("Should extract 2 ref configs for the SLC section and edOrg referenceTypes", 2, refConfigs.size());
+        Assert.assertEquals("Should extract 9 ref configs for the SLC section and edOrg referenceTypes", 9, refConfigs.size());
         Assert.assertTrue(refConfigs.containsKey(SECTION_TYPE));
         Assert.assertTrue(refConfigs.containsKey(EDORG_TYPE));
 
@@ -72,14 +72,14 @@ public class DidSchemaParserTest {
         KeyFieldDef schoolStateOrgId = schoolRefConfig.getKeyFields().get(0);
         Assert.assertNotNull(schoolStateOrgId);
         Assert.assertEquals(SCHOOL_KEYFIELD, schoolStateOrgId.getKeyFieldName());
-        Assert.assertEquals("EducationalOrgIdentity.StateOrganizationId", schoolStateOrgId.getValueSource());
+        Assert.assertEquals("EducationalOrgIdentity.StateOrganizationId._value", schoolStateOrgId.getValueSource());
         Assert.assertNull("school stateOrgId should not contain a nested reference", schoolStateOrgId.getRefConfig());
     }
 
     @Test
     public void shouldExtractNestedRefConfigs() {
         Map<String, DidRefConfig> refConfigs = didSchemaParser.getRefConfigs();
-        Assert.assertEquals("Should extract 2 ref configs for the SLC section and edOrg referenceTypes", 2, refConfigs.size());
+        Assert.assertEquals("Should extract 9 ref configs for the SLC section and edOrg referenceTypes", 9, refConfigs.size());
         Assert.assertTrue(refConfigs.containsKey(SECTION_TYPE));
         Assert.assertTrue(refConfigs.containsKey(EDORG_TYPE));
 
@@ -102,7 +102,7 @@ public class DidSchemaParserTest {
         Assert.assertNotNull(uniqSectionCode);
         Assert.assertEquals(SECTION_KEY_FIELD, uniqSectionCode.getKeyFieldName());
         Assert.assertNull("uniqueSectionCode should not have a nested DID", uniqSectionCode.getRefConfig());
-        Assert.assertEquals("SectionIdentity.UniqueSectionCode", uniqSectionCode.getValueSource());
+        Assert.assertEquals("SectionIdentity.UniqueSectionCode._value", uniqSectionCode.getValueSource());
 
         Assert.assertTrue(keyFieldMap.containsKey(SECTION_SCHOOL_KEYFIELD));
         KeyFieldDef schoolId = keyFieldMap.get(SECTION_SCHOOL_KEYFIELD);
@@ -120,7 +120,7 @@ public class DidSchemaParserTest {
         KeyFieldDef stateOrgId = nestedRefConfig.getKeyFields().get(0);
         Assert.assertNotNull(stateOrgId);
         Assert.assertEquals(SCHOOL_KEYFIELD, stateOrgId.getKeyFieldName());
-        Assert.assertEquals("EducationalOrgIdentity.StateOrganizationId", stateOrgId.getValueSource());
+        Assert.assertEquals("EducationalOrgIdentity.StateOrganizationId._value", stateOrgId.getValueSource());
         Assert.assertNull("nested stateOrgId should not contain a nested reference", stateOrgId.getRefConfig());
     }
 
@@ -128,7 +128,7 @@ public class DidSchemaParserTest {
     public void shouldExtractEntityConfigs() {
         Map<String, DidEntityConfig> entityConfigs = didSchemaParser.getEntityConfigs();
 
-        Assert.assertEquals("Should extract 1 entity config for the 1 complexType containing a sectionReference (SLC-GradebookEntry)", 1, entityConfigs.size());
+        Assert.assertEquals("Should extract 5 entity config for the 5 complexType containing a sectionReference (SLC-GradebookEntry)", 5, entityConfigs.size());
 
         //check the entity configs extracted are for the correct types
         Assert.assertTrue(entityConfigs.containsKey(GRADEBOOKENTRY_TYPE));
@@ -312,6 +312,57 @@ public class DidSchemaParserTest {
         Assert.assertEquals(true, refSource.isOptional());
         Assert.assertEquals("body.OptionalSchoolRef", refSource.getSourceRefPath());
         */
+    }
+
+    @Test
+    public void shouldextractNaturalKeys() {
+        Map<String, List<DidNaturalKey>> naturalKeys = didSchemaParser.getNaturalKeys();
+
+        Assert.assertNotNull(naturalKeys);
+
+        Assert.assertTrue(naturalKeys.containsKey("learningObjective"));
+        List<DidNaturalKey> keys = naturalKeys.get("learningObjective");
+        Assert.assertNotNull(keys);
+        Assert.assertEquals(3, keys.size());
+        Assert.assertEquals("Objective", keys.get(0).getNaturalKeyName());
+        Assert.assertFalse(keys.get(0).isOptional);
+
+        Assert.assertTrue(naturalKeys.containsKey("localEducationAgency"));
+        keys = naturalKeys.get("localEducationAgency");
+        Assert.assertNotNull(keys);
+        Assert.assertEquals(1, keys.size());
+        Assert.assertEquals("StateOrganizationId", keys.get(0).getNaturalKeyName());
+        Assert.assertFalse(keys.get(0).isOptional);
+
+        Assert.assertTrue(naturalKeys.containsKey("studentCompetency"));
+        keys = naturalKeys.get("studentCompetency");
+        Assert.assertNotNull(keys);
+        Assert.assertEquals(4, keys.size());
+        Assert.assertEquals("CompetencyLevel.CodeValue", keys.get(1).getNaturalKeyName());
+        Assert.assertFalse(keys.get(1).isOptional);
+        Assert.assertEquals("LearningObjectiveReference", keys.get(3).getNaturalKeyName());
+        Assert.assertTrue(keys.get(3).isOptional);
+
+        Assert.assertTrue(naturalKeys.containsKey("attendance"));
+        keys = naturalKeys.get("attendance");
+        Assert.assertNotNull(keys);
+        Assert.assertEquals(4, keys.size());
+        Assert.assertEquals("StateOrganizationId", keys.get(1).getNaturalKeyName());
+        Assert.assertFalse(keys.get(1).isOptional);
+
+        Assert.assertTrue(naturalKeys.containsKey("reportCard"));
+        keys = naturalKeys.get("reportCard");
+        Assert.assertNotNull(keys);
+        Assert.assertEquals(2, keys.size());
+        Assert.assertEquals("GradingPeriodReference", keys.get(1).getNaturalKeyName());
+        Assert.assertFalse(keys.get(1).isOptional);
+
+        Assert.assertTrue(naturalKeys.containsKey("program"));
+        keys = naturalKeys.get("program");
+        Assert.assertNotNull(keys);
+        Assert.assertEquals(1, keys.size());
+        Assert.assertEquals("ProgramId", keys.get(0).getNaturalKeyName());
+        Assert.assertFalse(keys.get(0).isOptional);
     }
 
 }

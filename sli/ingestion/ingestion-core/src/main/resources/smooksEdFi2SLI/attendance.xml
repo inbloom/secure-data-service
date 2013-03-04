@@ -23,28 +23,20 @@
     </jb:bean>
 
     <jb:bean beanId="attendanceBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="schoolYear" data="attributes SchoolYear _value"></jb:value>
         <jb:value property="studentId" data="attributes StudentReference"></jb:value>
-        <jb:value property="schoolId" data="attributes schoolId"></jb:value>
-        <jb:wiring property="schoolYearAttendance" beanIdRef="schoolYearAttendanceArray"></jb:wiring>
+        <jb:value property="schoolId" data="attributes SchoolReference"></jb:value>
+        <jb:wiring property="attendanceEvent" beanIdRef="attendanceEventsArray"></jb:wiring>
     </jb:bean>
 
-    <jb:bean beanId="schoolYearAttendanceArray" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:wiring beanIdRef="schoolYearAttendanceMap"/>
-    </jb:bean>
-
-    <jb:bean beanId="schoolYearAttendanceMap" class="java.util.HashMap" createOnElement="schoolYearAttendance element">
-        <jb:value property="schoolYear" data="schoolYearAttendance element schoolYear"></jb:value>
-        <jb:wiring property="attendanceEvent" beanIdRef="attendanceEventsArray"/>
-    </jb:bean>
-
-    <jb:bean beanId="attendanceEventsArray" class="java.util.ArrayList" createOnElement="schoolYearAttendance element attendanceEvent">
+    <jb:bean beanId="attendanceEventsArray" class="java.util.ArrayList" createOnElement="attributes">
         <jb:wiring beanIdRef="attendanceEventMap"></jb:wiring>
     </jb:bean>
 
-    <jb:bean beanId="attendanceEventMap" class="java.util.HashMap" createOnElement="attendanceEvent element">
-        <jb:value property="date" data="attendanceEvent element date"></jb:value>
-        <jb:value property="event" data="attendanceEvent element event"></jb:value>
-        <jb:value property="reason" data="attendanceEvent element reason"></jb:value>
+    <jb:bean beanId="attendanceEventMap" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="date" data="attributes EventDate _value"></jb:value>
+        <jb:value property="event" data="attributes AttendanceEventCategory _value"></jb:value>
+        <jb:value property="reason" data="attributes AttendanceEventReason _value"></jb:value>
     </jb:bean>
 
 </smooks-resource-list>

@@ -74,11 +74,11 @@ public class InterchangeStudentCohortGenerator {
      */
     private static int writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentCohort> iWriter) {
 
-    	int total=0;
-    	total += generateCohortData(iWriter, MetaRelations.COHORT_MAP.values());
-    	total += generateStaffCohortAssociationData(iWriter, MetaRelations.COHORT_MAP.values());
-    	total += generateStudentCohortAssociation(iWriter, MetaRelations.COHORT_MAP.values());
-    	return total;
+        int total=0;
+        total += generateCohortData(iWriter, MetaRelations.COHORT_MAP.values());
+        total += generateStaffCohortAssociationData(iWriter, MetaRelations.COHORT_MAP.values());
+        total += generateStudentCohortAssociation(iWriter, MetaRelations.COHORT_MAP.values());
+        return total;
     }
 
     /**
@@ -90,7 +90,7 @@ public class InterchangeStudentCohortGenerator {
      */
     private static int generateCohortData(InterchangeWriter<InterchangeStudentCohort> iWriter, Collection<CohortMeta> cohortMetas) {
 
-    	int count = 0;
+        int count = 0;
         for (CohortMeta cohortMeta : cohortMetas) {
             SLCCohort retVal;
 
@@ -117,7 +117,7 @@ public class InterchangeStudentCohortGenerator {
      */
     private static int generateStaffCohortAssociationData(InterchangeWriter<InterchangeStudentCohort> iWriter, Collection<CohortMeta> cohortMetas) {
 
-    	int count = 0;
+        int count = 0;
         for (CohortMeta cohortMeta : cohortMetas) {
             List<SLCStaffCohortAssociation> staffCohortAssociations = null;
             
@@ -144,7 +144,7 @@ public class InterchangeStudentCohortGenerator {
      */
     private static int generateStudentCohortAssociation(InterchangeWriter<InterchangeStudentCohort> iWriter, Collection<CohortMeta> cohortMetas) {
 
-    	int count=0;
+        int count=0;
         for (CohortMeta cohortMeta : cohortMetas) {
             
             List<StudentCohortAssociation> retVal;
