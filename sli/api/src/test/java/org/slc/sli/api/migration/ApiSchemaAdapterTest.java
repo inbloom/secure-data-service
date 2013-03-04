@@ -19,6 +19,7 @@ import com.google.common.reflect.Reflection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -76,6 +77,8 @@ public class ApiSchemaAdapterTest {
 
     Strategy strategy;
 
+    @Autowired
+    @InjectMocks
     private ApiSchemaAdapter apiSchemaAdapter ;
 
     @Before
@@ -192,7 +195,6 @@ public class ApiSchemaAdapterTest {
     }
 
     private ApiSchemaAdapter initApiSchemaAdapter() {
-        ApiSchemaAdapter apiSchemaAdapter = new ApiSchemaAdapter();
         apiSchemaAdapter.setDownMigrationConfigResource(downResource);
         apiSchemaAdapter.setUpMigrationConfigResource(upResource);
         apiSchemaAdapter.setEntityTransformConfigResource(entityResource);
