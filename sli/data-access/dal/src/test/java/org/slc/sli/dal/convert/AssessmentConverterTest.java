@@ -176,7 +176,7 @@ public class AssessmentConverterTest {
         assertEquals(clone.getBody(), entity.get(0).getBody());
     }
     
-    @Test @Ignore
+    @Test
     public void upconvertShouldConstructAssessmentFamilyHierarchy() {
         Entity entity = createUpConvertEntity();
         assessmentConverter.subdocToBodyField(entity);
@@ -184,7 +184,7 @@ public class AssessmentConverterTest {
         assertEquals("A.B.C", entity.getBody().get(AssessmentConverter.ASSESSMENT_FAMILY_HIERARCHY_STRING));
     }
     
-    @Test @Ignore
+    @Test
     public void downconvertShouldDeleteAssessmentFamilyHierarchy() {
         Entity entity = createDownConvertEntity();
         assessmentConverter.bodyFieldToSubdoc(entity);

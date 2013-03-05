@@ -51,9 +51,9 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     private static final String SUB_OBJECTIVE_ASSESSMENT_REFS = "subObjectiveAssessment";
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
     
-    protected static final String ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE = "assessmentFamilyReference";
+    protected static final String ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE = "assessmentFamily";
     protected static final String ASSESSMENT_FAMILY_ASSESSMENT_FAMILY_REFERENCE = "assessmentFamilyReference";
-    protected static final String ASSESSMENT_FAMILY_HIERARCHY_STRING = "assessmentFamilyHierarchy";
+    protected static final String ASSESSMENT_FAMILY_HIERARCHY_STRING = "assessmentFamilyHierarchyName";
     protected static final String ASSESSMENT_FAMILY_TITLE = "assessmentFamilyTitle";
 
     @Override
@@ -64,7 +64,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             subdocsToBody(entity, "objectiveAssessment", "objectiveAssessment", Arrays.asList("assessmentId"));
             entity.getEmbeddedData().clear();
             collapseAssessmentPeriodDescriptor(entity);
-//            addFamilyHierarchy(entity);
+            addFamilyHierarchy(entity);
         }
     }
 
@@ -122,7 +122,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             }
             
             //assessmentFamilyHierarchy is ignored on create/update
-//            entity.getBody().remove(ASSESSMENT_FAMILY_HIERARCHY_STRING);
+            entity.getBody().remove(ASSESSMENT_FAMILY_HIERARCHY_STRING);
         }
     }
 
@@ -162,7 +162,6 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     /**
      * Construct the assessmentFamilyHierarchy string from the assessment family reference
      */
-    @SuppressWarnings("unsafe")
     private void addFamilyHierarchy(Entity entity) {
         Object object = entity.getBody().remove(ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE);
         if (object == null || !(object instanceof String)) {
