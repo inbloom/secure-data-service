@@ -44,7 +44,9 @@ import org.elasticsearch.common.cache.LoadingCache;
 import org.elasticsearch.common.collect.Iterators;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
+import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CalculatedData;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -289,6 +291,11 @@ public class ElasticSearchRepository implements Repository<Entity> {
     @Override
     public boolean delete(String collectionName, String id) {
         throw new UnsupportedOperationException("ElasticSearchRepository.delete not implemented");
+    }
+
+    @Override
+    public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.safeDelete not implemented");
     }
 
     @Override

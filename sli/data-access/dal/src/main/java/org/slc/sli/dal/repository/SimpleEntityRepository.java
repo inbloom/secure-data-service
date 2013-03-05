@@ -20,14 +20,17 @@ package org.slc.sli.dal.repository;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
+
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * @author ifaybyshev
@@ -93,6 +96,12 @@ public class SimpleEntityRepository implements Repository<Entity> {
     public boolean update(String collection, Entity object, boolean isSuperdoc) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override
