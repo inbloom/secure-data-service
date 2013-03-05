@@ -299,6 +299,7 @@ Examples:
          And I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
          And "lowestGradeLevelAssessed" should be "Sixth grade"
          And I verify "objectiveAssessment, assessmentPeriodDescriptor" and "assessmentItem" is collapsed in response body 
+         And I verify "codeValue" is "codeRed" inside "assessmentPeriodDescriptor"
      # the corresponding studentAssessment 
      Given entity URI "/v1/studentAssessments"
        And a valid entity json document for a "studentAssessment"
