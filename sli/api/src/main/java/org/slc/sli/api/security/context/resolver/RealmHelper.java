@@ -96,6 +96,18 @@ public class RealmHelper {
 //		return null;
 //	}
 
+	public String getEdOrgIdFromRealm(String realmId) {
+		NeutralQuery realmQuery = new NeutralQuery();
+		realmQuery.addCriteria(new NeutralCriteria("_id",
+				NeutralCriteria.OPERATOR_EQUAL, realmId));
+		Entity realm = repo.findOne("realm", realmQuery);
+		if (realm != null) {
+			return (String) realm.getBody().get("edOrg");
+		} else {
+			return null;
+		}
+	}
+
 	public Entity getRealmFromSession(String sessionId) {
 		String realmId;
 
