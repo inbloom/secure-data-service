@@ -94,7 +94,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCompetency                     | 128   |
      | studentCompetencyObjective            | 4     |
 #    | studentCTEProgramAssociation          |       |
-#remove     | studentDisciplineIncidentAssociation  | 16    |
+     | studentDisciplineIncidentAssociation  | 16    |
      | studentGradebookEntry                 | 2     |
      | studentParentAssociation              | 25    |
      | studentProgramAssociation             | 14    |
@@ -150,7 +150,7 @@ Then I should see following map of entry counts in the corresponding collections
      | objectiveAssessment                   | 6                   | body.assessmentPerformanceLevel                                                                                                       | body.assessmentPerformanceLevel |
      | objectiveAssessment                   | 5                   | body.percentOfAssessment                                                                                                              | none |
      | objectiveAssessment                   | 5                   | body.nomenclature                                                                                                                     | none |
-#    | assessment                            |                     | body.objectiveAssessment.assessmentItem                                                                                               | |
+#     | objectiveAssessment                   | 2                   | body.assessmentItemRefs                                                                                                               | body.assessmentItemRefs |
      | objectiveAssessment                   | 2                   | body.learningObjectives                                                                                                               | body.learningObjectives |
      | objectiveAssessment                   | 2                   | body.subObjectiveAssessment                                                                                                           | body.subObjectiveAssessment |
 
@@ -670,9 +670,6 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessmentItem                 | 1                   | body.responseIndicator                                                                                                                | none |
      | studentAssessmentItem                 | 32                  | body.assessmentItemResult                                                                                                             | none |
      | studentAssessmentItem                 | 32                  | body.rawScoreResult                                                                                                                   | none |
-     | studentAssessmentItem                 | 32                  | body.identificationCode                                                                                                               | none |
-     | studentAssessmentItem                 | 32                  | body.itemCategory                                                                                                                     | none |
-     | studentAssessmentItem                 | 32                  | body.maxRawScore                                                                                                                      | none |
      | studentAssessmentItem                 | 32                  | body.studentAssessmentId                                                                                                              | none |
      | studentAssessmentItem                 | 32                  | body.assessmentItemId                                                                                                                 | none |
 
@@ -814,6 +811,6 @@ Then I should see following map of entry counts in the corresponding collections
      | teacherSectionAssociation             | 1                   | body.highlyQualifiedTeacher                                                                                                           | none |
 
 
-  And I should see "Processed 1204 records." in the resulting batch job file
+  And I should see "Processed 1317 records." in the resulting batch job file
   And I should not see an error log file created
   And I should not see a warning log file created
