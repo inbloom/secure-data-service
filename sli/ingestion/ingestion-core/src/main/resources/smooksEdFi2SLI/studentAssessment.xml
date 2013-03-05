@@ -55,7 +55,7 @@
     <jb:value data="attributes SpecialAccommodations element SpecialAccommodation _value" />
   </jb:bean>
 
-  <jb:bean beanId="linguisticAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="attributes LinguisticAccommodation">
+  <jb:bean beanId="linguisticAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="attributes LinguisticAccommodations">
     <jb:value data="attributes LinguisticAccommodations element LinguisticAccommodation _value" />
   </jb:bean>
 
