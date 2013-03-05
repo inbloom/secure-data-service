@@ -1,6 +1,6 @@
 {
     "entities": {
-        "grade": {
+        "grades": {
             "POST": [
                 {
                     "ADD_FIELD": {
@@ -46,7 +46,7 @@
                 }
             ]
         },
-        "reportCard": {
+        "reportCards": {
             "POST": [
                 {
                     "ADD_FIELD": {
@@ -71,7 +71,7 @@
                 }
             ]
         },
-        "studentAcademicRecord": {
+        "studentAcademicRecords": {
             "POST": [
                 {
                     "ADD_FIELD": {
@@ -96,7 +96,7 @@
                 }
             ]
         },
-        "attendance": {
+        "attendances": {
             "POST": [
                 {
                     "ATTENDANCE": {

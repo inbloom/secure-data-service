@@ -99,6 +99,7 @@ public class DefaultResourceService implements ResourceService {
     public static final int MAX_MULTIPLE_UUIDS = 100;
     private static final String POST = "POST";
     private static final String GET = "GET";
+    private static final String PUT = "PUT";
 
     /**
      * @author jstokes
@@ -153,7 +154,7 @@ public class DefaultResourceService implements ResourceService {
                 //inject error entities if needed
                 finalResults = injectErrors(definition, ids, finalResults);
 
-                return new ServiceResponse(adapter.migrate(finalResults, definition.getType(), GET), idLength);
+                return new ServiceResponse(adapter.migrate(finalResults, definition.getResourceName(), GET), idLength);
             }
         });
     }
@@ -196,7 +197,7 @@ public class DefaultResourceService implements ResourceService {
                     }
                     long count = getEntityCount(definition, apiQuery);
 
-                    return new ServiceResponse(adapter.migrate((List<EntityBody>) entityBodies, definition.getType(), GET), count);
+                    return new ServiceResponse(adapter.migrate((List<EntityBody>) entityBodies, definition.getResourceName(), GET), count);
                 } catch (NoGranularAccessDatesException e) {
                     List<EntityBody> entityBodyList = Collections.emptyList();
                     return new ServiceResponse(entityBodyList, 0);
@@ -236,7 +237,7 @@ public class DefaultResourceService implements ResourceService {
     @MigratePostedEntity
     public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
-        List<String> entityIds = definition.getService().create(adapter.migrate(entity, definition.getType(), POST));
+        List<String> entityIds = definition.getService().create(adapter.migrate(entity, definition.getResourceName(), POST));
         return StringUtils.join(entityIds.toArray(), ",");
     }
 
@@ -248,6 +249,7 @@ public class DefaultResourceService implements ResourceService {
         EntityBody copy = new EntityBody(entity);
         copy.remove(ResourceConstants.LINKS);
 
+        adapter.migrate(entity, definition.getResourceName(), PUT);
         definition.getService().update(id, copy);
     }
 
@@ -339,7 +341,7 @@ public class DefaultResourceService implements ResourceService {
             }
 
             long count = getEntityCount(definition, apiQuery);
-            return new ServiceResponse(adapter.migrate(entityBodyList, definition.getType(), GET), count);
+            return new ServiceResponse(adapter.migrate(entityBodyList, definition.getResourceName(), GET), count);
         } catch (NoGranularAccessDatesException e) {
             List<EntityBody> entityBodyList = Collections.emptyList();
             return new ServiceResponse(entityBodyList, 0);
@@ -479,7 +481,7 @@ public class DefaultResourceService implements ResourceService {
 
             long count = getEntityCount(finalEntity, finalApiQuery);
 
-            return new ServiceResponse(adapter.migrate(entityBodyList,finalEntity.getType(), GET), count);
+            return new ServiceResponse(adapter.migrate(entityBodyList,finalEntity.getResourceName(), GET), count);
         } catch (NoGranularAccessDatesException e) {
             List<EntityBody> entityBodyList = Collections.emptyList();
             return new ServiceResponse(entityBodyList, 0);
