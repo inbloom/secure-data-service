@@ -65,7 +65,7 @@
                     <xs:element name="ObjectiveAssessmentReference"
                         type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0"
                         maxOccurs="unbounded"/>
-                    <xs:element name="AssessmentFamilyReference" type="AssessmentFamilyReferenceType"
+                    <xs:element name="AssessmentFamilyReference" type="SLC-AssessmentFamilyReferenceType"
                         minOccurs="0"/>
                     <xs:element name="SectionReference" type="SLC-SectionReferenceType"
                         minOccurs="0" maxOccurs="unbounded"/>
@@ -1573,7 +1573,7 @@
                     <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
                     <xs:element name="AssessmentPeriods" type="AssessmentPeriodDescriptorType"
                         minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="AssessmentFamilyReference" type="AssessmentFamilyReferenceType"
+                    <xs:element name="AssessmentFamilyReference" type="SLC-AssessmentFamilyReferenceType"
                         minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>

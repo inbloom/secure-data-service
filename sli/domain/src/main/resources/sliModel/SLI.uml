@@ -58,7 +58,7 @@
 			CodeGeneration
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Mar 01 13:41:45 EST 2013'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Mar 04 10:19:00 EST 2013'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -7448,7 +7448,7 @@
               </UML:StructuralFeature.type>
             </UML:Attribute>
             <UML:Attribute xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:000000000000219A'
-              name = 'assessmentFamily' visibility = 'public' isSpecification = 'false'
+              name = 'assessmentFamilyReference' visibility = 'public' isSpecification = 'false'
               ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
               <UML:StructuralFeature.multiplicity>
                 <UML:Multiplicity xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:000000000000219E'>
@@ -26967,7 +26967,7 @@
               </UML:StructuralFeature.type>
             </UML:Attribute>
             <UML:Attribute xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:000000000000219F'
-              name = 'assessmentFamily' visibility = 'public' isSpecification = 'false'
+              name = 'assessmentFamilyReference' visibility = 'public' isSpecification = 'false'
               ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
               <UML:StructuralFeature.multiplicity>
                 <UML:Multiplicity xmi.id = '10-71-1-22-378f9188:13d270c8b4f:-8000:00000000000021A3'>
@@ -28238,7 +28238,7 @@
       justification="Center"
     >AssessmentFamily</text>
     <group name="Fig0.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[145, 104, 353, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[145, 105, 370, 0]"
          href="10-71-1-22-61e41853:13d2173505f:-8000:000000000000213A"
          fill="0"
          fillcolor="white"
@@ -28251,8 +28251,8 @@
       
       <rectangle name="Fig0.2.0"
         x="145"
-        y="104"
-        width="353"
+        y="105"
+        width="370"
         height="0"
         fill="0"
         fillcolor="white"
@@ -28470,7 +28470,7 @@
       <text name="Fig0.4.12"
         x="145"
         y="316"
-        width="370"
+        width="425"
         height="23"
         fill="0"
         fillcolor="white"
@@ -28482,7 +28482,7 @@
         bold="false"
         textsize="13"
         justification="Left"
-      >assessmentFamily [0..1] : AssessmentFamilyIdentityType</text>
+      >assessmentFamilyReference [0..1] : AssessmentFamilyIdentityType</text>
     </group>
     <rectangle name="Fig0.5"
       x="144"
@@ -28895,7 +28895,7 @@
         bold="false"
         textsize="13"
         justification="Left"
-      >assessmentFamily [0..1] : AssessmentFamilyIdentityType</text>
+      >assessmentFamilyReference [0..1] : AssessmentFamilyIdentityType</text>
     </group>
     <rectangle name="Fig1.5"
       x="928"
