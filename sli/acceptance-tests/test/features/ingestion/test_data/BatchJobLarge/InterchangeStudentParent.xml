@@ -9,17 +9,15 @@
             <LastSurname>Lê</LastSurname>
         </Name>
         <Sex>Male</Sex>
-        <Telephone>
-            <TelephoneNumber>+33 (1) 45.23.35.48.12</TelephoneNumber>
-        </Telephone>
         <Address>
             <StreetNumberName>23 Rue Lecourbe</StreetNumberName>
             <City>Paris</City>
-            <PostalCode>75015</PostalCode>
-            <NameOfCounty>France</NameOfCounty>
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>75229</PostalCode>
         </Address>
+        <Telephone>
+            <TelephoneNumber>+33 (1) 45.23.35.48.12</TelephoneNumber>
+        </Telephone>
     </Parent>
     <Parent>
         <ParentUniqueStateId>6473283635</ParentUniqueStateId>
@@ -29,6 +27,13 @@
             <LastSurname>Troung</LastSurname>
         </Name>
         <Sex>Female</Sex>
+        <Address>
+            <StreetNumberName>34 Northshore Ave</StreetNumberName>
+            <ApartmentRoomSuiteNumber>Apt 9B</ApartmentRoomSuiteNumber>
+            <City>Daybreak</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+        </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
             <TelephoneNumber>3095550000</TelephoneNumber>
         </Telephone>
@@ -44,13 +49,6 @@
         <ElectronicMail>
             <EmailAddress>ti.troung@yahoo.com</EmailAddress>
         </ElectronicMail>
-        <Address>
-            <StreetNumberName>34 Northshore Ave</StreetNumberName>
-            <ApartmentRoomSuiteNumber>Apt 9B</ApartmentRoomSuiteNumber>
-            <City>Daybreak</City>
-            <StateAbbreviation>IL</StateAbbreviation>
-            <PostalCode>75229</PostalCode>
-        </Address>
     </Parent>
     <Parent>
         <ParentUniqueStateId>5713667332</ParentUniqueStateId>
@@ -72,12 +70,6 @@
             <LastSurname>Smith</LastSurname>
         </Name>
         <Sex>Male</Sex>
-        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
-            <TelephoneNumber>3095550000</TelephoneNumber>
-        </Telephone>
-        <ElectronicMail>
-            <EmailAddress>a.smith@acs.daybreak.gov</EmailAddress>
-        </ElectronicMail>
         <Address AddressType="Work">
             <StreetNumberName>18 East Main Street</StreetNumberName>
             <ApartmentRoomSuiteNumber>Ste 200</ApartmentRoomSuiteNumber>
@@ -85,6 +77,12 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>75229</PostalCode>
         </Address>
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail>
+            <EmailAddress>a.smith@acs.daybreak.gov</EmailAddress>
+        </ElectronicMail>
     </Parent>
     <Parent>
         <ParentUniqueStateId>2497287214</ParentUniqueStateId>
@@ -93,19 +91,19 @@
             <LastSurname>Jones</LastSurname>
         </Name>
         <Sex>Female</Sex>
+        <Address>
+            <StreetNumberName>34 Eastside Ave</StreetNumberName>
+            <BuildingSiteNumber>245</BuildingSiteNumber>
+            <City>Daybreak</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+        </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
             <TelephoneNumber>3095550000</TelephoneNumber>
         </Telephone>
         <Telephone>
             <TelephoneNumber>3095550001</TelephoneNumber>
         </Telephone>
-        <Address>
-            <StreetNumberName>34 Eastside Ave</StreetNumberName>
-            <City>Daybreak</City>
-            <StateAbbreviation>IL</StateAbbreviation>
-            <PostalCode>75229</PostalCode>
-            <BuildingSiteNumber>245</BuildingSiteNumber>
-        </Address>
     </Parent>
     <Parent>
         <ParentUniqueStateId>3597672174</ParentUniqueStateId>
@@ -114,12 +112,6 @@
             <LastSurname>Sollars</LastSurname>
         </Name>
         <Sex>Male</Sex>
-        <Telephone PrimaryTelephoneNumberIndicator="true">
-            <TelephoneNumber>3095550000</TelephoneNumber>
-        </Telephone>
-        <ElectronicMail>
-            <EmailAddress>m.sollars@aol.com</EmailAddress>
-        </ElectronicMail>
         <Address>
             <StreetNumberName>82 EastCrest St</StreetNumberName>
             <ApartmentRoomSuiteNumber>A11</ApartmentRoomSuiteNumber>
@@ -127,6 +119,12 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>75229</PostalCode>
         </Address>
+        <Telephone PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail>
+            <EmailAddress>m.sollars@aol.com</EmailAddress>
+        </ElectronicMail>
     </Parent>
     <Parent>
         <ParentUniqueStateId>7427811661</ParentUniqueStateId>
@@ -143,6 +141,12 @@
             <LastSurname>Ortiz</LastSurname>
         </Name>
         <Sex>Male</Sex>
+        <Address>
+            <StreetNumberName>213 Central Ave</StreetNumberName>
+            <City>Daybreak</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+        </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
             <TelephoneNumber>3095550000</TelephoneNumber>
         </Telephone>
@@ -158,12 +162,6 @@
         <ElectronicMail EmailAddressType="Home/Personal">
             <EmailAddress>c.ortiz@gmail.com</EmailAddress>
         </ElectronicMail>
-        <Address>
-            <StreetNumberName>213 Central Ave</StreetNumberName>
-            <City>Daybreak</City>
-            <StateAbbreviation>IL</StateAbbreviation>
-            <PostalCode>75229</PostalCode>
-        </Address>
     </Parent>
     <Parent>
         <ParentUniqueStateId>0798132465</ParentUniqueStateId>
@@ -190,7 +188,6 @@
         </ParentReference>
         <Relation>Father</Relation>
         <LivesWith>true</LivesWith>
-        <PrimaryContactStatus>true</PrimaryContactStatus>
         <EmergencyContactStatus>true</EmergencyContactStatus>
         <ContactPriority>1</ContactPriority>
     </StudentParentAssociation>
@@ -223,7 +220,6 @@
             </ParentIdentity>
         </ParentReference>
         <Relation>Grandparent</Relation>
-        <PrimaryContactStatus>true</PrimaryContactStatus>
         <EmergencyContactStatus>true</EmergencyContactStatus>
         <ContactPriority>1</ContactPriority>
     </StudentParentAssociation>
@@ -300,7 +296,6 @@
         </ParentReference>
         <Relation>Mother</Relation>
         <EmergencyContactStatus>true</EmergencyContactStatus>
-        <LivesWith>true</LivesWith>
         <ContactPriority>1</ContactPriority>
     </StudentParentAssociation>
     <StudentParentAssociation>
@@ -316,7 +311,6 @@
         </ParentReference>
         <Relation>Father</Relation>
         <EmergencyContactStatus>false</EmergencyContactStatus>
-        <LivesWith>false</LivesWith>
         <ContactRestrictions>NO CONTACT ALLOWED</ContactRestrictions>
     </StudentParentAssociation>
 

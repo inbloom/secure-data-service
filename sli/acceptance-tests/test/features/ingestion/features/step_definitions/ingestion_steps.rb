@@ -3056,7 +3056,7 @@ Then /^I check the number of records in collection:/ do |table|
   
   disable_NOTABLESCAN()
   @db = @conn[@ingestion_db_name]
-  @result = true
+  @result = "true"
   
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
@@ -3095,8 +3095,8 @@ Then /^I check the number of records in collection:/ do |table|
     end
 
     puts "#{red}There are " + @entity_count.to_s + " in "+ row["collectionName"] + " collection for record with " + row["searchParameter"] + " . Expected: " + row["expectedRecordCount"].to_s+"#{reset}"
-                                                      
-  end      
+  end
+  
   assert(@result == "true", "Some entities were not stored.")
   enable_NOTABLESCAN()   
 end

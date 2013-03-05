@@ -61,6 +61,7 @@ Then I should see following map of entry counts in the corresponding batch job d
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
     And I should not see an error log file created
+    And I should not see a warning log file created
 
 Scenario: Post a minimal zip file with purge set but not tenant as a payload of the ingestion job: Clean Database
 Given I post "BatchJobPurge.zip" file as the payload of the ingestion job
@@ -104,6 +105,7 @@ Then I should see following map of entry counts in the corresponding batch job d
    And I should see "Processed 0 records." in the resulting batch job file
    And I should see "[configProperty] purge: true" in the resulting batch job file
    And I should not see an error log file created
+   And I should not see a warning log file created
 
 Scenario: Post a zip file containing errors as a payload of the ingestion job: Clean Database
 Given I post "BatchJobError.zip" file as the payload of the ingestion job
@@ -181,4 +183,5 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 0                   | status                         | CompletedWithErrors     | string     | 
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJob.zip            | string     |
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJobLarge.zip       | string     |
+ And I should not see a warning log file created
 
