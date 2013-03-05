@@ -105,7 +105,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
             try {
-                String codeValue = PropertyUtils.getProperty(attrs, "assessmentPeriodDescriptorId.AssessmentPeriodDescriptorIdentity.AssessmentPeriodDescriptorCodeValue").toString();
+                String codeValue = PropertyUtils.getProperty(attrs, "AssessmentPeriod.AssessmentPeriodDescriptorIdentity.AssessmentPeriodDescriptorCodeValue._value").toString();
                 if (codeValue != null) {
                     attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(codeValue));
                 }

@@ -3,7 +3,7 @@
         [
             {
                 "entityType" : "assessmentPeriodDescriptor",
-                "sourceRefPath": "body.assessmentPeriodDescriptorId",
+                "sourceRefPath": "body.AssessmentPeriod",
                 "optional" : true
             }
         ]

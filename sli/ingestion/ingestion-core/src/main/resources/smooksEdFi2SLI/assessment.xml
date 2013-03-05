@@ -28,6 +28,7 @@
     </jb:bean>
 
     <jb:bean beanId="assessmentBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="assessmentPeriodDescriptorId" data="attributes AssessmentPeriod"/>
         <jb:value property="assessmentTitle" data="attributes AssessmentTitle _value"></jb:value>
         <jb:value property="assessmentFamilyHierarchyName" data="attributes assessmentFamilyHierarchyName"></jb:value>
         <jb:wiring property="assessmentIdentificationCode" beanIdRef="AssessmentIdentificationCodeTypeArray"/>
@@ -43,8 +44,6 @@
         <jb:value property="maxRawScore" data="attributes MaxRawScore _value" decoder="Integer"></jb:value>
         <jb:value property="minRawScore" data="attributes MinRawScore _value" decoder="Integer"></jb:value>
         <jb:value property="nomenclature" data="attributes Nomenclature _value"></jb:value>
-        <jb:wiring property="assessmentPeriodDescriptor" beanIdRef="AssessmentPeriodDescriptorType"/>
-
     </jb:bean>
 
     <jb:bean beanId="AssessmentIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="attributes">
@@ -82,14 +81,6 @@
        createOnElement="PerformanceLevel CodeValue">
       <jb:value property="codeValue" data="PerformanceLevel CodeValue _value" />
     </jb:bean>
-
-   <jb:bean beanId="AssessmentPeriodDescriptorType" class="java.util.HashMap" createOnElement="assessmentPeriodDescriptor">
-        <jb:value property="codeValue" data="AssessmentPeriodDescriptor CodeValue _value" />
-        <jb:value property="description" data="AssessmentPeriodDescriptor Description _value" />
-        <jb:value property="shortDescription" data="AssessmentPeriodDescriptor ShortDescription _value" />
-        <jb:value property="beginDate" data="AssessmentPeriodDescriptor BeginDate _value"/>
-        <jb:value property="endDate" data="AssessmentPeriodDescriptor EndDate _value" />
-  </jb:bean>
 
 
 </smooks-resource-list>
