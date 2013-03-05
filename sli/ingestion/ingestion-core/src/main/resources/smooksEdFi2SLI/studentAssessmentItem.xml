@@ -28,7 +28,7 @@
         <jb:value property="assessmentResponse" data="attributes AssessmentResponse _value" />
         <jb:value property="responseIndicator" data="attributes ResponseIndicator _value" />
         <jb:value property="assessmentItemResult" data="attributes AssessmentItemResult _value" />
-        <jb:value property="rawScoreResult" data="attributes RawResult _value" />
+        <jb:value property="rawScoreResult" data="attributes RawScoreResult _value" />
 
     </jb:bean>
 
