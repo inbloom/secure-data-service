@@ -1,0 +1,5 @@
+# Overrides for base_scenario properties
+STUDENT_COUNT: 1000
+NUMBER_OF_YEARS: 3
+BEGIN_YEAR: 2012
+OPTIONAL_FIELD_LIKELYHOOD: 1.0

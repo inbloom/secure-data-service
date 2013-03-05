@@ -247,6 +247,17 @@ Then /^in each entity, I should receive a link named "([^"]*)" with URI "([^"]*)
   end
 end
 
+Then /^I should find and store a link named "(.*?)"$/ do |rel|
+  foundInEntity = false
+  @result["links"].each do |link|
+    if link["rel"] == rel
+      @link = link["href"]
+      foundInEntity = true
+    end
+  end
+  assert(foundInEntity, "A link labeled #{rel} with value #{href} was not present in one or more returned entities")
+end
+
 Then /^in occurrence (\d+) I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |position, rel, href|
   position = position.to_i - 1
   foundInEntity = false
