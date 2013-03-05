@@ -53,16 +53,29 @@ public class ContainerDocumentHolder {
                 .forField("attendanceEvent")
                 .withParent(parentKeys).build();
 
-        final List<String> parentKeysForReportCard = Arrays.asList("studentId", "schoolYear");
         final List<String> containerKeysForReportCard = Arrays.asList("studentId", "gradingPeriodId");
+        final List<String> parentKeysForGRCSAR = Arrays.asList("studentId", "schoolYear");
         final ContainerDocument reportCard = ContainerDocument.builder().forCollection("reportCard")
                 .forField("reportCard")
-                .withParent(parentKeysForReportCard)
+                .withParent(parentKeysForGRCSAR)
                 .persistAs("yearlyTranscript")
                 .asContainerSubdoc(true)
                 .withContainerDocKeys(containerKeysForReportCard).build();
+        final ContainerDocument grade = ContainerDocument.builder().forCollection("grade")
+                .forField("grade")
+                .withParent(parentKeysForGRCSAR)
+                .persistAs("yearlyTranscript")
+                .asContainerSubdoc(true).build();
+        final ContainerDocument studentAcademicRecord = ContainerDocument.builder().forCollection("studentAcademicRecord")
+                .forField("studentAcademicRecord")
+                .withParent(parentKeysForGRCSAR)
+                .persistAs("yearlyTranscript")
+                .asContainerSubdoc(true)
+                .build();
 
         containerDocumentMap.put("attendance", attendance);
         containerDocumentMap.put("reportCard", reportCard);
+        containerDocumentMap.put("grade", grade);
+        containerDocumentMap.put("studentAcademicRecord", studentAcademicRecord);
     }
 }
