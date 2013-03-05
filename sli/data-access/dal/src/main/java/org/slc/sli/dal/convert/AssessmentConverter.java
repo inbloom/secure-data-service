@@ -51,7 +51,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     private static final String SUB_OBJECTIVE_ASSESSMENT_REFS = "subObjectiveAssessment";
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
     
-    protected static final String ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE = "assessmentFamily";
+    protected static final String ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE = "assessmentFamilyReference";
     protected static final String ASSESSMENT_FAMILY_ASSESSMENT_FAMILY_REFERENCE = "assessmentFamilyReference";
     protected static final String ASSESSMENT_FAMILY_HIERARCHY_STRING = "assessmentFamilyHierarchyName";
     protected static final String ASSESSMENT_FAMILY_TITLE = "assessmentFamilyTitle";
@@ -165,7 +165,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     private void addFamilyHierarchy(Entity entity) {
         Object object = entity.getBody().remove(ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE);
         if (object == null || !(object instanceof String)) {
-            // we don't validate assessmentFamilyHierarchy any more, so someone could have  in 
+            // we don't validate assessmentFamilyHierarchy any more, so someone could have passed in 
             // an object, array, number, etc.
             return;
         }
