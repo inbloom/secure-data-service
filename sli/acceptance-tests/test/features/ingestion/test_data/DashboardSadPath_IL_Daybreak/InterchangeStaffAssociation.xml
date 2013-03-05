@@ -603,7 +603,6 @@
 			<CredentialType>Certification</CredentialType>
 			<CredentialField>
 				<CodeValue>IT Admin</CodeValue>
-				<Description>Linux Superstar</Description>
 			</CredentialField>
 			<Level>All Level (Grade Level PK-12)</Level>
 			<TeachingCredentialType>Standard</TeachingCredentialType>

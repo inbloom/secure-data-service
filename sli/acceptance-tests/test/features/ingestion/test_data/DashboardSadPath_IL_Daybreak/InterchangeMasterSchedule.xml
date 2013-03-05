@@ -32,6 +32,21 @@
     <CourseOffering>
         <LocalCourseCode>7th Grade English</LocalCourseCode>
         <LocalCourseTitle>7th Grade English</LocalCourseTitle>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+            </SessionIdentity>
+        </SessionReference>
         <CourseReference>
             <CourseIdentity>
                 <EducationalOrgReference>
@@ -42,6 +57,10 @@
                 <UniqueCourseId>7th-Grade-English-4</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
+    </CourseOffering>
+    <CourseOffering>
+        <LocalCourseCode>8th Grade Math</LocalCourseCode>
+        <LocalCourseTitle>8th Grade Math</LocalCourseTitle>
         <SchoolReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -57,10 +76,6 @@
                 <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
             </SessionIdentity>
         </SessionReference>
-    </CourseOffering>
-    <CourseOffering>
-        <LocalCourseCode>8th Grade Math</LocalCourseCode>
-        <LocalCourseTitle>8th Grade Math</LocalCourseTitle>
         <CourseReference>
             <CourseIdentity>
                 <EducationalOrgReference>
@@ -71,9 +86,13 @@
                 <UniqueCourseId>8th-Grade-Math-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
+    </CourseOffering>
+    <CourseOffering>
+        <LocalCourseCode>8th Grade Advanced Math</LocalCourseCode>
+        <LocalCourseTitle>8th Grade Advanced Math</LocalCourseTitle>
         <SchoolReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </SchoolReference>
         <SessionReference>
@@ -83,13 +102,9 @@
                         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                     </EducationalOrgIdentity>
                 </EducationalOrgReference>
-                <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+                <SessionName>Fall 2011 Daybreak Central High</SessionName>
             </SessionIdentity>
         </SessionReference>
-    </CourseOffering>
-    <CourseOffering>
-        <LocalCourseCode>8th Grade Advanced Math</LocalCourseCode>
-        <LocalCourseTitle>8th Grade Advanced Math</LocalCourseTitle>
         <CourseReference>
             <CourseIdentity>
                 <EducationalOrgReference>
@@ -100,6 +115,10 @@
                 <UniqueCourseId>8th-Grade-Advanced-Math-3</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
+    </CourseOffering>
+    <CourseOffering>
+        <LocalCourseCode>American Literature</LocalCourseCode>
+        <LocalCourseTitle>American Literature</LocalCourseTitle>
         <SchoolReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -109,16 +128,12 @@
             <SessionIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
-                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                     </EducationalOrgIdentity>
                 </EducationalOrgReference>
                 <SessionName>Fall 2011 Daybreak Central High</SessionName>
             </SessionIdentity>
         </SessionReference>
-    </CourseOffering>
-    <CourseOffering>
-        <LocalCourseCode>American Literature</LocalCourseCode>
-        <LocalCourseTitle>American Literature</LocalCourseTitle>
         <CourseReference>
             <CourseIdentity>
                 <EducationalOrgReference>
@@ -129,35 +144,10 @@
                 <UniqueCourseId>American-Literature-6</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
-        <SchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </SchoolReference>
-        <SessionReference>
-            <SessionIdentity>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <SessionName>Fall 2011 Daybreak Central High</SessionName>
-            </SessionIdentity>
-        </SessionReference>
     </CourseOffering>
     <CourseOffering>
         <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
         <LocalCourseTitle>1st Grade Homeroom</LocalCourseTitle>
-        <CourseReference>
-            <CourseIdentity>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueCourseId>1st-Grade-Homeroom-7</UniqueCourseId>
-            </CourseIdentity>
-        </CourseReference>
         <SchoolReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -173,6 +163,16 @@
                 <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
             </SessionIdentity>
         </SessionReference>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>1st-Grade-Homeroom-7</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
     </CourseOffering>
     <Section>
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
