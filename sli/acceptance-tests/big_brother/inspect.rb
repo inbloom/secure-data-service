@@ -31,7 +31,7 @@ Dir.glob(File.join("**","*.feature")) do |filename|
   File.open(filename, "r") do |infile|
       while (line = infile.gets)
         if match=line.match("^Scenario\s?(Outline)?:\s* (.+)$")
-          scenarioName = match[2]
+          scenarioName = match[2].strip
           puts "Processing #{scenarioName}"
           count=0
           
