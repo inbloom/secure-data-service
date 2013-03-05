@@ -2,14 +2,14 @@
     "referenceSources" :
         [
             {
-                "entityType" : "AssessmentPeriodDescriptor",
+                "entityType" : "assessmentPeriodDescriptor",
                 "sourceRefPath": "body.AssessmentPeriod",
                 "optional" : true
-        },
-        {
-            "entityType" : "AssessmentFamily",
-            "sourceRefPath": "body.assessmentFamilyReference",
-            "optional" : true
+            },
+            {
+                "entityType" : "assessmentFamily",
+                "sourceRefPath": "body.AssessmentFamilyReference",
+                "optional" : true
             }
         ]
 }
