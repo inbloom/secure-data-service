@@ -1,17 +1,12 @@
 @smoke @RALLY_US134 @RALLY_US5156
 Feature: Admin delegation CRUD
 
-
 	Scenario: District administrator creating admin delegation
-      Given  the sli securityEvent collection is empty
-      And  I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
-      When I POST a new admin delegation
-      Then I should receive a return code of 201
-      And I check to find if record is in sli db collection:
-           | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
-           | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234  |
-           | securityEvent       | 1                   | body.targetEdOrgList  | fakeab32-b493-999b-a6f3-sliedorg1234  |
-     
+    Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
+     When I POST a new admin delegation
+     Then I should receive a return code of 201
+
+
 	Scenario: State administrator without access being denied update to application authorization
       Given the sli securityEvent collection is empty
       And I am logged in using "iladmin" "iladmin1234" to realm "SLI"
@@ -19,36 +14,13 @@ Feature: Admin delegation CRUD
       Then I should update app authorizations for district "IL-SUNSET"
       And I should receive a return code of 403
      And a security event matching "^Access Denied" should be in the sli db
-      
 
-
-  Scenario: District administrator updating admin delegation 	
-    Given  the sli securityEvent collection is empty
-    And I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
+  Scenario: District administrator updating admin delegation
+    Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
     And I have a valid admin delegation entity
     And I change "appApprovalEnabled" to true
     When I PUT to admin delegation
     Then I should receive a return code of 204
-     And I check to find if record is in sli db collection:
-           | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
-           | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234  |
-           | securityEvent       | 1                   | body.targetEdOrgList  | fakeab32-b493-999b-a6f3-sliedorg1234  |
-    
-
-
-  Scenario: District administrator updating admin delegation for SecurityEvent 	
-    Given  the sli securityEvent collection is empty
-    And I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
-    And I have a valid admin delegation entity
-    And I change "viewSecurityEventsEnabled" to true
-    When I PUT to admin delegation
-    Then I should receive a return code of 204
-     And I check to find if record is in sli db collection:
-           | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
-           | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234  |
-           | securityEvent       | 1                   | body.targetEdOrgList  | fakeab32-b493-999b-a6f3-sliedorg1234  |
-
-
 
 	Scenario: State administrator with access updating application authorizations
      Given the sli securityEvent collection is empty
@@ -56,11 +28,6 @@ Feature: Admin delegation CRUD
      When I have access to app authorizations for district "IL-SUNSET"
      Then I should update app authorizations for district "IL-SUNSET" 
      And I should receive a return code of 204
-     And I check to find if record is in sli db collection:
-           | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
-           | securityEvent       | 2                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234  |
-           | securityEvent       | 2                   | body.targetEdOrgList  | fakeab32-b493-999b-a6f3-sliedorg1234  |
-
 
 	Scenario: State administrator with access updating one application authorization
      And I am logged in using "iladmin" "iladmin1234" to realm "SLI"

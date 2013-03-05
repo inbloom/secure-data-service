@@ -62,7 +62,6 @@ end
 When /^I PUT to admin delegation$/ do
   @format = "application/json"
   data = prepareData(@format, @adminDelegation)
-  puts data.inspect
   restHttpPut("/adminDelegation/myEdOrg", data)
   assert(@res != nil, "Response from PUT operation was nil")
 end
