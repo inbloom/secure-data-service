@@ -92,8 +92,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
   "yearlyAttendance" => {
     "entityType" => "attendance",
-    "studentId" => "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
-    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+    "studentId" => "5738d251-dd0b-4734-9ea6-417ac9320a15_id",
+    "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731",
     "schoolYear" => "2010-2011",
     "attendanceEvent" => [
       {
@@ -103,35 +103,34 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     ]
   },
   "duplicateYearlyAttendance" => {
-    "entityType" => "attendance",
-    "studentId" => "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
-    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
-    "schoolYear" => "2010-2011",
-    "attendanceEvent" => [
-      {
-        "date" => "2010-09-16",
-        "event" => "Tardy"
-      }
-    ]
+      "entityType" => "attendance",
+      "studentId" => "5738d251-dd0b-4734-9ea6-417ac9320a15_id",
+      "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731",
+      "schoolYear" => "2010-2011",
+      "attendanceEvent" => [
+          {
+              "date" => "2010-09-16",
+              "event" => "Tardy"
+          }
+      ]
   },
   "invalidYearlyAttendance" => {
-    "entityType" => "attendance",
-    "studentId" => "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
-    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
-    "schoolYear" => "2010-2011"
+      "entityType" => "attendance",
+      "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731",
+      "schoolYear" => "2010-2011"
   },
  "multiSchoolsPerYearYearlyAttendance" => {
-    "entityType" => "attendance",
-    "studentId" => "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
-    "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731",
-    "schoolYear" => "2010-2011",
-    "attendanceEvent" => [
-      {
-        "date" => "2010-01-16",
-        "event" => "Tardy"
-      }
-    ]
-  },
+     "entityType" => "attendance",
+     "studentId" => "5738d251-dd0b-4734-9ea6-417ac9320a15_id",
+     "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+     "schoolYear" => "2010-2011",
+     "attendanceEvent" => [
+         {
+             "date" => "2010-09-16",
+             "event" => "Tardy"
+         }
+     ]
+ },
  "studentAcademicRecord" => {
     "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3_id",
     "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072",
@@ -642,6 +641,12 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     assert(headers['location'] != nil, "There is no location link from the previous request")
     s = headers['location'][0]
     @assocId = s[s.rindex('/')+1..-1]
+  end
+end
+
+Then /^I should receive a new entity URI after a successful response$/ do
+  if @res.code < 400
+    step "I should receive a new entity URI"
   end
 end
 

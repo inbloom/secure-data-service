@@ -313,20 +313,35 @@ Examples:
          And "administrationEnvironment" should be "School"
      Then I delete both studentAssessment and Assessment
 
-    #yearlyAttendance entity CRUD tests
-    @US5389 @wip
-    Scenario Outline: yearlyAttendance CRUD - Create operation
+  #yearlyAttendance CRUD tests
+  @us5389 @wip
+  Scenario Outline:yearlyAttendance CRUD
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-      And entity URI "/yearlyAttendance"
-      And format "application/json"
-      And an entity json document for a <yearlyAttendance Json>
-    When I navigate to PUT "<ENTITY URI>"
-    Then I should receive a return code of <Expected HTTP Code>
+      And entity URI <Entity Resource URI>
+  # Create
+      And an entity json document for a <Entity Type>
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of <Expected Http Code>
+    And I should receive a new entity URI after a successful response
+  # Read
+#    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+#    Then I should receive a return code of 200
+#    And the response should contain the appropriate fields and values
+#    And "entityType" should be <Entity Type>
+#    And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+  # Update
+#    When I set the <Update Field> to <Updated Value>
+#    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+#    Then I should receive a return code of 409
+  # Delete
+#    When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+#    Then I should receive a return code of 204
+#    And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+#    And I should receive a return code of 404
 
-    Examples:
-      | yearlyAttendance Json                 |  Expected HTTP Code |
-      | "yearlyAttendance"                    |         201         |
-      | "duplicateYearlyAttendance"           |         400         |
-      | "invalidYearlyAttendance"             |         400         |
-      | "multiSchoolsPerYearYearlyAttendance" |         201         |
-
+  Examples:
+    | Entity Type                             | Expected Http Code    | Entity Resource URI                   | Update Field  | Updated Value   |
+    | "yearlyAttendance"                      | 201                   | "yearlyAttendances"                    | ""            | ""              |
+    | "duplicateYearlyAttendance"             | 409                   | "yearlyAttendances"           | ""            | ""              |
+    | "invalidYearlyAttendance"               | 400                   | "yearlyAttendances"             | ""            | ""              |
+    | "multiSchoolsPerYearYearlyAttendance"   | 201                   | "yearlyAttendances" | ""            | ""              |
