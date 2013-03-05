@@ -244,7 +244,7 @@ When I navigate to GET "/v1/search/students?q=Mat"
 Then I should receive a collection with 1 elements
 Then each entity's "id" should be "5738d251-dd0b-4734-9ea6-417ac9320a15_id"
 When I navigate to GET "/v1/search?q=Mat"
-Then I should receive a collection with 40 elements
+Then I should receive a collection with 38 elements
     Examples:
       | username           | password              |
       | "rrogers"          | "rrogers1234"         |
