@@ -26,6 +26,7 @@ import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -97,13 +98,25 @@ public class ContainerDocumentAccessor {
     // TODO: private
     protected String createParentKey(final Entity entity) {
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-        final List<String> parentKeys = containerDocument.getParentNaturalKeys();
+
         if (entity.getEntityId() == null || entity.getEntityId().isEmpty() || containerDocument.isContainerSubdoc()) {
+            final List<String> parentKeys = containerDocument.getParentNaturalKeys();
             final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, parentKeys);
             return generatorStrategy.generateId(naturalKeyDescriptor);
         } else {
             return entity.getEntityId();
         }
+    }
+    protected String getContainerDocId(final Entity entity) {
+        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+        if (entity.getEntityId() == null || entity.getEntityId().isEmpty()) {
+            final List<String> containerKeyList = containerDocument.getContainerDocNaturalKeys();
+            final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, containerKeyList);
+            return generatorStrategy.generateId(naturalKeyDescriptor);
+        } else {
+            return entity.getEntityId();
+        }
+
     }
 
     protected boolean updateContainerDoc(final DBObject query, Map<String, Object> newValues, String collectionName, String type) {
@@ -228,12 +241,32 @@ public class ContainerDocumentAccessor {
             return "";
         }
     }
+    private String extractParentId(String containerSubdocId) {
+        return containerSubdocId.substring(0, containerSubdocId.indexOf("_id") + 3);
+    }
 
     private boolean persistAsSubdoc(Entity entity, DBObject query, ContainerDocument containerDocument) {
+        MongoEntity mongoEntity;
+        if (entity instanceof MongoEntity) {
+            mongoEntity = (MongoEntity) entity;
+        } else {
+            mongoEntity = new MongoEntity(entity.getType(), createParentKey(entity) + getContainerDocId(entity), entity.getBody(),
+                    entity.getMetaData());
+        }
+
+        DBObject entityDetails = new BasicDBObject();
+        final Map<String, Object> entityBody = entity.getBody();
+        for (final String key : containerDocument.getParentNaturalKeys()) {
+            entityDetails.put("body." + key, entityBody.get(key));
+        }
         BasicDBObjectBuilder dbObjectBuilder = BasicDBObjectBuilder.start().push("$pushAll")
-                .add(containerDocument.getFieldToPersist(), entity);
+                .add(containerDocument.getFieldToPersist(), mongoEntity);
+        DBObject set = new BasicDBObject("$set", entityDetails);
+        DBObject docToPersist = dbObjectBuilder.get();
+        docToPersist.putAll(set);
+
         boolean persisted = mongoTemplate.getCollection(containerDocument.getCollectionToPersist()).update(query,
-                dbObjectBuilder.get(),true, false, WriteConcern.SAFE )
+                docToPersist, true, false, WriteConcern.SAFE )
                 .getLastError().ok();
         return persisted;
     }
