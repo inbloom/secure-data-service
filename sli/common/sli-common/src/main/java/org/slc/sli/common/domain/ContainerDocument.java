@@ -111,7 +111,7 @@ public final class ContainerDocument {
         }
 
         public ContainerDocument build() {
-            if (collectionName == null || parentNaturalKeys == null || fieldToPersist == null || collectionToPersist==null) {
+            if (collectionName == null || parentNaturalKeys == null || fieldToPersist == null) {
                 throw new IllegalStateException("The container document is not fully initialized!");
             }
             return new ContainerDocument(this);

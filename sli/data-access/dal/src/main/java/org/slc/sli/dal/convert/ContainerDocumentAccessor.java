@@ -33,7 +33,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -246,21 +248,24 @@ public class ContainerDocumentAccessor {
     }
 
     private boolean persistAsSubdoc(Entity entity, DBObject query, ContainerDocument containerDocument) {
-        MongoEntity mongoEntity;
-        if (entity instanceof MongoEntity) {
-            mongoEntity = (MongoEntity) entity;
-        } else {
-            mongoEntity = new MongoEntity(entity.getType(), createParentKey(entity) + getContainerDocId(entity), entity.getBody(),
-                    entity.getMetaData());
-        }
 
         DBObject entityDetails = new BasicDBObject();
         final Map<String, Object> entityBody = entity.getBody();
         for (final String key : containerDocument.getParentNaturalKeys()) {
             entityDetails.put("body." + key, entityBody.get(key));
         }
+
+        final Map<String, Object> containerSubDoc = new HashMap<String, Object>();
+        containerSubDoc.put("_id",createParentKey(entity) + getContainerDocId(entity));
+        containerSubDoc.put("type", entity.getType());
+        containerSubDoc.put("body", entityBody);
+        containerSubDoc.put("metaData", entity.getMetaData());
+
+        final List<Map<String, Object>> containerSubDocList = new ArrayList<Map<String, Object>>();
+        containerSubDocList.add(containerSubDoc);
+
         BasicDBObjectBuilder dbObjectBuilder = BasicDBObjectBuilder.start().push("$pushAll")
-                .add(containerDocument.getFieldToPersist(), mongoEntity);
+                .add(containerDocument.getFieldToPersist(), containerSubDocList.toArray());
         DBObject set = new BasicDBObject("$set", entityDetails);
         DBObject docToPersist = dbObjectBuilder.get();
         docToPersist.putAll(set);
