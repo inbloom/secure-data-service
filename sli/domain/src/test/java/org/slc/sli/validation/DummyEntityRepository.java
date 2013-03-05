@@ -24,6 +24,11 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
@@ -110,6 +115,12 @@ public class DummyEntityRepository implements Repository<Entity> {
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+    	// TODO Auto-generated method stub
+    	return null;
     }
 
     @Override

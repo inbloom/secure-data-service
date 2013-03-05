@@ -42,6 +42,8 @@ import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -473,6 +475,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
     protected abstract T getEncryptedRecord(T entity);
 
     protected abstract Update getUpdateCommand(T entity, boolean isSuperdoc);
+
+    @Override
+    public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+    	CascadeResult result = new CascadeResult();
+
+    	return result;
+    }
 
     @Override
     public boolean delete(String collectionName, String id) {

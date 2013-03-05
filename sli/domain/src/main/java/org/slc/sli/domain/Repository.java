@@ -158,6 +158,22 @@ public interface Repository<T> {
      *            the name of the collection to delete from
      * @param id
      *            the global unique id of the object
+     * @param cascade
+     *            true iff the delete is authorized to recursively delete referring objects
+     * @param dryrun
+     *            true iff the operation is a "dry run" that is meant simply to test and count the effects of the recursion, as an indication of whether it "would succeed"
+     * @param maxObjects
+     *            the largest number of objects that can be affected by the operation (not including inaccessible objects) without being considered a failure
+     * @param access
+     *            if non-null, an implementer of AccessibiltyCheck whose check methods (accessibilityCheck) will be called on all objects in the cascade.
+     */
+    public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access);
+
+    /**
+     * @param collectionName
+     *            the name of the collection to delete from
+     * @param id
+     *            the global unique id of the object
      */
     public boolean delete(String collectionName, String id);
 

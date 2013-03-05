@@ -27,6 +27,8 @@ import com.mongodb.WriteResult;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -95,6 +97,12 @@ public class SimpleEntityRepository implements Repository<Entity> {
     public boolean update(String collection, Entity object, boolean isSuperdoc) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override

@@ -37,6 +37,8 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 
 
@@ -392,6 +394,11 @@ public class Denormalizer {
 
         private boolean bulkUpdate(DBObject parentQuery, List<Entity> newEntities) {
             return doUpdate(parentQuery, newEntities);
+        }
+
+        public CascadeResult safeDelete(Entity providedEntity, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        	CascadeResult result = new CascadeResult();
+        	return result;
         }
 
         public boolean delete(Entity providedEntity, String id) {
