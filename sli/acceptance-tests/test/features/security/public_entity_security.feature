@@ -12,7 +12,6 @@ And I should see the entity in the response
 Examples:
 | Entity Type                |
 |"assessment"                |
-#|"competencyLevelDescriptor" |
 |"course"                    |
 |"courseOffering"            |
 |"educationOrganization"     |
@@ -26,6 +25,7 @@ Examples:
 |"session"                   |
 |"studentCompetencyObjective"|
 	
+@wip
 Scenario Outline: Seeing data for public entities if only given the READ_PUBLIC right
 # Mr. Jackson is an Agg Viewer
 Given I am logged in using "jjackson" "jjackson1234" to realm "IL"
@@ -35,7 +35,6 @@ And I should see the entity in the response
 Examples:
 | Entity Type                |
 |"assessment"                |
-#|"competencyLevelDescriptor" |
 |"course"                    |
 |"courseOffering"            |
 |"educationOrganization"     |
