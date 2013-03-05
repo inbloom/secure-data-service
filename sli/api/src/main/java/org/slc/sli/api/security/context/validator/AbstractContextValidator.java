@@ -16,7 +16,18 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -26,16 +37,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Abstract class that all context validators must extend.
@@ -61,10 +62,16 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected DateTime getNowMinusGracePeriod() {
         return dateHelper.getNowMinusGracePeriod();
     }
-    
+
+    protected static final Set<String> GLOBAL_WRITE_RESOURCE = new HashSet<String>(Arrays.asList(
+            EntityNames.ASSESSMENT,
+            EntityNames.LEARNING_OBJECTIVE,
+            EntityNames.LEARNING_STANDARD,
+            EntityNames.COMPETENCY_LEVEL_DESCRIPTOR));
+
     protected static final Set<String> SUB_ENTITIES_OF_STUDENT = new HashSet<String>(Arrays.asList(
             EntityNames.ATTENDANCE,
-            EntityNames.DISCIPLINE_ACTION, 
+            EntityNames.DISCIPLINE_ACTION,
             EntityNames.STUDENT_ACADEMIC_RECORD,
             EntityNames.STUDENT_ASSESSMENT,
             EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
@@ -89,9 +96,9 @@ public abstract class AbstractContextValidator implements IContextValidator {
         query.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
         query.addOrQuery(new NeutralQuery(endDateCriteria));
     }
-    
+
     protected static final Set<String> SUB_ENTITIES_OF_STUDENT_SECTION = new HashSet<String>(Arrays.asList(
-            EntityNames.GRADE, 
+            EntityNames.GRADE,
             EntityNames.STUDENT_COMPETENCY));
 
 
@@ -155,7 +162,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected boolean isTeacher() {
         return EntityNames.TEACHER.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
-    
+
     public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
         return dateHelper.isFieldExpired(body, fieldName, useGracePeriod);
     }
@@ -173,7 +180,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return a set of the edorgs you are associated to and their children.
      */
     protected Set<String> getStaffEdOrgLineage() {
-        return edorgHelper.getStaffEdOrgLineage();
+        return edorgHelper.getStaffEdOrgsAndChildren();
     }
 
     protected Set<String> getEdorgDescendents(Set<String> edOrgLineage) {
@@ -193,8 +200,8 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     }
 
-    protected  Set<String> getStaffCurrentAssociatedEdOrgs() {
-        return edorgHelper.getStaffCurrentAssociatedEdOrgs();
+    protected Set<String> getStaffCurrentAssociatedEdOrgs() {
+        return edorgHelper.getDirectEdorgs();
     }
 
     protected Set<String> getStaffEdOrgParents() {
@@ -251,7 +258,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     /**
      * Validate that the id list isn't null, contains at least one id, and that the entity types match.
-     * 
+     *
      * @param correctEntityType
      * @param inputEntityType
      * @param ids
@@ -261,12 +268,12 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected boolean areParametersValid(String correctEntityType, String inputEntityType, Set<String> ids) {
         return areParametersValid(Arrays.asList(correctEntityType), inputEntityType, ids);
     }
-    
+
     protected boolean areParametersValid(Collection<String> correctEntityTypes, String inputEntityType, Set<String> ids) {
         if (!correctEntityTypes.contains(inputEntityType)) {
             throw new IllegalArgumentException(this.getClass() + " cannot validate type " + inputEntityType);
         }
-        
+
         if (ids == null || ids.size() == 0) {
             return false;
         }
@@ -281,6 +288,16 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     protected Set<String> getDirectEdorgs() {
         return edorgHelper.getDirectEdorgs();
+    }
+
+    /**
+     * Determines if the entity type has global write context.
+     *
+     * @param type Entity type.
+     * @return True if the entity has global write context, false otherwise.
+     */
+    protected boolean isGlobalWrite(String type) {
+        return GLOBAL_WRITE_RESOURCE.contains(type);
     }
 
     /**

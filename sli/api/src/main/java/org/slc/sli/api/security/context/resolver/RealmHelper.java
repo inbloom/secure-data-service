@@ -74,7 +74,7 @@ public class RealmHelper {
     public List<String> getPreferredLoginRealmIds(Entity userEntity) {
         // If there's a realm directly associated with your edorg, we'll require that
         List<String> toReturn = new ArrayList<String>();
-        Set<String> edOrgs = edorgHelper.getDirectEdorgs(userEntity);
+        Set<String> edOrgs = edorgHelper.locateDirectEdorgs(userEntity);
         for (String edOrgId : edOrgs) {
             Entity edOrgEntity = repo.findById("educationOrganization", edOrgId);
             Iterable<Entity> realms = getRealms(edOrgEntity);
@@ -137,7 +137,7 @@ public class RealmHelper {
         }
 
         // There wasn't a preferred realm, so let's check other realms in the hierarchy
-        Set<String> userEdorgs = edorgHelper.getDirectEdorgs(userEntity);
+        Set<String> userEdorgs = edorgHelper.locateDirectEdorgs(userEntity);
         for (String id : userEdorgs) {
             Entity edorgEntity = repo.findById("educationOrganization", id);
 

@@ -17,12 +17,22 @@
 package org.slc.sli.api.jersey;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.cache.SessionCache;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
@@ -34,13 +44,6 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.stereotype.Component;
-
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerRequestFilter;
 
 /**
  * Pre-request processing filter. Adds security information for the user Records start time of the request
@@ -50,6 +53,8 @@ import com.sun.jersey.spi.container.ContainerRequestFilter;
 @Component
 public class PreProcessFilter implements ContainerRequestFilter {
 
+    private static final List<String> WRITE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(), ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString());
+
     @Resource(name = "urlValidators")
     private List<URLValidator> urlValidators;
 
@@ -57,13 +62,13 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private OauthSessionManager manager;
 
     @Autowired
-    private ContextValidator contextValidator;
-
-    @Autowired
     private MongoStat mongoStat;
 
     @Resource
     private EndpointMutator mutator;
+
+    @Autowired
+    private ContextValidator contextValidator;
 
     @Autowired
     private URITranslator translator;
@@ -74,6 +79,9 @@ public class PreProcessFilter implements ContainerRequestFilter {
     @Autowired
     private DateFilterCriteriaGenerator criteriaGenerator;
 
+    @Resource
+    private SessionCache sessions;
+
     @Override
     public ContainerRequest filter(ContainerRequest request) {
         recordStartTime(request);
@@ -83,12 +91,14 @@ public class PreProcessFilter implements ContainerRequestFilter {
         mongoStat.startRequest();
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        principal.setSubEdOrgHierarchy(edOrgHelper.getSubEdOrgHierarchy(principal.getEntity()));
+        principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
 
         info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
-        contextValidator.validateContextToUri(request, principal);
+        if (isWrite(request.getMethod())) {
+            contextValidator.validateContextToUri(request, principal);
+        }
         translator.translate(request);
         criteriaGenerator.generate(request);
         return request;
@@ -98,6 +108,17 @@ public class PreProcessFilter implements ContainerRequestFilter {
         OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
         SecurityContextHolder.getContext().setAuthentication(auth);
         TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal()).getTenantId());
+    }
+
+    /**
+     * Returns true if the request is a write operation.
+     *
+     * @param request
+     *            Request to be checked.
+     * @return True if the request method is a PUT, PATCH, or DELETE, false otherwise.
+     */
+    private boolean isWrite(String operation) {
+        return WRITE_OPERATIONS.contains(operation);
     }
 
     private void recordStartTime(ContainerRequest request) {

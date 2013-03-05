@@ -638,7 +638,6 @@ task :apiV1EntitySecurityTests do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/context_security")
-
 end
 
 ############################################################
@@ -1233,6 +1232,7 @@ task :importSandboxData do
   if TODROP
     Rake::Task["runDbIndexingScript"].execute
   end
+  Rake::Task["runSearchBulkExtract"].execute
 end
 
 

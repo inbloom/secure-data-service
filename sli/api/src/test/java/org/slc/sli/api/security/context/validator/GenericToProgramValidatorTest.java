@@ -27,17 +27,17 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 @Component
-public class TeacherToProgramValidatorTest {
+public class GenericToProgramValidatorTest {
     
     Entity teacher1;
     Entity teacher2;
     Entity program1;    //teacher1
     Entity program2;    //teacher2
     Entity program3;    //expired program of teacher 1
-    Entity program4;    //teacher1, no studentRecordAccess, which shouldn't matter
+    Entity program4;    //teacher1, no studentRecordAccess, which should matter
     
     @Autowired
-    private TeacherToProgramValidator validator;
+    private GenericToProgramValidator validator;
     
     @Autowired
     private SecurityContextInjector injector;
@@ -71,10 +71,10 @@ public class TeacherToProgramValidatorTest {
     public void testCanValidate() {
         setupCurrentUser(teacher1);
         Assert.assertTrue(validator.canValidate(EntityNames.PROGRAM, false));
-        Assert.assertTrue(validator.canValidate(EntityNames.PROGRAM, true));
+        Assert.assertFalse(validator.canValidate(EntityNames.PROGRAM, true));
         
         injector.setStaffContext();
-        Assert.assertFalse(validator.canValidate(EntityNames.PROGRAM, false));
+        Assert.assertTrue(validator.canValidate(EntityNames.PROGRAM, false));
         Assert.assertFalse(validator.canValidate(EntityNames.PROGRAM, true));
     }
     
@@ -82,7 +82,6 @@ public class TeacherToProgramValidatorTest {
     public void testValidAccessTeacher1() {
         setupCurrentUser(teacher1);
         Assert.assertTrue(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program1.getEntityId()))));
-        Assert.assertTrue(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program4.getEntityId()))));
     }
     
     @Test
@@ -96,6 +95,7 @@ public class TeacherToProgramValidatorTest {
         setupCurrentUser(teacher1);
         Assert.assertFalse(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program2.getEntityId()))));
         Assert.assertFalse(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program3.getEntityId()))));
+        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program4.getEntityId()))));
     }
     
     @Test

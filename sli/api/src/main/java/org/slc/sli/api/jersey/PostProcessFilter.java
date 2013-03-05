@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.jersey;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.LinkedBlockingQueue;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.WriteConcern;
+import javax.ws.rs.core.Response.Status;
+
 import com.sun.jersey.api.uri.UriTemplate;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerResponse;
@@ -37,15 +35,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextValidator;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
-
 /**
  * Post Processing filter
+ * Validates context to serviced request
  * Outputs time elapsed for request
  * Cleans up security context
  *
@@ -56,16 +58,24 @@ import org.slc.sli.domain.Repository;
 public class PostProcessFilter implements ContainerResponseFilter {
 
     private static final int LONG_REQUEST = 1000;
+
+    private static final String GET = ResourceMethod.GET.toString();
+
     private DateTimeFormatter dateFormatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
-    private  DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss.SSSZ").toFormatter();
-    
+
+    @Autowired
+    private ContextValidator contextValidator;
+
+    @Autowired
+    private EdOrgHelper edOrgHelper;
+
     @Autowired
     private SecurityCachingStrategy securityCachingStrategy;
 
     @Autowired
     @Qualifier("performanceRepo")
-    private Repository<Entity> perfRepo;    
-    
+    private Repository<Entity> perfRepo;
+
     @Value("${sli.application.buildTag}")
     private String buildTag;
 
@@ -78,9 +88,15 @@ public class PostProcessFilter implements ContainerResponseFilter {
     @Autowired
     private MongoStat mongoStat;
 
-    @SuppressWarnings("unchecked")
     @Override
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
+        if (isRead(request.getMethod()) && isSuccessfulRead(response.getStatus())) {
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+            principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
+            contextValidator.validateContextToUri(request, principal);
+        }
+
         SecurityContextHolder.clearContext();
 
         if ("true".equals(apiPerformanceTracking)) {
@@ -97,12 +113,33 @@ public class PostProcessFilter implements ContainerResponseFilter {
         response.getHttpHeaders().add("X-RequestedPath", request.getProperties().get("requestedPath"));
         response.getHttpHeaders().add("X-ExecutedPath", request.getPath() + queryString);
 
-        //        Map<String,Object> body = (Map<String, Object>) response.getEntity();
-        //        body.put("requestedPath", request.getProperties().get("requestedPath"));
-        //        body.put("executedPath", request.getPath());
-
+        // Map<String,Object> body = (Map<String, Object>) response.getEntity();
+        // body.put("requestedPath", request.getProperties().get("requestedPath"));
+        // body.put("executedPath", request.getPath());
 
         return response;
+    }
+
+    /**
+     * Returns true if the request is a read operation.
+     *
+     * @param request
+     *            Request to be checked.
+     * @return True if the request method is a GET, false otherwise.
+     */
+    private boolean isRead(String operation) {
+        return operation.equals(GET);
+    }
+
+    /**
+     * Returns true if the response dictates a successful read.
+     *
+     * @param status
+     *            Reponse status.
+     * @return True if the response status is 'OK', false otherwise.
+     */
+    private boolean isSuccessfulRead(int status) {
+        return status == Status.OK.getStatusCode();
     }
 
     private void printElapsed(ContainerRequest request) {
@@ -121,14 +158,15 @@ public class PostProcessFilter implements ContainerResponseFilter {
             securityCachingStrategy.expire();
         }
     }
+
     private void logApiDataToDb(ContainerRequest request, ContainerResponse response) {
         long startTime = (Long) request.getProperties().get("startTime");
-        long endTime = System.currentTimeMillis(); 
+        long endTime = System.currentTimeMillis();
         long elapsed = endTime - startTime;
 
         Map<String, Object> body = new HashMap<String, Object>();
 
-        //extract parameters from the request URI
+        // extract parameters from the request URI
         String requestURL = request.getRequestUri().toString();
         if (requestURL.contains("?")) {
             requestURL = requestURL.substring(0, requestURL.indexOf("?"));
@@ -140,10 +178,10 @@ public class PostProcessFilter implements ContainerResponseFilter {
         UriTemplate readAllUri = new UriTemplate(serverUrl + "{resource}");
         HashMap<String, String> uri = new HashMap<String, String>();
         boolean logIntoDb = ((Boolean) request.getProperties().get("logIntoDb")).booleanValue();
-        if (!fourPartUri.match(requestURL , uri)) {
-            if (!threePartUri.match(requestURL , uri)) {
-                if (!twoPartUri.match(requestURL , uri)) {
-                    logIntoDb = readAllUri.match(requestURL , uri);
+        if (!fourPartUri.match(requestURL, uri)) {
+            if (!threePartUri.match(requestURL, uri)) {
+                if (!twoPartUri.match(requestURL, uri)) {
+                    logIntoDb = readAllUri.match(requestURL, uri);
                 }
             }
         }
@@ -159,10 +197,10 @@ public class PostProcessFilter implements ContainerResponseFilter {
                     endPoint += "/" + uri.get("associateEntity");
                 }
             }
-            
+
             String reqId = request.getHeaderValue("x-request-id");
             if (null != reqId) {
-                body.put("reqid", reqId); 
+                body.put("reqid", reqId);
             }
 
             body.put("url", requestURL.replace(serverUrl, "/"));
@@ -174,14 +212,14 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("parameters", request.getQueryParameters());
             body.put("Date", dateFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("startTime", startTime);
-            // Note: Currently the start and end times are recorded in ms since the epoch. 
-            //       here is how they were formatted in the past 
-            //  body.put("startTime", timeFormatter.print(new DateTime(startTime)));
-            //  body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
+            // Note: Currently the start and end times are recorded in ms since the epoch.
+            // here is how they were formatted in the past
+            // body.put("startTime", timeFormatter.print(new DateTime(startTime)));
+            // body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("endTime", endTime);
             body.put("responseTime", String.valueOf(elapsed));
             body.put("dbHitCount", mongoStat.getDbHitCount());
-            body.put("stats", mongoStat.getStats()); 
+            body.put("stats", mongoStat.getStats());
             perfRepo.create("apiResponse", body, "apiResponse");
         }
 
