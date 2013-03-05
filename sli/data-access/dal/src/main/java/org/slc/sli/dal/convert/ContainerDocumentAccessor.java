@@ -96,11 +96,10 @@ public class ContainerDocumentAccessor {
 
     // TODO: private
     protected String createParentKey(final Entity entity) {
-        if (entity.getEntityId() == null || entity.getEntityId().isEmpty()) {
-            final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-            final List<String> parentKeys = containerDocument.getParentNaturalKeys();
+        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+        final List<String> parentKeys = containerDocument.getParentNaturalKeys();
+        if (entity.getEntityId() == null || entity.getEntityId().isEmpty() || containerDocument.isContainerSubdoc()) {
             final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, parentKeys);
-
             return generatorStrategy.generateId(naturalKeyDescriptor);
         } else {
             return entity.getEntityId();
@@ -193,6 +192,11 @@ public class ContainerDocumentAccessor {
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
         final String fieldToPersist = containerDocument.getFieldToPersist();
 
+        boolean persisted = true;
+        if(containerDocument.isContainerSubdoc()) {
+            persisted = persistAsSubdoc(entity, query, containerDocument);
+        }
+
         DBObject entityDetails = new BasicDBObject();
 
         if (entity.getMetaData() != null && !entity.getMetaData().isEmpty()) {
@@ -209,7 +213,7 @@ public class ContainerDocumentAccessor {
                     .add("body." + fieldToPersist, entityBody.get(fieldToPersist));
         }
         final DBObject docToPersist = dbObjectBuilder.get();
-        boolean persisted = true;
+
         LOG.debug(entity.getEntityId());
         DBObject set = new BasicDBObject("$set", entityDetails);
 
@@ -223,5 +227,14 @@ public class ContainerDocumentAccessor {
         } else {
             return "";
         }
+    }
+
+    private boolean persistAsSubdoc(Entity entity, DBObject query, ContainerDocument containerDocument) {
+        BasicDBObjectBuilder dbObjectBuilder = BasicDBObjectBuilder.start().push("$pushAll")
+                .add(containerDocument.getFieldToPersist(), entity);
+        boolean persisted = mongoTemplate.getCollection(containerDocument.getCollectionToPersist()).update(query,
+                dbObjectBuilder.get(),true, false, WriteConcern.SAFE )
+                .getLastError().ok();
+        return persisted;
     }
 }
