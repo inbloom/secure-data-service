@@ -46,6 +46,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.AccessDeniedExceptionHandler;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
@@ -278,8 +279,8 @@ public class ApplicationAuthorizationResource {
             return SecurityUtil.getEdOrgId();
         }
         if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
-            audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(), uri != null ? uri.getRequestUri() : null, "Access Denined"));
-            throw new AccessDeniedException("Cannot perform authorizations for edorg " + edorg);
+            throw new AccessDeniedException("Cannot perform authorizations for edorg " + AccessDeniedExceptionHandler.ED_ORG_START +
+                            edorg + AccessDeniedExceptionHandler.ED_ORG_END);
         }
         return edorg;
     }
