@@ -7440,6 +7440,30 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name='studentId' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Student id associated to the student-section association
+                        with which the grade is awarded.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>student</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name='sectionId' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Section id associated to the student-section association
+                        with which the grade is awarded.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>section</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 			<xs:element minOccurs='0' name='gradingPeriodId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>Identifies the grading period for the grade.
