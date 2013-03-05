@@ -20,16 +20,6 @@ limitations under the License.
 include GeneralRealmHelper
 
 class RealmManagementController < ApplicationController
-  before_filter :check_rights
-
-  def check_rights
-    unless session[:rights].include?("CRUD_REALM")
-      logger.warn {'User does not have CRUD_REALM right and cannot create/delete/modify realms'}
-      raise ActiveResource::ForbiddenAccess, caller
-    end
-  end
-
-
   # GET /realm_management
   # GET /realm_management.json
   def index
