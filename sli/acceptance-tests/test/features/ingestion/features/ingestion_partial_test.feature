@@ -21,7 +21,9 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | teacherSectionAssociation   |
         | session                     |
         | assessment                  |
-        | studentAssessment|
+        | assessmentFamily            |
+        | assessmentPeriodDescriptor  |
+        | studentAssessment           |
         | gradebookEntry              |
         | courseTranscript            |
         | studentGradebookEntry       |
@@ -187,6 +189,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | studentCohortAssociation    | 6     |
         | section                     | 97    |
         | assessment                  | 3     |
+        | assessmentFamily            | 0     |
+        | assessmentPeriodDescriptor  | 0     |
         | attendance                  | 75    |
         | studentSectionAssociation   | 297   |
         | teacherSectionAssociation   | 11    |

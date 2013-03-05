@@ -10,6 +10,8 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And the following collections are empty in datastore:
          | collectionName                            |
          | assessment                                |
+         | assessmentFamily                          |
+         | assessmentPeriodDescriptor                |
          | attendance                                |
          | calendarDate                              |
          | cohort                                    |
@@ -125,6 +127,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the following collections are empty in datastore:
          | collectionName                            |
          | assessment                                |
+         | assessmentFamily                          |
+         | assessmentPeriodDescriptor                |
          | attendance                                |
          | calendarDate                              |
          | cohort                                    |

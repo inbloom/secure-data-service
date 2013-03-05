@@ -10,6 +10,8 @@ Feature: Odin Data Set Ingestion Correctness and Fidelity
     And the following collections are empty in datastore:
       | collectionName                            |
       | assessment                                |
+      | assessmentFamily                          |
+      | assessmentPeriodDescriptor                |
       | attendance                                |
       | calendarDate                              |
       | cohort                                    |
@@ -64,6 +66,8 @@ Feature: Odin Data Set Ingestion Correctness and Fidelity
     Then I should see following map of entry counts in the corresponding collections:
       | collectionName                           |              count|
       | assessment                               |                 26|
+      | assessmentFamily                         |                  0|
+      | assessmentPeriodDescriptor               |                  0|
       | attendance                               |              10001|
       | calendarDate                             |                776|
       | cohort                                   |                 54|

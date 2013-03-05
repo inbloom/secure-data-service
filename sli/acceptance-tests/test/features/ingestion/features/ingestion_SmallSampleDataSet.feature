@@ -10,6 +10,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | assessmentFamily                          |
+     | assessmentPeriodDescriptor                |
      | attendance                                |
      | calendarDate                              |
      | cohort                                    |
@@ -66,6 +68,8 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 19|
+     | assessmentFamily                         |                  0|
+     | assessmentPeriodDescriptor               |                  0|
      | attendance                               |                 75|
      | calendarDate                             |                556|
      | cohort                                   |                  3|

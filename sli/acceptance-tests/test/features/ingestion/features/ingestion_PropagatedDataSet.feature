@@ -10,6 +10,8 @@ Given I post "PropagatedDataSet.zip" file as the payload of the ingestion job
      | collectionName                        |
      | recordHash                            |
      | assessment                            |
+     | assessmentFamily                      |
+     | assessmentPeriodDescriptor            |
      | attendance                            |
      | cohort                                |
      | competencyLevelDescriptor             |
@@ -56,6 +58,8 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                        | count |
      | assessment                            | 4     |
+     | assessmentFamily                      | 0     |
+     | assessmentPeriodDescriptor            | 0     |
      | attendance                            | 16    |
      | cohort                                | 32    |
 #remove     | competencyLevelDescriptor             | 2     |

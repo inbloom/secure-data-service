@@ -22,10 +22,12 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | session                     |
         | schoolSessionAssociation    |
         | assessment                  |
-        | studentAssessment|
+        | assessmentFamily            |
+        | assessmentPeriodDescriptor  |
+        | studentAssessment           |
         | gradebookEntry              |
         | courseTranscript            |
-        | studentGradebookEntry|
+        | studentGradebookEntry       |
         | parent                      |
         | studentParentAssociation    |
         | attendance                  |
@@ -66,7 +68,9 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 22    |
         | schoolSessionAssociation    | 22    |
         | assessment                  | 19    |
-        | studentAssessment| 203   |
+        | assessmentFamily            | 0     |
+        | assessmentPeriodDescriptor  | 0     |
+        | studentAssessment           | 203   |
         | courseTranscript            | 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -229,7 +233,9 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | session                     |
         | schoolSessionAssociation    |
         | assessment                  |
-        | studentAssessment|
+        | assessmentFamily            |
+        | assessmentPeriodDescriptor  |
+        | studentAssessment           |
         | gradebookEntry              |
         | courseTranscript            |
         | studentGradebookEntry       |
@@ -273,7 +279,9 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 10    |
         | schoolSessionAssociation    | 10    |
         | assessment                  | 1     |
-        | studentAssessment| 2500  |
+        | assessmentFamily            | 0     |
+        | assessmentPeriodDescriptor  | 0     |
+        | studentAssessment           | 2500  |
         | courseTranscript            | 2500  |
         | parent                      | 0     |
         | studentParentAssociation    | 0     |

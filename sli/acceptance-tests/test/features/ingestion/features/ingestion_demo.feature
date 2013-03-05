@@ -31,7 +31,9 @@ Given I post "DemoData.zip" file as the payload of the ingestion job
         | teacherSectionAssociation   |
         | session                     |
         | assessment                  |
-        | studentAssessment|
+        | assessmentFamily            |
+        | assessmentPeriodDescriptor  |
+        | studentAssessment           |
         | courseTranscript            |
         | studentAcademicRecord       |
         | studentGradebookEntry       |
@@ -56,7 +58,9 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 20    |
         | session                     | 8     |
         | assessment                  | 17    |
-        | studentAssessment| 104   |
+        | assessmentFamily            | 0     |
+        | assessmentPeriodDescriptor  | 0     |
+        | studentAssessment           | 104   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | studentGradebookEntry       | 135   |
@@ -124,7 +128,9 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 20    |
         | session                     | 8     |
         | assessment                  | 17    |
-        | studentAssessment| 104   |
+        | assessmentFamily            | 0     |
+        | assessmentPeriodDescriptor  | 0     |
+        | studentAssessment           | 104   |
         | courseTranscript            | 87    |
         | studentAcademicRecord       | 86    |
         | parent                      | 9     |

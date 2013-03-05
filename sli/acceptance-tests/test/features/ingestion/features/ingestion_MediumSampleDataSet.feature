@@ -9,6 +9,8 @@ Given I post "MediumSampleDataSet.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | assessmentFamily                          |
+     | assessmentPeriodDescriptor                |
      | attendance                                |
      | calendarDate                              |
      | cohort                                    |
@@ -62,6 +64,8 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                              | count |
      | assessment                                  | 1 |
+     | assessmentFamily                            | 0 |
+     | assessmentPeriodDescriptor                  | 0 |
      | attendance                                  | 500 |
      | calendarDate                                | 20 |
      | cohort                                      | 20 |

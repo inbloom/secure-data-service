@@ -41,6 +41,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | collectionName                        |
         | recordHash                            |
         | assessment                            |
+        | assessmentPeriodDescriptor            |
+        | assessmentFamily                      |
         | attendance                            |
         | calendarDate                          |
         | cohort                                |
@@ -89,6 +91,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 19    |
+        | assessmentPeriodDescriptor  | 2     |
+        | assessmentFamily            | 0     |
         | attendance                  | 75    |
         | calendarDate                | 556   |
         | cohort                      | 3     |
@@ -1048,7 +1052,9 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | teacherSectionAssociation   |
         | session                     |
         | assessment                  |
-        | studentAssessment|
+        | studentAssessment           |
+        | assessmentPeriodDescriptor  |
+        | assessmentFamily            |
         | gradebookEntry              |
         | courseTranscript            |
         | studentGradebookEntry       |
@@ -1079,6 +1085,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | collectionName              |
         | recordHash                  |
         | assessment                  |
+        | assessmentFamily            |
+        | assessmentPeriodDescriptor  |
         | attendance                  |
         | calendarDate                |
         | cohort                      |
@@ -1127,6 +1135,8 @@ When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 0     |
+        | assessmentFamily            | 0     |
+        | assessmentPeriodDescriptor  | 0     |
         | attendance                  | 0     |
         | calendarDate                | 556   |
         | cohort                      | 0     |
