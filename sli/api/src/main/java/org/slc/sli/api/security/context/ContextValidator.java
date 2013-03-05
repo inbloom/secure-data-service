@@ -38,8 +38,10 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.api.representation.AccessDeniedExceptionHandler;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.util.SecurityUtil;
@@ -64,6 +66,8 @@ public class ContextValidator implements ApplicationContextAware {
     private PagingRepositoryDelegate<Entity> repo;
     @Autowired
     private EntityOwnershipValidator ownership;
+    @Autowired
+    private EdOrgHelper edOrgHelper;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -167,6 +171,7 @@ public class ContextValidator implements ApplicationContextAware {
             int found = 0;
             for (Entity ent : repo.findAll(def.getStoredCollectionName(), getIdsQuery)) {
                 found++;
+                Collection< String> userEdOrgs = edOrgHelper.getDirectEdorgs( ent );
                 if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
                         && "true".equals(ent.getMetaData().get("isOrphaned"))) {
                     debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
@@ -177,7 +182,10 @@ public class ContextValidator implements ApplicationContextAware {
                     if (ownership.canAccess(ent)) {
                         idsToValidate.add(ent.getEntityId());
                     } else {
-                        throw new AccessDeniedException("Access to " + ent.getEntityId() + " is not authorized");
+                        String allEdOrgs = Arrays.toString( userEdOrgs.toArray() );
+                        throw new AccessDeniedException("Access to " + ent.getEntityId() + " is not authorized" +
+                                AccessDeniedExceptionHandler.ED_ORG_START +allEdOrgs + AccessDeniedExceptionHandler.ED_ORG_END );
+
                     }
                 }
             }
@@ -190,7 +198,7 @@ public class ContextValidator implements ApplicationContextAware {
 
             if (!idsToValidate.isEmpty()) {
                 if (!validator.validate(def.getType(), idsToValidate)) {
-                    throw new AccessDeniedException("Cannot access entities " + ids);
+                    throw new AccessDeniedException("Cannot access entities ");
                 }
             }
         } else {

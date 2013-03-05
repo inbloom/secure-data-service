@@ -300,7 +300,9 @@ desc "Run Security Tests"
 task :securityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   Rake::Task["runSearchBulkExtract"].execute
-  runTests("test/features/security")
+##AY  runTests("test/features/security")
+##  runTests("test/features/security/section_grace_period.feature")
+  runTests("test/features/security/role_and_realm_crud.feature")
 end
 
 desc "Run Security MegaTest"

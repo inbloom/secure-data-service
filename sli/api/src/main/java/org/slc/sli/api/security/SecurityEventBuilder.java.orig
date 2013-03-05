@@ -31,8 +31,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
@@ -51,9 +49,6 @@ public class SecurityEventBuilder {
 
     @Autowired
     private RealmHelper realmHelper;
-
-    @Autowired
-    private EdOrgHelper edOrgHelper;
 
     public SecurityEventBuilder() {
         try {
@@ -74,11 +69,8 @@ public class SecurityEventBuilder {
             Entity realmEntity = null;
             if (auth != null) {
                  principal = (SLIPrincipal) auth.getPrincipal();
-                 if(principal != null && realmHelper != null) {
-                     String sessionId =  principal.getSessionId();
-                     if(sessionId != null) {
-                	     realmEntity = realmHelper.getRealmFromSession(sessionId);
-                     }
+                 if(principal!=null) {
+                	 realmEntity = realmHelper.getRealmFromSession(principal.getSessionId());
                  }
             }
             return createSecurityEvent( loggingClass,  requestUri,  slMessage,  principal,  realmEntity);
@@ -126,41 +118,21 @@ public class SecurityEventBuilder {
     }
 
 
-    public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage,
-            ArrayList<String> targetEdOrgIds) {
-        SecurityEvent event = new SecurityEvent();
 
-        if( targetEdOrgIds == null ) {
-            return createSecurityEvent( loggingClass, requestUri, slMessage);
-        }
+    public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage, SLIPrincipal principal, ArrayList<String> targetEdOrgs) {
+        SecurityEvent event = new SecurityEvent();
 
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null) {
-                SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-                if (principal != null) {
-                    event.setTenantId(principal.getTenantId());
-                    event.setUser(principal.getExternalId() + ", " + principal.getName());
-                    Entity realmEntity = realmHelper.getRealmFromSession(principal.getSessionId());
-                    if (realmEntity != null) {
-                        Map<String, Object> body = realmEntity.getBody();
-                        if (body != null) {
-                            String stateOrgId = (String) body.get("edOrg");
-                            event.setUserEdOrg(stateOrgId);
-
-                        }
-                    }
-                }
+            if ( principal != null ) {
+                event.setTenantId(principal.getTenantId());
+                event.setUser(principal.getExternalId() + ", " + principal.getName());
+                event.setUserEdOrg( principal.getEdOrg());
             }
-            ArrayList<String> targetEdOrgs = new ArrayList<String>();
-            if (targetEdOrgIds != null) {
 
-                for (String s : targetEdOrgIds) {
-                    targetEdOrgs.add((String) edOrgHelper.byId(s).getBody().get( ParameterConstants.STATE_ORGANIZATION_ID));
-                }
+            if( targetEdOrgs != null) {
                 event.setTargetEdOrgList(targetEdOrgs);
-                event.setTargetEdOrg(targetEdOrgs.get(0));
-
+                event.setTargetEdOrg( targetEdOrgs.get(0));
             }
             if (auth != null) {
                 Object credential = auth.getCredentials();
