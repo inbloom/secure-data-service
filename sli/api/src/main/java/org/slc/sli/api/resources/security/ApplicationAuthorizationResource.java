@@ -270,7 +270,6 @@ public class ApplicationAuthorizationResource {
         String allowedText = allowed ? "ALLOWED" : "NOT ALLOWED";
         SecurityEvent event = securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
                 path, allowedText + " [" + appId + "] " + "TO ACCESS [" + edOrgId + "]");
-        event.setTargetEdOrg(edOrgId);
         audit(event);
     }
 
