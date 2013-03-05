@@ -267,10 +267,7 @@ public class SmooksEdFi2SLITransformerTest {
         Map<String, Object> assessmentCategory = new HashMap<String, Object>();
         assessmentCategory.put("_value", "Achievement test");
         assessment.setAttributeField("AssessmentCategory", assessmentCategory);
-
-        Map<String, Object> assessmentFamily = new HashMap<String, Object>();
-        assessmentFamily.put("_value", "AF-1");
-        assessment.setAttributeField("AssessmentFamilyReference", assessmentFamily);
+        assessment.setAttributeField("AssessmentFamilyReference", "AF-1");
 
         Map<String, Object> academicSubject = new HashMap<String, Object>();
         academicSubject.put("_value", "English");
