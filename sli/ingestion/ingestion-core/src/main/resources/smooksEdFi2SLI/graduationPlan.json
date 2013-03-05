@@ -8,7 +8,7 @@
             "ref" :
             {
                 "entityType" : "educationOrganization",
-	            "optional" : true,
+                "optional" : true,
                 "choiceOfFields" :
                 [
                     [

@@ -13,7 +13,21 @@ SLI Checkstyle configuration.
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
     <module name="JavadocType">
-      <property name="scope" value="package"/>
+      <property name="scope" value="protected"/>
+      <property name="severity" value="error"/>
+    </module>
+    <module name="JavadocMethod">
+      <property name="scope" value="protected"/>
+      <property name="severity" value="error"/>
+    </module>
+    <module name="JavadocVariable">
+      <property name="scope" value="protected"/>
+      <property name="severity" value="error"/>
+    </module>
+    <module name="JavadocStyle">
+      <property name="scope" value="protected"/>
+      <property name="checkEmptyJavadoc" value="true"/>
+      <property name="severity" value="error"/>
     </module>
     <module name="ConstantName"/>
     <module name="LocalFinalVariableName"/>
@@ -101,5 +115,8 @@ SLI Checkstyle configuration.
   <module name="RegexpHeader">
     <property name="header" value="^/\*$\n^ \* Copyright \d\d\d\d-\d\d\d\d inBloom, Inc. and its affiliates\.$\n^ \*$\n^ \* Licensed under the Apache License, Version 2.0 \(the &quot;License&quot;\);$\n^ \* you may not use this file except in compliance with the License.$\n^ \* You may obtain a copy of the License at$\n^ \*$\n^ \* http://www.apache.org/licenses/LICENSE-2.0$\n^ \*$\n^ \* Unless required by applicable law or agreed to in writing, software$\n^ \* distributed under the License is distributed on an &quot;AS IS&quot; BASIS,$\n^ \* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.$\n^ \* See the License for the specific language governing permissions and$\n^ \* limitations under the License.$\n^ \*/$"/>
   </module>
-  <module name="FileTabCharacter"/>
+  <module name="FileTabCharacter">
+      <property name="eachLine" value="true"/>
+      <property name="fileExtensions" value="java,xml,json,yaml,properties"/>
+  </module>
 </module>

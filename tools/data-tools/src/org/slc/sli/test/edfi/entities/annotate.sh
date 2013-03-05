@@ -4,11 +4,11 @@ do
     if [ -f "$file.java" ] 
     then
         re=`grep -c @XmlRootElement "$file.java"`
-	if [ "$re" -lt 1 ]
-	then 
-	    sed -i 's/public class/@XmlRootElement \rpublic class/' "$file.java"
-	    sed -i 's/package org.slc.sli.test.edfi.entities;/package org.slc.sli.test.edfi.entities;\rimport javax.xml.bind.annotation.XmlRootElement;/' "$file.java"
-	fi
+    if [ "$re" -lt 1 ]
+    then 
+        sed -i 's/public class/@XmlRootElement \rpublic class/' "$file.java"
+        sed -i 's/package org.slc.sli.test.edfi.entities;/package org.slc.sli.test.edfi.entities;\rimport javax.xml.bind.annotation.XmlRootElement;/' "$file.java"
+    fi
     else
 
         echo "File Not Exists! $file.java" 

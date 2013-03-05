@@ -17,10 +17,10 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * The teaching field(s) taught by an individual, for
- * 				example
- * 				English/Language Arts, Reading, Mathematics, Science, Social
- * 				Sciences, etc.
- * 			
+ *                 example
+ *                 English/Language Arts, Reading, Mathematics, Science, Social
+ *                 Sciences, etc.
+ *             
  * 
  * <p>Java class for academicSubjectsType complex type.
  * 

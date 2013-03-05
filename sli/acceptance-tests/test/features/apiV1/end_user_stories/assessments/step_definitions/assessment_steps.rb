@@ -34,7 +34,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "custom"                                     if human_readable_id == "CUSTOM URI"
   id = "sectionAssessmentAssociations"              if human_readable_id == "SECTION ASSESSMENT ASSOC URI"
   id = "studentSectionAssociations"                 if human_readable_id == "STUDENT SECTION ASSOC URI"
-  id = "studentAssessments"			                    if human_readable_id == "STUDENT ASSESSMENT ASSOC URI"
+  id = "studentAssessments"                                if human_readable_id == "STUDENT ASSESSMENT ASSOC URI"
   id = "teacherSectionAssociations"                 if human_readable_id == "TEACHER SECTION ASSOC URI"
   id = "learningStandards"                          if human_readable_id == "LEARNING STANDARDS ASSOC URI"
   id = "learningObjectives"                         if human_readable_id == "LEARNING OBJECTIVES ASSOC URI"
@@ -156,7 +156,8 @@ Then /^I should have a list of (\d+) "([^"]*)" entities$/ do |size, entityType|
   @result = JSON.parse(@res.body)
   assert(@result != nil, "Response contains no data")
   if @result.is_a?(Hash)
-    assert(@result["entityType"] == entityType)
+    assert(@result["entityType"] == entityType, "Entity is not the right type, expected '#{entityType}', found '#{@result["entityType"]}'")
+    assert(@result.length == size.to_i, "Entity count mismatch, found #{@result.length}, expected #{size}")
   else
     assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
     @ids = Array.new

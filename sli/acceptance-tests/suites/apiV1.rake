@@ -231,6 +231,13 @@ task :v1EndUserStoryAssessmentTests => [:realmInit] do
   runTests("test/features/apiV1/end_user_stories/assessments/assessment.feature")
 end
 
+desc "Run V1 Super Assessment User Story Tests"
+task :v1EndUserStorySuperAssessmentTests do
+# This is to extract assessment, learningStandard, etc. into Elastic Search  
+  Rake::Task["runSearchBulkExtract"].execute
+  runTests("test/features/apiV1/end_user_stories/assessments/superAssessment.feature")
+end
+
 desc "Run V1 Custom entity User Story Tests"
 task :v1EndUserStoryCustomEntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute

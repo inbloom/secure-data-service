@@ -42,6 +42,7 @@
 
   <camelContext xmlns="http://camel.apache.org/schema/spring">
 	<contextScan></contextScan>
+	<template id="parserEndPoint" defaultEndpoint="direct:deltaFilter" />
   </camelContext>
 
 </beans>

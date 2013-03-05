@@ -217,16 +217,15 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
 
         if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
-            String message = "Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
-                    + "       Instance   " + entity.getRecordNumber();
-            LOG.error(message);
+            LOG.error("Unable to find natural keys fields for Entity {}, at line {} column {}",
+                    new Object[] { entity.getType(), entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber() });
 
             preMatchEntityWithNaturalKeys(memory, entityConfig, report, entity, reportStats);
         } else {
             // "new" style -> based on natural keys from schema
             String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
             List<Object> keyValues = new ArrayList<Object>();
-            if(entity.getType().equals("attendance")) {
+            if (entity.getType().equals("attendance")) {
                 keyValues.add(entity.getBody());
             }
             keyValues.add(id);
@@ -245,7 +244,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 try {
                     keyValues.add(PropertyUtils.getProperty(entity, field));
                 } catch (Exception e) {
-                    report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0008, null, field, entity.getType());
+                    report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0008, null, field,
+                            entity.getType());
                 }
 
                 if (complexField != null) {
@@ -254,7 +254,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     try {
                         keyValues.add(PropertyUtils.getProperty(entity, propertyString));
                     } catch (Exception e) {
-                        report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0052, null, field, entity.getType());
+                        report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0052, null,
+                                field, entity.getType());
                     }
                 }
 
@@ -291,7 +292,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             ReportStats reportStats, Source source) {
         for (ValidationError err : errors) {
             report.error(reportStats, source, CoreMessageCode.CORE_0006, err.getType().name(), entity.getType(),
-                    Long.toString(entity.getRecordNumber()), err.getFieldName(), err.getFieldValue(),
+                    err.getFieldName(), err.getFieldValue(),
                     Arrays.toString(err.getExpectedTypes()));
         }
     }

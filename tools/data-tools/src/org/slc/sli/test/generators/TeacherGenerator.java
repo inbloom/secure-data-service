@@ -22,7 +22,7 @@ import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 import org.slc.sli.test.edfi.entities.Teacher;
 
 public class TeacherGenerator extends StaffGenerator {
-	public static int counter = 0;
+    public static int counter = 0;
 
     public TeacherGenerator(StateAbbreviationType state, boolean optional) {
         super(state, optional);
@@ -46,10 +46,10 @@ public class TeacherGenerator extends StaffGenerator {
     }
 
     public static Teacher generateMediumFi (String teacherId) throws Exception{
-    	Teacher teacher = new Teacher();
-    	StaffGenerator.populateFields(teacher, teacherId);
+        Teacher teacher = new Teacher();
+        StaffGenerator.populateFields(teacher, teacherId);
          teacher.setHighlyQualifiedTeacher(random.nextBoolean());
-    	return teacher;
+        return teacher;
 
     }
 

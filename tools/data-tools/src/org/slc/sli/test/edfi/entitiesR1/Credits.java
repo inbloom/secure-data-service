@@ -15,8 +15,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Credits or units of value awarded for the
- * 				completion of a course
- * 			
+ *                 completion of a course
+ *             
  * 
  * <p>Java class for credits complex type.
  * 

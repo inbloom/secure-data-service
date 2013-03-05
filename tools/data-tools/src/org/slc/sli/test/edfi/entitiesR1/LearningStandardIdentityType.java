@@ -15,8 +15,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Encapsulates the possible attributes that can be
- * 				used to lookup the identity of the Learning Standards.
- * 			
+ *                 used to lookup the identity of the Learning Standards.
+ *             
  * 
  * <p>Java class for learningStandardIdentityType complex type.
  * 

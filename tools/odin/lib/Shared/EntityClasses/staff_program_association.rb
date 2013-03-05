@@ -25,10 +25,12 @@ class StaffProgramAssociation < BaseEntity
   attr_accessor :staff, :program, :begin_date, :end_date, :access
 
   def initialize(staff, program, begin_date, access = false, end_date = nil)
+    @rand = Random.new(staff.hash + program.hash)
     @staff      = staff
     @program    = program
     @begin_date = begin_date
     @end_date   = end_date
     @access     = access
-  end
+
+end
 end

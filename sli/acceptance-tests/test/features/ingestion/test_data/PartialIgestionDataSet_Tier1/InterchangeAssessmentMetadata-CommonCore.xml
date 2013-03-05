@@ -69,16 +69,9 @@
         <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>G-C</IdentificationCode>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>G-SRT</IdentificationCode>
-                </LearningObjectiveId>
+        		<Objective>Circles</Objective>
+        		<AcademicSubject>Mathematics</AcademicSubject>
+        		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </LearningObjective>

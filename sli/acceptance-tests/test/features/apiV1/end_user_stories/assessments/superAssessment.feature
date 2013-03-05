@@ -1,33 +1,71 @@
-@RALLY_US209
-@RALLY_US210
+@RALLY_US
+@RALLY_US
 Feature: As a teacher or staff I want to investigate my student assessments
 
 Background: None
 
 Scenario Outline: As a teacher, for my section, I want to get the most recent Math assessment
-  Given I am a valid teacher Linda Kim with password <Password>
-    And I am authenticated on "IL-DAYBREAK"
-    And format "application/json"
+   
+Given I am a valid teacher <Username> with password <Password>
+  And the testing device app key has been created
+  And I have an open web browser
+  And I import the odin-local-setup application and realm data
   
-  When I navigate to GET "/home"
-    And I should get and store a link named "getTeacherSectionAssociations"
+  When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "cgray" "cgray1234" for the "Simple" login page
+      Then I should receive a json response containing my authorization code
   
-  # /self
+  When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+      And I should be able to use the token to make valid API calls
+      
+  Given format "application/json"
+    When I navigate to GET "/v1/home"
+      Then I should get and store the link named "self"
+      And I should extract the "teachers" id from the "self" URI
+  
   When I navigate to GET "/teachers/<teacher id>"
-    Then I should store the "_id" returned in the response body
+    Then the response body "id" should match my teacher "id"
+      And the response field "entityType" should be "teacher"
+      And the response field "name.lastSurname" should be "Gray"
       And I should receive a link named "self" with URI "/teachers/<teacher id>"
-      And the link "self" should contain my "teacher" "_id"
-      And I should get and store a link named "getTeacherSectionAssociations"
-      And I should get and store a link named "getSections" with URI "/teachers/<teacher id>/teacherSectionAssociations/sections"
-      And I should get and store a link named "getTeacherSchoolAssociations"
-      And I should get and store a link named "getSchools"
-      And I should get and store a link named "getStaffEducationOrgAssignmentAssociations"
-      And I should get and store a link named "getEducationOrganizations"
-      And 
+      And I should get and store the link named "getTeacherSectionAssociations"
+      And I should get and store the link named "getSections"
+      And I should get and store the link named "getTeacherSchoolAssociations"
+      And I should get and store the link named "getSchools"
+      And I should get and store the link named "getStaffEducationOrgAssignmentAssociations"
+      And I should get and store the link named "getEducationOrganizations" 
 
-    /teachers/{id}/teacherSectionAssociations/sections << get sections
+  When I follow the HATEOS link named "<getTeacherSectionAssociations>" 
+    Then I should extract the "sectionId" from the response body to a list
 
-    /sections/{id}/studentSectionAssociations/students/studentAssessments  << get _id, assessmentId, {studentObjectiveAssessment >> objectiveAssessment >> assessmentId, learningObjective, subObjectiveAssessment, learningObjectives, nomenclature }, {studentAssessmentItems >> assessmentItem >> {identificationCode, assessmentId, learningStandards, maxRawScore (10), itemCategory ("True-False")}, studentId, , administrationLanguage
+  When I navigate to GET "/sections/<teacher section>"
+    Then I should have a list of 10 "section" entities
+
+  # Temporarily comment this out due to bug: 
+  #When I make a GET request to URI "/sections/@id/studentSectionAssociations/students/studentAssessments"
+    #Then I should have a list of 50 "studentAssessment" entities
+    #And I should extract the "id" from the response body to a list and save to "studentAssessments"
+
+  When I navigate to GET "/v1/studentAssessments"
+    Then I should have a list of 50 "studentAssessment" entities
+    And I store the studentAssessments
+
+  When I navigate to GET "/studentAssessments/<student assessment>"
+    And the response field "entityType" should be "studentAssessment"
+    And the response field "administrationLanguage" should be "English"
+    And the response field "administrationEnvironment" should be "Classroom"
+    And the response field "retestIndicator" should be "Primary Administration"
+
+
+
+  When I navigate to GET "/students"
+
+    #/teachers/{id}/teacherSectionAssociations/sections << get sections
+    #/teachers/{id}/teacherSchoolAssociations/schools << get schools
+
+    #/sections/{id}/studentSectionAssociations/students/studentAssessments  << get _id, assessmentId, {studentObjectiveAssessment >> objectiveAssessment >> assessmentId, learningObjective, subObjectiveAssessment, learningObjectives, nomenclature }, {studentAssessmentItems >> assessmentItem >> {identificationCode, assessmentId, learningStandards, maxRawScore (10), itemCategory ("True-False")}, studentId, , administrationLanguage
 
 
     #UC2: As a teacher, for my section, I want to get the most recent state math assessment (APD)
@@ -45,351 +83,38 @@ Scenario Outline: As a teacher, for my section, I want to get the most recent Ma
     #UC1: As a teacher, for my sections, I want to get the most recent results for a state math assessment (AD)
     #     student assessment more than once
     # teacher data struct:
-      teacher = { id => "id", 
-                  schools => {school1 => {_id => "_id"}, 
-                              schoolN => {_id => "_id"}
-                  }, 
-                  sections => {section1 => {_id => "_id"}, 
-                               sectionN => {id => "_id"}
-                  },
-                  students => [list_of_students],
-                  assessments => { assessment1 => "_id",
-                                   assessmentN => "_id"
-
-                  },
-                  studentAssessments => { _id => "_id",
-                                          entityType => "studentAssessment"
-                                          assessmentId => "_id",
-                                          studentId => "_id",
-                                          administrationLanguage => "English",
-                                          administrationEnvironment => "Classroom",
-                                          retestIndicator => "Primary Administration",
-                                          { "studentObjectiveAssessment" => { "objectiveAssessment" => { "assessmentId" => "_id", 
-                                                                                                     "subObjectiveAssessment" => ["2014-Eleventh grade Assessment 1.OA-0 Sub"],
-                                                                                                     "nomenclature" => "Nomenclature"
-                                                                                                     "identificationCode" => "2014-Eleventh grade Assessment 1.OA-0" 
-                                                                                                     "assessmentItemRefs" => []
-                                                                                                     "learningObjectives" => ["_id1", "_id2", "_idN"], 
-                                                                                                     "maxRawScore" => 50
-                                                                                                   }
-                                                                          }
-                                          }
-                  }
-                  links => {self => "some_uri", 
-                            getTeacherSectionAssociations => "some_uri", 
-                            getSections => "some_uri"}
-                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      Then I should receive a link named "getTeacherSectionAssociations" with URI "/<TEACHER URI>/<'Linda Kim' ID>/<TEACHER SECTION ASSOC URI>"
-        And I should receive a link named "getSections" with URI "/<TEACHER URI>/<'Linda Kim' ID>/<TEACHER SECTION ASSOC URI>/<SECTION URI>"
-        And I should receive a link named "self" with URI "/<TEACHER URI>/<'Linda Kim' ID>"
-
-     When I navigate to GET "/<TEACHER URI>/<'Linda Kim' ID>/<TEACHER SECTION ASSOC URI>/<SECTION URI>"
-      Then I should have a list of "section" entities
-        And I should have an entity with ID "<'8th Grade English - Sec 6' ID>"
-#new
-     When I navigate to GET "/<ASSESSMENT URI>"
-      Then I should receive a return code of 200
-      And I should have a list of 17 "assessment" entities
-#/new     
-     When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>"
-      Then I should have a list of 1 "assessment" entities
-        And "assessmentTitle" should be "Mathematics Achievement Assessment Test"
-        And "assessmentCategory" should be "Advanced Placement"
-        And "academicSubject" should be "Mathematics"
-        And "gradeLevelAssessed" should be "Eighth grade"
-#new
-     When I navigate to GET "/<SCHOOL URI>/<STUDENT SCHOOL URI>/<STUDENT SCHOOL ASSOC URI>/<STUDENT URI>/<STUDENT ASSESSMENT ASSOC URI>"
-      Then I should have a list of 7 "studentAssessment" entities
-        And occurrence 2 of entity "assessmentId" should be "<'SAT' ID>"
-        And occurrence 2 of entity "gradeLevelWhenAssessed" should be "Twelfth grade"
-        And occurrence 2 of entity "retestIndicator" should be "1st Retest"
-        And in occurrence 2 I should receive a link named "self" with URI "/<STUDENT ASSESSMENT ASSOC URI>/<'SAT Student Assessment Association' ID>"
-        And in occurrence 2 I should receive a link named "custom" with URI "/<STUDENT ASSESSMENT ASSOC URI>/<'SAT Student Assessment Association' ID>/<CUSTOM URI>"
-        And in occurrence 2 I should receive a link named "getStudent" with URI "/<STUDENT URI>/<'Matt DERP' ID>"
-        And in occurrence 2 I should receive a link named "getStudents" with URI "/<STUDENT ASSESSMENT ASSOC URI>/<'SAT Student Assessment Association' ID>/<STUDENT URI>"
-        And in occurrence 2 I should receive a link named "getAssessment" with URI "/<ASSESSMENT URI>/<'SAT' ID>"
-
-     When I navigate to GET "/<ASSESSMENT URI>/<'SAT' ID>/<STUDENT ASSESSMENT ASSOC URI>"
-      Then I should have a list of 0 "assessment" entities
-#/new
-
-     When I navigate to GET "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>"
-      Then I should have a list of 28 "student" entities
-        And I should have an entity with ID "<'Preston Muchow' ID>"
-        And I should have an entity with ID "<'Mayme Borc' ID>"
-        And I should have an entity with ID "<'Malcolm Costillo' ID>"
-        And I should have an entity with ID "<'Tomasa Cleaveland' ID>"
-        And I should have an entity with ID "<'Merry Mccanse' ID>"
-        And I should have an entity with ID "<'Samantha Scorzelli' ID>"
-        And I should have an entity with ID "<'Matt Sollars' ID>"
-        And I should have an entity with ID "<'Dominic Brisendine' ID>"
-        And I should have an entity with ID "<'Lashawn Taite' ID>"
-        And I should have an entity with ID "<'Oralia Merryweather' ID>"
-        And I should have an entity with ID "<'Dominic Bavinon' ID>"
-        And I should have an entity with ID "<'Rudy Bedoya' ID>"
-        And I should have an entity with ID "<'Verda Herriman' ID>"
-        And I should have an entity with ID "<'Alton Maultsby' ID>"
-        And I should have an entity with ID "<'Felipe Cianciolo' ID>"
-        And I should have an entity with ID "<'Lyn Consla' ID>"
-        And I should have an entity with ID "<'Felipe Wierzbicki' ID>"
-        And I should have an entity with ID "<'Gerardo Giaquinto' ID>"
-        And I should have an entity with ID "<'Holloran Franz' ID>"
-        And I should have an entity with ID "<'Oralia Simmer' ID>"
-        And I should have an entity with ID "<'Lettie Hose' ID>"
-        And I should have an entity with ID "<'Gerardo Saltazor' ID>"
-        And I should have an entity with ID "<'Lashawn Aldama' ID>"
-        And I should have an entity with ID "<'Alton Ausiello' ID>"
-        And I should have an entity with ID "<'Marco Daughenbaugh' ID>"
-        And I should have an entity with ID "<'Karrie Rudesill' ID>"
-        And I should have an entity with ID "<'Damon Iskra' ID>"
-        And I should have an entity with ID "<'Gerardo Rounsaville' ID>"
-
-     When I navigate to URI "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>/<STUDENT ASSESSMENT ASSOC URI>" with filter sorting and pagination
-        And filter by "sortBy" = "administrationDate"
-        And filter by "sortOrder" = "descending"
-        And filter by "offset" = "0"
-        And I submit the sorting and pagination request
-        Then I should have a list of "studentAssessment" entities
-        And I should have an entity with ID "<'Most Recent Math Student Assessment Association' ID>"
-
-     When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent Math Student Assessment Association' ID>"
-      Then I should have a list of 1 "studentAssessment" entities
-        And "administrationDate" should be "2011-09-15"
-        And "administrationEndDate" should be "2011-12-15"
-        And "retestIndicator" should be "Primary Administration"
+    #  teacher = { id => "id", 
+    #              schools  => [school1, ..., schoolN]
+    #              sections => [section1, .., sectionN]
+    #              students => [list_of_students],
+    #              assessments => { assessment1 => "_id",
+    #                               assessmentN => "_id"},
+    #              studentAssessments => { "_id" => "_id",
+    #                                      "entityType" => "studentAssessment"
+    #                                      "assessmentId" => "_id",
+    #                                      "studentId" => "_id",
+    #                                      "administrationLanguage" => "English",
+    #                                      "administrationEnvironment" => "Classroom",
+    #                                      "retestIndicator" => "Primary Administration",
+    #                                      {"studentObjectiveAssessment" => 
+    #                                        { "objectiveAssessment" =>
+    #                                          { "assessmentId" => "_id", 
+    #                                            "subObjectiveAssessment" => ["2014-Eleventh grade Assessment 1.OA-0 Sub"],
+    #                                            "nomenclature" => "Nomenclature"
+    #                                            "identificationCode" => "2014-Eleventh grade Assessment 1.OA-0" 
+    #                                            "assessmentItemRefs" => []
+    #                                            "learningObjectives" => ["_id1", "_id2", "_idN"], 
+    #                                            "maxRawScore" => 50
+    #                                          }
+    #                                        }
+    #                                      }
+    #                                    },
+    #              links => {self => "some_uri", 
+    #                        getTeacherSectionAssociations => "some_uri", 
+    #                        getSections => "some_uri"}}
 
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
-| "rrogers"       | "rrogers1234"       | "IT Administrator" |
-| "sbantu"        | "sbantu1234"        | "Leader"           |
-
-
-   Scenario Outline:  (sorting) As a teacher, for my classes, I want to get the most recent Math assessment
-     Given I am a valid SEA/LEA end user <Username> with password <Password>
-        And I have a Role attribute returned from the "SLI"
-        And the role attribute equals <AnyDefaultSLIRole>
-        And I am authenticated on "IL"
-
-     Given format "application/json"
-     When I navigate to GET "/<TEACHER URI>/<'Linda Kim' ID>"
-      Then I should receive a link named "getTeacherSectionAssociations" with URI "/<TEACHER URI>/<'Linda Kim' ID>/<TEACHER SECTION ASSOC URI>"
-        And I should receive a link named "getSections" with URI "/<TEACHER URI>/<'Linda Kim' ID>/<TEACHER SECTION ASSOC URI>/<SECTION URI>"
-        And I should receive a link named "self" with URI "/<TEACHER URI>/<'Linda Kim' ID>"
-
-     When I navigate to GET "/<TEACHER URI>/<'Linda Kim' ID>/<TEACHER SECTION ASSOC URI>/<SECTION URI>"
-      Then I should have a list of "section" entities
-        And I should have an entity with ID "<'8th Grade English - Sec 6' ID>"
-#new
-     When I navigate to GET "/<ASSESSMENT URI>"
-      Then I should receive a return code of 404
-      #Then I should have a list of 17 "assessment" entities
-#/new     
-     When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>"
-      Then I should have a list of 1 "assessment" entities
-        And "assessmentTitle" should be "Mathematics Achievement Assessment Test"
-        And "assessmentCategory" should be "Advanced Placement"
-        And "academicSubject" should be "Mathematics"
-        And "gradeLevelAssessed" should be "Eighth grade"
-#new
-     When I navigate to GET "/<SCHOOL URI>/<STUDENT SCHOOL URI>/<STUDENT SCHOOL ASSOC URI>/<STUDENT URI>/<STUDENT ASSESSMENT ASSOC URI>"
-      Then I should have a list of 3 "studentAssessment" entities
-        And occurrence 2 of entity "assessmentId" should be "<'SAT' ID>"
-        And occurrence 2 of entity "gradeLevelWhenAssessed" should be "Twelfth grade"
-        And occurrence 2 of entity "retestIndicator" should be "1st Retest"
-        And in occurrence 2 I should receive a link named "self" with URI "/<STUDENT ASSESSMENT ASSOC URI>/<'SAT Student Assessment Association' ID>"
-        And in occurrence 2 I should receive a link named "custom" with URI "/<STUDENT ASSESSMENT ASSOC URI>/<'SAT Student Assessment Association' ID>/<CUSTOM URI>"
-        And in occurrence 2 I should receive a link named "getStudent" with URI "/<STUDENT URI>/<'Matt DERP' ID>"
-        And in occurrence 2 I should receive a link named "getStudents" with URI "/<STUDENT ASSESSMENT ASSOC URI>/<'SAT Student Assessment Association' ID>/<STUDENT URI>"
-        And in occurrence 2 I should receive a link named "getAssessment" with URI "/<ASSESSMENT URI>/<'SAT' ID>"
-
-     When I navigate to GET "/<ASSESSMENT URI>/<'SAT' ID>/<STUDENT ASSESSMENT ASSOC URI>"
-      Then I should have a list of 0 "assessment" entities
-#/new
-
-     When I navigate to GET "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>"
-      Then I should have a list of 28 "student" entities
-        And I should have an entity with ID "<'Preston Muchow' ID>"
-        And I should have an entity with ID "<'Mayme Borc' ID>"
-        And I should have an entity with ID "<'Malcolm Costillo' ID>"
-        And I should have an entity with ID "<'Tomasa Cleaveland' ID>"
-        And I should have an entity with ID "<'Merry Mccanse' ID>"
-        And I should have an entity with ID "<'Samantha Scorzelli' ID>"
-        And I should have an entity with ID "<'Matt Sollars' ID>"
-        And I should have an entity with ID "<'Dominic Brisendine' ID>"
-        And I should have an entity with ID "<'Lashawn Taite' ID>"
-        And I should have an entity with ID "<'Oralia Merryweather' ID>"
-        And I should have an entity with ID "<'Dominic Bavinon' ID>"
-        And I should have an entity with ID "<'Rudy Bedoya' ID>"
-        And I should have an entity with ID "<'Verda Herriman' ID>"
-        And I should have an entity with ID "<'Alton Maultsby' ID>"
-        And I should have an entity with ID "<'Felipe Cianciolo' ID>"
-        And I should have an entity with ID "<'Lyn Consla' ID>"
-        And I should have an entity with ID "<'Felipe Wierzbicki' ID>"
-        And I should have an entity with ID "<'Gerardo Giaquinto' ID>"
-        And I should have an entity with ID "<'Holloran Franz' ID>"
-        And I should have an entity with ID "<'Oralia Simmer' ID>"
-        And I should have an entity with ID "<'Lettie Hose' ID>"
-        And I should have an entity with ID "<'Gerardo Saltazor' ID>"
-        And I should have an entity with ID "<'Lashawn Aldama' ID>"
-        And I should have an entity with ID "<'Alton Ausiello' ID>"
-        And I should have an entity with ID "<'Marco Daughenbaugh' ID>"
-        And I should have an entity with ID "<'Karrie Rudesill' ID>"
-        And I should have an entity with ID "<'Damon Iskra' ID>"
-        And I should have an entity with ID "<'Gerardo Rounsaville' ID>"
-
-     When I navigate to URI "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>/<STUDENT ASSESSMENT ASSOC URI>" with filter sorting and pagination
-        And filter by "sortBy" = "administrationDate"
-        And filter by "sortOrder" = "descending"
-        And filter by "offset" = "0"
-        And I submit the sorting and pagination request
-        Then I should have a list of "studentAssessment" entities
-        And I should have an entity with ID "<'Most Recent Math Student Assessment Association' ID>"
-
-     When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent Math Student Assessment Association' ID>"
-      Then I should have a list of 1 "studentAssessment" entities
-        And "administrationDate" should be "2011-09-15"
-        And "administrationEndDate" should be "2011-12-15"
-        And "retestIndicator" should be "Primary Administration"
-
-Examples:
+| "cgray"         | "cgray1234"         | "Educator"         |
 | "linda.kim"     | "linda.kim1234"     | "Educator"         |
 
-    Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get the most recent values of the following attributes: DIBELSCompositeScore, ReadingInstructionalLevel, PerformanceLevel
-    Given I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SLI"
-    And the role attribute equals <AnyDefaultSLIRole>
-    And I am authenticated on "IL"
-
-    Given format "application/json"
-     When I navigate to GET "/<TEACHER URI>/<'Linda Kim' ID>"
-      Then I should receive a link named "getTeacherSectionAssociations" with URI "/<TEACHER URI>/<'Linda Kim' ID>/<TEACHER SECTION ASSOC URI>"
-        And I should receive a link named "getSections" with URI "/<TEACHER URI>/<'Linda Kim' ID>/<TEACHER SECTION ASSOC URI>/<SECTION URI>"
-        And I should receive a link named "self" with URI "/<TEACHER URI>/<'Linda Kim' ID>"
-
-    When I navigate to GET "/<TEACHER URI>/<'Linda Kim' ID>/<TEACHER SECTION ASSOC URI>/<SECTION URI>"
-    Then I should have a list of "section" entities
-        And I should have an entity with ID "<'8th Grade English - Sec 6' ID>"
-
-    When I navigate to GET "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>"
-    Then I should have a list of 28 "student" entities
-        And I should have an entity with ID "<'Preston Muchow' ID>"
-        And I should have an entity with ID "<'Mayme Borc' ID>"
-        And I should have an entity with ID "<'Malcolm Costillo' ID>"
-        And I should have an entity with ID "<'Tomasa Cleaveland' ID>"
-        And I should have an entity with ID "<'Merry Mccanse' ID>"
-        And I should have an entity with ID "<'Samantha Scorzelli' ID>"
-        And I should have an entity with ID "<'Matt Sollars' ID>"
-        And I should have an entity with ID "<'Dominic Brisendine' ID>"
-        And I should have an entity with ID "<'Lashawn Taite' ID>"
-        And I should have an entity with ID "<'Oralia Merryweather' ID>"
-        And I should have an entity with ID "<'Dominic Bavinon' ID>"
-        And I should have an entity with ID "<'Rudy Bedoya' ID>"
-        And I should have an entity with ID "<'Verda Herriman' ID>"
-        And I should have an entity with ID "<'Alton Maultsby' ID>"
-        And I should have an entity with ID "<'Felipe Cianciolo' ID>"
-        And I should have an entity with ID "<'Lyn Consla' ID>"
-        And I should have an entity with ID "<'Felipe Wierzbicki' ID>"
-        And I should have an entity with ID "<'Gerardo Giaquinto' ID>"
-        And I should have an entity with ID "<'Holloran Franz' ID>"
-        And I should have an entity with ID "<'Oralia Simmer' ID>"
-        And I should have an entity with ID "<'Lettie Hose' ID>"
-        And I should have an entity with ID "<'Gerardo Saltazor' ID>"
-        And I should have an entity with ID "<'Lashawn Aldama' ID>"
-        And I should have an entity with ID "<'Alton Ausiello' ID>"
-        And I should have an entity with ID "<'Marco Daughenbaugh' ID>"
-        And I should have an entity with ID "<'Karrie Rudesill' ID>"
-        And I should have an entity with ID "<'Damon Iskra' ID>"
-        And I should have an entity with ID "<'Gerardo Rounsaville' ID>"
-
-     When I navigate to URI "/<STUDENT URI>/<'Matt Sollars' ID>/<STUDENT ASSESSMENT ASSOC URI>/<ASSESSMENT URI>" with filter sorting and pagination
-        And filter by "assessmentTitle" = "SAT 2"
-        And I submit the sorting and pagination request
-      Then I should have a list of "assessment" entities
-        And I should have an entity with ID "<'SAT' ID>"
-
-     When I navigate to GET "/<ASSESSMENT URI>/<'SAT' ID>"
-      Then I should have a list of 1 "assessment" entities
-        And "assessmentTitle" should be "SAT 2"
-        And "assessmentCategory" should be "College Addmission Test"
-        And "academicSubject" should be "Reading"
-        And "gradeLevelAssessed" should be "Twelfth grade"
-        And "lowestGradeLevelAssessed" should be "Eleventh grade"
-        And "assessmentFamilyHierarchyName" should be "SAT"
-        And "maxRawScore" should be "2400"
-        And "minRawScore" should be "600"
-        And the field "assessmentPeriodDescriptor.beginDate" should be "2011-01-01"
-        And the field "assessmentPeriodDescriptor.endDate" should be "2011-02-01"
-        And there are "0" "assessmentPerformanceLevel"
-
-     When I navigate to URI "/<STUDENT URI>/<'Matt Sollars' ID>/<STUDENT ASSESSMENT ASSOC URI>" with filter sorting and pagination
-        And filter by "sortBy" = "administrationDate"
-        And filter by "sortOrder" = "descending"
-        And filter by "offset" = "0"
-        #And filter by "limit" = "1"
-        And I submit the sorting and pagination request
-      Then I should have a list of "studentAssessment" entities
-        And I should have an entity with ID "<'Most Recent SAT Student Assessment Association' ID>"
-
-     When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent SAT Student Assessment Association' ID>"
-      Then I should have a list of 1 "studentAssessment" entities
-        And "administrationDate" should be "2011-05-10"
-        And "administrationEndDate" should be "2011-06-15"
-        And "gradeLevelWhenAssessed" should be "Twelfth grade"
-        And "retestIndicator" should be "1st Retest"
-        And the field "scoreResults.0.assessmentReportingMethod" should be "Scale score"
-        And the field "scoreResults.0.result" should be "2060"
-#new
-     When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent SAT Student Assessment Association' ID>/<STUDENT URI>"
-      Then I should have a list of 1 "student" entities
-
-     When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent SAT Student Assessment Association' ID>/<ASSESSMENT URI>"
-      Then I should have a list of 1 "assessment" entities
-#/new
-Examples:
-| Username        | Password            | AnyDefaultSLIRole  |
-| "rrogers"       | "rrogers1234"       | "IT Administrator" |
-| "sbantu"        | "sbantu1234"        | "Leader"           |
-| "linda.kim"     | "linda.kim1234"     | "Educator"         |
-
-Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
-    Given I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SLI"
-    And the role attribute equals <AnyDefaultSLIRole>
-    And I am authenticated on "IL"
-
-    When I navigate to GET "/<TEACHER URI>/<'Ms. Smith' ID>"
-    Then I should receive a return code of 403
-
-    When I navigate to GET "/<TEACHER SECTION ASSOC URI>/<'Teacher Ms. Jones and Section Algebra II' ID>/<TEACHER URI>"
-    Then I should receive a return code of 403
-
-    When I navigate to GET "/<SECTION URI>/<'Track and Field - Sec 6s10' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>"
-    Then I should receive a return code of 403
-
-    When I navigate to GET "/<STUDENT URI>/<'Matt Sollars' ID>"      
-    Then I should receive a return code of 403
-
-    When I navigate to GET "/<SECTION URI>/<'Algebra II' ID>"      
-    Then I should receive a return code of 403
-
-    When I navigate to GET "/<ASSESSMENT URI>/<'Grade 2 BOY DIBELS' ID>"
-    Then I should receive a return code of 403
-
-Examples:
-| Username         | Password             | AnyDefaultSLIRole  |
-| "msmith"         | "msmith1234"         | "AggregateViewer"  |

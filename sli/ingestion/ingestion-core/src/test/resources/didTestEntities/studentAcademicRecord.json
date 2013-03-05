@@ -6,7 +6,7 @@
         {
             "StudentIdentity":
             {
-                "StudentUniqueStateId":"100000000"
+                "StudentUniqueStateId":{"_value":"100000000"}
             }
         },
         "SessionReference":
@@ -17,10 +17,10 @@
                {
                    "EducationalOrgIdentity":
                     {
-                        "StateOrganizationId":"testSchoolId"
+                        "StateOrganizationId":{"_value":"testSchoolId"}
                     }
                },
-               "SessionName":"theSessionName"
+               "SessionName":{"_value":"theSessionName"}
            }
         },
         "ReportCardReference":
@@ -32,7 +32,7 @@
                     {
                         "StudentIdentity":
                         {
-                            "StudentUniqueStateId":"100000000"
+                            "StudentUniqueStateId":{"_value":"100000000"}
                         }
                     },
                     "GradingPeriodReference":
@@ -43,11 +43,11 @@
                             {
                                 "EducationalOrgIdentity":
                                 {
-                                    "StateOrganizationId":"testSchoolId"
+                                    "StateOrganizationId":{"_value":"testSchoolId"}
                                 }
                             },
-                            "GradingPeriod":"First Six Weeks",
-                            "BeginDate":"2011-09-01"
+                            "GradingPeriod":{"_value":"First Six Weeks"},
+                            "BeginDate":{"_value":"2011-09-01"}
                         }
                     }
                 }

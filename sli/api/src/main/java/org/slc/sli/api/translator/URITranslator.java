@@ -24,7 +24,7 @@ import java.util.Map;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;

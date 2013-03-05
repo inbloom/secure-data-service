@@ -398,9 +398,7 @@
     <Version>1</Version>
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>122</MaxRawScore>
-	<AssessmentPeriod>
-		<CodeValue>READ2-BOY</CodeValue>
-	</AssessmentPeriod>
+<AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>READ2-BOY</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
 	<AssessmentFamilyReference>
 		<AssessmentFamilyIdentiy>
           <AssessmentFamilyTitle>READ2_NEXT</AssessmentFamilyTitle>
@@ -420,9 +418,7 @@
     <Version>1</Version>
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>122</MaxRawScore>
-	<AssessmentPeriod>
-		<CodeValue>READ2-MOY</CodeValue>
-	</AssessmentPeriod>
+<AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>READ2-MOY</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
 	<AssessmentFamilyReference>
 		<AssessmentFamilyIdentiy>
           <AssessmentFamilyTitle>READ2_NEXT</AssessmentFamilyTitle>

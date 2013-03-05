@@ -72,11 +72,13 @@ When /^I navigate to GET "([^\"]*)"$/ do |uri|
   if jsonTypes.include? contentType
     @result = JSON.parse(@res.body)
     assert(@result != nil, "Result of JSON parsing is nil")
+    puts "\n\nDEBUG: common stepdef result from API call is: #{@result}"
   elsif /application\/xml/.match contentType
     doc = Document.new @res.body
     @result = doc.root
-    #puts @result
+    puts @result
   else
+    puts "Common stepdefs setting result to null"
     @result = {}
   end
 end
@@ -268,4 +270,11 @@ When /^I navigate to GET the link named "([^"]*)"$/ do |arg1|
     @result = JSON.parse(@res.body)
     break if @result.length > 0
   }
+end
+
+When /^I follow the HATEOS link named "([^"]*)"$/ do |link|
+  #Try to make test more deterministic by using ordered search
+  puts "\n\nDEBUG: Link is #{link}"
+  restHttpGetAbs(link)
+  @result = JSON.parse(@res.body)
 end

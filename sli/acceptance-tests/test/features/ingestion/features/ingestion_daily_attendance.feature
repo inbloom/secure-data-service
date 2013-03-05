@@ -39,6 +39,7 @@ Then I should see following map of entry counts in the corresponding collections
 
   And I should see "Processed 387 records." in the resulting batch job file
   And I should not see an error log file created
+  And I should not see a warning log file created
   And I should see "InterchangeStudent.xml records considered: 94" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 94" in the resulting batch job file
   And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
@@ -81,7 +82,6 @@ When zip file is scp to ingestion landing zone
   And I should see "StudentAttendanceDuplicate.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "StudentAttendanceDuplicate.xml records failed: 72" in the resulting batch job file
 
-
 Scenario: Post a zip file containing attendance event interchange with non-existent student as a payload of the ingestion job: Populated Database
 Given I post "DailyAttendanceNoStudent.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
@@ -115,6 +115,7 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                  | 1                   | body.attendanceEvent.date | 2011-09-06      |
   And I should see "Processed 8 records." in the resulting batch job file
   And I should not see an error log file created
+  And I should not see a warning log file created
   And I should see "InterchangeStudent.xml records considered: 1" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
@@ -128,4 +129,5 @@ Then I should see following map of entry counts in the corresponding collections
       | attendance                  |
     When zip file is scp to ingestion landing zone
     And a batch job for file "DailyAttendance.zip" is completed in database
+    And I should not see a warning log file created
     Then all attendance entities should should have the expected structure.

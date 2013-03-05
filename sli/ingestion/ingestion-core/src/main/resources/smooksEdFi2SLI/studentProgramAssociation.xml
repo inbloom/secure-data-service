@@ -25,39 +25,33 @@
   <jb:bean beanId="studentProgramAssociationBody" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="studentId" data="attributes StudentReference" />
     <jb:value property="programId" data="attributes ProgramReference" />
-    <jb:wiring property="services" beanIdRef="StudentProgramAssociation_ServicesArray" />
-    <jb:value property="beginDate" data="attributes BeginDate" />
-    <jb:value property="endDate" data="attributes EndDate" />
-    <jb:value property="reasonExited" data="attributes ReasonExited" />
+    <jb:wiring property="services" beanIdRef="Services" />
+    <jb:value property="beginDate" data="attributes BeginDate _value" />
+    <jb:value property="endDate" data="attributes EndDate _value" />
+    <jb:value property="reasonExited" data="attributes ReasonExited _value" />
     <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
   </jb:bean>
 
-  <jb:bean beanId="StudentProgramAssociation_ServicesArray" class="java.util.ArrayList" createOnElement="attributes">
-    <jb:wiring beanIdRef="StudentProgramAssociation_Services" />
+  <jb:bean beanId="Services" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:wiring beanIdRef="ServiceDescriptorType" />
   </jb:bean>
 
-  <jb:bean beanId="StudentProgramAssociation_Services" class="java.util.ArrayList" createOnElement="services element">
-  	<jb:wiring beanIdRef="StudentProgramAssociation_Services_CodeValue" />
-  	<jb:wiring beanIdRef="StudentProgramAssociation_Services_ShortDescription" />
-  	<jb:wiring beanIdRef="StudentProgramAssociation_Services_Description" />
+  <jb:bean beanId="ServiceDescriptorType" class="java.util.ArrayList" createOnElement="Services element">
+  	<jb:wiring beanIdRef="CodeValue" />
+  	<jb:wiring beanIdRef="ShortDescription" />
+  	<jb:wiring beanIdRef="Description" />
   </jb:bean>
 
-  <jb:bean beanId="StudentProgramAssociation_Services_CodeValue"
-  	class="java.util.HashMap"
-  	createOnElement="services element element codeValue">
-    <jb:value property="codeValue" data="Services element element CodeValue" />
+  <jb:bean beanId="CodeValue" class="java.util.HashMap" createOnElement="Services element element CodeValue">
+    <jb:value property="codeValue" data="Services element element CodeValue _value" />
   </jb:bean>
 
-  <jb:bean beanId="StudentProgramAssociation_Services_ShortDescription"
-  	class="java.util.HashMap"
-  	createOnElement="services element element shortDescription">
-    <jb:value property="shortDescription" data="Services element element ShortDescription" />
+  <jb:bean beanId="ShortDescription" class="java.util.HashMap" createOnElement="Services element element ShortDescription">
+    <jb:value property="shortDescription" data="Services element element ShortDescription _value" />
   </jb:bean>
 
-  <jb:bean beanId="StudentProgramAssociation_Services_Description"
-  	class="java.util.HashMap"
-  	createOnElement="services element element description">
-    <jb:value property="description" data="Services element element Description" />
+  <jb:bean beanId="Description" class="java.util.HashMap" createOnElement="Services element element Description">
+    <jb:value property="description" data="Services element element Description _value" />
   </jb:bean>
 
 </smooks-resource-list>

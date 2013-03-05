@@ -4,6 +4,7 @@ Feature: Partial Ingestion
 Background: I have a landing zone route configured
 Given I am using local data store
 
+@wip
 Scenario: Post StudentAssessment without required parent records in database
 
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -39,6 +40,7 @@ Then I should see following map of entry counts in the corresponding collections
      | student                                  |                  1|
     And I should see "Processed 4 records." in the resulting batch job file
     And I should not see an error log file created
+    And I should not see a warning log file created
 
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "StudentAssessment_Partial_Happy.zip" file as the payload of the ingestion job
@@ -49,8 +51,9 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName                           |              count|
      | assessment                               |                  1|
      | student                                  |                  1|
-     | studentAssessment                        |                  1|
+     | studentAssessment                        |                  2|
     And I should see "Processed 5 records." in the resulting batch job file
+    And I should not see a warning log file created
 
 Scenario: Post Attendance without required parent records in database
 
@@ -92,6 +95,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation                 |                  1|
     And I should see "Processed 8 records." in the resulting batch job file
     And I should not see an error log file created
+    And I should not see a warning log file created
 
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "AttendancePartialHappy.zip" file as the payload of the ingestion job
@@ -111,6 +115,7 @@ And I check to find if record is in collection:
     | attendance                  | 1                   | body.attendanceEvent.reason | Dentist appointment | string     |
     | attendance                  | 1                   | body.attendanceEvent.date   | 2010-09-09          | string     |
     And I should see "Processed 2 records." in the resulting batch job file
+    And I should not see a warning log file created
 
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "AttendanceUpdateAndAppend.zip" file as the payload of the ingestion job
@@ -129,6 +134,7 @@ Then I should see following map of entry counts in the corresponding collections
     | attendance                  | 1                   | body.attendanceEvent.reason | On Time             | string     |
     | attendance                  | 1                   | body.attendanceEvent.date   | 2010-09-09          | string     |
 And I should see "Processed 2 records." in the resulting batch job file
+And I should not see a warning log file created
 
 
 Scenario: Post partial Assessment dataset on an empty database
@@ -149,6 +155,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter                  | searchValue        | searchType         |
        | assessment                  | 2                   | body.assessmentPeriodDescriptor  | nil                | nil                |
+    And I should not see a warning log file created
 
  Scenario: Post full assessment dataset on an empty database followed by partial assessment dataset
  Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -169,6 +176,7 @@ Then I should see following map of entry counts in the corresponding collections
        | collectionName              | expectedRecordCount | searchParameter                  | searchValue                | searchType           |
        | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue  | READ2-BOY-2011                       | string               |
        | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue  | READ2-MOY-2011                       | string               |
+    And I should not see a warning log file created
 
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "AssessmentPartial.zip" file as the payload of the ingestion job
@@ -183,3 +191,5 @@ Then I should see following map of entry counts in the corresponding collections
        | collectionName              | expectedRecordCount | searchParameter                  | searchValue                | searchType           |
        | assessment                  | 2                   | body.assessmentPeriodDescriptor.codeValue  | READ2-BOY-2011                       | string               |
        | assessment                  | 2                   | body.assessmentPeriodDescriptor.codeValue  | READ2-MOY-2011                       | string               |
+    And I should not see a warning log file created
+       

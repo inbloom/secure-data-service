@@ -2,23 +2,23 @@
   "recordType":"objectiveAssessment",
   "attributes":
   {
-      "assessmentId":
+      "AssessmentReference":
       {
           "AssessmentIdentity":
           {
-              "AssessmentTitle":"Fraction Homework 123",
-              "GradeLevelAssessed":"Fifth grade",
-              "Version":"1"
+              "AssessmentTitle":{"_value" : "Fraction Homework 123"},
+              "GradeLevelAssessed": {"_value" : "Fifth grade"},
+              "Version":{"_value" : "1"}
           }
       },
-      "learningObjectives" :
+      "LearningObjectiveReference" :
         [
           {
             "LearningObjectiveIdentity" :
             {
-              "ObjectiveGradeLevel" : "Twelfth grade",
-              "Objective" : "Writing: Informational Text",
-              "AcademicSubject" : "ELA"
+              "ObjectiveGradeLevel" : {"_value" : "Twelfth grade"},
+              "Objective" : {"_value" : "Writing: Informational Text"},
+              "AcademicSubject" : {"_value" : "ELA"}
             }
           }
         ]

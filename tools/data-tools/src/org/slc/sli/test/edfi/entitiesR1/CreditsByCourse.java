@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * The total credits required to graduation by taking
- * 				a specific course,
- * 				or by taking one or more from a set of courses.
- * 			
+ *                 a specific course,
+ *                 or by taking one or more from a set of courses.
+ *             
  * 
  * <p>Java class for creditsByCourse complex type.
  * 

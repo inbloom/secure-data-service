@@ -15,9 +15,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * The student's relative preference to visual,
- * 				auditory and tactile
- * 				learning expressed as percentages.
- * 			
+ *                 auditory and tactile
+ *                 learning expressed as percentages.
+ *             
  * 
  * <p>Java class for learningStyles complex type.
  * 

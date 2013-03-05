@@ -206,7 +206,7 @@ public class EntityPersistHandlerTest {
         Mockito.doCallRealMethod().when(errorReport)
                 .error(Mockito.any(ReportStats.class), Matchers.any(Source.class),
                         Mockito.any(CoreMessageCode.class), Mockito.anyString()
-                        , Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.any(), Mockito.any());
+                        , Mockito.anyString(), Mockito.anyString(), Mockito.anyObject(), Mockito.any());
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -229,8 +229,8 @@ public class EntityPersistHandlerTest {
 
         Assert.assertTrue("Error report should contain errors", reportStats.hasErrors());
         Mockito.verify(errorReport, Mockito.times(1)).error(Matchers.any(ReportStats.class),
-                Matchers.any(Source.class), Matchers.eq(CoreMessageCode.CORE_0006), Matchers.any(String.class),
-                Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.any(), Matchers.any());
+                Matchers.any(Source.class), Matchers.eq(CoreMessageCode.CORE_0006), Matchers.anyString(),
+                Matchers.anyString(), Matchers.anyString(), Matchers.anyObject(), Matchers.any());
     }
 
     /**

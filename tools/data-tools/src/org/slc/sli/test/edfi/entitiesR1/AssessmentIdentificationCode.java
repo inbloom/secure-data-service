@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * A unique number or alphanumeric code assigned to an
- * 				assessment by a school, school system, a state, or other agency or
- * 				entity.
- * 			
+ *                 assessment by a school, school system, a state, or other agency or
+ *                 entity.
+ *             
  * 
  * <p>Java class for assessmentIdentificationCode complex type.
  * 

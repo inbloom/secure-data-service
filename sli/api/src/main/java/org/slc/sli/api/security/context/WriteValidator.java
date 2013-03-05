@@ -18,8 +18,8 @@ package org.slc.sli.api.security.context;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -163,9 +163,9 @@ public class WriteValidator {
             if (id != null) {
                 final Entity entity = repo.findById(definition.getStoredCollectionName(), id);
                 if (entity != null) {
-                	isValid = isEntityValidForEdOrgWrite(entity.getBody(), definition.getType(), principal);
+                    isValid = isEntityValidForEdOrgWrite(entity.getBody(), definition.getType(), principal);
                 } else {
-                	isValid = false;
+                    isValid = false;
                 }
             }
         }

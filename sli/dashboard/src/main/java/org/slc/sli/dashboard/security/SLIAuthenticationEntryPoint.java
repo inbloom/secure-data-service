@@ -219,8 +219,8 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                         } catch (IOException e) {
                             LOG.error(e.getMessage());
                         } catch (NumberFormatException e) {
-                        	LOG.info("Failed to decrypt cookie with value: " + c.getValue());
-                        	return false;
+                            LOG.info("Failed to decrypt cookie with value: " + c.getValue());
+                            return false;
                         }
                         
                         JsonObject json = restClient.sessionCheck(decryptedCookie);

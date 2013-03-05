@@ -256,7 +256,7 @@ class StudentWorkOrder
             for sps in 1..sections_per_student
               section    = available_sections[@id % available_sections.count]
               section_id = DataUtility.get_unique_section_id(section[:id])
-              student_section_association = StudentSectionAssociation.new(@id, section_id, school_id, begin_date, grade)
+              student_section_association = StudentSectionAssociation.new(@id, section_id, school_id, begin_date, end_date, grade)
               @student_section_association[@id] << student_section_association
               rval       << student_section_association
               unless @gradebook_factory.nil? or section[:gbe].nil?
@@ -375,7 +375,10 @@ class StudentWorkOrder
         numeric += (weight * average).floor
       end
     end
-    return Grade.new(DataUtility.get_letter_grade_from_number(numeric), numeric, :FINAL, get_student_section_association(school_id, section_id, session['interval'].get_begin_date))
+
+    return Grade.new(DataUtility.get_letter_grade_from_number(numeric), numeric, :FINAL, 
+                     get_student_section_association(school_id, section_id, session['interval'].get_begin_date), 
+                     session['year'])
   end
 
   # translates the attributes for the student section association into a map (with values that mustache templates will recognize/expect)

@@ -20,16 +20,16 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * 
- * 				This entity represents a tool, instrument, process,
- * 				or exhibition composed of a systematic sampling of
- * 				behavior for
- * 				measuring a student's competence,
- * 				knowledge, skills or behavior. An
- * 				assessment can be
- * 				used to measure differences in individuals or
- * 				groups and changes in performance from one occasion
- * 				to the next.
- * 			
+ *                 This entity represents a tool, instrument, process,
+ *                 or exhibition composed of a systematic sampling of
+ *                 behavior for
+ *                 measuring a student's competence,
+ *                 knowledge, skills or behavior. An
+ *                 assessment can be
+ *                 used to measure differences in individuals or
+ *                 groups and changes in performance from one occasion
+ *                 to the next.
+ *             
  * 
  * <p>Java class for assessment complex type.
  * 

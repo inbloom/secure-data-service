@@ -16,8 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -67,7 +67,7 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
      * Determines if the teacher can see the set of entities specified by 'ids'.
      */
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public boolean validate(String entityType, Set<String> ids) {
         if (!areParametersValid(SUB_ENTITIES_OF_STUDENT, entityType, ids)) {
             return false;
@@ -85,9 +85,9 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
             } else if (body.get(ParameterConstants.STUDENT_ID) instanceof List) {
                 students.addAll((List<String>) body.get(ParameterConstants.STUDENT_ID));
             } else {
-            	//Student ID was not a string or a list of strings, this is unexpected
-            	warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
-            	return false;
+                //Student ID was not a string or a list of strings, this is unexpected
+                warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
+                return false;
             }
         }
 

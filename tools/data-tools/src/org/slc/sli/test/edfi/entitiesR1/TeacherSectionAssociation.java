@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This association indicates the class sections to
- * 				which a teacher is
- * 				assigned to.
- * 			
+ *                 which a teacher is
+ *                 assigned to.
+ *             
  * 
  * <p>Java class for teacherSectionAssociation complex type.
  * 

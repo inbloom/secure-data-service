@@ -41,7 +41,7 @@ public class CustomThreadScope implements Scope {
     };
 
     @Override
-	public Object get(String name, ObjectFactory objectFactory) {
+    public Object get(String name, ObjectFactory objectFactory) {
         Map<String, Object> scope = THREAD_SCOPE.get();
         Object object = scope.get(name);
         if (object == null) {
@@ -52,24 +52,24 @@ public class CustomThreadScope implements Scope {
     }
 
     @Override
-	public Object remove(String name) {
+    public Object remove(String name) {
         Map<String, Object> scope = THREAD_SCOPE.get();
         return scope.remove(name);
     }
 
     @Override
-	public void registerDestructionCallback(String name, Runnable callback) {
+    public void registerDestructionCallback(String name, Runnable callback) {
         LOGGER.warn("CustomThreadScope does not support descruction callbacks. " +
                 "Consider using a RequestScope in a Web environment.");
     }
 
     @Override
-	public Object resolveContextualObject(String key) {
+    public Object resolveContextualObject(String key) {
         return null;
     }
 
     @Override
-	public String getConversationId() {
+    public String getConversationId() {
         return Thread.currentThread().getName();
     }
 

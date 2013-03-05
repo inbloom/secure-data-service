@@ -1,0 +1,10 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "assessmentFamily",
+            "sourceRefPath": "body.assessmentFamilyReference",
+            "optional" : true
+        }
+    ]
+}

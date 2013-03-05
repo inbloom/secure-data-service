@@ -19,12 +19,12 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Encapsulates the possible attributes that can be
- * 				used to lookup the
- * 				identity of educational organizations, especially
- * 				ESCs, LEAs (districts),
- * 				and
- * 				schools.
- * 			
+ *                 used to lookup the
+ *                 identity of educational organizations, especially
+ *                 ESCs, LEAs (districts),
+ *                 and
+ *                 schools.
+ *             
  * 
  * <p>Java class for educationalOrgIdentityType complex type.
  * 

@@ -29,10 +29,20 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamily" type="assessmentFamily">
+            <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamily" type="reference">
                 <xs:annotation>
                     <xs:documentation>Assessment family associated with this
                         assessment.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamilyHierarchyName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Hierarchical name for the assessment using '.' separators</xs:documentation>
                     <xs:appinfo>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
@@ -203,6 +213,7 @@
                         "End of Year." </xs:documentation>
                     <xs:appinfo>
                         <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+                        <sli:CollectionType>assessmentPeriodDescriptor</sli:CollectionType>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
@@ -270,7 +281,6 @@
                         by a school, school system, a state, or other agency or
                         entity.</xs:documentation>
                     <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>                        
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
@@ -376,13 +386,25 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="assessmentFamily" type="assessmentFamily"
+            <xs:element name="assessmentFamilyReference" type="reference"
                 minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>References the higher level AssessmentFamily this one belongs
                         to.</xs:documentation>
                     <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="parentAssessmentFamilyTitle" type="assessmentTitle"
+                minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>References the higher level AssessmentFamily this one belongs
+                        to.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
@@ -2853,6 +2875,14 @@
                 </xs:annotation>
             </xs:element>
 
+      		<xs:element name='schoolYear' type='schoolYearType'>
+        		<xs:annotation>
+          		<xs:appinfo>
+            		<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+            		<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+          		</xs:appinfo>
+        		</xs:annotation>
+      		</xs:element>
         </xs:sequence>
     </xs:complexType>
 
@@ -6184,7 +6214,15 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-        </xs:sequence>
+      		<xs:element name='schoolYear' type='schoolYearType'>
+        		<xs:annotation>
+          			<xs:appinfo>
+            			<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+            			<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+          			</xs:appinfo>
+        		</xs:annotation>
+      		</xs:element>        
+		</xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="gradebookEntry">
@@ -7738,7 +7776,7 @@
                     </xs:appinfo>
                 </xs:annotation>
                 <xs:simpleType>
-                    <xs:restriction base="xs:int">
+                    <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
                     </xs:restriction>
                 </xs:simpleType>
@@ -7753,7 +7791,7 @@
                     </xs:appinfo>
                 </xs:annotation>
                 <xs:simpleType>
-                    <xs:restriction base="xs:int">
+                    <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
                     </xs:restriction>
                 </xs:simpleType>
@@ -7795,7 +7833,15 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-        </xs:sequence>
+      		<xs:element name='schoolYear' type='schoolYearType'>
+        		<xs:annotation>
+          		<xs:appinfo>
+            		<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+            		<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+          		</xs:appinfo>
+        		</xs:annotation>
+      		</xs:element>        
+		</xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="competencyLevelDescriptor">

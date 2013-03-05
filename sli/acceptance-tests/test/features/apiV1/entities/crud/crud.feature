@@ -287,7 +287,7 @@ Examples:
       When I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
         Then I should receive a return code of 200
         And I verify "objectiveAssessment, assessmentPeriodDescriptor" and "assessmentItem" is collapsed in response body 
-        And "objectiveAssessment" is hierachical with childrens at "objectiveAssessments"
+        And "objectiveAssessment" is hierachical with children at "objectiveAssessments"
       When I set the "lowestGradeLevelAssessed" to "Sixth grade"
         And I set the "codeValue" to "codeRed" in "assessmentPeriodDescriptor"
         And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
@@ -299,6 +299,7 @@ Examples:
          And I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
          And "lowestGradeLevelAssessed" should be "Sixth grade"
          And I verify "objectiveAssessment, assessmentPeriodDescriptor" and "assessmentItem" is collapsed in response body 
+         And I verify "codeValue" is "codeRed" inside "assessmentPeriodDescriptor"
      # the corresponding studentAssessment 
      Given entity URI "/v1/studentAssessments"
        And a valid entity json document for a "studentAssessment"

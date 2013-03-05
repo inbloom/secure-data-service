@@ -22,14 +22,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.elasticsearch.common.base.Joiner;
+import org.elasticsearch.common.collect.Lists;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -46,6 +50,11 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     private static final String SUB_OBJECTIVE_ASSESSMENT_HIERARCHY = "objectiveAssessments";
     private static final String SUB_OBJECTIVE_ASSESSMENT_REFS = "subObjectiveAssessment";
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
+    
+    protected static final String ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE = "assessmentFamily";
+    protected static final String ASSESSMENT_FAMILY_ASSESSMENT_FAMILY_REFERENCE = "assessmentFamilyReference";
+    protected static final String ASSESSMENT_FAMILY_HIERARCHY_STRING = "assessmentFamilyHierarchyName";
+    protected static final String ASSESSMENT_FAMILY_TITLE = "assessmentFamilyTitle";
 
     @Override
     public void subdocToBodyField(Entity entity) {
@@ -55,30 +64,31 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             subdocsToBody(entity, "objectiveAssessment", "objectiveAssessment", Arrays.asList("assessmentId"));
             entity.getEmbeddedData().clear();
             collapseAssessmentPeriodDescriptor(entity);
+            addFamilyHierarchy(entity);
         }
     }
 
     private void collapseAssessmentPeriodDescriptor(Entity entity) {
-    	Object apdId = entity.getBody().remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID); 
-    	if (apdId != null && apdId instanceof String) {
-    		Entity apd = retrieveAccessmentPeriodDecriptor((String) apdId);
-    		if (apd != null) {
-    			entity.getBody().put("assessmentPeriodDescriptor", apd.getBody());
-    		}
-    	}
-	}
+        Object apdId = entity.getBody().remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID); 
+        if (apdId != null && apdId instanceof String) {
+            Entity apd = retrieveAccessmentPeriodDecriptor((String) apdId);
+            if (apd != null) {
+                entity.getBody().put("assessmentPeriodDescriptor", apd.getBody());
+            }
+        }
+    }
 
-	private Entity retrieveAccessmentPeriodDecriptor(String apdId) {
+    private Entity retrieveAccessmentPeriodDecriptor(String apdId) {
         Entity apd = ((MongoEntityRepository) repo).getTemplate().findById(apdId, Entity.class,
                 EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
 
         return apd;
-	}
+    }
 
-	@Override
+    @Override
     public void bodyFieldToSubdoc(Entity entity) {
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
-        	//objectiveAssessment
+            //objectiveAssessment
             String parentKey = generateDid(entity);
             @SuppressWarnings("unchecked")
             List<Entity> objectiveAssessments = transformFromHierarchy((List<Map<String, Object>>) entity.getBody()
@@ -100,16 +110,19 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             //assessmentPeriodDescriptor
             Object assessmentPeriodDescrptor = entity.getBody().remove(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
             if (assessmentPeriodDescrptor instanceof Map<?,?>) {
-            	//update embedded assessmentPeriodDescriptor
-            	@SuppressWarnings("unchecked")
-            	String did = generateSubdocDid((Map<String, Object>) assessmentPeriodDescrptor, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
-            	@SuppressWarnings("unchecked")
-            	MongoEntity apdEntity = new MongoEntity(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, did, (Map<String, Object>) assessmentPeriodDescrptor, null);
-            	if (repo.update(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, apdEntity, false)) {
-            		//only record the id if it was successfully updated
-            		entity.getBody().put(ASSESSMENT_PERIOD_DESCRIPTOR_ID, did);
-            	}
+                //update embedded assessmentPeriodDescriptor
+                @SuppressWarnings("unchecked")
+                String did = generateSubdocDid((Map<String, Object>) assessmentPeriodDescrptor, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
+                @SuppressWarnings("unchecked")
+                MongoEntity apdEntity = new MongoEntity(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, did, (Map<String, Object>) assessmentPeriodDescrptor, null);
+                if (repo.update(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, apdEntity, false)) {
+                    //only record the id if it was successfully updated
+                    entity.getBody().put(ASSESSMENT_PERIOD_DESCRIPTOR_ID, did);
+                }
             }
+            
+            //assessmentFamilyHierarchy is ignored on create/update
+            entity.getBody().remove(ASSESSMENT_FAMILY_HIERARCHY_STRING);
         }
     }
 
@@ -144,6 +157,34 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
                 bodyFieldToSubdoc(entity);
             }
         }
+    }
+    
+    /**
+     * Construct the assessmentFamilyHierarchy string from the assessment family reference
+     */
+    private void addFamilyHierarchy(Entity entity) {
+        Object object = entity.getBody().remove(ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE);
+        if (object == null || !(object instanceof String)) {
+            // we don't validate assessmentFamilyHierarchy any more, so someone could have  in 
+            // an object, array, number, etc.
+            return;
+        }
+        String familyRef = (String) object;
+        MongoTemplate mongo = ((MongoEntityRepository) repo).getTemplate();
+        Entity family = mongo.findById(familyRef, Entity.class, EntityNames.ASSESSMENT_FAMILY);
+        
+        List<String> familyTitles = new LinkedList<String>();
+        while (family != null) {
+            familyTitles.add((String)family.getBody().get(ASSESSMENT_FAMILY_TITLE));
+            String parentRef = (String)family.getBody().get(ASSESSMENT_FAMILY_ASSESSMENT_FAMILY_REFERENCE);
+            family = null;
+            if (parentRef != null) {
+                family = mongo.findById(parentRef, Entity.class, EntityNames.ASSESSMENT_FAMILY);
+            }
+        }
+        
+        String familyHierarchyString = Joiner.on(".").join(Lists.reverse(familyTitles));
+        entity.getBody().put(ASSESSMENT_FAMILY_HIERARCHY_STRING, familyHierarchyString);
     }
 
     /**
@@ -259,7 +300,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     private List<String> makeAssessmentItemRefs(List<Map<String, Object>> items, String parentKey) {
         List<String> refs = new ArrayList<String>(items.size());
         for (Map<String, Object> item : items) {
-        	item.put("assessmentId", parentKey);
+            item.put("assessmentId", parentKey);
             refs.add(generateSubdocDid(item, "assessmentItem"));
         }
         return refs;

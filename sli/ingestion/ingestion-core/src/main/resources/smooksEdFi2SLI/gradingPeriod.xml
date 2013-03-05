@@ -17,7 +17,6 @@
         <jb:wiring beanIdRef="gradingPeriod" />
     </jb:bean>
 
-    <!-- Start GradingPeriod mapping -->
     <jb:bean beanId="gradingPeriod" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'gradingPeriod'</jb:expression>
         <jb:wiring property="body" beanIdRef="gradingPeriodBody" />
@@ -26,19 +25,19 @@
     <jb:bean beanId="gradingPeriodBody" class="java.util.HashMap"
              createOnElement="attributes">
         <jb:wiring property="gradingPeriodIdentity" beanIdRef="GradingPeriodIdentity" />
-        <jb:value property="beginDate" data="attributes beginDate" />
-        <jb:value property="endDate" data="attributes endDate" />
-        <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" decoder="Integer" />
+        <jb:value property="beginDate" data="attributes BeginDate _value" />
+        <jb:value property="endDate" data="attributes EndDate _value" />
+        <jb:value property="totalInstructionalDays" data="attributes TotalInstructionalDays _value" decoder="Integer" />
         <jb:wiring property="calendarDateReference" beanIdRef="calendarDateReference_Array" />
     </jb:bean>
 
     <jb:bean beanId="GradingPeriodIdentity" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="schoolYear" data="attributes SchoolYear" />
-        <jb:value property="gradingPeriod" data="attributes GradingPeriod" />
+        <jb:value property="schoolYear" data="attributes SchoolYear _value" />
+        <jb:value property="gradingPeriod" data="attributes GradingPeriod _value" />
         <jb:value property="schoolId" data="attributes EducationOrganizationReference" />
     </jb:bean>
 
-    <jb:bean beanId="calendarDateReference_Array" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="calendarDateReference_Array" class="java.util.ArrayList" createOnElement="attributes CalendarDateReference">
         <jb:value data="attributes CalendarDateReference element" />
     </jb:bean>
 

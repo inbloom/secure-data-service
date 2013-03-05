@@ -189,30 +189,30 @@ public class DataForASchool {
         }
     }
 
-	public void prepareTeacher(int total, int iteration) {
+    public void prepareTeacher(int total, int iteration) {
 
-		for (int i = 0; i < total; i++) {
+        for (int i = 0; i < total; i++) {
 
-			if (iteration == 0) {
-				switch (i) {
-				case 0:
-					teachers.add("cgray");
-					break;
-				case 1:
-					teachers.add("linda.kim");
-					break;
-				case 2:
-					teachers.add("rbraverman");
-					break;
-				default:
-					teachers.add("teacher_" + this.prefix + "-" + i);
-					break;
-				}
-			} else {
-				teachers.add("teacher_" + this.prefix + "-" + i);
-			}
-		}
-	}
+            if (iteration == 0) {
+                switch (i) {
+                case 0:
+                    teachers.add("cgray");
+                    break;
+                case 1:
+                    teachers.add("linda.kim");
+                    break;
+                case 2:
+                    teachers.add("rbraverman");
+                    break;
+                default:
+                    teachers.add("teacher_" + this.prefix + "-" + i);
+                    break;
+                }
+            } else {
+                teachers.add("teacher_" + this.prefix + "-" + i);
+            }
+        }
+    }
 
     public void prepareTeacherSchoolAssociation() {
         Random random = new Random(31);
@@ -288,7 +288,7 @@ public class DataForASchool {
     }
 
     public void prepareDisciplineIncident(int total) {
-    	String schoolId = schools.get(0);
+        String schoolId = schools.get(0);
         for (int i = 0 ; i < total ; i++) {
             disciplineIncidents.add(schoolId+delimiter+this.prefix + "-discInc-" + i);
         }
@@ -296,7 +296,7 @@ public class DataForASchool {
 
     public void prepareStudentDisciplineIncidentAssociation() {
         for (String discId : disciplineIncidents) {
-        	String studentId = students.get(random.nextInt(students.size()));
+            String studentId = students.get(random.nextInt(students.size()));
             studentDisciplineIncidentAssociations.add(studentId+delimiter+discId);
             disciplineActions.add(studentId+delimiter+discId);
         }
@@ -590,31 +590,31 @@ public class DataForASchool {
         // StudentDisciplineIncidentAssociation
         StudentDisciplineAssociationGenerator sdag = new StudentDisciplineAssociationGenerator();
         for (String stringId : studentDisciplineIncidentAssociations) {
-        	SLCStudentDisciplineIncidentAssociation discAssociate = sdag.generate(stringId, delimiter);
-        	list.add(discAssociate);
+            SLCStudentDisciplineIncidentAssociation discAssociate = sdag.generate(stringId, delimiter);
+            list.add(discAssociate);
         }
 
         // DisciplineAction - Assuming action in all cases (even StudentParticipationCodeType.VICTIM.  Sorry!)
         DisciplineActionGenerator sdactg = new DisciplineActionGenerator();
         for (String stringId : disciplineActions) {
-        	SLCDisciplineAction discAction = sdactg.generate(stringId, delimiter);
-        	list.add(discAction);
+            SLCDisciplineAction discAction = sdactg.generate(stringId, delimiter);
+            list.add(discAction);
         }
 
         // BehaviorDescriptor
         BehaviorDescriptorGenerator bdg = new BehaviorDescriptorGenerator();
         for (int iBehavior=0; iBehavior<numBehaviors; iBehavior++) {
-        	String schoolId = schools.get(random.nextInt(schools.size()));
-        	BehaviorDescriptor bd = bdg.generate(iBehavior, schoolId);
-        	list.add(bd);
+            String schoolId = schools.get(random.nextInt(schools.size()));
+            BehaviorDescriptor bd = bdg.generate(iBehavior, schoolId);
+            list.add(bd);
         }
 
         // DisciplineDescriptor
         DisciplineDescriptorGenerator ddg = new DisciplineDescriptorGenerator();
         for (int iDiscipline=0; iDiscipline<numDisciplines; iDiscipline++) {
-        	String schoolId = schools.get(random.nextInt(schools.size()));
-        	DisciplineDescriptor dd = ddg.generate(iDiscipline, schoolId);
-        	list.add(dd);
+            String schoolId = schools.get(random.nextInt(schools.size()));
+            DisciplineDescriptor dd = ddg.generate(iDiscipline, schoolId);
+            list.add(dd);
         }
 
         marshaller.marshal(interchangeStudentDiscipline, ps);

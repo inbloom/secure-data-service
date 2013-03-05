@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Other names (e.g., alias, nickname, previous legal
- * 				name) associated
- * 				with a person.
- * 			
+ *                 name) associated
+ *                 with a person.
+ *             
  * 
  * <p>Java class for otherName complex type.
  * 

@@ -31,7 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
@@ -110,7 +110,7 @@ public class UriMutatorTest {
         PathSegment v1 = Mockito.mock(PathSegment.class);
         when(v1.getPath()).thenReturn("/staff");
         Assert.assertEquals("Endponit should be rewritten to /teachers/id",
-        		createMutatedContainer("/teachers/" + teacher.getEntityId(), null),
+                createMutatedContainer("/teachers/" + teacher.getEntityId(), null),
                 mutator.mutate(Arrays.asList(v1), "staffUniqueStateId=teacher", null));
         
         body.put("staffUniqueStateId", "staff");
@@ -118,7 +118,7 @@ public class UriMutatorTest {
         v1 = Mockito.mock(PathSegment.class);
         when(v1.getPath()).thenReturn("/staff");
         Assert.assertEquals("Endponit should be rewritten to /staff/id",
-        		createMutatedContainer("/staff/" + teacher.getEntityId(), null),
+                createMutatedContainer("/staff/" + teacher.getEntityId(), null),
                 mutator.mutate(Arrays.asList(v1), "staffUniqueStateId=staff", null));
     }
 

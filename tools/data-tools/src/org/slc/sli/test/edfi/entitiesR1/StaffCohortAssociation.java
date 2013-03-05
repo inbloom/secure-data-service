@@ -20,9 +20,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * 
- * 				This association indicates the staff associated
- * 				with a cohort of students.
- * 			
+ *                 This association indicates the staff associated
+ *                 with a cohort of students.
+ *             
  * 
  * <p>Java class for staffCohortAssociation complex type.
  * 

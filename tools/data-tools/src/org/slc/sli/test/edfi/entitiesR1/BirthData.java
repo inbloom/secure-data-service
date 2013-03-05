@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * The set of elements that capture relevant data
- * 				regarding a person's
- * 				birth, including birth date and place of birth.
- * 			
+ *                 regarding a person's
+ *                 birth, including birth date and place of birth.
+ *             
  * 
  * <p>Java class for birthData complex type.
  * 

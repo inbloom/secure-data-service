@@ -1,16 +1,14 @@
 {
   "keyFields" : ["body.studentUniqueStateId"],
   "piiFields" : {
-                  "loginId" : true,
-                  "studentIdentificationCode" : {
-                    "identificationCode" : true
-                  },
-                  "otherName" : {"middleName" : true, "generationCodeSuffix" : true, "lastSurname" : true, "personalTitlePrefix" : true, "firstName" : true, "otherNameType" : true},
-                  "sex" : true, "profileThumbnail" : true,
-                  "address" : {"nameOfCounty" : true, "apartmentRoomSuiteNumber" : true, "buildingSiteNumber" : true, "closeDate" : true, "countryCode" : true, "addressType" : true, "city" : true, "countyFIPSCode" : true, "streetNumberName" : true, "postalCode" : true, "stateAbbreviation" : true, "longitude" : true, "latitude" : true, "openDate" : true},
-                  "electronicMail" : {"emailAddressType" : true, "emailAddress" : true},
-                  "name" : {"middleName" : true, "generationCodeSuffix" : true, "verification" : true, "lastSurname" : true, "personalTitlePrefix" : true, "firstName" : true, "maidenName" : true},
-                  "telephone" : {"primaryTelephoneNumberIndicator" : true, "telephoneNumberType" : true, "telephoneNumber" : true},
-                  "birthData" : {"stateOfBirthAbbreviation" : true, "dateEnteredUS" : true, "countryOfBirthCode" : true, "birthDate" : true, "cityOfBirth" : true, "multipleBirthStatus" : true}
+                  "LoginId" : {"_value" : true},
+                  "StudentIdentificationCode" : {"IdentificationCode" : {"_value" : true}},
+                  "OtherName" : {"MiddleName" : {"_value" : true}, "GenerationCodeSuffix" : {"_value" : true}, "LastSurname" : {"_value" : true}, "PersonalTitlePrefix" : {"_value" : true}, "FirstName" : {"_value" : true}, "a_OtherNameType" : true},
+                  "Sex" : {"_value" : true}, "ProfileThumbnail" : {"_value" : true},
+                  "Address" : {"NameOfCounty" : {"_value" : true}, "ApartmentRoomSuiteNumber" : {"_value" : true}, "BuildingSiteNumber" : {"_value" : true}, "CloseDate" : {"_value" : true}, "CountryCode" : {"_value" : true}, "AddressType" : {"_value" : true}, "City" : {"_value" : true}, "CountyFIPSCode" : {"_value" : true}, "StreetNumberName" : {"_value" : true}, "PostalCode" : {"_value" : true}, "StateAbbreviation" : {"_value" : true}, "Longitude" : {"_value" : true}, "Latitude" : {"_value" : true}, "OpenDate" : {"_value" : true}},
+                  "ElectronicMail" : {"EmailAddressType" : {"_value" : true}, "EmailAddress" : {"_value" : true}},
+                  "Name" : {"MiddleName" : {"_value" : true}, "GenerationCodeSuffix" : {"_value" : true}, "Verification" : {"_value" : true}, "LastSurname" : {"_value" : true}, "PersonalTitlePrefix" : {"_value" : true}, "FirstName" : {"_value" : true}, "MaidenName" : {"_value" : true}},
+                  "Telephone" : {"a_PrimaryTelephoneNumberIndicator" : true, "a_TelephoneNumberType" : true, "TelephoneNumber" : {"_value" : true}},
+                  "BirthData" : {"StateOfBirthAbbreviation" : {"_value" : true}, "DateEnteredUS" : {"_value" : true}, "CountryOfBirthCode" : {"_value" : true}, "BirthDate" : {"_value" : true}, "CityOfBirth" : {"_value" : true}, "MultipleBirthStatus" : {"_value" : true}}
    }
 }

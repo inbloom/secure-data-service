@@ -16,7 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
@@ -45,10 +45,10 @@ public class AdminValidator implements IContextValidator {
     
     //TODO: implement it
     public Set<String> getValid(String entityType, Set<String> ids) {
-    	 if (entityType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
-    		 return ids;
-    	 }
-    	 
-    	 return Collections.emptySet();
+         if (entityType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
+             return ids;
+         }
+         
+         return Collections.emptySet();
     }
 }

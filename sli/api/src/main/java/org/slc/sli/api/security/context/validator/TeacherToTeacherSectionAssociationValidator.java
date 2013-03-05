@@ -16,8 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -35,13 +35,13 @@ import java.util.Set;
 @Component
 public class TeacherToTeacherSectionAssociationValidator extends AbstractContextValidator {
 
-	@Override
-	public boolean canValidate(String entityType, boolean isTransitive) {
-		return EntityNames.TEACHER_SECTION_ASSOCIATION.equals(entityType) && isTeacher();
-	}
+    @Override
+    public boolean canValidate(String entityType, boolean isTransitive) {
+        return EntityNames.TEACHER_SECTION_ASSOCIATION.equals(entityType) && isTeacher();
+    }
 
-	@Override
-	public boolean validate(String entityType, Set<String> ids) {
+    @Override
+    public boolean validate(String entityType, Set<String> ids) {
         if (!areParametersValid(EntityNames.TEACHER_SECTION_ASSOCIATION, entityType, ids)) {
             return false;
         }
@@ -49,9 +49,9 @@ public class TeacherToTeacherSectionAssociationValidator extends AbstractContext
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
-		
-		long count = getRepo().count(EntityNames.TEACHER_SECTION_ASSOCIATION, nq);
-		return count == ids.size();
-	}
+        
+        long count = getRepo().count(EntityNames.TEACHER_SECTION_ASSOCIATION, nq);
+        return count == ids.size();
+    }
 
 }

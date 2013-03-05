@@ -270,10 +270,10 @@ public class EntityServiceLayerTest {
         school.put("nameOfInstitution", "Battle School");
         String schoolId = SecurityUtil.sudoRun(new SecurityTask<String>() {
 
-			@Override
-			public String execute() {
-				return schoolService.create(school);
-			}
+            @Override
+            public String execute() {
+                return schoolService.create(school);
+            }
 
         });
         EntityBody assoc1 = new EntityBody();

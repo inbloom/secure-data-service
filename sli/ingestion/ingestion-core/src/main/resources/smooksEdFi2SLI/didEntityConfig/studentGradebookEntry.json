@@ -1,14 +1,13 @@
 {
     "referenceSources" :
-    [
-        {
+    [   {
             "entityType" : "student",
-            "sourceRefPath": "body.StudentReference",
+            "sourceRefPath": "body.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentReference",
             "optional" : false
         },
         {
             "entityType" : "section",
-            "sourceRefPath": "body.SectionReference",
+            "sourceRefPath": "body.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference",
             "optional" : false
         },
         {

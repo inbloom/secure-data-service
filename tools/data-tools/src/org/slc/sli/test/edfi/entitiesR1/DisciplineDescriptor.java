@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This descriptor defines the type of action or
- * 				removal
- * 				from the classroom used to discipline the student involved as
- * 				a
- * 				perpetrator in a discipline incident.
- * 			
+ *                 removal
+ *                 from the classroom used to discipline the student involved as
+ *                 a
+ *                 perpetrator in a discipline incident.
+ *             
  * 
  * <p>Java class for disciplineDescriptor complex type.
  * 

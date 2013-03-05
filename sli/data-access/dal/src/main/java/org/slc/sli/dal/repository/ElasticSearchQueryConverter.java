@@ -28,7 +28,7 @@ import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.NeutralCriteria;
@@ -152,7 +152,7 @@ public class ElasticSearchQueryConverter {
             }
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
-            	String value = "*" + ((String)criteria.getValue()).trim() + "*";
+                String value = "*" + ((String)criteria.getValue()).trim() + "*";
                 BoolQueryBuilder shouldQuery = QueryBuilders.boolQuery();
                 // wildcard will work for not-analyzed fields and queryString is for analyzed
                 shouldQuery.should(QueryBuilders.wildcardQuery(criteria.getKey(), value));

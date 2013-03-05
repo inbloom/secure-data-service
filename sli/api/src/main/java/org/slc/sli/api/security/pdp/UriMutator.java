@@ -33,8 +33,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.ResponseTooLargeException;
@@ -116,11 +116,11 @@ public class UriMutator {
                         MutatedContainer newMutated = new MutatedContainer();
                         String path = String.format("/%s/%s", resource, e.getEntityId());
                         if (EntityNames.TEACHER.equals(e.getType())) {
-                        	path = String.format("/teachers/%s", e.getEntityId());
+                            path = String.format("/teachers/%s", e.getEntityId());
                         } else if (EntityNames.STAFF.equals(e.getType())) {
-                        	path = String.format("/staff/%s", e.getEntityId());
+                            path = String.format("/staff/%s", e.getEntityId());
                         }
-						newMutated.setPath(path);
+                        newMutated.setPath(path);
                         
                         info("Rewriting URI to {} based on natural keys", newMutated.getPath());
                         return newMutated;

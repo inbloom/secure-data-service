@@ -20,9 +20,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This descriptor defines the fields of certification
- * 				that the SEA
- * 				offers to teachers.
- * 			
+ *                 that the SEA
+ *                 offers to teachers.
+ *             
  * 
  * <p>Java class for credentialFieldDescriptor complex type.
  * 

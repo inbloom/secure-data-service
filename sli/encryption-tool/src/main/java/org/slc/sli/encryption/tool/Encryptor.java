@@ -43,9 +43,9 @@ public class Encryptor {
 
     KeyStore keystore;
 
-	public Encryptor(String keyStoreLocation, String keyStorePassword)  throws Exception {
+    public Encryptor(String keyStoreLocation, String keyStorePassword)  throws Exception {
 
-		setKeyLocation(keyStoreLocation);
+        setKeyLocation(keyStoreLocation);
         setKeyStorePass(keyStorePassword);
         
         String keyLocation = getKeyLocation();
@@ -54,18 +54,18 @@ public class Encryptor {
 //        System.out.println("\nUsing keystore: " + getKeyLocation());
         
         if (keyfile.exists()) {
-        	// load keystore
-        	FileInputStream fis = null;
+            // load keystore
+            FileInputStream fis = null;
             try {
-				fis = new FileInputStream(getKeyLocation());
-				keystore = KeyStore.getInstance(KEYSTORE_TYPE);
-				keystore.load(fis, this.getKeyStorePass().toCharArray());
-				fis.close();
-			} finally {
-				if (fis != null) {
-					fis.close();
-				}
-			}
+                fis = new FileInputStream(getKeyLocation());
+                keystore = KeyStore.getInstance(KEYSTORE_TYPE);
+                keystore.load(fis, this.getKeyStorePass().toCharArray());
+                fis.close();
+            } finally {
+                if (fis != null) {
+                    fis.close();
+                }
+            }
         } else {
             throw new FileNotFoundException("Unable to load file '" + keyLocation + "' -- Please specify a valid keystore file.");
         }

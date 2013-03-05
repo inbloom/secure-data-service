@@ -5,9 +5,9 @@ package org.slc.sli.common.util.logging;
  *
  */
 public class LoggingUtilException extends RuntimeException {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public LoggingUtilException(final Throwable throwable) {
-		super(throwable);
-	}
+    public LoggingUtilException(final Throwable throwable) {
+        super(throwable);
+    }
 }

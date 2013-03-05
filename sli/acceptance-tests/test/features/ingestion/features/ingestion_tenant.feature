@@ -24,6 +24,7 @@ Then I should see following map of entry counts in the corresponding collections
      | student                     | 1                   | body.studentUniqueStateId   | 530425896        | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
+  And I should not see a warning log file created
   And I should see "tenant.xml records considered: 1" in the resulting batch job file
   And I should see "tenant.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "tenant.xml records failed: 0" in the resulting batch job file
@@ -48,6 +49,7 @@ Then I should see following map of entry counts in the corresponding collections
      | student                     | 1                   | body.studentUniqueStateId   | 530425896        | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
+  And I should not see a warning log file created
   And I should see "tenant.xml records considered: 1" in the resulting batch job file
   And I should see "tenant.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "tenant.xml records failed: 0" in the resulting batch job file

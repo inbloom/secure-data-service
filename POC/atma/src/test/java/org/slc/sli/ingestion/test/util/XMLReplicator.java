@@ -10,17 +10,17 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 public class XMLReplicator {
-	private static final SAXBuilder builder = new SAXBuilder();
-	private static final XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
+    private static final SAXBuilder builder = new SAXBuilder();
+    private static final XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
 
-	public static void main(String[] args) throws Exception {
-		Document doc = builder.build(new FileReader("src/test/resources/xml/small/InterchangeSection.xml"));
+    public static void main(String[] args) throws Exception {
+        Document doc = builder.build(new FileReader("src/test/resources/xml/small/InterchangeSection.xml"));
 
-		for(int i=0;i<14;i++) {
-			doc.getRootElement().addContent(doc.getRootElement().cloneContent());
-		}
+        for(int i=0;i<14;i++) {
+            doc.getRootElement().addContent(doc.getRootElement().cloneContent());
+        }
 
-		out.output(doc, new FileOutputStream(new File("src/test/resources/xml/small/InterchangeSectionBig.xml")));
-		System.out.println(doc.getRootElement().getContentSize());
-	}
+        out.output(doc, new FileOutputStream(new File("src/test/resources/xml/small/InterchangeSectionBig.xml")));
+        System.out.println(doc.getRootElement().getContentSize());
+    }
 }

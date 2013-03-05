@@ -63,7 +63,7 @@ public class NeutralSchemaValidator implements EntityValidator {
     @Autowired
     private SelfReferenceValidator selfReferenceValidator;
 
-	// Constructors
+    // Constructors
     public NeutralSchemaValidator() {
         // necessary for instantiation via Spring 
     }
@@ -145,8 +145,8 @@ public class NeutralSchemaValidator implements EntityValidator {
     }
 
     public void setSelfReferenceValidator(
-			SelfReferenceValidator selfReferenceValidator) {
-		this.selfReferenceValidator = selfReferenceValidator;
-	}
+            SelfReferenceValidator selfReferenceValidator) {
+        this.selfReferenceValidator = selfReferenceValidator;
+    }
 
 }

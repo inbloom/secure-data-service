@@ -39,7 +39,7 @@
         },
         {
             "fieldPath" : "body.StudentCompetencyObjectiveReference",
-        	"deprecated" : true,
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "studentCompetencyObjective",

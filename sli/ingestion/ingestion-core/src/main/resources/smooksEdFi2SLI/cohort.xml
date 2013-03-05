@@ -23,12 +23,12 @@
     </jb:bean>
 
     <jb:bean beanId="cohortBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="cohortIdentifier" data="attributes cohortIdentifier" />
-        <jb:value property="cohortType" data="attributes cohortType" />
-        <jb:value property="cohortDescription" data="attributes cohortDescription" />
-        <jb:value property="cohortType" data="attributes cohortType" />
-        <jb:value property="cohortScope" data="attributes cohortScope" />
-        <jb:value property="academicSubject" data="attributes academicSubject" />
+        <jb:value property="cohortIdentifier" data="attributes CohortIdentifier _value" />
+        <jb:value property="cohortType" data="attributes CohortType _value" />
+        <jb:value property="cohortDescription" data="attributes CohortDescription _value" />
+        <jb:value property="cohortType" data="attributes CohortType _value" />
+        <jb:value property="cohortScope" data="attributes CohortScope _value" />
+        <jb:value property="academicSubject" data="attributes AcademicSubject _value" />
         <jb:value property="educationOrgId" data="attributes EducationOrgReference" />
         <jb:wiring property="programId" beanIdRef="cohort_programIdArray" />
     </jb:bean>
