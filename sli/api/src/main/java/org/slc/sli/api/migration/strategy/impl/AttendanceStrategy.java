@@ -71,17 +71,21 @@ public class AttendanceStrategy implements MigrationStrategy<EntityBody> {
         List<EntityBody> splitBodies = new ArrayList<EntityBody>();
         final List<Map<String, Object>> schoolYearAttendances =
                 (List<Map<String, Object>>) entityBody.get(SCHOOL_YEAR_ATTENDANCE);
-        Map<String, List<Map<String, Object>>> attendanceEventsBySchoolYear =
-                groupBySchoolYears(schoolYearAttendances);
-        for (String schoolYear : attendanceEventsBySchoolYear.keySet()) {
-            EntityBody copy = new EntityBody(entityBody);
-            final List<Map<String, Object>> attendanceEvents = attendanceEventsBySchoolYear.get(schoolYear);
-            if (attendanceEvents != null) {
-                copy.put(ATTENDANCE_EVENT, attendanceEvents);
+        if (schoolYearAttendances != null) {
+            Map<String, List<Map<String, Object>>> attendanceEventsBySchoolYear =
+                    groupBySchoolYears(schoolYearAttendances);
+            for (String schoolYear : attendanceEventsBySchoolYear.keySet()) {
+                EntityBody copy = new EntityBody(entityBody);
+                final List<Map<String, Object>> attendanceEvents = attendanceEventsBySchoolYear.get(schoolYear);
+                if (attendanceEvents != null) {
+                    copy.put(ATTENDANCE_EVENT, attendanceEvents);
+                }
+                copy.put(SCHOOL_YEAR, schoolYear);
+                copy.remove(SCHOOL_YEAR_ATTENDANCE);
+                splitBodies.add(copy);
             }
-            copy.put(SCHOOL_YEAR, schoolYear);
-            copy.remove(SCHOOL_YEAR_ATTENDANCE);
-            splitBodies.add(copy);
+        } else {
+            splitBodies.add(entityBody);
         }
 
         if (splitBodies.size() > 1 && operation.equals(PUT)) {
