@@ -98,6 +98,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     And I should see "Processed 10107 records." in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
+    And I should not see a warning log file created
     # Reference should be inserted
      When I look at "<INGESTED STUDENT ID>" in the "student"
      Then I should find "<STUDENTASSESSMENT REFERENCE ID>" in "studentAssessment"
@@ -132,6 +133,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     And I should see "Processed 6 records." in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
+    And I should not see a warning log file created
     # Check if references are inserted
     When I look at "<INGESTED MATT SOLLARS>" in the "student"
     Then I should find "<INGESTED 7TH GRADE ENGLISH SEC 5>" in "section"
