@@ -726,6 +726,12 @@ Then /^I verify "(.*?)" and "(.*?)" is collapsed in response body$/ do |subdocs,
   }
 end
 
+Then /^I verify "(.*?)" is "(.*?)" inside "(.*?)"$/ do |key, value, container|
+  result = JSON.parse(@res.body)
+  assert(result[container], "#{container} does not exists in response body")
+  assert(result[container][key] == value, "#{key} is #{result[container][key]}, but expecting #{value}}")
+end
+
 Then /^"(.*?)" is hierachical with children at "(.*?)"$/ do |parent, child|
   result = JSON.parse(@res.body)
   assert(result[parent][0][child], "#{parent} does not contain any child at #{child}")
