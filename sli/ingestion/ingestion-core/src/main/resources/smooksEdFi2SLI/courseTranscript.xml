@@ -36,6 +36,7 @@
         <jb:value property="courseId" data="attributes CourseReference"/>
 	    <jb:wiring property="educationOrganizationReference" beanIdRef="CourseTranscript_EdOrgReferenceArray"/>
         <jb:value property="studentAcademicRecordId" data="attributes StudentAcademicRecordReference"/>
+        <jb:value property="studentId" data="attributes DiDResolved_StudentReference"/>
     </jb:bean>
     
     <jb:bean beanId="CreditsAttempted" class="java.util.HashMap" createOnElement="attributes CreditsAttempted">

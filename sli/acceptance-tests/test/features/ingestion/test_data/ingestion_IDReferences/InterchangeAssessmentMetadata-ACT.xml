@@ -54,13 +54,6 @@
 
 	<!-- first level of objective assessment -->
 	<ObjectiveAssessment id="ActEng">
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>ACT</AssessmentTitle>
-                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                        <Version>1</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
 		<IdentificationCode>ACT-English</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
 		<ObjectiveAssessmentReference>
@@ -73,16 +66,16 @@
 				<ObjectiveAssessmentIdentificationCode>ACT-English-Rhetorical</ObjectiveAssessmentIdentificationCode>
 			</ObjectiveAssessmentIdentity>
 		</ObjectiveAssessmentReference>
+        <AssessmentReference>
+            <AssessmentIdentity>
+            	<AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ActMath">
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>ACT</AssessmentTitle>
-                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                        <Version>1</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
 		<IdentificationCode>ACT-Mathematics</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
 		<ObjectiveAssessmentReference>
@@ -100,16 +93,16 @@
 				<ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode>
 			</ObjectiveAssessmentIdentity>
 		</ObjectiveAssessmentReference>
+        <AssessmentReference>
+            <AssessmentIdentity>
+            	<AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ActReading">
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>ACT</AssessmentTitle>
-                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                        <Version>1</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
 		<IdentificationCode>ACT-Reading</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
 		<LearningObjectiveReference>
@@ -129,101 +122,101 @@
 				<ObjectiveAssessmentIdentificationCode>ACT-Reading-Arts</ObjectiveAssessmentIdentificationCode>
 			</ObjectiveAssessmentIdentity>
 		</ObjectiveAssessmentReference>
+        <AssessmentReference>
+            <AssessmentIdentity>
+            	<AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ActScience">
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>ACT</AssessmentTitle>
-                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                        <Version>1</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
 		<IdentificationCode>ACT-Science</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
+        <AssessmentReference>
+            <AssessmentIdentity>
+            	<AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ActWriting">
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>ACT</AssessmentTitle>
-                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                        <Version>1</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
 		<IdentificationCode>ACT-Writing</IdentificationCode>
 		<MaxRawScore>12</MaxRawScore>
+        <AssessmentReference>
+            <AssessmentIdentity>
+            	<AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<!-- second level of objective assessment -->
 	<ObjectiveAssessment id="ActEngUsage">
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>ACT</AssessmentTitle>
-                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                        <Version>1</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
 		<IdentificationCode>ACT-English-Usage</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
+        <AssessmentReference>
+            <AssessmentIdentity>
+            	<AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 	</ObjectiveAssessment>
 
    <ObjectiveAssessment id="ActEngRhetorical">
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>ACT</AssessmentTitle>
-                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                        <Version>1</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
 		<IdentificationCode>ACT-English-Rhetorical</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
+        <AssessmentReference>
+            <AssessmentIdentity>
+            	<AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ActMathPreAlgebra">
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>ACT</AssessmentTitle>
-                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                        <Version>1</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
 		<IdentificationCode>ACT-Math-Pre-Algebra</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
+        <AssessmentReference>
+            <AssessmentIdentity>
+            	<AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ActMathAlgebra">
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>ACT</AssessmentTitle>
-                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                        <Version>1</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
 		<IdentificationCode>ACT-Math-Algebra</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
+        <AssessmentReference>
+            <AssessmentIdentity>
+            	<AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ActMathGeometry">
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>ACT</AssessmentTitle>
-                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                        <Version>1</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
 		<IdentificationCode>ACT-Math-Plane-Geometry</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
+        <AssessmentReference>
+            <AssessmentIdentity>
+            	<AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ActReadingSocial">
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>ACT</AssessmentTitle>
-                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                        <Version>1</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
 		<IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
 		<!-- Commenting out circular reference -->
@@ -237,18 +230,25 @@
 				<ObjectiveAssessmentIdentificationCode>ACT-Reading-Arts</ObjectiveAssessmentIdentificationCode>
 			</ObjectiveAssessmentIdentity>
 		</ObjectiveAssessmentReference>
+        <AssessmentReference>
+            <AssessmentIdentity>
+            	<AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ActReadingArts">
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>ACT</AssessmentTitle>
-                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                        <Version>1</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
 		<IdentificationCode>ACT-Reading-Arts</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
+        <AssessmentReference>
+            <AssessmentIdentity>
+            	<AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<!-- Assessment Item Section -->
