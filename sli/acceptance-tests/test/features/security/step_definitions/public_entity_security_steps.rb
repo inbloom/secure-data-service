@@ -30,7 +30,7 @@ $context_map = {
   "school" => "/v1/schools/92d6d5a0-852c-45f4-907a-912752831772/",
   "section" => "/v1/sections/15ab6363-5509-470c-8b59-4f289c224107_id/",
   "session" => "/v1/sessions/c549e272-9a7b-4c02-aff7-b105ed76c904/",
-  "studentCompetencyObjective" => "/v1/studentCompetencyObjectives/"
+  "studentCompetencyObjective" => "/v1/studentCompetencyObjectives/313db42ad65b911b0897d8240e26ca4b50bddb5e_id"
 }
 
 When /^I make a call to get "(.*?)"$/ do |arg1|
