@@ -22,7 +22,6 @@ Scenario Outline: Control the presence of links by specifying an accept type for
         | "application/json"         | "links"      |
         | "application/vnd.slc+json" | "links"      |
 
-@derp
 Scenario Outline: Confirm all known reference fields generate two valid links that are implemented and update-able
    Given format "application/vnd.slc+json"
      And referring collection <source entity type> exposed as <source expose name>
