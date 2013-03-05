@@ -135,7 +135,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
  "studentAcademicRecord" => {
     "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3_id",
     "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072",
-    "schoolYear" => "2010-2011"
+    "schoolYear" => "2009-2010"
   },
   "student" => {
     "birthData" => {
