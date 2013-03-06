@@ -321,27 +321,24 @@ Examples:
   # Create
       And an entity json document for a <Entity Type>
     When I navigate to POST "/<ENTITY URI>"
-    Then I should receive a return code of <Expected Http Code>
+    Then I should receive a return code of 201
     And I should receive a new entity URI after a successful response
   # Read
-#    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#    Then I should receive a return code of 200
-#    And the response should contain the appropriate fields and values
-#    And "entityType" should be <Entity Type>
-#    And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+    And the response should contain the appropriate fields and values
+    And "entityType" should be "attendance"
+    And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
   # Update
-#    When I set the <Update Field> to <Updated Value>
-#    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#    Then I should receive a return code of 409
+    When I set the <Update Field> array to <Updated Value>
+    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
   # Delete
-#    When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#    Then I should receive a return code of 204
-#    And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-#    And I should receive a return code of 404
+    When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    And I should receive a return code of 404
 
   Examples:
-    | Entity Type                             | Expected Http Code    | Entity Resource URI                   | Update Field  | Updated Value   |
-    | "yearlyAttendance"                      | 201                   | "yearlyAttendances"                    | ""            | ""              |
-    | "duplicateYearlyAttendance"             | 409                   | "yearlyAttendances"           | ""            | ""              |
-    | "invalidYearlyAttendance"               | 400                   | "yearlyAttendances"             | ""            | ""              |
-    | "multiSchoolsPerYearYearlyAttendance"   | 201                   | "yearlyAttendances" | ""            | ""              |
+    | Entity Type                             | Entity Resource URI | Update Field      | Updated Value                                                   |
+    | "yearlyAttendance"                      | "yearlyAttendances" | "attendanceEvent" | [{"event": "Unexcused Absence", "date":"2010-09-16"}] |
