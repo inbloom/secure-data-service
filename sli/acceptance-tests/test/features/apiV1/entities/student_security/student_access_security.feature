@@ -389,7 +389,8 @@ When I make an API call to get the section <Section I can see>
 Then I should receive a return code of 200
 And I should be able to access data about the section <Section I can see>
 When I make an API call to get the section <Section I cannot see>
-Then I should receive a return code of 403
+# sections are now public, so not having context won't stop you!
+Then I should receive a return code of 200
 And I should not be able to access data about the section <Section I cannot see>
 Examples:
 | User        | Count | Section I can see | Section I cannot see |
@@ -435,7 +436,7 @@ When I make an API call to get the section <Section I can see>
 Then I should receive a return code of 200
 And I should be able to access data about the section <Section I can see>
 When I make an API call to get the section <Section I cannot see>
-Then I should receive a return code of 403
+Then I should receive a return code of 200
 And I should not be able to access data about the section <Section I cannot see>
 Examples:
 | User        | Count | Section I can see | Section I cannot see | Notes |

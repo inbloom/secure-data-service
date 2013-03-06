@@ -163,7 +163,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz",
     "dateAssigned" => "2012-02-14",
-    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
+    "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107_id"
   },
   "learningObjective" => {
     "academicSubject" => "Mathematics",
@@ -220,14 +220,14 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     }
   },
   "studentGradebookEntry" => {
-    "gradebookEntryId" => "0dbb262b-8a3e-4a7b-82f9-72de95903d91_id20120613-56b6-4d17-847b-2997b7227686_id",
-    "letterGradeEarned" => "A",
-    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id",
-    "studentId" => "2fab099f-47d5-4099-addf-69120db3b53b_id",
-    "studentSectionAssociationId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id49b277c3-4639-42c2-88ef-0f59dd5acba2_id",
-    "numericGradeEarned" => 98,
+    "gradebookEntryId" => "15ab6363-5509-470c-8b59-4f289c224107_id483354633760fa56c9da15510e36ba79691743e4_id",
+    "studentId" => "bf88acdb-71f9-4c19-8de8-2cdc698936fe_id",
+    "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107_id",
     "dateFulfilled" => "2012-01-31",
-    "diagnosticStatement" => "Finished the quiz in 5 minutes"
+    "letterGradeEarned" => "A",
+    "numericGradeEarned" => 98,
+    "diagnosticStatement" => "Finished the quiz in 5 minutes",
+    "studentSectionAssociationId" => "15ab6363-5509-470c-8b59-4f289c224107_id066345e8-2633-474d-9088-7b3828bf873a_id"
   },
   "assessment" => {
     "assessmentTitle" => "Writing Advanced Placement Test",

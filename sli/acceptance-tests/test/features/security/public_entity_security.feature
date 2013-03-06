@@ -1,5 +1,4 @@
 @RALLY_US5394
-@wip
 Feature: Public & Global Entity Security
 As a user of the system, I want to be able to access data classified as public and global from any context, as long as I am given the READ_PUBLIC right.
 However, i should be forced to have context to the entity if I am attempting to update it and have been granted the WRITE_PUBLIC right.
@@ -12,7 +11,6 @@ And I should see the entity in the response
 Examples:
 | Entity Type                |
 |"assessment"                |
-#|"competencyLevelDescriptor" |
 |"course"                    |
 |"courseOffering"            |
 |"educationOrganization"     |
@@ -35,7 +33,6 @@ And I should see the entity in the response
 Examples:
 | Entity Type                |
 |"assessment"                |
-#|"competencyLevelDescriptor" |
 |"course"                    |
 |"courseOffering"            |
 |"educationOrganization"     |
@@ -49,7 +46,7 @@ Examples:
 |"session"                   |
 |"studentCompetencyObjective"|
   
-Scenario Outline: Being denied updating a public global entity if outside my context
+  Scenario Outline: Being denied updating a public global entity if outside my context
 Given I am logged in using "akopel" "akopel1234" to realm "IL"
 When I make a call to delete <Entity Type> which I don't have context to
 Then I should receive a return code of 403
