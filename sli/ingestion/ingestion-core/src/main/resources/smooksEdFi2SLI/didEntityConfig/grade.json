@@ -19,7 +19,7 @@
         {
             "entityType" : "gradingPeriod",
             "sourceRefPath": "body.GradingPeriodReference",
-            "optional" : false
+            "optional" : true
         }
     ]
 }
