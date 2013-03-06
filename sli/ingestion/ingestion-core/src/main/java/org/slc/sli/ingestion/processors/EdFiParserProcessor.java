@@ -89,11 +89,11 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             metrics.setValidationErrorCount(ignoredRecordcount.get());
 
         } catch (IOException e) {
-            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0063);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0061);
         } catch (SAXException e) {
-            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0064);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0062);
         } catch (XmlParseException e) {
-            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0065);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0063);
             validData = false;
         } finally {
             IOUtils.closeQuietly(input);

@@ -217,7 +217,7 @@ def check_section_data(arg1, response)
   @format = "application/vnd.slc+json"
   ["gradebookEntries"].each do |endpoint|
     restHttpGet("/v1/#{endpoint}") if endpoint.include? arg1
-    restHttpGet("/v1/#{endpoint}?sectionId=#{arg1}") unless endpoint.include? arg1
+    restHttpGet("/v1/sections/#{arg1}/#{endpoint}") unless endpoint.include? arg1
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == response, "Get on endpoint #{endpoint}, expected code: #{response} but actual code was #{@res.code}")
     data = JSON.parse(@res.body) unless response == 403

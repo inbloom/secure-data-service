@@ -57,7 +57,7 @@
   </jb:bean>
 
 
-    <jb:bean beanId="objectiveAssessment_assessmentItemRefArray" class="java.util.ArrayList" createOnElement="attributes ObjectiveAssessmentReference">
+    <jb:bean beanId="objectiveAssessment_assessmentItemRefArray" class="java.util.ArrayList" createOnElement="attributes AssessmentItemReference">
         <jb:value data="attributes AssessmentItemReference element" />
     </jb:bean>
 

@@ -3034,8 +3034,8 @@ def recurseAndCount(path, param, resetCount=true)
   
   dotPath = String.new(path)
   dotPath[":"] = "." while dotPath.include? ":"
-  dotPath[".."] = "." while dotPath.include? ".."
-  dotPath = dotPath.chop if dotPath[-1] == "."
+  dotPath.gsub!(/\.\..*/, "")
+  dotPath.chop! if dotPath[-1] == "."
 
   doc = @entity_collection.find({"#{dotPath}" => { "$exists" => true }}).to_a
     

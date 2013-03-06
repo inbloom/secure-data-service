@@ -39,8 +39,8 @@ public class TeacherToStaffCohortAssociationValidator extends AbstractContextVal
         return EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType) && isTeacher();
     }
 
-    @Override
-    public boolean validate(String entityType, Set<String> ids) {
+	@Override
+	public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF_COHORT_ASSOCIATION, entityType, ids)) {
             return false;
         }

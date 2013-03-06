@@ -16,18 +16,19 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Validates the context of a staff member to see the requested set of teacher school associations.
@@ -39,7 +40,7 @@ import java.util.Set;
 public class StaffToTeacherSectionAssociationValidator extends AbstractContextValidator {
 
     @Autowired
-    private StaffToSectionValidator validator;
+    private StaffToGlobalSectionValidator validator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -47,7 +48,7 @@ public class StaffToTeacherSectionAssociationValidator extends AbstractContextVa
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.TEACHER_SECTION_ASSOCIATION, entityType, ids)) {
             return false;
         }
@@ -59,7 +60,7 @@ public class StaffToTeacherSectionAssociationValidator extends AbstractContextVa
         if (teacherSectionAssociations != null) {
             for (Entity teacherSectionAssociation : teacherSectionAssociations) {
                 Map<String, Object> body = teacherSectionAssociation.getBody();
-                String section = (String) body.get("sectionId");
+                String section = (String) body.get(ParameterConstants.SECTION_ID);
                 sections.add(section);
             }
         }
@@ -77,7 +78,7 @@ public class StaffToTeacherSectionAssociationValidator extends AbstractContextVa
      * @param validator
      *            Staff to section validator to be used.
      */
-    protected void setStaffToSectionValidator(StaffToSectionValidator validator) {
+    protected void setStaffToSectionValidator(StaffToGlobalSectionValidator validator) {
         this.validator = validator;
     }
 }
