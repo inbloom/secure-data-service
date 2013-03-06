@@ -55,6 +55,10 @@ public class ContainerDocumentAccessor {
 
     private MongoTemplate mongoTemplate;
 
+    private SubDocAccessor subDocAccessor;
+
+    private final Map<String, SubDocAccessor.Location> locationMap = new HashMap<String, SubDocAccessor.Location>();
+
     private static final Logger LOG = LoggerFactory.getLogger(ContainerDocumentAccessor.class);
 
     public ContainerDocumentAccessor(final UUIDGeneratorStrategy strategy, final INaturalKeyExtractor extractor,
@@ -64,6 +68,7 @@ public class ContainerDocumentAccessor {
         this.mongoTemplate = mongoTemplate;
         //TODO: Fix (springify)
         this.containerDocumentHolder = new ContainerDocumentHolder();
+        this.subDocAccessor = new SubDocAccessor(mongoTemplate, strategy, extractor);
     }
 
     public boolean isContainerDocument(final String entity) {
@@ -143,7 +148,10 @@ public class ContainerDocumentAccessor {
         final String fieldToPersist = containerDocument.getFieldToPersist();
 
         DBObject entityDetails = new BasicDBObject();
-        final String parentKey = ContainerDocumentHelper.createParentKey(entity, containerDocumentHolder, generatorStrategy);
+        String parentKey = entity.getEntityId();
+        if(containerDocument.isContainerSubdoc()) {
+            parentKey = ContainerDocumentHelper.extractParentId(parentKey);
+        }
 
         final Query query = Query.query(Criteria.where("_id").is(parentKey));
 
@@ -188,7 +196,6 @@ public class ContainerDocumentAccessor {
 
     protected String insertContainerDoc(final DBObject query, final Entity entity) {
         TenantContext.setIsSystemCall(false);
-        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
 
         boolean persisted = true;
 
@@ -198,8 +205,19 @@ public class ContainerDocumentAccessor {
                 docToPersist, true, false, WriteConcern.SAFE)
                 .getLastError().ok();
 
+        String key = (String) query.get("_id");
+        ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+        if(containerDocument.isContainerSubdoc()) {
+            Map<String, String> parentToSubDocField = new HashMap<String, String>();
+            for(String parentKey :containerDocument.getParentNaturalKeys()) {
+                parentToSubDocField.put(parentKey,parentKey);
+            }
+            subDocAccessor.createLocation(containerDocument.getCollectionName(), containerDocument.getCollectionToPersist(), parentToSubDocField, containerDocument.getFieldToPersist());
+            key = key + ContainerDocumentHelper.getContainerDocId(entity, containerDocumentHolder, generatorStrategy, naturalKeyExtractor);
+        }
+
         if (persisted) {
-            return (String) query.get("_id");
+            return key;
         } else {
             return "";
         }

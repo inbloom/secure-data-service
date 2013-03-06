@@ -92,6 +92,9 @@ public class SubDocAccessor {
     public LocationBuilder store(String type) {
         return new LocationBuilder(type);
     }
+    public Location createLocation(String type, String parentColl, Map<String, String> lookup, String subField ) {
+        return new LocationBuilder(type).as(subField).within(parentColl).mapping(lookup).build();
+    }
 
     private class LocationBuilder {
         private Map<String, String> lookup = new HashMap<String, String>();
@@ -146,7 +149,14 @@ public class SubDocAccessor {
         public void register() {
             locations.put(type, new Location(collection, lookup, subField));
         }
+        public Location build() {
+            return new Location(collection, lookup, subField);
+        }
 
+        public LocationBuilder mapping(Map<String,String> lookup) {
+            lookup.putAll(lookup);
+            return this;
+        }
     }
 
     /**

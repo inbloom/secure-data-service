@@ -65,8 +65,7 @@ public class ContainerDocumentHelper {
 
             final List<Map<String, Object>> containerSubDocList = new ArrayList<Map<String, Object>>();
             containerSubDocList.add(containerSubDoc);
-            docToPersist =  BasicDBObjectBuilder.start().push("$pushAll")
-                    .add(containerDocument.getFieldToPersist(), containerSubDocList.toArray()).get();
+            docToPersist =  BasicDBObjectBuilder.start().get();
 
         } else {
             if (entity.getMetaData() != null && !entity.getMetaData().isEmpty()) {
