@@ -89,7 +89,7 @@ public class ContainerDocumentAccessorTest {
         when(mockHolder.getContainerDocument(ATTENDANCE)).thenReturn(attendance);
         when(generatorStrategy.generateId(stubKeyDescriptor)).thenReturn("abc-123");
 
-        final String parentUUID = testAccessor.createParentKey(entity);
+        final String parentUUID = ContainerDocumentHelper.createParentKey(entity, mockHolder, generatorStrategy);
         final String expected = "abc-123";
 
         assertFalse(parentUUID == null);

@@ -200,19 +200,20 @@ public class ContainerDocumentAccessor {
         boolean persisted = true;
 
         final DBObject docToPersist = ContainerDocumentHelper.buildDocumentToPersist(containerDocumentHolder, entity, generatorStrategy, naturalKeyExtractor);
-
-        persisted &= mongoTemplate.getCollection(entity.getType()).update(query,
+        ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+        persisted &= mongoTemplate.getCollection(containerDocument.getCollectionToPersist()).update(query,
                 docToPersist, true, false, WriteConcern.SAFE)
                 .getLastError().ok();
 
         String key = (String) query.get("_id");
-        ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+
         if(containerDocument.isContainerSubdoc()) {
             Map<String, String> parentToSubDocField = new HashMap<String, String>();
             for(String parentKey :containerDocument.getParentNaturalKeys()) {
                 parentToSubDocField.put(parentKey,parentKey);
             }
-            subDocAccessor.createLocation(containerDocument.getCollectionName(), containerDocument.getCollectionToPersist(), parentToSubDocField, containerDocument.getFieldToPersist());
+            subDocAccessor.createLocation(containerDocument.getCollectionName(), containerDocument.getCollectionToPersist(), parentToSubDocField, containerDocument.getFieldToPersist())
+            .create(entity);
             key = key + ContainerDocumentHelper.getContainerDocId(entity, containerDocumentHolder, generatorStrategy, naturalKeyExtractor);
         }
 
