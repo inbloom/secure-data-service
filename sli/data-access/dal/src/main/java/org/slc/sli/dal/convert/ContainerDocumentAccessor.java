@@ -26,7 +26,8 @@ import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -50,12 +51,16 @@ public class ContainerDocumentAccessor {
 
     private UUIDGeneratorStrategy generatorStrategy;
 
+    private INaturalKeyExtractor naturalKeyExtractor;
+
     private MongoTemplate mongoTemplate;
 
     private static final Logger LOG = LoggerFactory.getLogger(ContainerDocumentAccessor.class);
 
-    public ContainerDocumentAccessor(final UUIDGeneratorStrategy strategy, final MongoTemplate mongoTemplate) {
+    public ContainerDocumentAccessor(final UUIDGeneratorStrategy strategy, final INaturalKeyExtractor extractor,
+                                     final MongoTemplate mongoTemplate) {
         this.generatorStrategy = strategy;
+        this.naturalKeyExtractor = extractor;
         this.mongoTemplate = mongoTemplate;
         //TODO: Fix (springify)
         this.containerDocumentHolder = new ContainerDocumentHolder();
@@ -112,8 +117,13 @@ public class ContainerDocumentAccessor {
     protected String getContainerDocId(final Entity entity) {
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
         if (entity.getEntityId() == null || entity.getEntityId().isEmpty()) {
-            final List<String> containerKeyList = containerDocument.getContainerDocNaturalKeys();
-            final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, containerKeyList);
+            NaturalKeyDescriptor naturalKeyDescriptor = null;
+            try {
+                naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
+            } catch (NoNaturalKeysDefinedException e) {
+                LOG.error(e.getMessage(), e);
+                throw new RuntimeException(e);
+            }
             return generatorStrategy.generateId(naturalKeyDescriptor);
         } else {
             return entity.getEntityId();

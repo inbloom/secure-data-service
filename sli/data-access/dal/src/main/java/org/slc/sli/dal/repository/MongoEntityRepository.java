@@ -109,7 +109,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         setWriteConcern(writeConcern);
         subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
         denormalizer = new Denormalizer(getTemplate());
-        containerDocumentAccessor = new ContainerDocumentAccessor(uuidGeneratorStrategy, template);
+        containerDocumentAccessor = new ContainerDocumentAccessor(uuidGeneratorStrategy, naturalKeyExtractor, template);
     }
 
     @Override

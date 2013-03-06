@@ -56,7 +56,6 @@ public class ContainerDocumentHolder {
                 .persistAs(EntityNames.ATTENDANCE)
                 .withParent(parentKeys).build();
 
-        final List<String> containerKeysForReportCard = Arrays.asList("studentId", "gradingPeriodId");
         final List<String> parentKeysForGRCSAR = Arrays.asList("studentId", "schoolYear");
         final ContainerDocument reportCard = ContainerDocument.builder()
                 .forCollection(EntityNames.REPORT_CARD)
@@ -64,7 +63,7 @@ public class ContainerDocumentHolder {
                 .withParent(parentKeysForGRCSAR)
                 .persistAs("yearlyTranscript")
                 .asContainerSubdoc(true)
-                .withContainerDocKeys(containerKeysForReportCard).build();
+                .build();
         final ContainerDocument grade = ContainerDocument.builder()
                 .forCollection(EntityNames.GRADE)
                 .forField(EntityNames.GRADE)
