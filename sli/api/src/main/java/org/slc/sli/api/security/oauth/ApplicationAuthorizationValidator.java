@@ -81,7 +81,7 @@ public class ApplicationAuthorizationValidator {
                     } else {
                         //query approved edorgs
                         List<String> approvedDistricts = new ArrayList<String>((List<String>) app.getBody().get("authorized_ed_orgs"));
-                        List<String> myDistricts = helper.getDistricts(principal.getEntity());
+                        List<String> myDistricts = helper.getDistricts(edOrgs);
                         approvedDistricts.retainAll(myDistricts);
                         return !approvedDistricts.isEmpty();
                     }
