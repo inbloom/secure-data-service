@@ -7549,6 +7549,31 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+
+            <xs:element minOccurs='0' maxOccurs='unbounded' name='learningStandards' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Identifies the grading period for the grade.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>learningStandard</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element minOccurs='0' maxOccurs='unbounded' name='learningObjectives' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Identifies the grading period for the grade.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>learningObjective</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+
 		</xs:sequence>
 	</xs:complexType>
 
