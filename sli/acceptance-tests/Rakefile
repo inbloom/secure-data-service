@@ -1313,6 +1313,22 @@ task :importChaosSandboxData do
   end
 end
 
+desc "Import Sandbox Test Data"
+task :importPurgeData do
+  tenantTestHash = Hash[
+    "educationOrganization" => "PurgeFixtureData/educationOrganization_fixture.json",
+    "applicationAuthorization" => "PurgeFixtureData/applicationAuthorization_Hyrule_fixture.json",
+    "customRole" => "PurgeFixtureData/customRole_Hyrule_fixture.json"
+   ]
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+  setMultipleFixtureFiles(tenantTestHash)
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
+end
+
 desc "Import Unified Data Set"
 task :importUnifiedData => [:realmInit] do
   testHash = Hash[
