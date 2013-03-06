@@ -22,8 +22,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.PathSegment;
+
 import com.sun.jersey.spi.container.ContainerRequest;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriTemplate;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
@@ -32,11 +39,6 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriTemplate;
-
-import javax.ws.rs.core.PathSegment;
 
 
 /**
@@ -59,7 +61,6 @@ public class URITranslator {
     private static final String PARENT_LEARNING_OBJECTIVE = "parentLearningObjective";
     private static final String CHILD_LEARNING_OBJECTIVE = "childLearningObjective";
     private static final String LEARNING_STANDARD = "learningStandards";
-    private static final String STUDENT_COMPETENCY = "studentCompetencies";
     private static final String COURSE_TRANSCRIPT = "courseTranscript";
     private static final String ID_KEY = "_id";
 
@@ -109,7 +110,7 @@ public class URITranslator {
 
     /**
      * A builder for translating URI(s) to equivalent URI(s).
-     * 
+     *
      * @author kmyers
      *
      */
@@ -167,10 +168,10 @@ public class URITranslator {
                     new URITranslation(transformTo, pattern, parentEntity, key, referenceKey, transformToUri, ignorePatternList));
         }
     }
-    
+
     /**
      * Encapsulates the conversion/translation from one URI to an equivalent one.
-     * 
+     *
      * @author kmyers
      *
      */

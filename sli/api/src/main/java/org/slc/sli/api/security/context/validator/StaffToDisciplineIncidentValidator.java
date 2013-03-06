@@ -16,52 +16,53 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Validates staff have the necessary context to view a given discipline incident.
- * 
+ *
  * @author kmyers
  *
  */
 @Component
 public class StaffToDisciplineIncidentValidator extends AbstractContextValidator {
-    
+
     @Autowired
     private StaffToSubStudentEntityValidator subStudentValidator;
-    
+
     @Autowired
-    private StaffToEdOrgValidator schoolValidator;
+    private GenericToEdOrgValidator schoolValidator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         return isStaff() && EntityNames.DISCIPLINE_INCIDENT.equals(entityType);
     }
-    
+
     /**
      * Can see the Discipline incidents of the students beneath you with student discipline incident
      * associations
      * and you can see the ones that are in the edorg heirarchy beneath you
      */
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.DISCIPLINE_INCIDENT, entityType, ids)) {
             return false;
         }
-        
+
         boolean match = false;
         //Set<String> diIds = new HashSet<String>();
-        
+
         for (String id : ids) {
             match = false;
             // The union of studentDisciplineIncidentAssociations and DI.schoolId
@@ -83,7 +84,7 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
                 return false;
             }
             basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL,
-                    (String) di.getBody().get(ParameterConstants.SCHOOL_ID)));
+                    di.getBody().get(ParameterConstants.SCHOOL_ID)));
             Set<String> schoolId = new HashSet<String>(Arrays.asList(getRepo().findOne(
                     EntityNames.EDUCATION_ORGANIZATION, basicQuery).getEntityId()));
             if (schoolValidator.validate(EntityNames.SCHOOL, schoolId)) {
@@ -94,10 +95,10 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
             }
 
         }
-        
+
         return match;
     }
-    
+
     /**
      * @param subStudentValidator
      *            the subStudentValidator to set
@@ -105,12 +106,12 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
     public void setSubStudentValidator(StaffToSubStudentEntityValidator subStudentValidator) {
         this.subStudentValidator = subStudentValidator;
     }
-    
+
     /**
      * @param schoolValidator
      *            the schoolValidator to set
      */
-    public void setSchoolValidator(StaffToEdOrgValidator schoolValidator) {
+    public void setSchoolValidator(GenericToEdOrgValidator schoolValidator) {
         this.schoolValidator = schoolValidator;
     }
 }

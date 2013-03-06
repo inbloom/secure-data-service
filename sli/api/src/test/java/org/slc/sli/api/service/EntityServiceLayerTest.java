@@ -268,14 +268,7 @@ public class EntityServiceLayerTest {
         final EntityBody school = new EntityBody();
         school.put("name", "Battle School");
         school.put("nameOfInstitution", "Battle School");
-        String schoolId = SecurityUtil.sudoRun(new SecurityTask<String>() {
-
-            @Override
-            public String execute() {
-                return schoolService.create(school);
-            }
-
-        });
+        String schoolId = schoolService.create(school);
         EntityBody assoc1 = new EntityBody();
         assoc1.put("schoolId", schoolId);
         assoc1.put("studentId", id1);

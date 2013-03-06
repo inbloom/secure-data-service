@@ -40,8 +40,8 @@ public class TeacherToTeacherSectionAssociationValidator extends AbstractContext
         return EntityNames.TEACHER_SECTION_ASSOCIATION.equals(entityType) && isTeacher();
     }
 
-    @Override
-    public boolean validate(String entityType, Set<String> ids) {
+	@Override
+	public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.TEACHER_SECTION_ASSOCIATION, entityType, ids)) {
             return false;
         }

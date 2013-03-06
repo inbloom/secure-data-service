@@ -19,22 +19,17 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -43,12 +38,9 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Unit tests for staff --> teacher section association context validator.
@@ -65,52 +57,74 @@ public class StaffToTeacherSectionAssociationValidatorTest {
     private StaffToTeacherSectionAssociationValidator validator;
 
     @Autowired
+    private ValidatorTestHelper helper;
+
+    @Autowired
     private SecurityContextInjector injector;
 
-    private PagingRepositoryDelegate<Entity> mockRepo;
-    private StaffToSectionValidator staffToSectionValidator;
-    private Set<String> sectionIds;
+    Entity sea = null;
+    Entity lea = null;
+    Entity school = null;
+    Entity section = null;
+    Entity educator = null;
+    Entity seaStaff = null;
+    Entity leaStaff = null;
+    Entity schoolStaff = null;
+    Entity teacherSectionAssociation = null;
 
-    @SuppressWarnings("unchecked")
+    private void setContext(Entity actor, List<String> roles) {
+        String user = "fake actor";
+        String fullName = "Fake Actor";
+        injector.setCustomContext(user, fullName, "MERPREALM", roles, actor, "111");
+    }
+
     @Before
     public void setUp() {
-        sectionIds = new HashSet<String>();
-        mockRepo = Mockito.mock(PagingRepositoryDelegate.class);
-        staffToSectionValidator = Mockito.mock(StaffToSectionValidator.class);
+        sea = helper.generateEdorgWithParent(null);
+        lea = helper.generateEdorgWithParent(sea.getEntityId());
+        school = helper.generateEdorgWithParent(lea.getEntityId());
+        section = helper.generateSection(school.getEntityId());
 
-        String user = "fake staff";
-        String fullName = "Fake Staff";
-        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
+        seaStaff = helper.generateStaff();
+        helper.generateStaffEdorg(seaStaff.getEntityId(), sea.getEntityId(), false);
 
-        Entity entity = Mockito.mock(Entity.class);
-        Mockito.when(entity.getType()).thenReturn("staff");
-        Mockito.when(entity.getEntityId()).thenReturn("1");
-        injector.setCustomContext(user, fullName, "DERPREALM", roles, entity, "123");
+        leaStaff = helper.generateStaff();
+        helper.generateStaffEdorg(leaStaff.getEntityId(), lea.getEntityId(), false);
 
-        validator.setRepo(mockRepo);
-        validator.setStaffToSectionValidator(staffToSectionValidator);
+        schoolStaff = helper.generateStaff();
+        helper.generateStaffEdorg(schoolStaff.getEntityId(), school.getEntityId(), false);
+
+        educator = helper.generateTeacher();
+        helper.generateTeacherSchool(educator.getEntityId(), school.getEntityId());
+        teacherSectionAssociation = helper.generateTSA(educator.getEntityId(), section.getEntityId(), false);
     }
 
     @After
     public void tearDown() {
-        mockRepo = null;
-        staffToSectionValidator = null;
-        sectionIds.clear();
         SecurityContextHolder.clearContext();
     }
 
     @Test
     public void testCanValidateStaffToTeacherSectionAssociation() throws Exception {
+    	setContext(seaStaff, Arrays.asList(SecureRoleRightAccessImpl.SEA_ADMINISTRATOR));
         assertTrue(validator.canValidate(EntityNames.TEACHER_SECTION_ASSOCIATION, false));
         assertTrue(validator.canValidate(EntityNames.TEACHER_SECTION_ASSOCIATION, true));
     }
 
     @Test
     public void testDeniedStaffToOtherEntities() throws Exception {
+    	setContext(seaStaff, Arrays.asList(SecureRoleRightAccessImpl.SEA_ADMINISTRATOR));
         assertFalse(validator.canValidate(EntityNames.STUDENT, true));
         assertFalse(validator.canValidate(EntityNames.STUDENT, false));
         assertFalse(validator.canValidate(EntityNames.TEACHER, true));
         assertFalse(validator.canValidate(EntityNames.TEACHER, false));
+    }
+
+    @Test
+    public void testCanNotValidateAsNonStaffToTeacherSectionAssociation() throws Exception {
+    	setContext(educator, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR));
+    	assertFalse(validator.canValidate(EntityNames.TEACHER_SECTION_ASSOCIATION, false));
+        assertFalse(validator.canValidate(EntityNames.TEACHER_SECTION_ASSOCIATION, true));
     }
 
     @Test
@@ -125,57 +139,26 @@ public class StaffToTeacherSectionAssociationValidatorTest {
     }
 
     @Test
-    public void testCanGetAccessToTeacherSectionAssociation() throws Exception {
+    public void testSeaAdministratorCanGetAccessToTeacherSectionAssociation() throws Exception {
+        setContext(seaStaff, Arrays.asList(SecureRoleRightAccessImpl.SEA_ADMINISTRATOR));
         Set<String> teacherSectionAssociations = new HashSet<String>();
-        Map<String, Object> association = buildTeacherSectionAssociation("teacher123", "section123");
-        Entity teacherSectionAssociation = new MongoEntity(EntityNames.TEACHER_SECTION_ASSOCIATION, association);
         teacherSectionAssociations.add(teacherSectionAssociation.getEntityId());
-        sectionIds.add("section123");
-
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(Arrays.asList(teacherSectionAssociation));
-
-        Mockito.when(staffToSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(true);
         assertTrue(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations));
     }
 
     @Test
-    public void testCanNotGetAccessToTeacherSchoolAssociationDueToBadLookup() throws Exception {
+    public void testLeaAdministratorCanGetAccessToTeacherSectionAssociation() throws Exception {
+        setContext(leaStaff, Arrays.asList(SecureRoleRightAccessImpl.LEA_ADMINISTRATOR));
         Set<String> teacherSectionAssociations = new HashSet<String>();
-        Map<String, Object> association = buildTeacherSectionAssociation("teacher123", "section123");
-        Entity teacherSectionAssociation = new MongoEntity(EntityNames.TEACHER_SECTION_ASSOCIATION, association);
         teacherSectionAssociations.add(teacherSectionAssociation.getEntityId());
-        sectionIds.add("section123");
-
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(new ArrayList<Entity>());
-
-        assertFalse(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations));
+        assertTrue(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations));
     }
 
     @Test
-    public void testCanNotGetAccessToTeacherSchoolAssociation() throws Exception {
+    public void testSchoolAdministratorCanGetAccessToTeacherSectionAssociation() throws Exception {
+        setContext(schoolStaff, Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR));
         Set<String> teacherSectionAssociations = new HashSet<String>();
-        Map<String, Object> association = buildTeacherSectionAssociation("teacher123", "section123");
-        Entity teacherSectionAssociation = new MongoEntity(EntityNames.TEACHER_SECTION_ASSOCIATION, association);
         teacherSectionAssociations.add(teacherSectionAssociation.getEntityId());
-        sectionIds.add("section123");
-
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(Arrays.asList(teacherSectionAssociation));
-
-        Mockito.when(staffToSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(false);
-        assertFalse(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations));
-    }
-
-    private Map<String, Object> buildTeacherSectionAssociation(String teacher, String section) {
-        Map<String, Object> association = new HashMap<String, Object>();
-        association.put("teacherId", teacher);
-        association.put("sectionId", section);
-        association.put("classroomPosition", "Teacher of Record");
-        return association;
+        assertTrue(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations));
     }
 }
