@@ -46,6 +46,7 @@ public class ContainerDocumentHelper {
         }
         return new NaturalKeyDescriptor(naturalKeyMap);
     }
+
     public static DBObject buildDocumentToPersist(final ContainerDocumentHolder containerDocumentHolder, final Entity entity, final UUIDGeneratorStrategy generatorStrategy, final INaturalKeyExtractor naturalKeyExtractor ) {
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
         DBObject entityDetails = new BasicDBObject();
@@ -57,7 +58,7 @@ public class ContainerDocumentHelper {
         DBObject docToPersist = null;
         if(containerDocument.isContainerSubdoc()) {
             final Map<String, Object> containerSubDoc = new HashMap<String, Object>();
-            String key = createParentKey(entity, containerDocumentHolder, generatorStrategy) + getContainerDocId(entity, containerDocumentHolder, generatorStrategy, naturalKeyExtractor);
+            String key = createParentKey(entity, containerDocumentHolder, generatorStrategy) + getContainerDocId(entity, generatorStrategy, naturalKeyExtractor);
             containerSubDoc.put("_id", key);
             containerSubDoc.put("type", entity.getType());
             containerSubDoc.put("body", entityBody);
@@ -85,6 +86,7 @@ public class ContainerDocumentHelper {
 
         return docToPersist;
     }
+
     public static String createParentKey(final Entity entity, final ContainerDocumentHolder containerDocumentHolder,final UUIDGeneratorStrategy generatorStrategy ) {
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
 
@@ -96,8 +98,8 @@ public class ContainerDocumentHelper {
             return entity.getEntityId();
         }
     }
-    public static String getContainerDocId(final Entity entity,  final ContainerDocumentHolder containerDocumentHolder, final UUIDGeneratorStrategy generatorStrategy, final INaturalKeyExtractor naturalKeyExtractor ) {
-        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+
+    public static String getContainerDocId(final Entity entity, final UUIDGeneratorStrategy generatorStrategy, final INaturalKeyExtractor naturalKeyExtractor ) {
         if (entity.getEntityId() == null || entity.getEntityId().isEmpty()) {
             NaturalKeyDescriptor naturalKeyDescriptor = null;
             try {
@@ -111,6 +113,7 @@ public class ContainerDocumentHelper {
         }
 
     }
+
     public static String extractParentId(String containerSubdocId) {
         return containerSubdocId.substring(0, containerSubdocId.indexOf("_id") + 3);
     }

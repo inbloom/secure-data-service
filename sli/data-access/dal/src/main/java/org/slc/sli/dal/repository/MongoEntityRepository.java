@@ -372,6 +372,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return subDocs.subDoc(collectionName).delete(entity);
         }
 
+        if (containerDocumentAccessor.isContainerDocument(collectionName)) {
+            Entity entity = containerDocumentAccessor.findById(collectionName, id);
+            return containerDocumentAccessor.delete(entity);
+        }
+
         if (denormalizer.isDenormalizedDoc(collectionName)) {
             denormalizer.denormalization(collectionName).delete(null, id);
         }

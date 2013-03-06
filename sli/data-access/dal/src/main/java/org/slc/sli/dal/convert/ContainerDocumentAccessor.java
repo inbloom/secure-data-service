@@ -22,11 +22,9 @@ import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
 import org.slc.sli.common.domain.ContainerDocument;
 import org.slc.sli.common.domain.ContainerDocumentHolder;
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +32,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -97,6 +94,14 @@ public class ContainerDocumentAccessor {
 
     public String update(final Entity entity) {
         return updateContainerDoc(entity);
+    }
+
+    public Entity findById(String collectionName, String id) {
+        return getLocation(collectionName).findById(id);
+    }
+
+    public boolean delete(final Entity entity) {
+        return deleteContainerDoc(entity);
     }
 
     private DBObject getContainerDocQuery(final Entity entity) {
@@ -209,13 +214,25 @@ public class ContainerDocumentAccessor {
 
         if(containerDocument.isContainerSubdoc()) {
             getLocation(entity.getType()).create(entity);
-            key = key + ContainerDocumentHelper.getContainerDocId(entity, containerDocumentHolder, generatorStrategy, naturalKeyExtractor);
+            key = key + ContainerDocumentHelper.getContainerDocId(entity, generatorStrategy, naturalKeyExtractor);
         }
 
         if (persisted) {
             return key;
         } else {
             return "";
+        }
+    }
+
+    protected boolean deleteContainerDoc(final Entity entity) {
+        TenantContext.setIsSystemCall(false);
+        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+
+        if (containerDocument.isContainerSubdoc()) {
+            return getLocation(entity.getType()).delete(entity);
+        } else {
+            //TODO: handle attendance
+            return true;
         }
     }
 
