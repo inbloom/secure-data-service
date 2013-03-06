@@ -21,6 +21,7 @@
 				to the next.
 			</xs:documentation>
 			<xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>assessment</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
@@ -1435,6 +1436,7 @@
 				StudentSectionAssociation.
 			</xs:documentation>
 			<xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>section</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
@@ -1651,6 +1653,7 @@
 				by one or more vacations.
 			</xs:documentation>
 			<xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>session</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
@@ -1760,6 +1763,7 @@
 				with a session during which the course is offered.
 			</xs:documentation>
 			<xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>courseOffering</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
@@ -6982,6 +6986,7 @@
 				objectives for courses in specific grades.
 			</xs:documentation>
 			<xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>learningObjective</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
@@ -7118,6 +7123,7 @@
 				proficiency.
 			</xs:documentation>
 			<xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>learningStandard</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
@@ -7583,6 +7589,7 @@
 				grades are reported.
 			</xs:documentation>
 			<xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>gradingPeriod</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
@@ -7722,6 +7729,7 @@
 				some or all students.
 			</xs:documentation>
 			<xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>graduationPlan</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
@@ -8033,6 +8041,7 @@
 				instead.
 			</xs:documentation>
 			<xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>course</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
@@ -9072,6 +9081,7 @@
 				organized extracurricular activities for students.
 			</xs:documentation>
 			<xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>program</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
@@ -9712,6 +9722,7 @@
 				objectives (e.g., paying attention in class).
 			</xs:documentation>
 			<xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>studentCompetencyObjective</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
