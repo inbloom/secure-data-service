@@ -33,9 +33,9 @@ Then I should see following map of entry counts in the corresponding collections
      | course                      | 1                   | body.courseCode.ID          | Different EdOrg Code 1  | string               |
   And I should see "Processed 7 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "CourseUpdate1.xml records considered: 7" in the resulting batch job file
+  And I should see "CourseUpdate1.xml records considered for processing: 7" in the resulting batch job file
   And I should see "CourseUpdate1.xml records ingested successfully: 7" in the resulting batch job file
-  And I should see "CourseUpdate1.xml records failed: 0" in the resulting batch job file
+  And I should see "CourseUpdate1.xml records failed processing: 0" in the resulting batch job file
 
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
@@ -64,6 +64,6 @@ Then I should see following map of entry counts in the corresponding collections
      | course                      | 2                   | body.courseCode.ID          | Different EdOrg Code 1  | string               |
   And I should see "Processed 8 records." in the resulting batch job file
   And I should not see an error log file created
-    And I should see "CourseUpdate2.xml records considered: 8" in the resulting batch job file
+    And I should see "CourseUpdate2.xml records considered for processing: 8" in the resulting batch job file
   And I should see "CourseUpdate2.xml records ingested successfully: 8" in the resulting batch job file
-  And I should see "CourseUpdate2.xml records failed: 0" in the resulting batch job file
+  And I should see "CourseUpdate2.xml records failed processing: 0" in the resulting batch job file

@@ -81,7 +81,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-AttendanceEvent">
 		<xs:annotation>
-			<xs:documentation>AttendanceEvent record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId) and EventDate. Made SchoolReference required. Changed types of StudentReference, SchoolReference, SessionReference and SectionReference to SLC reference types.</xs:documentation>
+			<xs:documentation>AttendanceEvent record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId) SchoolYear and EventDate. Made SchoolReference and SchoolYear required. Changed types of StudentReference, SchoolReference, SessionReference and SectionReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>attendanceEvent</sli:recordType>
 				<sli:naturalKeys>StudentReference,SchoolReference,SchoolYear</sli:naturalKeys>

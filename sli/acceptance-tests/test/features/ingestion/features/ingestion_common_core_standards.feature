@@ -31,9 +31,9 @@ Then I should see following map of entry counts in the corresponding collections
 
   And I should see "Processed 1024 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "InterchangeAssessmentMetadata-CCS-English.xml records considered: 1024" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-CCS-English.xml records considered for processing: 1024" in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata-CCS-English.xml records ingested successfully: 1024" in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata-CCS-English.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-CCS-English.xml records failed processing: 0" in the resulting batch job file
 
 
 Scenario: Post a zip file containing all configured High School Math CCS interchanges as a payload of the ingestion job: Clean Database
@@ -65,9 +65,9 @@ Then I should see following map of entry counts in the corresponding collections
 
   And I should see "Processed 574 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records considered: 574" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records considered for processing: 574" in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records ingested successfully: 574" in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records failed processing: 0" in the resulting batch job file
 
 Scenario: Verify resolved references and ingestion to populated database
 Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the ingestion job

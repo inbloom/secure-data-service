@@ -46,7 +46,6 @@ import org.slc.sli.ingestion.reporting.impl.DummyMessageReport;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
 
 /**
@@ -156,20 +155,6 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals("1999-01-01", result.get(0).getBody().get("revisionDate"));
         Assert.assertEquals(2400, result.get(0).getBody().get("maxRawScore"));
         Assert.assertEquals("nomenclature", result.get(0).getBody().get("nomenclature"));
-    }
-
-    @Test
-    public void testAssessmentValidation() {
-        NeutralRecord assessment = createAssessmentNeutralRecord(false);
-
-        ReportStats reportStats = new SimpleReportStats();
-
-        List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(),
-                reportStats);
-
-        Entity entity = result.get(0);
-
-        EntityTestUtils.mapValidation(entity.getBody(), "assessment", validator);
     }
 
     /**

@@ -30,11 +30,13 @@ public class Metrics {
     private long recordCount;
     private long errorCount;
     private Map<String, Long> duplicateCounts;
+    private long validationErrorCount;
 
     public static Metrics newInstance(String resourceId) {
         Metrics metrics = new Metrics(resourceId);
         metrics.setRecordCount(0);
         metrics.setErrorCount(0);
+        metrics.setValidationErrorCount(0);
         return metrics;
     }
 
@@ -97,4 +99,11 @@ public class Metrics {
         this.duplicateCounts = duplicateCounts;
     }
 
+    public long getValidationErrorCount() {
+        return validationErrorCount;
+    }
+
+    public void setValidationErrorCount(long validationErrorCount) {
+        this.validationErrorCount = validationErrorCount;
+    }
 }

@@ -129,7 +129,7 @@ public abstract class IngestionProcessor<T extends WorkNote, S> implements Proce
 
         if (workNote.getBatchJobId() != null) {
             ReportStats reportStats = new SimpleReportStats();
-            messageReport.error(reportStats, new ProcessorSource(getStage().getName()), CoreMessageCode.CORE_0062,
+            messageReport.error(reportStats, new ProcessorSource(getStage().getName()), CoreMessageCode.CORE_0060,
                     workNote.getBatchJobId(), exception.getMessage());
         }
     }

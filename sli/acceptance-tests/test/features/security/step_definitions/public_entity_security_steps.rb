@@ -23,14 +23,14 @@ $context_map = {
   "courseOffering" => "/v1/courseOfferings/88ddb0c4-1787-4ed8-884e-96aa774e6d42/",
   "educationOrganization" => "/v1/educationOrganizations/92d6d5a0-852c-45f4-907a-912752831772/",
   "graduationPlan" => "/v1/graduationPlans/03d6a408-9ed8-4fea-88bb-gradplan1114/",
-  "gradingPeriod" => "/v1/gradingPeriods/b40a7eb5-dd74-4666-a5b9-5c3f4425f130/",
+  "gradingPeriod" => "/v1/gradingPeriods/09f91102-1122-40fa-afc2-98ae32abc222/",
   "learningObjective" => "/v1/learningObjectives/dd9165f2-65fe-6d27-a8ec-bdc5f47757b7/",
   "learningStandard" => "/v1/learningStandards/dd9165f2-653e-7d27-a82c-bdc5f44757f4/",
   "program" => "/v1/programs/9b8cafdc-8fd5-11e1-86ec-0021701f543f_id/",
   "school" => "/v1/schools/92d6d5a0-852c-45f4-907a-912752831772/",
   "section" => "/v1/sections/15ab6363-5509-470c-8b59-4f289c224107_id/",
   "session" => "/v1/sessions/c549e272-9a7b-4c02-aff7-b105ed76c904/",
-  "studentCompetencyObjective" => "/v1/studentCompetencyObjectives/"
+  "studentCompetencyObjective" => "/v1/studentCompetencyObjectives/313db42ad65b911b0897d8240e26ca4b50bddb5e_id"
 }
 
 When /^I make a call to get "(.*?)"$/ do |arg1|
