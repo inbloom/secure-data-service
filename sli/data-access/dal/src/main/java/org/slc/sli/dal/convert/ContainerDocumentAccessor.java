@@ -95,7 +95,7 @@ public class ContainerDocumentAccessor {
     }
 
     private DBObject getContainerDocQuery(final Entity entity) {
-        final String parentKey = createParentKey(entity);
+        final String parentKey = ContainerDocumentHelper.createParentKey(entity, containerDocumentHolder, generatorStrategy );
 
         final Query query = Query.query(Criteria.where("_id").is(parentKey));
 
@@ -103,33 +103,7 @@ public class ContainerDocumentAccessor {
     }
 
     // TODO: private
-    protected String createParentKey(final Entity entity) {
-        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
 
-        if (entity.getEntityId() == null || entity.getEntityId().isEmpty() || containerDocument.isContainerSubdoc()) {
-            final List<String> parentKeys = containerDocument.getParentNaturalKeys();
-            final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, parentKeys);
-            return generatorStrategy.generateId(naturalKeyDescriptor);
-        } else {
-            return entity.getEntityId();
-        }
-    }
-    protected String getContainerDocId(final Entity entity) {
-        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-        if (entity.getEntityId() == null || entity.getEntityId().isEmpty()) {
-            NaturalKeyDescriptor naturalKeyDescriptor = null;
-            try {
-                naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
-            } catch (NoNaturalKeysDefinedException e) {
-                LOG.error(e.getMessage(), e);
-                throw new RuntimeException(e);
-            }
-            return generatorStrategy.generateId(naturalKeyDescriptor);
-        } else {
-            return entity.getEntityId();
-        }
-
-    }
 
     protected boolean updateContainerDoc(final DBObject query, Map<String, Object> newValues, String collectionName, String type) {
         TenantContext.setIsSystemCall(false);
@@ -169,7 +143,7 @@ public class ContainerDocumentAccessor {
         final String fieldToPersist = containerDocument.getFieldToPersist();
 
         DBObject entityDetails = new BasicDBObject();
-        final String parentKey = createParentKey(entity);
+        final String parentKey = ContainerDocumentHelper.createParentKey(entity, containerDocumentHolder, generatorStrategy);
 
         final Query query = Query.query(Criteria.where("_id").is(parentKey));
 
@@ -215,34 +189,11 @@ public class ContainerDocumentAccessor {
     protected String insertContainerDoc(final DBObject query, final Entity entity) {
         TenantContext.setIsSystemCall(false);
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-        final String fieldToPersist = containerDocument.getFieldToPersist();
 
         boolean persisted = true;
-        if(containerDocument.isContainerSubdoc()) {
-            persisted = persistAsSubdoc(entity, query, containerDocument);
-        }
 
-        DBObject entityDetails = new BasicDBObject();
+        final DBObject docToPersist = ContainerDocumentHelper.buildDocumentToPersist(containerDocumentHolder, entity, generatorStrategy, naturalKeyExtractor);
 
-        if (entity.getMetaData() != null && !entity.getMetaData().isEmpty()) {
-            entityDetails.put("metaData", entity.getMetaData());
-        }
-        entityDetails.put("type", entity.getType());
-        final Map<String, Object> entityBody = entity.getBody();
-        for (final String key : containerDocument.getParentNaturalKeys()) {
-            entityDetails.put("body." + key, entityBody.get(key));
-        }
-        BasicDBObjectBuilder dbObjectBuilder = BasicDBObjectBuilder.start();
-        if (entityBody.containsKey(fieldToPersist)) {
-            dbObjectBuilder.push("$pushAll")
-                    .add("body." + fieldToPersist, entityBody.get(fieldToPersist));
-        }
-        final DBObject docToPersist = dbObjectBuilder.get();
-
-        LOG.debug(entity.getEntityId());
-        DBObject set = new BasicDBObject("$set", entityDetails);
-
-        docToPersist.putAll(set);
         persisted &= mongoTemplate.getCollection(entity.getType()).update(query,
                 docToPersist, true, false, WriteConcern.SAFE)
                 .getLastError().ok();
@@ -253,36 +204,7 @@ public class ContainerDocumentAccessor {
             return "";
         }
     }
-    private String extractParentId(String containerSubdocId) {
-        return containerSubdocId.substring(0, containerSubdocId.indexOf("_id") + 3);
-    }
 
-    private boolean persistAsSubdoc(Entity entity, DBObject query, ContainerDocument containerDocument) {
 
-        DBObject entityDetails = new BasicDBObject();
-        final Map<String, Object> entityBody = entity.getBody();
-        for (final String key : containerDocument.getParentNaturalKeys()) {
-            entityDetails.put("body." + key, entityBody.get(key));
-        }
 
-        final Map<String, Object> containerSubDoc = new HashMap<String, Object>();
-        containerSubDoc.put("_id",createParentKey(entity) + getContainerDocId(entity));
-        containerSubDoc.put("type", entity.getType());
-        containerSubDoc.put("body", entityBody);
-        containerSubDoc.put("metaData", entity.getMetaData());
-
-        final List<Map<String, Object>> containerSubDocList = new ArrayList<Map<String, Object>>();
-        containerSubDocList.add(containerSubDoc);
-
-        BasicDBObjectBuilder dbObjectBuilder = BasicDBObjectBuilder.start().push("$pushAll")
-                .add(containerDocument.getFieldToPersist(), containerSubDocList.toArray());
-        DBObject set = new BasicDBObject("$set", entityDetails);
-        DBObject docToPersist = dbObjectBuilder.get();
-        docToPersist.putAll(set);
-
-        boolean persisted = mongoTemplate.getCollection(containerDocument.getCollectionToPersist()).update(query,
-                docToPersist, true, false, WriteConcern.SAFE )
-                .getLastError().ok();
-        return persisted;
-    }
 }
