@@ -30,6 +30,7 @@ import java.util.Set;
 
 import org.elasticsearch.common.base.Joiner;
 import org.elasticsearch.common.collect.Lists;
+import org.springframework.beans.FatalBeanException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,8 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * assessment converter that transform assessment superdoc to sli assessment schema
@@ -45,6 +48,8 @@ import org.slc.sli.domain.MongoEntity;
  */
 @Component
 public class AssessmentConverter extends GenericSuperdocConverter implements SuperdocConverter {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(AssessmentConverter.class);
 
     private static final String OBJECTIVE_ASSESSSMENT_ID = "identificationCode";
     private static final String SUB_OBJECTIVE_ASSESSMENT_HIERARCHY = "objectiveAssessments";
@@ -174,12 +179,25 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
         Entity family = mongo.findById(familyRef, Entity.class, EntityNames.ASSESSMENT_FAMILY);
         
         List<String> familyTitles = new LinkedList<String>();
+        Set<String> seenFamilyRefs = new HashSet<String>();
+        seenFamilyRefs.add(familyRef);
         while (family != null) {
-            familyTitles.add((String)family.getBody().get(ASSESSMENT_FAMILY_TITLE));
+            String familyTitle = (String)family.getBody().get(ASSESSMENT_FAMILY_TITLE);
+            if (familyTitle == null) {
+                LOG.error("Required assessmentFamilyTitle is null for assessmentFamily with _id : {}", new Object[] {family.getEntityId()});
+                break;
+            }
+            familyTitles.add(familyTitle);
             String parentRef = (String)family.getBody().get(ASSESSMENT_FAMILY_ASSESSMENT_FAMILY_REFERENCE);
             family = null;
+            
             if (parentRef != null) {
-                family = mongo.findById(parentRef, Entity.class, EntityNames.ASSESSMENT_FAMILY);
+                if (!seenFamilyRefs.contains(parentRef)) {
+                    family = mongo.findById(parentRef, Entity.class, EntityNames.ASSESSMENT_FAMILY);
+                    seenFamilyRefs.add(parentRef);
+                } else {
+                    LOG.error("Circular reference detected in assessment family hierarchy. _id : {} occurs twice in hierarchy.", new Object[] { parentRef });
+                }
             }
         }
         
