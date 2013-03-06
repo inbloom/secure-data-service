@@ -55,8 +55,8 @@ When zip files are scped to the ingestion landing zone
   Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 19    |
-        | assessmentFamily            | 0     |
-        | assessmentPeriodDescriptor  | 0     |
+        | assessmentFamily            | 37    |
+        | assessmentPeriodDescriptor  | 2     |
         | attendance                  | 75    |
         | calendarDate                | 1112  |
         | cohort                      | 3     |

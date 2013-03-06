@@ -189,8 +189,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | studentCohortAssociation    | 6     |
         | section                     | 97    |
         | assessment                  | 3     |
-        | assessmentFamily            | 0     |
-        | assessmentPeriodDescriptor  | 0     |
+        | assessmentFamily            | 2     |
+        | assessmentPeriodDescriptor  | 2     |
         | attendance                  | 75    |
         | studentSectionAssociation   | 297   |
         | teacherSectionAssociation   | 11    |

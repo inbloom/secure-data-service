@@ -846,9 +846,6 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | assessmentItem.body.maxRawScore                | 5                | integer |
      | assessment                  | 1                   | assessmentItem.body.maxRawScore                | 5                | integer |
      | assessment                  | 1                   | assessmentItem.body.maxRawScore                | 5                | integer |
-     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | BOY                                              | string |
-     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | EOY                                              | string |
-     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | MOY                                              | string |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-English          | string |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Mathematics      | string |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Reading          | string |
@@ -861,6 +858,9 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Arithmetic         | string |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Geometry           | string |
      | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten                 | string |
+     | assessmentPeriodDescriptor  | 1                   | body.codeValue                                 | BOY              | string |
+     | assessmentPeriodDescriptor  | 1                   | body.codeValue                                 | EOY              | string |
+     | assessmentPeriodDescriptor  | 1                   | body.codeValue                                 | MOY              | string |
      | attendance                  | 75                  | body.attendanceEvent.date | 2011-09-06      |string               |
      | cohort                      | 1                   | body.academicSubject        | English                 | string               |
      | cohort                      | 1                   | body.academicSubject        | Mathematics             | string               |
@@ -967,7 +967,7 @@ Then I should see following map of entry counts in the corresponding collections
   And the field "body.maxRawScore" has value "5"
   When I find a record in "studentAssessment" under "studentAssessmentItem" where "body.assessmentItemId" is "d50118aaad960b54a8b2afc7268d01d13842cb58_idbc774073db0cbd89322970083ee065c02c6a034d_id"
   Then "body.assessmentItemId" contains a reference to a "assessmentItem" where "body.identificationCode" is "AssessmentItem-3"
-  And I should see "Processed 145 records." in the resulting batch job file
+  And I should see "Processed 161 records." in the resulting batch job file
   And I should see "Program2.xml records considered: 4" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 4" in the resulting batch job file
   And I should see "Program2.xml records failed: 0" in the resulting batch job file
@@ -1004,8 +1004,8 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "CourseOffering.xml records considered: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records ingested successfully: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records failed: 0" in the resulting batch job file
-  And I should see "actAssessment_CCSMapping.xml records considered: 17" in the resulting batch job file
-  And I should see "actAssessment_CCSMapping.xml records ingested successfully: 17" in the resulting batch job file
+  And I should see "actAssessment_CCSMapping.xml records considered: 18" in the resulting batch job file
+  And I should see "actAssessment_CCSMapping.xml records ingested successfully: 18" in the resulting batch job file
   And I should see "actAssessment_CCSMapping.xml records failed: 0" in the resulting batch job file
   And I should see "Grade_12_Math_CCS_G_SRT.xml records considered: 12" in the resulting batch job file
   And I should see "Grade_12_Math_CCS_G_SRT.xml records ingested successfully: 12" in the resulting batch job file
@@ -1016,8 +1016,8 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Grade_12_English_CCS_RI_11_12.xml records considered: 17" in the resulting batch job file
   And I should see "Grade_12_English_CCS_RI_11_12.xml records ingested successfully: 17" in the resulting batch job file
   And I should see "Grade_12_English_CCS_RI_11_12.xml records failed: 0" in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records considered: 12" in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records ingested successfully: 12" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records considered: 27" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records ingested successfully: 27" in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records failed: 0" in the resulting batch job file
   And I should see "InterchangeStudentAssessment-CgrayAP-English.xml records considered: 11" in the resulting batch job file
   And I should see "InterchangeStudentAssessment-CgrayAP-English.xml records ingested successfully: 11" in the resulting batch job file

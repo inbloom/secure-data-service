@@ -37,8 +37,9 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  1|
+     | assessmentFamily                         |                  1|
      | student                                  |                  1|
-    And I should see "Processed 4 records." in the resulting batch job file
+    And I should see "Processed 5 records." in the resulting batch job file
     And I should not see an error log file created
     And I should not see a warning log file created
 

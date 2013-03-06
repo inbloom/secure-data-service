@@ -10,12 +10,14 @@ Given I post "ingestion_IDReferences.zip" file as the payload of the ingestion j
   And the following collections are empty in datastore:
      | collectionName           |
      | assessment               |
+     | assessmentFamily         |
 When zip file is scp to ingestion landing zone
   And a batch job for file "ingestion_IDReferences.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName               | count   |
      | assessment                   |   1     |
+     | assessmentFamily             |   1     |
    And I check to find if record is in collection:
      | collectionName      | expectedRecordCount   | searchParameter                                | searchValue       |
      | assessment          | 1                     | objectiveAssessment.body.identificationCode    | ACT-English       |
@@ -23,7 +25,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment          | 1                     | objectiveAssessment.body.identificationCode    | ACT-Reading       |
      | assessment          | 1                     | objectiveAssessment.body.identificationCode    | ACT-Science       |
      | assessment          | 1                     | objectiveAssessment.body.identificationCode    | ACT-Writing       |
-  And I should see "Processed 17 records." in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 17" in the resulting batch job file
+  And I should see "Processed 18 records." in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 18" in the resulting batch job file
   And I should see "All records processed successfully" in the resulting batch job file
   And I should not see an error log file created
