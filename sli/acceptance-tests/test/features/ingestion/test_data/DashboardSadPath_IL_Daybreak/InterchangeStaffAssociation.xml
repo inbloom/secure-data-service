@@ -112,7 +112,6 @@
 			<City>Brooklyn</City>
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>99999</PostalCode>
-			<CountryCode>SI</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 			<EndDate>1967-08-13</EndDate>
 		</Address>
@@ -584,7 +583,6 @@
 			<City>Chicago</City>
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>99999</PostalCode>
-			<CountryCode>SI</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
 		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
@@ -605,7 +603,6 @@
 			<CredentialType>Certification</CredentialType>
 			<CredentialField>
 				<CodeValue>IT Admin</CodeValue>
-				<Description>Linux Superstar</Description>
 			</CredentialField>
 			<Level>All Level (Grade Level PK-12)</Level>
 			<TeachingCredentialType>Standard</TeachingCredentialType>
@@ -647,7 +644,6 @@
 			<City>Chicago</City>
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>99999</PostalCode>
-			<CountryCode>SI</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
 		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
@@ -667,7 +663,6 @@
 			<CredentialType>Certification</CredentialType>
 			<CredentialField>
 				<CodeValue>IT Admin</CodeValue>
-				<Description>Linux Superstar</Description>
 			</CredentialField>
 			<Level>All Level (Grade Level PK-12)</Level>
 			<TeachingCredentialType>Standard</TeachingCredentialType>
@@ -726,7 +721,6 @@
 			<City>Chicago</City>
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>99999</PostalCode>
-			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
 		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
@@ -746,7 +740,6 @@
 			<CredentialType>Certification</CredentialType>
 			<CredentialField>
 				<CodeValue>IT Admin</CodeValue>
-				<Description>Linux Superstar</Description>
 			</CredentialField>
 			<Level>All Level (Grade Level PK-12)</Level>
 			<TeachingCredentialType>Standard</TeachingCredentialType>
@@ -790,7 +783,6 @@
 			<City>Chicago</City>
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>99999</PostalCode>
-			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
 		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
@@ -810,7 +802,6 @@
 			<CredentialType>Certification</CredentialType>
 			<CredentialField>
 				<CodeValue>IT Admin</CodeValue>
-				<Description>Linux Superstar</Description>
 			</CredentialField>
 			<Level>All Level (Grade Level PK-12)</Level>
 			<TeachingCredentialType>Standard</TeachingCredentialType>
@@ -854,7 +845,6 @@
 			<City>Chicago</City>
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>99999</PostalCode>
-			<CountryCode>US</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
 		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
@@ -874,7 +864,6 @@
 			<CredentialType>Certification</CredentialType>
 			<CredentialField>
 				<CodeValue>IT Admin</CodeValue>
-				<Description>Linux Superstar</Description>
 			</CredentialField>
 			<Level>All Level (Grade Level PK-12)</Level>
 			<TeachingCredentialType>Standard</TeachingCredentialType>
@@ -917,7 +906,6 @@
 			<City>Chicago</City>
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>99999</PostalCode>
-			<CountryCode>US</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
 		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
@@ -937,7 +925,6 @@
 			<CredentialType>Certification</CredentialType>
 			<CredentialField>
 				<CodeValue>IT Admin</CodeValue>
-				<Description>Linux Superstar</Description>
 			</CredentialField>
 			<Level>All Level (Grade Level PK-12)</Level>
 			<TeachingCredentialType>Standard</TeachingCredentialType>
@@ -980,7 +967,6 @@
 			<City>Chicago</City>
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>99999</PostalCode>
-			<CountryCode>SI</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
 		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
@@ -1000,7 +986,6 @@
 			<CredentialType>Certification</CredentialType>
 			<CredentialField>
 				<CodeValue>IT Admin</CodeValue>
-				<Description>Linux Superstar</Description>
 			</CredentialField>
 			<Level>All Level (Grade Level PK-12)</Level>
 			<TeachingCredentialType>Standard</TeachingCredentialType>
@@ -1043,7 +1028,6 @@
 			<City>Chicago</City>
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>99999</PostalCode>
-			<CountryCode>SI</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
 		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
@@ -1063,7 +1047,6 @@
 			<CredentialType>Certification</CredentialType>
 			<CredentialField>
 				<CodeValue>IT Admin</CodeValue>
-				<Description>Linux Superstar</Description>
 			</CredentialField>
 			<Level>All Level (Grade Level PK-12)</Level>
 			<TeachingCredentialType>Standard</TeachingCredentialType>
@@ -1106,7 +1089,6 @@
 			<City>Chicago</City>
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>99999</PostalCode>
-			<CountryCode>SI</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
 		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
@@ -1126,7 +1108,6 @@
 			<CredentialType>Certification</CredentialType>
 			<CredentialField>
 				<CodeValue>IT Admin</CodeValue>
-				<Description>Linux Superstar</Description>
 			</CredentialField>
 			<Level>All Level (Grade Level PK-12)</Level>
 			<TeachingCredentialType>Standard</TeachingCredentialType>
@@ -1189,7 +1170,6 @@
 			<CredentialType>Certification</CredentialType>
 			<CredentialField>
 				<CodeValue>IT Admin</CodeValue>
-				<Description>Linux Superstar</Description>
 			</CredentialField>
 			<Level>All Level (Grade Level PK-12)</Level>
 			<TeachingCredentialType>Standard</TeachingCredentialType>
@@ -1198,6 +1178,8 @@
 		<LoginId>a</LoginId>
 	</Staff>
 	<StaffEducationOrgAssignmentAssociation>
+
+
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>jjackson</StaffUniqueStateId>

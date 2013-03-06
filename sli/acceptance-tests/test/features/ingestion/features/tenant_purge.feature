@@ -28,8 +28,8 @@ When zip file is scp to ingestion landing zone
      | student          | 1                   | body.studentUniqueStateId   | 814202099               | string               |
 And I should not see an error log file created
 And I should not see a warning log file created
- And I should see "InterchangeStudent.xml records considered: 2" in the resulting batch job file
- And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
+ And I should see "InterchangeStudent.xml records considered for processing: 2" in the resulting batch job file
+ And I should see "InterchangeStudent.xml records failed processing: 0" in the resulting batch job file
 
 When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
  And I have checked the counts of the following collections:
@@ -81,8 +81,8 @@ When zip file is scp to ingestion landing zone
      | student          | 1                   | body.studentUniqueStateId   | 814202099               | string               |
 And I should not see an error log file created
 And I should not see a warning log file created
- And I should see "InterchangeStudent.xml records considered: 2" in the resulting batch job file
- And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
+ And I should see "InterchangeStudent.xml records considered for processing: 2" in the resulting batch job file
+ And I should see "InterchangeStudent.xml records failed processing: 0" in the resulting batch job file
 
 When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
  And I have checked the counts of the following collections:

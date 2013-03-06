@@ -236,7 +236,7 @@ Examples:
 | "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
 | "grade"                 | "grades"                  | 1     |/sections/@ids/studentSectionAssociations/grades|
 | "studentCompetency"     | "studentCompetencies"     | 2     |/sections/@ids/studentSectionAssociations/studentCompetencies|
-| "gradingPeriod"         | "gradingPeriods"          | 2     |/search/gradingPeriods|
+| "gradingPeriod"         | "gradingPeriods"          | 3     |/search/gradingPeriods|
 | "reportCard"            | "reportCards"             | 3     |/sections/@ids/studentSectionAssociations/students/reportCards|
 | "studentCompetencyObjective" | "studentCompetencyObjectives" | 1 |/search/studentCompetencyObjectives    |
 

@@ -26,7 +26,7 @@
         <jb:value property="studentAssessmentId" data="attributes StudentAssessmentReference" />
         <jb:value property="objectiveAssessmentId" data="attributes ObjectiveAssessmentReference" />
         <jb:wiring property="scoreResults" beanIdRef="OAScoreResultsArray" />
-        <jb:wiring property="performanceLevelDescriptors" beanIdRef="PerformanceLevelDescriptors" />
+        <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
     </jb:bean>
 
     <jb:bean beanId="OAScoreResultsArray" class="java.util.ArrayList" createOnElement="attributes ScoreResults">
@@ -37,17 +37,12 @@
     <jb:value property="result" data="attributes ScoreResults element Result _value" />
   </jb:bean>
   
-    <jb:bean beanId="PerformanceLevelDescriptors" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels">
-    <jb:wiring beanIdRef="PerformanceDescriptorCodeValueList" />
-    <jb:wiring beanIdRef="PerformanceDescriptorDescriptionList" />
-    
+  <jb:bean beanId="performanceLevelsTypeArray" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels">
+    <jb:wiring beanIdRef="PerformanceDescriptorList" />
   </jb:bean>
   
-    <jb:bean beanId="PerformanceDescriptorCodeValueList" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels">
-    <jb:wiring beanIdRef="PerformanceDescriptorDescription" />
-  </jb:bean>
-  
-  <jb:bean beanId="PerformanceDescriptorDescriptionList" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels">
+    <jb:bean beanId="PerformanceDescriptorList" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels element">
+    <jb:wiring beanIdRef="PerformanceDescriptorCodeValue" />
     <jb:wiring beanIdRef="PerformanceDescriptorDescription" />
   </jb:bean>
   
