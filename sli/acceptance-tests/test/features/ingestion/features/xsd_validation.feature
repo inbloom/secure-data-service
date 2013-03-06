@@ -29,10 +29,10 @@ Scenario: Student Ed-Fi XSD Validation
     | student                   | 1                   | body.schoolFoodServicesEligibility | Full price            | string            |
     | student                   | 2                   | body.limitedEnglishProficiency     | NotLimited            | string            |
 
-    Then I should see "Processed 2 records." in the resulting batch job file
-    And I should see "InterchangeStudent.xml records considered: 2" in the resulting batch job file
+    Then I should see "Processed 4 records." in the resulting batch job file
+    And I should see "InterchangeStudent.xml records considered for processing: 2" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 2" in the resulting batch job file
-    And I should see "InterchangeStudent.xml records failed xsd validation: 2" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records not considered for processing: 2" in the resulting batch job file
 
     And I should see "BASE_0017" in the resulting error log file
     And I should see "InterchangeStudent.xml:line-56,column-28" in the resulting error log file
@@ -80,8 +80,8 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
       | studentGradebookEntry       | 1                   | body.dateFulfilled                 | 2011-09-16            | string            |
 
     Then I should see "Processed 292 records." in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered for processing: 2" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 2" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records failed processing: 0" in the resulting batch job file
 
     And I should not see an error log file created

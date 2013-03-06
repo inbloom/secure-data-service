@@ -69,8 +69,8 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | attendance                               |                  0|
-    And I should see "Processed 0 records." in the resulting batch job file
-    And I should see "StudentAttendanceEvents.xml records failed xsd validation: 2" in the resulting batch job file
+    And I should see "Processed 2 records." in the resulting batch job file
+    And I should see "StudentAttendanceEvents.xml records not considered for processing: 2" in the resulting batch job file
 
 
 Scenario: Post Attendance records with required parent records previously ingested

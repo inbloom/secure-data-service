@@ -435,6 +435,7 @@ public class JobReportingProcessor implements Processor {
             logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), metric.getValidationErrorCount(), jobReportWriter);
 
             totalProcessed += metric.getRecordCount();
+            totalProcessed += metric.getValidationErrorCount();
 
             // update resource entries for zero-count reporting later
             resourceEntry.setRecordCount(metric.getRecordCount());
@@ -467,10 +468,10 @@ public class JobReportingProcessor implements Processor {
 
         long numPassed = numProcessed - numFailed;
 
-        writeInfoLine(jobReportWriter, id + " records considered: " + numProcessed);
+        writeInfoLine(jobReportWriter, id + " records considered for processing: " + numProcessed);
         writeInfoLine(jobReportWriter, id + " records ingested successfully: " + numPassed);
-        writeInfoLine(jobReportWriter, id + " records failed: " + numFailed);
-        writeInfoLine(jobReportWriter, id + " records failed xsd validation: " + numFailedValidation);
+        writeInfoLine(jobReportWriter, id + " records failed processing: " + numFailed);
+        writeInfoLine(jobReportWriter, id + " records not considered for processing: " + numFailedValidation);
     }
 
     private void missingBatchJobIdError(Exchange exchange) {

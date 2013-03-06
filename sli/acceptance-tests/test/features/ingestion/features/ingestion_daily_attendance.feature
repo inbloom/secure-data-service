@@ -40,12 +40,12 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Processed 387 records." in the resulting batch job file
   And I should not see an error log file created
   And I should not see a warning log file created
-  And I should see "InterchangeStudent.xml records considered: 94" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records considered for processing: 94" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 94" in the resulting batch job file
-  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
-  And I should see "StudentAttendanceEvents.xml records considered: 144" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records failed processing: 0" in the resulting batch job file
+  And I should see "StudentAttendanceEvents.xml records considered for processing: 144" in the resulting batch job file
   And I should see "StudentAttendanceEvents.xml records ingested successfully: 144" in the resulting batch job file
-  And I should see "StudentAttendanceEvents.xml records failed: 0" in the resulting batch job file
+  And I should see "StudentAttendanceEvents.xml records failed processing: 0" in the resulting batch job file
 
 
 @wip
@@ -66,9 +66,9 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                  | 72                  | body.attendanceEvent.date | 2012-07-09      |
    And I should see "Processed 72 records." in the resulting batch job file
    And I should not see an error log file created
-   And I should see "StudentAttendanceAppend.xml records considered: 144" in the resulting batch job file
+   And I should see "StudentAttendanceAppend.xml records considered for processing: 144" in the resulting batch job file
    And I should see "StudentAttendanceAppend.xml records ingested successfully: 144" in the resulting batch job file
-   And I should see "StudentAttendanceAppend.xml records failed: 0" in the resulting batch job file
+   And I should see "StudentAttendanceAppend.xml records failed processing: 0" in the resulting batch job file
 
 @wip
 Scenario: Post a zip file containing duplicate configured interchanges as a payload of the ingestion job: Populated Database
@@ -78,19 +78,19 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 72 records." in the resulting batch job file
-  And I should see "StudentAttendanceDuplicate.xml records considered: 144" in the resulting batch job file
+  And I should see "StudentAttendanceDuplicate.xml records considered for processing: 144" in the resulting batch job file
   And I should see "StudentAttendanceDuplicate.xml records ingested successfully: 0" in the resulting batch job file
-  And I should see "StudentAttendanceDuplicate.xml records failed: 72" in the resulting batch job file
+  And I should see "StudentAttendanceDuplicate.xml records failed processing: 72" in the resulting batch job file
 
 Scenario: Post a zip file containing attendance event interchange with non-existent student as a payload of the ingestion job: Populated Database
 Given I post "DailyAttendanceNoStudent.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "DailyAttendanceNoStudent.zip" is completed in database
   And a batch job log has been created
-  And I should see "Processed 0 records." in the resulting batch job file
-  And I should see "StudentAttendanceNoStudent.xml records considered: 0" in the resulting batch job file
+  And I should see "Processed 1 records." in the resulting batch job file
+  And I should see "StudentAttendanceNoStudent.xml records considered for processing: 0" in the resulting batch job file
   And I should see "StudentAttendanceNoStudent.xml records ingested successfully: 0" in the resulting batch job file
-  And I should see "StudentAttendanceNoStudent.xml records failed xsd validation: 1" in the resulting batch job file
+  And I should see "StudentAttendanceNoStudent.xml records not considered for processing: 1" in the resulting batch job file
 
 Scenario: Post a zip file where an attendanceEvent occurs in a school's parent LEA session: Clean Database
 Given I post "DailyAttendanceInheritedSession.zip" file as the payload of the ingestion job
@@ -116,12 +116,12 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Processed 8 records." in the resulting batch job file
   And I should not see an error log file created
   And I should not see a warning log file created
-  And I should see "InterchangeStudent.xml records considered: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records considered for processing: 1" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
-  And I should see "InterchangeAttendance.xml records considered: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records failed processing: 0" in the resulting batch job file
+  And I should see "InterchangeAttendance.xml records considered for processing: 1" in the resulting batch job file
   And I should see "InterchangeAttendance.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeAttendance.xml records failed processing: 0" in the resulting batch job file
 
   Scenario: Ingest a zip file and ensure the attendance entity contains the expected format.
     Given I post "DailyAttendance.zip" file as the payload of the ingestion job
