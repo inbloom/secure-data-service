@@ -208,12 +208,7 @@ public class ContainerDocumentAccessor {
         String key = (String) query.get("_id");
 
         if(containerDocument.isContainerSubdoc()) {
-            Map<String, String> parentToSubDocField = new HashMap<String, String>();
-            for(String parentKey :containerDocument.getParentNaturalKeys()) {
-                parentToSubDocField.put(parentKey,parentKey);
-            }
-            subDocAccessor.createLocation(containerDocument.getCollectionName(), containerDocument.getCollectionToPersist(), parentToSubDocField, containerDocument.getFieldToPersist())
-            .create(entity);
+            getLocation(entity.getType()).create(entity);
             key = key + ContainerDocumentHelper.getContainerDocId(entity, containerDocumentHolder, generatorStrategy, naturalKeyExtractor);
         }
 
@@ -224,6 +219,22 @@ public class ContainerDocumentAccessor {
         }
     }
 
+    private SubDocAccessor.Location getLocation(String type) {
+        SubDocAccessor.Location location = null;
+
+        if(locationMap.containsKey(type)) {
+           location = locationMap.get(type);
+        } else {
+            ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(type);
+            Map<String, String> parentToSubDocField = new HashMap<String, String>();
+            for(String parentKey :containerDocument.getParentNaturalKeys()) {
+                parentToSubDocField.put(parentKey,parentKey);
+            }
+            location = subDocAccessor.createLocation(containerDocument.getCollectionName(), containerDocument.getCollectionToPersist(), parentToSubDocField, containerDocument.getFieldToPersist());
+            locationMap.put(type,location);
+        }
+        return location;
+    }
 
 
 }
