@@ -496,7 +496,7 @@ public class ApplicationResource extends UnversionedResource {
         } else {
         	Iterable<EntityBody> auths = service.list(query);
         	for (EntityBody auth : auths) {
-        		String authId = (String) auth.get("_id");
+        		String authId = (String) auth.get("id");
         		auth.remove("edorgs");
         		auth.put("edorgs", new ArrayList<String>(authedEdOrgs));
         		service.update(authId, auth);
