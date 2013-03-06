@@ -8481,6 +8481,9 @@
 			</xs:element>
       <xs:element name='schoolYear' type='schoolYearType' >
         <xs:annotation>
+            <xs:documentation>
+                The identifier for the school year.
+            </xs:documentation>
           <xs:appinfo>
             <sli:naturalKey>true</sli:naturalKey>
             <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
