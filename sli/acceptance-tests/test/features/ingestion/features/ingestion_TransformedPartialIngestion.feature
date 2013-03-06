@@ -28,6 +28,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | assessmentFamily                          |
      | student                                   |
      | studentAssessment                         |
      | recordHash                                |
@@ -144,6 +145,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | assessmentFamily                          |
      | recordHash                                |
 
 When zip file is scp to ingestion landing zone
@@ -152,7 +154,8 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  2|
-    And I should see "Processed 2 records." in the resulting batch job file
+     | assessmentFamily                         |                  2|
+    And I should see "Processed 4 records." in the resulting batch job file
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter                  | searchValue        | searchType         |
        | assessment                  | 2                   | body.assessmentPeriodDescriptor  | nil                | nil                |
@@ -164,6 +167,8 @@ Then I should see following map of entry counts in the corresponding collections
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | assessmentFamily                          |
+     | assessmentPeriodDescriptor                |
      | recordHash                                |
 
 When zip file is scp to ingestion landing zone
@@ -172,11 +177,13 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  2|
-    And I should see "Processed 2 records." in the resulting batch job file
+     | assessmentFamily                         |                  2|
+     | assessmentPeriodDescriptor               |                  2|
+    And I should see "Processed 6 records." in the resulting batch job file
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter                  | searchValue                | searchType           |
-       | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue  | READ2-BOY-2011                       | string               |
-       | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue  | READ2-MOY-2011                       | string               |
+       | assessmentPeriodDescriptor  | 1                   | body.codeValue                   | READ2-BOY-2011             | string               |
+       | assessmentPeriodDescriptor  | 1                   | body.codeValue                   | READ2-MOY-2011             | string               |
     And I should not see a warning log file created
 
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -187,10 +194,10 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  4|
-    And I should see "Processed 2 records." in the resulting batch job file
+    And I should see "Processed 4 records." in the resulting batch job file
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter                  | searchValue                | searchType           |
-       | assessment                  | 2                   | body.assessmentPeriodDescriptor.codeValue  | READ2-BOY-2011                       | string               |
-       | assessment                  | 2                   | body.assessmentPeriodDescriptor.codeValue  | READ2-MOY-2011                       | string               |
+       | assessmentPeriodDescriptor  | 1                   | body.codeValue                   | READ2-BOY-2011             | string               |
+       | assessmentPeriodDescriptor  | 1                   | body.codeValue                   | READ2-MOY-2011             | string               |
     And I should not see a warning log file created
        
