@@ -37,7 +37,6 @@
 
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="activemq-context.xml" />
-  <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
   <import resource="persistence-context.xml" />
   <import resource="processor-context.xml" />
