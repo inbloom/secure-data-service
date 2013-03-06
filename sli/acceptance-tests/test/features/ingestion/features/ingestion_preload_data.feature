@@ -63,8 +63,8 @@ Scenario: Preload Small Sample Data Set
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 19|
-     | assessmentFamily                         |                  0|
-     | assessmentPeriodDescriptor               |                  0|
+     | assessmentFamily                         |                 37|
+     | assessmentPeriodDescriptor               |                  2|
      | attendance                               |                 75|
      | calendarDate                             |                556|
      | cohort                                   |                  3|
