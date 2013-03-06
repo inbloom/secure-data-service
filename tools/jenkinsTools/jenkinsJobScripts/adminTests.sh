@@ -8,6 +8,8 @@ resetDatabases
 
 profileSwapAndPropGen
 
+startSearchIndexer
+
 adminUnitTests
 
 deployAdmin
