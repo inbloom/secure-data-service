@@ -20,9 +20,9 @@ Scenario: Post an empty zip file should fail
   And a batch job for file "emptyFile.zip" is completed in database
   And I should see "BASE_0015" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
-  And I should see "student.xml records considered: 0" in the resulting batch job file
+  And I should see "student.xml records considered for processing: 0" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 0" in the resulting batch job file
-  And I should see "student.xml records failed: 0" in the resulting batch job file
+  And I should see "student.xml records failed processing: 0" in the resulting batch job file
 
 Scenario: Post a zip file where the first record has an incorrect enum for an attribute value
   Given I post "valueTypeNotMatchAttributeType.zip" file as the payload of the ingestion job
@@ -32,11 +32,11 @@ Scenario: Post a zip file where the first record has an incorrect enum for an at
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "valueTypeNotMatchAttributeType.zip" is completed in database
-  And I should see "CORE_0006" in the resulting error log file
+  And I should see "BASE_0017" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "student.xml records considered: 2" in the resulting batch job file
+  And I should see "student.xml records considered for processing: 1" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "student.xml records failed: 1" in the resulting batch job file
+  And I should see "student.xml records not considered for processing: 1" in the resulting batch job file
 
 Scenario: Post a zip file where the first record has a bad attribute should fail on that record and proceed
   Given I post "firstRecordHasIncorrectAttribute.zip" file as the payload of the ingestion job
@@ -46,12 +46,12 @@ Scenario: Post a zip file where the first record has a bad attribute should fail
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "firstRecordHasIncorrectAttribute.zip" is completed in database
-  And I should see "CORE_0010" in the resulting error log file
+  And I should see "BASE_0017" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
-  And I should see "student.xml records considered: 2" in the resulting batch job file
+  And I should see "student.xml records considered for processing: 1" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "student.xml records failed: 1" in the resulting batch job file
+  And I should see "student.xml records not considered for processing: 1" in the resulting batch job file
 
 Scenario: Post a zip file where the second record has a bad attribute should fail and process previous records
   Given I post "secondRecordHasIncorrectAttribute.zip" file as the payload of the ingestion job
@@ -62,12 +62,12 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "secondRecordHasIncorrectAttribute.zip" is completed in database
-  And I should see "CORE_0010" in the resulting error log file
+  And I should see "BASE_0017" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
-  And I should see "student.xml records considered: 2" in the resulting batch job file
+  And I should see "student.xml records considered for processing: 1" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "student.xml records failed: 1" in the resulting batch job file
+  And I should see "student.xml records not considered for processing: 1" in the resulting batch job file
 
 @wip
 Scenario: Post a zip file where the first record has an undefined attribute should fail on that record and proceed
@@ -81,9 +81,9 @@ Scenario: Post a zip file where the first record has an undefined attribute shou
   And I should see "CORE_0006" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
-  And I should see "student.xml records considered: 2" in the resulting batch job file
+  And I should see "student.xml records considered for processing: 2" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "student.xml records failed: 1" in the resulting batch job file
+  And I should see "student.xml records failed processing: 1" in the resulting batch job file
 
 Scenario: Post a zip file where the first record has a missing attribute should fail on that record and proceed
   Given I post "firstRecordMissingAttribute.zip" file as the payload of the ingestion job
@@ -94,12 +94,12 @@ Scenario: Post a zip file where the first record has a missing attribute should 
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "firstRecordMissingAttribute.zip" is completed in database
-  And I should see "CORE_0006" in the resulting error log file
+  And I should see "BASE_0017" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
-  And I should see "student.xml records considered: 2" in the resulting batch job file
+  And I should see "student.xml records considered for processing: 1" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "student.xml records failed: 1" in the resulting batch job file
+  And I should see "student.xml records not considered for processing: 1" in the resulting batch job file
 
 Scenario: Post a zip file where the the edfi input is malformed XML
   Given I post "malformedXML.zip" file as the payload of the ingestion job
@@ -111,9 +111,9 @@ Scenario: Post a zip file where the the edfi input is malformed XML
   And a batch job for file "malformedXML.zip" is completed in database
   And I should see "Processed 0 records." in the resulting batch job file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "student.xml records considered: 0" in the resulting batch job file
+  And I should see "student.xml records considered for processing: 0" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 0" in the resulting batch job file
-  And I should see "student.xml records failed: 0" in the resulting batch job file
+  And I should see "student.xml records failed processing: 0" in the resulting batch job file
 
 Scenario: Post a zip file where the the edfi input has no records
   Given I post "noRecord.zip" file as the payload of the ingestion job
@@ -124,10 +124,10 @@ Scenario: Post a zip file where the the edfi input has no records
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "noRecord.zip" is completed in database
   And I should see "Processed 0 records." in the resulting batch job file
-  And I should see "All records processed successfully." in the resulting batch job file
-  And I should see "student.xml records considered: 0" in the resulting batch job file
+  And I should see "Not all records were processed completely due to errors." in the resulting batch job file
+  And I should see "student.xml records considered for processing: 0" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 0" in the resulting batch job file
-  And I should see "student.xml records failed: 0" in the resulting batch job file
+  And I should see "student.xml records failed processing: 0" in the resulting batch job file
 
 #should ingest into Mongo with whitespace/returns trimmed from strings
 Scenario: Post a zip file where the the edfi input has attributes/strings/enums with whitespace and returns
@@ -146,9 +146,9 @@ Scenario: Post a zip file where the the edfi input has attributes/strings/enums 
        | body.limitedEnglishProficiency                                           | NotLimited                            | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should see "All records processed successfully." in the resulting batch job file
-  And I should see "student.xml records considered: 1" in the resulting batch job file
+  And I should see "student.xml records considered for processing: 1" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "student.xml records failed: 0" in the resulting batch job file
+  And I should see "student.xml records failed processing: 0" in the resulting batch job file
 
 #Background: zip file contains a .txt and .rtf files, which should fail ingestion
 Scenario: Post a minimal zip file as a payload of the ingestion job: No Valid Files Test
@@ -282,7 +282,8 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName               | count   |
      | session                      |  10     |
   And I should see "Processed 35 records." in the resulting batch job file
-  And I should see "CORE_0009" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
+  And I should see "InterchangeEducationOrgCalendar.xml records not considered for processing: 19" in the resulting batch job file
+  And I should see "BASE_0017" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
   And I should see "CORE_0006" in the resulting error log file for "InterchangeEducationOrganization.xml"
   And I should see "SELF_REFERENCING_DATA" in the resulting error log file for "InterchangeEducationOrganization.xml"
   And I should see "parentEducationAgencyReference" in the resulting error log file for "InterchangeEducationOrganization.xml"
@@ -314,6 +315,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName               | count   |
      | attendance                   |   0     |
   And I should see "Processed 7 records." in the resulting batch job file
+  And I should see "StudentAttendanceEvents.xml records not considered for processing: 2" in the resulting batch job file
 
 Scenario: Post a zip file and then post it again and make sure the updated date changes but the created date stays the same
   Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job

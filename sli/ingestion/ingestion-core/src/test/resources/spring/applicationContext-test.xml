@@ -32,7 +32,6 @@
   </bean>
   
   <import resource="activemq-context.xml" />
-  <import resource="smooks-context.xml" />
   
   <import resource="dal-context.xml" />
 
@@ -87,8 +86,6 @@
   </bean>
 
   <bean id="messageSource" parent="coreMessageSource" />
-
-  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
   <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA">
     <property name="entityRepository" ref="mongoEntityRepository" />
