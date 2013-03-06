@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 =begin
 
 Copyright 2012-2013 inBloom, Inc. and its affiliates.
@@ -31,8 +29,7 @@ class Migration
     school_year_attendance = doc['body'][school_year_key]
 
     if school_year_attendance.nil?
-      puts "It seems like the data has already been migrated!"
-      exit
+      return doc
     end
     
     base_doc = deep_copy(doc)
@@ -153,14 +150,14 @@ class MongoHelper
     end
 
     def save_documents document_hash, tenant
-      if document_hash.is_a? Hash
+      if document_hash.is_a? BSON::OrderedHash
+        #No need to delete the "parent" document since we're just going to upsert it
+        save_document document_hash, tenant
+      elsif document_hash.is_a? Hash
         #Remove the old "parent" document
         remove_document document_hash[:original_id], tenant
         documents = document_hash[:split_records]
         documents.each { |doc| save_document doc, tenant }
-      elsif document_hash.is_a? BSON::OrderedHash
-        #No need to delete the "parent" document since we're just going to upsert it
-        save_document document_hash, tenant
       end
     end
 
