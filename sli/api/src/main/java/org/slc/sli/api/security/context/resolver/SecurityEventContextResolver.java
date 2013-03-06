@@ -18,7 +18,9 @@ package org.slc.sli.api.security.context.resolver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
 
@@ -55,6 +57,9 @@ public class SecurityEventContextResolver implements EntityContextResolver {
     @Autowired
     private DelegationUtil delegationUtil;
 
+    @Autowired
+    private EdOrgHelper edOrgHelper;
+
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return toEntityType.equals("securityEvent");
@@ -88,14 +93,17 @@ public class SecurityEventContextResolver implements EntityContextResolver {
                         NeutralQuery or = new NeutralQuery();
                         filters.add(or);
                     } else {
-                        String edOrgs = principal.getEdOrg();
-                        if (edOrgs != null) {
-                            List<String> homeEdOrgs = Arrays.asList(edOrgs.split(","));
+                        String edOrg = principal.getEdOrg();
+                        if (edOrg != null) {
+                        	Set<String> edOrgs = new HashSet<String>();
+                        	edOrgs.add(edOrg);
+                            List<String> homeEdOrgs = new ArrayList<String>();
+                            homeEdOrgs.addAll(edOrgHelper.getEdorgDescendents(edOrgs));
                             if (roles.contains(RoleInitializer.SEA_ADMINISTRATOR) && homeEdOrgs.size() > 0) {
 
                                 NeutralQuery or = new NeutralQuery();
 //                                or.addCriteria(new NeutralCriteria("tenantId",      NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId()));
-                                or.addCriteria(new NeutralCriteria("targetEdOrg",   NeutralCriteria.CRITERIA_IN,    homeEdOrgs));
+                                or.addCriteria(new NeutralCriteria("targetEdOrgList",   NeutralCriteria.CRITERIA_IN,    homeEdOrgs));
                                 or.addCriteria(new NeutralCriteria("roles",         NeutralCriteria.CRITERIA_IN,    ROLES_SEA_OR_REALM_ADMIN));
                                 filters.add(or);
 
@@ -105,7 +113,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
                                     if (delegatedLEAStateIds.size() > 0) {
                                         info(delegatedLEAStateIds + " have delegated SecurityEvents access to SEA!");
                                         NeutralQuery delegateOr = new NeutralQuery();
-                                        delegateOr.addCriteria(new NeutralCriteria("targetEdOrg",  NeutralCriteria.CRITERIA_IN,    delegatedLEAStateIds));
+                                        delegateOr.addCriteria(new NeutralCriteria("targetEdOrgList",  NeutralCriteria.CRITERIA_IN,    delegatedLEAStateIds));
                                         delegateOr.addCriteria(new NeutralCriteria("roles",        NeutralCriteria.CRITERIA_IN,    ROLES_LEA_ADMIN));
                                         filters.add(delegateOr);
                                     } else {
@@ -115,7 +123,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
                             }
                             if (roles.contains(RoleInitializer.LEA_ADMINISTRATOR) && homeEdOrgs.size() > 0) {
                                 NeutralQuery or = new NeutralQuery();
-                                or.addCriteria(new NeutralCriteria("targetEdOrg",  NeutralCriteria.CRITERIA_IN,    homeEdOrgs));
+                                or.addCriteria(new NeutralCriteria("targetEdOrgList",  NeutralCriteria.CRITERIA_IN,    homeEdOrgs));
                                 or.addCriteria(new NeutralCriteria("roles",         NeutralCriteria.CRITERIA_IN,    ROLES_LEA_ADMIN));
                                 filters.add(or);
                             }
