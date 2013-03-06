@@ -25,6 +25,7 @@ import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,7 +98,14 @@ public class ContainerDocumentAccessor {
     }
 
     public Entity findById(String collectionName, String id) {
-        return getLocation(collectionName).findById(id);
+        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(collectionName);
+        if (containerDocument.isContainerSubdoc()) {
+            return getLocation(collectionName).findById(id);
+        } else {
+            final Query query = Query.query(Criteria.where("_id").is(id));
+            return MongoEntity.create(collectionName,
+                    mongoTemplate.getCollection(collectionName).findOne(query.getQueryObject()).toMap());
+        }
     }
 
     public boolean delete(final Entity entity) {
@@ -231,8 +239,12 @@ public class ContainerDocumentAccessor {
         if (containerDocument.isContainerSubdoc()) {
             return getLocation(entity.getType()).delete(entity);
         } else {
-            //TODO: handle attendance
-            return true;
+            Query query = new Query();
+            query.addCriteria(new Criteria("_id").is(entity.getBody().get("_id")));
+            return mongoTemplate.getCollection(containerDocument.getCollectionToPersist())
+                    .remove(query.getQueryObject(), WriteConcern.SAFE)
+                    .getLastError()
+                    .ok();
         }
     }
 
