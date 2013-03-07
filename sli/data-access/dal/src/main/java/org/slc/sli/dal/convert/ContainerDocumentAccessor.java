@@ -108,6 +108,10 @@ public class ContainerDocumentAccessor {
         return getLocation(collectionName).findById(id);
     }
 
+    public List<Entity> findAll(String collectionName, Query query) {
+        return getLocation(collectionName).findAll(query);
+    }
+
     public boolean delete(final Entity entity) {
         return deleteContainerDoc(entity);
     }
