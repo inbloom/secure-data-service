@@ -16,8 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -67,8 +67,8 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
      * Determines if the teacher can see the set of entities specified by 'ids'.
      */
     @SuppressWarnings("unchecked")
-    @Override
-    public boolean validate(String entityType, Set<String> ids) {
+	@Override
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(SUB_ENTITIES_OF_STUDENT, entityType, ids)) {
             return false;
         }

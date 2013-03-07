@@ -17,7 +17,7 @@
 package org.slc.sli.api.security.pdp;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.generic.config.ResourceEndPoint;

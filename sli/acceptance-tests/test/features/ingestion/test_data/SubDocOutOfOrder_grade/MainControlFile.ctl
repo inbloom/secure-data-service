@@ -1,2 +1,2 @@
-edfi-xml,StudentGrades,InterchangeStudentGrade.xml,ccb8c1c316c8858d614843cb34cda9fc
+edfi-xml,StudentGrades,InterchangeStudentGrade.xml,3d6847bc91a9a32e387654ad6c6fb12c
 edfi-xml,StudentEnrollment,InterchangeStudentEnrollment.xml,dfd8e7f81ff02fa845de7508ef806ed7

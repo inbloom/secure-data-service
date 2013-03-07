@@ -1,0 +1,24 @@
+{
+    "referenceSources" :
+    [   {
+            "entityType" : "student",
+            "sourceRefPath": "body.StudentAcademicRecordReference.StudentAcademicRecordIdentity.StudentReference",
+            "optional" : true
+        },
+        {
+            "entityType" : "course",
+            "sourceRefPath": "body.CourseReference",
+            "optional" : false
+        },
+        {
+            "entityType" : "educationOrganization",
+            "sourceRefPath": "body.EducationOrganizationReference",
+            "optional" : false
+        },
+        {
+            "entityType" : "studentAcademicRecord",
+            "sourceRefPath": "body.StudentAcademicRecordReference",
+            "optional" : false
+        }
+    ]
+}

@@ -15,10 +15,25 @@
  */
 package org.slc.sli.api.search.service;
 
+import java.io.File;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import com.google.common.base.Predicate;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Table;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -28,9 +43,17 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
+
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilter;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilterProvider;
 import org.slc.sli.api.representation.EntityBody;
@@ -49,26 +72,6 @@ import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpStatusCodeException;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import java.io.File;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Service class to handle all API search requests. Retrieves results using data
@@ -122,9 +125,13 @@ public class SearchResourceService {
         return searchEntityDefinition.getService();
     }
 
+    protected String getType() {
+        return searchEntityDefinition.getType();
+    }
+
     /**
      * Main entry point for retrieving search results
-     * 
+     *
      * @param resource
      * @param resourcesToSearch
      * @param queryUri
@@ -187,7 +194,7 @@ public class SearchResourceService {
     /**
      * Takes an ApiQuery and retrieve results. Includes logic for pagination and
      * calls methods to filter by security context.
-     * 
+     *
      * @param definition
      * @param apiQuery
      * @return
@@ -256,7 +263,7 @@ public class SearchResourceService {
 
     /**
      * Replace entity type 'search' with the real entity types
-     * 
+     *
      * @param entities
      */
     private void setRealEntityTypes(List<EntityBody> entities) {
@@ -270,7 +277,7 @@ public class SearchResourceService {
      * Prepare an ApiQuery to send to the search repository. Creates the
      * ApiQuery from the query URI, sets query criteria and security context
      * criteria.
-     * 
+     *
      * @param resourcesToSearch
      * @param queryUri
      * @return
@@ -289,7 +296,7 @@ public class SearchResourceService {
 
     /**
      * Given string of resource names, get corresponding string of entity types
-     * 
+     *
      * @param resourceNames
      * @return
      */
@@ -310,7 +317,7 @@ public class SearchResourceService {
      * Return list of accessible entities, filtered through the security
      * context. Original list may by cross-collection. Retains the original
      * order of entities.
-     * 
+     *
      * @param entities
      * @param offset
      *            -
@@ -322,6 +329,7 @@ public class SearchResourceService {
         if (entityBodies == null || entityBodies.isEmpty()) {
             return entityBodies;
         }
+
         int total = offset + limit + 1;
         List<EntityBody> sublist;
         // this collection will be filtered out based on security context but
@@ -335,15 +343,27 @@ public class SearchResourceService {
             sublist = new ArrayList<EntityBody>(entityBodies.subList(0, Math.min(entityBodies.size(), limit)));
             entitiesByType = getEntityTable(sublist);
 
-            // get accessible entities by type, add to filter map
-            Set<String> accessible;
-            Map<String, EntityBody> row;
             for (String type : entitiesByType.rowKeySet()) {
-                row = entitiesByType.row(type);
-                accessible = filterOutInaccessibleIds(type, row.keySet());
-                for (String id : accessible) {
-                    if (row.containsKey(id)) {
-                        filterMap.put(id, type, row.get(id));
+                /*
+                 * Skip validation for global entities.
+                 */
+                if (contextValidator.isGlobalEntity(type)) {
+                    debug("search: skipping validation --> global entity: {}", type);
+                    Map<String, EntityBody> row = entitiesByType.row(type);
+                    Set<String> accessible = row.keySet();
+                    for (String id : accessible) {
+                        if (row.containsKey(id)) {
+                            filterMap.put(id, type, row.get(id));
+                        }
+                    }
+                } else {
+                    debug("search: validating entity: {}", type);
+                    Map<String, EntityBody> row = entitiesByType.row(type);
+                    Set<String> accessible = filterOutInaccessibleIds(type, row.keySet());
+                    for (String id : accessible) {
+                        if (row.containsKey(id)) {
+                            filterMap.put(id, type, row.get(id));
+                        }
                     }
                 }
             }
@@ -362,7 +382,7 @@ public class SearchResourceService {
 
     /**
      * Get entities table by type, by ids
-     * 
+     *
      * @param entityList
      * @return
      */
@@ -376,7 +396,7 @@ public class SearchResourceService {
 
     /**
      * Filter id set to get accessible ids
-     * 
+     *
      * @param toType
      * @param ids
      * @return
@@ -384,7 +404,8 @@ public class SearchResourceService {
     public Set<String> filterOutInaccessibleIds(String toType, Set<String> ids) {
 
         // get validator
-        IContextValidator validator = contextValidator.findValidator(toType, false);
+        // TODO: FIND OUT IF THIS IS ACTUALLY TRANSITIVE == TRUE
+        IContextValidator validator = contextValidator.findValidator(toType, true);
         // validate. if accessible, add to list
         if (validator != null) {
             return validator.getValid(toType, ids);
@@ -394,7 +415,7 @@ public class SearchResourceService {
 
     /**
      * NeutralCriteria filter. Keep NeutralCriteria only on the White List
-     * 
+     *
      * @param apiQuery
      */
     public void filterCriteria(ApiQuery apiQuery) {
@@ -424,7 +445,7 @@ public class SearchResourceService {
     /**
      * Apply default query pattern for ElasticSearch. Query strategy -
      * start-of-word match on each query token
-     * 
+     *
      * @param criterias
      */
     private static void applyDefaultPattern(NeutralCriteria criteria) {
@@ -445,7 +466,7 @@ public class SearchResourceService {
      * determined by the user's accessible schools. The list of accessible
      * school ids is added to the query, and records in Elasticsearch must match
      * an id in order to be returned.
-     * 
+     *
      * @param apiQuery
      */
     private void addSecurityContext(ApiQuery apiQuery) {
@@ -466,7 +487,7 @@ public class SearchResourceService {
 
     /**
      * Run an embedded ElasticSearch instance, if enabled by configuration.
-     * 
+     *
      * @author dwu
      */
     @Component

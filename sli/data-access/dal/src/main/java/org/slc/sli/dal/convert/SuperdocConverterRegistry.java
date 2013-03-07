@@ -21,7 +21,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

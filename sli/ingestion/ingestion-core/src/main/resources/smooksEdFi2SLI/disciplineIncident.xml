@@ -48,24 +48,24 @@
   	<jb:wiring beanIdRef="Description" />
   </jb:bean>
 
-  <jb:bean beanId="CodeValue" class="java.util.HashMap" createOnElement="attributes Behaviors element element CodeValue">
-    <jb:value property="codeValue" data="Behaviors element element CodeValue _value" />
+  <jb:bean beanId="CodeValue" class="java.util.HashMap" createOnElement="attributes Behaviors element CodeValue">
+    <jb:value property="codeValue" data="Behaviors element CodeValue _value" />
   </jb:bean>
 
-  <jb:bean beanId="ShortDescription" class="java.util.HashMap" createOnElement="Behaviors element element ShortDescription">
-    <jb:value property="shortDescription" data="Behaviors element element ShortDescription _value" />
+  <jb:bean beanId="ShortDescription" class="java.util.HashMap" createOnElement="Behaviors element ShortDescription">
+    <jb:value property="shortDescription" data="Behaviors element ShortDescription _value" />
   </jb:bean>
 
-  <jb:bean beanId="Description" class="java.util.HashMap" createOnElement="Behaviors element element Description">
-    <jb:value property="description" data="Behaviors element element Description _value" />
+  <jb:bean beanId="Description" class="java.util.HashMap" createOnElement="Behaviors element Description">
+    <jb:value property="description" data="Behaviors element Description _value" />
   </jb:bean>
 
   <jb:bean beanId="SecondaryBehaviors" class="java.util.ArrayList" createOnElement="attributes SecondaryBehaviors">
     <jb:wiring beanIdRef="SecondaryBehavior" />
   </jb:bean>
 
-  <jb:bean beanId="DisciplineIncident_SecondaryBehaviors" class="java.util.HashMap" createOnElement="attributes SecondaryBehaviors element">
-    <jb:value property="behaviorCategory" data="SecondaryBehaviors element BehaviorCategory _value" />
+  <jb:bean beanId="SecondaryBehavior" class="java.util.HashMap" createOnElement="attributes SecondaryBehaviors element">
+    <jb:value property="behaviorCategory" data="SecondaryBehaviors element a_BehaviorCategory" />
     <jb:value property="secondaryBehavior" data="SecondaryBehaviors element SecondaryBehavior _value" />
   </jb:bean>
 

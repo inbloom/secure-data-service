@@ -126,4 +126,8 @@ When /^I navigate to the Sample App I should see the name "(.*?)" on the page$/ 
   @driver.get PropLoader.getProps['sampleApp_server_address']+"sample"
   assertWithWait("Failed to find #{arg1} on the page") {@driver.page_source.include?(arg1)}
 end
-  
+
+When /^I navigate to the Sample App it should crash and burn$/ do 
+  @driver.get PropLoader.getProps['sampleApp_server_address']+"sample"
+  assertWithWait("Failed to crash and/or burn") {@driver.page_source.include?('java.lang.IllegalArgumentException: invalid start or end')}
+end  

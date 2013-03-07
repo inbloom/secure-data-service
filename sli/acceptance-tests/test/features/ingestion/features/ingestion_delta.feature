@@ -10,6 +10,8 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And the following collections are empty in datastore:
          | collectionName                            |
          | assessment                                |
+         | assessmentFamily                          |
+         | assessmentPeriodDescriptor                |
          | attendance                                |
          | calendarDate                              |
          | cohort                                    |
@@ -109,10 +111,12 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And I should see "InterchangeAssessmentMetadata-CCS-Math.xml learningObjective 65 deltas!" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml learningObjective 63 deltas!" in the resulting batch job file
     And I should see "InterchangeAttendance.xml attendanceEvent 5550 deltas!" in the resulting batch job file
+    And I should not see a warning log file created
     And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone with name "StoriedDataSet_IL_Daybreak_Deltas.zip"
     And a batch job for file "StoriedDataSet_IL_Daybreak_Deltas.zip" is completed in database
     And I should see "InterchangeAttendance.xml attendanceEvent 2 deltas!" in the resulting batch job file
+    And I should not see a warning log file created
     And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                                 | searchValue       |
         | attendance                  | 1                   | body.attendanceEvent.reason| test for 100000000|
@@ -125,6 +129,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the following collections are empty in datastore:
          | collectionName                            |
          | assessment                                |
+         | assessmentFamily                          |
+         | assessmentPeriodDescriptor                |
          | attendance                                |
          | calendarDate                              |
          | cohort                                    |
@@ -176,6 +182,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
          | teacherSectionAssociation                 |
 When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
 And a batch job for file "Hyrule.zip" is completed in database
+And I should not see a warning log file created
 And I should see following map of entry counts in the corresponding collections:
   | collectionName                           |              count|
   | recordHash                               |                112|
@@ -183,6 +190,7 @@ And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
 And I post "Hyrule.zip" file as the payload of the ingestion job
 And zip file is scp to ingestion landing zone with name "Reingest-Hyrule.zip"
 And a batch job for file "Reingest-Hyrule.zip" is completed in database
+And I should not see a warning log file created
 And I should see following map of entry counts in the corresponding collections:
   | collectionName                           |              count|
   | recordHash                               |                112|

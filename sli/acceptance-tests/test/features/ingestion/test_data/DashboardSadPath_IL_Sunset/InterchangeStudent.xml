@@ -22,7 +22,6 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60057-1857</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
 		</Address>
 		<Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>708-471-5210</TelephoneNumber>
@@ -59,7 +58,6 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60053-1532</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
         </Address>
         <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>708-234-2352</TelephoneNumber>

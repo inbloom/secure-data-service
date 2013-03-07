@@ -185,9 +185,10 @@ public class JobReportingProcessorTest {
         assertTrue(br.readLine().contains(
                 "[file] " + RESOURCEID + " (" + FileFormat.EDFI_XML.getCode() + "/"
                         + FileType.XML_STUDENT_PARENT_ASSOCIATION.getName() + ")"));
-        assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records considered: " + RECORDS_CONSIDERED));
+        assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records considered for processing: " + RECORDS_CONSIDERED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records ingested successfully: " + RECORDS_PASSED));
-        assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records failed: " + RECORDS_FAILED));
+        assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records failed processing: " + RECORDS_FAILED));
+        assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records not considered for processing: " + 0));
         assertTrue(br.readLine().contains("[configProperty] purge: false"));
         // INFO  InterchangeStudentParent.xml student 123 deltas!
         assertTrue(br.readLine().contains(RESOURCEID + " " + DUP_ENTITY + " " + DUP_COUNT + " deltas!"));

@@ -29,7 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
@@ -68,7 +68,7 @@ public class StaffToStudentProgramAssociationValidatorTest {
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
     
-    private StaffToProgramValidator mockProgramValidator;
+    private GenericToProgramValidator mockProgramValidator;
     
     Set<String> programIds;
     
@@ -86,7 +86,7 @@ public class StaffToStudentProgramAssociationValidatorTest {
         
         programIds = new HashSet<String>();
         
-        mockProgramValidator = Mockito.mock(StaffToProgramValidator.class);
+        mockProgramValidator = Mockito.mock(GenericToProgramValidator.class);
         validator.setStaffProgramValidator(mockProgramValidator);
         
     }

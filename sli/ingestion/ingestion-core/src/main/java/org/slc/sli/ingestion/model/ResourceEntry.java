@@ -44,6 +44,8 @@ public final class ResourceEntry {
 
     private long errorCount;
 
+    private long validationErrorCount;
+
     public ResourceEntry() {
         // mongoTemplate requires this constructor.
     }
@@ -147,5 +149,13 @@ public final class ResourceEntry {
 
     public void setResourceZipParent(String resourceZipParent) {
         this.resourceZipParent = resourceZipParent;
+    }
+
+    public long getValidationErrorCount() {
+        return validationErrorCount;
+    }
+
+    public void setValidationErrorCount(long validationErrorCount) {
+        this.validationErrorCount = validationErrorCount;
     }
 }

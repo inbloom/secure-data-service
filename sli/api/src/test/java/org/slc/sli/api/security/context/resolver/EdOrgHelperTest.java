@@ -30,6 +30,7 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -37,9 +38,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.EntityOwnershipValidator;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 
@@ -57,10 +61,15 @@ import org.slc.sli.domain.Entity;
 public class EdOrgHelperTest {
 
     @Autowired
+    SecurityContextInjector injector;
+
+    @Autowired
     EdOrgHelper helper;
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+
+    private EntityOwnershipValidator ownership;
 
     /*
      *  Create an EdOrg Hierarchy that looks like
@@ -97,8 +106,17 @@ public class EdOrgHelperTest {
     Entity student2 = null;
     Entity student3 = null;
 
+    private void setContext(Entity actor, List<String> roles) {
+        String user = "fake actor";
+        String fullName = "Fake Actor";
+        injector.setCustomContext(user, fullName, "MERPREALM", roles, actor, "111");
+    }
+
     @Before
     public void setup() {
+        ownership = Mockito.mock(EntityOwnershipValidator.class);
+        Mockito.when(ownership.canAccess((Entity) Mockito.any())).thenReturn(true);
+        helper.setEntityOwnershipValidator(ownership);
 
         repo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, null);
         repo.deleteAll(EntityNames.STAFF, null);
@@ -238,73 +256,59 @@ public class EdOrgHelperTest {
 
     @Test
     public void testStaff1() {
+        setContext(staff1, Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR));
         List<String> leas = helper.getDistricts(staff1);
         assertTrue("staff1 must see lea1", leas.contains(lea1.getEntityId()));
         assertEquals("staff1 must only see one district", 1, leas.size());
-
-        List<String> seas = helper.getSEAs(staff1);
-        assertTrue("staff1 must see sea1", seas.contains(sea1.getEntityId()));
     }
 
     @Test
     public void testStaff2() {
+        setContext(staff2, Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR));
         List<String> leas = helper.getDistricts(staff2);
         assertTrue("staff2 must see lea1", leas.contains(lea1.getEntityId()));
         assertEquals("staff2 must only see one district", 1, leas.size());
-
-        List<String> seas = helper.getSEAs(staff2);
-        assertTrue("staff2 must see sea1", seas.contains(sea1.getEntityId()));
     }
 
     @Test
     public void testStaff3() {
+        setContext(staff3, Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR));
         List<String> leas = helper.getDistricts(staff3);
         assertTrue("staff3 must see lea1", leas.contains(lea1.getEntityId()));
         assertEquals("staff3 must only see one district", 1, leas.size());
-
-        List<String> seas = helper.getSEAs(staff3);
-        assertTrue("staff3 must see sea1", seas.contains(sea1.getEntityId()));
     }
 
     @Test
     public void testStaff4() {
+        setContext(staff4, Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR));
         List<String> leas = helper.getDistricts(staff4);
         assertTrue("staff4 must see lea1", leas.contains(lea1.getEntityId()));
         assertTrue("staff4 must lea4", leas.contains(lea4.getEntityId()));
         assertEquals("staff4 must only see two districts", 2, leas.size());
-
-        List<String> seas = helper.getSEAs(staff4);
-        assertTrue("staff4 must see sea1", seas.contains(sea1.getEntityId()));
     }
 
     @Test
     public void testTeacher1() {
+        setContext(teacher1, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR));
         List<String> leas = helper.getDistricts(teacher1);
         assertTrue("teacher1 must see lea1", leas.contains(lea1.getEntityId()));
         assertEquals("teacher1 must only see one district", 1, leas.size());
-
-        List<String> seas = helper.getSEAs(teacher1);
-        assertTrue("teacher1 must see sea1", seas.contains(sea1.getEntityId()));
     }
 
     @Test
     public void testTeacher2() {
+        setContext(teacher2, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR));
         List<String> leas = helper.getDistricts(teacher2);
         assertTrue("teacher2 must see lea1", leas.contains(lea1.getEntityId()));
         assertEquals("teacher2 must only see one district", 1, leas.size());
-
-        List<String> seas = helper.getSEAs(teacher2);
-        assertTrue("teacher2 must see sea1", seas.contains(sea1.getEntityId()));
     }
 
     @Test
     public void testTeacher3() {
+        setContext(teacher3, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR));
         List<String> leas = helper.getDistricts(teacher3);
         assertTrue("teacher3 must see lea1", leas.contains(lea1.getEntityId()));
         assertEquals("teacher3 must only see one district", 1, leas.size());
-
-        List<String> seas = helper.getSEAs(teacher3);
-        assertTrue("teacher3 must see sea1", seas.contains(sea1.getEntityId()));
     }
 
     @Test

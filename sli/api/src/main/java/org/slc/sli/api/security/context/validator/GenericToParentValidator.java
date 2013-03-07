@@ -15,7 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
@@ -51,7 +51,7 @@ public class GenericToParentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> parentIds) {
+    public boolean validate(String entityType, Set<String> parentIds) throws IllegalStateException {
         if (!areParametersValid(EntityNames.PARENT, entityType, parentIds)) {
             return false;
         }

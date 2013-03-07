@@ -36,31 +36,32 @@
         <jb:value property="courseId" data="attributes CourseReference"/>
 	    <jb:wiring property="educationOrganizationReference" beanIdRef="CourseTranscript_EdOrgReferenceArray"/>
         <jb:value property="studentAcademicRecordId" data="attributes StudentAcademicRecordReference"/>
+        <jb:value property="studentId" data="attributes DiDResolved_StudentReference"/>
     </jb:bean>
     
     <jb:bean beanId="CreditsAttempted" class="java.util.HashMap" createOnElement="attributes CreditsAttempted">
         <jb:value property="credit" data="attributes CreditsAttempted Credit _value" decoder="Double"/>
-        <jb:value property="creditType" data="attributes CreditsAttempted CreditType _value"/>
-        <jb:value property="creditConversion" data="attributes CreditsAttempted CreditConversion _value" decoder="Double"/>
+        <jb:value property="creditType" data="attributes CreditsAttempted a_CreditType"/>
+        <jb:value property="creditConversion" data="attributes CreditsAttempted a_CreditConversion" decoder="Double"/>
     </jb:bean>
     
     <jb:bean beanId="CreditsEarned" class="java.util.HashMap" createOnElement="attributes CreditsEarned">
         <jb:value property="credit" data="attributes CreditsEarned Credit _value" decoder="Double"/>
-        <jb:value property="creditType" data="attributes CreditsEarned CreditType _value"/>
-        <jb:value property="creditConversion" data="attributes CreditsEarned CreditConversion _value" decoder="Double"/>
+        <jb:value property="creditType" data="attributes CreditsEarned a_CreditType"/>
+        <jb:value property="creditConversion" data="attributes CreditsEarned a_CreditConversion" decoder="Double"/>
     </jb:bean>
 
    <jb:bean beanId="CourseTranscript_EdOrgReferenceArray" class="java.util.ArrayList" createOnElement="attributes EducationOrganizationReference">
         <jb:value data="attributes EducationOrganizationReference element" />
     </jb:bean>
 
-    <jb:bean beanId="AdditionalCreditsArray" class="java.util.ArrayList" createOnElement="attributes AdditionalCredit">
+    <jb:bean beanId="AdditionalCreditsArray" class="java.util.ArrayList" createOnElement="attributes AdditionalCreditsEarned">
         <jb:wiring beanIdRef="AdditionalCredit"/>
     </jb:bean>
 
     <jb:bean beanId="AdditionalCredit" class="java.util.HashMap" createOnElement="attributes AdditionalCreditsEarned element">
         <jb:value property="credit" data="attributes AdditionalCreditsEarned element Credit _value" decoder="Float"/>
-        <jb:value property="additionalCreditType" data="attributes AdditionalCreditsEarned element AdditionalCreditType _value"/>
+        <jb:value property="additionalCreditType" data="attributes AdditionalCreditsEarned element a_AdditionalCreditType"/>
     </jb:bean>
 
 </smooks-resource-list>

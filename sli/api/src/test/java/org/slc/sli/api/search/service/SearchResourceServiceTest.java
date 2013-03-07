@@ -55,7 +55,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.web.client.HttpClientErrorException;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
@@ -289,7 +289,8 @@ public class SearchResourceServiceTest {
         // test when all entities are inaccessible
         Mockito.doReturn(getSet()).when(rs).filterOutInaccessibleIds(Mockito.anyString(), Mockito.anySet());
         result = rs.filterResultsBySecurity(getEntities(), 0, 10);
-        Assert.assertEquals(0, result.size());
+        // technically you can see one entity, because there is one section in those entities, which are now global
+        Assert.assertEquals(1, result.size());
 
     }
 

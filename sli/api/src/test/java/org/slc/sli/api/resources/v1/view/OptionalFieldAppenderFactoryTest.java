@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.v1.view.impl.StudentAssessmentOptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.impl.StudentGradebookOptionalFieldAppender;

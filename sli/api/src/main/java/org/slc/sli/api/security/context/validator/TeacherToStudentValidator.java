@@ -17,8 +17,8 @@
 package org.slc.sli.api.security.context.validator;
 
 import com.google.common.collect.Lists;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
@@ -53,7 +53,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityName, Set<String> ids) {
+    public boolean validate(String entityName, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT, entityName, ids)) {
             return false;
         }

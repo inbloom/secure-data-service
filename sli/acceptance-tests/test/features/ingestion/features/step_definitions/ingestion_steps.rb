@@ -2969,36 +2969,61 @@ def recursiveCount (list, containPath, param)
     containSplit = Array.new(1)
     containSplit[0] = containPath[0]
   end
-         
-  containSplit.each do |x|
-    return nil unless iterator.has_key?(x) 
-    iterator = iterator[x]
+  
+  if containSplit[0] != ""       
+    containSplit.each do |x|
+      return nil unless iterator.has_key?(x) 
+      iterator = iterator[x]
+    end
   end
   
   container = Array.new(containPath)
   container.shift
-      
+         
   if container.length >= 1
     iterator.each { |inner| recursiveCount(inner,container,param)}       
   else
     if param.length == 0
-      @entity_count += iterator.size
-    else
-      iterator.each do |inner|
-        innerIter = inner
-        found = true
-        param.each do |x|
-          unless innerIter.has_key?(x)
-            found = false
-            break
-          end
-          innerIter = innerIter[x]
+      if iterator
+        if iterator.size == 0
+          @entity_count += 1
+        else
+          @entity_count += iterator.size
         end
-        @entity_count += 1 if found
+      end
+    else
+      if container[0] == ""
+        iterator.each do |middle|
+          middle.each do |inner|
+            innerIter = inner
+            found = true
+            param.each do |x|
+              unless innerIter.has_key?(x)
+                found = false
+                break
+              end
+              innerIter = innerIter[x]
+            end
+            @entity_count += 1 if found
+
+          end
+        end
+      else
+        iterator.each do |inner|
+          innerIter = inner
+          found = true
+          param.each do |x|
+            unless innerIter.has_key?(x)
+              found = false
+              break
+            end
+            innerIter = innerIter[x]
+          end
+          @entity_count += 1 if found
+        end
       end
     end
   end
-
 end
 
 def recurseAndCount(path, param, resetCount=true)
@@ -3007,22 +3032,23 @@ def recurseAndCount(path, param, resetCount=true)
     @entity_count = 0
   end
   
-  if path.length >= 2
-    doc = @entity_collection.find({"#{param}" => { "$exists" => true }}).to_a
-    
-    doc.each do |inner|
-            
-      truncParam = String.new(param)
-      dotPath = String.new(path)
-      dotPath[":"] = "." while dotPath.include? ":"
-      truncParam[dotPath] = ""
-      truncParam = truncParam[1..-1] if truncParam[0]=='.'
-      paramList = truncParam.split "."
-      pathList = path.split":"
+  dotPath = String.new(path)
+  dotPath[":"] = "." while dotPath.include? ":"
+  dotPath.gsub!(/\.\..*/, "")
+  dotPath.chop! if dotPath[-1] == "."
 
-      recursiveCount(inner, pathList, paramList)
+  doc = @entity_collection.find({"#{dotPath}" => { "$exists" => true }}).to_a
+    
+  doc.each do |inner|
+            
+    truncParam = String.new(param)
+
+    truncParam[dotPath] = ""
+    truncParam = truncParam[1..-1] if truncParam[0]=='.'
+    paramList = truncParam.split "."
+    pathList = path.split(":",-1)
+    recursiveCount(inner, pathList, paramList)
       
-    end
   end
 end
 
@@ -3030,7 +3056,7 @@ Then /^I check the number of records in collection:/ do |table|
   
   disable_NOTABLESCAN()
   @db = @conn[@ingestion_db_name]
-  @result = true
+  @result = "true"
   
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
@@ -3054,7 +3080,7 @@ Then /^I check the number of records in collection:/ do |table|
     
     if parentList == "none"
       @entity_count = @entity_collection.find({param=> { "$exists" => true }}).count()
-    elsif parentList.include? ":"     
+    elsif parentList.include? ":" or param == parentList     
       recurseAndCount(parentList, param)           
     else
       @entity_count = @entity_collection.aggregate( [ {"$match" => {"#{param}" => {"$exists" => true}}},
@@ -3069,8 +3095,8 @@ Then /^I check the number of records in collection:/ do |table|
     end
 
     puts "#{red}There are " + @entity_count.to_s + " in "+ row["collectionName"] + " collection for record with " + row["searchParameter"] + " . Expected: " + row["expectedRecordCount"].to_s+"#{reset}"
-                                                      
-  end      
+  end
+  
   assert(@result == "true", "Some entities were not stored.")
   enable_NOTABLESCAN()   
 end

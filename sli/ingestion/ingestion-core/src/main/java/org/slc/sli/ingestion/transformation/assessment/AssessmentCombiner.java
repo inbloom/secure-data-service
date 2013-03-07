@@ -104,13 +104,15 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             String familyHierarchyName = getAssocationFamilyMap(parentFamilyTitle, new HashMap<String, Map<String, Object>>(), "");
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
-            try {
-                String codeValue = PropertyUtils.getProperty(attrs, "assessmentPeriodDescriptorId.AssessmentPeriodDescriptorIdentity.AssessmentPeriodDescriptorCodeValue").toString();
-                if (codeValue != null) {
-                    attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(codeValue));
+            if(attrs.get("AssessmentPeriod") != null) {
+                try {
+                    String codeValue = PropertyUtils.getProperty(attrs, "AssessmentPeriod.AssessmentPeriodDescriptorIdentity.AssessmentPeriodDescriptorCodeValue._value").toString();
+                    if (codeValue != null) {
+                        attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(codeValue));
+                    }
+                } catch(Exception e) {
+                    throw new RuntimeException(e);
                 }
-            } catch(Exception e) {
-                throw new RuntimeException(e);
             }
 
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");

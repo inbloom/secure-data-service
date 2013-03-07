@@ -17,8 +17,8 @@
 package org.slc.sli.api.security.context.validator;
 
 import org.joda.time.DateTime;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -41,10 +41,10 @@ import java.util.Set;
 public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Autowired
-    private StaffToProgramValidator programValidator;
+    private GenericToProgramValidator programValidator;
 
     @Autowired
-    private StaffToCohortValidator cohortValidator;
+    private GenericToCohortValidator cohortValidator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -59,7 +59,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> studentIds) {
+    public boolean validate(String entityType, Set<String> studentIds) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT, entityType, studentIds)) {
             return false;
         }
@@ -82,8 +82,8 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
                 if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) ||
-                      programValidator.validateWithStudentAccess(EntityNames.PROGRAM, getValidPrograms(entity), true) ||
-                      cohortValidator.validateWithStudentAccess(EntityNames.COHORT, getValidCohorts(entity), true))) {
+                      programValidator.validate(EntityNames.PROGRAM, getValidPrograms(entity)) ||
+                      cohortValidator.validate(EntityNames.COHORT, getValidCohorts(entity)))) {
                     isValid = false;
                     break;
                 }
@@ -172,7 +172,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
      * @param programValidator
      *            the programValidator to set
      */
-    public void setProgramValidator(StaffToProgramValidator programValidator) {
+    public void setProgramValidator(GenericToProgramValidator programValidator) {
         this.programValidator = programValidator;
     }
 
@@ -180,7 +180,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
      * @param cohortValidator
      *            the cohortValidator to set
      */
-    public void setCohortValidator(StaffToCohortValidator cohortValidator) {
+    public void setCohortValidator(GenericToCohortValidator cohortValidator) {
         this.cohortValidator = cohortValidator;
     }
 

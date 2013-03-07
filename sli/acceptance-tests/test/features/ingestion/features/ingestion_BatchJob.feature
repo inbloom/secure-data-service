@@ -57,10 +57,11 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | resourceEntries.2.resourceType   | EducationOrganization                | string     |
 
    And I should see "Processed 1 records." in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records considered: 1" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records considered for processing: 1" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 1" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
+    And I should not see a warning log file created
 
 Scenario: Post a minimal zip file with purge set but not tenant as a payload of the ingestion job: Clean Database
 Given I post "BatchJobPurge.zip" file as the payload of the ingestion job
@@ -104,6 +105,7 @@ Then I should see following map of entry counts in the corresponding batch job d
    And I should see "Processed 0 records." in the resulting batch job file
    And I should see "[configProperty] purge: true" in the resulting batch job file
    And I should not see an error log file created
+   And I should not see a warning log file created
 
 Scenario: Post a zip file containing errors as a payload of the ingestion job: Clean Database
 Given I post "BatchJobError.zip" file as the payload of the ingestion job
@@ -148,11 +150,10 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | resourceEntries.2.resourceFormat | edfi-xml                             | string     |
   | newBatchJob    | 1                   | resourceEntries.2.resourceType   | EducationOrganization                | string     |
  #errors
-  | error          | 1                   | severity                         | WARNING                                 |string      |
-  | error          | 1                   | severity                         | ERROR                                   |string      |
+  | error          | 2                   | severity                         | ERROR                                   |string      |
 
    And I should see "Processed 0 records." in the resulting batch job file
-   And I should see "CORE_0065" in the resulting error log file
+   And I should see "CORE_0063" in the resulting error log file
 
 Scenario: Post two zip files to different landing zones then see the batch jobs in the database: Clean Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -182,4 +183,5 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 0                   | status                         | CompletedWithErrors     | string     | 
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJob.zip            | string     |
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJobLarge.zip       | string     |
+ And I should not see a warning log file created
 

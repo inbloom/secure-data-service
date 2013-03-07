@@ -31,6 +31,8 @@
     <jb:value property="performanceBaseConversion" data="attributes PerformanceBaseConversion _value" />
     <jb:value property="schoolYear" data="attributes SchoolYear _value" />
     <jb:value property="studentSectionAssociationId" data="attributes StudentSectionAssociationReference" />
+    <jb:value property="studentId" data="attributes DiDResolved_StudentReference" />
+    <jb:value property="sectionId" data="attributes DiDResolved_SectionReference" />
     <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />
   </jb:bean>
 

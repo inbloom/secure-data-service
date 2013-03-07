@@ -16,7 +16,6 @@
 package org.slc.sli.api.security.context;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,27 +24,23 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.api.model.ModelProvider;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.Type;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 @Component
 public class EntityOwnershipValidator {
 
-    private Set<String> publicEntities;
+    private Set<String> globalEntities;
     private Map<String, Reference> typeToReference = new HashMap<String, EntityOwnershipValidator.Reference>();
 
 
@@ -74,9 +69,9 @@ public class EntityOwnershipValidator {
 
     }
 
-    @SuppressWarnings({ "serial", "unused" })
-    @PostConstruct
-    private void init() {
+	@SuppressWarnings("unused")
+	@PostConstruct
+	private void init() {
 
         typeToReference.put(EntityNames.STUDENT, new Reference(EntityNames.STUDENT, EntityNames.STUDENT_SCHOOL_ASSOCIATION, ParameterConstants.STUDENT_ID, Reference.RefType.RIGHT_TO_LEFT));
         typeToReference.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new Reference(EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
@@ -109,7 +104,7 @@ public class EntityOwnershipValidator {
         typeToReference.put(EntityNames.TEACHER_SCHOOL_ASSOCIATION, new Reference(EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.TEACHER, new Reference(EntityNames.TEACHER, EntityNames.STAFF_ED_ORG_ASSOCIATION, ParameterConstants.STAFF_REFERENCE, Reference.RefType.RIGHT_TO_LEFT));
 
-        publicEntities = new HashSet<String>(Arrays.asList(
+        globalEntities = new HashSet<String>(Arrays.asList(
                 EntityNames.ASSESSMENT,
                 EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
                 EntityNames.EDUCATION_ORGANIZATION,
@@ -128,12 +123,14 @@ public class EntityOwnershipValidator {
     }
 
     public boolean canAccess(Entity entity) {
+
         if (SecurityUtil.getSLIPrincipal().getAuthorizingEdOrgs() == null) {
             //We explicitly set null if the app is marked as authorized_for_all_edorgs
             return true;
         }
 
-        if (publicEntities.contains(entity.getType())) {
+        if (globalEntities.contains(entity.getType())) {
+            debug("skipping ownership validation --> global entity: {}", entity.getType());
             return true;
         }
 
@@ -162,11 +159,11 @@ public class EntityOwnershipValidator {
     private Set<String> lookupEdorgs(Iterable<Entity> entities, String entityType) {
         Set<String> edorgs = new HashSet<String>();
         Reference ref = typeToReference.get(entityType);
-        if (ref == null) {         
+        if (ref == null) {
             warn("Cannot handle ownership for entity type {}.", entityType);
             throw new RuntimeException("No ownership for " + entityType);
         }
-        
+
         if (ref.toType.equals(EntityNames.SCHOOL) || ref.toType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
             //No need to do an actual mongo lookup since we have the IDs we need
             for (Entity entity : entities) {
@@ -180,7 +177,7 @@ public class EntityOwnershipValidator {
                 }
             }
         } else {
-        
+
             for (Entity entity : entities) {
                 EntityDefinition definition = store.lookupByEntityType(ref.toType);
                 String collectionName = definition.getStoredCollectionName();
@@ -193,7 +190,7 @@ public class EntityOwnershipValidator {
                     critField = ref.refField;
                     critValue = entity.getEntityId();
                 }
-    
+
                 Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery(new NeutralCriteria(critField, "=", critValue)));
                 if (ents.iterator().hasNext()) {
                     Set<String> toAdd = lookupEdorgs(ents, collectionName);

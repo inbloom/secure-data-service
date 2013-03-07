@@ -15,7 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +39,7 @@ public class GenericToStaffValidator extends AbstractContextValidator {
     }
     
     @Override
-    public boolean validate(String entityName, Set<String> staffIds) {
+    public boolean validate(String entityName, Set<String> staffIds) throws IllegalStateException {
         if (!areParametersValid(Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER), entityName, staffIds)) {
             return false;
         }

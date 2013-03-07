@@ -6,6 +6,8 @@ resetDatabases
 
 profileSwapAndPropGenSB
 
+startSearchIndexer
+
 deployAdminSB
 
 processApps $APPSTODEPLOY

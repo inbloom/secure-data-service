@@ -10,7 +10,8 @@ Scenario: Assessment and StudentAssessment Verification
         | collectionName              |
         | student                     |
         | assessment                  |
-        | studentAssessment|
+        | assessmentFamily            |
+        | studentAssessment           |
     When zip file is scp to ingestion landing zone
     And I am willing to wait upto 45 seconds for ingestion to complete
     And a batch job for file "smooksVer_Assess_Student_Assess.zip" is completed in database
@@ -19,7 +20,8 @@ Scenario: Assessment and StudentAssessment Verification
         | collectionName              | count |
         | student                     | 1     |
         | assessment                  | 1     |
-        | studentAssessment| 1     |
+        | assessmentFamily            | 3     |
+        | studentAssessment           | 1     |
     And I find a(n) "assessment" record where "body.assessmentTitle" is equal to "Grade 8 2011 StateTest Writing"
     And verify the following data in that document:
        | searchParameter                                                          | searchValue                           | searchType           |
@@ -54,17 +56,17 @@ Scenario: Assessment and StudentAssessment Verification
        | body.assessmentFamilyHierarchyName                                       | StateTest.StateTest Writing for Grades 3-8.StateTest Writing for Grade 8 | string               |
 
 
-    And I should see "Processed 3 records." in the resulting batch job file
+    And I should see "Processed 6 records." in the resulting batch job file
     And I should not see an error log file created
-    And I should see "student.xml records considered: 1" in the resulting batch job file
+    And I should see "student.xml records considered for processing: 1" in the resulting batch job file
     And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
-    And I should see "student.xml records failed: 0" in the resulting batch job file
-    And I should see "assess.xml records considered: 1" in the resulting batch job file
+    And I should see "student.xml records failed processing: 0" in the resulting batch job file
+    And I should see "assess.xml records considered for processing: 1" in the resulting batch job file
     And I should see "assess.xml records ingested successfully: 1" in the resulting batch job file
-    And I should see "assess.xml records failed: 0" in the resulting batch job file
-    And I should see "stu_assess.xml records considered: 1" in the resulting batch job file
+    And I should see "assess.xml records failed processing: 0" in the resulting batch job file
+    And I should see "stu_assess.xml records considered for processing: 1" in the resulting batch job file
     And I should see "stu_assess.xml records ingested successfully: 1" in the resulting batch job file
-    And I should see "stu_assess.xml records failed: 0" in the resulting batch job file
+    And I should see "stu_assess.xml records failed processing: 0" in the resulting batch job file
     And I should not see a warning log file created
 
     And I should see following map of entry counts in the corresponding collections:

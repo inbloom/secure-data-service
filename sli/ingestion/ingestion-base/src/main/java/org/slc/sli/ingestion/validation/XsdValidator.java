@@ -161,13 +161,13 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
         @Override
         public void error(SAXParseException ex) {
 
-            reportWarning(ex);
+            reportError(ex);
         }
 
         @Override
         public void fatalError(SAXParseException ex) throws SAXException {
 
-            reportWarning(ex);
+            reportError(ex);
 
             throw ex;
         }
@@ -211,6 +211,43 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
 
 
                 report.warning(reportStats, source, BaseMessageCode.BASE_0017, parseFile.getName(), ex.getMessage());
+            }
+        }
+
+        private void reportError(final SAXParseException ex) {
+            if (report != null) {
+                String fullParsefilePathname = (ex.getSystemId() == null) ? "" : ex.getSystemId();
+                final File parseFile = new File(fullParsefilePathname);
+
+                Source source = new ElementSourceImpl(new ElementSource() {
+
+                            @Override
+                            public String getResourceId()
+                            {
+                                return parseFile.getName();
+                            }
+
+                            @Override
+                            public int getVisitBeforeLineNumber()
+                            {
+                                return ex.getLineNumber();
+                            }
+
+                            @Override
+                            public int getVisitBeforeColumnNumber()
+                            {
+                                return ex.getColumnNumber();
+                            }
+
+                            @Override
+                            public String getElementType()
+                            {
+                                return parseFile.getName();
+                            }}
+                );
+
+
+                report.warningAsError(reportStats, source, BaseMessageCode.BASE_0017, parseFile.getName(), ex.getMessage());
             }
         }
     }

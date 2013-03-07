@@ -15,8 +15,8 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -47,7 +47,7 @@ public class StaffToTeacherValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityName, Set<String> teacherIds) { 
+    public boolean validate(String entityName, Set<String> teacherIds) throws IllegalStateException { 
         if (!areParametersValid(EntityNames.TEACHER, entityName, teacherIds)) {
             return false;
         }

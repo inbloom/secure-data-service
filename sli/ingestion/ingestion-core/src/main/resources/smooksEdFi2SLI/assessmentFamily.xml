@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+                      xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json"/>
+
+    <core:filterSettings type="SAX" readerPoolSize="5"/>
+
+    <jb:bean beanId="assessmentFamilies" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="assessmentFamily"/>
+    </jb:bean>
+
+    <jb:bean beanId="assessmentFamily" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'assessmentFamily'</jb:expression>
+        <jb:wiring property="body" beanIdRef="assessmentFamilyBody"/>
+    </jb:bean>
+
+    <jb:bean beanId="assessmentFamilyBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="academicSubject" data="attributes AcademicSubject _value"/>
+        <jb:value property="assessmentCategory" data="attributes AssessmentCategory _value"/>
+        <jb:wiring property="assessmentFamilyIdentificationCode" beanIdRef="AssessmentFamilyIdentificationCodeTypeArray"/>
+        <jb:value property="assessmentFamilyReference" data="attributes AssessmentFamilyReference"/>
+        <jb:value property="assessmentFamilyTitle" data="attributes AssessmentFamilyTitle _value"/>
+        <jb:value property="assessmentPeriodDescriptorId" data="attributes AssessmentPeriod"/>
+        <jb:value property="contentStandard" data="attributes ContentStandard _value"/>
+        <jb:value property="gradeLevelAssessed" data="attributes GradeLevelAssessed _value"/>
+        <jb:value property="lowestGradeLevelAssessed" data="attributes LowestGradeLevelAssessed _value"/>
+        <jb:value property="nomenclature" data="attributes Nomenclature _value"/>
+        <jb:value property="revisionDate" data="attributes RevisionDate _value"/>
+        <jb:value property="version" data="attributes Version _value" decoder="Integer"/>
+    </jb:bean>
+
+    <jb:bean beanId="AssessmentFamilyIdentificationCodeType" class="java.util.HashMap" createOnElement="AssessmentFamilyIdentificationCode element">
+        <jb:value property="ID" data="AssessmentFamilyIdentificationCode element ID _value"/>
+        <jb:value property="identificationSystem" data="AssessmentFamilyIdentificationCode element a_IdentificationSystem"/>
+    </jb:bean>
+
+    <jb:bean beanId="AssessmentFamilyIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:wiring beanIdRef="AssessmentFamilyIdentificationCodeType"/>
+    </jb:bean>
+
+</smooks-resource-list>

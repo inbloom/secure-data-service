@@ -13,35 +13,30 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Extremely well qualified</Description>
-                <CodeValue>5</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Well qualified</Description>
-                <CodeValue>4</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Qualified</Description>
-                <CodeValue>3</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Possibly qualified</Description>
-                <CodeValue>2</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>No recommendation</Description>
-                <CodeValue>1</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
@@ -67,35 +62,30 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Extremely well qualified</Description>
-                <CodeValue>5</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Well qualified</Description>
-                <CodeValue>4</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Qualified</Description>
-                <CodeValue>3</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Possibly qualified</Description>
-                <CodeValue>2</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>No recommendation</Description>
-                <CodeValue>1</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>

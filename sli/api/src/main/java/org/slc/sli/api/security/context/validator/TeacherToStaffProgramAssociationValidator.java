@@ -16,8 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -40,8 +40,8 @@ public class TeacherToStaffProgramAssociationValidator extends AbstractContextVa
         return EntityNames.STAFF_PROGRAM_ASSOCIATION.equals(entityType) && isTeacher();
     }
 
-    @Override
-    public boolean validate(String entityType, Set<String> ids) {
+	@Override
+	public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF_PROGRAM_ASSOCIATION, entityType, ids)) {
             return false;
         }

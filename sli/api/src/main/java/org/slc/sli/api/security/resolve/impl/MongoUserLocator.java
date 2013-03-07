@@ -24,8 +24,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.resolve.UserLocator;
@@ -79,7 +79,7 @@ public class MongoUserLocator implements UserLocator {
 
             if (staff != null && staff.iterator().hasNext()) {
                 Entity entity = staff.iterator().next();
-                Set<String> edorgs = edorgHelper.getDirectEdorgs(entity);
+                Set<String> edorgs = edorgHelper.locateDirectEdorgs(entity);
                 if (edorgs.size() == 0) {
                     warn("User {} is not currently associated to a school/edorg", user.getId());
                     throw new AccessDeniedException("User is not currently associated to a school/edorg");

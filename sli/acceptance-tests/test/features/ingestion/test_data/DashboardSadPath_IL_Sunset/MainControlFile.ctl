@@ -1,3 +1,3 @@
 edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,1faebdb8407dccac0a89a5939414a679
-edfi-xml,StaffAssociation,InterchangeStaffAssociation.xml,b9359a13cb0f57754ae2ac439e29b6bc
-edfi-xml,StudentParent,InterchangeStudent.xml,a277a0b96d628b4e9ecd14a771d353db
+edfi-xml,StaffAssociation,InterchangeStaffAssociation.xml,9323e376122b6c574a5f318c89a22fe7
+edfi-xml,StudentParent,InterchangeStudent.xml,2b8db49c5d6ad74db129e9dd876936d9

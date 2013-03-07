@@ -16,8 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -36,13 +36,13 @@ import java.util.Set;
 @Component
 public class TeacherToCohortValidator extends AbstractContextValidator {
 
-    @Override
-    public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.COHORT.equals(entityType) && isTeacher();
-    }
+	@Override
+	public boolean canValidate(String entityType, boolean isTransitive) {
+		return isTransitive && EntityNames.COHORT.equals(entityType) && isTeacher();
+	}
 
-    @Override
-    public boolean validate(String entityType, Set<String> ids) {
+	@Override
+	public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.COHORT, entityType, ids)) {
             return false;
         }

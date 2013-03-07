@@ -39,43 +39,44 @@ IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 $SUCCESS=true
 $failures = Hash.new
 
-$collectionSet = ["student",
-                  "studentSchoolAssociation",
-                  "course",
-                  "educationOrganization",
-                  "section",
-                  "studentSectionAssociation",
-                  "staff",
-                  "staffEducationOrganizationAssociation",
-                  "teacherSchoolAssociation",
-                  "teacherSectionAssociation",
-                  "session",
-                  "assessment",
-                  "studentAssessment",
-                  "gradebookEntry",
-                  "courseTranscript",
-                  "studentGradebookEntry",
-                  "parent",
-                  "studentParentAssociation",
-                  "attendance",
-                  "program",
-                  "studentAcademicRecord",
-                  "grade",
-                  "studentCompetency",
-                  "reportCard",
-                  "cohort",
-                  "courseOffering",
-                  "learningObjective",
-                  "learningStandard",
-                  "gradingPeriod",
-                  "staffCohortAssociation",
-                  "staffProgramAssociation",
-                  "studentCohortAssociation",
-                  "studentProgramAssociation",
-                  "disciplineAction",
-                  "disciplineIncident",
-                  "studentDisciplineIncidentAssociation",
-                  "graduationPlan"]
+$collectionSet = [
+	"student",
+	"studentSchoolAssociation",
+	"course",
+	"educationOrganization",
+	"section",
+	"studentSectionAssociation",
+	"staff",
+	"staffEducationOrganizationAssociation",
+	"teacherSchoolAssociation",
+	"teacherSectionAssociation",
+	"session",
+	"assessment",
+	"studentAssessment",
+	"gradebookEntry",
+	"courseTranscript",
+	"studentGradebookEntry",
+	"parent",
+	"studentParentAssociation",
+	"attendance",
+	"program",
+	"studentAcademicRecord",
+	"grade",
+	"studentCompetency",
+	"reportCard",
+	"cohort",
+	"courseOffering",
+	"learningObjective",
+	"learningStandard",
+	"gradingPeriod",
+	"staffCohortAssociation",
+	"staffProgramAssociation",
+	"studentCohortAssociation",
+	"studentProgramAssociation",
+	"disciplineAction",
+	"disciplineIncident",
+	"studentDisciplineIncidentAssociation",
+	"graduationPlan"]
 
 #######################################################################################################
 # Helper defs
@@ -599,38 +600,39 @@ end
 # API V1 tests start
 ############################################################
 desc "Run API V1 acceptance tests"
-task :apiV1Tests => [:apiV1EntityTests,
-                     :apiV1EntitySecurityTests,
-                     :apiV1DuplicateLinkTest,
-                     :apiV1QueryingTests,
-                     :apiV1NTSQueryingTests,
-                     :apiV1AssociationTests,
-                     :apiPatchTests,
-                     :v1homeUriTests,
-                     :v1ValidationTests,
-                     :v1TeacherValidationTests,
-                     :v1WhiteListValidationTests,
-                     :v1HierarchyTraversalTests,
-                     :v1DirectReferencesTests,
-                     :v1DirectReferenceCollectionsTests,
-                     :v1CascadeDeletionTests,
-                     :v1EncryptionTests,
-                     :v1SortingAndPagingTests,
-                     :v1ListTests,
-                     :v1NewEndpointTests,
-                     :v1TargetTests,
-                     :v1EndUserStoryAssessmentTests,
-                     :v1EndUserStoryCustomEntityTests,
-                     :v1StudentOptionalFieldsTests,
-                     :v1SingleStudentViewTests,
-                     :v1BlacklistValidationTests,
-                     :v1XMLTests,
-                     :userAdminCrudTests,
-                     :v1CommaSeparatedListOrderTests,
-                     :v1SelectorTests,
-                     :longLivedSessionTests,
-                     :apiVersionTests,
-                     :apiV1GranularAccessTests] do
+task :apiV1Tests => [
+	:apiV1EntityTests,
+	:apiV1EntitySecurityTests,
+	:apiV1DuplicateLinkTest,
+	:apiV1QueryingTests,
+	:apiV1NTSQueryingTests,
+	:apiV1AssociationTests,
+	:apiPatchTests,
+	:v1homeUriTests,
+	:v1ValidationTests,
+	:v1TeacherValidationTests,
+	:v1WhiteListValidationTests,
+	:v1HierarchyTraversalTests,
+	:v1DirectReferencesTests,
+	:v1DirectReferenceCollectionsTests,
+	:v1CascadeDeletionTests,
+	:v1EncryptionTests,
+	:v1SortingAndPagingTests,
+	:v1ListTests,
+	:v1NewEndpointTests,
+	:v1TargetTests,
+	:v1EndUserStoryAssessmentTests,
+	:v1EndUserStoryCustomEntityTests,
+	:v1StudentOptionalFieldsTests,
+	:v1SingleStudentViewTests,
+	:v1BlacklistValidationTests,
+	:v1XMLTests,
+	:userAdminCrudTests,
+	:v1CommaSeparatedListOrderTests,
+	:v1SelectorTests,
+	:longLivedSessionTests,
+	:apiVersionTests,
+	:apiV1GranularAccessTests] do
   displayFailureReport()
 end
 
@@ -638,7 +640,6 @@ task :apiV1EntitySecurityTests do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/context_security")
-
 end
 
 desc "Run API V1 acceptance tests"
@@ -673,8 +674,17 @@ task :resetAndChangePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:provisionIntegrationTests, :preloadResourceTests, :realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
-                          :resetAndChangePasswordTests, :sandboxUserAdminTests, :samtEmailNotificationTests, :adminWebTests] do
+task :adminToolsTests => [
+	:provisionIntegrationTests,
+	:preloadResourceTests,
+	:realmInit,
+	:accountApprovalInterfaceTests,
+	:accountApprovalTests,
+	:onboardingIntegrationTests,
+	:resetAndChangePasswordTests,
+	:sandboxUserAdminTests,
+	:samtEmailNotificationTests,
+	:adminWebTests] do
   Rake::Task["importSandboxData"].execute
   Rake::Task["realmInit"].execute
   displayFailureReport()
@@ -716,19 +726,20 @@ end
 # Dashboard tests start
 ############################################################
 desc "Run Dashboard Tests"
-task :dashboardTests => [:dashboardPopWidgetTests,
-                         :dashboardK3ViewTests,
-                         :dashboardHSViewTests,
-                         :dashboardUserBasedViewTests,
-                         :dashboardIntegratedTests,
-                         :dashboardLoginTests,
-                         :dashboardStudentProfileTests,
-                         :dashboardAttendance,
-                         :dashboardStudentHistoricalDataTests,
-                         :dashboardStudentContactInfoLiveTests,
-                         :dashboardStudentGradebookEntryTests,
-                         :dashboardHTMLEscapeTests,
-                         :dashboardQunitTests] do
+task :dashboardTests => [
+	:dashboardPopWidgetTests,
+	:dashboardK3ViewTests,
+	:dashboardHSViewTests,
+	:dashboardUserBasedViewTests,
+	:dashboardIntegratedTests,
+	:dashboardLoginTests,
+	:dashboardStudentProfileTests,
+	:dashboardAttendance,
+	:dashboardStudentHistoricalDataTests,
+	:dashboardStudentContactInfoLiveTests,
+	:dashboardStudentGradebookEntryTests,
+	:dashboardHTMLEscapeTests,
+	:dashboardQunitTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -745,24 +756,25 @@ end
 # Dashboard SDS tests start
 ############################################################
 desc "Run Dashboard Tests against SDS"
-task :dashboardSdsTests => [:runSearchBulkExtract,
-                         :dashboardSdsUploadConfigTests,
-                         :dashboardSdsCoreStudentsTests,
-                         :dashboardSdsContactInfoTests,
-                         :dashboardSdsLoginTests,
-                         :dashboardSdsHSViewTests,
-                         :dashboardSdsK3ViewTests,
-                         :dashboardSdsPopWidgetTests,
-                         :dashboardSdsStudentProfileTests,
-                         :dashboardSdsUserBasedViewsTests,
-                         :dashboardSdsAttendanceTests,
-                         :dashboardStudentSearchTests,
-                         :dashboardSdsTranscriptPanelTests,
-                         :dashboardAssessmentTests,
-                         :dashboardSdsSectionProfileTests,
-                         :dashboardSdsTeacherProfileTests,
-                         :dashboardSdsAttendanceCalendarTests,
-                         :dashboardSdsDashboardBuilderTests] do
+task :dashboardSdsTests => [
+	:runSearchBulkExtract,
+	:dashboardSdsUploadConfigTests,
+	:dashboardSdsCoreStudentsTests,
+	:dashboardSdsContactInfoTests,
+	:dashboardSdsLoginTests,
+	:dashboardSdsHSViewTests,
+	:dashboardSdsK3ViewTests,
+	:dashboardSdsPopWidgetTests,
+	:dashboardSdsStudentProfileTests,
+	:dashboardSdsUserBasedViewsTests,
+	:dashboardSdsAttendanceTests,
+	:dashboardStudentSearchTests,
+	:dashboardSdsTranscriptPanelTests,
+	:dashboardAssessmentTests,
+	:dashboardSdsSectionProfileTests,
+	:dashboardSdsTeacherProfileTests,
+	:dashboardSdsAttendanceCalendarTests,
+	:dashboardSdsDashboardBuilderTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -779,20 +791,49 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-#task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionLearningObjectiveTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
-#                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionCourseTranscriptTests, :ingestionProgramTest, :ingestionCohortTest,
-#                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-#                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
-#                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
-#                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
-#                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-#                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
-task :ingestionTests => [:loadDefaultIngestionTenants, :IngestionIndexValidationTest, :ingestionTenantPurgeTests, :ingestionJobFailOnMissingIndexTest, :ingestionDbSpinupTest,  :ingestionDupDetectTest, :ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
-                         :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionBatchJobTest, :ingestionIgnoreIDRefsTest,
-                         :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
-                         :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest, :ingestionUniqueSectionCodeTest, :ingestionSecurityEventTest] do
+task :ingestionTests => [
+	:loadDefaultIngestionTenants,
+	:IngestionIndexValidationTest,
+	:ingestionTenantPurgeTests,
+	:ingestionJobFailOnMissingIndexTest,
+	:ingestionDbSpinupTest,
+	:ingestionDupDetectTest,
+	:ingestionAcceptanceSdsTest,
+	:ingestionConcurrentTenantTest,
+	:ingestionLearningObjectiveTest,
+	:ingestionNegativeTests,
+	:ingestionAttendanceTests,
+	:ingestionCommonCoreTest,
+	:ingestionEncryptionTests,
+	:ingestionPropagatedTest,
+	:ingestionidNamespaceTest,
+	:ingestionSmooksVerificationTests,
+	:ingestionXsdValidationTest,
+	:ingestionOfflineSimpleTest,
+	:ingestionBatchJobTest,
+	:ingestionIgnoreIDRefsTest,
+	:ingestionIndexTest,
+	:ingestionTenantTest,
+	:ingestionBlacklistValidationTests,
+	:ingestionXXETest,
+	:ingestionCompetencyLevelDescriptorTest,
+	:ingestionDryRunTest,
+	:ingestionComplexObjectArrayIdRefTest,
+	:ingestionHealthCheckTest,
+	:ingestionSmallSampleDataSet,
+	:ingestionMediumSampleDataSet,
+	:partialTransformedIngestionTest,
+	:partialIngestionTest,
+	:ingestionDeltaTest,
+	:ingestionPreloading,
+	:ingestionJeffCoOnboardingTest,
+	:ingestionSuperDocTests,
+	:ingestionSubdocTests,
+	:ingestionErrorWarnCountTest,
+	:ingestionRevertDataTest,
+	:ingestionUniqueSectionCodeTest,
+	:ingestionSecurityEventTest
+  ] do
 
   displayFailureReport()
   if $SUCCESS
@@ -805,16 +846,49 @@ end
 
 desc "Run High Priority Emma Ingestion Acceptances Tests"
     #New or tests modified this sprint, or tests that have recently failed
-    task :highPriority => [:loadDefaultIngestionTenants, :ingestionPreloading, :ingestionDeltaTest] do
+    task :highPriority => [
+    	:loadDefaultIngestionTenants,
+    	:ingestionPreloading,
+    	:ingestionDeltaTest] do
 end
 
 desc "Run Normal Priority Emma Ingestion Acceptances Tests"
-    task :normalPriority => [:loadDefaultIngestionTenants, :IngestionIndexValidationTest, :ingestionDbSpinupTest, :ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
-        :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest,
-        :ingestionBatchJobTest, :ingestionIgnoreIDRefsTest, :ingestionTenantPurgeTests,
-        :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-        :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionJeffCoOnboardingTest,
-        :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest, :ingestionUniqueSectionCodeTest, :ingestionDupDetectTest] do
+    task :normalPriority => [
+    	:loadDefaultIngestionTenants,
+    	:IngestionIndexValidationTest,
+    	:ingestionDbSpinupTest,
+    	:ingestionAcceptanceSdsTest,
+    	:ingestionConcurrentTenantTest,
+    	:ingestionLearningObjectiveTest,
+    	:ingestionNegativeTests,
+    	:ingestionAttendanceTests,
+    	:ingestionCommonCoreTest,
+    	:ingestionEncryptionTests,
+        :ingestionidNamespaceTest,
+        :ingestionSmooksVerificationTests,
+        :ingestionXsdValidationTest,
+        :ingestionBatchJobTest,
+        :ingestionIgnoreIDRefsTest,
+        :ingestionTenantPurgeTests,
+        :ingestionIndexTest,
+        :ingestionTenantTest,
+        :ingestionBlacklistValidationTests,
+        :ingestionXXETest,
+        :ingestionCompetencyLevelDescriptorTest,
+        :ingestionDryRunTest,
+        :ingestionComplexObjectArrayIdRefTest,
+        :ingestionHealthCheckTest,
+        :ingestionSmallSampleDataSet,
+        :ingestionMediumSampleDataSet,
+        :partialTransformedIngestionTest,
+        :partialIngestionTest,
+        :ingestionJeffCoOnboardingTest,
+        :ingestionSuperDocTests,
+        :ingestionSubdocTests,
+        :ingestionErrorWarnCountTest,
+        :ingestionRevertDataTest,
+        :ingestionUniqueSectionCodeTest,
+        :ingestionDupDetectTest] do
 end
 
 desc "Run Emma Ingestion Acceptances Tests"
@@ -861,7 +935,13 @@ end
 # List Attendance Endpoint tests start
 ############################################################
 desc "Run List Attendance Endpoint tests"
-task :listAttendanceEndPoint => [:loadDefaultIngestionTenants, :odin10k1GenerateTests, :ingestOdin10k1DataSet, :realmInit, :v1ListAttendanceEndpointTests] do
+task :listAttendanceEndPoint => [
+	:loadDefaultIngestionTenants,
+	:odin10k1GenerateTests,
+	:ingestOdin10k1DataSet,
+	:realmInit,
+	:v1ListAttendanceEndpointTests] do
+
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1017,18 +1097,19 @@ end
 # SIF tests start
 ############################################################
 desc "Run SIF Tests"
-task :sifTests => [:sifSchoolInfoTest,
-                   :sifLEAInfoTest,
-                   :sifStudentSchoolEnrollmentTest,
-                   :sifStudentLEARelationshipTest,
-                   :sifStaffPersonalTest,
-                   :sifEmployeePersonalTest,
-                   :sifEmploymentRecordTest,
-                   :sifStaffAssignmentTest,
-                   :sifSmokeTests,
-                   :sifIntegratedTest,
-                   :sifEmployeeAssignmentTest
-                   ] do
+task :sifTests => [
+	:sifSchoolInfoTest,
+	:sifLEAInfoTest,
+	:sifStudentSchoolEnrollmentTest,
+	:sifStudentLEARelationshipTest,
+	:sifStaffPersonalTest,
+	:sifEmployeePersonalTest,
+	:sifEmploymentRecordTest,
+	:sifStaffAssignmentTest,
+	:sifSmokeTests,
+	:sifIntegratedTest,
+	:sifEmployeeAssignmentTest
+	] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1242,6 +1323,7 @@ task :importSandboxData do
   if TODROP
     Rake::Task["runDbIndexingScript"].execute
   end
+  Rake::Task["runSearchBulkExtract"].execute
 end
 
 
@@ -1315,6 +1397,22 @@ task :importChaosSandboxData do
    ]
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
   setMultipleFixtureFiles(testHash)
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
+end
+
+desc "Import Sandbox Test Data"
+task :importPurgeData do
+  tenantTestHash = Hash[
+    "educationOrganization" => "PurgeFixtureData/educationOrganization_fixture.json",
+    "applicationAuthorization" => "PurgeFixtureData/applicationAuthorization_Hyrule_fixture.json",
+    "customRole" => "PurgeFixtureData/customRole_Hyrule_fixture.json"
+   ]
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+  setMultipleFixtureFiles(tenantTestHash)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
   if TODROP

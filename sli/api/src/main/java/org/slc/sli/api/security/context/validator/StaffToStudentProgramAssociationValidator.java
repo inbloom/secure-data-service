@@ -16,8 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -37,7 +37,7 @@ import java.util.Set;
 public class StaffToStudentProgramAssociationValidator extends AbstractContextValidator {
 
     @Autowired
-    private StaffToProgramValidator staffProgramValidator;
+    private GenericToProgramValidator staffProgramValidator;
     
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -49,7 +49,7 @@ public class StaffToStudentProgramAssociationValidator extends AbstractContextVa
      * that I can see that aren't expired.
      */
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_PROGRAM_ASSOCIATION, entityType, ids)) {
             return false;
         }
@@ -79,7 +79,7 @@ public class StaffToStudentProgramAssociationValidator extends AbstractContextVa
      * @param staffProgramValidator
      *            the staffProgramValidator to set
      */
-    public void setStaffProgramValidator(StaffToProgramValidator staffProgramValidator) {
+    public void setStaffProgramValidator(GenericToProgramValidator staffProgramValidator) {
         this.staffProgramValidator = staffProgramValidator;
     }
     

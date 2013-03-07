@@ -3,7 +3,12 @@
     [
         {
             "entityType" : "assessmentFamily",
-            "sourceRefPath": "body.assessmentFamilyReference",
+            "sourceRefPath": "body.AssessmentFamilyReference",
+            "optional" : true
+        },
+        {
+            "entityType" : "assessmentPeriodDescriptor",
+            "sourceRefPath": "body.AssessmentPeriod",
             "optional" : true
         }
     ]

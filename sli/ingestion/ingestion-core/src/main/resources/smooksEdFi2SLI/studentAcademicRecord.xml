@@ -35,18 +35,19 @@
         <jb:wiring property="academicHonors" beanIdRef="AcademicHonors" />
         <jb:wiring property="recognitions" beanIdRef="Recognitions" />
         <jb:wiring property="reportCards" beanIdRef="ReportCards"/>
+        <jb:value property="projectedGraduationDate" data="attributes ProjectedGraduationDate _value" />
     </jb:bean>
     
-    <jb:bean beanId="CumulativeCreditsEarned" class="java.util.HashMap" createOnElement="attributes cumulativeCreditsEarned">
+    <jb:bean beanId="CumulativeCreditsEarned" class="java.util.HashMap" createOnElement="attributes CumulativeCreditsEarned">
         <jb:value property="credit" data="attributes CumulativeCreditsEarned Credit _value" decoder="Double" />
-        <jb:value property="creditType" data="attributes CumulativeCreditsEarned CreditType _value" />
-        <jb:value property="creditConversion" data="attributes CumulativeCreditsEarned CreditConversion _value" decoder="Double" />
+        <jb:value property="creditType" data="attributes CumulativeCreditsEarned a_CreditType" />
+        <jb:value property="creditConversion" data="attributes CumulativeCreditsEarned a_CreditConversion" decoder="Double" />
     </jb:bean>
 
     <jb:bean beanId="CumulativeCreditsAttempted" class="java.util.HashMap" createOnElement="attributes cumulativeCreditsAttempted">
         <jb:value property="credit" data="attributes CumulativeCreditsAttempted Credit _value" decoder="Double" />
-        <jb:value property="creditType" data="attributes CumulativeCreditsAttempted CreditType _value" />
-        <jb:value property="creditConversion" data="attributes CumulativeCreditsAttempted CreditConversion _value" decoder="Double" />
+        <jb:value property="creditType" data="attributes CumulativeCreditsAttempted a_CreditType" />
+        <jb:value property="creditConversion" data="attributes CumulativeCreditsAttempted a_CreditConversion" decoder="Double" />
     </jb:bean>
 
     <jb:bean beanId="ClassRanking" class="java.util.HashMap" createOnElement="attributes ClassRanking">
@@ -56,24 +57,24 @@
         <jb:value property="classRankingDate" data="attributes ClassRanking ClassRankingDate _value" />
     </jb:bean>
     
-    <jb:bean beanId="AcademicHonors" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="AcademicHonors" class="java.util.ArrayList" createOnElement="attributes AcademicHonors">
         <jb:wiring beanIdRef="AcademicHonor" />
     </jb:bean>
     
-    <jb:bean beanId="AcademicHonor" class="java.util.HashMap" createOnElement="attributes AcademicHonor element">
-        <jb:value property="academicHonorsType" data="attributes AcademicHonor element AcademicHonorsType _value"/>
-        <jb:value property="honorsDescription" data="attributes AcademicHonor element HonorsDescription _value"/>
-        <jb:value property="honorsAwardsDate" data="attributes AcademicHonor element HonorsAwardsDate _value"/>
+    <jb:bean beanId="AcademicHonor" class="java.util.HashMap" createOnElement="attributes AcademicHonors element">
+        <jb:value property="academicHonorsType" data="attributes AcademicHonors element AcademicHonorsType _value"/>
+        <jb:value property="honorsDescription" data="attributes AcademicHonors element HonorsDescription _value"/>
+        <jb:value property="honorAwardDate" data="attributes AcademicHonors element HonorAwardDate _value"/>
     </jb:bean>
     
-    <jb:bean beanId="Recognitions" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="Recognitions" class="java.util.ArrayList" createOnElement="attributes Recognitions">
         <jb:wiring beanIdRef="Recognition" />
     </jb:bean>
     
-    <jb:bean beanId="Recognition" class="java.util.HashMap" createOnElement="attributes Recognition element">
-        <jb:value property="recognitionType" data="attributes Recognition element RecognitionType _value"/>
-        <jb:value property="recognitionDescription" data="attributes Recognition element RecognitionDescription _value"/>
-        <jb:value property="recognitionAwardsDate" data="attributes Recognition element RecognitionAwardsDate _value"/>
+    <jb:bean beanId="Recognition" class="java.util.HashMap" createOnElement="attributes Recognitions element">
+        <jb:value property="recognitionType" data="attributes Recognitions element RecognitionType _value"/>
+        <jb:value property="recognitionDescription" data="attributes Recognitions element RecognitionDescription _value"/>
+        <jb:value property="recognitionAwardDate" data="attributes Recognitions element RecognitionAwardDate _value"/>
     </jb:bean>
 
     <jb:bean beanId="ReportCards" class="java.util.ArrayList" createOnElement="attributes">

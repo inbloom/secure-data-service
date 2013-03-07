@@ -13,6 +13,7 @@
                 knowledge, skills or behavior. An assessment can be used to measure differences in
                 individuals or groups and changes in performance from one occasion to the next. </xs:documentation>
             <xs:appinfo>
+                <sli:SecuritySphere>Public</sli:SecuritySphere>
                 <sli:CollectionType>assessment</sli:CollectionType>
                 <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
@@ -29,21 +30,21 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamily" type="reference">
+            <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamilyHierarchyName" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation>Assessment family associated with this
-                        assessment.</xs:documentation>
+                    <xs:documentation>Hierarchical name for the assessment using '.' separators</xs:documentation>
                     <xs:appinfo>
-                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamilyHierarchyName" type="xs:string">
+            <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamilyReference" type="reference">
                 <xs:annotation>
-                    <xs:documentation>Hierarchical name for the assessment using '.' separators</xs:documentation>
+                    <xs:documentation>Reference to the assessment family associated with this
+                        assessment.</xs:documentation>
                     <xs:appinfo>
+                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
@@ -387,18 +388,6 @@
                 </xs:annotation>
             </xs:element>
             <xs:element name="assessmentFamilyReference" type="reference"
-                minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>References the higher level AssessmentFamily this one belongs
-                        to.</xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
-                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="parentAssessmentFamilyTitle" type="assessmentTitle"
                 minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>References the higher level AssessmentFamily this one belongs
@@ -1338,6 +1327,7 @@
                 delivered in person or via a different medium. Associations:
                 TeacherSectionAssociation, StudentSectionAssociation. </xs:documentation>
             <xs:appinfo>
+                <sli:SecuritySphere>Public</sli:SecuritySphere>
                 <sli:CollectionType>section</sli:CollectionType>
                 <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
@@ -1498,6 +1488,7 @@
                 and guidance of teachers and/or education institution administration. A session may
                 be interrupted by one or more vacations. </xs:documentation>
             <xs:appinfo>
+	            <sli:SecuritySphere>Public</sli:SecuritySphere>
                 <sli:CollectionType>session</sli:CollectionType>
                 <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
@@ -1591,6 +1582,7 @@
             <xs:documentation>This entity represents the association of a course with a session
                 during which the course is offered. </xs:documentation>
             <xs:appinfo>
+                <sli:SecuritySphere>Public</sli:SecuritySphere>
                 <sli:CollectionType>courseOffering</sli:CollectionType>
                 <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
@@ -5818,6 +5810,7 @@
             <xs:documentation>This entity represents identified learning objectives for courses in
                 specific grades. </xs:documentation>
             <xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
                 <sli:CollectionType>learningObjective</sli:CollectionType>
                 <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
@@ -5932,6 +5925,7 @@
             <xs:documentation>This entity is a subelement of a learning objective consisting of a
                 precise statement of the expectation of a student's proficiency. </xs:documentation>
             <xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
                 <sli:CollectionType>learningStandard</sli:CollectionType>
                 <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
@@ -6203,6 +6197,30 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
+            <xs:element name='studentId' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Student id associated to the student-section association
+                        with which the grade is awarded.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>student</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name='sectionId' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Section id associated to the student-section association
+                        with which the grade is awarded.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>section</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
             <xs:element minOccurs="0" name="gradingPeriodId" type="reference">
                 <xs:annotation>
                     <xs:documentation>Identifies the grading period for the grade. </xs:documentation>
@@ -6302,6 +6320,7 @@
         <xs:annotation>
             <xs:documentation> This entity represents the time span for which grades are reported. </xs:documentation>
             <xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
                 <sli:CollectionType>gradingPeriod</sli:CollectionType>
                 <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
@@ -6414,6 +6433,7 @@
                 plan may be one or more standard plans defined by an education organization and/or
                 individual plans for some or all students. </xs:documentation>
             <xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
                 <sli:CollectionType>graduationPlan</sli:CollectionType>
                 <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
@@ -6673,6 +6693,7 @@
                 a regular or systematic basis. If you are looking for a specific course instance,
                 use section instead. </xs:documentation>
             <xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
                 <sli:CollectionType>course</sli:CollectionType>
                 <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
@@ -6957,8 +6978,7 @@
     <xs:complexType name="assessmentPeriodDescriptor">
         <xs:annotation>
             <xs:documentation>This descriptor holds the period or window in which an assessment is
-                supposed to be administered (e.g., Beginning of Year, Middle of Year, End of Year).
-            </xs:documentation>
+                supposed to be administered (e.g., Beginning of Year, Middle of Year, End of Year). </xs:documentation>
             <xs:appinfo>
                 <sli:CollectionType>assessmentPeriodDescriptor</sli:CollectionType>
                 <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
@@ -7057,6 +7077,9 @@
             </xs:element>
             <xs:element name="schoolYear" type="schoolYearType">
                 <xs:annotation>
+            		<xs:documentation>
+              		  The identifier for the school year.
+           			</xs:documentation>
                     <xs:appinfo>
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
@@ -7540,6 +7563,7 @@
                 training, services or benefits through federal, state, or local agencies. Programs
                 may also include organized extracurricular activities for students. </xs:documentation>
             <xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
                 <sli:CollectionType>program</sli:CollectionType>
                 <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
@@ -8099,6 +8123,7 @@
                 are not associated with specific learning objectives (e.g., paying attention in
                 class). </xs:documentation>
             <xs:appinfo>
+			    <sli:SecuritySphere>Public</sli:SecuritySphere>
                 <sli:CollectionType>studentCompetencyObjective</sli:CollectionType>
                 <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>

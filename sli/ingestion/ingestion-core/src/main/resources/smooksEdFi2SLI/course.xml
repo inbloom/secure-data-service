@@ -53,7 +53,7 @@
     <jb:bean beanId="courseCodeType" class="java.util.HashMap" createOnElement="attributes CourseCode element">
         <jb:value property="ID" data="attributes CourseCode element ID _value" />
         <jb:value property="identificationSystem" data="attributes CourseCode element a_IdentificationSystem" />
-        <jb:value property="assigningOrganizationCode" data="attributes CourseCode element AssigningOrganizationCode _value" />
+        <jb:value property="assigningOrganizationCode" data="attributes CourseCode element a_AssigningOrganizationCode" />
     </jb:bean>
 
 
@@ -64,15 +64,15 @@
 
         <jb:bean beanId="MinimumAvailableCreditType" class="java.util.HashMap" createOnElement="attributes MinimumAvailableCredit">
             <jb:value property="credit" data="attributes MinimumAvailableCredit Credit _value" />
-            <jb:value property="creditType" data="attributes MinimumAvailableCredit CreditType _value" />
-            <jb:value property="creditConversion" data="attributes MinimumAvailableCredit CreditConversion _value" />
+            <jb:value property="creditType" data="attributes MinimumAvailableCredit a_CreditType" />
+            <jb:value property="creditConversion" data="attributes MinimumAvailableCredit a_CreditConversion" />
         </jb:bean>
 
 
         <jb:bean beanId="MaximumAvailableCreditType" class="java.util.HashMap" createOnElement="attributes MaximumAvailableCredit">
             <jb:value property="credit" data="attributes MaximumAvailableCredit Credit _value" />
-            <jb:value property="creditType" data="attributes MaximumAvailableCredit CreditType _value" />
-            <jb:value property="creditConversion" data="attributes MaximumAvailableCredit CreditConversion _value" />
+            <jb:value property="creditType" data="attributes MaximumAvailableCredit a_CreditType"/>
+            <jb:value property="creditConversion" data="attributes MaximumAvailableCredit a_CreditConversion" />
         </jb:bean>
 
 </smooks-resource-list>
