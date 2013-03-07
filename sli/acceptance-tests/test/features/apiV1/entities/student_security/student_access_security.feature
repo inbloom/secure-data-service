@@ -9,11 +9,85 @@ Then I should receive a return code of <Code>
 And I should see a count of <Count>
 And I the response should only include the students <Accessable Students>
 Examples:
-  | User   | Section  |Code |Count| Accessable Students |
-  |"teach1"|"section0"| 200 |  2  | "student04;student05"|
-  |"teach2"|"section0"| 200 |  2  | "student04;student05"|
-  |"teach3"|"section0"| 200 |  2  | "student04;student05"|
-  |"teach4"|"section0"| 403 |  0  | "none"|
+  | User   | Section  |Code |Count| Accessable Students  | Comments |
+  |"teach1"|"section0"| 200 |  2  | "student04;student05"| Educator role teacher has no end date on teacherSectionAssociation |
+  |"teach2"|"section0"| 200 |  2  | "student04;student05"| Leader role teacher has no end date on teacherSectionAssociation |
+  |"teach3"|"section0"| 200 |  2  | "student04;student05"| IT Admin role teacher has no end date on teacherSectionAssociation |
+  |"teach4"|"section0"| 403 |  0  | "none"               | Agg Viewer role teacher has no end date on teacherSectionAssociation |
+  |"teach1"|"section1"| 200 |  2  | "student01;student02"| Educator role teacher has future end date on teacherSectionAssociation |
+  |"teach2"|"section1"| 200 |  2  | "student01;student02"| Leader role teacher has future end date on teacherSectionAssociation |
+  |"teach3"|"section1"| 200 |  2  | "student01;student02"| IT Admin role teacher has future end date on teacherSectionAssociation |
+  |"teach4"|"section1"| 403 |  0  | "none"               | Agg Viewer role teacher has future end date on teacherSectionAssociation |
+  |"teach1"|"section2"| 403 |  0  | "none"               | Educator role teacher has past end date on teacherSectionAssociation |
+  |"teach2"|"section2"| 403 |  0  | "none"               | Leader role teacher has past end date on teacherSectionAssociation |
+  |"teach3"|"section2"| 403 |  0  | "none"               | IT Admin role teacher has past end date on teacherSectionAssociation |
+  |"teach4"|"section2"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on teacherSectionAssociation |
+  |"teach1"|"section3"| 403 |  0  | "none"               | Educator role teacher has no teacherSectionAssociation to section |
+  |"teach2"|"section3"| 403 |  0  | "none"               | Leader role teacher has no teacherSectionAssociation to section |
+  |"teach3"|"section3"| 403 |  0  | "none"               | IT Admin role teacher has no teacherSectionAssociation to section |
+  |"teach4"|"section3"| 403 |  0  | "none"               | Agg Viewer role teacher has no teacherSectionAssociation to section |
+  #Staff
+  |"staff1" |"section0"| 200 |  2  | "student04;student05"| school-staff as Educator |
+  |"staff2" |"section0"| 200 |  2  | "student04;student05"| school-staff as Leader |
+  |"staff3" |"section0"| 200 |  2  | "student04;student05"| school-staff as IT Admin |
+  |"staff4" |"section0"| 403 |  0  | "none"               | school-staff as Agg Viewer |
+  |"staff5" |"section0"| 403 |  0  | "none"               | school-staff with expired associaiton |
+  |"staff6" |"section0"| 200 |  2  | "student04;student05"| district-staff as Educator |
+  |"staff7" |"section0"| 200 |  2  | "student04;student05"| district-staff as Leader |
+  |"staff8" |"section0"| 200 |  2  | "student04;student05"| district-staff as IT Admin |
+  |"staff9" |"section0"| 403 |  0  | "none"               | district-staff as Agg Viewer |
+  |"staff10"|"section0"| 403 |  0  | "none"               | district-staff with expired association |
+  |"staff11"|"section0"| 200 |  2  | "student04;student05"| state-staff as Educator |
+  |"staff12"|"section0"| 200 |  2  | "student04;student05"| state-staff as Leader |
+  |"staff13"|"section0"| 200 |  2  | "student04;student05"| state-staff as IT Admin |
+  |"staff14"|"section0"| 403 |  0  | "none"               | state-staff as Agg Viewer |
+  |"staff15"|"section0"| 403 |  0  | "none"               | state-staff with expired association |
+  |"staff1" |"section1"| 200 |  2  | "student01;student02"| school-staff as Educator |
+  |"staff2" |"section1"| 200 |  2  | "student01;student02"| school-staff as Leader |
+  |"staff3" |"section1"| 200 |  2  | "student01;student02"| school-staff as IT Admin |
+  |"staff4" |"section1"| 403 |  0  | "none"               | school-staff as Agg Viewer |
+  |"staff5" |"section1"| 403 |  0  | "none"               | school-staff with expired associaiton |
+  |"staff6" |"section1"| 200 |  2  | "student01;student02"| district-staff as Educator |
+  |"staff7" |"section1"| 200 |  2  | "student01;student02"| district-staff as Leader |
+  |"staff8" |"section1"| 200 |  2  | "student01;student02"| district-staff as IT Admin |
+  |"staff9" |"section1"| 403 |  0  | "none"               | district-staff as Agg Viewer |
+  |"staff10"|"section1"| 403 |  0  | "none"               | district-staff with expired association |
+  |"staff11"|"section1"| 200 |  2  | "student01;student02"| state-staff as Educator |
+  |"staff12"|"section1"| 200 |  2  | "student01;student02"| state-staff as Leader |
+  |"staff13"|"section1"| 200 |  2  | "student01;student02"| state-staff as IT Admin |
+  |"staff14"|"section1"| 403 |  0  | "none"               | state-staff as Agg Viewer |
+  |"staff15"|"section1"| 403 |  0  | "none"               | state-staff with expired association |
+  |"staff1" |"section2"| 200 |  2  | "student07;student08"| school-staff as Educator |
+  |"staff2" |"section2"| 200 |  2  | "student07;student08"| school-staff as Leader |
+  |"staff3" |"section2"| 200 |  2  | "student07;student08"| school-staff as IT Admin |
+  |"staff4" |"section2"| 403 |  0  | "none"               | school-staff as Agg Viewer |
+  |"staff5" |"section2"| 403 |  0  | "none"               | school-staff with expired associaiton |
+  |"staff6" |"section2"| 200 |  2  | "student07;student08"| district-staff as Educator |
+  |"staff7" |"section2"| 200 |  2  | "student07;student08"| district-staff as Leader |
+  |"staff8" |"section2"| 200 |  2  | "student07;student08"| district-staff as IT Admin |
+  |"staff9" |"section2"| 403 |  0  | "none"               | district-staff as Agg Viewer |
+  |"staff10"|"section2"| 403 |  0  | "none"               | district-staff with expired association |
+  |"staff11"|"section2"| 200 |  2  | "student07;student08"| state-staff as Educator |
+  |"staff12"|"section2"| 200 |  2  | "student07;student08"| state-staff as Leader |
+  |"staff13"|"section2"| 200 |  2  | "student07;student08"| state-staff as IT Admin |
+  |"staff14"|"section2"| 403 |  0  | "none"               | state-staff as Agg Viewer |
+  |"staff15"|"section3"| 403 |  0  | "none"               | state-staff with expired association |
+  |"staff1" |"section3"| 200 |  1  | "student10"          | school-staff as Educator |
+  |"staff2" |"section3"| 200 |  1  | "student10"          | school-staff as Leader |
+  |"staff3" |"section3"| 200 |  1  | "student10"          | school-staff as IT Admin |
+  |"staff4" |"section3"| 403 |  0  | "none"               | school-staff as Agg Viewer |
+  |"staff5" |"section3"| 403 |  0  | "none"               | school-staff with expired associaiton |
+  |"staff6" |"section3"| 200 |  1  | "student10"          | district-staff as Educator |
+  |"staff7" |"section3"| 200 |  1  | "student10"          | district-staff as Leader |
+  |"staff8" |"section3"| 200 |  1  | "student10"          | district-staff as IT Admin |
+  |"staff9" |"section3"| 403 |  0  | "none"               | district-staff as Agg Viewer |
+  |"staff10"|"section3"| 403 |  0  | "none"               | district-staff with expired association |
+  |"staff11"|"section3"| 200 |  1  | "student10"          | state-staff as Educator |
+  |"staff12"|"section3"| 200 |  1  | "student10"          | state-staff as Leader |
+  |"staff13"|"section3"| 200 |  1  | "student10"          | state-staff as IT Admin |
+  |"staff14"|"section3"| 403 |  0  | "none"               | state-staff as Agg Viewer |
+  |"staff15"|"section3"| 403 |  0  | "none"               | state-staff with expired association |
+
 @derp
 Scenario Outline: Users accessing students via multi-part URIs for Cohorts
 Given I am user <User> in IDP "SEC"
