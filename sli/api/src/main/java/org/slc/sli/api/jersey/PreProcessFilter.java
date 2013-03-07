@@ -16,9 +16,19 @@
 
 package org.slc.sli.api.jersey;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerRequestFilter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.annotation.Resource;
+import javax.xml.bind.DatatypeConverter;
+
 import org.slc.sli.api.cache.SessionCache;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
 import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
@@ -30,9 +40,12 @@ import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.pdp.EndpointMutator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.translator.URITranslator;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +54,8 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
 
 /**
  * Pre-request processing filter. Adds security information for the user Records start time of the request
@@ -57,7 +66,8 @@ import java.util.regex.Pattern;
 public class PreProcessFilter implements ContainerRequestFilter {
 
     private static final List<String> WRITE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(), ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString());
-
+    private static final List<String> CONTEXTERS = Arrays.asList(PathConstants.STUDENT_SCHOOL_ASSOCIATIONS, PathConstants.STUDENT_SECTION_ASSOCIATIONS, PathConstants.STUDENT_COHORT_ASSOCIATIONS, PathConstants.STUDENT_PROGRAM_ASSOCIATIONS);
+    
     @Resource(name = "urlValidators")
     private List<URLValidator> urlValidators;
 
@@ -117,8 +127,34 @@ public class PreProcessFilter implements ContainerRequestFilter {
         OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
         SecurityContextHolder.getContext().setAuthentication(auth);
         TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal()).getTenantId());
+        
+        //  Create obligations        
+        SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
+        if(request.getPathSegments().size() > 4 && CONTEXTERS.contains(request.getPathSegments().get(3).getPath())) {
+            prince.addObligation(EntityNames.STUDENT_SCHOOL_ASSOCIATION, construct("exitWithdrawDate"));
+            prince.addObligation(EntityNames.STUDENT_SECTION_ASSOCIATION, construct("endDate"));
+            prince.addObligation(EntityNames.STUDENT_PROGRAM_ASSOCIATION, construct("endDate"));
+            prince.addObligation(EntityNames.STUDENT_COHORT_ASSOCIATION, construct("endDate"));
+        }        
     }
 
+    /**
+     * Creates a list of criteria which will be OR'ed when queries that are relevant
+     * are being executed
+     * 
+     * @param fieldName
+     * @return
+     */
+    private List<NeutralQuery> construct(String fieldName) {
+        String now = DatatypeConverter.printDate(Calendar.getInstance());
+        
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_GT, now));
+        NeutralQuery nq2 = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_EXISTS, true));
+
+        return Arrays.asList(nq, nq2);
+
+    }
+    
     /**
      * Returns true if the request is a write operation.
      *
