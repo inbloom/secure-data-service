@@ -38,7 +38,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.api.representation.AccessDeniedExceptionHandler;
+import org.slc.sli.api.representation.ThrowAPIException;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
@@ -182,9 +182,8 @@ public class ContextValidator implements ApplicationContextAware {
                     if (ownership.canAccess(ent)) {
                         idsToValidate.add(ent.getEntityId());
                     } else {
-                        String allEdOrgs = Arrays.toString( userEdOrgs.toArray() );
-                        throw new AccessDeniedException("Access to " + ent.getEntityId() + " is not authorized" +
-                                AccessDeniedExceptionHandler.ED_ORG_START +allEdOrgs + AccessDeniedExceptionHandler.ED_ORG_END );
+                        ThrowAPIException.throwAccessDeniedException( "Access to " + ent.getEntityId() + " is not authorized",
+                                                                    userEdOrgs );
 
                     }
                 }
@@ -198,11 +197,11 @@ public class ContextValidator implements ApplicationContextAware {
 
             if (!idsToValidate.isEmpty()) {
                 if (!validator.validate(def.getType(), idsToValidate)) {
-                    throw new AccessDeniedException("Cannot access entities ");
+                    ThrowAPIException.throwAccessDeniedException("Cannot access entities ");
                 }
             }
         } else {
-            throw new AccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive);
+            ThrowAPIException.throwAccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive);
         }
     }
 
