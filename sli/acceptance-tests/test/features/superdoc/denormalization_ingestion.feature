@@ -58,7 +58,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     Then I should see following map of entry counts in the corresponding collections:
       | collectionName                        | count |
       | assessment                            | 19    |
-      | assessmentFamily                      | 37    |
+      | assessmentFamily                      | 38    |
       | assessmentPeriodDescriptor            | 2     |
       | attendance                            | 75    |
       | calendarDate                          | 556   |
