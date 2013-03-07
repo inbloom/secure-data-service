@@ -84,12 +84,15 @@ Then /^my tenant database should be cleared$/ do
 end
 
 Then /^I will drop the whole database$/ do
+  puts "Db to be dropped #{@tenant_db_name}"
   tenant_dropped = false
   if (!@conn.database_names.include?(@tenant_db_name))
+     puts @conn.database_names
      tenant_dropped = true
   else
     @conn.drop_database(@tenant_db_name)
     if (!@conn.database_names.include?(@tenant_db_name))
+        puts @conn.database_names
         tenant_dropped = true
     end
   end
