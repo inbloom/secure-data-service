@@ -65,7 +65,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private Set<String> authorizingEdOrgs;
     private String email;
     private Entity entity;
-    private Map<String, List<NeutralQuery>> obligations;
+    private Map<String, List<NeutralQuery>> obligations = new HashMap<String, List<NeutralQuery>>();
 
     public String getSessionId() {
         return sessionId;
@@ -79,7 +79,6 @@ public class SLIPrincipal implements Principal, Serializable {
     public SLIPrincipal() {
         // Empty default constructor is used in various places.
         authorizingEdOrgs = new HashSet<String>();
-        obligations = new HashMap<String, List<NeutralQuery>>();
     }
 
     public SLIPrincipal(String id) {
