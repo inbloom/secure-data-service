@@ -313,3 +313,36 @@ Examples:
          When I navigate to GET "/studentAssessments/<NEWLY CREATED ENTITY ID>"
          And "administrationEnvironment" should be "School"
      Then I delete both studentAssessment and Assessment
+
+
+  Scenario Outline: CRUD operations till we unwip auto_crud
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    Given entity URI <Entity Resource URI>
+  # Create
+    Given a valid entity json document for a <Entity Type>
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+  # Read
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+    And a valid entity json document for a <Entity Type>
+    And the response should contain the appropriate fields and values
+    And "entityType" should be <Entity Type>
+    And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+  # Update
+    When I set the <Update Field> to <Updated Value>
+    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    And <Update Field> should be <Updated Value>
+  # Delete
+    When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    And I should receive a return code of 404
+
+  Examples:
+    | Entity Type                    | Entity Resource URI   | Update Field             | Updated Value             |
+    | "gradebookEntry"               | "gradebookEntries"    | "description"            | "Updated description"     |
