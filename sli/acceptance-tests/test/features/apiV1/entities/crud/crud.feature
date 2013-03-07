@@ -71,11 +71,12 @@ Examples:
          And I should receive a return code of 404
 
 Examples:
-| Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
-| "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
-| "attendance"                   | "attendances"             | "studentId"              | "274f4c71-1984-4607-8c6f-0a91db2d240a_id"       |
-| "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
+| Entity Type                    | Entity Resource URI       | Update Field                    | Updated Value                                |
+| "assessment"                   | "assessments"             | "assessmentTitle"               | "Advanced Placement Test - Subject: Writing" |
+| "attendance"                   | "attendances"             | "studentId"                     | "274f4c71-1984-4607-8c6f-0a91db2d240a_id"    |
+| "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"            | "Homework"                                   |
+| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"                     | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
+| "grade"                        | "grades"                  | "studentSectionAssociationId"   | "9b02fbd2-0892-4399-a4ea-e048b3315f25_id00cbf81b-41df-4bda-99ad-a5717d3e81a1_id" |
 
         Scenario Outline: CRUD operations on an entity requiring explicit associations and can't update natural key
        Given entity URI <Entity Resource URI>

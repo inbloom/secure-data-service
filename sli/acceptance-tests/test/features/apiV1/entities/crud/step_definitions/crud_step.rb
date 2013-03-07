@@ -66,6 +66,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "endDate" => "2012-07-31",
     "totalInstructionalDays" => 20
   },
+
   "userAccount" => {
     "userName" => "bob3@bob.com",
     "firstName" => "Bob",
@@ -86,11 +87,13 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       }]
     }]
   },
+
   "studentAcademicRecord" => {
     "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3_id",
     "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072",
     "schoolYear" => "2010-2011"
   },
+
   "student" => {
     "birthData" => {
       "birthDate" => "1994-04-04"
@@ -104,6 +107,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "lastSurname" => "Doe"
     }
   },
+
   "cohort" => {
     "cohortIdentifier" => "ACC-TEST-COH-4",
     "cohortDescription" => "ultimate frisbee team",
@@ -112,6 +116,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "academicSubject" => "Physical, Health, and Safety Education",
     "educationOrgId" => "92d6d5a0-852c-45f4-907a-912752831772"
   },
+
   "course" => {
     "courseTitle" => "Chinese 1",
     "numberOfParts" => 1,
@@ -138,6 +143,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
     "uniqueCourseId" => "Chinese-1-10"
   },
+
   "courseOffering" => {
     "schoolId" => "67ce204b-9999-4a11-aaab-000000000008",
     "localCourseCode" => "LCCMA1",
@@ -145,6 +151,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "localCourseTitle" => "Math 1 - Intro to Mathematics",
     "courseId" => "67ce204b-9999-4a11-aacc-000000000004"
   },
+
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
     "disciplines" => [[
@@ -158,6 +165,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "responsibilitySchoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
     "assignmentSchoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
+
   "disciplineIncident" => {
     "incidentIdentifier" => "Incident ID XXX",
     "incidentDate" => "2012-02-14",
@@ -169,6 +177,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     ]],
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
+
   "educationOrganization" => {
     "organizationCategories" => ["State Education Agency"],
     "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
@@ -181,6 +190,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
               "nameOfCounty" => "Wake"
               ]
   },
+
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz",
     "dateAssigned" => "2012-02-14",
@@ -189,11 +199,13 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "learningObjectives" => ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
     "learningStandards" => ["dd9165f2-653e-6e27-a82c-bec5f48757b8"]
   },
+
   "learningObjective" => {
     "academicSubject" => "Mathematics",
     "objective" => "Learn Mathematics",
     "objectiveGradeLevel" => "Fifth grade"
   },
+
   "learningStandard" => {
     "learningStandardId" => {
      "identificationCode" => "apiTestLearningStandard"},
@@ -202,6 +214,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "contentStandard"=>"State Standard",
     "subjectArea" => "English"
   },
+
   "program" => {
     "programId" => "ACC-TEST-PROG-3",
     "programType" => "Remedial Education",
@@ -211,6 +224,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
         {"shortDescription" => "Short description for acceptance test program 3"},
         {"description" => "This is a longer description of the services provided by acceptance test program 3. More detail could be provided here."}]]
   },
+
   "section" => {
     "uniqueSectionCode" => "SpanishB09",
     "sequenceOfCourse" => 1,
@@ -222,6 +236,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "courseOfferingId" => "00291269-33e0-415e-a0a4-833f0ef38189",
     "assessmentReferences" => ["c757f9f2dc788924ce0715334c7e86735c5e1327_id"]
   },
+
   "session" => {
     "sessionName" => "Spring 2012",
     "schoolYear" => "2011-2012",
@@ -232,6 +247,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"],
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
+
   "staff" => {
     "staffUniqueStateId" => "EMPLOYEE123456789",
     "sex" => "Male",
@@ -243,6 +259,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "lastSurname" => "Students"
     }
   },
+
   "studentGradebookEntry" => {
     "gradebookEntryId" => "0dbb262b-8a3e-4a7b-82f9-72de95903d91_id20120613-56b6-4d17-847b-2997b7227686_id",
     "letterGradeEarned" => "A",
@@ -253,6 +270,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "dateFulfilled" => "2012-01-31",
     "diagnosticStatement" => "Finished the quiz in 5 minutes"
   },
+
   "assessment" => {
     "assessmentTitle" => "Writing Advanced Placement Test",
     "assessmentIdentificationCode" => [{
@@ -265,6 +283,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "contentStandard" => "LEA Standard",
     "version" => 2
   },
+
   "super_assessment" => {
      "assessmentIdentificationCode"=> [{
         "identificationSystem"=> "State",
@@ -311,6 +330,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "assessmentTitle"=> "2001-Seventh grade Assessment 2",
       "version" => 2 
   },
+
   "studentAssessment" => {
       "administrationDate" => "2001-08-28",
       "administrationLanguage" => "English",
@@ -367,6 +387,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
           }
         }]
   },
+
   "parent" => {
     "parentUniqueStateId" => "ParentID101",
     "name" =>
@@ -374,6 +395,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "lastSurname" => "Doe",
     }
   },
+
   "school" => {
     "shortNameOfInstitution" => "SCTS",
     "nameOfInstitution" => "School Crud Test School",
@@ -410,12 +432,16 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "lastSurname" => "Esquith"
     }
   },
+
   "grade" => {
-    "studentSectionAssociationId" => "9b02fbd2-0892-4399-a4ea-e048b3315f25_id00cbf81b-41df-4bda-99ad-a5717d3e81a1_id",
+    "studentSectionAssociationId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id49b277c3-4639-42c2-88ef-0f59dd5acba2_id",
+    "studentId" => "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
+    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id",
     "letterGradeEarned" => "B+",
     "gradeType" => "Final",
     "schoolYear" => "2010-2011"
   },
+
   "studentCompetency" => {
      "competencyLevel" => {
        "description" => "really hard competency"
@@ -426,6 +452,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
      "diagnosticStatement" => "passed with flying colors",
      "studentSectionAssociationId" => "9b02fbd2-0892-4399-a4ea-e048b3315f25_id00cbf81b-41df-4bda-99ad-a5717d3e81a1_id"
   },
+
   "reportCard" => {
       "grades" => ["ef42e2a2-9942-11e1-a8a9-68a86d21d918"],
       "studentCompetencyId" => ["3a2ea9f8-9acf-11e1-add5-68a86d83461b"],
@@ -438,6 +465,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "gradingPeriodId" => "ef72b883-90fa-40fa-afc2-4cb1ae17623b",
       "schoolYear" => "2011-2012"
   },
+
   "graduationPlan" => {
        "creditsBySubject" => [{
             "subjectArea" => "English",
