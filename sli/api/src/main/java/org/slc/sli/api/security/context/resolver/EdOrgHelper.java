@@ -26,6 +26,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -480,4 +484,16 @@ public class EdOrgHelper {
         return getDirectEdorgs(SecurityUtil.getSLIPrincipal().getEntity());
     }
 
+    public Set<String> getEdOrgStateOrganizationIds(Set<String> edOrgIds) {
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, edOrgIds));
+        Iterable<Entity> edOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, basicQuery);
+        Iterable<String> stateOrganizationIds =
+        Iterables.transform(edOrgs,new Function<Entity, String>() {
+            @Override
+            public String apply(@javax.annotation.Nullable Entity entity) {
+                return (String)entity.getBody().get("stateOrganizationId");
+            }
+        });
+        return Sets.newHashSet(stateOrganizationIds);
+    }
 }

@@ -54,7 +54,19 @@ def getMatchingSecEvents(securityeventpattern)
     return secEventCount
 end
 
-
-
+And /^a security event "([^"]*)" should be created for these targetEdOrgs( ONLY)?$/ do |expectedEvent, only, table|
+  coll = securityEventCollection()
+  secEvent = coll.find({}, :fields => ["body.logMessage", "body.targetEdOrgList"]).sort("body.timeStamp" => :desc).next_document
+  secEventMessage      = secEvent["body"]["logMessage"]
+  secEventTargetEdOrgs = secEvent["body"]["targetEdOrgList"]
+  scenarioTargetEdOrgs = table.hashes.map {|e| e["targetEdOrg"]}
+  inScenarioButNotInSecEvents = scenarioTargetEdOrgs - secEventTargetEdOrgs
+  assert(secEventMessage == expectedEvent,        "Expected latest Security Event to be [" + expectedEvent + "]. Found [" + secEventMessage + "].");
+  assert(inScenarioButNotInSecEvents.length == 0, "Some targetEdOrgs [" + inScenarioButNotInSecEvents.join(",") + "] were not found in latest SecurityEvent [" + secEventMessage + "].");
+  if only
+      inSecEventsButNotInScenario =   secEventTargetEdOrgs -  scenarioTargetEdOrgs
+      assert(inSecEventsButNotInScenario.length == 0, "Some EXTRA targetEdOrgs [" + inSecEventsButNotInScenario.join(",") + "] were found in latest SecurityEvent [" + secEventMessage + "].");
+  end
+end
 
 
