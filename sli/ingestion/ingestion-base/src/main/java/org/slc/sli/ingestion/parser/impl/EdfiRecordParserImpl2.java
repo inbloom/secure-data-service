@@ -52,8 +52,11 @@ import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ElementSource;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 
 /**
  * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
@@ -294,12 +297,12 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
 
     @Override
     public void warning(SAXParseException exception) throws SAXException {
-        LOG.warn("Warning: {}", exception.getMessage());
+        reportWarning(exception);
     }
 
     @Override
     public void error(SAXParseException exception) throws SAXException {
-        LOG.error("Error: {}", exception.getMessage());
+        reportError(exception);
 
         currentEntityValid = false;
 
@@ -307,7 +310,7 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
 
     @Override
     public void fatalError(SAXParseException exception) throws SAXException {
-        LOG.error("FatalError: {}", exception.getMessage());
+        reportError(exception);
 
         currentEntityValid = false;
     }
@@ -316,4 +319,59 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
         recordVisitors.add(recordVisitor);
     }
 
+    private void reportWarning(final SAXParseException ex) {
+
+        Source elementSource = new ElementSourceImpl(new ElementSource() {
+
+            @Override
+            public String getResourceId() {
+                return source.getResourceId();
+            }
+
+            @Override
+            public int getVisitBeforeLineNumber() {
+                return ex.getLineNumber();
+            }
+
+            @Override
+            public int getVisitBeforeColumnNumber() {
+                return ex.getColumnNumber();
+            }
+
+            @Override
+            public String getElementType() {
+                return source.getResourceId();
+            }
+        });
+
+        messageReport.warning(reportStats, elementSource, BaseMessageCode.BASE_0017, source.getResourceId(), ex.getMessage());
+    }
+
+    private void reportError(final SAXParseException ex) {
+
+        Source elementSource = new ElementSourceImpl(new ElementSource() {
+
+            @Override
+            public String getResourceId() {
+                return source.getResourceId();
+            }
+
+            @Override
+            public int getVisitBeforeLineNumber() {
+                return ex.getLineNumber();
+            }
+
+            @Override
+            public int getVisitBeforeColumnNumber() {
+                return ex.getColumnNumber();
+            }
+
+            @Override
+            public String getElementType() {
+                return source.getResourceId();
+            }
+        });
+
+        messageReport.error(reportStats, elementSource, BaseMessageCode.BASE_0017, source.getResourceId(), ex.getMessage());
+    }
 }
