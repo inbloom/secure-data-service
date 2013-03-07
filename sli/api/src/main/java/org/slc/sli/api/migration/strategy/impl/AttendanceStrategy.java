@@ -89,7 +89,7 @@ public class AttendanceStrategy implements MigrationStrategy<EntityBody> {
         }
 
         if (splitBodies.size() > 1 && operation.equals(PUT)) {
-            throw new MigrationException(new IllegalAccessException("New entity should not be split."));
+            throw new IllegalStateException("Error occurred while processing entity body. Multiple school years?");
         }
 
         return splitBodies;

@@ -26,7 +26,6 @@ import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilter;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilterProvider;
 import org.slc.sli.api.migration.ApiSchemaAdapter;
-import org.slc.sli.api.migration.strategy.impl.AddFieldStrategy;
 import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
@@ -42,7 +41,7 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.aspect.ApiMigrationAspect.MigratePostedEntity;
 import org.slc.sli.aspect.ApiMigrationAspect.MigrateResponse;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.common.util.entity.EntityManipulator;
+import org.slc.sli.common.migration.strategy.MigrationException;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -249,8 +248,11 @@ public class DefaultResourceService implements ResourceService {
         EntityBody copy = new EntityBody(entity);
         copy.remove(ResourceConstants.LINKS);
 
-        adapter.migrate(entity, definition.getResourceName(), PUT);
-        definition.getService().update(id, copy);
+        List<EntityBody> migratedCopies = adapter.migrate(copy, definition.getResourceName(), PUT);
+        if (migratedCopies.size() != 1) {
+            throw new IllegalStateException("Error occurred while processing entity body.");
+        }
+        definition.getService().update(id, migratedCopies.get(0));
     }
 
     @Override
