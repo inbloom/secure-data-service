@@ -43,8 +43,8 @@ public class TransitiveTeacherToTeacherValidator extends AbstractContextValidato
         return EntityNames.TEACHER.equals(entityType) && isTeacher() && isTransitive;
     }
 
-    @Override
-    public boolean validate(String entityType, Set<String> ids) {
+	@Override
+	public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.TEACHER, entityType, ids)) {
             return false;
         }

@@ -32,7 +32,6 @@ public enum BatchJobStageType {
     CONTROL_FILE_PROCESSOR("ControlFileProcessor"),
     DELTA_PROPERTY_PROCESSOR("DeltaPropertyProcessor"),
     PURGE_PROCESSOR("PurgeProcessor"),
-    EDFI_PROCESSOR("EdFiProcessor"),
     DELTA_PROCESSOR("DeltaProcessor"),
     STAGING_PROCESSOR("StagingProcessor"),
     EDFI_PARSER_PROCESSOR("EdFiParserProcessor"),

@@ -15,7 +15,6 @@ Given I post "PropagatedDataSet.zip" file as the payload of the ingestion job
      | attendance                            |
      | cohort                                |
      | competencyLevelDescriptor             |
-#    | competencyLevelDescriptorType         |
      | course	                              |
      | courseOffering                        |
      | courseTranscript                      |
@@ -43,14 +42,12 @@ Given I post "PropagatedDataSet.zip" file as the payload of the ingestion job
      | studentCohortAssociation              |
      | studentCompetency                     |
      | studentCompetencyObjective            |
-#    | studentCTEProgramAssociation          |
      | studentDisciplineIncidentAssociation  |
      | studentGradebookEntry                 |
      | studentParentAssociation              |
      | studentProgramAssociation             |
      | studentSchoolAssociation              |
      | studentSectionAssociation             |
-#    | studentSpecialEdProgramAssociation    |
      | teacherSchoolAssociation              |
      | teacherSectionAssociation             |
 
@@ -65,7 +62,6 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                            | 16    |
      | cohort                                | 32    |
      | competencyLevelDescriptor             | 2     |
-#    | competencyLevelDescriptorType         |       |
      | course	                              | 16    |
      | courseOffering                        | 32    |
      | courseTranscript                      | 32    |
@@ -93,14 +89,12 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCohortAssociation              | 46    |
      | studentCompetency                     | 128   |
      | studentCompetencyObjective            | 4     |
-#    | studentCTEProgramAssociation          |       |
-#remove     | studentDisciplineIncidentAssociation  | 16    |
+     | studentDisciplineIncidentAssociation  | 16    |
      | studentGradebookEntry                 | 2     |
      | studentParentAssociation              | 25    |
      | studentProgramAssociation             | 14    |
      | studentSchoolAssociation              | 16    |
      | studentSectionAssociation             | 32    |
-#    | studentSpecialEdProgramAssociation    |       |
      | teacherSchoolAssociation              | 16    |
      | teacherSectionAssociation             | 64    |
 
@@ -117,10 +111,9 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                            | 4                   | body.gradeLevelAssessed                                                                                                               | none |
      | assessment                            | 4                   | body.lowestGradeLevelAssessed                                                                                                         | none |
      | assessment                            | 8                   | body.assessmentPerformanceLevel                                                                                                       | body.assessmentPerformanceLevel |
-#    | assessment                            |                     | body.assessmentPerformanceLevel.performanceLevelDescriptor                                                                            |
-#    | assessment                            |                     | body.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue                                                                  |
-#    | assessment                            |                     | body.assessmentPerformanceLevel.performanceLevelDescriptor.description                                                                |
-#    | assessment                            |                     | body.assessmentPerformanceLevel.performanceLevelDescriptor.performanceBaseConversion                                                  |
+     | assessment                            | 8                   | body.assessmentPerformanceLevel.performanceLevelDescriptor                                                                            | body.assessmentPerformanceLevel:performanceLevelDescriptor |
+     | assessment                            | 7                   | body.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue                                                                  | body.assessmentPerformanceLevel:performanceLevelDescriptor |
+     | assessment                            | 1                   | body.assessmentPerformanceLevel.performanceLevelDescriptor.description                                                                | body.assessmentPerformanceLevel:performanceLevelDescriptor |
      | assessment                            | 8                   | body.assessmentPerformanceLevel.assessmentReportingMethod                                                                             | body.assessmentPerformanceLevel |
      | assessment                            | 8                   | body.assessmentPerformanceLevel.minimumScore                                                                                          | body.assessmentPerformanceLevel |
      | assessment                            | 8                   | body.assessmentPerformanceLevel.maximumScore                                                                                          | body.assessmentPerformanceLevel |
@@ -129,7 +122,6 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                            | 4                   | body.version                                                                                                                          | none |
      | assessment                            | 4                   | body.revisionDate                                                                                                                     | none |
      | assessment                            | 4                   | body.maxRawScore                                                                                                                      | none |
-#    | assessment                            |                     | body.minRawScore                                                                                                                      |
      | assessment                            | 4                   | body.nomenclature                                                                                                                     | none |
      | assessment                            | 4                   | body.assessmentPeriodDescriptor                                                                                                       | none |
      | assessment                            | 4                   | body.assessmentPeriodDescriptor.codeValue                                                                                             | none |
@@ -148,9 +140,15 @@ Then I should see following map of entry counts in the corresponding collections
      | objectiveAssessment                   | 6                   | body.identificationCode                                                                                                               | none |
      | objectiveAssessment                   | 5                   | body.maxRawScore                                                                                                                      | none |
      | objectiveAssessment                   | 6                   | body.assessmentPerformanceLevel                                                                                                       | body.assessmentPerformanceLevel |
+     | objectiveAssessment                   | 6                   | body.assessmentPerformanceLevel.performanceLevelDescriptor                                                                            | body.assessmentPerformanceLevel:performanceLevelDescriptor |
+     | objectiveAssessment                   | 5                   | body.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue                                                                  | body.assessmentPerformanceLevel:performanceLevelDescriptor |
+     | objectiveAssessment                   | 1                   | body.assessmentPerformanceLevel.performanceLevelDescriptor.description                                                                | body.assessmentPerformanceLevel:performanceLevelDescriptor |
+     | objectiveAssessment                   | 6                   | body.assessmentPerformanceLevel.assessmentReportingMethod                                                                             | body.assessmentPerformanceLevel |
+     | objectiveAssessment                   | 6                   | body.assessmentPerformanceLevel.minimumScore                                                                                          | body.assessmentPerformanceLevel |
+     | objectiveAssessment                   | 6                   | body.assessmentPerformanceLevel.maximumScore                                                                                          | body.assessmentPerformanceLevel |
      | objectiveAssessment                   | 5                   | body.percentOfAssessment                                                                                                              | none |
      | objectiveAssessment                   | 5                   | body.nomenclature                                                                                                                     | none |
-#    | assessment                            |                     | body.objectiveAssessment.assessmentItem                                                                                               | |
+     | objectiveAssessment                   | 2                   | body.assessmentItemRefs                                                                                                               | body.assessmentItemRefs |
      | objectiveAssessment                   | 2                   | body.learningObjectives                                                                                                               | body.learningObjectives |
      | objectiveAssessment                   | 2                   | body.subObjectiveAssessment                                                                                                           | body.subObjectiveAssessment |
 
@@ -173,9 +171,6 @@ Then I should see following map of entry counts in the corresponding collections
      | competencyLevelDescriptor             | 2                   | body.codeValue                                                                                                                        | none |
      | competencyLevelDescriptor             | 2                   | body.description                                                                                                                      | none |
      | competencyLevelDescriptor             | 2                   | body.performanceBaseConversion                                                                                                        | none |
-
-#    | competencyLevelDescriptorType         |                     | body.codeValue                                                                                                                        |
-#    | competencyLevelDescriptorType         |                     | body.description                                                                                                                      |
 
      | course                                | 16                  | body.courseTitle                                                                                                                      | none |
      | course                                | 16                  | body.numberOfParts                                                                                                                    | none |
@@ -227,9 +222,6 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                      | 32                  | body.finalLetterGradeEarned                                                                                                           | none |
      | courseTranscript                      | 1                   | body.finalNumericGradeEarned                                                                                                          | none |
      | courseTranscript                      | 32                  | body.courseRepeatCode                                                                                                                 | none |
-#    | courseTranscript                      |                     | body.diagnosticStatement                                                                                                              |
-#    | courseTranscript                      |                     | body.gradeType                                                                                                                        |
-#    | courseTranscript                      |                     | body.performanceBaseConversion                                                                                                        |
      | courseTranscript                      | 32                  | body.courseId                                                                                                                         | none |
      | courseTranscript                      | 32                  | body.educationOrganizationReference                                                                                                   | body.educationOrganizationReference |
      | courseTranscript                      | 32                  | body.studentAcademicRecordId                                                                                                          | none |
@@ -270,7 +262,6 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization                 | 14                  | body.address.postalCode                                                                                                               | body.address |
      | educationOrganization                 | 14                  | body.address.nameOfCounty                                                                                                             | body.address |
      | educationOrganization                 | 14                  | body.address.countyFIPSCode                                                                                                           | body.address |
-#    | educationOrganization                 |                     | body.address.countryCode                                                                                                              |
      | educationOrganization                 | 14                  | body.address.latitude                                                                                                                 | body.address |
      | educationOrganization                 | 14                  | body.address.longitude                                                                                                                | body.address |
      | educationOrganization                 | 14                  | body.address.openDate                                                                                                                 | body.address |
@@ -288,7 +279,6 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization                 | 2                   | body.accountabilityRatings.ratingOrganization                                                                                         | body.accountabilityRatings |
      | educationOrganization                 | 2                   | body.accountabilityRatings.ratingProgram                                                                                              | body.accountabilityRatings |
      | educationOrganization                 | 20                  | body.programReference                                                                                                                 | body.programReference |
-#    | educationOrganization                 |                     | body.agencyHierarchyName                                                                                                              |
      | educationOrganization                 | 12                  | body.parentEducationAgencyReference                                                                                                   | none |
      | educationOrganization                 | 176                 | body.gradesOffered                                                                                                                    | body.gradesOffered |
      | educationOrganization                 | 96                  | body.schoolCategories                                                                                                                 | body.schoolCategories |
@@ -354,7 +344,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningObjective                     | 66                  | body.academicSubject                                                                                                                  | none |
      | learningObjective                     | 66                  | body.objectiveGradeLevel                                                                                                              | none |
      | learningObjective                     | 4                   | body.learningStandards                                                                                                                | body.learningStandards |
-#     | learningObjective                     |                     | body.parentLearningObjective                                                                                                          |
+     | learningObjective                     | 1                   | body.parentLearningObjective                                                                                                          | none |
 
      | learningStandard                      | 16                  | body.learningStandardId                                                                                                               | none |
      | learningStandard                      | 16                  | body.learningStandardId.identificationCode                                                                                            | none |
@@ -391,7 +381,6 @@ Then I should see following map of entry counts in the corresponding collections
      | parent                                | 32                  | body.address.postalCode                                                                                                               | body.address |
      | parent                                | 32                  | body.address.nameOfCounty                                                                                                             | body.address |
      | parent                                | 32                  | body.address.countyFIPSCode                                                                                                           | body.address |
-#    | parent                                |                     | body.address.countryCode                                                                                                              |
      | parent                                | 32                  | body.address.latitude                                                                                                                 | body.address |
      | parent                                | 32                  | body.address.longitude                                                                                                                | body.address |
      | parent                                | 32                  | body.address.openDate                                                                                                                 | body.address |
@@ -438,7 +427,6 @@ Then I should see following map of entry counts in the corresponding collections
      | section                               | 64                  | body.sessionId                                                                                                                        | none |
      | section                               | 1                   | body.programReference                                                                                                                 | body.programReference |
      | section                               | 64                  | body.courseOfferingId                                                                                                                 | none |
-#    | section                               |                     | body.assessmentReferences                                                                                                             |
 
      | staff                                 | 20                  | body.staffUniqueStateId                                                                                                               | none |
      | staff                                 | 2                   | body.staffIdentificationCode                                                                                                          | body.staffIdentificationCode |
@@ -471,7 +459,6 @@ Then I should see following map of entry counts in the corresponding collections
      | staff                                 | 34                  | body.address.postalCode                                                                                                               | body.address |
      | staff                                 | 34                  | body.address.nameOfCounty                                                                                                             | body.address |
      | staff                                 | 34                  | body.address.countyFIPSCode                                                                                                           | body.address |
-#    | staff                                 |                     | body.address.countryCode                                                                                                              |
      | staff                                 | 34                  | body.address.latitude                                                                                                                 | body.address |
      | staff                                 | 34                  | body.address.longitude                                                                                                                | body.address |
      | staff                                 | 34                  | body.address.openDate                                                                                                                 | body.address |
@@ -560,7 +547,6 @@ Then I should see following map of entry counts in the corresponding collections
      | student	                              | 24                  | body.address.postalCode                                                                                                               | body.address |
      | student	                              | 24                  | body.address.nameOfCounty                                                                                                             | body.address |
      | student	                              | 24                  | body.address.countyFIPSCode                                                                                                           | body.address |
-#    | student	                             |                     | body.address.countryCode                                                                                                              |
      | student 	                            | 24                  | body.address.latitude                                                                                                                 | body.address |
      | student	                              | 24                  | body.address.longitude                                                                                                                | body.address |
      | student	                              | 24                  | body.address.openDate                                                                                                                 | body.address |
@@ -613,8 +599,6 @@ Then I should see following map of entry counts in the corresponding collections
      | student	                              | 32                  | body.studentIndicators.endDate                                                                                                        | body.studentIndicators |
      | student	                              | 1                   | body.studentIndicators.designatedBy                                                                                                   | body.studentIndicators |
      | student	                              | 16                  | body.loginId                                                                                                                          | none |
-#    | student	                             |                     | body.gradeLevel                                                                                                                       |
-#    | student	                             |                     | body.schoolId                                                                                                                         |
 
      | studentAcademicRecord                 | 16                  | body.studentId                                                                                                                        | none |
      | studentAcademicRecord                 | 16                  | body.sessionId                                                                                                                        | none |
@@ -651,18 +635,17 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessment                     | 32                  | body.serialNumber                                                                                                                     | none |
      | studentAssessment                     | 32                  | body.administrationLanguage                                                                                                           | none |
      | studentAssessment                     | 32                  | body.administrationEnvironment                                                                                                        | none |
-     | studentAssessment                     | 23                  | body.specialAccommodations                                                                                                            | body.specialAccommodations |
-     | studentAssessment                     | 27                  | body.linguisticAccommodations                                                                                                         | body.linguisticAccommodations |
+     | studentAssessment                     | 34                  | body.specialAccommodations                                                                                                            | body.specialAccommodations |
+     | studentAssessment                     | 36                  | body.linguisticAccommodations                                                                                                         | body.linguisticAccommodations |
      | studentAssessment                     | 32                  | body.retestIndicator                                                                                                                  | none |
      | studentAssessment                     | 32                  | body.reasonNotTested                                                                                                                  | none |
      | studentAssessment                     | 32                  | body.scoreResults                                                                                                                     | body.scoreResults |
      | studentAssessment                     | 32                  | body.scoreResults.result                                                                                                              | body.scoreResults |
      | studentAssessment                     | 32                  | body.scoreResults.assessmentReportingMethod                                                                                           | body.scoreResults |
      | studentAssessment                     | 32                  | body.gradeLevelWhenAssessed                                                                                                           | none |
-#    | studentAssessment                     |                     | body.performanceLevelDescriptors                                                                                                      |
-#    | studentAssessment                     |                     | body.performanceLevelDescriptors.codeValue                                                                                            |
-#    | studentAssessment                     |                     | body.performanceLevelDescriptors.description                                                                                          |
-#    | studentAssessment                     |                     | body.performanceLevelDescriptors.performanceBaseConversion                                                                            |
+     | studentAssessment                     | 32                  | body.performanceLevelDescriptors                                                                                                      | body.performanceLevelDescriptors: |
+     | studentAssessment                     | 31                  | body.performanceLevelDescriptors.codeValue                                                                                            | body.performanceLevelDescriptors: |
+     | studentAssessment                     | 1                   | body.performanceLevelDescriptors.description                                                                                          | body.performanceLevelDescriptors: |
      | studentAssessment                     | 32                  | body.studentId                                                                                                                        | none |
      | studentAssessment                     | 32                  | body.assessmentId                                                                                                                     | none |
 
@@ -670,9 +653,6 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessmentItem                 | 1                   | body.responseIndicator                                                                                                                | none |
      | studentAssessmentItem                 | 32                  | body.assessmentItemResult                                                                                                             | none |
      | studentAssessmentItem                 | 32                  | body.rawScoreResult                                                                                                                   | none |
-     | studentAssessmentItem                 | 32                  | body.identificationCode                                                                                                               | none |
-     | studentAssessmentItem                 | 32                  | body.itemCategory                                                                                                                     | none |
-     | studentAssessmentItem                 | 32                  | body.maxRawScore                                                                                                                      | none |
      | studentAssessmentItem                 | 32                  | body.studentAssessmentId                                                                                                              | none |
      | studentAssessmentItem                 | 32                  | body.assessmentItemId                                                                                                                 | none |
 
@@ -680,7 +660,9 @@ Then I should see following map of entry counts in the corresponding collections
      | studentObjectiveAssessment            | 19                  | body.scoreResults                                                                                                                     | body.scoreResults |
      | studentObjectiveAssessment            | 19                  | body.scoreResults.result                                                                                                              | body.scoreResults |
      | studentObjectiveAssessment            | 19                  | body.scoreResults.assessmentReportingMethod                                                                                           | body.scoreResults |
-# performaceleveldescriptor
+     | studentObjectiveAssessment            | 19                  | body.performanceLevelDescriptors                                                                                                      | body.performanceLevelDescriptors: |
+     | studentObjectiveAssessment            | 18                  | body.performanceLevelDescriptors.codeValue                                                                                            | body.performanceLevelDescriptors: |
+     | studentObjectiveAssessment            | 1                   | body.performanceLevelDescriptors.description                                                                                          | body.performanceLevelDescriptors: |
      | studentObjectiveAssessment            | 19                  | body.objectiveAssessmentId                                                                                                            | none |
 
      | studentCohortAssociation              | 46                  | body.studentId                                                                                                                        | none |
@@ -702,22 +684,6 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCompetencyObjective            | 4                   | body.description                                                                                                                      | none |
      | studentCompetencyObjective            | 4                   | body.objectiveGradeLevel                                                                                                              | none |
      | studentCompetencyObjective            | 4                   | body.educationOrganizationId                                                                                                          | none |
-
-#    | studentCTEProgramAssociation          |                     | body.studentId                                                                                                                        |
-#    | studentCTEProgramAssociation          |                     | body.programId                                                                                                                        |
-#    | studentCTEProgramAssociation          |                     | body.services                                                                                                                         |
-#    | studentCTEProgramAssociation          |                     | body.services.codeValue                                                                                                               |
-#    | studentCTEProgramAssociation          |                     | body.services.shortDescription                                                                                                        |
-#    | studentCTEProgramAssociation          |                     | body.services.description                                                                                                             |
-#    | studentCTEProgramAssociation          |                     | body.beginDate                                                                                                                        |
-#    | studentCTEProgramAssociation          |                     | body.endDate                                                                                                                          |
-#    | studentCTEProgramAssociation          |                     | body.reasonExited                                                                                                                     |
-#    | studentCTEProgramAssociation          |                     | body.educationOrganizationId                                                                                                          |
-#    | studentCTEProgramAssociation          |                     | body.cteProgram                                                                                                                       |
-#    | studentCTEProgramAssociation          |                     | body.cteProgram.careerPathway                                                                                                         |
-#    | studentCTEProgramAssociation          |                     | body.cteProgram.cipCode                                                                                                               |
-#    | studentCTEProgramAssociation          |                     | body.cteProgram.primaryCTEProgramIndicator                                                                                            |
-#    | studentCTEProgramAssociation          |                     | body.cteProgram.cteProgramCompletionIndicator                                                                                         |
 
      | studentDisciplineIncidentAssociation  | 16                  | body.studentId                                                                                                                        | none |
      | studentDisciplineIncidentAssociation  | 16                  | body.disciplineIncidentId                                                                                                             | none |
@@ -779,27 +745,6 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSectionAssociation             | 32                  | body.endDate                                                                                                                          | none |
      | studentSectionAssociation             | 32                  | body.homeroomIndicator                                                                                                                | none |
      | studentSectionAssociation             | 32                  | body.repeatIdentifier                                                                                                                 | none |
-
-#    | studentSpecialEdProgramAssociation    |                     | body.studentId                                                                                                                        |
-#    | studentSpecialEdProgramAssociation    |                     | body.programId                                                                                                                        |
-#    | studentSpecialEdProgramAssociation    |                     | body.services                                                                                                                         |
-#    | studentSpecialEdProgramAssociation    |                     | body.services.codeValue                                                                                                               |
-#    | studentSpecialEdProgramAssociation    |                     | body.services.shortDescription                                                                                                        |
-#    | studentSpecialEdProgramAssociation    |                     | body.services.description                                                                                                             |
-#    | studentSpecialEdProgramAssociation    |                     | body.beginDate                                                                                                                        |
-#    | studentSpecialEdProgramAssociation    |                     | body.endDate                                                                                                                          |
-#    | studentSpecialEdProgramAssociation    |                     | body.reasonExited                                                                                                                     |
-#    | studentSpecialEdProgramAssociation    |                     | body.educationOrganizationId                                                                                                          |
-#    | studentSpecialEdProgramAssociation    |                     | body.ideaEligibility                                                                                                                  |
-#    | studentSpecialEdProgramAssociation    |                     | body.educationalEnvironment                                                                                                           |
-#    | studentSpecialEdProgramAssociation    |                     | body.specialEducationHoursPerWeek                                                                                                     |
-#    | studentSpecialEdProgramAssociation    |                     | body.multiplyDisabled                                                                                                                 |
-#    | studentSpecialEdProgramAssociation    |                     | body.medicallyFragile                                                                                                                 |
-#    | studentSpecialEdProgramAssociation    |                     | body.lastEvaluationDate                                                                                                               |
-#    | studentSpecialEdProgramAssociation    |                     | body.iepReviewDate                                                                                                                    |
-#    | studentSpecialEdProgramAssociation    |                     | body.iepBeginDate                                                                                                                     |
-#    | studentSpecialEdProgramAssociation    |                     | body.iepEndDate                                                                                                                       |
-
      | teacherSchoolAssociation              | 16                  | body.teacherId                                                                                                                        | none |
      | teacherSchoolAssociation              | 16                  | body.schoolId                                                                                                                         | none |
      | teacherSchoolAssociation              | 16                  | body.programAssignment                                                                                                                | none |
@@ -814,6 +759,6 @@ Then I should see following map of entry counts in the corresponding collections
      | teacherSectionAssociation             | 1                   | body.highlyQualifiedTeacher                                                                                                           | none |
 
 
-  And I should see "Processed 1204 records." in the resulting batch job file
+  And I should see "Processed 1317 records." in the resulting batch job file
   And I should not see an error log file created
   And I should not see a warning log file created

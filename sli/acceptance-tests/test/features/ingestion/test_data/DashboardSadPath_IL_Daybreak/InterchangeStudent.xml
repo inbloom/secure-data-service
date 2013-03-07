@@ -21,14 +21,14 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60908-1028</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Work">
             <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
             <City>Seattle</City>
             <StateAbbreviation>WA</StateAbbreviation>
             <PostalCode>98115</PostalCode>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <ElectronicMail EmailAddressType="Other">
             <EmailAddress>Bennie.C@gmail.com</EmailAddress>
@@ -63,7 +63,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60057-5477</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Physical">
             <StreetNumberName>8523 Lester Court</StreetNumberName>
@@ -71,7 +71,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10062-3727</PostalCode>
             <NameOfCounty>Queens</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
             <TelephoneNumber>331-703-1951</TelephoneNumber>
@@ -133,7 +133,7 @@
             <City>Daybreak</City>
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>75229</PostalCode>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Work">
             <StreetNumberName>82 N. Central Pkwy.</StreetNumberName>
@@ -141,7 +141,7 @@
             <City>Daybreak</City>
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>75229</PostalCode>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
             <TelephoneNumber>309-555-5210</TelephoneNumber>
@@ -178,7 +178,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60057-1857</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>708-471-5210</TelephoneNumber>
@@ -215,7 +215,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60927-8918</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>815-126-3941</TelephoneNumber>
@@ -255,7 +255,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60605-1327</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>630-115-0626</TelephoneNumber>
@@ -290,7 +290,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60248-9017</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Home">
 			<StreetNumberName>2738 Duryea Place</StreetNumberName>
@@ -299,7 +299,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10395-8698</PostalCode>
 			<NameOfCounty>Bronx</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>224-531-2436</TelephoneNumber>
@@ -368,7 +368,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60765-0772</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<ElectronicMail EmailAddressType="Home/Personal">
 			<EmailAddress>dberdan@yahoo.com</EmailAddress>
@@ -397,7 +397,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60777-4651</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>815-708-1107</TelephoneNumber>
@@ -436,7 +436,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60662-4239</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
 			<TelephoneNumber>219-873-5319</TelephoneNumber>

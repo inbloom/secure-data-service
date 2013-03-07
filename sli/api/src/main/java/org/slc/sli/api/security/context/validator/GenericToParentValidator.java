@@ -51,7 +51,7 @@ public class GenericToParentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> parentIds) {
+    public boolean validate(String entityType, Set<String> parentIds) throws IllegalStateException {
         if (!areParametersValid(EntityNames.PARENT, entityType, parentIds)) {
             return false;
         }

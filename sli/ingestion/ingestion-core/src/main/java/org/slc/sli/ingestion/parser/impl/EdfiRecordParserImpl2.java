@@ -52,6 +52,9 @@ import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
@@ -81,13 +84,23 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
 
     private List<RecordVisitor> recordVisitors = new ArrayList<RecordVisitor>();
 
+    private AbstractMessageReport messageReport;
+
+    private ReportStats reportStats;
+
+    private Source source;
+
     public static void parse(InputStream input, Resource schemaResource, TypeProvider typeProvider,
-            RecordVisitor visitor) throws SAXException, IOException, XmlParseException {
+            RecordVisitor visitor, AbstractMessageReport messageReport, ReportStats reportStats, Source source)
+                    throws SAXException, IOException, XmlParseException {
 
         EdfiRecordParserImpl2 parser = new EdfiRecordParserImpl2();
 
         parser.addVisitor(visitor);
         parser.typeProvider = typeProvider;
+        parser.messageReport = messageReport;
+        parser.reportStats = reportStats;
+        parser.source = source;
 
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
@@ -253,6 +266,10 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
             for (RecordVisitor visitor : recordVisitors) {
                 visitor.visit(pair.getLeft(), pair.getRight());
             }
+        } else {
+            for (RecordVisitor visitor : recordVisitors) {
+                visitor.ignored();
+            }
         }
     }
 
@@ -285,8 +302,7 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
     public void error(SAXParseException exception) throws SAXException {
         LOG.error("Error: {}", exception.getMessage());
 
-        // TODO: Reactivate this statement for strict validation and story US5061 acceptance!!!
-//        currentEntityValid = false;
+        currentEntityValid = false;
 
     }
 
@@ -294,8 +310,7 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
     public void fatalError(SAXParseException exception) throws SAXException {
         LOG.error("FatalError: {}", exception.getMessage());
 
-        // TODO: Reactivate this statement for strict validation and story US5061 acceptance!!!
-//        currentEntityValid = false;
+        currentEntityValid = false;
     }
 
     public void addVisitor(RecordVisitor recordVisitor) {

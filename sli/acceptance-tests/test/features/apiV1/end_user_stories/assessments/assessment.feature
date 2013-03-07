@@ -284,6 +284,7 @@ Examples:
 | "sbantu"        | "sbantu1234"        | "Leader"           |
 | "linda.kim"     | "linda.kim1234"     | "Educator"         |
 
+@derp
 Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
     Given I am a valid SEA/LEA end user <Username> with password <Password>
     And I have a Role attribute returned from the "SLI"
@@ -302,11 +303,13 @@ Scenario Outline:  As a AggregateViewer I should not see personally identifiable
     When I navigate to GET "/<STUDENT URI>/<'Matt Sollars' ID>"      
     Then I should receive a return code of 403
 
+#Sections are now public and global
     When I navigate to GET "/<SECTION URI>/<'Algebra II' ID>"      
-    Then I should receive a return code of 403
+    Then I should receive a return code of 200 
 
+#Assessments are now public and global
     When I navigate to GET "/<ASSESSMENT URI>/<'Grade 2 BOY DIBELS' ID>"
-    Then I should receive a return code of 403
+    Then I should receive a return code of 200
 
 Examples:
 | Username         | Password             | AnyDefaultSLIRole  |

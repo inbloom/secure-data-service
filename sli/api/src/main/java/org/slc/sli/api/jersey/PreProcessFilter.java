@@ -18,9 +18,11 @@ package org.slc.sli.api.jersey;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
+import org.slc.sli.api.cache.SessionCache;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
 import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
@@ -41,6 +43,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,6 +56,8 @@ import java.util.regex.Pattern;
 @Component
 public class PreProcessFilter implements ContainerRequestFilter {
 
+    private static final List<String> WRITE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(), ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString());
+
     @Resource(name = "urlValidators")
     private List<URLValidator> urlValidators;
 
@@ -60,13 +65,13 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private OauthSessionManager manager;
 
     @Autowired
-    private ContextValidator contextValidator;
-
-    @Autowired
     private MongoStat mongoStat;
 
     @Resource
     private EndpointMutator mutator;
+
+    @Autowired
+    private ContextValidator contextValidator;
 
     @Autowired
     private URITranslator translator;
@@ -82,6 +87,9 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
     private final Pattern ID_REPLACEMENT_PATTERN = Pattern.compile("([^/]+/[^/]+/)[^/]+(/.*)");
 
+    @Resource
+    private SessionCache sessions;
+
     @Override
     public ContainerRequest filter(ContainerRequest request) {
         recordStartTime(request);
@@ -92,12 +100,14 @@ public class PreProcessFilter implements ContainerRequestFilter {
         mongoStat.startRequest();
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        principal.setSubEdOrgHierarchy(edOrgHelper.getSubEdOrgHierarchy(principal.getEntity()));
+        principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
 
         info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
-        contextValidator.validateContextToUri(request, principal);
+        if (isWrite(request.getMethod())) {
+            contextValidator.validateContextToUri(request, principal);
+        }
         translator.translate(request);
         criteriaGenerator.generate(request);
         return request;
@@ -107,6 +117,17 @@ public class PreProcessFilter implements ContainerRequestFilter {
         OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
         SecurityContextHolder.getContext().setAuthentication(auth);
         TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal()).getTenantId());
+    }
+
+    /**
+     * Returns true if the request is a write operation.
+     *
+     * @param request
+     *            Request to be checked.
+     * @return True if the request method is a PUT, PATCH, or DELETE, false otherwise.
+     */
+    private boolean isWrite(String operation) {
+        return WRITE_OPERATIONS.contains(operation);
     }
 
     private void recordStartTime(ContainerRequest request) {
