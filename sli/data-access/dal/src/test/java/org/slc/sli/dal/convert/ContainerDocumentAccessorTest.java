@@ -110,6 +110,7 @@ public class ContainerDocumentAccessorTest {
     private ContainerDocument createAttendanceContainer() {
         return ContainerDocument.builder().forCollection("testCollection")
                 .forField("array_field")
+                .persistAs("testCollection")
                 .withParent(createParentKeyMap()).build();
     }
 

@@ -54,6 +54,7 @@ public class ContainerDocumentHolder {
                 .forCollection(EntityNames.ATTENDANCE)
                 .forField("attendanceEvent")
                 .persistAs(EntityNames.ATTENDANCE)
+                .asContainerSubdoc(false)
                 .withParent(parentKeys).build();
 
         final List<String> parentKeysForGRCSAR = Arrays.asList("studentId", "schoolYear");

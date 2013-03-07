@@ -25,9 +25,6 @@ import java.util.List;
 public final class ContainerDocument {
     private final String collectionName;
     private final List<String> parentNaturalKeys;
-
-
-    private final List<String> containerDocNaturalKeys;
     private final String fieldToPersist;
     private final String collectionToPersist;
     private boolean isContainerSubdoc;
@@ -53,10 +50,6 @@ public final class ContainerDocument {
         return isContainerSubdoc;
     }
 
-    public List<String> getContainerDocNaturalKeys() {
-        return containerDocNaturalKeys;
-    }
-
     public static ContainerDocumentBuilder builder() {
         return new ContainerDocumentBuilder();
     }
@@ -67,7 +60,6 @@ public final class ContainerDocument {
         this.fieldToPersist = builder.fieldToPersist;
         this.collectionToPersist = builder.collectionToPersist;
         this.isContainerSubdoc = builder.isContainerSubdoc;
-        this.containerDocNaturalKeys =builder.containerDocNaturalKeys;
     }
 
     /**
@@ -76,7 +68,6 @@ public final class ContainerDocument {
     public static final class ContainerDocumentBuilder {
         private String collectionName;
         private List<String> parentNaturalKeys;
-        private List<String> containerDocNaturalKeys;
         private String fieldToPersist;
         private String collectionToPersist;
         private boolean isContainerSubdoc;
@@ -88,11 +79,6 @@ public final class ContainerDocument {
 
         public ContainerDocumentBuilder withParent(final List<String> parent) {
             this.parentNaturalKeys = parent;
-            return this;
-        }
-
-        public ContainerDocumentBuilder withContainerDocKeys(final List<String> containerDocKeys) {
-            this.containerDocNaturalKeys = containerDocKeys;
             return this;
         }
 
@@ -111,7 +97,7 @@ public final class ContainerDocument {
         }
 
         public ContainerDocument build() {
-            if (collectionName == null || parentNaturalKeys == null || fieldToPersist == null) {
+            if (collectionName == null || parentNaturalKeys == null || fieldToPersist == null || collectionToPersist==null) {
                 throw new IllegalStateException("The container document is not fully initialized!");
             }
             return new ContainerDocument(this);
