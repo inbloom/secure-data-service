@@ -85,13 +85,17 @@ end
 
 Then /^I will drop the whole database$/ do
   puts "Db to be dropped #{@tenant_db_name}"
+  puts "List 1"
   puts @conn.database_names.to_s
   tenant_dropped = false
   if (!@conn.database_names.include?(@tenant_db_name))
+     "Tenant not in list"
      tenant_dropped = true
   else
+    "Tenant in list"
     @conn.drop_database(@tenant_db_name)
     if (!@conn.database_names.include?(@tenant_db_name))
+        puts "List 2"
         puts @conn.database_names.to_s
         tenant_dropped = true
     end
