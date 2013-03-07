@@ -78,8 +78,8 @@ public class EdOrgHelper {
      */
     public List<String> getDistricts(Entity user) {
         Set<String> directAssoc = getDirectEdorgs(user);
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, directAssoc, false));
-
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
+                directAssoc, false));
         Set<String> entities = new HashSet<String>();
         for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             if (isLEA(entity)) {
@@ -90,7 +90,30 @@ public class EdOrgHelper {
                 entities.addAll(getChildLEAsOfEdOrg(entity));
             }
         }
+        return new ArrayList<String>(entities);
+    }
 
+    /**
+     * Determines the districts that the set of education organization ids belong to.
+     *
+     * @param edOrgs
+     *            Set of education organization ids.
+     * @return List representing unique Set of district ids that the specified education
+     *         organizations belong to.
+     */
+    public List<String> getDistricts(Set<String> edOrgs) {
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
+                edOrgs, false));
+        Set<String> entities = new HashSet<String>();
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
+            if (isLEA(entity)) {
+                entities.add(getTopLEAOfEdOrg(entity).getEntityId());
+            } else if (isSchool(entity)) {
+                entities.add(getTopLEAOfEdOrg(entity).getEntityId());
+            } else { // isSEA
+                entities.addAll(getChildLEAsOfEdOrg(entity));
+            }
+        }
         return new ArrayList<String>(entities);
     }
 
