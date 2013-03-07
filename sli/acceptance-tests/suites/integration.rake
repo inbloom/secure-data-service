@@ -183,15 +183,15 @@ task :rcTests do
   Rake::Task["rcTenantCleanUp"].execute if tenant_exists
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
-  Rake::Task["rcIngestionTests"].execute
-  Rake::Task["rcLeaSamtTests"].execute
-  Rake::Task["rcAccountRequestTests"].execute
-  Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
-  Rake::Task["rcAppApprovalTests"].execute
-  Rake::Task["rcDashboardTests"].execute
-  Rake::Task["rcDataBrowserTests"].execute
-  Rake::Task["rcCleanUpTests"].execute
-  Rake::Task["rcTenantPurgeTests"].execute
+  #Rake::Task["rcIngestionTests"].execute
+  #Rake::Task["rcLeaSamtTests"].execute
+  #Rake::Task["rcAccountRequestTests"].execute
+  #Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
+  #Rake::Task["rcAppApprovalTests"].execute
+  #Rake::Task["rcDashboardTests"].execute
+  #Rake::Task["rcDataBrowserTests"].execute
+  #Rake::Task["rcCleanUpTests"].execute
+  #Rake::Task["rcTenantPurgeTests"].execute
 
   displayFailureReport()
   if $SUCCESS
