@@ -72,6 +72,13 @@ public class ContainerDocumentAccessor {
     public boolean isContainerDocument(final String entity) {
         return containerDocumentHolder.isContainerDocument(entity);
     }
+    public boolean isContainerSubdoc(final String entity) {
+        boolean isContainerSubdoc = false;
+        if(containerDocumentHolder.isContainerDocument(entity)) {
+            isContainerSubdoc = containerDocumentHolder.getContainerDocument(entity).isContainerSubdoc();
+        }
+        return isContainerSubdoc;
+    }
 
     public boolean insert(final List<Entity> entityList) {
         boolean result = true;
@@ -98,14 +105,7 @@ public class ContainerDocumentAccessor {
     }
 
     public Entity findById(String collectionName, String id) {
-        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(collectionName);
-        if (containerDocument.isContainerSubdoc()) {
-            return getLocation(collectionName).findById(id);
-        } else {
-            final Query query = Query.query(Criteria.where("_id").is(id));
-            return MongoEntity.create(collectionName,
-                    mongoTemplate.getCollection(collectionName).findOne(query.getQueryObject()).toMap());
-        }
+        return getLocation(collectionName).findById(id);
     }
 
     public boolean delete(final Entity entity) {
@@ -221,8 +221,11 @@ public class ContainerDocumentAccessor {
         String key = (String) query.get("_id");
 
         if(containerDocument.isContainerSubdoc()) {
-            getLocation(entity.getType()).create(entity);
             key = key + ContainerDocumentHelper.getContainerDocId(entity, generatorStrategy, naturalKeyExtractor);
+            Entity mongoEntity = new MongoEntity(entity.getType(), key, entity.getBody(),
+                    entity.getMetaData());
+            getLocation(entity.getType()).create(mongoEntity);
+
         }
 
         if (persisted) {
@@ -233,19 +236,7 @@ public class ContainerDocumentAccessor {
     }
 
     protected boolean deleteContainerDoc(final Entity entity) {
-        TenantContext.setIsSystemCall(false);
-        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-
-        if (containerDocument.isContainerSubdoc()) {
-            return getLocation(entity.getType()).delete(entity);
-        } else {
-            Query query = new Query();
-            query.addCriteria(new Criteria("_id").is(entity.getBody().get("_id")));
-            return mongoTemplate.getCollection(containerDocument.getCollectionToPersist())
-                    .remove(query.getQueryObject(), WriteConcern.SAFE)
-                    .getLastError()
-                    .ok();
-        }
+        return getLocation(entity.getType()).delete(entity);
     }
 
     private SubDocAccessor.Location getLocation(String type) {
@@ -257,7 +248,7 @@ public class ContainerDocumentAccessor {
             ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(type);
             Map<String, String> parentToSubDocField = new HashMap<String, String>();
             for(String parentKey :containerDocument.getParentNaturalKeys()) {
-                parentToSubDocField.put(parentKey,parentKey);
+                parentToSubDocField.put(parentKey,"body." + parentKey);
             }
             location = subDocAccessor.createLocation(containerDocument.getCollectionName(), containerDocument.getCollectionToPersist(), parentToSubDocField, containerDocument.getFieldToPersist());
             locationMap.put(type,location);

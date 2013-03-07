@@ -372,7 +372,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return subDocs.subDoc(collectionName).delete(entity);
         }
 
-        if (containerDocumentAccessor.isContainerDocument(collectionName)) {
+        if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
             Entity entity = containerDocumentAccessor.findById(collectionName, id);
             return containerDocumentAccessor.delete(entity);
         }
@@ -515,6 +515,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public Entity findById(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
             return subDocs.subDoc(collectionName).findById(id);
+        } else if(containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            return containerDocumentAccessor.findById(collectionName, id);
         }
         return super.findById(collectionName, id);
     }

@@ -153,8 +153,8 @@ public class SubDocAccessor {
             return new Location(collection, lookup, subField);
         }
 
-        public LocationBuilder mapping(Map<String,String> lookup) {
-            lookup.putAll(lookup);
+        public LocationBuilder mapping(Map<String,String> lookupMap) {
+            lookup.putAll(lookupMap);
             return this;
         }
     }
