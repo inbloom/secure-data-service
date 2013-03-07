@@ -1,7 +1,7 @@
 Feature: Student Access Security Mega Test
 I want to test all combinations and permutations of accessing student data
 
-@derp
+@DE_2712
 Scenario Outline: Users accessing students via multi-part URIs for Sections
 Given I am user <User> in IDP "SEC"
 When I make an API call to get all students in the section <Section>
@@ -88,7 +88,7 @@ Examples:
   |"staff14"|"section3"| 403 |  0  | "none"               | state-staff as Agg Viewer |
   |"staff15"|"section3"| 403 |  0  | "none"               | state-staff with expired association |
 
-@derp
+@DE_2712
 Scenario Outline: Users accessing students via multi-part URIs for Cohorts
 Given I am user <User> in IDP "SEC"
 When I make an API call to get all students in the cohort <Cohort>
@@ -122,7 +122,7 @@ Examples:
   |"teach3"|"cohort5"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
   |"teach4"|"cohort5"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
 
-@derp
+@DE_2712
 Scenario Outline: Users accessing students via multi-part URIs for Programs
 Given I am user <User> in IDP "SEC"
 When I make an API call to get all students in the program <Program>
@@ -155,7 +155,8 @@ Examples:
   |"teach2"|"program5"| 403 |  0  | "none"               | Leader role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
   |"teach3"|"program5"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
   |"teach4"|"program5"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
-@derp
+
+@DE_2712
 Scenario Outline: Users accessing students via multi-part URIs for Schools
 Given I am user <User> in IDP "SEC"
 When I make an API call to get my student list at School <School>
@@ -163,11 +164,28 @@ Then I should receive a return code of <Code>
 And I should see a count of <Count>
 And I the response should only include the students <Accessable Students>
 Examples:
-  | User   | School  |Code |Count| Accessable Students |
-  |"teach1"|"Secured"| 200 |  4  | "student04;student05"|
-  |"teach2"|"Secured"| 200 |  4  | "student04;student05"|
-  |"teach3"|"Secured"| 200 |  4  | "student04;student05"|
-  |"teach4"|"Secured"| 403 |  0  | "none"|
+  | User   | School  |Code |Count| Accessable Students  | Comments |
+  |"teach1"|"Secured"| 200 |  4  | "student01;student02;student04;student05" | Teachers cant access students through a school, but this gets rewritten to students in their sections |
+  |"teach2"|"Secured"| 200 |  4  | "student01;student02;student04;student05" | Teachers cant access students through a school, but this gets rewritten to students in their sections |
+  |"teach3"|"Secured"| 200 |  4  | "student01;student02;student04;student05" | Teachers cant access students through a school, but this gets rewritten to students in their sections |
+  |"teach4"|"Secured"| 403 |  0  | "none"               | Teachers cant access students through a school, but this gets rewritten to students in their sections |
+#Staff
+  |"staff1" |"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| school-staff as Educator |
+  |"staff2" |"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| school-staff as Leader |
+  |"staff3" |"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| school-staff as IT Admin |
+  |"staff4" |"Secured"| 403 |  0  | "none"               | school-staff as Agg Viewer |
+  |"staff5" |"Secured"| 403 |  0  | "none"               | school-staff with expired associaiton |
+  |"staff6" |"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| district-staff as Educator |
+  |"staff7" |"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| district-staff as Leader |
+  |"staff8" |"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| district-staff as IT Admin |
+  |"staff9" |"Secured"| 403 |  0  | "none"               | district-staff as Agg Viewer |
+  |"staff10"|"Secured"| 403 |  0  | "none"               | district-staff with expired association |
+  |"staff11"|"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| state-staff as Educator |
+  |"staff12"|"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| state-staff as Leader |
+  |"staff13"|"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| state-staff as IT Admin |
+  |"staff14"|"Secured"| 403 |  0  | "none"               | state-staff as Agg Viewer |
+  |"staff15"|"Secured"| 403 |  0  | "none"               | state-staff with expired association |
+
 
 @smoke
 Scenario Outline: Teacher attempt to access students through sections
