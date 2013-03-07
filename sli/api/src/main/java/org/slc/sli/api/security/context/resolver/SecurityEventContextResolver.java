@@ -142,4 +142,12 @@ public class SecurityEventContextResolver implements EntityContextResolver {
         }
         return filters;
     }
+
+    public void setRepository(PagingRepositoryDelegate<Entity> repository) {
+    	this.repository = repository;
+    }
+
+    public void setDelegationUtil(DelegationUtil delegationUtil) {
+    	this.delegationUtil = delegationUtil;
+    }
 }
