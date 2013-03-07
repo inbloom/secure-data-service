@@ -16,25 +16,27 @@
 
 package org.slc.sli.api.security.context;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.ThrowAPIException;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.ws.rs.core.UriInfo;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Verify the user has access to write to an entity. We do this by determining the entities edOrg and the principals edOrgs
@@ -46,6 +48,7 @@ public class WriteValidator {
     private HashMap<String, String> entitiesNeedingEdOrgWriteValidation;
     private List<ComplexValidation> complexValidationList;
     private Map<String, ComplexValidation> complexValidationMap;
+    private String edOrgId;
 
     @Value("${sli.security.writeValidation}")
     private boolean isWriteValidationEnabled;
@@ -117,7 +120,7 @@ public class WriteValidator {
     public void validateWriteRequest(EntityBody entityBody, UriInfo uriInfo, SLIPrincipal principal) {
 
         if (isWriteValidationEnabled && !isValidForEdOrgWrite(entityBody, uriInfo, principal)) {
-            throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+            ThrowAPIException.throwAccessDeniedException("Invalid reference. No association to referenced entity.", edOrgId);
         }
 
     }
@@ -153,8 +156,9 @@ public class WriteValidator {
 
     private boolean isEntityValidForEdOrgWrite(Map<String, Object> entityBody, String entityType, SLIPrincipal principal) {
         boolean isValid = true;
+        edOrgId = null;
         if (entitiesNeedingEdOrgWriteValidation.get(entityType) != null) {
-            String edOrgId = (String) entityBody.get(entitiesNeedingEdOrgWriteValidation.get(entityType));
+            edOrgId = (String) entityBody.get(entitiesNeedingEdOrgWriteValidation.get(entityType));
             isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
         } else if (complexValidationMap.containsKey(entityType)) {
             ComplexValidation validation = complexValidationMap.get(entityType);
