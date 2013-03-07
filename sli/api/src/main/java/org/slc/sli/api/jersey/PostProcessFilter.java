@@ -103,7 +103,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
             logApiDataToDb(request, response);
         }
         TenantContext.cleanup();
-        printElapsed(request);
+        printElapsed(request, response);
         expireCache();
 
         String queryString = "";
@@ -142,11 +142,11 @@ public class PostProcessFilter implements ContainerResponseFilter {
         return status == Status.OK.getStatusCode();
     }
 
-    private void printElapsed(ContainerRequest request) {
+    private void printElapsed(ContainerRequest request, ContainerResponse response) {
         long startTime = (Long) request.getProperties().get("startTime");
         long elapsed = System.currentTimeMillis() - startTime;
 
-        info("{} finished in {} ms", request.getRequestUri().toString(), elapsed);
+        info("{} finished with code: {} in: {} ms", new Object[]{request.getRequestUri().toString(), response.getStatus(), elapsed});
 
         if (elapsed > LONG_REQUEST) {
             warn("Long request: {} elapsed {}ms > {}ms", request.getRequestUri().toString(), elapsed, LONG_REQUEST);
