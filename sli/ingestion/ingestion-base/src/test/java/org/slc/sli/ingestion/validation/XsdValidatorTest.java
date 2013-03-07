@@ -56,9 +56,6 @@ public class XsdValidatorTest {
     private static final String INCOMPLETE_CONTENT_WARNING = "The content of element '%s' is not complete.";
     private static final String MISSING_DECLARATION_WARNING = "Cannot find the declaration of element '%s'.";
 
-    private static final String MISSING_FILE_ERROR = "File %s: Not found.";
-    private static final String FILE_IO_ERROR = "File %s: Problem reading file.";
-
     @Autowired
     private XsdValidator xsdValidator;
 
@@ -82,8 +79,7 @@ public class XsdValidatorTest {
         List<String> errors = memoryMessageReport.getErrors();
 
         // Check StateOrganizationId content.
-        String errorMessage = String.format(FILE_IO_ERROR, ife.getFileName());
-        Assert.assertTrue("Should see error for XML file reading problem", containsStringPartial(errors, errorMessage));
+        Assert.assertTrue("Should see error for XML file reading problem", containsStringPartial(errors, "BASE_0024"));
     }
 
     @Test
@@ -366,8 +362,7 @@ public class XsdValidatorTest {
         List<String> errors = memoryMessageReport.getErrors();
 
         // Check StateOrganizationId content.
-        String errorMessage = String.format(MISSING_FILE_ERROR, ife.getFileName());
-        Assert.assertTrue("Should see error for missing XML file", containsStringPartial(errors, errorMessage));
+        Assert.assertTrue("Should see error for missing XML file", containsStringPartial(errors, "BASE_0023"));
     }
 
     @Component
@@ -393,10 +388,6 @@ public class XsdValidatorTest {
 
         public List<String> getErrors() {
             return Collections.unmodifiableList(errors);
-        }
-
-        public List<String> getWarnings() {
-            return Collections.unmodifiableList(warnings);
         }
 
     }
