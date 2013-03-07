@@ -92,11 +92,11 @@ Then /^I will drop the whole database$/ do
      "Tenant not in list"
      tenant_dropped = true
   else
-    "Tenant in list"
+    puts "Tenant in list"
     @conn.drop_database(@tenant_db_name)
+    puts "List 2"
+    puts @conn.database_names.to_s
     if (!@conn.database_names.include?(@tenant_db_name))
-        puts "List 2"
-        puts @conn.database_names.to_s
         tenant_dropped = true
     end
   end
