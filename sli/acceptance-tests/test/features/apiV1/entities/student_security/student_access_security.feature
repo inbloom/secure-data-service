@@ -96,11 +96,32 @@ Then I should receive a return code of <Code>
 And I should see a count of <Count>
 And I the response should only include the students <Accessable Students>
 Examples:
-  | User   | Cohort  |Code |Count| Accessable Students |
-  |"teach1"|"cohort0"| 200 |  2  | "student04;student05"|
-  |"teach2"|"cohort0"| 200 |  2  | "student04;student05"|
-  |"teach3"|"cohort0"| 200 |  2  | "student04;student05"|
-  |"teach4"|"cohort0"| 403 |  0  | "none"|
+  | User   | Cohort  |Code |Count| Accessable Students  | Comments |
+  |"teach1"|"cohort0"| 200 |  2  | "student14;student15"| Educator role teacher has no end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach2"|"cohort0"| 200 |  2  | "student14;student15"| Leader role teacher has no end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach3"|"cohort0"| 200 |  2  | "student14;student15"| IT Admin role teacher has no end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach4"|"cohort0"| 403 |  0  | "none"               | Agg Viewer role teacher has no end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach1"|"cohort1"| 403 |  0  | "none"               | Educator role teacher has no end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach2"|"cohort1"| 403 |  0  | "none"               | Leader role teacher has no end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach3"|"cohort1"| 403 |  0  | "none"               | IT Admin role teacher has no end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach4"|"cohort1"| 403 |  0  | "none"               | Agg Viewer role teacher has no end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach1"|"cohort2"| 200 |  2  | "student11;student12"| Educator role teacher has future end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach2"|"cohort2"| 200 |  2  | "student11;student12"| Leader role teacher has future end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach3"|"cohort2"| 200 |  2  | "student11;student12"| IT Admin role teacher has future end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach4"|"cohort2"| 403 |  0  | "none"               | Agg Viewer role teacher has future end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach1"|"cohort3"| 403 |  0  | "none"               | Educator role teacher has future end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach2"|"cohort3"| 403 |  0  | "none"               | Leader role teacher has future end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach3"|"cohort3"| 403 |  0  | "none"               | IT Admin role teacher has future end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach4"|"cohort3"| 403 |  0  | "none"               | Agg Viewer role teacher has future end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach1"|"cohort4"| 403 |  0  | "none"               | Educator role teacher has past end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach2"|"cohort4"| 403 |  0  | "none"               | Leader role teacher has past end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach3"|"cohort4"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach4"|"cohort4"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach1"|"cohort5"| 403 |  0  | "none"               | Educator role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach2"|"cohort5"| 403 |  0  | "none"               | Leader role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach3"|"cohort5"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach4"|"cohort5"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
+
 @derp
 Scenario Outline: Users accessing students via multi-part URIs for Programs
 Given I am user <User> in IDP "SEC"
@@ -109,11 +130,31 @@ Then I should receive a return code of <Code>
 And I should see a count of <Count>
 And I the response should only include the students <Accessable Students>
 Examples:
-  | User   | Program  |Code |Count| Accessable Students |
-  |"teach1"|"program0"| 200 |  2  | "student04;student05"|
-  |"teach2"|"program0"| 200 |  2  | "student04;student05"|
-  |"teach3"|"program0"| 200 |  2  | "student04;student05"|
-  |"teach4"|"program0"| 403 |  0  | "none"|
+  | User   | Program  |Code |Count| Accessable Students | Comment |
+  |"teach1"|"program0"| 200 |  2  | "student32;student33"| Educator role teacher has no end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach2"|"program0"| 200 |  2  | "student32;student33"| Leader role teacher has no end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach3"|"program0"| 200 |  2  | "student32;student33"| IT Admin role teacher has no end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach4"|"program0"| 403 |  0  | "none"               | Agg Viewer role teacher has no end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach1"|"program1"| 403 |  0  | "none"               | Educator role teacher has no end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach2"|"program1"| 403 |  0  | "none"               | Leader role teacher has no end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach3"|"program1"| 403 |  0  | "none"               | IT Admin role teacher has no end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach4"|"program1"| 403 |  0  | "none"               | Agg Viewer role teacher has no end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach1"|"program2"| 200 |  2  | "student29;student30"| Educator role teacher has future end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach2"|"program2"| 200 |  2  | "student29;student30"| Leader role teacher has future end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach3"|"program2"| 200 |  2  | "student29;student30"| IT Admin role teacher has future end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach4"|"program2"| 403 |  0  | "none"               | Agg Viewer role teacher has future end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach1"|"program3"| 403 |  0  | "none"               | Educator role teacher has future end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach2"|"program3"| 403 |  0  | "none"               | Leader role teacher has future end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach3"|"program3"| 403 |  0  | "none"               | IT Admin role teacher has future end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach4"|"program3"| 403 |  0  | "none"               | Agg Viewer role teacher has future end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach1"|"program4"| 403 |  0  | "none"               | Educator role teacher has past end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach2"|"program4"| 403 |  0  | "none"               | Leader role teacher has past end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach3"|"program4"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach4"|"program4"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach1"|"program5"| 403 |  0  | "none"               | Educator role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach2"|"program5"| 403 |  0  | "none"               | Leader role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach3"|"program5"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach4"|"program5"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
 @derp
 Scenario Outline: Users accessing students via multi-part URIs for Schools
 Given I am user <User> in IDP "SEC"
