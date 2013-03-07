@@ -23,7 +23,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.xml.bind.DatatypeConverter;
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Component;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
@@ -49,10 +55,9 @@ import org.springframework.stereotype.Component;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+
 /**
- * Pre-request processing filter.
- * Adds security information for the user
- * Records start time of the request
+ * Pre-request processing filter. Adds security information for the user Records start time of the request
  *
  * @author dkornishev
  */
@@ -104,34 +109,33 @@ public class PreProcessFilter implements ContainerRequestFilter {
         OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
         SecurityContextHolder.getContext().setAuthentication(auth);
         TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal()).getTenantId());
-        
-        //  Create obligations        
+
+        //  Create obligations
         SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
         if(request.getPathSegments().size() > 4 && CONTEXTERS.contains(request.getPathSegments().get(3).getPath())) {
             prince.addObligation(EntityNames.STUDENT_SCHOOL_ASSOCIATION, construct("exitWithdrawDate"));
             prince.addObligation(EntityNames.STUDENT_SECTION_ASSOCIATION, construct("endDate"));
             prince.addObligation(EntityNames.STUDENT_PROGRAM_ASSOCIATION, construct("endDate"));
             prince.addObligation(EntityNames.STUDENT_COHORT_ASSOCIATION, construct("endDate"));
-        }        
+        }
     }
 
     /**
      * Creates a list of criteria which will be OR'ed when queries that are relevant
      * are being executed
-     * 
+     *
      * @param fieldName
      * @return
      */
     private List<NeutralQuery> construct(String fieldName) {
         String now = DatatypeConverter.printDate(Calendar.getInstance());
-        
+
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_GT, now));
-        NeutralQuery nq2 = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_EXISTS, true));
+        NeutralQuery nq2 = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_EXISTS, false));
 
         return Arrays.asList(nq, nq2);
-
     }
-    
+
     /**
      * Returns true if the request is a write operation.
      *
