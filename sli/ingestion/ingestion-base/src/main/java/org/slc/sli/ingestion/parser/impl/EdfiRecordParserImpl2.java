@@ -297,12 +297,12 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
 
     @Override
     public void warning(SAXParseException exception) throws SAXException {
-//        reportWarning(exception);
+        reportWarning(exception);
     }
 
     @Override
     public void error(SAXParseException exception) throws SAXException {
-//        reportError(exception);
+        reportError(exception);
 
         currentEntityValid = false;
 
@@ -310,7 +310,7 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
 
     @Override
     public void fatalError(SAXParseException exception) throws SAXException {
-//        reportError(exception);
+        reportError(exception);
 
         currentEntityValid = false;
     }
@@ -344,7 +344,7 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
             }
         });
 
-        messageReport.warning(reportStats, elementSource, BaseMessageCode.BASE_0017, source.getResourceId(), ex.getMessage());
+        messageReport.warning(reportStats, elementSource, BaseMessageCode.BASE_0026, source.getResourceId(), ex.getMessage());
     }
 
     private void reportError(final SAXParseException ex) {
@@ -372,6 +372,6 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
             }
         });
 
-        messageReport.error(reportStats, elementSource, BaseMessageCode.BASE_0017, source.getResourceId(), ex.getMessage());
+        messageReport.error(reportStats, elementSource, BaseMessageCode.BASE_0027, source.getResourceId(), ex.getMessage());
     }
 }
