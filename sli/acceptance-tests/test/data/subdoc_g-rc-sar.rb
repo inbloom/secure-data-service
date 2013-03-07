@@ -38,7 +38,7 @@ end
 
 def get_all_student_ids
   student_ids = []
-  #student_ids.concat @grades.map { |doc| doc["body"]["studentId"] }
+  student_ids.concat @grades.map { |doc| doc["body"]["studentId"] }
   student_ids.concat @rcs.map { |doc| doc["body"]["studentId"] }
   student_ids.concat @sars.map { |doc| doc["body"]["studentId"] }
   student_ids.uniq
@@ -97,20 +97,17 @@ get_all_school_years.each do |school_year|
   end
 end
 
-@yearly_transcripts.each do |yearly_transcript|
-  id = yearly_transcript["_id"]
-  school_year = yearly_transcript["body"]["schoolYear"]
-  student_id = yearly_transcript["body"]["studentId"]
-  grades = append_parent_id id, select_doc_from(@grades, school_year, student_id)
-  rcs = append_parent_id id, select_doc_from(@rcs, school_year, student_id)
-  sars = append_parent_id id, select_doc_from(@sars, school_year, student_id)
-  yearly_transcript["grade"].concat grades
-  yearly_transcript["reportCard"].concat rcs
-  yearly_transcript["studentAcademicRecord"].concat sars
-end
-
 File.open("#{File.absolute_path(File.dirname grade_fixture)}/yearlyTranscript_fixture.json", "w") do |f|
   @yearly_transcripts.each do |yearly_transcript|
+    id = yearly_transcript["_id"]
+    school_year = yearly_transcript["body"]["schoolYear"]
+    student_id = yearly_transcript["body"]["studentId"]
+    grades = append_parent_id id, select_doc_from(@grades, school_year, student_id)
+    rcs = append_parent_id id, select_doc_from(@rcs, school_year, student_id)
+    sars = append_parent_id id, select_doc_from(@sars, school_year, student_id)
+    yearly_transcript["grade"].concat grades
+    yearly_transcript["reportCard"].concat rcs
+    yearly_transcript["studentAcademicRecord"].concat sars
     f.puts yearly_transcript.to_json
   end
 end
