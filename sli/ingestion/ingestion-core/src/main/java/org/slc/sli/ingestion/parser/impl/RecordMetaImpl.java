@@ -17,6 +17,7 @@ package org.slc.sli.ingestion.parser.impl;
 
 import javax.xml.stream.Location;
 
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.parser.RecordMeta;
 
 /**
@@ -92,6 +93,11 @@ public final class RecordMetaImpl implements RecordMeta {
 
     public void setSourceEndLocation(Location sourceEndLocation) {
         this.sourceEndLocation = sourceEndLocation;
+    }
+
+    public void audit(SecurityEvent event) {
+        // TODO Auto-generated method stub
+
     }
 
 }

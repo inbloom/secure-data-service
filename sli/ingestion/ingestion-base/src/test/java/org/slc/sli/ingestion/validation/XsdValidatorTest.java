@@ -74,7 +74,12 @@ public class XsdValidatorTest {
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, jobSource);
 
-        Assert.assertTrue(reportStats.hasWarnings());
+        Assert.assertTrue(reportStats.hasErrors());
+
+        List<String> errors = memoryMessageReport.getErrors();
+
+        // Check StateOrganizationId content.
+        Assert.assertTrue("Should see error for XML file reading problem", containsStringPartial(errors, "BASE_0024"));
     }
 
     @Test

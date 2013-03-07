@@ -68,7 +68,7 @@ import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
  * @author dduran
  *
  */
-public class EdfiRecordParserImpl2 extends DefaultHandler {
+public class EdfiRecordParserImpl2 extends EdfiRecordValidator {
 
     private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserImpl2.class);
 
@@ -86,55 +86,27 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
 
     private List<RecordVisitor> recordVisitors = new ArrayList<RecordVisitor>();
 
-    private AbstractMessageReport messageReport;
-
-    private ReportStats reportStats;
-
-    private Source source;
-
     public static void parse(InputStream input, Resource schemaResource, TypeProvider typeProvider,
             RecordVisitor visitor, AbstractMessageReport messageReport, ReportStats reportStats, Source source)
                     throws SAXException, IOException, XmlParseException {
 
-        EdfiRecordParserImpl2 parser = new EdfiRecordParserImpl2();
+        EdfiRecordParserImpl2 parser = new EdfiRecordParserImpl2(typeProvider, messageReport, reportStats, source);
 
         parser.addVisitor(visitor);
-        parser.typeProvider = typeProvider;
-        parser.messageReport = messageReport;
-        parser.reportStats = reportStats;
-        parser.source = source;
 
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-
-        Schema schema = schemaFactory.newSchema(schemaResource.getURL());
-
-        parser.parseAndValidate(input, schema);
+        parser.process(input, schemaResource);
+    }
+    
+    public EdfiRecordParserImpl2(TypeProvider typeProvider, AbstractMessageReport messageReport, ReportStats reportStats, Source source) {
+        super(messageReport, reportStats, source);
+        this.typeProvider = typeProvider;
     }
 
-    private void parseAndValidate(InputStream input, Schema schema) throws XmlParseException, IOException {
-        ValidatorHandler vHandler = schema.newValidatorHandler();
+    @Override
+    protected void parseAndValidate(InputStream input, ValidatorHandler vHandler) throws XmlParseException, IOException {
         vHandler.setContentHandler(this);
-        vHandler.setErrorHandler(this);
 
-        InputSource is = new InputSource(new InputStreamReader(input, "UTF-8"));
-        is.setEncoding("UTF-8");
-
-        try {
-            XMLReader parser = XMLReaderFactory.createXMLReader();
-            parser.setContentHandler(vHandler);
-            parser.setErrorHandler(this);
-
-            vHandler.setFeature("http://apache.org/xml/features/continue-after-fatal-error", false);
-
-            parser.setFeature("http://apache.org/xml/features/validation/id-idref-checking", false);
-            parser.setFeature("http://apache.org/xml/features/continue-after-fatal-error", false);
-            parser.setFeature("http://xml.org/sax/features/external-general-entities", false);
-            parser.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-
-            parser.parse(is);
-        } catch (SAXException e) {
-            throw new XmlParseException(e.getMessage(), e);
-        }
+        super.parseAndValidate(input, vHandler);
     }
 
     @Override
@@ -296,13 +268,8 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
     }
 
     @Override
-    public void warning(SAXParseException exception) throws SAXException {
-//        reportWarning(exception);
-    }
-
-    @Override
     public void error(SAXParseException exception) throws SAXException {
-//        reportError(exception);
+        super.error(exception);
 
         currentEntityValid = false;
 
@@ -310,68 +277,12 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
 
     @Override
     public void fatalError(SAXParseException exception) throws SAXException {
-//        reportError(exception);
+        super.fatalError(exception);
 
         currentEntityValid = false;
     }
 
     public void addVisitor(RecordVisitor recordVisitor) {
         recordVisitors.add(recordVisitor);
-    }
-
-    private void reportWarning(final SAXParseException ex) {
-
-        Source elementSource = new ElementSourceImpl(new ElementSource() {
-
-            @Override
-            public String getResourceId() {
-                return source.getResourceId();
-            }
-
-            @Override
-            public int getVisitBeforeLineNumber() {
-                return ex.getLineNumber();
-            }
-
-            @Override
-            public int getVisitBeforeColumnNumber() {
-                return ex.getColumnNumber();
-            }
-
-            @Override
-            public String getElementType() {
-                return source.getResourceId();
-            }
-        });
-
-        messageReport.warning(reportStats, elementSource, BaseMessageCode.BASE_0017, source.getResourceId(), ex.getMessage());
-    }
-
-    private void reportError(final SAXParseException ex) {
-
-        Source elementSource = new ElementSourceImpl(new ElementSource() {
-
-            @Override
-            public String getResourceId() {
-                return source.getResourceId();
-            }
-
-            @Override
-            public int getVisitBeforeLineNumber() {
-                return ex.getLineNumber();
-            }
-
-            @Override
-            public int getVisitBeforeColumnNumber() {
-                return ex.getColumnNumber();
-            }
-
-            @Override
-            public String getElementType() {
-                return source.getResourceId();
-            }
-        });
-
-        messageReport.error(reportStats, elementSource, BaseMessageCode.BASE_0017, source.getResourceId(), ex.getMessage());
     }
 }
