@@ -57,6 +57,41 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 public class ContextValidator implements ApplicationContextAware {
 
+    protected static final Set<String> GLOBAL_RESOURCES = new HashSet<String>(
+            Arrays.asList(ResourceNames.ASSESSMENTS,
+            ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS,
+            ResourceNames.COURSES,
+            ResourceNames.COURSE_OFFERINGS,
+            ResourceNames.EDUCATION_ORGANIZATIONS,
+            ResourceNames.GRADUATION_PLANS,
+            ResourceNames.GRADING_PERIODS,
+            ResourceNames.LEARNINGOBJECTIVES,
+            ResourceNames.LEARNINGSTANDARDS,
+            ResourceNames.PROGRAMS,
+            ResourceNames.SCHOOLS,
+            ResourceNames.SECTIONS,
+            ResourceNames.SESSIONS,
+            ResourceNames.STUDENT_COMPETENCY_OBJECTIVES,
+            ResourceNames.CUSTOM,
+            "parentLearningObjectives",
+            "childLearningObjectives"));
+
+    protected static final Set<String> GLOBAL_ENTITIES = new HashSet<String>(
+            Arrays.asList(EntityNames.ASSESSMENT,
+            EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
+            EntityNames.COURSE,
+            EntityNames.COURSE_OFFERING,
+            EntityNames.EDUCATION_ORGANIZATION,
+            EntityNames.GRADUATION_PLAN,
+            EntityNames.GRADING_PERIOD,
+            EntityNames.LEARNING_OBJECTIVE,
+            EntityNames.LEARNING_STANDARD,
+            EntityNames.PROGRAM,
+            EntityNames.SCHOOL,
+            EntityNames.SECTION,
+            EntityNames.SESSION,
+            EntityNames.STUDENT_COMPETENCY_OBJECTIVE));
+
     private List<IContextValidator> validators;
 
     @Autowired
@@ -92,6 +127,38 @@ public class ContextValidator implements ApplicationContextAware {
             return;
         }
 
+        /*
+         * If the URI being requested is a GET full of global entities, we do
+         * not need to attempt validation Global entities include: ASSESSMENT,
+         * LEARNING_OBJECTIVE, LEARNING_STANDARD, COMPETENCY_LEVEL_DESCRIPTOR,
+         * SESSION, COURSE_OFFERING, GRADING_PERIOD, COURSE,
+         * EDUCATION_ORGANIZATION, SCHOOL, SECITON, PROGRAM, GRADUATION_PLAN,
+         * STUDENT_COMPETENCY_OBJECTIVE, and CUSTOM (custom entity exists under
+         * another entity, they should not prevent classification of a call
+         * being global)
+         */
+        boolean isGlobal = true;
+        for (PathSegment seg : segs) {
+            // First segment is always API version, skip it
+            // Third segment is always the ID, skip it
+            if (seg.equals(segs.get(0)) || seg.equals(segs.get(2))) {
+                continue;
+            }
+            // Check if the segment is not global, if so break
+            if (!GLOBAL_RESOURCES.contains(seg.getPath())) {
+                isGlobal = false;
+                break;
+            }
+        }
+        // Only skip validation if method is a get, updates may still require
+        // validation
+        if (isGlobal && request.getMethod().equals("GET")) {
+            // The entity has global context, just return and don't call the
+            // validators
+            debug("Call to {} is of global context, skipping validation", request.getAbsolutePath().toString());
+            return;
+        }
+
         String rootEntity = segs.get(1).getPath();
 
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
@@ -102,25 +169,10 @@ public class ContextValidator implements ApplicationContextAware {
         /*
          * e.g.
          * !isTransitive - /v1/staff/<ID>/disciplineActions
-         * isTransitive - /v1/staff/<ID>
+         * isTransitive - /v1/staff/<ID> OR /v1/staff/<ID>/custom
          */
-        boolean isTransitive = segs.size() < 4;
-
-        /**
-         * If we are v1/entity/id and the entity is "public" don't validate
-         *
-         * Unless of course you're posting/putting/deleting, blah blah blah.
-         */
-        if (segs.size() == 3 || (segs.size() == 4 && segs.get(3).getPath().equals("custom"))) {
-            if (def.getStoredCollectionName().equals(EntityNames.EDUCATION_ORGANIZATION)) {
-                if (!request.getMethod().equals("GET")) {
-                    isTransitive = false;
-                } else {
-                    info("Not validating access to public entity and it's custom data");
-                    return;
-                }
-            }
-        }
+        boolean isTransitive = segs.size() == 3
+                || (segs.size() == 4 && segs.get(3).getPath().equals(ResourceNames.CUSTOM));
 
         validateContextToCallUri(segs);
         String idsString = segs.get(2).getPath();
@@ -148,18 +200,21 @@ public class ContextValidator implements ApplicationContextAware {
      *
      * @param segments
      *            List of Path Segments representing API call.
-     * @return true if the URI exactly matches one of the enumerated patterns, false otherwise.
+     * @return true if the URI exactly matches one of the enumerated patterns,
+     *         false otherwise.
      */
     public boolean checkAccessOfStudentsThroughDisciplineIncidents(List<PathSegment> segments) {
-        if (segments.size() == 4) {
+        /*
+         * Both /disciplineIncidents/{ids}/studentDisciplineIncidentAssociations and
+         * /disciplineIncidents/{ids}/studentDisciplineIncidentAssociations/students
+         * have the same pattern (first segment of discipline incident, third of
+         * the association, so just check for those two conditions
+         */
+        if (segments.size() > 3) {
             return segments.get(1).getPath().equals(ResourceNames.DISCIPLINE_INCIDENTS)
                     && segments.get(3).getPath().equals(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS);
-        } else if (segments.size() == 5) {
-            return segments.get(1).getPath().equals(ResourceNames.DISCIPLINE_INCIDENTS)
-                    && segments.get(3).getPath().equals(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
-                    && segments.get(4).getPath().equals(ResourceNames.STUDENTS);
         }
-        return false;
+        return false; // Num segments is 3, just return
     }
 
     public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) {
@@ -231,4 +286,14 @@ public class ContextValidator implements ApplicationContextAware {
         return found;
     }
 
+    /**
+     * Determines if the entity is global.
+     *
+     * @param type
+     *            Type of entity to checked.
+     * @return True if the entity is global, false otherwise.
+     */
+    public boolean isGlobalEntity(String type) {
+        return GLOBAL_ENTITIES.contains(type);
+    }
 }

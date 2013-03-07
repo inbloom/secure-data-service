@@ -79,7 +79,7 @@ public class MongoUserLocator implements UserLocator {
 
             if (staff != null && staff.iterator().hasNext()) {
                 Entity entity = staff.iterator().next();
-                Set<String> edorgs = edorgHelper.getDirectEdorgs(entity);
+                Set<String> edorgs = edorgHelper.locateDirectEdorgs(entity);
                 if (edorgs.size() == 0) {
                     warn("User {} is not currently associated to a school/edorg", user.getId());
                     throw new AccessDeniedException("User is not currently associated to a school/edorg");

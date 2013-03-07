@@ -71,11 +71,12 @@ Examples:
          And I should receive a return code of 404
 
 Examples:
-| Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
-| "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
-| "attendance"                   | "attendances"             | "studentId"              | "274f4c71-1984-4607-8c6f-0a91db2d240a_id"       |
-| "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
+| Entity Type                    | Entity Resource URI       | Update Field                    | Updated Value                                |
+| "assessment"                   | "assessments"             | "assessmentTitle"               | "Advanced Placement Test - Subject: Writing" |
+| "attendance"                   | "attendances"             | "studentId"                     | "274f4c71-1984-4607-8c6f-0a91db2d240a_id"    |
+| "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"            | "Homework"                                   |
+| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"                     | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
+| "grade"                        | "grades"                  | "studentSectionAssociationId"   | "9b02fbd2-0892-4399-a4ea-e048b3315f25_id00cbf81b-41df-4bda-99ad-a5717d3e81a1_id" |
 
         Scenario Outline: CRUD operations on an entity requiring explicit associations and can't update natural key
        Given entity URI <Entity Resource URI>
@@ -221,7 +222,7 @@ Examples:
 | "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|                                                           
 | "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
 | "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              
-| "gradebookEntry"        | "gradebookEntries"        | 1     |/sections/@ids/gradebookEntries|
+| "gradebookEntry"        | "gradebookEntries"        | 3     |/sections/@ids/gradebookEntries|
 | "learningObjective"     | "learningObjectives"      | 5     |/search/learningObjectives|                                                                     
 | "learningStandard"      | "learningStandards"       | 14    |/search/learningStandards|                                                                      
 | "parent"                | "parents"                 | 2     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|
@@ -232,13 +233,13 @@ Examples:
 | "staff"                 | "staff"                   | 6     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
 | "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
 | "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
-| "studentGradebookEntry" | "studentGradebookEntries" | 1     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
+| "studentGradebookEntry" | "studentGradebookEntries" | 2     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
 | "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
 | "grade"                 | "grades"                  | 1     |/sections/@ids/studentSectionAssociations/grades|
 | "studentCompetency"     | "studentCompetencies"     | 2     |/sections/@ids/studentSectionAssociations/studentCompetencies|
-| "gradingPeriod"         | "gradingPeriods"          | 2     |/search/gradingPeriods|
+| "gradingPeriod"         | "gradingPeriods"          | 3     |/search/gradingPeriods|
 | "reportCard"            | "reportCards"             | 3     |/sections/@ids/studentSectionAssociations/students/reportCards|
-| "studentCompetencyObjective" | "studentCompetencyObjectives" | 0 |/search/studentCompetencyObjectives    |
+| "studentCompetencyObjective" | "studentCompetencyObjectives" | 1 |/search/studentCompetencyObjectives    |
 
 	@DE1825
 	Scenario: Invalid data parsing fails gracefully
@@ -312,3 +313,36 @@ Examples:
          When I navigate to GET "/studentAssessments/<NEWLY CREATED ENTITY ID>"
          And "administrationEnvironment" should be "School"
      Then I delete both studentAssessment and Assessment
+
+
+  Scenario Outline: CRUD operations till we unwip auto_crud
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    Given entity URI <Entity Resource URI>
+  # Create
+    Given a valid entity json document for a <Entity Type>
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+  # Read
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+    And a valid entity json document for a <Entity Type>
+    And the response should contain the appropriate fields and values
+    And "entityType" should be <Entity Type>
+    And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+  # Update
+    When I set the <Update Field> to <Updated Value>
+    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    And <Update Field> should be <Updated Value>
+  # Delete
+    When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    And I should receive a return code of 404
+
+  Examples:
+    | Entity Type                    | Entity Resource URI   | Update Field             | Updated Value             |
+    | "gradebookEntry"               | "gradebookEntries"    | "description"            | "Updated description"     |

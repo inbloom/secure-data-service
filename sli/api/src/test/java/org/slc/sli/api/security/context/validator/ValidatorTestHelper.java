@@ -156,7 +156,7 @@ public class ValidatorTestHelper {
     public String generateStudentAndStudentSchoolAssociation(String studentId, String schoolId, boolean isExpired) {
         return generateStudentAndStudentSchoolAssociation(studentId, schoolId, null, isExpired);
     }
-    
+
     public Entity generateStudent() {
         Map<String, Object> student = new HashMap<String, Object>();
         student.put("studentUniqueStateId", "BLAH");
@@ -213,7 +213,7 @@ public class ValidatorTestHelper {
         Entity created = repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, association);
         return created;
     }
-    
+
     public Entity generateAttendance(String studentId, String schoolId) {
         Map<String, Object> att = new HashMap<String, Object>();
         att.put(ParameterConstants.STUDENT_ID, studentId);
@@ -284,6 +284,10 @@ public class ValidatorTestHelper {
 
     public Entity generateAssessment() {
         return repo.create(EntityNames.ASSESSMENT, new HashMap<String, Object>());
+    }
+
+    public Entity generateCompetencyLevelDescriptor() {
+        return repo.create(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, new HashMap<String, Object>());
     }
 
     public Entity generateLearningObjective() {
@@ -371,14 +375,14 @@ public class ValidatorTestHelper {
         grade.put("objectiveId", objectiveId);
         return repo.create(EntityNames.STUDENT_COMPETENCY, grade);
     }
-    
+
     public Entity generateParent() {
         Map<String, Object> parent = new HashMap<String, Object>();
         parent.put(ParameterConstants.PARENT_UNIQUE_STATE_ID, "PARENT_ID");
         parent.put("name", "Mama Cass");
         return repo.create(EntityNames.PARENT, parent);
     }
-    
+
     public Entity generateStudentParentAssoc(String studentId, String parentId) {
         Map<String, Object> parent = new HashMap<String, Object>();
         parent.put(ParameterConstants.PARENT_ID, parentId);

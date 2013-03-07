@@ -56,6 +56,13 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id
 end
 
+When /^I print debug info/ do
+  puts("\n----\nThe referring collection URI is #{@referring_collection_expose_name}\n")
+  puts("The refering entity ID is #{@testing_id}\n")
+  puts("The reference field is #{@referring_field}\n")
+  puts("The new valid value is #{@new_valid_value}\n---------\n\n\n\n")
+end
+
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################

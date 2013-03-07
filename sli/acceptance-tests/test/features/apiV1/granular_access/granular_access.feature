@@ -28,7 +28,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | disciplineIncidents                     | 2010-2011    | 0                   | 0                |                                                                                |
     | gradebookEntries                        | 2010-2011    | 3                   | 0                |                                                                                |
     | grades                                  | 2010-2011    | 0                   | 0                |                                                                                |
-    | gradingPeriods                          | 2010-2011    | 2                   | 0                |                                                                                |
+    | gradingPeriods                          | 2010-2011    | 3                   | 0                |                                                                                |
     | programs                                | 2009-2010    | 0                   | 0                |                                                                                |
 #    | reportCards                             | 2010-2011    | 0                   | 0                |                                                                               |
 #    | sections                                | 2010-2011    | 0                   | 0                |                                                                               |
@@ -73,7 +73,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | disciplineIncidents                     | 2010-2011    | 0                   | 0                |                                                                                |
     | gradebookEntries                        | 2010-2011    | 3                   | 0                |                                                                                |
     | grades                                  | 2010-2011    | 0                   | 0                |                                                                                |
-    | gradingPeriods                          | 2010-2011    | 2                   | 0                |                                                                                |
+    | gradingPeriods                          | 2010-2011    | 3                   | 0                |                                                                                |
     | programs                                | 2010-2011    | 0                   | 0                |                                                                                |
 #    | reportCards                             | 2009-2010    | 1                   | 0                |                                                                                |
 #    | sections                                | 2010-2011    | 4                   | 2                | Science 7A - Sec 5f10,8th Grade English - Sec 6                                |
