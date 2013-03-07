@@ -1,6 +1,59 @@
 Feature: Student Access Security Mega Test
 I want to test all combinations and permutations of accessing student data
 
+@derp
+Scenario Outline: Users accessing students via multi-part URIs for Sections
+Given I am user <User> in IDP "SEC"
+When I make an API call to get all students in the section <Section>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include the students <Accessable Students>
+Examples:
+  | User   | Section  |Code |Count| Accessable Students |
+  |"teach1"|"section0"| 200 |  2  | "student04;student05"|
+  |"teach2"|"section0"| 200 |  2  | "student04;student05"|
+  |"teach3"|"section0"| 200 |  2  | "student04;student05"|
+  |"teach4"|"section0"| 403 |  0  | "none"|
+@derp
+Scenario Outline: Users accessing students via multi-part URIs for Cohorts
+Given I am user <User> in IDP "SEC"
+When I make an API call to get all students in the cohort <Cohort>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include the students <Accessable Students>
+Examples:
+  | User   | Cohort  |Code |Count| Accessable Students |
+  |"teach1"|"cohort0"| 200 |  2  | "student04;student05"|
+  |"teach2"|"cohort0"| 200 |  2  | "student04;student05"|
+  |"teach3"|"cohort0"| 200 |  2  | "student04;student05"|
+  |"teach4"|"cohort0"| 403 |  0  | "none"|
+@derp
+Scenario Outline: Users accessing students via multi-part URIs for Programs
+Given I am user <User> in IDP "SEC"
+When I make an API call to get all students in the program <Program>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include the students <Accessable Students>
+Examples:
+  | User   | Program  |Code |Count| Accessable Students |
+  |"teach1"|"program0"| 200 |  2  | "student04;student05"|
+  |"teach2"|"program0"| 200 |  2  | "student04;student05"|
+  |"teach3"|"program0"| 200 |  2  | "student04;student05"|
+  |"teach4"|"program0"| 403 |  0  | "none"|
+@derp
+Scenario Outline: Users accessing students via multi-part URIs for Schools
+Given I am user <User> in IDP "SEC"
+When I make an API call to get my student list at School <School>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include the students <Accessable Students>
+Examples:
+  | User   | School  |Code |Count| Accessable Students |
+  |"teach1"|"Secured"| 200 |  4  | "student04;student05"|
+  |"teach2"|"Secured"| 200 |  4  | "student04;student05"|
+  |"teach3"|"Secured"| 200 |  4  | "student04;student05"|
+  |"teach4"|"Secured"| 403 |  0  | "none"|
+
 @smoke
 Scenario Outline: Teacher attempt to access students through sections
   Given I am user <User> in IDP "SEC"
