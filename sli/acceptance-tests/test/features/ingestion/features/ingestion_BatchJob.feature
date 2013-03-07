@@ -120,7 +120,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
         | newBatchJob                 | 1     |
-        | error                       | 3     |
+        | error                       | 2     |
 
  And I check to find if record is in batch job collection:
   | collectionName | expectedRecordCount | searchParameter                  | searchValue                             | searchType |
@@ -150,7 +150,7 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | resourceEntries.2.resourceFormat | edfi-xml                             | string     |
   | newBatchJob    | 1                   | resourceEntries.2.resourceType   | EducationOrganization                | string     |
  #errors
-  | error          | 3                   | severity                         | ERROR                                   |string      |
+  | error          | 2                   | severity                         | ERROR                                   |string      |
 
    And I should see "Processed 0 records." in the resulting batch job file
    And I should see "CORE_0063" in the resulting error log file
