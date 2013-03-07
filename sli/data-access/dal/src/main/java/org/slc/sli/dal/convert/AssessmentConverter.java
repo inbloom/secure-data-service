@@ -34,7 +34,7 @@ import org.springframework.beans.FatalBeanException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;

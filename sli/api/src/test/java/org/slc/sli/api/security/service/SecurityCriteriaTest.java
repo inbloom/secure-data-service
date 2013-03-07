@@ -28,7 +28,7 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;

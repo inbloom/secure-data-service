@@ -16,7 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;

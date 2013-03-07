@@ -29,7 +29,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bson.BasicBSONObject;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;

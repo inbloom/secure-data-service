@@ -27,8 +27,8 @@ import javax.annotation.PostConstruct;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.util.SecurityUtil;

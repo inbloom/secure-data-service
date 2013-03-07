@@ -16,7 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

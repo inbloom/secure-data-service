@@ -16,7 +16,7 @@
 package org.slc.sli.api.resources.generic.response;
 
 import com.sun.jersey.server.impl.application.WebApplicationContext;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.generic.GenericResource;

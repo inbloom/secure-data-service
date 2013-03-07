@@ -31,7 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;

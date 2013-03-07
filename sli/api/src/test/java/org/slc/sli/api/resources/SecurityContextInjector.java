@@ -35,7 +35,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;

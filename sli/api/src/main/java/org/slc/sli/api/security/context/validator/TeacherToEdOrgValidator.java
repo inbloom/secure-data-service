@@ -16,7 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

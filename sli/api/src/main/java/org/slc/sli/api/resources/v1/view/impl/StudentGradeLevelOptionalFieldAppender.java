@@ -24,7 +24,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;

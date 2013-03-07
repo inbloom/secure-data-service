@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
 import org.slc.sli.api.resources.security.TenantResource.TenantResourceCreationException;

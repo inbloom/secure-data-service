@@ -36,7 +36,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
