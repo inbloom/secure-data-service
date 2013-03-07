@@ -75,7 +75,7 @@ public class ContainerDocumentHelper {
             entityDetails.put("type", entity.getType());
             String fieldToPersist = containerDocument.getFieldToPersist();
             if (entityBody.containsKey(fieldToPersist)) {
-                docToPersist = BasicDBObjectBuilder.start().
+                docToPersist = BasicDBObjectBuilder.start().push("$pushAll").
                         add("body." + fieldToPersist, entityBody.get(fieldToPersist)).get();
             }
 

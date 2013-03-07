@@ -60,6 +60,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | teacher                                   |
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
+     | yearlyTranscript                          |
 When zip file is scp to ingestion landing zone
   And a batch job for file "SmallSampleDataSet.zip" is completed in database
   And a batch job log has been created
@@ -78,7 +79,7 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization                    |                  5|
      | educationOrganizationAssociation         |                  0|
      | educationOrganizationSchoolAssociation   |                  0|
-     | grade                                    |                  4|
+     | grade                                    |                  0|
      | gradebookEntry                           |                 12|
      | gradingPeriod                            |                 17|
      | graduationPlan                           |                  0|
@@ -87,7 +88,7 @@ Then I should see following map of entry counts in the corresponding collections
      | parent                                   |                  9|
      | program                                  |                  2|
      | recordHash                               |               9479|
-     | reportCard                               |                  2|
+     | reportCard                               |                  0|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                 97|
      | sectionAssessmentAssociation             |                  0|
@@ -99,7 +100,7 @@ Then I should see following map of entry counts in the corresponding collections
      | staffEducationOrganizationAssociation    |                 13|
      | staffProgramAssociation                  |                  7|
      | student                                  |                 78|
-     | studentAcademicRecord                    |                117|
+     | studentAcademicRecord                    |                  0|
      | studentAssessment                        |                203|
      | studentCohortAssociation                 |                  6|
      | studentCompetency                        |                 59|
