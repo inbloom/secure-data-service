@@ -18,6 +18,7 @@ package org.slc.sli.search.connector;
 import java.util.List;
 
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 public interface SourceDatastoreConnector {
     public static class Tenant {
@@ -40,6 +41,8 @@ public interface SourceDatastoreConnector {
     public List<Tenant> getTenants();
 
     public DBCursor getDBCursor(String collectionName, List<String> fields);
+    
+    public DBCursor getDBCursor(String collectionName, List<String> fields, DBObject query);
 
     void save(String collectionName, Object o);
 

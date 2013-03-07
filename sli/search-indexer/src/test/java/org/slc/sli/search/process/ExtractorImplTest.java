@@ -24,6 +24,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -101,6 +102,13 @@ public class ExtractorImplTest {
             // TODO Auto-generated method stub
             return null;
         }
+
+		@Override
+		public DBCursor getDBCursor(String collectionName, List<String> fields,
+				DBObject query) {
+			// TODO Auto-generated method stub
+            return MockDBCursorFactory.create(collectionName);
+		}
 
     };
 

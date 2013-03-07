@@ -72,8 +72,10 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	</bean>
 	
 	<bean id="indexEntityConverter" class="org.slc.sli.search.transform.IndexEntityConverter">
+		<property name="sourceDatastoreConnector" ref="sourceDatasourceConnector" />
 		<property name="entityEncryption" ref="entityEncryption" />
 		<property name="indexConfigStore" ref="indexConfigStore" />
+		
 	</bean>
 	
 	<bean id="indexConfigStore" class="org.slc.sli.search.config.IndexConfigStore">

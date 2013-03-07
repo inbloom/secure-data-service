@@ -19,15 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
+import org.slc.sli.search.connector.SourceDatastoreConnector;
+import org.springframework.data.mongodb.core.MongoTemplate;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-
-import org.springframework.data.mongodb.core.MongoTemplate;
-
-import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
-import org.slc.sli.search.connector.SourceDatastoreConnector;
 
 /**
  *  Mongo connector
@@ -52,15 +51,25 @@ public class SourceDatastoreConnectorImpl implements SourceDatastoreConnector {
     @Override
     public DBCursor getDBCursor(String collectionName, List<String> fields) {
         // execute query, get cursor of results
+    	return getDBCursor(collectionName, fields, null);
+    }
+
+    @Override
+    public DBCursor getDBCursor(String collectionName, List<String> fields, DBObject query) {
+    	DBObject localQuery = query;
+    	if (localQuery == null) {
+    		localQuery = new BasicDBObject(); 
+    	}
+    	
         BasicDBObject keys = new BasicDBObject();
         for (String field : fields) {
             keys.put(field, 1);
         }
 
         DBCollection collection = mongoTemplate.getCollection(collectionName);
-        return collection.find(new BasicDBObject(), keys);
+        return collection.find(localQuery, keys);
     }
-
+    
     @Override
     public <T> List<T> findAll(String collectionName, Class<T> entityClass) {
         return mongoTemplate.findAll(entityClass, collectionName);

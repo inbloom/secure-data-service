@@ -268,6 +268,7 @@
             "body.maxRawScore", 
             "body.minRawScore", 
             "body.nomenclature", 
+            "body.assessmentPeriodDescriptorId", 
             "objectiveAssessment.body.identificationCode", 
             "objectiveAssessment.body.maxRowScore", 
             "objectiveAssessment.body.assessmentPerformanceLevel.performanceLevel.codeValue", 
@@ -325,21 +326,22 @@
                         }
                     },
                     "assessmentPeriodDescriptor": {
-                                            "properties": {
-                                                "beginDate": {
-                                                    "type": "string",
-                                                    "index": "not_analyzed"
-                                                },
-                                                "endDate": {
-                                                    "type": "string",
-                                                    "index": "not_analyzed"
-                                                },
-                                                "codeValue": {
-                                                    "type" : "string",
-                                                    "index" : "not_analyzed"
-                                                }
-                                            }
-                                        },
+                         "path":"just_name",
+                         "properties": {
+                             "beginDate": {
+                                 "type": "string",
+                                 "index": "not_analyzed"
+                             },
+                             "endDate": {
+                                 "type": "string",
+                                 "index": "not_analyzed"
+                             },
+                             "codeValue": {
+                                 "type": "string",
+                                 "index": "not_analyzed"
+                             }
+                          }
+                    },
                     "assessmentItem": {
                         "properties": {
                             "identificationCode": {
@@ -448,7 +450,35 @@
             }
         }
     },
-         "gradingPeriod": {
+    "assessmentPeriodDescriptor": {
+        "fields": [
+            "body.codeValue",
+            "body.beginDate",
+            "body.endDate"
+        ],
+        "mapping": {
+            "session": {
+                "_timestamp": {
+                    "enabled": true
+                },
+                "properties": {
+                    "codeValue": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "beginDate": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    }
+                }
+            }
+        }
+    },
+    "gradingPeriod": {
         "fields": [
             "body.gradingPeriodIdentity.gradingPeriod",
             "body.gradingPeriodIdentity.schoolYear",
