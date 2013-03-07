@@ -20,10 +20,9 @@ limitations under the License.
 require 'test_helper'
 
 class CustomRolesControllerTest < ActionController::TestCase
-  # setup do
-  #   session[:roles] = ["Application Developer"]
-  #   @Apps = App.all
-  # end
+  setup do
+     session[:rights] = ["CRUD_ROLE"]
+  end
 
   test "index should redirect to realms if multiple exist" do
     ActiveResource::HttpMock.respond_to do |mock|
