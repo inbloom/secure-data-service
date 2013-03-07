@@ -138,6 +138,7 @@ public class BasicService implements EntityService {
         checkFieldAccess(neutralQuery, false);
 
         NeutralQuery nq = neutralQuery;
+        injectSecurity(nq);
         Iterable<Entity> entities = repo.findAll(collectionName, nq);
 
         List<String> results = new ArrayList<String>();
@@ -147,6 +148,7 @@ public class BasicService implements EntityService {
         return results;
     }
 
+    
     @Override
     public String create(EntityBody content) {
         checkAccess(false, false, content);
@@ -387,6 +389,7 @@ public class BasicService implements EntityService {
             // add the ids requested
             nq.addCriteria(new NeutralCriteria("_id", "in", idList));
 
+            injectSecurity(nq);
             Iterable<Entity> entities = repo.findAll(collectionName, nq);
 
             List<EntityBody> results = new ArrayList<EntityBody>();
@@ -406,6 +409,7 @@ public class BasicService implements EntityService {
         checkAccess(true, isSelf, null);
         checkFieldAccess(neutralQuery, isSelf);
 
+        injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
         List<EntityBody> results = new ArrayList<EntityBody>();
@@ -429,6 +433,7 @@ public class BasicService implements EntityService {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
 
+        injectSecurity(query);
         Iterable<Entity> entities = repo.findAll(collectionName, query);
 
         if (entities != null && entities.iterator().hasNext()) {
@@ -1025,4 +1030,14 @@ public class BasicService implements EntityService {
     public boolean collectionExists(String collection) {
         return getRepo().collectionExists(collection);
     }
+    
+    private void injectSecurity(NeutralQuery nq) {
+        SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
+        List<NeutralQuery> obligations = prince.getObligation(this.collectionName);
+        
+        for (NeutralQuery obligation : obligations) {
+            nq.addOrQuery(obligation);
+        }
+    }
+
 }
