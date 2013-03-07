@@ -101,6 +101,15 @@ public class ContainerDocumentAccessor {
     }
 
     public String update(final Entity entity) {
+        ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+        if(containerDocument.isContainerSubdoc()) {
+            boolean persisted = getLocation(entity.getType()).create(entity);
+            if(persisted) {
+                return entity.getEntityId();
+            } else {
+                return "";
+            }
+        }
         return updateContainerDoc(entity);
     }
 
@@ -166,9 +175,6 @@ public class ContainerDocumentAccessor {
 
         DBObject entityDetails = new BasicDBObject();
         String parentKey = entity.getEntityId();
-        if(containerDocument.isContainerSubdoc()) {
-            parentKey = ContainerDocumentHelper.extractParentId(parentKey);
-        }
 
         final Query query = Query.query(Criteria.where("_id").is(parentKey));
 
