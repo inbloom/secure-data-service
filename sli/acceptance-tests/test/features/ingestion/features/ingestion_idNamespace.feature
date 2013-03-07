@@ -22,9 +22,9 @@ Then I should see following map of entry counts in the corresponding collections
      | student                     | 1                   | body.studentUniqueStateId   | 530425896        | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "idNamespace.xml records considered: 1" in the resulting batch job file
+  And I should see "idNamespace.xml records considered for processing: 1" in the resulting batch job file
   And I should see "idNamespace.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "idNamespace.xml records failed: 0" in the resulting batch job file
+  And I should see "idNamespace.xml records failed processing: 0" in the resulting batch job file
   And I should not see a warning log file created
 
 # There is no longer a default tenant, every landing zone has to be associated with a tenant. Can we remove this scenario?
@@ -42,7 +42,7 @@ Then I should see following map of entry counts in the corresponding collections
      | student                     | 1     |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "idNamespace.xml records considered: 1" in the resulting batch job file
+  And I should see "idNamespace.xml records considered for processing: 1" in the resulting batch job file
   And I should see "idNamespace.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "idNamespace.xml records failed: 0" in the resulting batch job file
+  And I should see "idNamespace.xml records failed processing: 0" in the resulting batch job file
   And I should not see a warning log file created

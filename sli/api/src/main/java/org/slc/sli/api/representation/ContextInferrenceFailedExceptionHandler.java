@@ -22,6 +22,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -50,7 +51,7 @@ public class ContextInferrenceFailedExceptionHandler implements ExceptionMapper<
             entity = new EmptyResponse();
         }
         
-        return Response.ok(entity).header("TotalCount", 0).build();
+        return Response.status(Status.NOT_FOUND).entity(entity).header("TotalCount", 0).build();
     }
     
     /**

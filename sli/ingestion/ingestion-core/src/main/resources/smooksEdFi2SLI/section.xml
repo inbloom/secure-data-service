@@ -25,10 +25,10 @@
   <jb:bean beanId="sectionBody" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="uniqueSectionCode" data="attributes UniqueSectionCode _value" />
     <jb:value property="sequenceOfCourse" data="attributes SequenceOfCourse _value" decoder="Integer" />
-    <jb:value property="educationEnvironment" data="attributes EducationEnvironment _value" />
+    <jb:value property="educationalEnvironment" data="attributes EducationalEnvironment _value" />
     <jb:value property="mediumOfInstruction" data="attributes MediumOfInstruction _value" />
     <jb:value property="populationServed" data="attributes PopulationServed _value" />
-    <jb:wiring property="availableCredit" beanIdRef="AvailableCreditValue _value" />
+    <jb:wiring property="availableCredit" beanIdRef="AvailableCreditValue" />
     <jb:value property="courseOfferingId" data="attributes CourseOfferingReference" />
     <jb:value property="schoolId" data="attributes SchoolReference" />
     <jb:value property="sessionId" data="attributes SessionReference" />
@@ -36,7 +36,7 @@
   </jb:bean>
 
   <jb:bean beanId="AvailableCreditValue" class="java.util.HashMap" createOnElement="attributes AvailableCredit">
-    <jb:value property="creditType" data="attributes AvaliableCredit a_CreditType" />
+    <jb:value property="creditType" data="attributes AvailableCredit a_CreditType" />
     <jb:value property="creditConversion" data="attributes AvailableCredit a_CreditConversion"/>
     <jb:value property="credit" data="attributes AvailableCredit Credit _value" />
   </jb:bean>

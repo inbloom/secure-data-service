@@ -49,7 +49,7 @@
         <jb:value property="middleName" data="attributes Name MiddleName _value" />
         <jb:value property="lastSurname" data="attributes Name LastSurname _value" />
         <jb:value property="generationCodeSuffix" data="attributes Name GenerationCodeSuffix _value" />
-        <jb:value property="madienName" data="attributes Name MadienName _value" />
+        <jb:value property="maidenName" data="attributes Name MaidenName _value" />
    </jb:bean>
    
     <jb:bean beanId="OtherNames" class="java.util.ArrayList" createOnElement="attributes OtherName">
@@ -78,7 +78,7 @@
         <jb:wiring beanIdRef="Address" />
     </jb:bean>
     <jb:bean beanId="Address"  class="java.util.HashMap" createOnElement="attributes Address element">
-        <jb:value property="addressType " data="attributes Address element AddressType _value" />
+        <jb:value property="addressType " data="attributes Address element a_AddressType" />
         <jb:value property="streetNumberName " data="attributes Address element StreetNumberName _value" />
         <jb:value property="apartmentRoomSuiteNumber " data="attributes Address element ApartmentRoomSuiteNumber _value" />
         <jb:value property="buildingSiteNumber " data="attributes Address element BuildingSiteNumber _value" />
@@ -90,8 +90,8 @@
         <jb:value property="countryCode " data="attributes Address element CountryCode _value" />
         <jb:value property="latitude" data="attributes Address element Latitude _value" />
         <jb:value property="longitude" data="attributes Address element Longitude _value" />
-        <jb:value property="openDate" data="attributes Address element OpenDate _value" />
-        <jb:value property="closeDate" data="attributes Address element CloseDate _value" />
+        <jb:value property="openDate" data="attributes Address element BeginDate _value" />
+        <jb:value property="closeDate" data="attributes Address element EndDate _value" />
     </jb:bean>
 
     <jb:bean beanId="Telephones" class="java.util.ArrayList"  createOnElement="attributes Telephone">

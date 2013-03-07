@@ -142,78 +142,78 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessment | 22                 | body.studentAssessmentItems.1.assessmentItemResult              | Correct             | string |
     And I should see "Processed 3033 records." in the resulting batch job file
     And I should not see an error log file created
-    And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records considered for processing: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
-    And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records considered: 102" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records considered for processing: 102" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 102" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records considered: 595" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records considered for processing: 595" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 595" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records considered: 97" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records considered for processing: 97" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 97" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 41" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered for processing: 41" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 41" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 492" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered for processing: 492" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 492" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records considered: 709" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered for processing: 709" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 709" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-READ2.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-READ2.xml records considered for processing: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-READ2.xml records ingested successfully: 2" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-READ2.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-StateTest.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-READ2.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateTest.xml records considered for processing: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records ingested successfully: 2" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-StateTest.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 5" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateTest.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records considered for processing: 5" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 5" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ACT.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records considered: 12" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records considered for processing: 12" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records ingested successfully: 12" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records considered: 574" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records considered for processing: 574" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records ingested successfully: 574" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Lkim6thgrade.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Lkim6thgrade.xml records considered for processing: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim6thgrade.xml records ingested successfully: 2" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Lkim6thgrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Lkim7thgrade.xml records considered: 3" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Lkim6thgrade.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Lkim7thgrade.xml records considered for processing: 3" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim7thgrade.xml records ingested successfully: 3" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Lkim7thgrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml records considered: 112" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Lkim7thgrade.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml records considered for processing: 112" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml records ingested successfully: 112" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records considered: 4" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records considered for processing: 4" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records ingested successfully: 4" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records failed: 0" in the resulting batch job file
-	And I should see "InterchangeStudentAssessment-Rbraverman3rdgrade.xml records considered: 3" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records failed processing: 0" in the resulting batch job file
+	And I should see "InterchangeStudentAssessment-Rbraverman3rdgrade.xml records considered for processing: 3" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman3rdgrade.xml records ingested successfully: 3" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Rbraverman3rdgrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Rbraverman4thgrade.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Rbraverman3rdgrade.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Rbraverman4thgrade.xml records considered for processing: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman4thgrade.xml records ingested successfully: 2" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Rbraverman4thgrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Rbraverman4thgrade.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records considered for processing: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records ingested successfully: 2" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAttendance.xml records considered: 75" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeAttendance.xml records considered for processing: 75" in the resulting batch job file
     And I should see "InterchangeAttendance.xml records ingested successfully: 75" in the resulting batch job file
-    And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentParent.xml records considered: 18" in the resulting batch job file
+    And I should see "InterchangeAttendance.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentParent.xml records considered for processing: 18" in the resulting batch job file
     And I should see "InterchangeStudentParent.xml records ingested successfully: 18" in the resulting batch job file
-    And I should see "InterchangeStudentParent.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentProgram.xml records considered: 6" in the resulting batch job file
+    And I should see "InterchangeStudentParent.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentProgram.xml records considered for processing: 6" in the resulting batch job file
     And I should see "InterchangeStudentProgram.xml records ingested successfully: 6" in the resulting batch job file
-    And I should see "InterchangeStudentProgram.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentCohort.xml records considered: 12" in the resulting batch job file
+    And I should see "InterchangeStudentProgram.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentCohort.xml records considered for processing: 12" in the resulting batch job file
     And I should see "InterchangeStudentCohort.xml records ingested successfully: 12" in the resulting batch job file
-    And I should see "InterchangeStudentCohort.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentDiscipline.xml records considered: 8" in the resulting batch job file
+    And I should see "InterchangeStudentCohort.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records considered for processing: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
-    And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records failed processing: 0" in the resulting batch job file
 
 Scenario: Post a zip file containing the sandbox medium fidelity data as a payload of the ingestion job: Clean Database
 Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
@@ -308,36 +308,36 @@ Then I should see following map of entry counts in the corresponding collections
         | studentAcademicRecord       | 500   |
     And I should see "Processed 29990 records." in the resulting batch job file
     And I should not see an error log file created
-    And I should see "InterchangeEducationOrganization.xml records considered: 65" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records considered for processing: 65" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 65" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records considered: 70" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records considered for processing: 70" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 70" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records considered: 300" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records considered for processing: 300" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 300" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 428" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered for processing: 428" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 428" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 3005" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered for processing: 3005" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 3005" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records considered: 7502" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered for processing: 7502" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 7502" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata.xml records considered: 4" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata.xml records considered for processing: 4" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata.xml records ingested successfully: 4" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentAttendance.xml records considered: 500" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentAttendance.xml records considered for processing: 500" in the resulting batch job file
     And I should see "InterchangeStudentAttendance.xml records ingested successfully: 500" in the resulting batch job file
-    And I should see "InterchangeStudentAttendance.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentParent.xml records considered: 500" in the resulting batch job file
+    And I should see "InterchangeStudentAttendance.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentParent.xml records considered for processing: 500" in the resulting batch job file
     And I should see "InterchangeStudentParent.xml records ingested successfully: 500" in the resulting batch job file
-    And I should see "InterchangeStudentParent.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentCohort.xml records considered: 761" in the resulting batch job file
+    And I should see "InterchangeStudentParent.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentCohort.xml records considered for processing: 761" in the resulting batch job file
     And I should see "InterchangeStudentCohort.xml records ingested successfully: 761" in the resulting batch job file
-    And I should see "InterchangeStudentCohort.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentDiscipline.xml records considered: 14355" in the resulting batch job file
+    And I should see "InterchangeStudentCohort.xml records failed processing: 0" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records considered for processing: 14355" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 14355" in the resulting batch job file
-    And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records failed processing: 0" in the resulting batch job file

@@ -382,6 +382,8 @@ public class JobReportingProcessor implements Processor {
         long totalProcessed = 0;
 
         List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId(), BatchJobStageType.PERSISTENCE_PROCESSOR);
+        stages.addAll(batchJobDAO.getBatchJobStages(job.getId(), BatchJobStageType.EDFI_PARSER_PROCESSOR));
+
         Iterator<Stage> it = stages.iterator();
 
         Stage stage;
@@ -402,16 +404,19 @@ public class JobReportingProcessor implements Processor {
                     temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
                     temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
                     temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
+                    temp.setValidationErrorCount(combinedMetricsMap.get(m.getResourceId()).getValidationErrorCount());
 
                     temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
                     temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
+                    temp.setValidationErrorCount(temp.getValidationErrorCount() + m.getValidationErrorCount());
 
                     combinedMetricsMap.put(m.getResourceId(), temp);
 
                 } else {
                     // adding metrics to the map
-                    combinedMetricsMap.put(m.getResourceId(),
-                            new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
+                    Metrics aggregatedMetrics = new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount());
+                    aggregatedMetrics.setValidationErrorCount(m.getValidationErrorCount());
+                    combinedMetricsMap.put(m.getResourceId(), aggregatedMetrics);
                 }
 
             }
@@ -427,13 +432,15 @@ public class JobReportingProcessor implements Processor {
                 continue;
             }
 
-            logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), jobReportWriter);
+            logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), metric.getValidationErrorCount(), jobReportWriter);
 
             totalProcessed += metric.getRecordCount();
+            totalProcessed += metric.getValidationErrorCount();
 
             // update resource entries for zero-count reporting later
             resourceEntry.setRecordCount(metric.getRecordCount());
             resourceEntry.setErrorCount(metric.getErrorCount());
+            resourceEntry.setValidationErrorCount(metric.getValidationErrorCount());
         }
 
         writeZeroCountPersistenceMetrics(job, jobReportWriter);
@@ -448,22 +455,23 @@ public class JobReportingProcessor implements Processor {
             if (resourceEntry.getResourceFormat() != null
                     && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())
                     && resourceEntry.getRecordCount() == 0 && resourceEntry.getErrorCount() == 0) {
-                logResourceMetric(resourceEntry, 0, 0, jobReportWriter);
+                logResourceMetric(resourceEntry, 0, 0, 0, jobReportWriter);
             }
         }
     }
 
     private void logResourceMetric(ResourceEntry resourceEntry, long numProcessed, long numFailed,
-            PrintWriter jobReportWriter) {
+            long numFailedValidation, PrintWriter jobReportWriter) {
         String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
         writeInfoLine(jobReportWriter,
                 id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
 
         long numPassed = numProcessed - numFailed;
 
-        writeInfoLine(jobReportWriter, id + " records considered: " + numProcessed);
+        writeInfoLine(jobReportWriter, id + " records considered for processing: " + numProcessed);
         writeInfoLine(jobReportWriter, id + " records ingested successfully: " + numPassed);
-        writeInfoLine(jobReportWriter, id + " records failed: " + numFailed);
+        writeInfoLine(jobReportWriter, id + " records failed processing: " + numFailed);
+        writeInfoLine(jobReportWriter, id + " records not considered for processing: " + numFailedValidation);
     }
 
     private void missingBatchJobIdError(Exchange exchange) {

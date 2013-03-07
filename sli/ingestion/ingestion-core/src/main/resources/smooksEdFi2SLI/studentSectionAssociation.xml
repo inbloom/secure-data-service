@@ -28,7 +28,7 @@
         <jb:value property="beginDate" data="attributes BeginDate _value" />
         <jb:value property="endDate" data="attributes EndDate _value" />
         <jb:value property="homeroomIndicator" data="attributes HomeroomIndicator _value" decoder="Boolean" />
-        <jb:value property="repeatIdentifier" data="attributes RepeatIdentifier_value" />
+        <jb:value property="repeatIdentifier" data="attributes RepeatIdentifier _value" />
     </jb:bean>
 
 </smooks-resource-list>

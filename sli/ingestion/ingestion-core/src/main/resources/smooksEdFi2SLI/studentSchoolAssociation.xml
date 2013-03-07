@@ -38,8 +38,8 @@
         <jb:value property="graduationPlanId" data="attributes GraduationPlanReference" />
     </jb:bean>
     
-    <jb:bean beanId="EducationPlans" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:value data="EducationPlans element _value"/>
+    <jb:bean beanId="EducationPlans" class="java.util.ArrayList" createOnElement="attributes EducationalPlans">
+        <jb:value data="attributes EducationalPlans element _value"/>
     </jb:bean>
 
 </smooks-resource-list>

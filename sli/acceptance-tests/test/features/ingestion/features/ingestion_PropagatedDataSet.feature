@@ -12,10 +12,11 @@ Given I post "PropagatedDataSet.zip" file as the payload of the ingestion job
      | assessment                            |
      | assessmentFamily                      |
      | assessmentPeriodDescriptor            |
+     | assessmentItem                        |
+     | objectiveAssessment                   |     
      | attendance                            |
      | cohort                                |
      | competencyLevelDescriptor             |
-#    | competencyLevelDescriptorType         |
      | course	                              |
      | courseOffering                        |
      | courseTranscript                      |
@@ -38,17 +39,17 @@ Given I post "PropagatedDataSet.zip" file as the payload of the ingestion job
      | student                               |
      | studentAcademicRecord                 |
      | studentAssessment                     |
+     | studentAssessmentItem                 |
+     | studentObjectiveAssessment            |
      | studentCohortAssociation              |
      | studentCompetency                     |
      | studentCompetencyObjective            |
-#    | studentCTEProgramAssociation          |
      | studentDisciplineIncidentAssociation  |
      | studentGradebookEntry                 |
      | studentParentAssociation              |
      | studentProgramAssociation             |
      | studentSchoolAssociation              |
      | studentSectionAssociation             |
-#    | studentSpecialEdProgramAssociation    |
      | teacherSchoolAssociation              |
      | teacherSectionAssociation             |
 
@@ -60,10 +61,11 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                            | 4     |
      | assessmentFamily                      | 0     |
      | assessmentPeriodDescriptor            | 0     |
+     | assessmentItem                        | 8     |
+     | objectiveAssessment                   | 6     |
      | attendance                            | 16    |
      | cohort                                | 32    |
-#remove     | competencyLevelDescriptor             | 2     |
-#    | competencyLevelDescriptorType         |       |
+     | competencyLevelDescriptor             | 2     |
      | course	                              | 16    |
      | courseOffering                        | 32    |
      | courseTranscript                      | 32    |
@@ -86,17 +88,17 @@ Then I should see following map of entry counts in the corresponding collections
      | student                               | 16    |
      | studentAcademicRecord                 | 16    |
      | studentAssessment                     | 32    |
+     | studentAssessmentItem                 | 32    |
+     | studentObjectiveAssessment            | 19    |
      | studentCohortAssociation              | 46    |
      | studentCompetency                     | 128   |
      | studentCompetencyObjective            | 4     |
-#    | studentCTEProgramAssociation          |       |
-#remove     | studentDisciplineIncidentAssociation  | 16    |
+     | studentDisciplineIncidentAssociation  | 16    |
      | studentGradebookEntry                 | 2     |
      | studentParentAssociation              | 25    |
      | studentProgramAssociation             | 14    |
      | studentSchoolAssociation              | 16    |
      | studentSectionAssociation             | 32    |
-#    | studentSpecialEdProgramAssociation    |       |
      | teacherSchoolAssociation              | 16    |
      | teacherSectionAssociation             | 64    |
 
@@ -113,10 +115,9 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                            | 4                   | body.gradeLevelAssessed                                                                                                               | none |
      | assessment                            | 4                   | body.lowestGradeLevelAssessed                                                                                                         | none |
      | assessment                            | 8                   | body.assessmentPerformanceLevel                                                                                                       | body.assessmentPerformanceLevel |
-#    | assessment                            |                     | body.assessmentPerformanceLevel.performanceLevelDescriptor                                                                            |
-#    | assessment                            |                     | body.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue                                                                  |
-#    | assessment                            |                     | body.assessmentPerformanceLevel.performanceLevelDescriptor.description                                                                |
-#    | assessment                            |                     | body.assessmentPerformanceLevel.performanceLevelDescriptor.performanceBaseConversion                                                  |
+     | assessment                            | 8                   | body.assessmentPerformanceLevel.performanceLevelDescriptor                                                                            | body.assessmentPerformanceLevel:performanceLevelDescriptor |
+     | assessment                            | 7                   | body.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue                                                                  | body.assessmentPerformanceLevel:performanceLevelDescriptor |
+     | assessment                            | 1                   | body.assessmentPerformanceLevel.performanceLevelDescriptor.description                                                                | body.assessmentPerformanceLevel:performanceLevelDescriptor |
      | assessment                            | 8                   | body.assessmentPerformanceLevel.assessmentReportingMethod                                                                             | body.assessmentPerformanceLevel |
      | assessment                            | 8                   | body.assessmentPerformanceLevel.minimumScore                                                                                          | body.assessmentPerformanceLevel |
      | assessment                            | 8                   | body.assessmentPerformanceLevel.maximumScore                                                                                          | body.assessmentPerformanceLevel |
@@ -125,7 +126,6 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                            | 4                   | body.version                                                                                                                          | none |
      | assessment                            | 4                   | body.revisionDate                                                                                                                     | none |
      | assessment                            | 4                   | body.maxRawScore                                                                                                                      | none |
-#    | assessment                            |                     | body.minRawScore                                                                                                                      |
      | assessment                            | 4                   | body.nomenclature                                                                                                                     | none |
      | assessment                            | 4                   | body.assessmentPeriodDescriptor                                                                                                       | none |
      | assessment                            | 4                   | body.assessmentPeriodDescriptor.codeValue                                                                                             | none |
@@ -133,31 +133,36 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                            | 4                   | body.assessmentPeriodDescriptor.shortDescription                                                                                      | none |
      | assessment                            | 4                   | body.assessmentPeriodDescriptor.beginDate                                                                                             | none |
      | assessment                            | 4                   | body.assessmentPeriodDescriptor.endDate                                                                                               | none |
-     | assessment                            | 8                   | body.objectiveAssessment                                                                                                              | body.objectiveAssessment |
-     | assessment                            | 8                   | body.objectiveAssessment.identificationCode                                                                                           | body.objectiveAssessment |
-     | assessment                            | 8                   | body.objectiveAssessment.maxRawScore                                                                                                  | body.objectiveAssessment |
-     | assessment                            | 16                  | body.objectiveAssessment.assessmentPerformanceLevel                                                                                   | body.objectiveAssessment:assessmentPerformanceLevel |
-     | assessment                            | 8                   | body.objectiveAssessment.percentOfAssessment                                                                                          | body.objectiveAssessment |
-     | assessment                            | 8                   | body.objectiveAssessment.nomenclature                                                                                                 | body.objectiveAssessment |
-#    | assessment                            |                     | body.objectiveAssessment.assessmentItem                                                                                               | |
-     | assessment                            | 10                  | body.objectiveAssessment.learningObjectives                                                                                           | body.objectiveAssessment:learningObjectives |
-     | assessment                            | 7                   | body.objectiveAssessment.objectiveAssessments                                                                                         | body.objectiveAssessment:objectiveAssessments |
-     | assessment                            | 8                   | body.assessmentItem                                                                                                                   | body.assessmentItem |
-     | assessment                            | 8                   | body.assessmentItem.identificationCode                                                                                                | body.assessmentItem |
-     | assessment                            | 8                   | body.assessmentItem.itemCategory                                                                                                      | body.assessmentItem |
-     | assessment                            | 8                   | body.assessmentItem.maxRawScore                                                                                                       | body.assessmentItem |
-     | assessment                            | 8                   | body.assessmentItem.correctResponse                                                                                                   | body.assessmentItem |
-     | assessment                            | 16                  | body.assessmentItem.learningStandards                                                                                                 | body.assessmentItem:learningStandards |
-     | assessment                            | 8                   | body.assessmentItem.nomenclature                                                                                                      | body.assessmentItem |
+     
+     | assessmentItem                        | 8                   | body.identificationCode                                                                                                               | none |
+     | assessmentItem                        | 8                   | body.itemCategory                                                                                                                     | none |
+     | assessmentItem                        | 8                   | body.maxRawScore                                                                                                                      | none |
+     | assessmentItem                        | 8                   | body.correctResponse                                                                                                                  | none |
+     | assessmentItem                        | 16                  | body.learningStandards                                                                                                                | body.learningStandards |
+     | assessmentItem                        | 8                   | body.nomenclature                                                                                                                     | none |
+
+     | objectiveAssessment                   | 6                   | body.identificationCode                                                                                                               | none |
+     | objectiveAssessment                   | 5                   | body.maxRawScore                                                                                                                      | none |
+     | objectiveAssessment                   | 6                   | body.assessmentPerformanceLevel                                                                                                       | body.assessmentPerformanceLevel |
+     | objectiveAssessment                   | 6                   | body.assessmentPerformanceLevel.performanceLevelDescriptor                                                                            | body.assessmentPerformanceLevel:performanceLevelDescriptor |
+     | objectiveAssessment                   | 5                   | body.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue                                                                  | body.assessmentPerformanceLevel:performanceLevelDescriptor |
+     | objectiveAssessment                   | 1                   | body.assessmentPerformanceLevel.performanceLevelDescriptor.description                                                                | body.assessmentPerformanceLevel:performanceLevelDescriptor |
+     | objectiveAssessment                   | 6                   | body.assessmentPerformanceLevel.assessmentReportingMethod                                                                             | body.assessmentPerformanceLevel |
+     | objectiveAssessment                   | 6                   | body.assessmentPerformanceLevel.minimumScore                                                                                          | body.assessmentPerformanceLevel |
+     | objectiveAssessment                   | 6                   | body.assessmentPerformanceLevel.maximumScore                                                                                          | body.assessmentPerformanceLevel |
+     | objectiveAssessment                   | 5                   | body.percentOfAssessment                                                                                                              | none |
+     | objectiveAssessment                   | 5                   | body.nomenclature                                                                                                                     | none |
+     | objectiveAssessment                   | 2                   | body.assessmentItemRefs                                                                                                               | body.assessmentItemRefs |
+     | objectiveAssessment                   | 2                   | body.learningObjectives                                                                                                               | body.learningObjectives |
+     | objectiveAssessment                   | 2                   | body.subObjectiveAssessment                                                                                                           | body.subObjectiveAssessment |
 
      | attendance                            | 16                  | body.studentId                                                                                                                        | none |
      | attendance                            | 16                  | body.schoolId                                                                                                                         | none |
-     | attendance                            | 16                  | body.schoolYearAttendance                                                                                                             | body.schoolYearAttendance |
-     | attendance                            | 16                  | body.schoolYearAttendance.schoolYear                                                                                                  | body.schoolYearAttendance |
-     | attendance                            | 64                  | body.schoolYearAttendance.attendanceEvent                                                                                             | body.schoolYearAttendance:attendanceEvent |
-     | attendance                            | 64                  | body.schoolYearAttendance.attendanceEvent.date                                                                                        | body.schoolYearAttendance:attendanceEvent |
-     | attendance                            | 64                  | body.schoolYearAttendance.attendanceEvent.event                                                                                       | body.schoolYearAttendance:attendanceEvent |
-     | attendance                            | 1                   | body.schoolYearAttendance.attendanceEvent.reason                                                                                      | body.schoolYearAttendance:attendanceEvent |
+     | attendance                            | 16                  | body.schoolYear                                                                                                                       | none |
+     | attendance                            | 64                  | body.attendanceEvent                                                                                                                  | body.attendanceEvent |
+     | attendance                            | 64                  | body.attendanceEvent.date                                                                                                             | body.attendanceEvent |
+     | attendance                            | 64                  | body.attendanceEvent.event                                                                                                            | body.attendanceEvent |
+     | attendance                            | 1                   | body.attendanceEvent.reason                                                                                                           | body.attendanceEvent |
 
      | cohort                                | 32                  | body.cohortIdentifier                                                                                                                 | none |
      | cohort                                | 32                  | body.cohortDescription                                                                                                                | none |
@@ -170,9 +175,6 @@ Then I should see following map of entry counts in the corresponding collections
      | competencyLevelDescriptor             | 2                   | body.codeValue                                                                                                                        | none |
      | competencyLevelDescriptor             | 2                   | body.description                                                                                                                      | none |
      | competencyLevelDescriptor             | 2                   | body.performanceBaseConversion                                                                                                        | none |
-
-#    | competencyLevelDescriptorType         |                     | body.codeValue                                                                                                                        |
-#    | competencyLevelDescriptorType         |                     | body.description                                                                                                                      |
 
      | course                                | 16                  | body.courseTitle                                                                                                                      | none |
      | course                                | 16                  | body.numberOfParts                                                                                                                    | none |
@@ -224,9 +226,6 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                      | 32                  | body.finalLetterGradeEarned                                                                                                           | none |
      | courseTranscript                      | 1                   | body.finalNumericGradeEarned                                                                                                          | none |
      | courseTranscript                      | 32                  | body.courseRepeatCode                                                                                                                 | none |
-#    | courseTranscript                      |                     | body.diagnosticStatement                                                                                                              |
-#    | courseTranscript                      |                     | body.gradeType                                                                                                                        |
-#    | courseTranscript                      |                     | body.performanceBaseConversion                                                                                                        |
      | courseTranscript                      | 32                  | body.courseId                                                                                                                         | none |
      | courseTranscript                      | 32                  | body.educationOrganizationReference                                                                                                   | body.educationOrganizationReference |
      | courseTranscript                      | 32                  | body.studentAcademicRecordId                                                                                                          | none |
@@ -238,10 +237,10 @@ Then I should see following map of entry counts in the corresponding collections
      | disciplineIncident                    | 16                  | body.incidentLocation                                                                                                                 | none |
      | disciplineIncident                    | 16                  | body.reporterDescription                                                                                                              | none |
      | disciplineIncident                    | 16                  | body.reporterName                                                                                                                     | none |
-     | disciplineIncident                    | 17                  | body.behaviors                                                                                                                        | body.behaviors |
-     | disciplineIncident                    | 15                  | body.behaviors.codeValue                                                                                                              | body.behaviors |
-     | disciplineIncident                    | 1                   | body.behaviors.shortDescription                                                                                                       | body.behaviors |
-     | disciplineIncident                    | 1                   | body.behaviors.description                                                                                                            | body.behaviors |
+     | disciplineIncident                    | 17                  | body.behaviors                                                                                                                        | body.behaviors: |
+     | disciplineIncident                    | 15                  | body.behaviors.codeValue                                                                                                              | body.behaviors: |
+     | disciplineIncident                    | 1                   | body.behaviors.shortDescription                                                                                                       | body.behaviors: |
+     | disciplineIncident                    | 1                   | body.behaviors.description                                                                                                            | body.behaviors: |
      | disciplineIncident                    | 16                  | body.secondaryBehaviors                                                                                                               | body.secondaryBehaviors |
      | disciplineIncident                    | 16                  | body.secondaryBehaviors.secondaryBehavior                                                                                             | body.secondaryBehaviors |
      | disciplineIncident                    | 16                  | body.secondaryBehaviors.behaviorCategory                                                                                              | body.secondaryBehaviors |
@@ -267,7 +266,6 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization                 | 14                  | body.address.postalCode                                                                                                               | body.address |
      | educationOrganization                 | 14                  | body.address.nameOfCounty                                                                                                             | body.address |
      | educationOrganization                 | 14                  | body.address.countyFIPSCode                                                                                                           | body.address |
-#    | educationOrganization                 |                     | body.address.countryCode                                                                                                              |
      | educationOrganization                 | 14                  | body.address.latitude                                                                                                                 | body.address |
      | educationOrganization                 | 14                  | body.address.longitude                                                                                                                | body.address |
      | educationOrganization                 | 14                  | body.address.openDate                                                                                                                 | body.address |
@@ -285,7 +283,6 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization                 | 2                   | body.accountabilityRatings.ratingOrganization                                                                                         | body.accountabilityRatings |
      | educationOrganization                 | 2                   | body.accountabilityRatings.ratingProgram                                                                                              | body.accountabilityRatings |
      | educationOrganization                 | 20                  | body.programReference                                                                                                                 | body.programReference |
-#    | educationOrganization                 |                     | body.agencyHierarchyName                                                                                                              |
      | educationOrganization                 | 12                  | body.parentEducationAgencyReference                                                                                                   | none |
      | educationOrganization                 | 176                 | body.gradesOffered                                                                                                                    | body.gradesOffered |
      | educationOrganization                 | 96                  | body.schoolCategories                                                                                                                 | body.schoolCategories |
@@ -302,6 +299,7 @@ Then I should see following map of entry counts in the corresponding collections
      | grade                                 | 64                  | body.performanceBaseConversion                                                                                                        | none |
      | grade                                 | 64                  | body.studentSectionAssociationId                                                                                                      | none |
      | grade                                 | 64                  | body.gradingPeriodId                                                                                                                  | none |
+     | grade                                 | 64                  | body.schoolYear                                                                                                                  | none |
 
      | gradebookEntry                        | 2                   | body.gradebookEntryType                                                                                                               | none |
      | gradebookEntry                        | 2                   | body.dateAssigned                                                                                                                     | none |
@@ -340,7 +338,7 @@ Then I should see following map of entry counts in the corresponding collections
      | graduationPlan                        | 1                   | body.creditsByCourse.credits.creditType                                                                                               | body.creditsByCourse |
      | graduationPlan                        | 1                   | body.creditsByCourse.credits.creditConversion                                                                                         | body.creditsByCourse |
      | graduationPlan                        | 1                   | body.creditsByCourse.gradeLevel                                                                                                       | body.creditsByCourse |
-     | graduationPlan                        | 1                   | body.educationOrganizationId                                                                                                          | none |
+     | graduationPlan                        | 16                  | body.educationOrganizationId                                                                                                          | none |
 
      | learningObjective                     | 66                  | body.learningObjectiveId                                                                                                              | none |
      | learningObjective                     | 66                  | body.learningObjectiveId.identificationCode                                                                                           | none |
@@ -350,7 +348,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningObjective                     | 66                  | body.academicSubject                                                                                                                  | none |
      | learningObjective                     | 66                  | body.objectiveGradeLevel                                                                                                              | none |
      | learningObjective                     | 4                   | body.learningStandards                                                                                                                | body.learningStandards |
-#     | learningObjective                     |                     | body.parentLearningObjective                                                                                                          |
+     | learningObjective                     | 1                   | body.parentLearningObjective                                                                                                          | none |
 
      | learningStandard                      | 16                  | body.learningStandardId                                                                                                               | none |
      | learningStandard                      | 16                  | body.learningStandardId.identificationCode                                                                                            | none |
@@ -387,7 +385,6 @@ Then I should see following map of entry counts in the corresponding collections
      | parent                                | 32                  | body.address.postalCode                                                                                                               | body.address |
      | parent                                | 32                  | body.address.nameOfCounty                                                                                                             | body.address |
      | parent                                | 32                  | body.address.countyFIPSCode                                                                                                           | body.address |
-#    | parent                                |                     | body.address.countryCode                                                                                                              |
      | parent                                | 32                  | body.address.latitude                                                                                                                 | body.address |
      | parent                                | 32                  | body.address.longitude                                                                                                                | body.address |
      | parent                                | 32                  | body.address.openDate                                                                                                                 | body.address |
@@ -405,10 +402,10 @@ Then I should see following map of entry counts in the corresponding collections
      | program                               | 28                  | body.programId                                                                                                                        | none |
      | program                               | 28                  | body.programType                                                                                                                      | none |
      | program                               | 28                  | body.programSponsor                                                                                                                   | none |
-     | program                               | 24                  | body.services                                                                                                                         | body.services |
-     | program                               | 22                  | body.services.codeValue                                                                                                               | body.services |
-     | program                               | 1                   | body.services.shortDescription                                                                                                        | body.services |
-     | program                               | 1                   | body.services.description                                                                                                             | body.services |
+     | program                               | 24                  | body.services                                                                                                                         | body.services: |
+     | program                               | 22                  | body.services.codeValue                                                                                                               | body.services: |
+     | program                               | 1                   | body.services.shortDescription                                                                                                        | body.services: |
+     | program                               | 1                   | body.services.description                                                                                                             | body.services: |
 
      | reportCard                            | 64                  | body.grades                                                                                                                           | body.grades |
      | reportCard                            | 128                 | body.studentCompetencyId                                                                                                              | body.studentCompetencyId |
@@ -419,6 +416,7 @@ Then I should see following map of entry counts in the corresponding collections
      | reportCard                            | 32                  | body.numberOfDaysTardy                                                                                                                | none |
      | reportCard                            | 32                  | body.studentId                                                                                                                        | none |
      | reportCard                            | 32                  | body.gradingPeriodId                                                                                                                  | none |
+     | reportCard                            | 32                  | body.schoolYear                                                                                                                  | none |
 
      | section                               | 64                  | body.uniqueSectionCode                                                                                                                | none |
      | section                               | 64                  | body.sequenceOfCourse                                                                                                                 | none |
@@ -433,7 +431,6 @@ Then I should see following map of entry counts in the corresponding collections
      | section                               | 64                  | body.sessionId                                                                                                                        | none |
      | section                               | 1                   | body.programReference                                                                                                                 | body.programReference |
      | section                               | 64                  | body.courseOfferingId                                                                                                                 | none |
-#    | section                               |                     | body.assessmentReferences                                                                                                             |
 
      | staff                                 | 20                  | body.staffUniqueStateId                                                                                                               | none |
      | staff                                 | 2                   | body.staffIdentificationCode                                                                                                          | body.staffIdentificationCode |
@@ -466,7 +463,6 @@ Then I should see following map of entry counts in the corresponding collections
      | staff                                 | 34                  | body.address.postalCode                                                                                                               | body.address |
      | staff                                 | 34                  | body.address.nameOfCounty                                                                                                             | body.address |
      | staff                                 | 34                  | body.address.countyFIPSCode                                                                                                           | body.address |
-#    | staff                                 |                     | body.address.countryCode                                                                                                              |
      | staff                                 | 34                  | body.address.latitude                                                                                                                 | body.address |
      | staff                                 | 34                  | body.address.longitude                                                                                                                | body.address |
      | staff                                 | 34                  | body.address.openDate                                                                                                                 | body.address |
@@ -555,7 +551,6 @@ Then I should see following map of entry counts in the corresponding collections
      | student	                              | 24                  | body.address.postalCode                                                                                                               | body.address |
      | student	                              | 24                  | body.address.nameOfCounty                                                                                                             | body.address |
      | student	                              | 24                  | body.address.countyFIPSCode                                                                                                           | body.address |
-#    | student	                             |                     | body.address.countryCode                                                                                                              |
      | student 	                            | 24                  | body.address.latitude                                                                                                                 | body.address |
      | student	                              | 24                  | body.address.longitude                                                                                                                | body.address |
      | student	                              | 24                  | body.address.openDate                                                                                                                 | body.address |
@@ -608,8 +603,6 @@ Then I should see following map of entry counts in the corresponding collections
      | student	                              | 32                  | body.studentIndicators.endDate                                                                                                        | body.studentIndicators |
      | student	                              | 1                   | body.studentIndicators.designatedBy                                                                                                   | body.studentIndicators |
      | student	                              | 16                  | body.loginId                                                                                                                          | none |
-#    | student	                             |                     | body.gradeLevel                                                                                                                       |
-#    | student	                             |                     | body.schoolId                                                                                                                         |
 
      | studentAcademicRecord                 | 16                  | body.studentId                                                                                                                        | none |
      | studentAcademicRecord                 | 16                  | body.sessionId                                                                                                                        | none |
@@ -639,68 +632,42 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAcademicRecord                 | 16                  | body.recognitions.recognitionAwardDate                                                                                                | body.recognitions |
      | studentAcademicRecord                 | 16                  | body.projectedGraduationDate                                                                                                          | none |
      | studentAcademicRecord                 | 32                  | body.reportCards                                                                                                                      | body.reportCards |
+     | studentAcademicRecord                 | 16                  | body.schoolYear                                                                                                          | none |
 
      | studentAssessment                     | 32                  | body.administrationDate                                                                                                               | none |
      | studentAssessment                     | 32                  | body.administrationEndDate                                                                                                            | none |
      | studentAssessment                     | 32                  | body.serialNumber                                                                                                                     | none |
      | studentAssessment                     | 32                  | body.administrationLanguage                                                                                                           | none |
      | studentAssessment                     | 32                  | body.administrationEnvironment                                                                                                        | none |
-     | studentAssessment                     | 23                  | body.specialAccommodations                                                                                                            | body.specialAccommodations |
-     | studentAssessment                     | 27                  | body.linguisticAccommodations                                                                                                         | body.linguisticAccommodations |
+     | studentAssessment                     | 34                  | body.specialAccommodations                                                                                                            | body.specialAccommodations |
+     | studentAssessment                     | 36                  | body.linguisticAccommodations                                                                                                         | body.linguisticAccommodations |
      | studentAssessment                     | 32                  | body.retestIndicator                                                                                                                  | none |
      | studentAssessment                     | 32                  | body.reasonNotTested                                                                                                                  | none |
      | studentAssessment                     | 32                  | body.scoreResults                                                                                                                     | body.scoreResults |
      | studentAssessment                     | 32                  | body.scoreResults.result                                                                                                              | body.scoreResults |
      | studentAssessment                     | 32                  | body.scoreResults.assessmentReportingMethod                                                                                           | body.scoreResults |
      | studentAssessment                     | 32                  | body.gradeLevelWhenAssessed                                                                                                           | none |
-#    | studentAssessment                     |                     | body.performanceLevelDescriptors                                                                                                      |
-#    | studentAssessment                     |                     | body.performanceLevelDescriptors.codeValue                                                                                            |
-#    | studentAssessment                     |                     | body.performanceLevelDescriptors.description                                                                                          |
-#    | studentAssessment                     |                     | body.performanceLevelDescriptors.performanceBaseConversion                                                                            |
-     | studentAssessment                     | 19                  | body.studentObjectiveAssessments                                                                                                      | body.studentObjectiveAssessments |
-     | studentAssessment                     | 19                  | body.studentObjectiveAssessments.scoreResults                                                                                         | body.studentObjectiveAssessments:scoreResults |
-     | studentAssessment                     | 19                  | body.studentObjectiveAssessments.scoreResults.result                                                                                  | body.studentObjectiveAssessments:scoreResults |
-     | studentAssessment                     | 19                  | body.studentObjectiveAssessments.scoreResults.assessmentReportingMethod                                                               | body.studentObjectiveAssessments:scoreResults |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.performanceLevelDescriptors                                                                          |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.performanceLevelDescriptors.codeValue                                                                |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.performanceLevelDescriptors.description                                                              |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.performanceLevelDescriptors.performanceBaseConversion                                                |
-     | studentAssessment                     | 19                  | body.studentObjectiveAssessments.objectiveAssessment                                                                                  | body.studentObjectiveAssessments |
-     | studentAssessment                     | 19                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode                                                               | body.studentObjectiveAssessments |
-     | studentAssessment                     | 19                  | body.studentObjectiveAssessments.objectiveAssessment.maxRawScore                                                                      | body.studentObjectiveAssessments |
-     | studentAssessment                     | 38                  | body.studentObjectiveAssessments.objectiveAssessment.assessmentPerformanceLevel                                                       | body.studentObjectiveAssessments:objectiveAssessment.assessmentPerformanceLevel |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.objectiveAssessment.assessmentPerformanceLevel.performanceLevelDescriptor                            |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.objectiveAssessment.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue                  |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.objectiveAssessment.assessmentPerformanceLevel.performanceLevelDescriptor.description                |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.objectiveAssessment.assessmentPerformanceLevel.performanceLevelDescriptor.performanceBaseConversion  |
-     | studentAssessment                     | 38                  | body.studentObjectiveAssessments.objectiveAssessment.assessmentPerformanceLevel.assessmentReportingMethod                             | body.studentObjectiveAssessments:objectiveAssessment.assessmentPerformanceLevel |
-     | studentAssessment                     | 38                  | body.studentObjectiveAssessments.objectiveAssessment.assessmentPerformanceLevel.minimumScore                                          | body.studentObjectiveAssessments:objectiveAssessment.assessmentPerformanceLevel |
-     | studentAssessment                     | 38                  | body.studentObjectiveAssessments.objectiveAssessment.assessmentPerformanceLevel.maximumScore                                          | body.studentObjectiveAssessments:objectiveAssessment.assessmentPerformanceLevel |
-     | studentAssessment                     | 19                  | body.studentObjectiveAssessments.objectiveAssessment.percentOfAssessment                                                              | body.studentObjectiveAssessments |
-     | studentAssessment                     | 19                  | body.studentObjectiveAssessments.objectiveAssessment.nomenclature                                                                     | body.studentObjectiveAssessments |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.objectiveAssessment.assessmentItem                                                                   |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.objectiveAssessment.assessmentItem.identificationCode                                                |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.objectiveAssessment.assessmentItem.itemCategory                                                      |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.objectiveAssessment.assessmentItem.maxRawScore                                                       |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.objectiveAssessment.assessmentItem.correctResponse                                                   |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.objectiveAssessment.assessmentItem.learningStandards                                                 |
-#    | studentAssessment                     |                     | body.studentObjectiveAssessments.objectiveAssessment.assessmentItem.nomenclature                                                      |
-     | studentAssessment                     | 10                  | body.studentObjectiveAssessments.objectiveAssessment.learningObjectives                                                               | body.studentObjectiveAssessments:objectiveAssessment.learningObjectives |
-     | studentAssessment                     | 11                  | body.studentObjectiveAssessments.objectiveAssessment.objectiveAssessments                                                             | body.studentObjectiveAssessments:objectiveAssessment.objectiveAssessments |
-     | studentAssessment                     | 32                  | body.studentAssessmentItems                                                                                                           | body.studentAssessmentItems |
-     | studentAssessment                     | 1                   | body.studentAssessmentItems.assessmentResponse                                                                                        | body.studentAssessmentItems |
-     | studentAssessment                     | 1                   | body.studentAssessmentItems.responseIndicator                                                                                         | body.studentAssessmentItems |
-     | studentAssessment                     | 32                  | body.studentAssessmentItems.assessmentItemResult                                                                                      | body.studentAssessmentItems |
-     | studentAssessment                     | 32                  | body.studentAssessmentItems.rawScoreResult                                                                                            | body.studentAssessmentItems |
-     | studentAssessment                     | 32                  | body.studentAssessmentItems.assessmentItem                                                                                            | body.studentAssessmentItems |
-     | studentAssessment                     | 32                  | body.studentAssessmentItems.assessmentItem.identificationCode                                                                         | body.studentAssessmentItems |
-     | studentAssessment                     | 32                  | body.studentAssessmentItems.assessmentItem.itemCategory                                                                               | body.studentAssessmentItems |
-     | studentAssessment                     | 32                  | body.studentAssessmentItems.assessmentItem.maxRawScore                                                                                | body.studentAssessmentItems |
-     | studentAssessment                     | 32                  | body.studentAssessmentItems.assessmentItem.correctResponse                                                                            | body.studentAssessmentItems |
-     | studentAssessment                     | 64                  | body.studentAssessmentItems.assessmentItem.learningStandards                                                                          | body.studentAssessmentItems:assessmentItem.learningStandards |
-     | studentAssessment                     | 32                  | body.studentAssessmentItems.assessmentItem.nomenclature                                                                               | body.studentAssessmentItems |
+     | studentAssessment                     | 32                  | body.performanceLevelDescriptors                                                                                                      | body.performanceLevelDescriptors: |
+     | studentAssessment                     | 31                  | body.performanceLevelDescriptors.codeValue                                                                                            | body.performanceLevelDescriptors: |
+     | studentAssessment                     | 1                   | body.performanceLevelDescriptors.description                                                                                          | body.performanceLevelDescriptors: |
      | studentAssessment                     | 32                  | body.studentId                                                                                                                        | none |
      | studentAssessment                     | 32                  | body.assessmentId                                                                                                                     | none |
+
+     | studentAssessmentItem                 | 1                   | body.assessmentResponse                                                                                                               | none |
+     | studentAssessmentItem                 | 1                   | body.responseIndicator                                                                                                                | none |
+     | studentAssessmentItem                 | 32                  | body.assessmentItemResult                                                                                                             | none |
+     | studentAssessmentItem                 | 32                  | body.rawScoreResult                                                                                                                   | none |
+     | studentAssessmentItem                 | 32                  | body.studentAssessmentId                                                                                                              | none |
+     | studentAssessmentItem                 | 32                  | body.assessmentItemId                                                                                                                 | none |
+
+     | studentObjectiveAssessment            | 19                  | body.studentAssessmentId                                                                                                              | none |
+     | studentObjectiveAssessment            | 19                  | body.scoreResults                                                                                                                     | body.scoreResults |
+     | studentObjectiveAssessment            | 19                  | body.scoreResults.result                                                                                                              | body.scoreResults |
+     | studentObjectiveAssessment            | 19                  | body.scoreResults.assessmentReportingMethod                                                                                           | body.scoreResults |
+     | studentObjectiveAssessment            | 19                  | body.performanceLevelDescriptors                                                                                                      | body.performanceLevelDescriptors: |
+     | studentObjectiveAssessment            | 18                  | body.performanceLevelDescriptors.codeValue                                                                                            | body.performanceLevelDescriptors: |
+     | studentObjectiveAssessment            | 1                   | body.performanceLevelDescriptors.description                                                                                          | body.performanceLevelDescriptors: |
+     | studentObjectiveAssessment            | 19                  | body.objectiveAssessmentId                                                                                                            | none |
 
      | studentCohortAssociation              | 46                  | body.studentId                                                                                                                        | none |
      | studentCohortAssociation              | 46                  | body.cohortId                                                                                                                         | none |
@@ -722,29 +689,13 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCompetencyObjective            | 4                   | body.objectiveGradeLevel                                                                                                              | none |
      | studentCompetencyObjective            | 4                   | body.educationOrganizationId                                                                                                          | none |
 
-#    | studentCTEProgramAssociation          |                     | body.studentId                                                                                                                        |
-#    | studentCTEProgramAssociation          |                     | body.programId                                                                                                                        |
-#    | studentCTEProgramAssociation          |                     | body.services                                                                                                                         |
-#    | studentCTEProgramAssociation          |                     | body.services.codeValue                                                                                                               |
-#    | studentCTEProgramAssociation          |                     | body.services.shortDescription                                                                                                        |
-#    | studentCTEProgramAssociation          |                     | body.services.description                                                                                                             |
-#    | studentCTEProgramAssociation          |                     | body.beginDate                                                                                                                        |
-#    | studentCTEProgramAssociation          |                     | body.endDate                                                                                                                          |
-#    | studentCTEProgramAssociation          |                     | body.reasonExited                                                                                                                     |
-#    | studentCTEProgramAssociation          |                     | body.educationOrganizationId                                                                                                          |
-#    | studentCTEProgramAssociation          |                     | body.cteProgram                                                                                                                       |
-#    | studentCTEProgramAssociation          |                     | body.cteProgram.careerPathway                                                                                                         |
-#    | studentCTEProgramAssociation          |                     | body.cteProgram.cipCode                                                                                                               |
-#    | studentCTEProgramAssociation          |                     | body.cteProgram.primaryCTEProgramIndicator                                                                                            |
-#    | studentCTEProgramAssociation          |                     | body.cteProgram.cteProgramCompletionIndicator                                                                                         |
-
      | studentDisciplineIncidentAssociation  | 16                  | body.studentId                                                                                                                        | none |
      | studentDisciplineIncidentAssociation  | 16                  | body.disciplineIncidentId                                                                                                             | none |
      | studentDisciplineIncidentAssociation  | 16                  | body.studentParticipationCode                                                                                                         | none |
-     | studentDisciplineIncidentAssociation  | 3                   | body.behaviors                                                                                                                        | body.behaviors |
-     | studentDisciplineIncidentAssociation  | 1                   | body.behaviors.codeValue                                                                                                              | body.behaviors |
-     | studentDisciplineIncidentAssociation  | 1                   | body.behaviors.shortDescription                                                                                                       | body.behaviors |
-     | studentDisciplineIncidentAssociation  | 1                   | body.behaviors.description                                                                                                            | body.behaviors |
+     | studentDisciplineIncidentAssociation  | 3                   | body.behaviors                                                                                                                        | body.behaviors: |
+     | studentDisciplineIncidentAssociation  | 1                   | body.behaviors.codeValue                                                                                                              | body.behaviors: |
+     | studentDisciplineIncidentAssociation  | 1                   | body.behaviors.shortDescription                                                                                                       | body.behaviors: |
+     | studentDisciplineIncidentAssociation  | 1                   | body.behaviors.description                                                                                                            | body.behaviors: |
      | studentDisciplineIncidentAssociation  | 1                   | body.secondaryBehaviors                                                                                                               | body.secondaryBehaviors |
      | studentDisciplineIncidentAssociation  | 1                   | body.secondaryBehaviors.secondaryBehavior                                                                                             | body.secondaryBehaviors |
      | studentDisciplineIncidentAssociation  | 1                   | body.secondaryBehaviors.behaviorCategory                                                                                              | body.secondaryBehaviors |
@@ -769,10 +720,10 @@ Then I should see following map of entry counts in the corresponding collections
 
      | studentProgramAssociation             | 14                  | body.studentId                                                                                                                        | none |
      | studentProgramAssociation             | 14                  | body.programId                                                                                                                        | none |
-     | studentProgramAssociation             | 4                   | body.services                                                                                                                         | body.services |
-     | studentProgramAssociation             | 1                   | body.services.codeValue                                                                                                               | body.services |
-     | studentProgramAssociation             | 1                   | body.services.shortDescription                                                                                                        | body.services |
-     | studentProgramAssociation             | 2                   | body.services.description                                                                                                             | body.services |
+     | studentProgramAssociation             | 4                   | body.services                                                                                                                         | body.services: |
+     | studentProgramAssociation             | 1                   | body.services.codeValue                                                                                                               | body.services: |
+     | studentProgramAssociation             | 1                   | body.services.shortDescription                                                                                                        | body.services: |
+     | studentProgramAssociation             | 2                   | body.services.description                                                                                                             | body.services: |
      | studentProgramAssociation             | 14                  | body.beginDate                                                                                                                        | none |
      | studentProgramAssociation             | 14                  | body.endDate                                                                                                                          | none |
      | studentProgramAssociation             | 14                  | body.reasonExited                                                                                                                     | none |
@@ -798,27 +749,6 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSectionAssociation             | 32                  | body.endDate                                                                                                                          | none |
      | studentSectionAssociation             | 32                  | body.homeroomIndicator                                                                                                                | none |
      | studentSectionAssociation             | 32                  | body.repeatIdentifier                                                                                                                 | none |
-
-#    | studentSpecialEdProgramAssociation    |                     | body.studentId                                                                                                                        |
-#    | studentSpecialEdProgramAssociation    |                     | body.programId                                                                                                                        |
-#    | studentSpecialEdProgramAssociation    |                     | body.services                                                                                                                         |
-#    | studentSpecialEdProgramAssociation    |                     | body.services.codeValue                                                                                                               |
-#    | studentSpecialEdProgramAssociation    |                     | body.services.shortDescription                                                                                                        |
-#    | studentSpecialEdProgramAssociation    |                     | body.services.description                                                                                                             |
-#    | studentSpecialEdProgramAssociation    |                     | body.beginDate                                                                                                                        |
-#    | studentSpecialEdProgramAssociation    |                     | body.endDate                                                                                                                          |
-#    | studentSpecialEdProgramAssociation    |                     | body.reasonExited                                                                                                                     |
-#    | studentSpecialEdProgramAssociation    |                     | body.educationOrganizationId                                                                                                          |
-#    | studentSpecialEdProgramAssociation    |                     | body.ideaEligibility                                                                                                                  |
-#    | studentSpecialEdProgramAssociation    |                     | body.educationalEnvironment                                                                                                           |
-#    | studentSpecialEdProgramAssociation    |                     | body.specialEducationHoursPerWeek                                                                                                     |
-#    | studentSpecialEdProgramAssociation    |                     | body.multiplyDisabled                                                                                                                 |
-#    | studentSpecialEdProgramAssociation    |                     | body.medicallyFragile                                                                                                                 |
-#    | studentSpecialEdProgramAssociation    |                     | body.lastEvaluationDate                                                                                                               |
-#    | studentSpecialEdProgramAssociation    |                     | body.iepReviewDate                                                                                                                    |
-#    | studentSpecialEdProgramAssociation    |                     | body.iepBeginDate                                                                                                                     |
-#    | studentSpecialEdProgramAssociation    |                     | body.iepEndDate                                                                                                                       |
-
      | teacherSchoolAssociation              | 16                  | body.teacherId                                                                                                                        | none |
      | teacherSchoolAssociation              | 16                  | body.schoolId                                                                                                                         | none |
      | teacherSchoolAssociation              | 16                  | body.programAssignment                                                                                                                | none |
@@ -833,6 +763,6 @@ Then I should see following map of entry counts in the corresponding collections
      | teacherSectionAssociation             | 1                   | body.highlyQualifiedTeacher                                                                                                           | none |
 
 
-  And I should see "Processed 1204 records." in the resulting batch job file
+  And I should see "Processed 1317 records." in the resulting batch job file
   And I should not see an error log file created
   And I should not see a warning log file created

@@ -16,7 +16,6 @@
 			<PostalCode>10437</PostalCode>
 			<NameOfCounty>Albany</NameOfCounty>
 			<CountyFIPSCode>00000</CountyFIPSCode>
-			<CountryCode>US</CountryCode>
 			<Latitude>10</Latitude>
 			<Longitude>20</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
@@ -38,7 +37,6 @@
 			<PostalCode>10648</PostalCode>
 			<NameOfCounty>Parker</NameOfCounty>
 			<CountyFIPSCode>00000</CountyFIPSCode>
-			<CountryCode>US</CountryCode>
 			<Latitude>10</Latitude>
 			<Longitude>20</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
@@ -66,7 +64,6 @@
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Dusk</NameOfCounty>
 			<CountyFIPSCode>00000</CountyFIPSCode>
-			<CountryCode>US</CountryCode>
 			<Latitude>10</Latitude>
 			<Longitude>20</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
@@ -97,7 +94,6 @@
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Dusk</NameOfCounty>
 			<CountyFIPSCode>00000</CountyFIPSCode>
-			<CountryCode>US</CountryCode>
 			<Latitude>10</Latitude>
 			<Longitude>20</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
@@ -155,7 +151,6 @@
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Parker</NameOfCounty>
 			<CountyFIPSCode>00000</CountyFIPSCode>
-			<CountryCode>US</CountryCode>
 			<Latitude>10</Latitude>
 			<Longitude>20</Longitude>
 			<BeginDate>2011-03-04</BeginDate>

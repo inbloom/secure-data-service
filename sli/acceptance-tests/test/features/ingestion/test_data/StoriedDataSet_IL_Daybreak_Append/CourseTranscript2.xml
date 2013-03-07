@@ -63,7 +63,6 @@
         </SessionReference>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
-    <GradeType>Final</GradeType>
   </CourseTranscript>
   <StudentAcademicRecord>
     <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -128,7 +127,6 @@
         </SessionReference>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
-    <GradeType>Final</GradeType>
   </CourseTranscript>
   <StudentAcademicRecord>
     <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -193,7 +191,6 @@
         </SessionReference>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
-    <GradeType>Final</GradeType>
   </CourseTranscript>
   <StudentAcademicRecord>
     <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -258,6 +255,5 @@
         </SessionReference>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
-    <GradeType>Final</GradeType>
   </CourseTranscript>
 </InterchangeStudentGrade>

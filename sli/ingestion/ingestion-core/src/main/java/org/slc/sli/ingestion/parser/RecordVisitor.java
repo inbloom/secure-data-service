@@ -35,4 +35,6 @@ public interface RecordVisitor {
      */
     void visit(RecordMeta edfiType, Map<String, Object> record);
 
+    void ignored();
+
 }

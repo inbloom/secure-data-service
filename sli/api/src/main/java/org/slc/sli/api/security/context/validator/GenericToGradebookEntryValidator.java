@@ -49,7 +49,7 @@ public class GenericToGradebookEntryValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.GRADEBOOK_ENTRY, entityType, ids)) {
             return false;
         }
@@ -66,7 +66,7 @@ public class GenericToGradebookEntryValidator extends AbstractContextValidator {
             sectionIds.add(sectionId);
         }
 
-        return validatorStore.findValidator(EntityNames.SECTION, true).validate(EntityNames.SECTION, sectionIds);
+        return validatorStore.findValidator(EntityNames.SECTION, false).validate(EntityNames.SECTION, sectionIds);
     }
 
 }
