@@ -30,7 +30,6 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.util.IteratorIterable;
 import org.springframework.core.io.Resource;
 
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.TypeProvider;
 
@@ -291,10 +290,6 @@ public class XsdTypeProvider implements TypeProvider {
             }
         }
         return base;
-    }
-
-    public void audit(SecurityEvent event) {
-        // TODO Auto-generated method stub
     }
 
     public void setSchemaFiles(Resource[] schemaFiles) throws IOException, JDOMException {

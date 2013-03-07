@@ -47,7 +47,6 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
@@ -317,7 +316,4 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
         recordVisitors.add(recordVisitor);
     }
 
-    public void audit(SecurityEvent event) {
-        // Do nothing
-    }
 }
