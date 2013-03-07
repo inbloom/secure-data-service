@@ -285,4 +285,5 @@ public class EdfiRecordParserImpl2 extends EdfiRecordValidator {
     public void addVisitor(RecordVisitor recordVisitor) {
         recordVisitors.add(recordVisitor);
     }
+
 }

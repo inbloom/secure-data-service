@@ -132,7 +132,7 @@ public class EdfiRecordValidator extends DefaultHandler {
             }
         });
 
-        messageReport.warning(reportStats, elementSource, BaseMessageCode.BASE_0017, source.getResourceId(), ex.getMessage());
+        messageReport.warning(reportStats, elementSource, BaseMessageCode.BASE_0026, source.getResourceId(), ex.getMessage());
     }
 
     @Override
@@ -160,7 +160,7 @@ public class EdfiRecordValidator extends DefaultHandler {
             }
         });
 
-        messageReport.error(reportStats, elementSource, BaseMessageCode.BASE_0017, source.getResourceId(), ex.getMessage());
+        messageReport.error(reportStats, elementSource, BaseMessageCode.BASE_0027, source.getResourceId(), ex.getMessage());
     }
 
     @Override

@@ -34,11 +34,11 @@ Scenario: Student Ed-Fi XSD Validation
     And I should see "InterchangeStudent.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeStudent.xml records not considered for processing: 2" in the resulting batch job file
 
-    And I should see "BASE_0017" in the resulting error log file
+    And I should see "BASE_0027" in the resulting error log file
     And I should see "InterchangeStudent.xml:line-56,column-28" in the resulting error log file
     And I should see "cvc-complex-type.2.4.a: Invalid content was found starting with element 'EconomicDisadvantaged'. One of '{" in the resulting error log file
 
-    And I should see "BASE_0017" in the resulting error log file
+    And I should see "BASE_0027" in the resulting error log file
     And I should see "InterchangeStudent.xml:line-87,column-60" in the resulting error log file
     And I should see "cvc-type.3.1.3: The value '' of element 'LimitedEnglishProficiency' is not valid." in the resulting error log file
 
