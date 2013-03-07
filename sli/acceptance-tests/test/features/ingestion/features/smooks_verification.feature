@@ -53,7 +53,34 @@ Scenario: Assessment and StudentAssessment Verification
        | body.version                                                             | 1                                         | integer               |
        | body.revisionDate                                                        | 2011-03-12                                | string               |
        | body.maxRawScore                                                         | 450                                       | integer               |
-       | body.assessmentFamilyHierarchyName                                       | StateTest.StateTest Writing for Grades 3-8.StateTest Writing for Grade 8 | string               |
+    And I should see following map of entry counts in the corresponding collections:
+       | collectionName                 | count |
+       | studentAssessment   | 1     |
+    And verify the following data in that document:
+       | searchParameter                                                                              | searchValue                           | searchType           |
+       | studentAssessment.0.body.administrationDate                                                  | 2011-05-01                            | string               |
+       | studentAssessment.0.body.administrationEndDate                                               | 2011-05-01                            | string               |
+       | studentAssessment.0.body.serialNumber                                                        | 0                                     | string               |
+       | studentAssessment.0.body.administrationLanguage                                              | English                               | string               |
+       | studentAssessment.0.body.administrationEnvironment                                           | Testing Center                        | string               |
+       | studentAssessment.0.body.specialAccommodations.0                                             | Extra time                            | string               |
+       | studentAssessment.0.body.specialAccommodations.1                                             | Dyslexia Bundled                      | string               |
+       | studentAssessment.0.body.linguisticAccommodations.0                                          | English Dictionary                    | string               |
+       | studentAssessment.0.body.linguisticAccommodations.1                                          | Linguistic Simplification             | string               |
+       | studentAssessment.0.body.retestIndicator                                                     | Primary Administration                | string               |
+       | studentAssessment.0.body.reasonNotTested                                                     | Medical waiver                        | string               |
+       | studentAssessment.0.body.scoreResults.0.assessmentReportingMethod                            | Scale score                           | string               |
+       |  studentAssessment.0.body.scoreResults.0.result                                              | 320                                   | string               |
+       | studentAssessment.0.body.scoreResults.1.assessmentReportingMethod                            | Percentile                            | string               |
+       | studentAssessment.0.body.scoreResults.1.result                                               | 94.45                                 | string               |
+       | studentAssessment.0.body.scoreResults.2.assessmentReportingMethod                            | Other                                 | string               |
+       | studentAssessment.0.body.scoreResults.2.result                                               | 1233L                                 | string               |
+       | studentAssessment.0.body.gradeLevelWhenAssessed                                              | Eighth grade                          | string               |
+       | studentAssessment.0.body.performanceLevelDescriptors.0.0.description                         | Above Benchmark                       | string               |
+       | studentAssessment.0.body.performanceLevelDescriptors.0.1.codeValue                           | 1                                     | string               |
+    And I find a(n) "assessmentFamily" record where "body.assessmentFamilyTitle" is equal to "StateTest"
+    And I find a(n) "assessmentFamily" record where "body.assessmentFamilyTitle" is equal to "StateTest Writing for Grades 3-8"
+    And I find a(n) "assessmentFamily" record where "body.assessmentFamilyTitle" is equal to "StateTest Writing for Grade 8"
 
 
     And I should see "Processed 6 records." in the resulting batch job file
@@ -69,28 +96,3 @@ Scenario: Assessment and StudentAssessment Verification
     And I should see "stu_assess.xml records failed processing: 0" in the resulting batch job file
     And I should not see a warning log file created
 
-    And I should see following map of entry counts in the corresponding collections:
-        | collectionName                 | count |
-        | studentAssessment   | 1     |
-    And verify the following data in that document:
-       | searchParameter                                                          | searchValue                           | searchType           |
-       | studentAssessment.0.body.administrationDate                                                  | 2011-05-01                            | string               |
-       | studentAssessment.0.body.administrationEndDate                                               | 2011-05-01                            | string               |
-       | studentAssessment.0.body.serialNumber                                                        | 0                                     | string               |
-       | studentAssessment.0.body.administrationLanguage                                              | English                               | string               |
-       | studentAssessment.0.body.administrationEnvironment                                           | Testing Center                        | string               |
-       | studentAssessment.0.body.specialAccommodations.0                                             | Extra time                            | string               |
-       | studentAssessment.0.body.specialAccommodations.1                                             | Dyslexia Bundled                      | string               |
-       | studentAssessment.0.body.linguisticAccommodations.0                                          | English Dictionary                    | string               |
-       | studentAssessment.0.body.linguisticAccommodations.1                                          | Linguistic Simplification             | string               |
-       | studentAssessment.0.body.retestIndicator                                                     | Primary Administration                | string               |
-       | studentAssessment.0.body.reasonNotTested                                                     | Medical waiver                        | string               |
-       | studentAssessment.0.body.scoreResults.0.assessmentReportingMethod                            | Scale score                           | string               |
-       | studentAssessment.0.body.scoreResults.0.result                                               | 320                                   | string               |
-       | studentAssessment.0.body.scoreResults.1.assessmentReportingMethod                            | Percentile                            | string               |
-       | studentAssessment.0.body.scoreResults.1.result                                               | 94.45                                 | string               |
-       | studentAssessment.0.body.scoreResults.2.assessmentReportingMethod                            | Other                                 | string               |
-       | studentAssessment.0.body.scoreResults.2.result                                               | 1233L                                 | string               |
-       | studentAssessment.0.body.gradeLevelWhenAssessed                                              | Eighth grade                          | string               |
-       | studentAssessment.0.body.performanceLevelDescriptors.0.0.description                           | Above Benchmark                       | string               |
-       | studentAssessment.0.body.performanceLevelDescriptors.0.1.codeValue                             | 1                                     | string               |

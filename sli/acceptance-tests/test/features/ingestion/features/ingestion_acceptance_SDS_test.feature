@@ -354,14 +354,16 @@ And I check to find if record is in collection:
      | attendance                  | 0                   | body.attendanceEvent.date  | 2011-09-01    | string               |
      | attendance                  | 75                  | body.attendanceEvent.date  | 2011-11-10    | string               |
  And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                                  | searchValue                                      |searchType           |
-     | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature                  |string               |
-     | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Lang-and-Literature                 |string               |
-     | studentAssessment| 0                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified                         |string               |
+     | collectionName               | expectedRecordCount | searchParameter                                  | searchValue                                      |searchType           |
+     | assessmentFamily             | 1                   | body.assessmentFamilyTitle                       | AP                                               |string               |
+     | assessmentFamily             | 1                   | body.assessmentFamilyTitle                       | AP Eng                                           |string               |
+     | assessmentFamily             | 1                   | body.assessmentFamilyTitle                       | AP-Eng-and-Literature                            |string               |
+     | assessmentFamily             | 1                   | body.assessmentFamilyTitle                       | AP-Lang-and-Literature                           |string               |
+     | studentAssessment            | 0                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified                         |string               |
 #    | studentSchoolAssociation     | 7                   | body.classOf                                     | 2011-2012    |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                                     | searchValue                                      |searchType           |
-     | assessment                  | 1                   | body.assessmentFamilyHierarchyName                                  | ACT                                              |string               |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle                                          | ACT                                              |string               |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode                         | ACT-English                                      |string               |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-English-Usage                                |string               |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-English-Rhetorical                           |string               |
@@ -823,9 +825,11 @@ Then I should see following map of entry counts in the corresponding collections
      | studentProgramAssociation            | 9     |
      | courseTranscript                     | 200   |
   And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature      |string                  |
-     | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Lang-and-Literature     |string                  |
+     | collectionName              | expectedRecordCount | searchParameter                          | searchValue                          | searchType           |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle               | AP                                   | string               |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle               | AP Eng                               | string               |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle               | AP-Eng-and-Literature                | string               |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle               | AP-Lang-and-Literature               | string               |
      | assessment                  | 1                   | assessmentItem.body.correctResponse            | False            | string |
      | assessment                  | 1                   | assessmentItem.body.correctResponse            | False            | string |
      | assessment                  | 1                   | assessmentItem.body.correctResponse            | True             | string |
@@ -856,7 +860,9 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Algebra            | string |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Arithmetic         | string |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Geometry           | string |
-     | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten                 | string |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle                     | READ2                       | string |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle                     | READ 2.0                    | string |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle                     | READ 2.0 Kindergarten       | string |
      | assessmentPeriodDescriptor  | 1                   | body.codeValue                                 | BOY              | string |
      | assessmentPeriodDescriptor  | 1                   | body.codeValue                                 | EOY              | string |
      | assessmentPeriodDescriptor  | 1                   | body.codeValue                                 | MOY              | string |
