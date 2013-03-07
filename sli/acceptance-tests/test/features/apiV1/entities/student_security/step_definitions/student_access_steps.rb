@@ -36,10 +36,15 @@ $studentHash = {
     }
   }
 
-Transform /the student "([^"]*)"/ do |arg1|
+def transform_student_to_id(arg1)
   base = "00000000-abcd-0000-0000-0000000000"
   base << arg1.match(/(\d+)/)[0]
   base << "_id"
+  base
+end
+
+Transform /the student "([^"]*)"/ do |arg1|
+  base = transform_student_to_id(arg1)
   base
 end
 
@@ -50,6 +55,26 @@ Transform /at School "([^"]*)"/ do |school|
   schoolId
 end
 
+Transform /the section "([^"]*)"/ do |arg1|
+  base = "00000000-0001-0000-0000-00000000000"
+  base << arg1.match(/(\d+)/)[0]
+  base << "_id"
+  base
+end
+
+Transform /the cohort "([^"]*)"/ do |arg1|
+  base = "00000000-1000-0000-0000-00000000000"
+  base << arg1.match(/(\d+)/)[0]
+  base << "_id"
+  base
+end
+
+Transform /the program "([^"]*)"/ do |arg1|
+  base = "00000000-0000-0000-0010-00000000000"
+  base << arg1.match(/(\d+)/)[0]
+  base << "_id"
+  base
+end
 
 Given /^I am user "([^"]*)" in IDP "([^"]*)"$/ do |arg1, arg2|
   user = arg1
@@ -58,6 +83,24 @@ Given /^I am user "([^"]*)" in IDP "([^"]*)"$/ do |arg1, arg2|
   
   idpRealmLogin(user, pass, realm)
   assert(@sessionId != nil, "Session returned was nil")
+end
+
+When /^I make an API call to get all students in (the section ".*?")$/ do |arg1|
+  @format = "application/vnd.slc+json"
+  restHttpGet("/v1/sections/#{arg1}/studentSectionAssociations/students")
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
+When /^I make an API call to get all students in (the cohort ".*?")$/ do |arg1|
+  @format = "application/vnd.slc+json"
+  restHttpGet("/v1/cohorts/#{arg1}/studentCohortAssociations/students")
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
+When /^I make an API call to get all students in (the program ".*?")$/ do |arg1|
+  @format = "application/vnd.slc+json"
+  restHttpGet("/v1/programs/#{arg1}/studentProgramAssociations/students")
+  assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 When /^I make an API call to get (the student "[^"]*")$/ do |arg1|
@@ -104,6 +147,20 @@ Then /^I see the response "([^"]*)" restricted data and "([^"]*)" general data$/
   end
   assert(expectedRestricted == actualRestricted, "Expectations for seeing restricted data is incorrect.")
   assert(expectedGeneral == actualGeneral, "Expectations for seeing general data is incorrect. Expected #{expectedGeneral}, Actual #{actualGeneral}")
+end
+
+Then /^I the response should only include the students "(.*?)"$/ do |arg1|
+  data = JSON.parse(@res.body)
+  if (@res.code == 403)
+    assert(arg1 == "none", "Expected to see students but received a 403")
+  else
+    student_id_array = []
+    student_array = arg1.split(";")
+    student_array.each { |student| student_id_array.push(transform_student_to_id(student))}
+    data.each do |student|
+      assert(student_id_array.include?(student["id"]), "Student #{student["id"]} returned when not expected; expected #{student_id_array.inspect}")
+    end
+  end
 end
 
 When /^I make an API call to get my student list$/ do
