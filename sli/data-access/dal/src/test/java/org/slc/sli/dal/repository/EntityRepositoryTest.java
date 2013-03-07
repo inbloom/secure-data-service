@@ -37,12 +37,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -74,8 +69,8 @@ public class EntityRepositoryTest {
     @Test
     public void testDeleteAll() {
         repository.deleteAll("student", null);
-        
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
+
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
         mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         Map<String, Object> studentMap = buildTestStudentEntity();
@@ -90,9 +85,45 @@ public class EntityRepositoryTest {
         neutralQuery.addCriteria(new NeutralCriteria("firstName=John"));
         repository.deleteAll("student", neutralQuery);
         assertEquals(4, repository.count("student", new NeutralQuery()));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys); 
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
+    }
+
+    @Test
+    public void testSafeDelete() {
+
+        // CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access)   \
+
+        CascadeResult result = null;
+        Integer maxObjects = 100;         // should be large enough to return all objects
+        AccessibilityCheck access = new AccessibilityCheck() {
+            // grant access to all entities
+            // TODO exercise access denied logic
+            public boolean accessibilityCheck(String id) {
+                return true;
+            }
+        };
+
+        // Mock the underlying safeDelete db access calls
+
+        // Test cascade=false and dryrun=true
+
+        //   do the delete call
+        result = repository.safeDelete("student", "test_id", false, true, maxObjects, access);
+
+        //   verify expected results
+        //   TODO add more complex data structure after the plumbing is put in
+        assertEquals(1, result.nObjects);
+        assertEquals(1, result.depth);
+        assertEquals(CascadeResult.SUCCESS, result.status);
+
+        // TODO add test for remaining safeDelete variations
+        // Test cascade=false and dryrun=false
+        // Test cascade=true and dryrun=true
+        // Test cascade=true and dryrun=false
+        // Test maxobjects
+
     }
 
     @Test

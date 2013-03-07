@@ -480,6 +480,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
     	CascadeResult result = new CascadeResult();
 
+        // TODO actually delete something
+        result.nObjects = 1;
+        result.depth = 1;
+        result.status = CascadeResult.SUCCESS;
+
     	return result;
     }
 
