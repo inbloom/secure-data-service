@@ -38,12 +38,10 @@ bundle install --deployment
 bundle exec ruby $WORKSPACE/sli/opstools/migration/70ApplicationAuthorizationMigration.rb localhost:27017
 
 bundle exec rake runSearchBulkExtract
-mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --eval "db.setProfilingLevel(2)"
 #run the jmeter acceptance test wrapper with ci properties
 bundle exec rake FORCE_COLOR=true apiJMeterTests jmeter_jmx_path=../../tools/jmeter/ jmeter_bin=/opt/apache-jmeter-2.7/bin/jmeter jmeter_properties=ci.properties jmeter_regression_threshold=0.25
 
 EXITCODE=$?
-mongoexport -d 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a -c system.profile -o $WORKSPACE/system.profile
 
 #move any generated jtl files to the workspace for the performance reports
 find . -name "*.jtl" -maxdepth 1 -exec mv '{}' $WORKSPACE/. \;
