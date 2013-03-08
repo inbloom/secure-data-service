@@ -16,12 +16,8 @@
 
 package org.slc.sli.dal.repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -30,6 +26,8 @@ import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.domain.*;
+import org.slc.sli.validation.schema.ReferenceSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,15 +35,11 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.AccessibilityCheck;
-import org.slc.sli.domain.CascadeResult;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -63,6 +57,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Autowired
     private MongoQueryConverter queryConverter;
+
+//    @Autowired
+//    private ModelProvider modelProvider;
 
     /**
      * Collections that are not specific for a tenant.
@@ -208,7 +205,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public T findById(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a record in collection {} with id {}", new Object[] { collectionName, id });
+        LOG.debug("find a record in collection {} with id {}", new Object[]{collectionName, id});
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
@@ -475,16 +472,176 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     protected abstract Update getUpdateCommand(T entity, boolean isSuperdoc);
 
+    // TODO replace this with ModelProvider object when ready
+    class ModelReferencingEntity {
+        // TODO these may need to be changed to models to be able to determine the info needed
+        // to know whether to delete, leave, or update
+        // e.g. if a field is an array or single value and whether it is optional or not
+        String entity = null;
+        List<String> fields = null;
+
+        public List<String> getFields() {
+            return fields;
+        }
+
+        ModelReferencingEntity(String entity, List<String> fields) {
+            this.entity = entity;
+            this.fields = fields;
+        }
+
+        boolean isArrayField(String field) {
+            // TODO test with array fields as well
+            return false;
+        }
+
+        String getCollectionName() {
+            return entity;
+        }
+    }
+
     @Override
     public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
-    	CascadeResult result = new CascadeResult();
+        CascadeResult result = new CascadeResult();
 
-        // TODO actually delete something
-        result.nObjects = 1;
-        result.depth = 1;
-        result.status = CascadeResult.SUCCESS;
+        if (dryrun == Boolean.TRUE) {
+            // just do a dryrun
+            result = safeDeleteHelper(collectionName, id, cascade, Boolean.TRUE, maxObjects, access, result);
+        } else {
+            // do a dryrun first and make sure it succeeds
+            result = safeDeleteHelper(collectionName, id, cascade, Boolean.TRUE, maxObjects, access, result);
+            if (result.status == CascadeResult.SUCCESS) {
+                // do the actual deletes with some confidence
+                result = safeDeleteHelper(collectionName, id, cascade, Boolean.FALSE, maxObjects, access, result);
+            }
+        }
 
-    	return result;
+        // TODO remove this when we can actually delete something
+//        result.nObjects = 1;
+//        result.depth = 1;
+//        result.status = CascadeResult.SUCCESS;
+
+        return result;
+    }
+
+    private CascadeResult safeDeleteHelper(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access, CascadeResult result) {
+
+        // set our depth in the result
+        // TODO confirm this is the intended meaning of depth
+        result.depth++;
+
+        // check accessibility to this entity
+        // TODO this looks like it will need to take collection as an argument
+        if (access.accessibilityCheck(id) == false) {
+            result.status = CascadeResult.ACCESS_DENIED;
+            return result;
+        }
+
+        // TODO call model interface to get list of referencing entity types and fields
+//        List<ModelReferencingEntity> ref_entities = modelProvider.getReferencingEntities(collectionName);
+        List<String> fields = new ArrayList<String>();
+        fields.add("field1");
+        List<ModelReferencingEntity> ref_entities = new ArrayList<ModelReferencingEntity>();
+        ref_entities.add(new ModelReferencingEntity("student", fields));
+
+        // loop for every Entity that references the deleted entity's type
+        for (ModelReferencingEntity referencingEntity : ref_entities) {
+            // loop for every reference field that COULD reference the deleted ID
+            for (String referenceField : referencingEntity.getFields()) {
+
+                // form the query to access the referencing entity's field values
+                List<String> includeFields = new ArrayList<String>();
+                includeFields.add(referenceField);
+                NeutralQuery neutralQuery = new NeutralQuery();
+                neutralQuery.addCriteria(new NeutralCriteria(referenceField + "=" + id));
+                neutralQuery.setIncludeFields(includeFields);
+
+                try {
+                    // based on the model determine whether we should delete
+                    Boolean should_delete = shouldDelete(referencingEntity, referenceField);
+
+                    // entities that have arrays of references only cascade delete the array entry,
+                    // not the whole entity
+                    if (referencingEntity.isArrayField(referenceField)) {
+                        // list all entities that have the deleted entity's ID in one or more
+                        // referencing array fields
+//                        for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
+//                            String idToBePatched = (String) entityBody.get("id");
+//                            List<?> basicDBList = (List<?>) entityBody.get(referenceField);
+//                            basicDBList.remove(id);
+//                            EntityBody patchEntityBody = new EntityBody();
+//                            patchEntityBody.put(referenceField, basicDBList);
+//                            referencingEntityService.patch(idToBePatched, patchEntityBody);
+//                            // account for this delete in the number of objects cascade deleted
+//                            result.nObjects++;
+//                        }
+                    } else {
+                        CascadeResult singleResult = null;
+
+                        // get all entities that have the deleted entity's ID in their reference
+                        // field (for deletion)
+                        Collection<Entity> entities = (Collection<Entity>) this.findAll(referencingEntity.getCollectionName(), neutralQuery);
+                        for (Entity entity : entities) {
+                            Map<String, Object> body = entity.getBody();
+                            String idToBeDeleted = entity.getEntityId();
+                            // delete that entity as well
+                            singleResult = safeDelete(referencingEntity.getCollectionName(), idToBeDeleted, cascade, dryrun, maxObjects, access);
+                            // delete custom entities attached to this entity
+                            Integer num_deleted = deleteAttachedCustomEntities(idToBeDeleted, dryrun);
+
+                            // update the overall result
+                            result.status = singleResult.status;
+                            result.nObjects += singleResult.nObjects;
+                        }
+                    }
+                } catch (AccessDeniedException ade) {
+                    LOG.debug("Access denied for entity type {} having {}={}", new Object[]{referencingEntity.entity, referenceField, id});
+                    result.status = CascadeResult.ACCESS_DENIED;
+                    return result;
+                }
+            }
+        }
+
+        if (dryrun == true) {
+            result.nObjects++;
+            if (result.nObjects > maxObjects) {
+                result.status = CascadeResult.MAX_OBJECTS_EXCEEDED;
+            }
+        } else {
+            // base case : delete the current entity
+            if (delete(collectionName, id) == true) {
+                // account for this delete in the number of objects cascade deleted
+                result.nObjects++;
+                if (result.nObjects > maxObjects) {
+                    result.status = CascadeResult.MAX_OBJECTS_EXCEEDED;
+                }
+            } else {
+                LOG.warn("attempted to delete a document with an empty _id from collection " + collectionName);
+            }
+        }
+
+        return result;
+
+    }
+
+    boolean shouldDelete(ModelReferencingEntity referencingEntity, String referenceField) {
+        return true;
+    }
+
+    // TODO these should be taken from schema
+    private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
+    private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
+    private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
+
+    private Integer deleteAttachedCustomEntities(String sourceId, boolean dryrun) {
+        Integer count = 0;
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", sourceId, false));
+        Iterable<String> ids = this.findAllIds(CUSTOM_ENTITY_COLLECTION, query);
+        for (String id : ids) {
+            count++;
+            if (!dryrun) this.delete(CUSTOM_ENTITY_COLLECTION, id);
+        }
+        return count;
     }
 
     @Override
