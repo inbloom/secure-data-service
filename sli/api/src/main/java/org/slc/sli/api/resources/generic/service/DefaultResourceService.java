@@ -43,6 +43,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.DatatypeConverter;
 
@@ -81,9 +82,20 @@ public class DefaultResourceService implements ResourceService {
 
     @Autowired
     private ResourceServiceHelper resourceServiceHelper;
-
+    
+    private Map<String, String> endDates = new HashMap<String, String>();
+ 
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
+    @PostConstruct
+    public void init() {
+        endDates.put(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "exitWithdrawDate");
+
+        endDates.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "endDate");
+        endDates.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "endDate");
+        endDates.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "endDate");
+    }
+    
     /**
      * @author jstokes
      */
@@ -358,8 +370,9 @@ public class DefaultResourceService implements ResourceService {
                     }
 
                     for (EntityBody associationEntity : associations) {
-                        boolean add = baseEntity.getResourceName().equals(ResourceNames.STUDENTS) || isCurrent(associationEntity);
-                        if (add) {
+                        //  If not going through student base resource and there is a defined endDate key for filtering
+                        //  Filter by end date
+                        if (baseEntity.getResourceName().equals(ResourceNames.STUDENTS) || (this.endDates.keySet().contains(assocEntity.getResourceName()) && isCurrent(assocEntity, associationEntity))) {
                             filteredIdList.add((String) associationEntity.get(ident));
                         }
                     }
@@ -424,9 +437,9 @@ public class DefaultResourceService implements ResourceService {
         return new ServiceResponse(entityBodyList, count);
     }
 
-    private boolean isCurrent(EntityBody body) {
+    private boolean isCurrent(EntityDefinition def, EntityBody body) {
         String now = DatatypeConverter.printDate(Calendar.getInstance());        
-        String assocEnd = (String) body.get("endDate");
+        String assocEnd = (String) body.get(this.endDates.get(def.getResourceName()));
         
         //  Absent end date means association is 'current'
         if(assocEnd == null) {
