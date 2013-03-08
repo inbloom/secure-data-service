@@ -13,6 +13,11 @@ Feature: Admin delegation CRUD
     Then I should update app authorizations for district "IL-SUNSET"
     And I should receive a return code of 403
     And a security event matching "^Access Denied" should be in the sli db
+     And I check to find if record is in sli db collection:
+| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+     | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234  |
+     | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET  |
+
 
   Scenario: District administrator updating admin delegation
     Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
@@ -104,6 +109,7 @@ Feature: Admin delegation CRUD
   Scenario: District administrator can grant access to edOrg data only if LEA adminstrator has delegated  AppApproval
     #LEA administrator disables delegation
     Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
+    And the sli securityEvent collection is empty
     And I have a valid admin delegation entity
     And I change "appApprovalEnabled" to false
     When I PUT to admin delegation
@@ -113,6 +119,11 @@ Feature: Admin delegation CRUD
     And I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     Then I should grant all app authorizations for district "IL-SUNSET"
     And I should receive a return code of 403
+    And a security event matching "^Access Denied" should be in the sli db
+     And I check to find if record is in sli db collection:
+     | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+     | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234  |
+     | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET  |
 
     #LEA administrator enables delegation
     Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
