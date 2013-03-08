@@ -1663,6 +1663,12 @@ def subDocParent(collectionName)
       "assessment"
     when "studentObjectiveAssessment"
       "studentAssessment"
+    when "reportCard"
+      "yearlyTranscript"
+    when "studentAcademicRecord"
+      "yearlyTranscript"
+    when "grade"
+      "yearlyTranscript"
     else
       nil
   end
@@ -2800,6 +2806,8 @@ def check_records_in_collection(table, db_name)
 
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
+    puts "**********"
+    puts subdoc_parent
     if subdoc_parent
       @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])
     else
