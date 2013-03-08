@@ -100,6 +100,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	
 	<bean id="sourceDatasourceConnector" class="org.slc.sli.search.connector.impl.SourceDatastoreConnectorImpl">
 		<property name="mongoTemplate" ref="dataMongoTemplate" />
+		<property name="mongoDbFactory" ref="mongoDbFactory" />
 	</bean>
 
 	<bean id="encryptor" class="org.slc.sli.encryption.tool.Encryptor">

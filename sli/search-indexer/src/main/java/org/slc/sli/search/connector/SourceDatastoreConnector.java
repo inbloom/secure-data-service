@@ -44,6 +44,8 @@ public interface SourceDatastoreConnector {
     
     public DBCursor getDBCursor(String collectionName, List<String> fields, DBObject query);
 
+    public DBCursor getDBCursor(String databaseName, String collectionName, List<String> fields, DBObject query);
+
     void save(String collectionName, Object o);
 
     <T> List<T> findAll(String collectionName, Class<T> entityClass);

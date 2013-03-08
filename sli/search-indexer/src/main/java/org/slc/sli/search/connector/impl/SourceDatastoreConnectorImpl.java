@@ -19,14 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
-import org.slc.sli.search.connector.SourceDatastoreConnector;
-import org.springframework.data.mongodb.core.MongoTemplate;
-
 import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
+import org.slc.sli.search.connector.SourceDatastoreConnector;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
  *  Mongo connector
@@ -39,6 +41,12 @@ public class SourceDatastoreConnectorImpl implements SourceDatastoreConnector {
     private static final String TENANT_COLLECTION = "tenant";
 
     private MongoTemplate mongoTemplate;
+    
+    /*
+     * this is used to connect to a database when we only have
+     * db name, not the tenant ID
+     */
+    private MongoDbFactory mongoDbFactory;
 
     /**
      * Create DBCUrsor
@@ -56,20 +64,31 @@ public class SourceDatastoreConnectorImpl implements SourceDatastoreConnector {
 
     @Override
     public DBCursor getDBCursor(String collectionName, List<String> fields, DBObject query) {
-    	DBObject localQuery = query;
-    	if (localQuery == null) {
-    		localQuery = new BasicDBObject(); 
-    	}
-    	
+        DBCollection collection = mongoTemplate.getCollection(collectionName);
+        return getDBCursorFromCollection(collection, fields, query);
+    }
+    
+    @Override
+    public DBCursor getDBCursor(String databaseName, String collectionName, List<String> fields, DBObject query) {
+        DB db = mongoDbFactory.getDb(databaseName);
+        DBCollection collection = db.getCollection(collectionName);
+        return getDBCursorFromCollection(collection, fields, query);
+    }
+    
+    private DBCursor getDBCursorFromCollection(DBCollection collection, List<String> fields, DBObject query) {
+        DBObject localQuery = query;
+        if (localQuery == null) {
+            localQuery = new BasicDBObject();
+        }
+        
         BasicDBObject keys = new BasicDBObject();
         for (String field : fields) {
             keys.put(field, 1);
         }
-
-        DBCollection collection = mongoTemplate.getCollection(collectionName);
+        
         return collection.find(localQuery, keys);
     }
-    
+
     @Override
     public <T> List<T> findAll(String collectionName, Class<T> entityClass) {
         return mongoTemplate.findAll(entityClass, collectionName);
@@ -102,6 +121,10 @@ public class SourceDatastoreConnectorImpl implements SourceDatastoreConnector {
 
     public void setMongoTemplate(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
+    }
+
+    public void setMongoDbFactory(MongoDbFactory mongoDbFactory) {
+        this.mongoDbFactory = mongoDbFactory;
     }
 
 }

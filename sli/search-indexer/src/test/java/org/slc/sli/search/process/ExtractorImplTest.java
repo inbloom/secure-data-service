@@ -109,6 +109,12 @@ public class ExtractorImplTest {
             return MockDBCursorFactory.create(collectionName);
 		}
 
+        @Override
+        public DBCursor getDBCursor(String databaseName, String collectionName, List<String> fields, DBObject query) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     };
 
     private final MockExtractor extractor = new MockExtractor();

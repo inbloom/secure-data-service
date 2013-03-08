@@ -326,7 +326,6 @@
                         }
                     },
                     "assessmentPeriodDescriptor": {
-                         "path":"just_name",
                          "properties": {
                              "beginDate": {
                                  "type": "string",
@@ -453,30 +452,11 @@
     "assessmentPeriodDescriptor": {
         "fields": [
             "body.codeValue",
+            "body.description",
+            "body.shortDescription",
             "body.beginDate",
             "body.endDate"
-        ],
-        "mapping": {
-            "session": {
-                "_timestamp": {
-                    "enabled": true
-                },
-                "properties": {
-                    "codeValue": {
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "beginDate": {
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "endDate": {
-                        "type": "string",
-                        "index": "not_analyzed"
-                    }
-                }
-            }
-        }
+        ]
     },
     "gradingPeriod": {
         "fields": [
