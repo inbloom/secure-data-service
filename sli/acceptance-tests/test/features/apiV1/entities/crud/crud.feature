@@ -319,8 +319,8 @@ Examples:
   Scenario Outline:yearlyAttendance CRUD
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And entity URI <Entity Resource URI>
-  # Create
       And an entity json document for a <Entity Type>
+  # Create
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 201
     And I should receive a new entity URI after a successful response
@@ -343,6 +343,16 @@ Examples:
   Examples:
     | Entity Type                             | Entity Resource URI | Update Field      |
     | "yearlyAttendance"                      | "yearlyAttendances" | "attendanceEvent" |
+
+  #yearlyAttendance CRUD
+  @us5389 @1parttest
+  Scenario:  yearlyAttendance CRUD - read not allowed on /yearlyAttendance
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+      And entity URI "yearlyAttendance"
+    #Read
+    When I navigate to GET "/<ENTITY URI>"
+    Then I should receive a return code of 404
+
 
   Scenario Outline: CRUD operations till we unwip auto_crud
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
