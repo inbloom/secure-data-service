@@ -24,13 +24,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.ValidatorHandler;
 
-import org.slc.sli.ingestion.parser.XmlParseException;
-import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ElementSource;
-import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.springframework.core.io.Resource;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -38,6 +31,14 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
+
+import org.slc.sli.ingestion.parser.XmlParseException;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ElementSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 
 /**
  * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
@@ -132,7 +133,7 @@ public class EdfiRecordValidator extends DefaultHandler {
             }
         });
 
-        messageReport.warning(reportStats, elementSource, BaseMessageCode.BASE_0026, source.getResourceId(), ex.getMessage());
+        messageReport.warning(reportStats, elementSource, BaseMessageCode.BASE_0026, ex.getMessage());
     }
 
     @Override
@@ -160,7 +161,7 @@ public class EdfiRecordValidator extends DefaultHandler {
             }
         });
 
-        messageReport.error(reportStats, elementSource, BaseMessageCode.BASE_0027, source.getResourceId(), ex.getMessage());
+        messageReport.error(reportStats, elementSource, BaseMessageCode.BASE_0027, ex.getMessage());
     }
 
     @Override
