@@ -68,7 +68,7 @@ public class StaffToStudentProgramAssociationValidatorTest {
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
     
-    private StaffToProgramValidator mockProgramValidator;
+    private GenericToProgramValidator mockProgramValidator;
     
     Set<String> programIds;
     
@@ -86,7 +86,7 @@ public class StaffToStudentProgramAssociationValidatorTest {
         
         programIds = new HashSet<String>();
         
-        mockProgramValidator = Mockito.mock(StaffToProgramValidator.class);
+        mockProgramValidator = Mockito.mock(GenericToProgramValidator.class);
         validator.setStaffProgramValidator(mockProgramValidator);
         
     }

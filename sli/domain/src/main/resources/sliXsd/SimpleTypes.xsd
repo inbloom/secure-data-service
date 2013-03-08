@@ -2733,6 +2733,7 @@
 			<xs:enumeration value="Migratory" />
 			<xs:enumeration value="Parent in Military" />
 			<xs:enumeration value="Pregnant" />
+            <xs:enumeration value="Section 504 Handicapped"/>
 			<xs:enumeration value="Single Parent" />
 			<xs:enumeration value="Unaccompanied Youth" />
 			<xs:enumeration value="Unschooled Asylee" />

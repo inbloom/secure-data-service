@@ -56,9 +56,6 @@ public class XsdValidatorTest {
     private static final String INCOMPLETE_CONTENT_WARNING = "The content of element '%s' is not complete.";
     private static final String MISSING_DECLARATION_WARNING = "Cannot find the declaration of element '%s'.";
 
-    private static final String MISSING_FILE_ERROR = "File %s: Not found.";
-    private static final String FILE_IO_ERROR = "File %s: Problem reading file.";
-
     @Autowired
     private XsdValidator xsdValidator;
 
@@ -77,13 +74,7 @@ public class XsdValidatorTest {
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, jobSource);
 
-        Assert.assertTrue(reportStats.hasErrors());
-
-        List<String> errors = memoryMessageReport.getErrors();
-
-        // Check StateOrganizationId content.
-        String errorMessage = String.format(FILE_IO_ERROR, ife.getFileName());
-        Assert.assertTrue("Should see error for XML file reading problem", containsStringPartial(errors, errorMessage));
+        Assert.assertTrue(reportStats.hasWarnings());
     }
 
     @Test
@@ -100,7 +91,7 @@ public class XsdValidatorTest {
     }
 
     @Test
-    public void studentAttendanceInterchangeShouldResultInWarning() throws IOException {
+    public void studentAttendanceInterchangeWarningReportedAsError() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentAttendance.xml");
         IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
                 FileFormat.EDFI_XML, FileType.XML_STUDENT_ATTENDANCE, xmlFile.getName(), "");
@@ -111,16 +102,16 @@ public class XsdValidatorTest {
 
         Assert.assertTrue(reportStats.hasWarnings());
 
-        List<String> warnings = memoryMessageReport.getWarnings();
+        List<String> errors = memoryMessageReport.getErrors();
 
         // Check LearningStandardId content.
-        String warningMessage = String.format(INCOMPLETE_CONTENT_WARNING, "AttendanceEvent");
+        String errorMessage = String.format(INCOMPLETE_CONTENT_WARNING, "AttendanceEvent");
         Assert.assertTrue("Should see warning for incomplete AttendanceEvent",
-                containsStringPartial(warnings, warningMessage));
+                containsStringPartial(errors, errorMessage));
     }
 
     @Test
-    public void assessmentMetadataInterchangeShouldResultInWarning() throws IOException {
+    public void assessmentMetadataInterchangeWarningReportedAsError() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeAssessmentMetadata.xml");
         IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
                 FileFormat.EDFI_XML, FileType.XML_ASSESSMENT_METADATA, xmlFile.getName(), "");
@@ -131,16 +122,16 @@ public class XsdValidatorTest {
 
         Assert.assertTrue(reportStats.hasWarnings());
 
-        List<String> warnings = memoryMessageReport.getWarnings();
+        List<String> errors = memoryMessageReport.getErrors();
 
         // Check LearningStandardId content.
-        String warningMessage = String.format(INVALID_CONTENT_WARNING, "LearningStandardId");
+        String errorMessage = String.format(INVALID_CONTENT_WARNING, "LearningStandardId");
         Assert.assertTrue("Should see warning for invalid LearningStandardIdentity content",
-                containsStringPartial(warnings, warningMessage));
+                containsStringPartial(errors, errorMessage));
     }
 
     @Test
-    public void educationOrgCalendarInterchangeShouldResultInWarning() throws IOException {
+    public void educationOrgCalendarInterchangeWarningReportedAsError() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeEducationOrgCalendar.xml");
         IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
                 FileFormat.EDFI_XML, FileType.XML_EDUCATION_ORG_CALENDAR, xmlFile.getName(), "");
@@ -151,12 +142,12 @@ public class XsdValidatorTest {
 
         Assert.assertTrue(reportStats.hasWarnings());
 
-        List<String> warnings = memoryMessageReport.getWarnings();
+        List<String> errors = memoryMessageReport.getErrors();
 
         // Check CalendarDateReference completeness.
-        String warningMessage = String.format(INCOMPLETE_CONTENT_WARNING, "CalendarDateReference");
+        String errorMessage = String.format(INCOMPLETE_CONTENT_WARNING, "CalendarDateReference");
         Assert.assertTrue("Should see warning for incomplete CalendarDateReference",
-                containsStringPartial(warnings, warningMessage));
+                containsStringPartial(errors, errorMessage));
     }
 
     @Test
@@ -174,7 +165,7 @@ public class XsdValidatorTest {
     }
 
     @Test
-    public void masterScheduleInterchangeShouldResultInWarning() throws IOException {
+    public void masterScheduleInterchangeWarningsReportedAsError() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeMasterSchedule.xml");
         IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
                 FileFormat.EDFI_XML, FileType.XML_MASTER_SCHEDULE,
@@ -186,12 +177,12 @@ public class XsdValidatorTest {
 
         Assert.assertTrue(reportStats.hasWarnings());
 
-        List<String> warnings = memoryMessageReport.getWarnings();
+        List<String> errors = memoryMessageReport.getErrors();
 
         // Check CourseCode content.
-        String warningMessage = String.format(INVALID_CONTENT_WARNING, "CourseCode");
+        String errorMessage = String.format(INVALID_CONTENT_WARNING, "CourseCode");
         Assert.assertTrue("Should see warning for invalid CourseCode content",
-                containsStringPartial(warnings, warningMessage));
+                containsStringPartial(errors, errorMessage));
     }
 
     @Test
@@ -223,7 +214,7 @@ public class XsdValidatorTest {
     }
 
     @Test
-    public void studentEnrollmentInterchangeShouldResultInWarning() throws IOException {
+    public void studentEnrollmentInterchangeWarningsReportedAsError() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentEnrollment.xml");
         IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
                 FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
@@ -235,16 +226,16 @@ public class XsdValidatorTest {
 
         Assert.assertTrue(reportStats.hasWarnings());
 
-        List<String> warnings = memoryMessageReport.getWarnings();
+        List<String> errors = memoryMessageReport.getErrors();
 
         // Check graduationPlan reference
         String invalidGraduationPlanRefMessage = String.format(REF_WARNING, "GraduationPlanReference");
         Assert.assertTrue("Should see warning for graduationPlan reference",
-                containsStringPartial(warnings, invalidGraduationPlanRefMessage));
+                containsStringPartial(errors, invalidGraduationPlanRefMessage));
     }
 
     @Test
-    public void studentGradeInterchangeShouldResultInWarning() throws IOException {
+    public void studentGradeInterchangeWarningsReportedAsError() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentGrade.xml");
         IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
                 FileFormat.EDFI_XML, FileType.XML_STUDENT_GRADES,
@@ -256,16 +247,16 @@ public class XsdValidatorTest {
 
         Assert.assertTrue(reportStats.hasWarnings());
 
-        List<String> warnings = memoryMessageReport.getWarnings();
+        List<String> errors = memoryMessageReport.getErrors();
 
         // Check StudentIdentity content.
-        String warningMessage = String.format(INVALID_CONTENT_WARNING, "StudentIdentity");
+        String errorMessage = String.format(INVALID_CONTENT_WARNING, "StudentIdentity");
         Assert.assertTrue("Should see warning for invalid StudentIdentity content",
-                containsStringPartial(warnings, warningMessage));
+                containsStringPartial(errors, errorMessage));
     }
 
     @Test
-    public void studentProgramInterchangeShouldResultInWarning() throws IOException {
+    public void studentProgramInterchangeWarningsReportedAsError() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentProgram.xml");
         IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
                 FileFormat.EDFI_XML, FileType.XML_STUDENT_PROGRAM,
@@ -277,16 +268,16 @@ public class XsdValidatorTest {
 
         Assert.assertTrue(reportStats.hasWarnings());
 
-        List<String> warnings = memoryMessageReport.getWarnings();
+        List<String> errors = memoryMessageReport.getErrors();
 
         // Check StateOrganizationId content.
-        String warningMessage = String.format(INVALID_CONTENT_WARNING, "StateOrganizationId");
+        String errorMessage = String.format(INVALID_CONTENT_WARNING, "StateOrganizationId");
         Assert.assertTrue("Should see warning for invalid StateOrganizationId content",
-                containsStringPartial(warnings, warningMessage));
+                containsStringPartial(errors, errorMessage));
     }
 
     @Test
-    public void studentCohortInterchangeShouldResultInWarning() throws IOException {
+    public void studentCohortInterchangeWarningsReportedAsError() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentCohort.xml");
         IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
                 FileFormat.EDFI_XML, FileType.XML_STUDENT_COHORT,
@@ -298,12 +289,12 @@ public class XsdValidatorTest {
 
         Assert.assertTrue(reportStats.hasWarnings());
 
-        List<String> warnings = memoryMessageReport.getWarnings();
+        List<String> errors = memoryMessageReport.getErrors();
 
         // Check StateOrganizationId content.
-        String warningMessage = String.format(INVALID_CONTENT_WARNING, "StateOrganizationId");
+        String errorMessage = String.format(INVALID_CONTENT_WARNING, "StateOrganizationId");
         Assert.assertTrue("Should see warning for invalid StateOrganizationId content",
-                containsStringPartial(warnings, warningMessage));
+                containsStringPartial(errors, errorMessage));
     }
 
     private boolean containsStringPartial(List<String> messages, String expectedMessage) {
@@ -342,12 +333,12 @@ public class XsdValidatorTest {
 
         Assert.assertTrue(reportStats.hasWarnings());
 
-        List<String> warnings = memoryMessageReport.getWarnings();
+        List<String> errors = memoryMessageReport.getErrors();
 
         // Check for InterchangeStudent declaration.
-        String warningMessage = String.format(MISSING_DECLARATION_WARNING, "InterchangeStudent");
+        String errorMessage = String.format(MISSING_DECLARATION_WARNING, "InterchangeStudent");
         Assert.assertTrue("Should see warning for missing InterchangeStudent declaration",
-                containsStringPartial(warnings, warningMessage));
+                containsStringPartial(errors, errorMessage));
     }
 
     @Test
@@ -366,8 +357,7 @@ public class XsdValidatorTest {
         List<String> errors = memoryMessageReport.getErrors();
 
         // Check StateOrganizationId content.
-        String errorMessage = String.format(MISSING_FILE_ERROR, ife.getFileName());
-        Assert.assertTrue("Should see error for missing XML file", containsStringPartial(errors, errorMessage));
+        Assert.assertTrue("Should see error for missing XML file", containsStringPartial(errors, "BASE_0023"));
     }
 
     @Component
@@ -393,10 +383,6 @@ public class XsdValidatorTest {
 
         public List<String> getErrors() {
             return Collections.unmodifiableList(errors);
-        }
-
-        public List<String> getWarnings() {
-            return Collections.unmodifiableList(warnings);
         }
 
     }

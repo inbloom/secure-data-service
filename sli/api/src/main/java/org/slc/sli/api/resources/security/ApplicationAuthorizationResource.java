@@ -18,13 +18,7 @@
 package org.slc.sli.api.resources.security;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
@@ -38,16 +32,16 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.AccessDeniedExceptionHandler;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.ThrowAPIException;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
@@ -192,7 +186,7 @@ public class ApplicationAuthorizationResource {
                     edorgs.addAll(getChildEdorgs(myEdorg));
                     body.put("edorgs", edorgs);
                     service.create(body);
-                    logSecurityEvent(appId, myEdorg, true);
+                    logSecurityEvent(appId, null, edorgs);
                 }
                 return Response.status(Status.NO_CONTENT).build();
             }
@@ -203,7 +197,6 @@ public class ApplicationAuthorizationResource {
                 edorgsCopy.add(myEdorg);
                 edorgsCopy.addAll(getParentEdorgs(myEdorg));
                 edorgsCopy.addAll(getChildEdorgs(myEdorg));
-                logSecurityEvent(appId, myEdorg, true);
             } else {
                 edorgsCopy.remove(myEdorg);
                 edorgsCopy.removeAll(getChildEdorgs(myEdorg));
@@ -211,8 +204,8 @@ public class ApplicationAuthorizationResource {
                 if (edorgsCopy.size() == 1) {   //Only SEA for this tenant is left
                     edorgsCopy.removeAll(getParentEdorgs(myEdorg));
                 }
-                logSecurityEvent(appId, myEdorg, false);
             }
+            logSecurityEvent(appId, edorgs, edorgsCopy);
             existingAuth.put("edorgs", new ArrayList<String>(edorgsCopy));
             service.update((String) existingAuth.get("id"), existingAuth);
             return Response.status(Status.NO_CONTENT).build();
@@ -263,15 +256,37 @@ public class ApplicationAuthorizationResource {
         return Response.status(Status.OK).entity(results).build();
     }
 
-    private void logSecurityEvent(String appId, String edOrgId, boolean allowed) {
-        URI path = null;
-        if (uri != null) {
-            path = uri.getRequestUri();
+    private void logSecurityEvent(String appId, Collection<String> oldEdOrgs, Collection<String> newEdOrgs) {
+        Set<String> oldEO = (oldEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(oldEdOrgs);
+        Set<String> newEO = (oldEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(newEdOrgs);
+
+        info("EdOrgs that App could access earlier " + helper.getEdOrgStateOrganizationIds(oldEO));
+        info("EdOrgs that App can access now "       + helper.getEdOrgStateOrganizationIds(newEO));
+
+        URI path = (uri != null)?uri.getRequestUri():null;
+        String resourceClassName = ApplicationAuthorizationResource.class.getName();
+        Set<String> granted = Sets.difference(newEO, oldEO);
+        if(granted.size() > 0) {
+            SecurityEvent event = securityEventBuilder.createSecurityEvent(resourceClassName,
+                    path, "Application granted access to EdOrg data!");
+            event.setAppId(appId);
+            Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(granted);
+            event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
+            event.setTargetEdOrg("");
+            audit(event);
         }
-        String allowedText = allowed ? "ALLOWED" : "NOT ALLOWED";
-        SecurityEvent event = securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
-                path, allowedText + " [" + appId + "] " + "TO ACCESS [" + edOrgId + "]");
-        audit(event);
+
+        Set<String> revoked = Sets.difference(oldEO, newEO);
+        if(revoked.size() > 0) {
+            SecurityEvent event = securityEventBuilder.createSecurityEvent(resourceClassName,
+                    path, "EdOrg data access has been revoked!");
+            event.setAppId(appId);
+            Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(revoked);
+            event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
+            event.setTargetEdOrg("");
+            audit(event);
+        }
+
     }
 
     private String validateEdOrg(String edorg) {
@@ -279,8 +294,8 @@ public class ApplicationAuthorizationResource {
             return SecurityUtil.getEdOrgId();
         }
         if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
-            throw new AccessDeniedException("Cannot perform authorizations for edorg " + AccessDeniedExceptionHandler.ED_ORG_START +
-                            edorg + AccessDeniedExceptionHandler.ED_ORG_END);
+            ThrowAPIException.throwAccessDeniedException("Cannot perform authorizations for edorg ", edorg);
+
         }
         return edorg;
     }
