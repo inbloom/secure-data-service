@@ -151,6 +151,9 @@ teacherSchoolAssociation,false,body.teacherId:1
 # teacherSectionAssociation is embedded into section
 # Look up teacherSectionAssoc by teacher: /teachers/{id}/teacherSectionAssociations
 section,false,teacherSectionAssociation.body.teacherId:1
+#yearlyTranscript
+yearlyTranscript,false,body.studentId:1
+
 
 
 # External IDs
