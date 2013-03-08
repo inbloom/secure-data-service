@@ -30,7 +30,6 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.connector.SourceDatastoreConnector;
 import org.slc.sli.search.connector.SourceDatastoreConnector.Tenant;
@@ -120,7 +119,6 @@ public class ExtractorImplTest {
         extractor.setJobWaitTimeoutInMins(1);
         indexConfigStore = new IndexConfigStore("index-config-test.json");
         indexEntityConverter = new IndexEntityConverter();
-        indexEntityConverter.setIndexConfigStore(indexConfigStore);
 
         extractor.setIndexConfigStore(indexConfigStore);
         extractor.reset();

@@ -27,14 +27,15 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.process.impl.LoaderImpl;
+import org.slc.sli.search.transform.EntityConverterFactory;
 import org.slc.sli.search.transform.IndexEntityConverter;
+import org.slc.sli.search.transform.impl.GenericEntityConverter;
 import org.slc.sli.search.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoaderTester {
     private static final Logger LOG = LoggerFactory.getLogger(LoaderTester.class);
@@ -50,6 +51,8 @@ public class LoaderTester {
     private Semaphore mon;
 
     private final IndexEntityConverter indexConverter = new IndexEntityConverter();
+    private final EntityConverterFactory entityConverterFactory = new EntityConverterFactory();
+    private final GenericEntityConverter genericEntityConverter = new GenericEntityConverter();
 
     private class MockIndexer implements Indexer {
         private final List<IndexEntity> entities = new ArrayList<IndexEntity>();
@@ -83,7 +86,9 @@ public class LoaderTester {
         loader.setIndexer(indexer);
         loader.setPollIntervalMillis(10);
         indexConverter.setDecrypt(false);
-        indexConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
+        genericEntityConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
+        entityConverterFactory.setGenericEntityConverter(genericEntityConverter);
+        indexConverter.setEntityConverterFactory(entityConverterFactory);
         loader.setIndexEntityConverter(indexConverter);
         indexer.reset();
 

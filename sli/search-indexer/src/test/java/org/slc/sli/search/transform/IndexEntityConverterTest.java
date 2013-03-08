@@ -24,6 +24,7 @@ import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.impl.LoaderImpl;
+import org.slc.sli.search.transform.impl.GenericEntityConverter;
 import org.slc.sli.search.util.IndexEntityUtil;
 import org.slc.sli.search.util.SearchIndexerException;
 import org.slf4j.Logger;
@@ -31,12 +32,17 @@ import org.slf4j.LoggerFactory;
 
 public class IndexEntityConverterTest {
     private final IndexEntityConverter indexEntityConverter = new IndexEntityConverter();
+    private final EntityConverterFactory entityConverterFactory = new EntityConverterFactory();
+    private final GenericEntityConverter genericEntityConverter = new GenericEntityConverter();
+
     private static final Logger LOG = LoggerFactory.getLogger(LoaderImpl.class);
     
     @Before
     public void setup() throws Exception{
         indexEntityConverter.setDecrypt(false);
-        indexEntityConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
+        genericEntityConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
+        entityConverterFactory.setGenericEntityConverter(genericEntityConverter);
+        indexEntityConverter.setEntityConverterFactory(entityConverterFactory);
     }
     
     @Test
@@ -54,8 +60,7 @@ public class IndexEntityConverterTest {
     public void testFilter() throws Exception {
         String entity = "{\"_id\": \"1\", \"type\": \"test\", \"body\":{\"name\":\"a\", \"a\":\"1\", \"b\":\"x\"}, \"test\": { \"filter\": \"notnull\"}, \"metaData\": {\"tenantId\": \"tenant\"}}";
         List<IndexEntity> indexEntities = indexEntityConverter.fromEntityJson("tenant", entity);
-        IndexEntity indexEntity = indexEntities.get(0);
-        Assert.assertNull("Entity must be filtered out", indexEntity);
+        Assert.assertEquals(0, indexEntities.size());
     }
     
     @Test
