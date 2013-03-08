@@ -315,7 +315,7 @@ Examples:
      Then I delete both studentAssessment and Assessment
 
   #yearlyAttendance CRUD tests
-  @us5389 @wip
+  @us5389
   Scenario Outline:yearlyAttendance CRUD
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And entity URI <Entity Resource URI>
