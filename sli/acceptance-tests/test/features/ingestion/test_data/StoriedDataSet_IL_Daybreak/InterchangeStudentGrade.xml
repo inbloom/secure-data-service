@@ -46,6 +46,13 @@
   <GradebookEntry>
     <GradebookEntryType>Assignment</GradebookEntryType>
     <DateAssigned>2011-09-29</DateAssigned>
+      <LearningObjectiveReference>
+          <LearningObjectiveIdentity>
+              <Objective>Fluency and Expression</Objective>
+              <AcademicSubject>Reading</AcademicSubject>
+              <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+          </LearningObjectiveIdentity>
+      </LearningObjectiveReference>
     <SectionReference>
       <SectionIdentity>
         <EducationalOrgReference>

@@ -30,6 +30,16 @@
     <jb:value property="dateAssigned" data="attributes DateAssigned _value" />
     <jb:value property="sectionId" data="attributes SectionReference" />
     <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />
+    <jb:wiring property="learningStandards" beanIdRef="learningStandardReference_Array" />
+    <jb:wiring property="learningObjectives" beanIdRef="learningObjectiveReference_Array" />
+  </jb:bean>
+
+  <jb:bean beanId="learningStandardReference_Array" class="java.util.ArrayList" createOnElement="attributes LearningStandardReference">
+    <jb:value data="attributes LearningStandardReference element" />
+  </jb:bean>
+
+  <jb:bean beanId="learningObjectiveReference_Array" class="java.util.ArrayList" createOnElement="attributes LearningObjectiveReference">
+    <jb:value data="attributes LearningObjectiveReference element" />
   </jb:bean>
 
 </smooks-resource-list>
