@@ -25,11 +25,12 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.process.impl.IncrementalListenerImpl;
+import org.slc.sli.search.transform.EntityConverterFactory;
 import org.slc.sli.search.transform.IndexEntityConverter;
+import org.slc.sli.search.transform.impl.GenericEntityConverter;
 
 /**
  * Test class for the Sarje incremental update listener
@@ -46,14 +47,17 @@ public class IncrementalListenerTest {
 
     private final IncrementalListenerImpl listener = new IncrementalListenerImpl();
     private final IndexEntityConverter indexEntityConverter = new IndexEntityConverter();
+    private final EntityConverterFactory entityConverterFactory = new EntityConverterFactory();
+    private final GenericEntityConverter genericEntityConverter = new GenericEntityConverter();
 
     @Before
     public void init() throws Exception {
 
         indexEntityConverter.setDecrypt(false);
-        indexEntityConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
+        genericEntityConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
+        entityConverterFactory.setGenericEntityConverter(genericEntityConverter);
+        indexEntityConverter.setEntityConverterFactory(entityConverterFactory);
         listener.setIndexEntityConverter(indexEntityConverter);
-
         // read in test oplog messages
         File inFile = new File(Thread.currentThread().getContextClassLoader().getResource("studentOpLog.json").getFile());
         BufferedReader br = new BufferedReader(new FileReader(inFile));

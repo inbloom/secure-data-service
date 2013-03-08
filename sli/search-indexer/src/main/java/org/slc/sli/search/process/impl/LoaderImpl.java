@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -28,6 +29,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
+import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.process.Loader;
@@ -107,7 +109,10 @@ public class LoaderImpl implements FileAlterationListener, Loader {
                 br = new BufferedReader(new FileReader(inFile));
                 while ((entity = br.readLine()) != null) {
                     try {
-                        indexer.index(indexEntityConverter.fromEntityJson(index, action, entity));
+                    	List<IndexEntity> entities = indexEntityConverter.fromEntityJson(index, action, entity);
+                    	for (IndexEntity ie : entities) {
+                    		indexer.index(ie);
+                    	}
                     } catch (Exception e) {
                         LOG.error("Error reading record", e); 
                     }
