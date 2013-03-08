@@ -63,7 +63,7 @@ public class DefaultSelectorStoreTest {
 
     private ModelProvider provider;
 
-    static final String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
+    static final String TEST_XMI_LOC = "sliModel/test_SLI.xmi";
 
     @Before
     public void setup() {

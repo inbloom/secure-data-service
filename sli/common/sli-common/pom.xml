@@ -124,11 +124,11 @@
                             <mainClass>org.slc.sli.modeling.tools.xmigen.XmiGen</mainClass>
                             <arguments>
                                 <argument>--xsdFile</argument>
-                                <argument>${sli.home}/domain/src/main/resources/sliXsd/SLI.xsd</argument>
+                                <argument>${sli.home}/common/sli-common/src/main/resources/sliXsd/SLI.xsd</argument>
                                 <argument>--xmiFile</argument>
                                 <argument>SLI.xmi</argument>
                                 <argument>--xmiFolder</argument>
-                                <argument>${sli.home}/domain/src/main/resources/sliModel</argument>
+                                <argument>${sli.home}/common/sli-common/src/main/resources/sliModel</argument>
                                 <argument>--plugInName</argument>
                                 <argument>org.slc.sli.modeling.tools.xmigen.Xsd2UmlPluginForSLI</argument>
                             </arguments>
@@ -144,13 +144,13 @@
                             <mainClass>org.slc.sli.modeling.tools.xsdgen.XsdGen</mainClass>
                             <arguments>
                                 <argument>--outFolder</argument>
-                                <argument>${sli.home}/domain/src/main/resources/sliModel</argument>
+                                <argument>${sli.home}/common/sli-common/src/main/resources/sliModel</argument>
                                 <argument>--plugInName</argument>
                                 <argument>org.slc.sli.modeling.tools.xsdgen.PluginForREST</argument>
                                 <argument>--xmiFile</argument>
-                                <argument>${sli.home}/domain/src/main/resources/sliModel/SLI.xmi</argument>
+                                <argument>${sli.home}/common/sli-common/src/main/resources/sliModel/SLI.xmi</argument>
                                 <argument>--documentFile</argument>
-                                <argument>${sli.home}/domain/src/main/resources/sliModel/documents.xml</argument>
+                                <argument>${sli.home}/common/sli-common/src/main/resources/sliModel/documents.xml</argument>
                                 <argument>--outFile</argument>
                                 <argument>SLI.xsd</argument>
                             </arguments>

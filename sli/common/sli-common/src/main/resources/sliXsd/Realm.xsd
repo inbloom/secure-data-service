@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
+           attributeFormDefault="qualified">
+    <xs:element name="realm">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:appinfo>
+                    <sli:SecuritySphere>Admin</sli:SecuritySphere>
+                </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+                <xs:element name="tenantId" type="xs:string" minOccurs="0"/>
+                <xs:element name="admin" type="xs:boolean" minOccurs="1"/>
+                <xs:element name="developer" type="xs:boolean" minOccurs="0"/>
+                <xs:element name="idp" type="idpEndpoints" minOccurs="1"/>
+                <xs:element name="saml" type="samlMap" minOccurs="1"/>
+                <xs:element name="name" minOccurs="1">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="([a-zA-Z0-9\-_ ])*"/>
+                            <xs:minLength value="5"/>
+                            <xs:maxLength value="50"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="uniqueIdentifier" minOccurs="1">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="([a-zA-Z0-9\-_ ])*"/>
+                            <xs:minLength value="5"/>
+                            <xs:maxLength value="50"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="edOrg" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="idpEndpoints">
+        <xs:sequence>
+            <xs:element name="id" type="xs:string" minOccurs="1"/>
+            <xs:element name="idpType" type="xs:string" minOccurs="0"/>
+            <xs:element name="redirectEndpoint" type="xs:string" minOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="samlMap">
+        <xs:sequence>
+            <xs:element name="field" type="samlField" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="samlField">
+        <xs:sequence>
+            <xs:element name="clientName" type="xs:string" minOccurs="1"/>
+            <xs:element name="sliName" type="xs:string" minOccurs="1"/>
+            <xs:element name="transform" type="xs:string" minOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

@@ -45,10 +45,11 @@ import java.util.Set;
 @Component
 public class ModelProvider {
     private final ModelIndex modelIndex;
-    private static final String DEFAULT_XMI_LOC = "/sliModel/SLI.xmi";
+    private static final String DEFAULT_XMI_LOC = "sliModel/SLI.xmi";
 
     public ModelProvider(final String xmiLoc) {
-        final Model model = XmiReader.readModel(getClass().getResourceAsStream(xmiLoc));
+        java.io.InputStream r = Thread.currentThread().getContextClassLoader().getResourceAsStream(xmiLoc);
+        final Model model = XmiReader.readModel(r);
         modelIndex = new DefaultModelIndex(model);
     }
 

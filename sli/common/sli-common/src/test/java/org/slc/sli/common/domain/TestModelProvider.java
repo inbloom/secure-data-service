@@ -24,7 +24,7 @@ import org.slc.sli.common.domain.ModelProvider;
  */
 public class TestModelProvider extends ModelProvider {
 
-    private static final String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
+    private static final String TEST_XMI_LOC = "sliModel/test_SLI.xmi";
 
     public TestModelProvider() {
         super(TEST_XMI_LOC);
