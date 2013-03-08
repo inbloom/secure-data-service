@@ -357,7 +357,7 @@ public class BatchJobMongoDATest {
         List<Error> errors = new ArrayList<Error>();
 
         for (int errorIndex = errorStartIndex; errors.size() < numberOfErrors; errorIndex++) {
-            errors.add(new Error(BATCHJOBID, BatchJobStageType.EDFI_PROCESSOR.getName(),
+            errors.add(new Error(BATCHJOBID, BatchJobStageType.EDFI_PARSER_PROCESSOR.getName(),
                 "resourceid" + errorIndex,
                 "sourceIp" + errorIndex,
                 "hostname" + errorIndex,
@@ -374,7 +374,7 @@ public class BatchJobMongoDATest {
     private void assertOnErrorIterableValues(Error error, int iterationCount) {
 
         assertEquals(error.getBatchJobId(), BATCHJOBID);
-        assertEquals(error.getStageName(), BatchJobStageType.EDFI_PROCESSOR.getName());
+        assertEquals(error.getStageName(), BatchJobStageType.EDFI_PARSER_PROCESSOR.getName());
         assertEquals(error.getResourceId(), "resourceid" + iterationCount);
         assertEquals(error.getSourceIp(), "sourceIp" + iterationCount);
         assertEquals(error.getHostname(), "hostname" + iterationCount);
@@ -494,7 +494,7 @@ public class BatchJobMongoDATest {
     @Test
     public void testError(){
         Error error = new Error(null, null, null, null, null, null, new Date(), null, null, null);
-        
+
         Assert.assertNotNull("BatchJobId should not be null!", error.getBatchJobId());
         Assert.assertNotNull("StageName should not be null", error.getStageName());
         Assert.assertNotNull("ResourceId should not be null", error.getResourceId());
@@ -527,6 +527,6 @@ public class BatchJobMongoDATest {
         Assert.assertNotNull("ErrorType should not be null", error.getErrorType());
         Assert.assertNotNull("ErrorDetail should not be null", error.getErrorDetail());
            Assert.assertNotNull("Timestamp should not be null", error.getTimestamp());
-    } 
-    
+    }
+
 }

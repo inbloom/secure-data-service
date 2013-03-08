@@ -14,7 +14,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>W</CodeValue>
-        <Description>Academic Warning</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>6</MinimumScore>
@@ -23,7 +22,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>B</CodeValue>
-        <Description>Below Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>15</MinimumScore>
@@ -32,7 +30,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>S</CodeValue>
-        <Description>Meets Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>21</MinimumScore>
@@ -41,7 +38,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>E</CodeValue>
-        <Description>Exceeds Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>28</MinimumScore>
@@ -69,7 +65,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>W</CodeValue>
-        <Description>Academic Warning</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>120</MinimumScore>
@@ -78,7 +73,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>B</CodeValue>
-        <Description>Below Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>180</MinimumScore>
@@ -87,7 +81,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>S</CodeValue>
-        <Description>Meets Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>231</MinimumScore>
@@ -96,7 +89,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>E</CodeValue>
-        <Description>Exceeds Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>278</MinimumScore>

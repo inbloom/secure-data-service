@@ -18,9 +18,9 @@ Given I post "orderAgnosticList.zip" file as the payload of the ingestion job
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "orderAgnosticList.zip" is completed in database
   Then I should see "Processed 1 records." in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 1" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered for processing: 1" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 1" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
     And I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|

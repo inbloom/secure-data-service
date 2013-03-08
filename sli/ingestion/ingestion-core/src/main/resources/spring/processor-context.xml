@@ -51,16 +51,6 @@
 
   <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
 
-  <!-- This will go away upon completion of US5060 -->
-  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
-    <property name="preValidators">
-      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
-        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
-        <ref bean="xsdValidator" />
-      </util:list>
-    </property>
-  </bean>
-
   <!-- This will go away upon completion of US4198 -->
   <bean id="XmlFileHandler" class="org.slc.sli.ingestion.handler.XmlFileHandler" scope="prototype">
     <property name="preValidators">
@@ -72,14 +62,13 @@
   </bean>
 
   <bean id="edFiParserProcessor" class="org.slc.sli.ingestion.processors.EdFiParserProcessor" parent="ingestionProcessor">
-    <property name="batchSize" value="${sli.ingestion.parser.batch.size}" />
+    <property name="batchSize" value="${sli.ingestion.parser.batch.size:1000}" />
     <property name="typeProvider" ref="xsdTypeProvider" />
     <property name="xsdSelector" ref="xsdSelector" />
     <property name="producer" ref="parserEndPoint" />
     <property name="preValidators">
       <util:list value-type="org.slc.sli.ingestion.validation.Validator">
         <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
-        <ref bean="xsdValidator" />
       </util:list>
     </property>
   </bean>

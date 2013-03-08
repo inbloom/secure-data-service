@@ -38,6 +38,7 @@ import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
@@ -45,6 +46,7 @@ import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
 import org.slc.sli.ingestion.parser.impl.EdfiRecordParserImpl2;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.FileSource;
@@ -69,12 +71,14 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
     // Internal state of the processor
     protected ThreadLocal<ParserState> state = new ThreadLocal<ParserState>();
+    protected ThreadLocal<Integer> ignoredRecordcount = new ThreadLocal<Integer>();
 
     @Override
     protected void process(Exchange exchange, ProcessorArgs<FileEntryWorkNote> args) {
         prepareState(exchange, args.workNote);
 
         Source source = new FileSource(args.workNote.getFileEntry().getResourceId());
+        Metrics metrics = Metrics.newInstance(args.workNote.getFileEntry().getResourceId());
 
         InputStream input = null;
         boolean validData = true;
@@ -82,14 +86,15 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             input = args.workNote.getFileEntry().getFileStream();
             Resource xsdSchema = xsdSelector.provideXsdResource(args.workNote.getFileEntry());
 
-            parse(input, xsdSchema);
+            parse(input, xsdSchema, args.reportStats, source);
+            metrics.setValidationErrorCount(ignoredRecordcount.get());
 
         } catch (IOException e) {
-            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0063);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0061);
         } catch (SAXException e) {
-            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0064);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0062);
         } catch (XmlParseException e) {
-            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0065);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0063);
             validData = false;
         } finally {
             IOUtils.closeQuietly(input);
@@ -102,11 +107,13 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
             // Get job from db to capture delta and staging processor information
             args.job = refreshjob(args.job.getId());
+            args.stage.addMetrics(metrics);
         }
     }
 
-    protected void parse(InputStream input, Resource xsdSchema) throws SAXException, IOException, XmlParseException {
-        EdfiRecordParserImpl2.parse(input, xsdSchema, typeProvider, this);
+    protected void parse(InputStream input, Resource xsdSchema, ReportStats reportStats, Source source)
+            throws SAXException, IOException, XmlParseException {
+        EdfiRecordParserImpl2.parse(input, xsdSchema, typeProvider, this, getMessageReport(), reportStats, source);
     }
 
     /**
@@ -122,6 +129,8 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         newState.setWork(workNote);
 
         state.set(newState);
+
+        ignoredRecordcount.set(0);
     }
 
     /**
@@ -142,6 +151,11 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         if (state.get().getDataBatch().size() >= batchSize) {
             sendDataBatch();
         }
+    }
+
+    @Override
+    public void ignored() {
+        ignoredRecordcount.set(ignoredRecordcount.get() + 1);
     }
 
     public void sendDataBatch() {
