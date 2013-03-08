@@ -25,7 +25,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.model.ModelProvider;
+import org.slc.sli.common.domain.ModelProvider;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;

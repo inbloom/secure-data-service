@@ -23,6 +23,14 @@
 
     <dependencies>
         <!-- Build and runtime dependencies -->
+	<dependency>
+		<groupId>org.slc.sli.modeling</groupId>
+		<artifactId>uml</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.slc.sli.modeling</groupId>
+		<artifactId>xmi</artifactId>
+	</dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>

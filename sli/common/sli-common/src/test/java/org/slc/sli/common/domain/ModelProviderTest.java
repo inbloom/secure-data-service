@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.api.selectors.model;
+package org.slc.sli.common.domain;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.model.ModelProvider;
-import org.slc.sli.api.model.TestModelProvider;
+import org.slc.sli.common.domain.ModelProvider;
+import org.slc.sli.common.domain.TestModelProvider;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
@@ -43,7 +43,7 @@ import static org.mockito.Mockito.when;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/applicationContext-test.xml" })
 public class ModelProviderTest {
 
     private ModelProvider provider; // class under test
@@ -53,7 +53,7 @@ public class ModelProviderTest {
         provider = new TestModelProvider();
         assertNotNull(provider);
     }
-
+    
     @Test
     public void testDelegation() {
         final ModelIndex mockIndex = mock(ModelIndex.class);

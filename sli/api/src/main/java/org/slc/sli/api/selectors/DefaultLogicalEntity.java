@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.model.ModelProvider;
+import org.slc.sli.common.domain.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.selectors.doc.SelectorDocument;

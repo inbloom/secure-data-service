@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.model;
+package org.slc.sli.common.domain;
 
+import org.slc.sli.common.domain.ModelProvider;
 
 
 /**
