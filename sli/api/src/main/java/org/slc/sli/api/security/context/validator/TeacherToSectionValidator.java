@@ -39,6 +39,9 @@ public class TeacherToSectionValidator extends AbstractContextValidator {
     
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+    
+    @Autowired
+    private DateHelper dateHelper;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -51,6 +54,7 @@ public class TeacherToSectionValidator extends AbstractContextValidator {
             return false;
         }
         Set<String> sectionIds = new HashSet<String>();
+        sectionIds.addAll(ids);
         for (String id : ids) {
             NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.SECTION_ID,
                     NeutralCriteria.OPERATOR_EQUAL, id));
@@ -59,10 +63,13 @@ public class TeacherToSectionValidator extends AbstractContextValidator {
             basicQuery.addCriteria(staffCriteria);
             List<Entity> idList = (List) repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, basicQuery);
             for (Entity tsa : idList) {
-                sectionIds.add((String) tsa.getBody().get(ParameterConstants.SECTION_ID));
+            	if (!dateHelper.isFieldExpired(tsa.getBody(), ParameterConstants.END_DATE)) {
+            		sectionIds.remove((String) tsa.getBody().get(ParameterConstants.SECTION_ID));
+            		break;
+            	}
             }
         }
-        return ids.size() == sectionIds.size();
+        return sectionIds.isEmpty();
     }
     
 }
