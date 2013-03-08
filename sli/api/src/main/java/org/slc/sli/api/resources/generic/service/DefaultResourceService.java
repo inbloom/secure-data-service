@@ -58,7 +58,7 @@ import java.util.Set;
 
 /**
  * Default implementation of the resource service.
- *
+ * 
  * @author srupasinghe
  * @author jstokes
  * @author pghosh
@@ -91,7 +91,7 @@ public class DefaultResourceService implements ResourceService {
     protected ServiceResponse handle(final Resource resource, ServiceLogic logic) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
-        ServiceResponse serviceResponse  = logic.run(resource, definition);
+        ServiceResponse serviceResponse = logic.run(resource, definition);
 
         return serviceResponse;
     }
@@ -105,8 +105,7 @@ public class DefaultResourceService implements ResourceService {
                 final int idLength = idList.split(",").length;
 
                 if (idLength > MAX_MULTIPLE_UUIDS) {
-                    String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
-                            + MAX_MULTIPLE_UUIDS + " (allowed)";
+                    String errorMessage = "Too many GUIDs: " + idLength + " (input) vs " + MAX_MULTIPLE_UUIDS + " (allowed)";
                     throw new PreConditionFailedException(errorMessage);
                 }
 
@@ -130,7 +129,7 @@ public class DefaultResourceService implements ResourceService {
                     throw new EntityNotFoundException(ids.get(0));
                 }
 
-                //inject error entities if needed
+                // inject error entities if needed
                 finalResults = injectErrors(definition, ids, finalResults);
 
                 return new ServiceResponse(finalResults, idLength);
@@ -139,8 +138,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public ServiceResponse getEntities(final Resource resource, final URI requestURI,
-                                       final boolean getAllEntities) {
+    public ServiceResponse getEntities(final Resource resource, final URI requestURI, final boolean getAllEntities) {
 
         return handle(resource, new ServiceLogic() {
             @Override
@@ -273,14 +271,13 @@ public class DefaultResourceService implements ResourceService {
         List<String> valueList = Arrays.asList(id.split(","));
 
         final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
-        
-        //Mongo blows up if we have multiple $in or equal criteria for the same key.
-        //To avoid that case, if we do have duplicate keys, set the value for that
-        //criteria to the intersection of the two critiera values
+
+        // Mongo blows up if we have multiple $in or equal criteria for the same key.
+        // To avoid that case, if we do have duplicate keys, set the value for that
+        // criteria to the intersection of the two critiera values
         boolean skipIn = false;
         for (NeutralCriteria crit : apiQuery.getCriteria()) {
-            if (crit.getKey().equals(associationKey)
-                    && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
+            if (crit.getKey().equals(associationKey) && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
                 skipIn = true;
                 Set valueSet = new HashSet();
                 if (crit.getValue() instanceof Collection) {
@@ -296,8 +293,7 @@ public class DefaultResourceService implements ResourceService {
         if (!skipIn) {
             apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
         }
-        
-        
+
         try {
             entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
         } catch (final UnsupportedSelectorException e) {
@@ -328,8 +324,8 @@ public class DefaultResourceService implements ResourceService {
 
         return isAssociation;
     }
-    private ServiceResponse getAssociatedEntities(final Resource base, final Resource association, final String id,
-                                                  final Resource resource, final String associationKey, final URI requestUri) {
+
+    private ServiceResponse getAssociatedEntities(final Resource base, final Resource association, final String id, final Resource resource, final String associationKey, final URI requestUri) {
         List<String> valueList = Arrays.asList(id.split(","));
         final List<String> filteredIdList = new ArrayList<String>();
 
@@ -352,40 +348,32 @@ public class DefaultResourceService implements ResourceService {
                 List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
 
                 if (associations != null) {
+                    String ident = resourceKey;
                     if (finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
-                        //if the finalEntity references the assocEntity
-                        for (EntityBody associationEntity : associations) {
-                            filteredIdList.add((String) associationEntity.get("id"));
-                        }
+                        ident = "id";
                         key = resourceKey;
-                    } else {
-                        //otherwise the assocEntity references the finalEntity
-                        for (EntityBody associationEntity : associations) {
-                            filteredIdList.add((String) associationEntity.get(resourceKey));
-                        }
                     }
-
+                    
+                    for (EntityBody associationEntity : associations) {
+                        filteredIdList.add((String) associationEntity.get(ident));
+                    }
                 }
             }
         } else {
             final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(assocEntity);
             apiQuery.setLimit(0);
             apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
-            if (association.getResourceType().equals(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS)
-                    && requestUri.getPath().matches("^/api/rest/[^/]+/schools/[^/]+/studentSchoolAssociations/students")) {
-                apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE,
-                        NeutralCriteria.CRITERIA_EXISTS, false)));
-                apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE,
-                        NeutralCriteria.CRITERIA_GTE, DateTime.now().toString(DateTimeFormat.forPattern("yyyy-MM-dd"))
-                )));
+            if (association.getResourceType().equals(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS) && requestUri.getPath().matches("^/api/rest/[^/]+/schools/[^/]+/studentSchoolAssociations/students")) {
+                apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
+                apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE, NeutralCriteria.CRITERIA_GTE, DateTime.now().toString(DateTimeFormat.forPattern("yyyy-MM-dd")))));
             }
 
             for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
                 List<String> filteredIds = entityBody.getValues(resourceKey);
                 if ((filteredIds == null) || (filteredIds.isEmpty())) {
-                   key = resourceKey;
-                   filteredIdList.addAll(valueList);
-                   break;
+                    key = resourceKey;
+                    filteredIdList.addAll(valueList);
+                    break;
                 } else {
                     for (String filteredId : filteredIds) {
                         filteredIdList.add(filteredId);
@@ -397,13 +385,12 @@ public class DefaultResourceService implements ResourceService {
         List<EntityBody> entityBodyList;
         final ApiQuery finalApiQuery = resourceServiceHelper.getApiQuery(finalEntity, requestUri);
 
-        //Mongo blows up if we have multiple $in or equal criteria for the same key.
-        //To avoid that case, if we do have duplicate keys, set the value for that
-        //criteria to the intersection of the two critiera values
+        // Mongo blows up if we have multiple $in or equal criteria for the same key.
+        // To avoid that case, if we do have duplicate keys, set the value for that
+        // criteria to the intersection of the two critiera values
         boolean skipIn = false;
         for (NeutralCriteria crit : finalApiQuery.getCriteria()) {
-            if (crit.getKey().equals(key)
-                    && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
+            if (crit.getKey().equals(key) && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
                 skipIn = true;
                 Set valueSet = new HashSet();
                 if (crit.getValue() instanceof Collection) {
@@ -488,11 +475,11 @@ public class DefaultResourceService implements ResourceService {
                         errorResult.put("type", "Forbidden");
                         errorResult.put("message", "Access DENIED: " + ade.getMessage());
                         errorResult.put("code", Response.Status.FORBIDDEN.getStatusCode());
-                    } /* catch (Exception e) {
-                        errorResult.put("type", "Internal Server Error");
-                        errorResult.put("message", "Internal Server Error: " + e.getMessage());
-                        errorResult.put("code", Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-                    } */
+                    } /*
+                       * catch (Exception e) { errorResult.put("type", "Internal Server Error");
+                       * errorResult.put("message", "Internal Server Error: " + e.getMessage()); errorResult.put("code",
+                       * Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()); }
+                       */
 
                     finalResults.add(i, new EntityBody(errorResult));
                 }
