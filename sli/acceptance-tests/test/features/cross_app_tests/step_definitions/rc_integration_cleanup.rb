@@ -84,21 +84,25 @@ Then /^my tenant database should be cleared$/ do
 end
 
 Then /^I will drop the whole database$/ do
-  puts "Db to be dropped #{@tenant_db_name}"
-  puts "List 1"
+  puts "Tenant database to be dropped #{@tenant_db_name}"
+  puts "List of database names before attempted database drop if necessary:"
   puts @conn.database_names.to_s
   tenant_dropped = false
   if (!@conn.database_names.include?(@tenant_db_name))
      "Tenant not in list"
      tenant_dropped = true
   else
-    puts "Tenant in list"
+    puts "Tenant database found in list of databases"
     @conn.drop_database(@tenant_db_name)
-    puts "List 2"
-    puts @conn.database_names.to_s
-    if (!@conn.database_names.include?(@tenant_db_name))
+    puts "List of database names after database drop, using fresh Mongo connection:"
+    host = PropLoader.getProps['ingestion_db']
+    port = PropLoader.getProps['ingestion_db_port']
+    @conn2 = Mongo::Connection.new(host, port)
+    puts @conn2.database_names.to_s
+    if (!@conn2.database_names.include?(@tenant_db_name))
         tenant_dropped = true
     end
+    conn2.close
   end
   assert(tenant_dropped, "Tenant DB not dropped.")
 end
