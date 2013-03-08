@@ -43,6 +43,7 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -69,10 +70,10 @@ import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-
 /**
  * Service class to handle all API search requests. Retrieves results using data
  * access classes. Queries and filters results based on the user's security
@@ -179,6 +180,9 @@ public class SearchResourceService {
         NeutralCriteria criteria = null;
         // got through each type and execute list() for the list of ids provided
         // by search
+        
+        toSubDocCompatible(query, EmbeddedDocumentRelations.getSubDocuments());
+        
         for (String type : entityMap.rowKeySet()) {
             if (criteria != null) {
                 query.removeCriteria(criteria);
@@ -191,6 +195,28 @@ public class SearchResourceService {
         return fullEntities;
     }
 
+    private void toSubDocCompatible(NeutralQuery query, Set<String> subdocs) {
+        List<NeutralCriteria> newCriteria = new ArrayList<NeutralCriteria>();
+        for (NeutralCriteria criteria : query.getCriteria()) {
+            String key = criteria.getKey().split("\\.")[0];
+            if (invalidCriteria(key)) {
+                continue;
+            }
+            if (subdocs.contains(key)) {
+                criteria.setCanBePrefixed(false);
+                criteria.setKey(key+".body"+criteria.getKey().substring(key.length()));
+            }
+            newCriteria.add(criteria);
+        }
+        query.setQueryCritiria(newCriteria);
+    }
+    
+    private boolean invalidCriteria(String key) {
+        //assessmentPeriodDescriptor and assessmentFamilyHierarchyName is no longer in assessment,
+        //can't query on those two fields anymore, they will not yield correct result
+        return "assessmentPeriodDescriptor".equals(key) || "assessmentFamilyHierarchyName".equals(key);
+    }
+    
     /**
      * Takes an ApiQuery and retrieve results. Includes logic for pagination and
      * calls methods to filter by security context.

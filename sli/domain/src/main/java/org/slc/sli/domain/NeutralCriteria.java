@@ -108,6 +108,10 @@ public class NeutralCriteria {
         return this.canBePrefixed;
     }
 
+    public void setCanBePrefixed(boolean canBePrefixed) {
+        this.canBePrefixed = canBePrefixed; 
+    }
+    
     @Override
     public String toString() {
         return this.key + " " + this.operator + " " + this.value

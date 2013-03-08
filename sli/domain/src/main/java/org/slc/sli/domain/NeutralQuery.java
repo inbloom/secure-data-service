@@ -313,6 +313,11 @@ public class NeutralQuery {
         return this;
     }
 
+    public NeutralQuery setQueryCritiria(List<NeutralCriteria> newQueryCriteria) {
+        this.queryCriteria = newQueryCriteria;
+        return this;
+    }
+    
     @Override
     public String toString() {
         return "NeutralQuery [includeFields=" + includeFields + ", excludeFields=" + excludeFields + ", offset="
