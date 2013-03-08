@@ -83,7 +83,7 @@ public class VersionFilterTest {
         ContainerRequest request = versionFilter.filter(containerRequest);
         verify(containerRequest).setUris((URI) any(), (URI) any());
         verify(builder).build();
-        verify(builder, times(1)).path("v1.1");
+        verify(builder, times(1)).path("v1.2");
         verify(builder, times(1)).path("students");
         assertEquals("Should match", "http://api/rest/v1/students", request.getProperties().get(REQUESTED_PATH));
     }
@@ -112,7 +112,7 @@ public class VersionFilterTest {
         verify(containerRequest).setUris((URI) any(), (URI) any());
         verify(builder).replaceQuery(anyString());
         verify(builder).build();
-        verify(builder, times(1)).path("v1.1");
+        verify(builder, times(1)).path("v1.2");
         verify(builder, times(1)).path("students");
     }
 
