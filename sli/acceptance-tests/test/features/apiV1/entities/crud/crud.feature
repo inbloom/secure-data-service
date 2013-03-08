@@ -331,9 +331,9 @@ Examples:
     And "entityType" should be "attendance"
     And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
   # Update
-    When I set the <Update Field> array to <Updated Value>
+    When I set the <Update Field> array to "<ATT_EVENT_ARRAY>"
     And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 204
   # Delete
     When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 204
@@ -341,8 +341,8 @@ Examples:
     And I should receive a return code of 404
 
   Examples:
-    | Entity Type                             | Entity Resource URI | Update Field      | Updated Value                                                   |
-    | "yearlyAttendance"                      | "yearlyAttendances" | "attendanceEvent" | [{"event": "Unexcused Absence", "date":"2010-09-16"}] |
+    | Entity Type                             | Entity Resource URI | Update Field      |
+    | "yearlyAttendance"                      | "yearlyAttendances" | "attendanceEvent" |
 
   Scenario Outline: CRUD operations till we unwip auto_crud
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
