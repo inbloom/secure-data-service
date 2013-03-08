@@ -1,0 +1,123 @@
+{
+    "entities": {
+        "grades": {
+            "POST": [
+                {
+                    "ADD_FIELD": {
+                        "fieldName": "schoolYear",
+                        "ruleSet": [
+                            {
+                                "rank": 1,
+                                "rule": {
+                                    "collection": "grade",
+                                    "field": "studentSectionAssociationId"
+                                }
+                            },
+                            {
+                                "rank": 2,
+                                "rule": {
+                                    "collection": "studentSectionAssociation",
+                                    "field": "sectionId"
+                                }
+                            },
+                            {
+                                "rank": 3,
+                                "rule": {
+                                    "collection": "section",
+                                    "field": "courseOfferingId"
+                                }
+                            },
+                            {
+                                "rank": 4,
+                                "rule": {
+                                    "collection": "courseOffering",
+                                    "field": "sessionId"
+                                }
+                            },
+                            {
+                                "rank": 5,
+                                "rule": {
+                                    "collection": "session",
+                                    "field": "schoolYear"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "reportCards": {
+            "POST": [
+                {
+                    "ADD_FIELD": {
+                        "fieldName": "schoolYear",
+                        "ruleSet": [
+                            {
+                                "rank": 1,
+                                "rule": {
+                                    "collection": "reportCard",
+                                    "field": "gradingPeriodId"
+                                }
+                            },
+                            {
+                                "rank": 2,
+                                "rule": {
+                                    "collection": "gradingPeriod",
+                                    "field": "gradingPeriodIdentity,schoolYear"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "studentAcademicRecords": {
+            "POST": [
+                {
+                    "ADD_FIELD": {
+                        "fieldName": "schoolYear",
+                        "ruleSet": [
+                            {
+                                "rank": 1,
+                                "rule": {
+                                    "collection": "studentAcademicRecord",
+                                    "field": "sessionId"
+                                }
+                            },
+                            {
+                                "rank": 2,
+                                "rule": {
+                                    "collection": "session",
+                                    "field": "schoolYear"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "attendances": {
+            "POST": [
+                {
+                    "ATTENDANCE": {
+                        "operation": "post"
+                    }
+                }
+            ],
+            "GET": [
+                {
+                    "ATTENDANCE": {
+                        "operation": "get"
+                    }
+                }
+            ],
+            "PUT": [
+                {
+                    "ATTENDANCE": {
+                        "operation": "put"
+                    }
+                }
+            ]
+        }
+    }
+}

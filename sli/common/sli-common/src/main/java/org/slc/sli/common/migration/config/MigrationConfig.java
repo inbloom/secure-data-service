@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dal.migration.strategy.config;
+package org.slc.sli.common.migration.config;
+
+import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.dal.migration.config.Strategy;
 
 /**
  * 
@@ -33,13 +32,13 @@ import org.slc.sli.dal.migration.config.Strategy;
 public class MigrationConfig {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    private Map<String, Map<Integer, List<Map<Strategy, Map<String, Object>>>>> entities;
+    private Map<String, Map<String, List<Map<Strategy, Map<String, Object>>>>> entities;
 
     public MigrationConfig() {
-        entities = new HashMap<String, Map<Integer, List<Map<Strategy, Map<String, Object>>>>>();
+        entities = new HashMap<String, Map<String, List<Map<Strategy, Map<String, Object>>>>>();
     }
 
-    public Map<String, Map<Integer, List<Map<Strategy, Map<String, Object>>>>> getEntities() {
+    public Map<String, Map<String, List<Map<Strategy, Map<String, Object>>>>> getEntities() {
         return entities;
     }
 

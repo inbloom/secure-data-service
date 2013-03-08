@@ -95,6 +95,7 @@
     <bean id="apiSchemaAdapter" class="org.slc.sli.api.migration.ApiSchemaAdapter" >
         <property name="upMigrationConfigResource" value="classpath:migration/up-api-migration.json/" />
         <property name="downMigrationConfigResource" value="classpath:migration/down-api-migration.json/" />
+        <property name="entityTransformConfigResource" value="classpath:migration/down-api-migration.json/" />
     </bean>
     
     <bean id="apiMigrationAspect" class="org.slc.sli.aspect.ApiMigrationAspect" factory-method="aspectOf">

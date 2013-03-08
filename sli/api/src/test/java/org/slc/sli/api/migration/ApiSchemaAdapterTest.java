@@ -15,15 +15,24 @@
  */
 package org.slc.sli.api.migration;
 
-import static org.junit.Assert.assertTrue;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.migration.strategy.impl.AddFieldStrategy;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.migration.config.Strategy;
+import org.slc.sli.common.migration.strategy.MigrationStrategy;
+import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
+import org.slc.sli.dal.migration.strategy.impl.RemoveFieldStrategy;
+import org.slc.sli.dal.migration.strategy.impl.RenameFieldStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
@@ -32,19 +41,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.dal.migration.strategy.MigrationStrategy;
-import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
-import org.slc.sli.dal.migration.strategy.impl.RemoveFieldStrategy;
-import org.slc.sli.dal.migration.strategy.impl.RenameFieldStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
+@TestExecutionListeners({WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class})
 public class ApiSchemaAdapterTest {
 
     @Value("classpath:migration/apiSchemaAdapterTest-down.json/")
@@ -53,29 +64,53 @@ public class ApiSchemaAdapterTest {
     @Value("classpath:migration/apiSchemaAdapterTest-up.json/")
     private Resource upResource;
 
+    @Value("classpath:migration/api-entity-transform.json/")
+    private Resource entityResource;
+
+    PagingRepositoryDelegate repository = Mockito.mock(PagingRepositoryDelegate.class);
+
+    static private final String ONE = "1";
+
+
+    Strategy strategy;
+
+    @Autowired
+    @InjectMocks
+    private ApiSchemaAdapter apiSchemaAdapter;
+
+    @Before
+    public void init() {
+        strategy = null;
+
+        MockitoAnnotations.initMocks(this);
+//        Mockito.when(any(Strategy.class)).thenReturn(strategy);
+
+        apiSchemaAdapter = initApiSchemaAdapter();
+    }
+
     @Test
-    public void testBuildMigrationStrategyMap() throws NoSuchFieldException, IllegalAccessException{
+    public void testBuildMigrationStrategyMap() throws NoSuchFieldException, IllegalAccessException {
         ApiSchemaAdapter apiSchemaAdapter = initApiSchemaAdapter();
-        List<MigrationStrategy> downList = apiSchemaAdapter.getDownMigrationStrategies("session", 1);
-        List<MigrationStrategy> upList = apiSchemaAdapter.getUpMigrationStrategies("session", 1);
+        List<MigrationStrategy> downList = apiSchemaAdapter.getDownMigrationStrategies("session", ONE);
+        List<MigrationStrategy> upList = apiSchemaAdapter.getUpMigrationStrategies("session", ONE);
         assertTrue(downList != null);
         assertTrue(upList != null);
         assertTrue(downList.get(0) instanceof AddStrategy);
-        assertTrue(((String) getField(downList.get(0), "fieldName")).equals("downFoo"));
-        assertTrue(((String) getField(downList.get(0), "defaultValue")).equals("downBar"));
+        assertTrue((getField(downList.get(0), "fieldName")).equals("downFoo"));
+        assertTrue((getField(downList.get(0), "defaultValue")).equals("downBar"));
         assertTrue(downList.get(1) instanceof RemoveFieldStrategy);
-        assertTrue(((String) getField(downList.get(1), "fieldName")).equals("removeDownFoo"));
+        assertTrue(( getField(downList.get(1), "fieldName")).equals("removeDownFoo"));
         assertTrue(downList.get(2) instanceof RenameFieldStrategy);
-        assertTrue(((String) getField(downList.get(2), "oldFieldName")).equals("oldDownFoo"));
-        assertTrue(((String) getField(downList.get(2), "newFieldName")).equals("newDownFoo"));
+        assertTrue((getField(downList.get(2), "oldFieldName")).equals("oldDownFoo"));
+        assertTrue((getField(downList.get(2), "newFieldName")).equals("newDownFoo"));
         assertTrue(upList.get(0) instanceof AddStrategy);
-        assertTrue(((String) getField(upList.get(0), "fieldName")).equals("upFoo"));
-        assertTrue(((String) getField(upList.get(0), "defaultValue")).equals("upBar"));
+        assertTrue(( getField(upList.get(0), "fieldName")).equals("upFoo"));
+        assertTrue((getField(upList.get(0), "defaultValue")).equals("upBar"));
         assertTrue(upList.get(1) instanceof RemoveFieldStrategy);
-        assertTrue(((String) getField(upList.get(1), "fieldName")).equals("removeUpFoo"));
+        assertTrue(( getField(upList.get(1), "fieldName")).equals("removeUpFoo"));
         assertTrue(upList.get(2) instanceof RenameFieldStrategy);
-        assertTrue(((String) getField(upList.get(2), "oldFieldName")).equals("oldUpFoo"));
-        assertTrue(((String) getField(upList.get(2), "newFieldName")).equals("newUpFoo"));
+        assertTrue((getField(upList.get(2), "oldFieldName")).equals("oldUpFoo"));
+        assertTrue((getField(upList.get(2), "newFieldName")).equals("newUpFoo"));
     }
 
     @Test
@@ -84,15 +119,15 @@ public class ApiSchemaAdapterTest {
         EntityBody downBody = new EntityBody();
         downBody.put("removeDownFoo", "removeDownBar");
         downBody.put("oldDownFoo", "oldDownBar");
-        Entity downEntity =  new MongoEntity("session", downBody);
+        Entity downEntity = new MongoEntity("session", downBody);
 
         EntityBody upBody = new EntityBody();
         upBody.put("removeUpFoo", "removeUpBar");
         upBody.put("oldUpFoo", "oldUpBar");
-        Entity upEntity =  new MongoEntity("session", upBody);
+        Entity upEntity = new MongoEntity("session", upBody);
 
-        Entity newDownEntity = apiSchemaAdapter.migrate(downEntity, 1, false);
-        Entity newUpEntity = apiSchemaAdapter.migrate(upEntity, 1, true);
+        Entity newDownEntity = apiSchemaAdapter.migrate(downEntity, ONE, false);
+        Entity newUpEntity = apiSchemaAdapter.migrate(upEntity, ONE, true);
 
         assertTrue(newDownEntity.getBody().containsKey("downFoo"));
         assertTrue(newDownEntity.getBody().get("downFoo").equals("downBar"));
@@ -111,18 +146,18 @@ public class ApiSchemaAdapterTest {
 
     @Test
     public void testMigrateIterable() {
-        ApiSchemaAdapter apiSchemaAdapter = initApiSchemaAdapter();
+
         EntityBody downBody = new EntityBody();
         downBody.put("removeDownFoo", "removeDownBar");
         downBody.put("oldDownFoo", "oldDownBar");
-        Entity downSessionEntity =  new MongoEntity("session", downBody);
-        Entity downStudentEntity =  new MongoEntity("student", null);
+        Entity downSessionEntity = new MongoEntity("session", downBody);
+        Entity downStudentEntity = new MongoEntity("student", null);
 
         EntityBody upBody = new EntityBody();
         upBody.put("removeUpFoo", "removeUpBar");
         upBody.put("oldUpFoo", "oldUpBar");
-        Entity upSessionEntity =  new MongoEntity("session", upBody);
-        Entity upStudentEntity =  new MongoEntity("student", null);
+        Entity upSessionEntity = new MongoEntity("session", upBody);
+        Entity upStudentEntity = new MongoEntity("student", null);
 
         ArrayList<Entity> oldDownEntityList = new ArrayList<Entity>();
         oldDownEntityList.add(downSessionEntity);
@@ -132,7 +167,7 @@ public class ApiSchemaAdapterTest {
         oldUpEntityList.add(upSessionEntity);
         oldUpEntityList.add(upStudentEntity);
 
-        Iterator<Entity> newDownEntityList = apiSchemaAdapter.migrate(oldDownEntityList, 1, false).iterator();
+        Iterator<Entity> newDownEntityList = apiSchemaAdapter.migrate(oldDownEntityList, ONE, false).iterator();
         Entity currDownEntity = newDownEntityList.next();
 
         assertTrue(currDownEntity.getBody().containsKey("downFoo"));
@@ -144,7 +179,7 @@ public class ApiSchemaAdapterTest {
         assertTrue(newDownEntityList.next() != null);
         assertTrue(!newDownEntityList.hasNext());
 
-        Iterator<Entity> newUpEntityList = apiSchemaAdapter.migrate(oldUpEntityList, 1, true).iterator();
+        Iterator<Entity> newUpEntityList = apiSchemaAdapter.migrate(oldUpEntityList, ONE, true).iterator();
         Entity firstUpEntity = newUpEntityList.next();
         assertTrue(firstUpEntity.getBody().containsKey("upFoo"));
         assertTrue(firstUpEntity.getBody().get("upFoo").equals("upBar"));
@@ -157,15 +192,40 @@ public class ApiSchemaAdapterTest {
     }
 
     private ApiSchemaAdapter initApiSchemaAdapter() {
-        ApiSchemaAdapter apiSchemaAdapter = new ApiSchemaAdapter();
         apiSchemaAdapter.setDownMigrationConfigResource(downResource);
         apiSchemaAdapter.setUpMigrationConfigResource(upResource);
+        apiSchemaAdapter.setEntityTransformConfigResource(entityResource);
         apiSchemaAdapter.initMigration();
         return apiSchemaAdapter;
     }
 
-    private Object getField(Object o, String fieldName) throws NoSuchFieldException, IllegalAccessException
-    {
+    @Test
+    public void testEntityTransformation() {
+        EntityBody gpBody = new EntityBody();
+        Map<String, String> gpiType = new HashMap<String, String>();
+        gpiType.put("schoolYear", "testYear");
+        gpBody.put("gradingPeriodIdentity", gpiType);
+        String gpId = "gpId";
+        String gradingPeriodColl = "gradingPeriod";
+        Entity gradingPeriod = new MongoEntity(gradingPeriodColl, gpId, gpBody, null);
+
+        List<MigrationStrategy> migrationStrategies = apiSchemaAdapter.getEntityTransformMigrationStrategies("reportCard", ONE);
+        for (MigrationStrategy migrationStrategy : migrationStrategies) {
+            ((AddFieldStrategy) migrationStrategy).setRepository(repository);
+        }
+
+        EntityBody entityBody = new EntityBody();
+        entityBody.put("gradingPeriodId", gradingPeriod.getEntityId());
+        Mockito.when(repository.findById(any(String.class), eq(gpId))).thenReturn(gradingPeriod);
+
+        List<EntityBody> entityBodies = apiSchemaAdapter.migrate(entityBody, "reportCard", ONE);
+        assertTrue(!entityBodies.isEmpty());
+        assertTrue(entityBodies.size() == 1);
+        assertTrue(entityBodies.get(0).containsKey("schoolYear"));
+        assertTrue(entityBodies.get(0).get("schoolYear").equals("testYear"));
+    }
+
+    private Object getField(Object o, String fieldName) throws NoSuchFieldException, IllegalAccessException {
         Class<?> clazz = o.getClass();
         Field field = clazz.getDeclaredField(fieldName);
         field.setAccessible(true);

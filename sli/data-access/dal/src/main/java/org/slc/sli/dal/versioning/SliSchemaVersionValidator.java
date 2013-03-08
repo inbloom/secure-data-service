@@ -16,23 +16,12 @@
 
 package org.slc.sli.dal.versioning;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.PostConstruct;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-
-import org.slc.sli.dal.migration.config.Strategy;
-import org.slc.sli.dal.migration.strategy.MigrationException;
-import org.slc.sli.dal.migration.strategy.MigrationStrategy;
-import org.slc.sli.dal.migration.strategy.config.MigrationConfig;
+import org.slc.sli.common.migration.config.MigrationConfig;
+import org.slc.sli.common.migration.config.Strategy;
+import org.slc.sli.common.migration.strategy.MigrationException;
+import org.slc.sli.common.migration.strategy.MigrationStrategy;
 import org.slc.sli.dal.repository.ValidationWithoutNaturalKeys;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.SchemaRepository;
@@ -41,11 +30,22 @@ import org.slc.sli.validation.schema.NeutralSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Validates versions of XSD to versions of documents and signals for
@@ -75,13 +75,16 @@ public class SliSchemaVersionValidator {
     @Autowired
     protected Resource migrationConfigResource;
 
+    @Autowired
+    ApplicationContext beanFactory;
+
     protected MongoTemplate mongoTemplate;
     
 
     private Map<String, Integer> entityTypesBeingMigrated;
     private Map<String, Integer> currentEntityTypeVersions;
 
-    private Map<String, Map<Integer, List<MigrationStrategy>>> migrationStrategyMap;
+    private Map<String, Map<String, List<MigrationStrategy>>> migrationStrategyMap;
     
     /**
      * If the entity is non null, has a metaData map, and its entity type has a version,
@@ -222,7 +225,7 @@ public class SliSchemaVersionValidator {
 
         Entity localEntity = entity;
         for (MigrationStrategy migrationStrategy : this.getMigrationStrategies(entityType, entityVersionNumber, newVersionNumber)) {
-            localEntity = migrationStrategy.migrate(localEntity);
+            localEntity = (Entity) migrationStrategy.migrate(localEntity);
         }
 
         localEntity.getMetaData().put(VERSION_NUMBER_FIELD, newVersionNumber);
@@ -264,9 +267,9 @@ public class SliSchemaVersionValidator {
     /**
      * This method should be called post construct to load the strategies per entity type
      */
-    private Map<String, Map<Integer, List<MigrationStrategy>>> buildMigrationStrategyMap() {
+    private Map<String, Map<String, List<MigrationStrategy>>> buildMigrationStrategyMap() {
 
-        Map<String, Map<Integer, List<MigrationStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<MigrationStrategy>>>();
+        Map<String, Map<String, List<MigrationStrategy>>> migrationStrategyMap = new HashMap<String, Map<String, List<MigrationStrategy>>>();
         
         MigrationConfig config = null;
         try {
@@ -276,21 +279,21 @@ public class SliSchemaVersionValidator {
             return migrationStrategyMap;
         }
 
-        Map<String, Map<Integer, List<Map<Strategy, Map<String, Object>>>>> entityConfig = config.getEntities();
+        Map<String, Map<String, List<Map<Strategy, Map<String, Object>>>>> entityConfig = config.getEntities();
 
         // iterate over entities
-        for (Map.Entry<String, Map<Integer, List<Map<Strategy, Map<String, Object>>>>> entityEntry : entityConfig
+        for (Map.Entry<String, Map<String, List<Map<Strategy, Map<String, Object>>>>> entityEntry : entityConfig
                 .entrySet()) {
 
             String entityType = entityEntry.getKey();
-            Map<Integer, List<Map<Strategy, Map<String, Object>>>> versionUpdates = entityEntry.getValue();
+            Map<String, List<Map<Strategy, Map<String, Object>>>> versionUpdates = entityEntry.getValue();
 
-            Map<Integer, List<MigrationStrategy>> migrationsForVersion = new HashMap<Integer, List<MigrationStrategy>>();
+            Map<String, List<MigrationStrategy>> migrationsForVersion = new HashMap<String, List<MigrationStrategy>>();
 
             // iterate over version updates for a single entity
-            for (Map.Entry<Integer, List<Map<Strategy, Map<String, Object>>>> versionEntry : versionUpdates.entrySet()) {
+            for (Map.Entry<String, List<Map<Strategy, Map<String, Object>>>> versionEntry : versionUpdates.entrySet()) {
 
-                Integer versionNumber = versionEntry.getKey();
+                String versionNumber = versionEntry.getKey();
                 List<Map<Strategy, Map<String, Object>>> versionStrategies = versionEntry.getValue();
 
                 List<MigrationStrategy> strategies = new ArrayList<MigrationStrategy>();
@@ -301,7 +304,8 @@ public class SliSchemaVersionValidator {
                     // iterate over migration strategies for a single version update
                     for (Map.Entry<Strategy, Map<String, Object>> strategy : versionStrategy.entrySet()) {
                         try {
-                            MigrationStrategy migrationStrategy = strategy.getKey().getNewImplementation();
+                            MigrationStrategy migrationStrategy = (MigrationStrategy) beanFactory
+                                    .getBean(strategy.getKey().getBeanName());
                             migrationStrategy.setParameters(strategy.getValue());
                             strategies.add(migrationStrategy);
                         } catch (MigrationException e) {
@@ -320,12 +324,12 @@ public class SliSchemaVersionValidator {
 
     protected List<MigrationStrategy> getMigrationStrategies(String entityType, int entityVersionNumber, int newVersionNumber) {
 
-        Map<Integer, List<MigrationStrategy>> entityMigrations = migrationStrategyMap.get(entityType);
+        Map<String, List<MigrationStrategy>> entityMigrations = migrationStrategyMap.get(entityType);
         List<MigrationStrategy> allStrategies = new LinkedList<MigrationStrategy>();
 
         if (entityMigrations != null) {
-            for (int version = entityVersionNumber+1; version <= newVersionNumber; version++) {
-                List<MigrationStrategy> strategies = entityMigrations.get(version);
+            for (Integer version = entityVersionNumber+1; version <= newVersionNumber; version++) {
+                List<MigrationStrategy> strategies = entityMigrations.get(version.toString());
 
                 if (strategies != null) {
                     allStrategies.addAll(strategies);
