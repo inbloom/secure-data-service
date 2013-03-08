@@ -71,6 +71,9 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Verify entities in education organization calendar were ingested correctly: Populated Database
     And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                   | searchType           |
+     | assessmentFamily            | 13                  | body.assessmentFamilyReference           | 8a66422e6a4756a0c412b5856d94ae30fab650ca_id   | string               |
+     | assessment                  | 2                   | body.assessmentPeriodDescriptorId        | 5b074ef7c104dd0cdd2e4f65d554c3ae5adf073f_id   | string               |
+     | assessment                  | 2                   | body.assessmentFamilyReference           | c32be9ce85a4a387c7dc407277d1a8db99b8446e_id   | string               |
      | session                     | 1                   | body.sessionName                         | 2001-2002 Year Round session: IL-DAYBREAK     | string               |
      | session                     | 1                   | body.sessionName                         | 2002-2003 Year Round session: IL-DAYBREAK     | string               |
      | session                     | 1                   | body.sessionName                         | 2003-2004 Year Round session: IL-DAYBREAK     | string               |
@@ -110,7 +113,7 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
      | student                     | 3                   | schools.edOrgs                           | a13489364c2eb015c219172d561c62350f0453f3_id   | string               |   
      | student                     | 10                  | schools.edOrgs                           | 1b223f577827204a1c7e9c851dba06bea6b031fe_id   | string               |   
      | student                     | 1                   | _id                                      | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |   
-     | studentParentAssociation    | 2                   | body.studentId                           | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |   
+     | studentParentAssociation    | 2                   | body.studentId                           | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |
 
 Scenario: Verify specific staff document for Rebecca Braverman ingested correctly: Populated Database
   When I can find a "staff" with "body.teacherUniqueStateId" "rbraverman" in tenant db "Midgar"
