@@ -47,11 +47,16 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ElementSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 
 /**
  * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
@@ -63,9 +68,9 @@ import org.slc.sli.ingestion.parser.XmlParseException;
  * @author dduran
  *
  */
-public class EdfiRecordParserImpl2 extends DefaultHandler {
+public class EdfiRecordParser extends EdfiRecordValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserImpl2.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParser.class);
 
     private TypeProvider typeProvider;
 
@@ -82,44 +87,26 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
     private List<RecordVisitor> recordVisitors = new ArrayList<RecordVisitor>();
 
     public static void parse(InputStream input, Resource schemaResource, TypeProvider typeProvider,
-            RecordVisitor visitor) throws SAXException, IOException, XmlParseException {
+            RecordVisitor visitor, AbstractMessageReport messageReport, ReportStats reportStats, Source source)
+                    throws SAXException, IOException, XmlParseException {
 
-        EdfiRecordParserImpl2 parser = new EdfiRecordParserImpl2();
+        EdfiRecordParser parser = new EdfiRecordParser(typeProvider, messageReport, reportStats, source);
 
         parser.addVisitor(visitor);
-        parser.typeProvider = typeProvider;
 
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-
-        Schema schema = schemaFactory.newSchema(schemaResource.getURL());
-
-        parser.parseAndValidate(input, schema);
+        parser.process(input, schemaResource);
+    }
+    
+    public EdfiRecordParser(TypeProvider typeProvider, AbstractMessageReport messageReport, ReportStats reportStats, Source source) {
+        super(messageReport, reportStats, source);
+        this.typeProvider = typeProvider;
     }
 
-    private void parseAndValidate(InputStream input, Schema schema) throws XmlParseException, IOException {
-        ValidatorHandler vHandler = schema.newValidatorHandler();
+    @Override
+    protected void parseAndValidate(InputStream input, ValidatorHandler vHandler) throws XmlParseException, IOException {
         vHandler.setContentHandler(this);
-        vHandler.setErrorHandler(this);
 
-        InputSource is = new InputSource(new InputStreamReader(input, "UTF-8"));
-        is.setEncoding("UTF-8");
-
-        try {
-            XMLReader parser = XMLReaderFactory.createXMLReader();
-            parser.setContentHandler(vHandler);
-            parser.setErrorHandler(this);
-
-            vHandler.setFeature("http://apache.org/xml/features/continue-after-fatal-error", false);
-
-            parser.setFeature("http://apache.org/xml/features/validation/id-idref-checking", false);
-            parser.setFeature("http://apache.org/xml/features/continue-after-fatal-error", false);
-            parser.setFeature("http://xml.org/sax/features/external-general-entities", false);
-            parser.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-
-            parser.parse(is);
-        } catch (SAXException e) {
-            throw new XmlParseException(e.getMessage(), e);
-        }
+        super.parseAndValidate(input, vHandler);
     }
 
     @Override
@@ -281,13 +268,8 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
     }
 
     @Override
-    public void warning(SAXParseException exception) throws SAXException {
-        LOG.warn("Warning: {}", exception.getMessage());
-    }
-
-    @Override
     public void error(SAXParseException exception) throws SAXException {
-        LOG.error("Error: {}", exception.getMessage());
+        super.error(exception);
 
         currentEntityValid = false;
 
@@ -295,7 +277,7 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
 
     @Override
     public void fatalError(SAXParseException exception) throws SAXException {
-        LOG.error("FatalError: {}", exception.getMessage());
+        super.fatalError(exception);
 
         currentEntityValid = false;
     }
@@ -304,7 +286,4 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
         recordVisitors.add(recordVisitor);
     }
 
-    public void audit(SecurityEvent event) {
-        // Do nothing
-    }
 }

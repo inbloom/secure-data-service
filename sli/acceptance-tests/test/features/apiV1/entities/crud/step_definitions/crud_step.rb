@@ -194,7 +194,10 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz",
     "dateAssigned" => "2012-02-14",
-    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
+    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id",
+    "description" => "Test description",
+    "learningObjectives" => ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
+    "learningStandards" => ["dd9165f2-653e-6e27-a82c-bec5f48757b8"]
   },
 
   "learningObjective" => {

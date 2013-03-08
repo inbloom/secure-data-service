@@ -40,6 +40,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
+import org.slc.sli.ingestion.reporting.impl.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
 /**
  *
@@ -67,7 +70,8 @@ public class EntityTestHelper {
             throws Throwable {
 
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParserImpl2.parse(inputXmlResource.getInputStream(), schema, tp, mockVisitor);
+        EdfiRecordParser.parse(inputXmlResource.getInputStream(), schema, tp, mockVisitor,
+                new DummyMessageReport(), new SimpleReportStats(), new JobSource(inputXmlResource.getFilename()));
 
         captureAndCompare(mockVisitor, expectedJsonResource);
 
