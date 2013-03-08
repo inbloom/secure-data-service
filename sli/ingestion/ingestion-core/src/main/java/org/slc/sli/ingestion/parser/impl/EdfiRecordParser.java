@@ -68,9 +68,9 @@ import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
  * @author dduran
  *
  */
-public class EdfiRecordParserImpl2 extends EdfiRecordValidator {
+public class EdfiRecordParser extends EdfiRecordValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserImpl2.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParser.class);
 
     private TypeProvider typeProvider;
 
@@ -90,14 +90,14 @@ public class EdfiRecordParserImpl2 extends EdfiRecordValidator {
             RecordVisitor visitor, AbstractMessageReport messageReport, ReportStats reportStats, Source source)
                     throws SAXException, IOException, XmlParseException {
 
-        EdfiRecordParserImpl2 parser = new EdfiRecordParserImpl2(typeProvider, messageReport, reportStats, source);
+        EdfiRecordParser parser = new EdfiRecordParser(typeProvider, messageReport, reportStats, source);
 
         parser.addVisitor(visitor);
 
         parser.process(input, schemaResource);
     }
     
-    public EdfiRecordParserImpl2(TypeProvider typeProvider, AbstractMessageReport messageReport, ReportStats reportStats, Source source) {
+    public EdfiRecordParser(TypeProvider typeProvider, AbstractMessageReport messageReport, ReportStats reportStats, Source source) {
         super(messageReport, reportStats, source);
         this.typeProvider = typeProvider;
     }

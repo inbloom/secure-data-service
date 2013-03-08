@@ -46,7 +46,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * Additionally, the class implements ErrorHandler so
  * that the parsing of a specific entity can be aware of validation errors.
  *
- * @author dduran
+ * @author ablum
  *
  */
 public class EdfiRecordValidator extends DefaultHandler {
