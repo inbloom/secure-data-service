@@ -32,6 +32,11 @@
 		<artifactId>xmi</artifactId>
 	</dependency>
         <dependency>
+		<groupId>org.slc.sli.modeling</groupId>
+		<artifactId>tools</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
         </dependency>
@@ -103,6 +108,57 @@
                     <scanIntervalSeconds>5</scanIntervalSeconds>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <id>xmigen</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <mainClass>org.slc.sli.modeling.tools.xmigen.XmiGen</mainClass>
+                            <arguments>
+                                <argument>--xsdFile</argument>
+                                <argument>${sli.home}/domain/src/main/resources/sliXsd/SLI.xsd</argument>
+                                <argument>--xmiFile</argument>
+                                <argument>SLI.xmi</argument>
+                                <argument>--xmiFolder</argument>
+                                <argument>${sli.home}/domain/src/main/resources/sliModel</argument>
+                                <argument>--plugInName</argument>
+                                <argument>org.slc.sli.modeling.tools.xmigen.Xsd2UmlPluginForSLI</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>xsdgen</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <mainClass>org.slc.sli.modeling.tools.xsdgen.XsdGen</mainClass>
+                            <arguments>
+                                <argument>--outFolder</argument>
+                                <argument>${sli.home}/domain/src/main/resources/sliModel</argument>
+                                <argument>--plugInName</argument>
+                                <argument>org.slc.sli.modeling.tools.xsdgen.PluginForREST</argument>
+                                <argument>--xmiFile</argument>
+                                <argument>${sli.home}/domain/src/main/resources/sliModel/SLI.xmi</argument>
+                                <argument>--documentFile</argument>
+                                <argument>${sli.home}/domain/src/main/resources/sliModel/documents.xml</argument>
+                                <argument>--outFile</argument>
+                                <argument>SLI.xsd</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+	    </plugin>
+
             <!-- Plugin for AspectJ integration -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
