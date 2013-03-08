@@ -36,6 +36,10 @@
     <ref bean="xsdValidator" />
   </util:list>
 
+  <bean id="xsdValidator" class="org.slc.sli.ingestion.validation.XsdValidator" scope="prototype">
+    <property name="xsdSelector" ref="xsdSelector" />
+  </bean>
+  
   <bean id="complexValidator" class="org.slc.sli.ingestion.validation.ComplexValidator">
     <property name="validators" ref="validatorsList" />
   </bean>

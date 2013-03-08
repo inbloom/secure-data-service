@@ -24,13 +24,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.ValidatorHandler;
 
-import org.slc.sli.ingestion.parser.XmlParseException;
-import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ElementSource;
-import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.springframework.core.io.Resource;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -39,6 +32,14 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import org.slc.sli.ingestion.parser.XmlParseException;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ElementSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
+
 /**
  * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
  * document into a Map of Maps data structure.
@@ -46,7 +47,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * Additionally, the class implements ErrorHandler so
  * that the parsing of a specific entity can be aware of validation errors.
  *
- * @author dduran
+ * @author ablum
  *
  */
 public class EdfiRecordValidator extends DefaultHandler {
@@ -132,7 +133,7 @@ public class EdfiRecordValidator extends DefaultHandler {
             }
         });
 
-        messageReport.warning(reportStats, elementSource, BaseMessageCode.BASE_0026, source.getResourceId(), ex.getMessage());
+        messageReport.warning(reportStats, elementSource, BaseMessageCode.BASE_0026, ex.getMessage());
     }
 
     @Override
@@ -160,7 +161,7 @@ public class EdfiRecordValidator extends DefaultHandler {
             }
         });
 
-        messageReport.error(reportStats, elementSource, BaseMessageCode.BASE_0027, source.getResourceId(), ex.getMessage());
+        messageReport.error(reportStats, elementSource, BaseMessageCode.BASE_0027, ex.getMessage());
     }
 
     @Override

@@ -27,7 +27,7 @@ import org.xml.sax.ErrorHandler;
  * @author dduran
  *
  */
-public interface EdfiRecordParser extends XMLEventReader, ErrorHandler {
+public interface RecordParser extends XMLEventReader, ErrorHandler {
 
     /**
      * Set the underlying XMLEventReader.
