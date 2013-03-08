@@ -97,9 +97,9 @@ Then /^I will drop the whole database$/ do
     puts "List of database names after database drop, using fresh Mongo connection:"
     host = PropLoader.getProps['ingestion_db']
     port = PropLoader.getProps['ingestion_db_port']
-    @conn2 = Mongo::Connection.new(host, port)
-    puts @conn2.database_names.to_s
-    if (!@conn2.database_names.include?(@tenant_db_name))
+    conn2 = Mongo::Connection.new(host, port)
+    puts conn2.database_names.to_s
+    if (!@conn.database_names.include?(@tenant_db_name))
         tenant_dropped = true
     end
     conn2.close
