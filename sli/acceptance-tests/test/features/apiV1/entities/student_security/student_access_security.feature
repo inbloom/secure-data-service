@@ -8,6 +8,10 @@ When I make an API call to get all students in the section <Section>
 Then I should receive a return code of <Code>
 And I should see a count of <Count>
 And I the response should only include the students <Accessable Students>
+When I make an API call to get student associations to the section <Section>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include associaitons for the students <Accessable Students>
 Examples:
   | User   | Section  |Code |Count| Accessable Students  | Comments |
   |"teach1"|"section0"| 200 |  2  | "student04;student05"| Educator role teacher has no end date on teacherSectionAssociation |
@@ -95,6 +99,11 @@ When I make an API call to get all students in the cohort <Cohort>
 Then I should receive a return code of <Code>
 And I should see a count of <Count>
 And I the response should only include the students <Accessable Students>
+When I make an API call to get student associations to the cohort <Cohort>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include associaitons for the students <Accessable Students>
+
 Examples:
   | User   | Cohort  |Code |Count| Accessable Students  | Comments |
   |"teach1"|"cohort0"| 200 |  2  | "student14;student15"| Educator role teacher has no end date on staffCohortAssociation, studentRecordAccess true |
@@ -129,6 +138,10 @@ When I make an API call to get all students in the program <Program>
 Then I should receive a return code of <Code>
 And I should see a count of <Count>
 And I the response should only include the students <Accessable Students>
+When I make an API call to get student associations to the program <Program>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include associaitons for the students <Accessable Students>
 Examples:
   | User   | Program  |Code |Count| Accessable Students | Comment |
   |"teach1"|"program0"| 200 |  2  | "student32;student33"| Educator role teacher has no end date on staffProgramAssociation, studentRecordAccess true |
@@ -163,6 +176,11 @@ When I make an API call to get my student list at School <School>
 Then I should receive a return code of <Code>
 And I should see a count of <Count>
 And I the response should only include the students <Accessable Students>
+When I make an API call to get student associations at School <School>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include associaitons for the students <Accessable Students>
+
 Examples:
   | User   | School  |Code |Count| Accessable Students  | Comments |
   |"teach1"|"Secured"| 200 |  4  | "student01;student02;student04;student05" | Teachers cant access students through a school, but this gets rewritten to students in their sections |

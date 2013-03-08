@@ -103,6 +103,30 @@ When /^I make an API call to get all students in (the program ".*?")$/ do |arg1|
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
+When /^I make an API call to get student associations to (the section ".*?")$/ do |arg1|
+  @format = "application/vnd.slc+json"
+  restHttpGet("/v1/sections/#{arg1}/studentSectionAssociations")
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
+When /^I make an API call to get student associations to (the cohort ".*?")$/ do |arg1|
+  @format = "application/vnd.slc+json"
+  restHttpGet("/v1/cohorts/#{arg1}/studentCohortAssociations")
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
+When /^I make an API call to get student associations to (the program ".*?")$/ do |arg1|
+  @format = "application/vnd.slc+json"
+  restHttpGet("/v1/programs/#{arg1}/studentProgramAssociations")
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
+When /^I make an API call to get student associations (at School ".*?")$/ do |arg1|
+  @format = "application/vnd.slc+json"
+  restHttpGet("/v1/schools/#{arg1}/studentSchoolAssociations")
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
 When /^I make an API call to get (the student "[^"]*")$/ do |arg1|
   @format = "application/vnd.slc+json"
   restHttpGet("/v1/students/"+arg1)
@@ -162,6 +186,21 @@ Then /^I the response should only include the students "(.*?)"$/ do |arg1|
     end
   end
 end
+
+Then /^I the response should only include associaitons for the students "(.*?)"$/ do |arg1|
+  data = JSON.parse(@res.body)
+  if (@res.code == 403)
+    assert(arg1 == "none", "Expected to see associations but received a 403")
+  else
+    student_id_array = []
+    student_array = arg1.split(";")
+    student_array.each { |student| student_id_array.push(transform_student_to_id(student))}
+    data.each do |student|
+      assert(student_id_array.include?(student["studentId"]), "Student #{student["studentId"]} returned when not expected; expected #{student_id_array.inspect}")
+    end
+  end
+end
+
 
 When /^I make an API call to get my student list$/ do
   @format = "application/vnd.slc+json"
