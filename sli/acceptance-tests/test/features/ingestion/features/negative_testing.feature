@@ -32,7 +32,7 @@ Scenario: Post a zip file where the first record has an incorrect enum for an at
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "valueTypeNotMatchAttributeType.zip" is completed in database
-  And I should see "BASE_0017" in the resulting error log file
+  And I should see "BASE_0027" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "student.xml records considered for processing: 1" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
@@ -46,7 +46,7 @@ Scenario: Post a zip file where the first record has a bad attribute should fail
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "firstRecordHasIncorrectAttribute.zip" is completed in database
-  And I should see "BASE_0017" in the resulting error log file
+  And I should see "BASE_0027" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
   And I should see "student.xml records considered for processing: 1" in the resulting batch job file
@@ -62,7 +62,7 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "secondRecordHasIncorrectAttribute.zip" is completed in database
-  And I should see "BASE_0017" in the resulting error log file
+  And I should see "BASE_0027" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
   And I should see "student.xml records considered for processing: 1" in the resulting batch job file
@@ -94,7 +94,7 @@ Scenario: Post a zip file where the first record has a missing attribute should 
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "firstRecordMissingAttribute.zip" is completed in database
-  And I should see "BASE_0017" in the resulting error log file
+  And I should see "BASE_0027" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
   And I should see "student.xml records considered for processing: 1" in the resulting batch job file
@@ -283,7 +283,7 @@ Then I should see following map of entry counts in the corresponding collections
      | session                      |  10     |
   And I should see "Processed 35 records." in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records not considered for processing: 19" in the resulting batch job file
-  And I should see "BASE_0017" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
+  And I should see "BASE_0027" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
   And I should see "CORE_0006" in the resulting error log file for "InterchangeEducationOrganization.xml"
   And I should see "SELF_REFERENCING_DATA" in the resulting error log file for "InterchangeEducationOrganization.xml"
   And I should see "parentEducationAgencyReference" in the resulting error log file for "InterchangeEducationOrganization.xml"

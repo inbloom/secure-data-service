@@ -8,6 +8,11 @@
 
 #Default: <MONGO_HOST>=localhost <PATH_TO_indexTenantDb.rb>=indexTenantDb.rb 
 
+#The default index file reside in config/indexes.
+#If you are not sure which index file to use, build
+#from top level, the necessary files will be copied over to this direcotry, 
+#and this script can be executed with default value.
+
 if [ -z $1 ]; then
   mongo_host=localhost
 else
