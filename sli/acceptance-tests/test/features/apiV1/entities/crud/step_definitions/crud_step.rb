@@ -51,6 +51,10 @@ Given /^entity URI "([^"]*)"$/ do |arg1|
 end
 
 
+Given /^an entity json document for a "([^"]*)"$/ do |arg1|
+  step "a valid entity json document for a \"#{arg1}\""
+end
+
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
 @entityData = {
   "gradingPeriod" => {
@@ -87,11 +91,52 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       }]
     }]
   },
+  "yearlyAttendance" => {
+    "entityType" => "attendance",
+    "studentId" => "5738d251-dd0b-4734-9ea6-417ac9320a15_id",
+    "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731",
+    "schoolYear" => "2010-2011",
+    "attendanceEvent" => [
+      {
+        "date" => "2010-09-16",
+        "event" => "Tardy"
+      }
+    ]
+  },
+  "duplicateYearlyAttendance" => {
+      "entityType" => "attendance",
+      "studentId" => "5738d251-dd0b-4734-9ea6-417ac9320a15_id",
+      "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731",
+      "schoolYear" => "2010-2011",
+      "attendanceEvent" => [
+          {
+              "date" => "2010-09-16",
+              "event" => "Tardy"
+          }
+      ]
+  },
+  "invalidYearlyAttendance" => {
+      "entityType" => "attendance",
+      "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731",
+      "schoolYear" => "2010-2011"
+  },
+ "multiSchoolsPerYearYearlyAttendance" => {
+     "entityType" => "attendance",
+     "studentId" => "5738d251-dd0b-4734-9ea6-417ac9320a15_id",
+     "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+     "schoolYear" => "2010-2011",
+     "attendanceEvent" => [
+         {
+             "date" => "2010-09-16",
+             "event" => "Tardy"
+         }
+     ]
+ },
 
   "studentAcademicRecord" => {
     "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3_id",
     "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072",
-    "schoolYear" => "2010-2011"
+    "schoolYear" => "2009-2010"
   },
 
   "student" => {
@@ -627,6 +672,12 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     assert(headers['location'] != nil, "There is no location link from the previous request")
     s = headers['location'][0]
     @assocId = s[s.rindex('/')+1..-1]
+  end
+end
+
+Then /^I should receive a new entity URI after a successful response$/ do
+  if @res.code < 400
+    step "I should receive a new entity URI"
   end
 end
 
