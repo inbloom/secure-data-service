@@ -53,23 +53,20 @@ public class TeacherToSectionValidator extends AbstractContextValidator {
         if (!areParametersValid(EntityNames.SECTION, entityType, ids)) {
             return false;
         }
-        Set<String> sectionIds = new HashSet<String>();
-        sectionIds.addAll(ids);
-        for (String id : ids) {
-            NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.SECTION_ID,
-                    NeutralCriteria.OPERATOR_EQUAL, id));
-            NeutralCriteria staffCriteria = new NeutralCriteria(ParameterConstants.TEACHER_ID,
-                    NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId());
-            basicQuery.addCriteria(staffCriteria);
-            List<Entity> idList = (List) repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, basicQuery);
-            for (Entity tsa : idList) {
-            	if (!dateHelper.isFieldExpired(tsa.getBody(), ParameterConstants.END_DATE)) {
-            		sectionIds.remove((String) tsa.getBody().get(ParameterConstants.SECTION_ID));
-            		break;
-            	}
-            }
+        Set<String> toValidateList = new HashSet<String>(ids);
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.SECTION_ID,
+                NeutralCriteria.CRITERIA_IN, ids));
+        NeutralCriteria staffCriteria = new NeutralCriteria(ParameterConstants.TEACHER_ID,
+                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId());
+        basicQuery.addCriteria(staffCriteria);
+        Iterable<Entity> assocs = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, basicQuery);
+        for (Entity entity : assocs) {
+        	if (!dateHelper.isFieldExpired(entity.getBody(), ParameterConstants.END_DATE)) {
+        		toValidateList.remove((String) entity.getBody().get(ParameterConstants.SECTION_ID));
+        	}
         }
-        return sectionIds.isEmpty();
+        
+        return toValidateList.isEmpty();
     }
     
 }
