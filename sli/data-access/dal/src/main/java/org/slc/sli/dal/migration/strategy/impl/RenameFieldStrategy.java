@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * Supports the migration of entities by renaming a data field.
  * Will not work with nested fields.
- * 
+ *
  * @author kmyers
  */
 
@@ -38,15 +38,13 @@ public class RenameFieldStrategy implements MigrationStrategy<Entity> {
 
     public static final String OLD_FIELD_NAME = "oldFieldName";
     public static final String NEW_FIELD_NAME = "newFieldName";
-    
+
     private String oldFieldName;
     private String newFieldName;
-    
+
     @Override
     public Entity migrate(Entity entity) throws MigrationException {
-        
         entity.getBody().put(newFieldName, entity.getBody().remove(oldFieldName));
-        
         return entity;
     }
 
@@ -64,13 +62,14 @@ public class RenameFieldStrategy implements MigrationStrategy<Entity> {
         if (!parameters.containsKey(NEW_FIELD_NAME)) {
             throw new MigrationException(new IllegalArgumentException("Rename strategy missing required argument: " + NEW_FIELD_NAME));
         }
-        
+
         this.oldFieldName = parameters.get(OLD_FIELD_NAME).toString();
         this.newFieldName = parameters.get(NEW_FIELD_NAME).toString();
     }
 
     @Override
     public List<Entity> migrate(List<Entity> entityList) throws MigrationException {
+        // This strategy should always expect a single entity
         throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
     }
 

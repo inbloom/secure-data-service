@@ -26,6 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents a strategy that converts between different attendance representations
+ * for Mongo and API
+ */
 @Scope("prototype")
 @Component
 public class AttendanceStrategy implements MigrationStrategy<EntityBody> {
@@ -43,6 +47,7 @@ public class AttendanceStrategy implements MigrationStrategy<EntityBody> {
 
     @Override
     public EntityBody migrate(EntityBody entity) throws MigrationException {
+        // This strategy should always expect a list
         throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
     }
 
@@ -54,7 +59,7 @@ public class AttendanceStrategy implements MigrationStrategy<EntityBody> {
     @Override
     public List<EntityBody> migrate(List<EntityBody> entityList) throws MigrationException {
         List<EntityBody> returnList = new ArrayList<EntityBody>();
-        for (EntityBody entityBody: entityList) {
+        for (EntityBody entityBody : entityList) {
             if (operation.equals(POST) || operation.equals(PUT)) {
                 returnList.addAll(unwrap(entityBody));
             } else if (operation.equals(GET)) {
@@ -125,7 +130,7 @@ public class AttendanceStrategy implements MigrationStrategy<EntityBody> {
     @SuppressWarnings("unchecked")
     private Map<String, List<Map<String, Object>>> groupBySchoolYears(List<Map<String, Object>> schoolYearAttendances) {
         Map<String, List<Map<String, Object>>> attendanceEventsBySchoolYear =
-                new HashMap<String, List<Map<String,Object>>>();
+                new HashMap<String, List<Map<String, Object>>>();
         for (Map<String, Object> schoolYearAttendance : schoolYearAttendances) {
             final String schoolYear = (String) schoolYearAttendance.get(SCHOOL_YEAR);
             final List<Map<String, Object>> attendanceEvents =
