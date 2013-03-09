@@ -623,7 +623,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     }
 
-    boolean shouldDelete(ModelReferencingEntity referencingEntity, String referenceField) {
+    @SuppressWarnings("PMD")
+    protected boolean shouldDelete(ModelReferencingEntity referencingEntity, String referenceField) {
         return true;
     }
 
@@ -639,7 +640,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Iterable<String> ids = this.findAllIds(CUSTOM_ENTITY_COLLECTION, query);
         for (String id : ids) {
             count++;
-            if (!dryrun) this.delete(CUSTOM_ENTITY_COLLECTION, id);
+            if (!dryrun) {
+                this.delete(CUSTOM_ENTITY_COLLECTION, id);
+            }
         }
         return count;
     }
