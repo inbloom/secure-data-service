@@ -67,7 +67,7 @@ public class DefaultSelectorDocumentTest {
     @Autowired
     private MockRepo repo;
 
-    static final String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
+    static final String TEST_XMI_LOC = "sliModel/test_SLI.xmi";
 
     private Entity student1;
     private Entity student2;

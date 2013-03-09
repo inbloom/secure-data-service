@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
-
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -42,6 +42,7 @@ import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
  * @author unavani
  *
  */
+@Component
 public class IngestionHealthCheck {
 
     private BatchJobMongoDA batchJobMongoDA;
