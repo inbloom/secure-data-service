@@ -36,8 +36,10 @@ public class IdTreatment implements Treatment {
     private static final String ID_STRING = "id";
 
     @Override
-    public EntityBody toStored(EntityBody exposed, EntityDefinition defn) {
-        exposed.remove(ID_STRING);
+    public List<EntityBody> toStored(List<EntityBody> exposed, EntityDefinition defn) {
+        for (EntityBody body : exposed) {
+            body.remove(ID_STRING);
+        }
         return exposed;
     }
 

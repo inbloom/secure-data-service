@@ -16,17 +16,15 @@
 
 package org.slc.sli.dal.migration.strategy.impl;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.common.migration.strategy.MigrationException;
-import org.slc.sli.common.migration.strategy.MigrationStrategy;
-import org.slc.sli.domain.Entity;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.dal.migration.strategy.MigrationException;
+import org.slc.sli.dal.migration.strategy.MigrationStrategy;
+import org.slc.sli.domain.Entity;
 
 /**
  * Supports the migration of entities by cardinality changes.
@@ -34,9 +32,7 @@ import java.util.Map;
  * @author jcole
  */
 
-@Scope("prototype")
-@Component
-public class CardinalityStrategy implements MigrationStrategy<Entity> {
+public class CardinalityStrategy implements MigrationStrategy {
 
     public static final String FIELD_NAME = "fieldName";
     public static final String MIN_COUNT = "minCount";
@@ -153,11 +149,6 @@ public class CardinalityStrategy implements MigrationStrategy<Entity> {
         this.minCount = parameters.get(MIN_COUNT).toString();
         this.maxCount = parameters.get(MAX_COUNT).toString();
         this.defaultValue = DEFAULT_VALUE;
-    }
-
-    @Override
-    public List<Entity> migrate(List<Entity> entityList) throws MigrationException {
-        throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
     }
 
 }

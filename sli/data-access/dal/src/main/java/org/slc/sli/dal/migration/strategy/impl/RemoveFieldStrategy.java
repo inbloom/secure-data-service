@@ -16,14 +16,11 @@
 
 package org.slc.sli.dal.migration.strategy.impl;
 
-import org.slc.sli.common.migration.strategy.MigrationException;
-import org.slc.sli.common.migration.strategy.MigrationStrategy;
-import org.slc.sli.domain.Entity;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 import java.util.Map;
+
+import org.slc.sli.dal.migration.strategy.MigrationException;
+import org.slc.sli.dal.migration.strategy.MigrationStrategy;
+import org.slc.sli.domain.Entity;
 
 /**
  * Supports the migration of entities by removing a top level data field.
@@ -32,9 +29,7 @@ import java.util.Map;
  * @author kmyers
  */
 
-@Scope("prototype")
-@Component
-public class RemoveFieldStrategy implements MigrationStrategy<Entity> {
+public class RemoveFieldStrategy implements MigrationStrategy {
 
     public static final String FIELD_NAME = "fieldName";
     
@@ -61,10 +56,5 @@ public class RemoveFieldStrategy implements MigrationStrategy<Entity> {
 
         this.fieldName = parameters.get(FIELD_NAME).toString();
     }
-
-    @Override
-    public List<Entity> migrate(List<Entity> entityList) throws MigrationException {
-        throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
-    }
-
+    
 }

@@ -14,36 +14,27 @@
  * limitations under the License.
  */
 
-package org.slc.sli.common.migration.strategy;
-
-
-import java.util.List;
-import java.util.Map;
+package org.slc.sli.dal.migration.strategy;
 
 /**
- * Defines a strategy for transforming entities between versions
+ * An exception that occurs during migration of data from one version to another.
  * 
- * @author sashton
  * @author kmyers
- * 
+ *
  */
-public interface MigrationStrategy<T> {
-
-    /**
-     * Transforms a single entity
-     * 
-     * @param entity
-     */
-    public T migrate(T entity) throws MigrationException;
+public class MigrationException extends RuntimeException {
     
+    private Exception e;
     
     /**
-     * Sets the transforms strategy implementation's specific parameters.
      * 
-     * @param parameter
+     * @param e
      */
-    public void setParameters(Map<String, Object> parameters) throws MigrationException;
-
-    public List<T> migrate(List<T> entityList) throws MigrationException;
-
+    public MigrationException(Exception e) {
+        this.e = e;
+    }
+    
+    public Exception getUnderlyingException() {
+        return this.e;
+    }
 }

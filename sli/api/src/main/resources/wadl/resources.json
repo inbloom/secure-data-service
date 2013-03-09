@@ -21,7 +21,6 @@
           { "path": "/{id}/studentSectionAssociations/studentCompetencies" },
           { "path": "/{id}/studentSectionAssociations/students" },
           { "path": "/{id}/studentSectionAssociations/students/attendances" },
-          { "path": "/{id}/studentSectionAssociations/students/yearlyAttendances" },
           { "path": "/{id}/studentSectionAssociations/students/courseTranscripts", "dateSearchDisallowed": true },
           { "path": "/{id}/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts", "dateSearchDisallowed": true },
           { "path": "/{id}/studentSectionAssociations/students/reportCards", "dateSearchDisallowed": true },
@@ -391,12 +390,6 @@
       "doc": "Represents the definition of an attendance resource. An attendance resource represents both daily and class period (section) attendance. For more information, see the schema for $$Attendance$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/attendances. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/attendances. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated."
     },
     {
-      "path": "/yearlyAttendances",
-      "queryable": true,
-      "blockGetRequest": true,
-      "doc": "Represents the definition of a yearly attendance resource. A yearly attendance resource represents attendance events for a school year. For more information, see the schema for $$YearlyAttendance$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/yearlyAttendances. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/yearlyAttendances. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated."
-    },
-    {
       "path": "/studentSchoolAssociations",
       "queryable": true,
       "doc": "Represents the school to which a student is enrolled. For more information, see the schema for $$StudentSchoolAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentSchoolAssociations . {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
@@ -553,7 +546,6 @@
         { "path": "/{id}/studentSchoolAssociations/schools" },
         { "path": "/{id}/studentAssessments/assessments" },
         { "path": "/{id}/attendances", "dateSearchDisallowed": true },
-        { "path": "/{id}/yearlyAttendances", "dateSearchDisallowed": true },
         { "path": "/{id}/courseTranscripts/courses" },
         { "path": "/{id}/studentDisciplineIncidentAssociations/disciplineIncidents" },
         { "path": "/{id}/studentCohortAssociations/cohorts" }, 

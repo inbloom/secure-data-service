@@ -55,8 +55,6 @@ public class ResourceEndPoint {
 
     private Set<String> dateRangeDisallowedEndPoints = new LinkedHashSet<String>();
 
-    private Set<String> blockGetRequestEndPoints = new LinkedHashSet<String>();
-
     private Map<String, SortedSet<String>> nameSpaceMappings = new HashMap<String, SortedSet<String>>();
 
     @Autowired
@@ -89,9 +87,6 @@ public class ResourceEndPoint {
                     }
                     if (resource.isDateSearchDisallowed()) {
                         dateRangeDisallowedEndPoints.add(nameSpace + resource.getPath());
-                    }
-                    if (resource.isBlockGetRequest()) {
-                        blockGetRequestEndPoints.add(nameSpace + resource.getPath());
                     }
 
                     if (resource.getSubResources() != null) {
@@ -161,10 +156,6 @@ public class ResourceEndPoint {
 
     public Set<String> getDateRangeDisallowedEndPoints() {
         return this.dateRangeDisallowedEndPoints;
-    }
-
-    public Set<String> getBlockGetRequestEndPoints() {
-        return this.blockGetRequestEndPoints;
     }
 
     protected String bruteForceMatch(final String resourcePath) {
