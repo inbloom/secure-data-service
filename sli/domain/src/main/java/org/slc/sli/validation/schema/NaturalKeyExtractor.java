@@ -23,9 +23,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.common.domain.ContainerDocument;
+import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
@@ -33,6 +36,7 @@ import org.slc.sli.validation.SchemaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -46,6 +50,12 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
     @Autowired
     protected SchemaRepository entitySchemaRegistry;
 
+    @Qualifier("deterministicUUIDGeneratorStrategy")
+    @Autowired
+    protected UUIDGeneratorStrategy generatorStrategy;
+
+    @Autowired
+    private ContainerDocumentHolder containerDocumentHolder;
     /*
      * (non-Javadoc)
      *
@@ -193,6 +203,18 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
             String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entity.getType());
             String parentId = (String) entity.getBody().get(parentKey);
             return parentId;
+        }else if(containerDocumentHolder.isContainerDocument(entity.getType())) {
+            ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+            if(containerDocument.isContainerSubdoc()){
+                final List<String> parentKeys = containerDocument.getParentNaturalKeys();
+                final Map<String, String> naturalKeyMap = new HashMap<String, String>();
+                for (final String key : parentKeys) {
+                    String value = (String) entity.getBody().get(key);
+                    naturalKeyMap.put(key, value);
+                }
+                return generatorStrategy.generateId(new NaturalKeyDescriptor(naturalKeyMap));
+
+            }
         }
 
         return null;

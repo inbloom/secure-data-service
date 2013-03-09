@@ -231,10 +231,8 @@ public class ContainerDocumentAccessor {
         String key = (String) query.get("_id");
 
         if(containerDocument.isContainerSubdoc()) {
-            key = key + ContainerDocumentHelper.getContainerDocId(entity, generatorStrategy, naturalKeyExtractor);
-            Entity mongoEntity = new MongoEntity(entity.getType(), key, entity.getBody(),
-                    entity.getMetaData());
-            getLocation(entity.getType()).create(mongoEntity);
+            key = ContainerDocumentHelper.getContainerDocId(entity, generatorStrategy, naturalKeyExtractor);
+            getLocation(entity.getType()).create(entity);
 
         }
 

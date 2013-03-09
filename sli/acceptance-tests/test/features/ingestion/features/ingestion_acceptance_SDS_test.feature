@@ -334,7 +334,7 @@ And I check to find if record is in collection:
        | courseTranscript              | 2                   | body.finalNumericGradeEarned          | 82                      | integer              |
        | courseTranscript              | 33                  | body.finalLetterGradeEarned           | B                       | string               |
        | courseTranscript              | 60                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
-       | studentAcademicRecord         | 100                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
+       | studentAcademicRecord         | 100                 | body.cumulativeCreditsAttempted.credit| 5.0                     | string              |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                              | searchValue      |  searchType           |
      | assessment                  | 1                   | assessmentItem.body.identificationCode       | AssessmentItem-1 |   string              |

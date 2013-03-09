@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.common.domain.ContainerDocument;
+import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,9 @@ public class DeterministicIdResolver implements BatchJobStage {
 
     @Autowired
     private DidEntityConfigReader didConfigReader;
+
+    @Autowired
+    private ContainerDocumentHolder containerDocumentHolder;
 
     private static final Logger LOG = LoggerFactory.getLogger(DeterministicIdResolver.class);
 
@@ -337,6 +342,20 @@ public class DeterministicIdResolver implements BatchJobStage {
             parentId = naturalKeys.get(parentKey);
             if(parentId == null) {
                 throw new IdResolutionException("Subdoc must have a parent reference", didRefConfig.getEntityType(), null);
+            }
+        } else if(containerDocumentHolder.isContainerDocument(entityType)) {
+            ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entityType);
+            if(containerDocument.isContainerSubdoc()){
+                final List<String> parentKeys = containerDocument.getParentNaturalKeys();
+                final Map<String, String> naturalKeyMap = new HashMap<String, String>();
+                for (final String key : parentKeys) {
+                    String value = (String) entity.getBody().get(key);
+                    naturalKeyMap.put(key, value);
+                }
+                parentId = uuidGeneratorStrategy.generateId(new NaturalKeyDescriptor(naturalKeyMap));
+                if(parentId == null) {
+                    throw new IdResolutionException("Container doc must have a parent reference", didRefConfig.getEntityType(), null);
+                }
             }
         }
 
