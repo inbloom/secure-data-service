@@ -221,13 +221,6 @@ task :v1EndUserStoryAssessmentTests => [:realmInit] do
   runTests("test/features/apiV1/end_user_stories/assessments/assessment.feature")
 end
 
-desc "Run V1 Super Assessment User Story Tests"
-task :v1EndUserStorySuperAssessmentTests do
-# This is to extract assessment, learningStandard, etc. into Elastic Search  
-  Rake::Task["runSearchBulkExtract"].execute
-  runTests("test/features/apiV1/end_user_stories/assessments/superAssessment.feature")
-end
-
 desc "Run V1 Custom entity User Story Tests"
 task :v1EndUserStoryCustomEntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -284,6 +277,23 @@ end
 desc "Run API JMeter Tests"
 task :apiJMeterTests do
   runTests("test/features/apiV1/jmeter/jmeterPerformance.feature")
+end
+
+desc "Run Odin API Generation Task"
+task :apiOdinGenerate do
+  runTests("test/features/odin/generate_api_data.feature")
+end
+
+desc "Run API Odin Ingestion Tests"
+task :apiOdinIngestion do
+  runTests("test/features/ingestion/features/ingestion_OdinAPIData.feature")
+end
+
+desc "Run API Odin Super Assessment Tests"
+task :apiOdinSuperAssessment do
+# This is to extract assessment, learningStandard, etc. into Elastic Search  
+  Rake::Task["runSearchBulkExtract"].execute
+  runTests("test/features/apiV1/end_user_stories/assessments/superAssessment.feature")
 end
 
 ############################################################
