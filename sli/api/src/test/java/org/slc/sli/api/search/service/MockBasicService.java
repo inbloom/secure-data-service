@@ -48,11 +48,6 @@ public class MockBasicService implements EntityService {
     }
 
     @Override
-    public List<String> create(List<EntityBody> content) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public String create(EntityBody content) {
         // TODO Auto-generated method stub
         return null;

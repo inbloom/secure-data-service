@@ -34,7 +34,6 @@ public class ResourceEndPointTemplate {
     private String deprecatedReason;
     private String availableSince;
     private boolean dateSearchDisallowed;
-    private boolean blockGetRequest;
 
 
     public String getDoc() {
@@ -107,13 +106,5 @@ public class ResourceEndPointTemplate {
 
     public void setDateSearchDisallowed(boolean dateSearchDisallowed) {
         this.dateSearchDisallowed = dateSearchDisallowed;
-    }
-
-    public boolean isBlockGetRequest() {
-        return blockGetRequest;
-    }
-
-    public void setBlockGetRequest(boolean blockGetRequest) {
-        this.blockGetRequest = blockGetRequest;
     }
 }

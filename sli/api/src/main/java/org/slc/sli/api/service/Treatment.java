@@ -45,7 +45,7 @@ public interface Treatment {
      *            
      * @return The entity in the form it is stored in the DB
      */
-    public EntityBody toStored(EntityBody exposed, EntityDefinition defn);
+    public List<EntityBody> toStored(List<EntityBody> exposed, EntityDefinition defn);
 
     /**
      * Transform from a stored entity to an exposed entity

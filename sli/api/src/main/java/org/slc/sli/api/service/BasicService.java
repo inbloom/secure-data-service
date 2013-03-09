@@ -125,20 +125,6 @@ public class BasicService implements EntityService {
         return getRepo().count(collectionName, neutralQuery);
     }
 
-    @Override
-    public List<String> create(List<EntityBody> content) {
-        List<String> entityIds = new ArrayList<String>();
-        for(EntityBody entityBody: content) {
-            entityIds.add(create(entityBody));
-        }
-        if (entityIds.size() != content.size()) {
-            for (String id : entityIds) {
-                delete(id);
-            }
-        }
-        return entityIds;
-    }
-
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
      *
@@ -168,14 +154,24 @@ public class BasicService implements EntityService {
         checkReferences(content);
 
         List<String> entityIds = new ArrayList<String>();
-       sanitizeEntityBody(content);
+        List<EntityBody> sanitizedBodies= sanitizeEntityBody(content);
         // ideally we should validate everything first before actually persisting
-        Entity entity = getRepo().create(defn.getType(), content, createMetadata(), collectionName);
-        if (entity != null) {
-            entityIds.add(entity.getEntityId());
+        try {
+            for (EntityBody body : sanitizedBodies) {
+                Entity entity = getRepo().create(defn.getType(), body, createMetadata(), collectionName);
+                if (entity != null) {
+                    entityIds.add(entity.getEntityId());
+                }
+            }
+        } finally {
+            if (entityIds.size() != sanitizedBodies.size()) {
+                for (String id : entityIds) {
+                    delete(id);
+                }
+            }
         }
 
-        return entity.getEntityId();
+        return StringUtils.join(entityIds.toArray(), ",");
     }
 
     private void checkAccess(boolean isRead, boolean isSelf, EntityBody content) {
@@ -260,21 +256,32 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
 
-        sanitizeEntityBody(content);
-
-        boolean success = false;
-        if (entity.getBody().equals(content)) {
-            info("No change detected to {}", id);
-            return false;
+        List<EntityBody> sanitizedBodies = sanitizeEntityBody(content);
+        if (sanitizedBodies.size() > 1 && defn.getResourceName().equals(ResourceNames.ATTENDANCES)) {
+            // the entity body is split, i.e. multiple schoolYears
+            ArrayList<ValidationError> errors = new ArrayList<ValidationError>();
+            // need better errror message
+            errors.add(new ValidationError(ErrorType.TOO_MANY_CHOICES, "schoolYearAttendance"
+                    , content.get("schoolYearAttendance"), new String[] { "Single schoolYearAttendance" }));
+            debug("Error: entity body is split when updating {}, id={}", entity.getType(), entity.getEntityId());
+            throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
         }
 
-        checkReferences(content);
+        boolean success = false;
+        for (EntityBody sanitized : sanitizedBodies) {
+            if (entity.getBody().equals(sanitized)) {
+                info("No change detected to {}", id);
+                return false;
+            }
 
-        info("new body is {}", content);
-        entity.getBody().clear();
-        entity.getBody().putAll(content);
+            checkReferences(content);
 
-        success = repo.update(collectionName, entity, FullSuperDoc.isFullSuperdoc(entity));
+            info("new body is {}", sanitized);
+            entity.getBody().clear();
+            entity.getBody().putAll(sanitized);
+
+            success = repo.update(collectionName, entity, FullSuperDoc.isFullSuperdoc(entity));
+        }
         return success;
     }
 
@@ -291,14 +298,15 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
 
-        sanitizeEntityBody(content);
+        List<EntityBody> sanitizedBodies = sanitizeEntityBody(content);
+        for (EntityBody sanitized : sanitizedBodies) {
+            info("patch value(s): ", sanitized);
 
-        info("patch value(s): ", content);
+            // don't check references until things are combined
+            checkReferences(sanitized);
 
-        // don't check references until things are combined
-        checkReferences(content);
-
-        repo.patch(defn.getType(), collectionName, id, content);
+            repo.patch(defn.getType(), collectionName, id, sanitized);
+        }
 
         return true;
     }
@@ -598,12 +606,14 @@ public class BasicService implements EntityService {
      * @param content
      * @return
      */
-    private EntityBody sanitizeEntityBody(EntityBody content) {
-
+    private List<EntityBody> sanitizeEntityBody(EntityBody content) {
+        // A list because attendance entity document might be split
+        List<EntityBody> sanitized = new ArrayList<EntityBody>();
+        sanitized.add(new EntityBody(content));
         for (Treatment treatment : treatments) {
-            treatment.toStored(content, defn);
+            sanitized = treatment.toStored(sanitized, defn);
         }
-        return content;
+        return sanitized;
     }
 
     /**

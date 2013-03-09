@@ -17,7 +17,6 @@
 
 package org.slc.sli.api.service;
 
-import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -39,16 +38,6 @@ public interface EntityService {
      * @return number of entities that have been stored/exist
      */
     public long count(NeutralQuery neutralQuery);
-
-    /**
-     * Create an entity and store it in the data store
-     *
-     *
-     * @param content
-     *            the body of the entity
-     * @return id of the new entity
-     */
-    public List<String> create(List<EntityBody> content);
 
     /**
      * Create an entity and store it in the data store
