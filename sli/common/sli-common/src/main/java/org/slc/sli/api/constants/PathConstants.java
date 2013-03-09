@@ -49,6 +49,7 @@ public class PathConstants {
     public static final String PARENT_LEARNING_OBJECTIVES = "parentLearningObjectives";
     public static final String CHILD_LEARNING_OBJECTIVES = "childLearningObjectives";
     public static final String ATTENDANCES = "attendances";
+    public static final String YEARLY_ATTENDANCES = "yearlyAttendances";
     public static final String COHORTS = "cohorts";
     public static final String COMPETENCY_LEVEL_DESCRIPTORS = "competencyLevelDescriptor";
     public static final String COURSES = "courses";
@@ -151,6 +152,7 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.TEACHERS, TEACHERS);
         TEMP_MAP.put(ResourceNames.GRADES, GRADES);
         TEMP_MAP.put(ResourceNames.GRADUATION_PLANS, GRADUATION_PLANS);
+        TEMP_MAP.put(ResourceNames.YEARLY_ATTENDANCES, YEARLY_ATTENDANCES);
     }
 
     public static final String V1 = "v1";
