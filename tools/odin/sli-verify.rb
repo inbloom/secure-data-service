@@ -35,7 +35,7 @@ end
 @dbname = Digest::SHA1.hexdigest ARGV[0]
 @db = Mongo::Connection.new('localhost').db(@dbname)
 
-@ignored_entities = ["BehaviorDescriptor", "DisciplineDescriptor", "AssessmentPeriodDescriptor"]
+@ignored_entities = ["BehaviorDescriptor", "DisciplineDescriptor"]
 
 def where_stored(entity_type)
   case entity_type
