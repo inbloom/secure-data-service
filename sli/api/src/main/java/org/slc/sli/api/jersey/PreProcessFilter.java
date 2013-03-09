@@ -94,7 +94,6 @@ public class PreProcessFilter implements ContainerRequestFilter {
     public ContainerRequest filter(ContainerRequest request) {
         recordStartTime(request);
         validate(request);
-        validateNotBlockGetRequest(request);
         populateSecurityContext(request);
         // mongoStat.clear();
         mongoStat.startRequest();
@@ -105,6 +104,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
+        validateNotBlockGetRequest(request);
         if (isWrite(request.getMethod())) {
             contextValidator.validateContextToUri(request, principal);
         }
@@ -165,7 +165,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         String requestPath = request.getPath();
         Matcher m = ID_REPLACEMENT_PATTERN.matcher(requestPath);
 
-        if (m.find()){
+        if (m.matches()){
             // transform requestPath from "v1.x/foo/2344,3453,5345/bar" to "v1.x/foo/{id}/bar"
             requestPath = m.group(1) + PathConstants.ID_PLACEHOLDER + m.group(2);
         }
