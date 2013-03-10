@@ -17,7 +17,6 @@ package org.slc.sli.ingestion.parser.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,10 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import javax.xml.XMLConstants;
 import javax.xml.stream.Location;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.ValidatorHandler;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,24 +35,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ElementSource;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 
 /**
  * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
@@ -68,9 +57,9 @@ import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
  * @author dduran
  *
  */
-public class EdfiRecordParserImpl2 extends EdfiRecordValidator {
+public class EdfiRecordParser extends EdfiRecordValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserImpl2.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParser.class);
 
     private TypeProvider typeProvider;
 
@@ -86,20 +75,43 @@ public class EdfiRecordParserImpl2 extends EdfiRecordValidator {
 
     private List<RecordVisitor> recordVisitors = new ArrayList<RecordVisitor>();
 
+    /**
+     * Constructor.
+     *
+     * @param typeProvider XSD Type provider
+     * @param messageReport Message report for validation warning/error reporting
+     * @param reportStats Associated report statistics
+     * @param source Source of the messages
+     */
+    public EdfiRecordParser(TypeProvider typeProvider, AbstractMessageReport messageReport, ReportStats reportStats, Source source) {
+        super(messageReport, reportStats, source);
+        this.typeProvider = typeProvider;
+    }
+
+    /**
+     * Parser an XML represented by the input stream against provided XSD, reports validation issues and produces output of
+     * extracted data via the provided visitor.
+     *
+     * @param input XML to validate
+     * @param schemaResource XSD resource
+     * @param typeProvider XSD Type provider
+     * @param visitor Record visitor
+     * @param messageReport Message report for validation warning/error reporting
+     * @param reportStats Associated report statistics
+     * @param source Source of the messages
+     * @throws SAXException If a SAX error occurs during XSD parsing.
+     * @throws IOException If a IO error occurs during XSD/XML parsing.
+     * @throws XmlParseException If a SAX error occurs during XML parsing.
+     */
     public static void parse(InputStream input, Resource schemaResource, TypeProvider typeProvider,
             RecordVisitor visitor, AbstractMessageReport messageReport, ReportStats reportStats, Source source)
                     throws SAXException, IOException, XmlParseException {
 
-        EdfiRecordParserImpl2 parser = new EdfiRecordParserImpl2(typeProvider, messageReport, reportStats, source);
+        EdfiRecordParser parser = new EdfiRecordParser(typeProvider, messageReport, reportStats, source);
 
         parser.addVisitor(visitor);
 
         parser.process(input, schemaResource);
-    }
-    
-    public EdfiRecordParserImpl2(TypeProvider typeProvider, AbstractMessageReport messageReport, ReportStats reportStats, Source source) {
-        super(messageReport, reportStats, source);
-        this.typeProvider = typeProvider;
     }
 
     @Override
@@ -247,6 +259,11 @@ public class EdfiRecordParserImpl2 extends EdfiRecordValidator {
         }
     }
 
+    /**
+     * Retrieve the current Location in the XML file.
+     *
+     * @return Location
+     */
     public Location getCurrentLocation() {
         return new ImmutableLocation(0, locator.getColumnNumber(), locator.getLineNumber(), locator.getPublicId(),
                 locator.getSystemId());
@@ -282,6 +299,11 @@ public class EdfiRecordParserImpl2 extends EdfiRecordValidator {
         currentEntityValid = false;
     }
 
+    /**
+     * Register a visitor to retrieve extracted data.
+     *
+     * @param recordVisitor Record visitor
+     */
     public void addVisitor(RecordVisitor recordVisitor) {
         recordVisitors.add(recordVisitor);
     }

@@ -13,31 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.ingestion.parser;
 
-import java.util.Map;
+package org.slc.sli.common.migration.config;
 
 /**
- * Visitor for a parser to notify when a record has been fully parsed.
- *
- * @author dduran
- *
+ * A list of all supported strategies and the classes that implement those strategies.
+ * 
+ * @author pghosh
+ * @author kmyers
  */
-public interface RecordVisitor {
+public enum Strategy {
+    
+    ADD("addStrategy"),
+    REMOVE("removeFieldStrategy"),
+    RENAME("renameFieldStrategy"),
+    ADD_FIELD("addFieldStrategy"),
+    ATTENDANCE("attendanceStrategy");
 
-    /**
-     * Invoked upon completion of parsing a record.
-     *
-     * @param edfiType
-     *            meta information about the parsed record.
-     * @param record
-     *            the fully constructed map of objects representation of the record
-     */
-    void visit(RecordMeta edfiType, Map<String, Object> record);
+    private String implementationClassName;
 
-    /**
-     * Invoked for each record being ignored by the parser.
-     */
-    void ignored();
+    private Strategy(String implementingClassName) {
+        this.implementationClassName = implementingClassName;
+    }
 
+    public String getBeanName() {
+        return implementationClassName;
+    }
 }

@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dal.migration.strategy.impl;
+package org.slc.sli.dal.migration.strategy;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
+import org.slc.sli.common.migration.strategy.MigrationException;
+import org.slc.sli.dal.migration.strategy.impl.RemoveFieldStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.slc.sli.dal.migration.strategy.MigrationException;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Tests the migration code responsible for adding new fields with or without a
@@ -36,14 +36,14 @@ import org.slc.sli.domain.MongoEntity;
  * @author kmyers
  *
  */
-public class RenameFieldStrategyTest {
+public class RemoveFieldStrategyTest {
     
-    private RenameFieldStrategy addStrategy;
+    private RemoveFieldStrategy addStrategy;
     private Entity testEntity;
     
     @Before
     public void init() {
-        this.addStrategy = new RenameFieldStrategy();
+        this.addStrategy = new RemoveFieldStrategy();
         this.testEntity = this.createTestEntity();
     }
     
@@ -61,22 +61,11 @@ public class RenameFieldStrategyTest {
      * no field name specified (non-null map of parameters)
      */
     @Test(expected = MigrationException.class)
-    public void testBadParams1() throws MigrationException {
+    public void testBadParams() throws MigrationException {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put(RenameFieldStrategy.OLD_FIELD_NAME, "foo");
         this.addStrategy.setParameters(params);
     }
 
-    /*
-     * no field name specified (non-null map of parameters)
-     */
-    @Test(expected = MigrationException.class)
-    public void testBadParams2() throws MigrationException {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put(RenameFieldStrategy.NEW_FIELD_NAME, "foo");
-        this.addStrategy.setParameters(params);
-    }
-    
     /*
      * no field name specified (null map of parameters)
      */
@@ -88,14 +77,11 @@ public class RenameFieldStrategyTest {
     @Test
     public void testSimpleRenameWithFieldMissing() throws MigrationException {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put(RenameFieldStrategy.OLD_FIELD_NAME, "foo");
-        parameters.put(RenameFieldStrategy.NEW_FIELD_NAME, "bar");
+        parameters.put(RemoveFieldStrategy.FIELD_NAME, "foo");
         
         this.addStrategy.setParameters(parameters);
         this.addStrategy.migrate(this.testEntity);
         
-        assertTrue(this.testEntity.getBody().containsKey("bar"));
-        assertTrue(this.testEntity.getBody().get("bar") == null);
         assertFalse(this.testEntity.getBody().containsKey("foo"));
     }
 
@@ -104,15 +90,12 @@ public class RenameFieldStrategyTest {
         Object testData = "testString";
         
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put(RenameFieldStrategy.OLD_FIELD_NAME, "foo");
-        parameters.put(RenameFieldStrategy.NEW_FIELD_NAME, "bar");
+        parameters.put(RemoveFieldStrategy.FIELD_NAME, "foo");
         this.testEntity.getBody().put("foo", testData);
         
         this.addStrategy.setParameters(parameters);
         this.addStrategy.migrate(this.testEntity);
         
-        assertTrue(this.testEntity.getBody().containsKey("bar"));
-        assertTrue(this.testEntity.getBody().get("bar").equals(testData));
         assertFalse(this.testEntity.getBody().containsKey("foo"));
     }
 }

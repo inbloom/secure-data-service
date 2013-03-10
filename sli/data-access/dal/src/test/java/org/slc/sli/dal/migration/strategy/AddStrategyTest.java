@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dal.migration.strategy.impl;
+package org.slc.sli.dal.migration.strategy;
 
-import static org.junit.Assert.assertFalse;
+import org.junit.Before;
+import org.junit.Test;
+import org.slc.sli.common.migration.strategy.MigrationException;
+import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.slc.sli.dal.migration.strategy.MigrationException;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the migration code responsible for adding new fields with or without a
@@ -35,14 +36,14 @@ import org.slc.sli.domain.MongoEntity;
  * @author kmyers
  *
  */
-public class RemoveFieldStrategyTest {
+public class AddStrategyTest {
     
-    private RemoveFieldStrategy addStrategy;
+    private AddStrategy addStrategy;
     private Entity testEntity;
     
     @Before
     public void init() {
-        this.addStrategy = new RemoveFieldStrategy();
+        this.addStrategy = new AddStrategy();
         this.testEntity = this.createTestEntity();
     }
     
@@ -55,16 +56,15 @@ public class RemoveFieldStrategyTest {
         
         return new MongoEntity(entityType, entityId, body, metaData);
     }
-
+    
     /*
      * no field name specified (non-null map of parameters)
      */
     @Test(expected = MigrationException.class)
     public void testBadParams() throws MigrationException {
-        Map<String, Object> params = new HashMap<String, Object>();
-        this.addStrategy.setParameters(params);
+        this.addStrategy.setParameters(new HashMap<String, Object>());
     }
-
+    
     /*
      * no field name specified (null map of parameters)
      */
@@ -72,29 +72,43 @@ public class RemoveFieldStrategyTest {
     public void testNullParams() throws MigrationException {
         this.addStrategy.setParameters(null);
     }
-
+    
     @Test
-    public void testSimpleRenameWithFieldMissing() throws MigrationException {
+    public void testValidMigrationNullDefault() throws MigrationException {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put(RemoveFieldStrategy.FIELD_NAME, "foo");
+        parameters.put(AddStrategy.FIELD_NAME, "foo");
         
         this.addStrategy.setParameters(parameters);
         this.addStrategy.migrate(this.testEntity);
-        
-        assertFalse(this.testEntity.getBody().containsKey("foo"));
+        assertTrue(this.testEntity.getBody().containsKey("foo"));
+        assertTrue(this.testEntity.getBody().get("foo") == null);
     }
 
     @Test
-    public void testSimpleRenameWithFieldPresent() throws MigrationException {
-        Object testData = "testString";
-        
+    public void testValidMigrationWithDefault() throws MigrationException {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put(RemoveFieldStrategy.FIELD_NAME, "foo");
-        this.testEntity.getBody().put("foo", testData);
+        parameters.put(AddStrategy.FIELD_NAME, "foo");
+        parameters.put(AddStrategy.DEFAULT_VALUE, "bar");
         
         this.addStrategy.setParameters(parameters);
         this.addStrategy.migrate(this.testEntity);
         
-        assertFalse(this.testEntity.getBody().containsKey("foo"));
+        assertTrue(this.testEntity.getBody().containsKey("foo"));
+        assertTrue(this.testEntity.getBody().get("foo").equals("bar"));
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testValidNestedMigrationWithDefault() throws MigrationException {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(AddStrategy.FIELD_NAME, "nested.foo");
+        parameters.put(AddStrategy.DEFAULT_VALUE, "bar");
+        
+        this.addStrategy.setParameters(parameters);
+        this.addStrategy.migrate(this.testEntity);
+        
+        Map<String, Object> nested = (Map<String, Object>) this.testEntity.getBody().get("nested");
+        assertTrue(nested.containsKey("foo"));
+        assertTrue(nested.get("foo").equals("bar"));
     }
 }

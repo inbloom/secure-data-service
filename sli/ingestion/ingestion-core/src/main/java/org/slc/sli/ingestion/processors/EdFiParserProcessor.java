@@ -44,7 +44,7 @@ import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
-import org.slc.sli.ingestion.parser.impl.EdfiRecordParserImpl2;
+import org.slc.sli.ingestion.parser.impl.EdfiRecordParser;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
@@ -113,7 +113,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
     protected void parse(InputStream input, Resource xsdSchema, ReportStats reportStats, Source source)
             throws SAXException, IOException, XmlParseException {
-        EdfiRecordParserImpl2.parse(input, xsdSchema, typeProvider, this, getMessageReport(), reportStats, source);
+        EdfiRecordParser.parse(input, xsdSchema, typeProvider, this, getMessageReport(), reportStats, source);
     }
 
     /**
