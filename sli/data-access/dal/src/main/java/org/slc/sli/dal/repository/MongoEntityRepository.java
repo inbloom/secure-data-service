@@ -344,6 +344,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 return entities.get(0);
             }
             return null;
+        } else if (containerDocumentAccessor.isContainerDocument(collectionName)) {
+            List<Entity> entities = containerDocumentAccessor.findAll(collectionName, query);
+            if (entities != null && entities.size() > 0) {
+                return entities.get(0);
+            }
+            return null;
         }
         if (FullSuperDoc.FULL_ENTITIES.containsKey(collectionName)) {
             Set<String> embededFields = FullSuperDoc.FULL_ENTITIES.get(collectionName);
