@@ -2010,6 +2010,14 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="SchoolYear" type="SchoolYearType">
+                <xs:annotation>
+                    <xs:documentation/>
+                    <xs:appinfo>
+                        <sli:keyFieldName>schoolYear</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-ReportCardReferenceType">
