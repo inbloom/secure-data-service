@@ -1727,11 +1727,12 @@ def subdocMatch(subdoc, key, match_value)
         tmp = tmp.to_s()
       end
       if i == keys.length - 1
+        puts subdoc
         if match_value.is_a? Array and tmp.is_a? Array
           @contains = true if (match_value & tmp).size > 0
         elsif match_value.is_a? Array
           @contains = true if match_value.include? tmp
-        elsif tmp == match_value
+        elsif tmp.to_s == match_value.to_s
           @contains = true
         end
       end
@@ -2806,8 +2807,6 @@ def check_records_in_collection(table, db_name)
 
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
-    puts "**********"
-    puts subdoc_parent
     if subdoc_parent
       @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])
     else

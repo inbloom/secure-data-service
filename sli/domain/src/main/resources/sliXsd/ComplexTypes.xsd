@@ -3413,6 +3413,7 @@
       <xs:element name='schoolYear' type='schoolYearType'>
         <xs:annotation>
           <xs:appinfo>
+              <sli:naturalKey>true</sli:naturalKey>
             <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
             <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
           </xs:appinfo>
@@ -7440,7 +7441,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
@@ -7453,6 +7453,7 @@
                     </xs:documentation>
                     <xs:appinfo>
                         <sli:ReferenceType>student</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
@@ -7465,6 +7466,7 @@
                     </xs:documentation>
                     <xs:appinfo>
                         <sli:ReferenceType>section</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
@@ -7485,6 +7487,7 @@
       <xs:element name='schoolYear' type='schoolYearType'>
         <xs:annotation>
           <xs:appinfo>
+              <sli:naturalKey>true</sli:naturalKey>
             <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
             <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
           </xs:appinfo>
@@ -9458,6 +9461,7 @@
       <xs:element name='schoolYear' type='schoolYearType'>
         <xs:annotation>
           <xs:appinfo>
+              <sli:naturalKey>true</sli:naturalKey>
             <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
             <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
           </xs:appinfo>
