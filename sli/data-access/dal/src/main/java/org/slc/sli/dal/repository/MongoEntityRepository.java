@@ -16,28 +16,7 @@
 
 package org.slc.sli.dal.repository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import com.mongodb.DBObject;
-
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
-
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
@@ -59,6 +38,25 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -215,6 +213,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 update.set("body." + patch.getKey(), patch.getValue());
             }
             result = subDocs.subDoc(collectionName).doUpdate(query, update);
+        } else if (containerDocumentAccessor.isContainerDocument(type)) {
+            result = containerDocumentAccessor.update(type, id, newValues, collectionName);
         } else {
             result = super.patch(type, collectionName, id, newValues);
         }
@@ -233,10 +233,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
 
             denormalizer.denormalization(collectionName).doUpdate(updateEntity, update);
-        }
-
-        if (containerDocumentAccessor.isContainerDocument(type)) {
-            result = containerDocumentAccessor.update(type, id, newValues, collectionName);
         }
 
         return result;
@@ -338,14 +334,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     @MigrateEntity
     public Entity findOne(String collectionName, Query query) {
-        if (subDocs.isSubDoc(collectionName)) {
-            List<Entity> entities = subDocs.subDoc(collectionName).findAll(query);
-            if (entities != null && entities.size() > 0) {
-                return entities.get(0);
+        if (subDocs.isSubDoc(collectionName) || containerDocumentAccessor.isContainerDocument(collectionName)) {
+            List<Entity> entities;
+            if (subDocs.isSubDoc(collectionName)) {
+                entities = subDocs.subDoc(collectionName).findAll(query);
+            } else {
+                entities = containerDocumentAccessor.findAll(collectionName, query);
             }
-            return null;
-        } else if (containerDocumentAccessor.isContainerDocument(collectionName)) {
-            List<Entity> entities = containerDocumentAccessor.findAll(collectionName, query);
             if (entities != null && entities.size() > 0) {
                 return entities.get(0);
             }

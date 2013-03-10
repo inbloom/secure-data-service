@@ -25,13 +25,13 @@ import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -72,9 +72,10 @@ public class ContainerDocumentAccessor {
     public boolean isContainerDocument(final String entity) {
         return containerDocumentHolder.isContainerDocument(entity);
     }
+
     public boolean isContainerSubdoc(final String entity) {
         boolean isContainerSubdoc = false;
-        if(containerDocumentHolder.isContainerDocument(entity)) {
+        if (containerDocumentHolder.isContainerDocument(entity)) {
             isContainerSubdoc = containerDocumentHolder.getContainerDocument(entity).isContainerSubdoc();
         }
         return isContainerSubdoc;
@@ -97,14 +98,14 @@ public class ContainerDocumentAccessor {
 
     public boolean update(final String type, final String id, Map<String, Object> newValues, String collectionName) {
         final Query query = Query.query(Criteria.where("_id").is(id));
-        return updateContainerDoc(query.getQueryObject(), newValues, collectionName, type);
+        return updateContainerDoc(query, newValues, collectionName, type);
     }
 
     public String update(final Entity entity) {
         ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-        if(containerDocument.isContainerSubdoc()) {
+        if (containerDocument.isContainerSubdoc()) {
             boolean persisted = getLocation(entity.getType()).create(entity);
-            if(persisted) {
+            if (persisted) {
                 return entity.getEntityId();
             } else {
                 return "";
@@ -126,7 +127,7 @@ public class ContainerDocumentAccessor {
     }
 
     private DBObject getContainerDocQuery(final Entity entity) {
-        final String parentKey = ContainerDocumentHelper.createParentKey(entity, containerDocumentHolder, generatorStrategy );
+        final String parentKey = ContainerDocumentHelper.createParentKey(entity, containerDocumentHolder, generatorStrategy);
 
         final Query query = Query.query(Criteria.where("_id").is(parentKey));
 
@@ -136,14 +137,19 @@ public class ContainerDocumentAccessor {
     // TODO: private
 
 
-    protected boolean updateContainerDoc(final DBObject query, Map<String, Object> newValues, String collectionName, String type) {
-        TenantContext.setIsSystemCall(false);
+    protected boolean updateContainerDoc(final Query query, Map<String, Object> newValues, String collectionName, String type) {
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(type);
+        if (containerDocument.isContainerSubdoc()) {
+            Update update = new Update();
+            for (Map.Entry<String, Object> patch : newValues.entrySet()) {
+                update.set("body." + patch.getKey(), patch.getValue());
+            }
+            return getLocation(type).doUpdate(query, update);
+        }
+
+        TenantContext.setIsSystemCall(false);
         final String fieldToPersist = containerDocument.getFieldToPersist();
-
         DBObject entityDetails = new BasicDBObject();
-
-
         for (Map.Entry<String, Object> newValue : newValues.entrySet()) {
             if (newValue.getKey().equals(containerDocument.getFieldToPersist())) {
                 entityDetails.put("body." + newValue.getKey(), newValue.getValue());
@@ -155,14 +161,13 @@ public class ContainerDocumentAccessor {
             docToPersist = BasicDBObjectBuilder.start().push("$pushAll")
                     .add("body." + fieldToPersist, newValues.get(fieldToPersist))
                     .get();
-
         } else {
             docToPersist = new BasicDBObject();
         }
 
         docToPersist.putAll(set);
 
-        boolean persisted = mongoTemplate.getCollection(collectionName).update(query,
+        boolean persisted = mongoTemplate.getCollection(collectionName).update(query.getQueryObject(),
                 docToPersist, true, false, WriteConcern.SAFE)
                 .getLastError().ok();
         return persisted;
@@ -189,8 +194,10 @@ public class ContainerDocumentAccessor {
         Entity mongoEntity = mongoTemplate.findOne(query, Entity.class, entity.getType());
         Set<Object> persistedArrayField = new HashSet<Object>();
         List<Object> mongoList = (List<Object>) mongoEntity.getBody().get(fieldToPersist);
-        for (Object listObject : mongoList) {
-            persistedArrayField.add(listObject);
+        if (mongoList != null) {
+            for (Object listObject : mongoList) {
+                persistedArrayField.add(listObject);
+            }
         }
         if (arrayFieldToPersist instanceof Collection) {
             persistedArrayField.addAll((Collection<?>) arrayFieldToPersist);
@@ -198,9 +205,6 @@ public class ContainerDocumentAccessor {
             persistedArrayField.add(arrayFieldToPersist);
         }
 
-        for (final String key : containerDocument.getParentNaturalKeys()) {
-            entityDetails.put("body." + key, entityBody.get(key));
-        }
         entityDetails.put("body." + fieldToPersist, persistedArrayField);
         DBObject set = new BasicDBObject("$set", entityDetails);
 
@@ -230,7 +234,7 @@ public class ContainerDocumentAccessor {
 
         String key = (String) query.get("_id");
 
-        if(containerDocument.isContainerSubdoc()) {
+        if (containerDocument.isContainerSubdoc()) {
             key = ContainerDocumentHelper.getContainerDocId(entity, generatorStrategy, naturalKeyExtractor);
             getLocation(entity.getType()).create(entity);
 
@@ -250,16 +254,16 @@ public class ContainerDocumentAccessor {
     private SubDocAccessor.Location getLocation(String type) {
         SubDocAccessor.Location location = null;
 
-        if(locationMap.containsKey(type)) {
-           location = locationMap.get(type);
+        if (locationMap.containsKey(type)) {
+            location = locationMap.get(type);
         } else {
             ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(type);
             Map<String, String> parentToSubDocField = new HashMap<String, String>();
-            for(String parentKey :containerDocument.getParentNaturalKeys()) {
-                parentToSubDocField.put(parentKey,"body." + parentKey);
+            for (String parentKey : containerDocument.getParentNaturalKeys()) {
+                parentToSubDocField.put(parentKey, "body." + parentKey);
             }
             location = subDocAccessor.createLocation(containerDocument.getCollectionName(), containerDocument.getCollectionToPersist(), parentToSubDocField, containerDocument.getFieldToPersist());
-            locationMap.put(type,location);
+            locationMap.put(type, location);
         }
         return location;
     }
