@@ -20,7 +20,7 @@ require 'json'
 require 'digest/sha1'
 
 if ARGV.length < 3 or ARGV.include? "?" or ARGV.include? "-h" or ARGV.include? "--help"
-  puts "Usage: ruby #{$0} <grade_fixture_file> <repordCard_fixture_file> <studentAcademicRecord_fixture_file>"
+  puts "Usage: ruby #{$0} <grade_fixture_file>|nil <repordCard_fixture_file>|nil <studentAcademicRecord_fixture_file>|nil"
   exit 1
 end
 
@@ -75,13 +75,13 @@ template = {
 @sars = []
 File.open(grade_fixture).each_line do |line|
   @grades << JSON.parse(line)
-end
+end unless grade_fixture == "nil"
 File.open(rc_fixture).each_line do |line|
   @rcs << JSON.parse(line)
-end
+end unless rc_fixture == "nil"
 File.open(sar_fixture).each_line do |line|
   @sars << JSON.parse(line)
-end
+end unless sar_fixture == "nil"
 
 @yearly_transcripts = []
 get_all_school_years.each do |school_year|
@@ -97,7 +97,7 @@ get_all_school_years.each do |school_year|
   end
 end
 
-File.open("#{File.absolute_path(File.dirname grade_fixture)}/yearlyTranscript_fixture.json", "w") do |f|
+File.open("#{File.absolute_path(File.dirname $0)}/yearlyTranscript_fixture.json", "w") do |f|
   @yearly_transcripts.each do |yearly_transcript|
     id = yearly_transcript["_id"]
     school_year = yearly_transcript["body"]["schoolYear"]

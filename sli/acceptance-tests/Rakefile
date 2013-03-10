@@ -59,10 +59,7 @@ $collectionSet = ["student",
                   "studentParentAssociation",
                   "attendance",
                   "program",
-                  "studentAcademicRecord",
-                  "grade",
                   "studentCompetency",
-                  "reportCard",
                   "cohort",
                   "courseOffering",
                   "learningObjective",
@@ -75,7 +72,8 @@ $collectionSet = ["student",
                   "disciplineAction",
                   "disciplineIncident",
                   "studentDisciplineIncidentAssociation",
-                  "graduationPlan"]
+                  "graduationPlan",
+                  "yearlyTranscript"]
 
 #######################################################################################################
 # Helper defs
@@ -1093,10 +1091,10 @@ task :importSecuredData do
     "cohort" => "secured/cohort.json",
     "course" => "secured/course.json",
     "courseTranscript" => "secured/courseTranscript.json",
-    "grade" => "secured/grade.json",
+    # "grade" => "secured/grade.json",
     "educationOrganization" => "secured/educationOrganization.json",
     "program" => "secured/program.json",
-    "reportCard" => "secured/reportCard.json",
+    # "reportCard" => "secured/reportCard.json",
     "section" => "secured/section.json",
     "session" => "secured/session.json",
     "staff" => "secured/staff.json",
@@ -1106,11 +1104,12 @@ task :importSecuredData do
     "student" => "secured/student.json",
     "studentAssessment" => "secured/studentAssessment.json",
     "studentCompetency" => "secured/studentCompetency.json",
-    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
+    # "studentAcademicRecord" => "secured/studentAcademicRecord.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
     "studentGradebookEntry" => "secured/studentGradebookEntry.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
     "parent" => "secured/parent.json",
+    "yearlyTranscript" => "secured/yearlyTranscript.json"
   ]
 
    tenant = {
@@ -1186,17 +1185,18 @@ task :importSandboxMidgarData do
     "cohort" => "Midgar_data/cohort_fixture.json",
     "staffCohortAssociation" => "Midgar_data/staffCohortAssociation_fixture.json",
     "staffProgramAssociation" => "Midgar_data/staffProgramAssociation_fixture.json",
-    "studentAcademicRecord" => "Midgar_data/studentAcademicRecord_fixture.json",
+    # "studentAcademicRecord" => "Midgar_data/studentAcademicRecord_fixture.json",
     "learningStandard" => "Midgar_data/learningStandard_fixture.json",
     "learningObjective" => "Midgar_data/learningObjective_fixture.json",
-    "grade" => "Midgar_data/grade_fixture.json",
+    # "grade" => "Midgar_data/grade_fixture.json",
     "studentCompetency" => "Midgar_data/studentCompetency_fixture.json",
     "gradingPeriod" => "Midgar_data/gradingPeriod_fixture.json",
     "adminDelegation" => "Midgar_data/adminDelegation_fixture.json",
-    "reportCard" => "Midgar_data/reportCard_fixture.json",
+    # "reportCard" => "Midgar_data/reportCard_fixture.json",
     "graduationPlan" => "Midgar_data/graduationPlan_fixture.json",
     "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json",
-    "competencyLevelDescriptor" => "Midgar_data/competencyLevelDescriptor_fixture.json"
+    "competencyLevelDescriptor" => "Midgar_data/competencyLevelDescriptor_fixture.json",
+    "yearlyTranscript" => "Midgar_data/yearlyTranscript_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
@@ -1216,7 +1216,8 @@ task :importSandboxHyruleData do
     "educationOrganization" => "Hyrule_data/educationOrganization_fixture.json",
     "staffEducationOrganizationAssociation" => "Hyrule_data/staffEducationOrganizationAssociation_fixture.json",
     "gradingPeriod" => "Hyrule_data/gradingPeriod_fixture.json",
-    "reportCard" => "Hyrule_data/reportCard_fixture.json"
+    # "reportCard" => "Hyrule_data/reportCard_fixture.json",
+    "yearlyTranscript" => "Hyrule_data/yearlyTranscript_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
@@ -1263,16 +1264,17 @@ task :importMigrationData do
     "cohort" => "migration_data/cohort_fixture.json",
     "staffCohortAssociation" => "migration_data/staffCohortAssociation_fixture.json",
     "staffProgramAssociation" => "migration_data/staffProgramAssociation_fixture.json",
-    "studentAcademicRecord" => "migration_data/studentAcademicRecord_fixture.json",
+    # "studentAcademicRecord" => "migration_data/studentAcademicRecord_fixture.json",
     "learningStandard" => "migration_data/learningStandard_fixture.json",
     "learningObjective" => "migration_data/learningObjective_fixture.json",
-    "grade" => "migration_data/grade_fixture.json",
+    # "grade" => "migration_data/grade_fixture.json",
     "studentCompetency" => "migration_data/studentCompetency_fixture.json",
     "gradingPeriod" => "migration_data/gradingPeriod_fixture.json",
-    "reportCard" => "migration_data/reportCard_fixture.json",
+    # "reportCard" => "migration_data/reportCard_fixture.json",
     "graduationPlan" => "migration_data/graduationPlan_fixture.json",
     "studentCompetencyObjective" => "migration_data/studentCompetencyObjective_fixture.json",
-    "competencyLevelDescriptor" => "migration_data/competencyLevelDescriptor_fixture.json"
+    "competencyLevelDescriptor" => "migration_data/competencyLevelDescriptor_fixture.json",
+    "yearlyTranscript" => "migration_data/yearlyTranscript_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
