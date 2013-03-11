@@ -138,9 +138,17 @@ section,false,teacherSectionAssociation.body.teacherId:1
 #yearlyTranscript
 yearlyTranscript,false,body.studentId:1
 # Look up grade by gradingPeriod: /gradingPeriods/{id}/grades
-yearlyTranscript,false,grade.body.gradePeriodId:1
+yearlyTranscript,false,grade.body.gradingPeriodId:1
 # Used in cascade delete
 yearlyTranscript,false,grade.body.studentSectionAssociationId:1
+# Used in cascade delete
+yearlyTranscript,false,reportCard.body.grades:1
+# Look up reportCard by gradingPeriod: /gradingPeriods/{id}/reportCards
+yearlyTranscript,false,reportCard.body.gradingPeriodId:1
+# Look up reportCard by studentCompetency: /studentCompetencies/{id}/reportCards
+yearlyTranscript,false,reportCard.body.studentCompetencyId:1
+# Look up studentAcademicRecord by session: /sessions/{id}/studentAcademicRecords
+yearlyTranscript,false,studentAcademicRecord.body.sessionId:1
 
 
 
