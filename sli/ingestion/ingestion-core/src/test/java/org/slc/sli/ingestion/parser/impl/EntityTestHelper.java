@@ -33,6 +33,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.jdom2.JDOMException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.impl.LoggingMessageReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -69,9 +71,11 @@ public class EntityTestHelper {
     public static void parseAndVerify(Resource schema, Resource inputXmlResource, Resource expectedJsonResource)
             throws Throwable {
 
+        SimpleReportStats s = new SimpleReportStats();
+        AbstractMessageReport m = new LoggingMessageReport(LOG);
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
         EdfiRecordParser.parse(inputXmlResource.getInputStream(), schema, tp, mockVisitor,
-                new DummyMessageReport(), new SimpleReportStats(), new JobSource(inputXmlResource.getFilename()));
+                m, s, new JobSource(inputXmlResource.getFilename()));
 
         captureAndCompare(mockVisitor, expectedJsonResource);
 

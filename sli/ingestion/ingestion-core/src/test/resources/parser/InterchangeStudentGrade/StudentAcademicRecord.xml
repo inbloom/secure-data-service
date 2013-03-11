@@ -80,6 +80,7 @@
                         <BeginDate>2013-12-03</BeginDate>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
+                <SchoolYear>2013-2014</SchoolYear>
             </ReportCardIdentity>
         </ReportCardReference>
         <ReportCardReference>
@@ -100,6 +101,7 @@
                         <BeginDate>2013-03-03</BeginDate>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
+                <SchoolYear>2013-2014</SchoolYear>
             </ReportCardIdentity>
         </ReportCardReference>
         <DiplomaReference>

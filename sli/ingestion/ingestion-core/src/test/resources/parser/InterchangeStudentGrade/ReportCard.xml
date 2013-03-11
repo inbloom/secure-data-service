@@ -36,6 +36,7 @@
                         <BeginDate>2014-04-17</BeginDate>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
+                <SchoolYear>2013-2014</SchoolYear>
             </GradeIdentity>
         </GradeReference>
         <GradeReference>
@@ -71,6 +72,7 @@
                         <BeginDate>2013-07-25</BeginDate>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
+                <SchoolYear>2013-2014</SchoolYear>
             </GradeIdentity>
         </GradeReference>
         <StudentCompetencyReference>
