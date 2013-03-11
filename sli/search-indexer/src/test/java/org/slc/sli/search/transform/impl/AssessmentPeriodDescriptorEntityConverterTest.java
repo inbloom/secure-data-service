@@ -106,6 +106,7 @@ public class AssessmentPeriodDescriptorEntityConverterTest {
         assertNotNull(body);
         Map<String, Object> apd = (Map<String, Object>) (body.get(ASSESSMENT_PERIOD_DESCRIPTOR));
         assertEquals("red", apd.get("codeValue"));
+        assertEquals("assessment", entities.get(0).get("type"));
     }
 
     private Map<String, Object> buildAssessmentPeriodDescriptorMap() {
