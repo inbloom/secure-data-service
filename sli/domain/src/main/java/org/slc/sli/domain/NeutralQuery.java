@@ -313,7 +313,7 @@ public class NeutralQuery {
         return this;
     }
 
-    public NeutralQuery setQueryCritiria(List<NeutralCriteria> newQueryCriteria) {
+    public NeutralQuery setQueryCriteria(List<NeutralCriteria> newQueryCriteria) {
         this.queryCriteria = newQueryCriteria;
         return this;
     }

@@ -43,7 +43,6 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -208,7 +207,7 @@ public class SearchResourceService {
             }
             newCriteria.add(criteria);
         }
-        query.setQueryCritiria(newCriteria);
+        query.setQueryCriteria(newCriteria);
     }
     
     private boolean invalidCriteria(String key) {
