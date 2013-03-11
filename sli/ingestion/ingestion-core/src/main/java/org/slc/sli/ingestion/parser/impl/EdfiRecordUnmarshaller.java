@@ -57,9 +57,9 @@ import org.slc.sli.ingestion.reporting.Source;
  * @author dduran
  *
  */
-public class EdfiRecordParser extends EdfiRecordValidator {
+public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParser.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordUnmarshaller.class);
 
     private TypeProvider typeProvider;
 
@@ -83,7 +83,7 @@ public class EdfiRecordParser extends EdfiRecordValidator {
      * @param reportStats Associated report statistics
      * @param source Source of the messages
      */
-    public EdfiRecordParser(TypeProvider typeProvider, AbstractMessageReport messageReport, ReportStats reportStats, Source source) {
+    public EdfiRecordUnmarshaller(TypeProvider typeProvider, AbstractMessageReport messageReport, ReportStats reportStats, Source source) {
         super(messageReport, reportStats, source);
         this.typeProvider = typeProvider;
     }
@@ -107,7 +107,7 @@ public class EdfiRecordParser extends EdfiRecordValidator {
             RecordVisitor visitor, AbstractMessageReport messageReport, ReportStats reportStats, Source source)
                     throws SAXException, IOException, XmlParseException {
 
-        EdfiRecordParser parser = new EdfiRecordParser(typeProvider, messageReport, reportStats, source);
+        EdfiRecordUnmarshaller parser = new EdfiRecordUnmarshaller(typeProvider, messageReport, reportStats, source);
 
         parser.addVisitor(visitor);
 

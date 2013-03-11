@@ -28,7 +28,6 @@ import java.util.Map;
 
 import org.jdom2.JDOMException;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -48,7 +47,7 @@ import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
  * @author dduran
  *
  */
-public class EdfiRecordParserTest {
+public class EdfiRecordUnmarshallerTest {
 
     XsdTypeProvider tp = new XsdTypeProvider();
 
@@ -65,7 +64,7 @@ public class EdfiRecordParserTest {
         Resource xml = new ClassPathResource("parser/InterchangeStudentParent/Student.xml");
 
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParser.parse(xml.getInputStream(), schema, tp, mockVisitor,
+        EdfiRecordUnmarshaller.parse(xml.getInputStream(), schema, tp, mockVisitor,
                 new DummyMessageReport(), new SimpleReportStats(), new JobSource(xml.getFilename()));
 
         verify(mockVisitor, atLeastOnce()).visit(any(RecordMeta.class), anyMap());
@@ -77,7 +76,7 @@ public class EdfiRecordParserTest {
         Resource xml = new ClassPathResource("parser/InterchangeStudentParent/Student.xml");
 
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParser.parse(xml.getInputStream(), schema, tp, mockVisitor,
+        EdfiRecordUnmarshaller.parse(xml.getInputStream(), schema, tp, mockVisitor,
                 new DummyMessageReport(), new SimpleReportStats(), new JobSource(xml.getFilename()));
     }
 
@@ -89,7 +88,7 @@ public class EdfiRecordParserTest {
         Resource xml = new ClassPathResource("parser/InterchangeStudentParent/ThirteenStudents.xml");
 
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParser.parse(xml.getInputStream(), schema, tp, mockVisitor,
+        EdfiRecordUnmarshaller.parse(xml.getInputStream(), schema, tp, mockVisitor,
                 new DummyMessageReport(), new SimpleReportStats(), new JobSource(xml.getFilename()));
 
         ArgumentCaptor<RecordMeta> recordMetaCaptor = ArgumentCaptor.forClass(RecordMeta.class);
@@ -109,24 +108,18 @@ public class EdfiRecordParserTest {
         }
     }
 
-    // TODO: Reinstate this test once strict validation is re-enabled!
-    @Ignore
     @Test
     public void testRejectIfExpectedElementMissing() throws Throwable {
         rejectRecord("parser/InterchangeStudentParent/StudentMissingName.xml",
                 "edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
     }
 
-    // TODO: Reinstate this test once strict validation is re-enabled!
-    @Ignore
     @Test
     public void testRejectIfExtraElementIsPresent() throws Throwable {
         rejectRecord("parser/InterchangeStudentParent/StudentHasExtraElement.xml",
                 "edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
     }
 
-    // TODO: Reinstate this test once strict validation is re-enabled!
-    @Ignore
     @Test
     public void testRejectIfInvalidElementType() throws Throwable {
         rejectRecord("parser/InterchangeStudentParent/StudentHasInvalidTypeForDOB.xml",
@@ -155,7 +148,7 @@ public class EdfiRecordParserTest {
     @SuppressWarnings("unchecked")
     private void rejectRecord(Resource xml, Resource schema) throws Throwable {
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParser.parse(xml.getInputStream(), schema, tp, mockVisitor,
+        EdfiRecordUnmarshaller.parse(xml.getInputStream(), schema, tp, mockVisitor,
                 new DummyMessageReport(), new SimpleReportStats(), new JobSource(xml.getFilename()));
 
         verify(mockVisitor, never()).visit(any(RecordMeta.class), anyMap());
@@ -169,7 +162,7 @@ public class EdfiRecordParserTest {
         Resource expectedJson = new ClassPathResource("parser/InterchangeStudentParent/Student.expected.json");
 
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParser.parse(xml.getInputStream(), schema, tp, mockVisitor,
+        EdfiRecordUnmarshaller.parse(xml.getInputStream(), schema, tp, mockVisitor,
                 new DummyMessageReport(), new SimpleReportStats(), new JobSource(xml.getFilename()));
 
         EntityTestHelper.captureAndCompare(mockVisitor, expectedJson);
@@ -182,7 +175,7 @@ public class EdfiRecordParserTest {
         Resource expectedJson = new ClassPathResource("parser/InterchangeStudentParent/StudentWithUnicode.expected.json");
 
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParser.parse(xml.getInputStream(), schema, tp, mockVisitor,
+        EdfiRecordUnmarshaller.parse(xml.getInputStream(), schema, tp, mockVisitor,
                 new DummyMessageReport(), new SimpleReportStats(), new JobSource(xml.getFilename()));
 
         EntityTestHelper.captureAndCompare(mockVisitor, expectedJson);
@@ -195,7 +188,7 @@ public class EdfiRecordParserTest {
         Resource expectedJson = new ClassPathResource("parser/InterchangeStudentParent/StudentWithCDATA.expected.json");
 
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParser.parse(xml.getInputStream(), schema, tp, mockVisitor,
+        EdfiRecordUnmarshaller.parse(xml.getInputStream(), schema, tp, mockVisitor,
                 new DummyMessageReport(), new SimpleReportStats(), new JobSource(xml.getFilename()));
 
         EntityTestHelper.captureAndCompare(mockVisitor, expectedJson);

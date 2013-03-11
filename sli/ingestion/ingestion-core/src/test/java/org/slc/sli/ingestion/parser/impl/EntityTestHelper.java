@@ -70,7 +70,7 @@ public class EntityTestHelper {
             throws Throwable {
 
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParser.parse(inputXmlResource.getInputStream(), schema, tp, mockVisitor,
+        EdfiRecordUnmarshaller.parse(inputXmlResource.getInputStream(), schema, tp, mockVisitor,
                 new DummyMessageReport(), new SimpleReportStats(), new JobSource(inputXmlResource.getFilename()));
 
         captureAndCompare(mockVisitor, expectedJsonResource);
