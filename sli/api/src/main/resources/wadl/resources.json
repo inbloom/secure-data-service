@@ -594,7 +594,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.1"],
+  "nameSpace": ["v1.1", "v1.2"],
   "resources": [
     {
       "path": "/search",
