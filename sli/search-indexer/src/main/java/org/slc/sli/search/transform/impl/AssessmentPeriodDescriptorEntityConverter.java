@@ -24,16 +24,21 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import org.slc.sli.search.config.IndexConfig;
-import org.slc.sli.search.entity.IndexEntity;
+import org.slc.sli.search.config.IndexConfigStore;
+import org.slc.sli.search.connector.SourceDatastoreConnector;
 import org.slc.sli.search.entity.IndexEntity.Action;
+import org.slc.sli.search.transform.EntityConverter;
 
-public class AssessmentPeriodDescriptorEntityConverter extends GenericEntityConverter {
+public class AssessmentPeriodDescriptorEntityConverter implements EntityConverter {
     
-    @SuppressWarnings("unchecked")
-    public List<IndexEntity> convert(String index, Action action, Map<String, Object> entityMap, boolean decrypt) {
-        List<IndexEntity> entities = new ArrayList<IndexEntity>();
+    private SourceDatastoreConnector sourceDatastoreConnector;
+    private IndexConfigStore indexConfigStore;
 
-        // no need to delete anything for assessmentPeriodDescriptor
+    @SuppressWarnings("unchecked")
+    public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
+        List<Map<String, Object>> entities = new ArrayList<Map<String, Object>>();
+
+        // return empty list as there is no need to delete anything for assessmentPeriodDescriptor
         if (action == Action.DELETE) {
             return entities;
         }
@@ -47,10 +52,17 @@ public class AssessmentPeriodDescriptorEntityConverter extends GenericEntityConv
             Map<String, Object> assessmentMap = obj.toMap();
             ((Map<String, Object>) assessmentMap.get("body")).put("assessmentPeriodDescriptor", entityMap.get("body"));
             ((Map<String, Object>) assessmentMap.get("body")).remove("assessmentPeriodDescriptorId");
-            entities.addAll(super.convert(index, action, assessmentMap, decrypt));
+            entities.add(assessmentMap);
         }
             
         return entities;
     }
     
+    public void setIndexConfigStore(IndexConfigStore indexConfigStore) {
+        this.indexConfigStore = indexConfigStore;
+    }
+
+    public void setSourceDatastoreConnector(SourceDatastoreConnector sourceDatastoreConnector) {
+        this.sourceDatastoreConnector = sourceDatastoreConnector;
+    }
 }

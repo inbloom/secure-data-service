@@ -86,7 +86,7 @@ public class LoaderTester {
         loader.setIndexer(indexer);
         loader.setPollIntervalMillis(10);
         indexConverter.setDecrypt(false);
-        genericEntityConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
+        indexConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
         entityConverterFactory.setGenericEntityConverter(genericEntityConverter);
         indexConverter.setEntityConverterFactory(entityConverterFactory);
         loader.setIndexEntityConverter(indexConverter);

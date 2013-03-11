@@ -40,7 +40,7 @@ public class IndexEntityConverterTest {
     @Before
     public void setup() throws Exception{
         indexEntityConverter.setDecrypt(false);
-        genericEntityConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
+        indexEntityConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
         entityConverterFactory.setGenericEntityConverter(genericEntityConverter);
         indexEntityConverter.setEntityConverterFactory(entityConverterFactory);
     }

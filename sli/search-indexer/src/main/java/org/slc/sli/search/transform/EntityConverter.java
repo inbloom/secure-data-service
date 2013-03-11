@@ -18,7 +18,6 @@ package org.slc.sli.search.transform;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 
 public interface EntityConverter {
@@ -30,9 +29,9 @@ public interface EntityConverter {
      *            tenantDB hash
      * @param action
      * @param entityMap
-     * @return IndexEntity to be indexed by ElasticSearch
+     * @return List of Maps to be transformed by IndexEntityConverter
      * 
      */
-    public List<IndexEntity> convert(String index, Action action, Map<String, Object> entityMap, boolean decrypt);
+    public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap);
 
 }

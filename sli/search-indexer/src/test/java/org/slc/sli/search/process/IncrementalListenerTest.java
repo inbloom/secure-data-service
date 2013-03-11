@@ -54,7 +54,7 @@ public class IncrementalListenerTest {
     public void init() throws Exception {
 
         indexEntityConverter.setDecrypt(false);
-        genericEntityConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
+        indexEntityConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
         entityConverterFactory.setGenericEntityConverter(genericEntityConverter);
         indexEntityConverter.setEntityConverterFactory(entityConverterFactory);
         listener.setIndexEntityConverter(indexEntityConverter);
