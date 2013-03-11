@@ -12,11 +12,6 @@
             "optional" : false
         },
         {
-            "entityType" : "studentSectionAssociation",
-            "sourceRefPath": "body.StudentSectionAssociationReference",
-            "optional" : false
-        },
-        {
             "entityType" : "gradingPeriod",
             "sourceRefPath": "body.GradingPeriodReference",
             "optional" : true

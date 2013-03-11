@@ -11,56 +11,40 @@
                 "choiceOfFields":[
                     [
                         {
-                            "path":"body.studentSectionAssociationId",
+                            "path":"body.studentId",
                             "values":[
                                 {
                                     "ref":{
-                                        "entityType":"studentSectionAssociation",
-                                        "isRefList":true,
-                                        "refObjectPath":"body.GradeReference",
+                                        "entityType":"student",
                                         "choiceOfFields":[
                                             [
                                                 {
-                                                    "path":"body.studentId",
+                                                    "path":"body.studentUniqueStateId",
                                                     "values":[
                                                         {
-                                                            "ref":{
-                                                                "entityType":"student",
-                                                                "choiceOfFields":[
-                                                                    [
-                                                                        {
-                                                                            "path":"body.studentUniqueStateId",
-                                                                            "values":[
-                                                                                {
-                                                                                    "valueSource":"body.GradeReference.GradeIdentity.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentReference.StudentIdentity.StudentUniqueStateId"
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                ]
-                                                            }
+                                                            "valueSource":"body.GradeReference.GradeIdentity.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentReference.StudentIdentity.StudentUniqueStateId"
                                                         }
                                                     ]
-                                                },
+                                                }
+                                            ]
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "path":"body.sectionId",
+                            "values":[
+                                {
+                                    "ref":{
+                                        "entityType":"section",
+                                        "choiceOfFields":[
+                                            [
                                                 {
-                                                    "path":"body.sectionId",
+                                                    "path":"body.uniqueSectionCode",
                                                     "values":[
                                                         {
-                                                            "ref":{
-                                                                "entityType":"section",
-                                                                "choiceOfFields":[
-                                                                    [
-                                                                        {
-                                                                            "path":"body.uniqueSectionCode",
-                                                                            "values":[
-                                                                                {
-                                                                                    "valueSource":"body.GradeReference.GradeIdentity.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference.SectionIdentity.UniqueSectionCode"
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                ]
-                                                            }
+                                                            "valueSource":"body.GradeReference.GradeIdentity.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference.SectionIdentity.UniqueSectionCode"
                                                         }
                                                     ]
                                                 }
