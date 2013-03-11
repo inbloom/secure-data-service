@@ -44,6 +44,7 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
     When I set the list <reference field> to "<INVALID REFERENCE>"
      And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then I should receive a return code of 403
+     And a security event matching "^Access Denied" should be in the sli db
      And I check to find if record is in sli db collection:
        | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
        | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
