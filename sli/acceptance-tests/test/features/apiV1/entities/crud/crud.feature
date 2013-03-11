@@ -385,3 +385,32 @@ Examples:
   Examples:
     | Entity Type                    | Entity Resource URI   | Update Field             | Updated Value             |
     | "gradebookEntry"               | "gradebookEntries"    | "description"            | "Updated description"     |
+
+
+  Scenario Outline: Get modified grade, reportCard and AcademicRecord entities
+
+    Given I am logged in using "cgray" "cgray1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    And my contextual access is defined by table:
+      | Context                | Ids                                                                          |
+      | schools	             | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe    |
+      | educationOrganizations | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe    |
+      | staff	                 | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
+      | teachers               | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
+      | sections               | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234_id |
+    Given entity URI <Entity Resource URI>
+    Given parameter "limit" is "250"
+    When I navigate to GET "/<ENTITY URI>"
+    Then I should receive a return code of 200
+    And I should receive a collection of "<Count>" entities
+    And each entity's "entityType" should be <Entity Type>
+    #And each entity's "schoolyear" value should be <school year>
+    And uri was rewritten to "<Rewrite URI>"
+    And the response should contain the "<school year>" field
+
+
+  Examples:
+    | Entity Type             | Entity Resource URI       | Count | Rewrite URI|                                                                  |school year|
+    | "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|     |2010-2011|
+    | "grade"                 | "grades"                  | 1     |/sections/@ids/studentSectionAssociations/grades|                              |2010-2011|
+    | "reportCard"            | "reportCards"             | 3     |/sections/@ids/studentSectionAssociations/students/reportCards|                |2010-2011|
