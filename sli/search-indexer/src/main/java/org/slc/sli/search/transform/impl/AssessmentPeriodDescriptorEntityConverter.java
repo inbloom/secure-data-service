@@ -47,6 +47,17 @@ public class AssessmentPeriodDescriptorEntityConverter implements EntityConverte
             return entities;
         }
         
+        // this is from sarje update event, that body is null
+        if (entityMap.get("body") == null) {
+            DBObject apdQuery = new BasicDBObject("_id", entityMap.get("_id"));
+            IndexConfig apdConfig = indexConfigStore.getConfig(ASSESSMENT_PERIOD_DESCRIPTOR);
+            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT_PERIOD_DESCRIPTOR, apdConfig.getFields(), apdQuery);
+            if (cursor.hasNext()) {
+                Map<String, Object> apdEntity = cursor.next().toMap();
+                entityMap.put("body", apdEntity.get("body"));
+            }
+        }
+        
         DBObject query = new BasicDBObject("body." + ASSESSMENT_PERIOD_DESCRIPTOR_ID, entityMap.get("_id"));
         IndexConfig config = indexConfigStore.getConfig(ASSESSMENT);
         
