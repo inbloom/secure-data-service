@@ -15,7 +15,6 @@ Scenario: Read all entities as SEA Admin
     And I should receive a collection of "4" entities
     And each entity's "entityType" should be "<ENTITY TYPE>"
     And each entity's "targetEdOrg" should be "IL"
-    And each entity's "targetEdOrgList" should be ["IL", "NY", "NJ"]
     And each entity's "roles" should contain "SEA Administrator"
 
 Scenario: Read all entities as LEA Admin
