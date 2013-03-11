@@ -39,7 +39,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | courseTranscript                       | courseTranscripts                        | finalLetterGradeEarned   | A                      | B                      | rrogers    | rrogers1234 |
       | staffCohortAssociation                 | staffCohortAssociations                  | endDate                  | 2012-03-29             | 2013-03-29             | rrogers    | rrogers1234 |
       | staffProgramAssociation                | staffProgramAssociations                 | endDate                  | 2012-12-31             | 2012-02-01             | rrogers    | rrogers1234 |
-      | studentAssessment           | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             | rrogers    | rrogers1234 |
+      | studentAssessment                      | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             | rrogers    | rrogers1234 |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | studentParticipationCode | Reporter               | Witness                | rrogers    | rrogers1234 |
       | studentParentAssociation               | studentParentAssociations                | livesWith                | true                   | false                  | rrogers    | rrogers1234 |
       | studentProgramAssociation              | studentProgramAssociations               | reasonExited             | Refused services       | Expulsion              | rrogers    | rrogers1234 |
@@ -48,7 +48,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | teacherSectionAssociation              | teacherSectionAssociations               | classroomPosition        | Teacher of Record      | Assistant Teacher      | rrogers    | rrogers1234 |
       # Teacher - Charles Gray (IT Admin)
       | courseTranscript                       | courseTranscripts                        | finalLetterGradeEarned   | A                      | B                      | cgrayadmin | cgray1234   |
-      | studentAssessment           | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             | cgrayadmin | cgray1234   |
+      | studentAssessment                      | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             | cgrayadmin | cgray1234   |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | studentParticipationCode | Reporter               | Witness                | cgrayadmin | cgray1234   |
       | studentParentAssociation               | studentParentAssociations                | livesWith                | true                   | false                  | cgrayadmin | cgray1234   |
       | studentProgramAssociation              | studentProgramAssociations               | reasonExited             | Refused services       | Expulsion              | cgrayadmin | cgray1234   |
@@ -68,6 +68,11 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       # Read
       When I navigate to GET "/<ASSOC URI>/<NEWLY CREATED ASSOC ID>"
       Then I should receive a return code of 403
+      And a security event matching "^Access Denied" should be in the sli db
+      And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234  |
+       | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                             |
 
     Examples:
       | ASSOC TYPE     | ASSOC URI       |
@@ -177,7 +182,8 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
     Scenario Outline: Unhappy paths: invalid or inaccessible references
       # Log in as a user with less accessible data
-      Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+      #Given the sli securityEvent collection is empty
+      And I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
       And format "application/vnd.slc+json"
       # Read with invalid reference
       When I navigate to GET "/<ASSOC URI>/<INVALID REFERENCE>"
@@ -192,34 +198,69 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       And I set the "<END POINT 1 FIELD>" to "<INVALID REFERENCE>"
       And I navigate to PUT "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       Then I should receive a return code of 403
+      #And a security event matching "^Access Denied" should be in the sli db
+      #And I check to find if record is in sli db collection:
+         #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+         #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+         #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
       And the error message should indicate "<BAD REFERENCE>"
-      When I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
+      #When the sli securityEvent collection is empty
+      And I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       And I set the "<END POINT 2 FIELD>" to "<INVALID REFERENCE>"
       And I navigate to PUT "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       Then I should receive a return code of 403
+      #And a security event matching "^Access Denied" should be in the sli db
+      #And I check to find if record is in sli db collection:
+       #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+       #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
       And the error message should indicate "<BAD REFERENCE>"
       # Delete with invalid reference
-      When I navigate to DELETE "/<ASSOC URI>/<INVALID REFERENCE>"
+      #When the sli securityEvent collection is empty
+      And I navigate to DELETE "/<ASSOC URI>/<INVALID REFERENCE>"
       Then I should receive a return code of 404
       # Create with inaccessible endpoint 1
       Given a valid association json document for <ASSOC TYPE>
       When I set the "<END POINT 1 FIELD>" to "<INACCESSIBLE END POINT 1 ID>"
       When I navigate to POST "/<ASSOC URI>"
       Then I should receive a return code of 403
+      #And a security event matching "^Access Denied" should be in the sli db
+      #And I check to find if record is in sli db collection:
+         #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+         #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+         #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
       # Create with inaccessible endpoint 2
-      Given a valid association json document for <ASSOC TYPE>
+      #When the sli securityEvent collection is empty
+      And a valid association json document for <ASSOC TYPE>
       When I set the "<END POINT 2 FIELD>" to "<INACCESSIBLE END POINT 2 ID>"
       When I navigate to POST "/<ASSOC URI>"
       Then I should receive a return code of 403
+      And a security event matching "^Access Denied" should be in the sli db
+      #And I check to find if record is in sli db collection:
+           #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+           #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+           #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
       # Update wby setting end points to inaccessible references
-      When I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
+      #When the sli securityEvent collection is empty
+      And I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       And I set the "<END POINT 1 FIELD>" to "<INACCESSIBLE END POINT 1 ID>"
       And I navigate to PUT "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
+      And a security event matching "^Access Denied" should be in the sli db
       Then I should receive a return code of 403
-      When I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
+      #And I check to find if record is in sli db collection:
+           #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+           #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+           #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
+      #When the sli securityEvent collection is empty
+      And I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       And I set the "<END POINT 2 FIELD>" to "<INACCESSIBLE END POINT 2 ID>"
       And I navigate to PUT "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       Then I should receive a return code of 403
+      #And a security event matching "^Access Denied" should be in the sli db
+      #And I check to find if record is in sli db collection:
+           #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+           #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+           #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | ASSOC ID FOR UPDATE                    | UPDATE FIELD             | NEW VALUE              | END POINT 1 FIELD     | END POINT 2 FIELD              | INACCESSIBLE END POINT 1 ID            | INACCESSIBLE END POINT 2 ID            |

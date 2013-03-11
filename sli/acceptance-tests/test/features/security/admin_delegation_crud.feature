@@ -13,11 +13,10 @@ Feature: Admin delegation CRUD
     Then I should update app authorizations for district "IL-SUNSET"
     And I should receive a return code of 403
     And a security event matching "^Access Denied" should be in the sli db
-     And I check to find if record is in sli db collection:
-| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+    And I check to find if record is in sli db collection:
+     | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234  |
-     | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET  |
-
+     | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET                             |
 
   Scenario: District administrator updating admin delegation
     Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
