@@ -645,15 +645,6 @@ end
 desc "Run API Tests using Odin ingested data"
 task :apiOdinTests => [:apiOdinGenerate, :apiOdinIngestion, :apiOdinSuperAssessment] do
   displayFailureReport()
-    if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-task :apiAssessmentTests => [apiOdinSuperAssessment] do
-  displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
