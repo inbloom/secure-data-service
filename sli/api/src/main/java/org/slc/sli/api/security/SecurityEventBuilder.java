@@ -55,6 +55,8 @@ public class SecurityEventBuilder {
     @Autowired
     private EdOrgHelper edOrgHelper;
 
+    private final String unknownEdOrg = "UNKNOWN";
+
     public SecurityEventBuilder() {
         try {
             InetAddress host = InetAddress.getLocalHost();
@@ -156,7 +158,12 @@ public class SecurityEventBuilder {
             if (targetEdOrgIds != null) {
 
                 for (String s : targetEdOrgIds) {
-                    targetEdOrgs.add((String) edOrgHelper.byId(s).getBody().get( ParameterConstants.STATE_ORGANIZATION_ID));
+                    try {
+                        targetEdOrgs.add((String) edOrgHelper.byId(s).getBody().get( ParameterConstants.STATE_ORGANIZATION_ID));
+                    } catch ( Exception e ) {
+                        info("Could not get edOrg for entity [" + s + "] [" + slMessage + "]");
+                        targetEdOrgs.add( unknownEdOrg) ;
+                    }
                 }
                 event.setTargetEdOrgList(targetEdOrgs);
                 event.setTargetEdOrg(targetEdOrgs.get(0));
