@@ -35,6 +35,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents a strategy that resolve a new field using TransformationRules
+ * and add to the entity body.
+ */
 @Scope("prototype")
 @Component
 public class AddFieldStrategy implements MigrationStrategy<EntityBody> {
@@ -54,8 +58,8 @@ public class AddFieldStrategy implements MigrationStrategy<EntityBody> {
 
     @Override
     public EntityBody migrate(EntityBody entity) throws MigrationException {
+        // This strategy should always expect a list
         throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
-
     }
 
     @Override
@@ -65,12 +69,12 @@ public class AddFieldStrategy implements MigrationStrategy<EntityBody> {
         }
 
         this.fieldName = parameters.get(FIELD_NAME).toString();
-        this.ruleSet = parseRules(parameters.get(RULE_SET));
+        this.ruleSet = parseRules((ArrayList) parameters.get(RULE_SET));
     }
 
     @Override
     public List<EntityBody> migrate(List<EntityBody> entityList) throws MigrationException {
-        for(EntityBody entityBody: entityList) {
+        for (EntityBody entityBody : entityList) {
             try {
                 PropertyUtils.setProperty(entityBody, fieldName, resolveRules(entityBody));
             } catch (IllegalAccessException e) {
@@ -84,21 +88,18 @@ public class AddFieldStrategy implements MigrationStrategy<EntityBody> {
         return entityList;
     }
 
-    private List<TransformationRule> parseRules(Object ruleSet) {
+    private List<TransformationRule> parseRules(ArrayList ruleSet) {
         List<TransformationRule> rules = new ArrayList<TransformationRule>();
-        for(Object ruleKey:(ArrayList) ruleSet) {
+        for (Object ruleKey : ruleSet) {
             Map<String, Object> rule = (Map<String, Object>) ruleKey;
             rules.add(TransformationRule.init((Integer) rule.get("rank"), (HashMap<String, String>) rule.get("rule")));
         }
-        Collections.sort(rules, new Comparator<TransformationRule>() {
-            @Override
-            public int compare(TransformationRule transformationRule, TransformationRule transformationRule2) {
-                return (transformationRule.compareTo(transformationRule2));
-            }
-        });
+        Collections.sort(rules);
         return rules;
     }
 
+    // This will apply the sorted list of rules in a chain
+    // to resolve the desired field
     private String resolveRules(EntityBody entityBody) {
         String id = (String) entityBody.get(ruleSet.get(0).getField());
         for (int i = 1; i < ruleSet.size(); i++) {
@@ -107,11 +108,11 @@ public class AddFieldStrategy implements MigrationStrategy<EntityBody> {
             List<String> fields = Arrays.asList(rule.getField().split(","));
             Map<String, Object> body = e.getBody();
             Object value = null;
-            for(String field: fields) {
+            for (String field : fields) {
                 value = body.get(field);
                 body.clear();
-                if(value instanceof Map) {
-                    body.putAll((Map<? extends String,?>) value);
+                if (value instanceof Map) {
+                    body.putAll((Map<? extends String, ?>) value);
                 }
             }
             id = (String) value;

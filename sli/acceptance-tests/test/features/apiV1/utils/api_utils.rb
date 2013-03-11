@@ -83,11 +83,10 @@ When /^I navigate to POST "([^"]*)"$/ do |post_uri|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-When /^I set the "([^"]*)" array to \[(.*)\]$/ do |property,value|
+When /^I set the "([^"]*)" array to (.*)$/ do |property,value|
   @fields = {} if !defined? @fields
-  arr = JSON.parse(value)
-  if (arr.is_a?(Array))
-    @fields[property] = arr
+  if (value.is_a?(Array))
+    step "\"#{property}\" is \"#{value}\""
   else
     @fields[property] = eval(value)
   end

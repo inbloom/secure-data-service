@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * Supports the migration of entities by cardinality changes.
- * 
+ *
  * @author jcole
  */
 
@@ -62,7 +62,7 @@ public class CardinalityStrategy implements MigrationStrategy<Entity> {
 
                 if (maxCount.equals("many")) {
                     List<String> fieldValues = new ArrayList<String>();
-                    fieldValues.add (DEFAULT_VALUE);
+                    fieldValues.add(DEFAULT_VALUE);
 
                     try {
                         PropertyUtils.setProperty(entity.getBody(), fieldName, fieldValues);
@@ -73,8 +73,7 @@ public class CardinalityStrategy implements MigrationStrategy<Entity> {
                     } catch (NoSuchMethodException e) {
                         throw new MigrationException(e);
                     }
-                }
-                else {
+                } else {
                     try {
                         PropertyUtils.setProperty(entity.getBody(), fieldName, defaultValue);
                     } catch (IllegalAccessException e) {
@@ -113,7 +112,7 @@ public class CardinalityStrategy implements MigrationStrategy<Entity> {
                 // this is the case where we've gone from 1 to many
                 String valueString = (String) valueObject;
                 List<String> fieldValues = new ArrayList<String>();
-                fieldValues.add (valueString);
+                fieldValues.add(valueString);
 
                 try {
                     PropertyUtils.setProperty(entity.getBody(), fieldName, fieldValues);
@@ -157,6 +156,7 @@ public class CardinalityStrategy implements MigrationStrategy<Entity> {
 
     @Override
     public List<Entity> migrate(List<Entity> entityList) throws MigrationException {
+        // This strategy should always expect a single entity
         throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
     }
 

@@ -17,6 +17,10 @@ package org.slc.sli.api.migration;
 
 import java.util.HashMap;
 
+/**
+ * Represents a rule that is chained to resolve a field.
+ * Used in migration strategy.
+ */
 public final class TransformationRule implements Comparable<TransformationRule> {
 
     private Integer rank;
@@ -29,7 +33,7 @@ public final class TransformationRule implements Comparable<TransformationRule> 
         this.field = rule.get("field");
     }
 
-    public static TransformationRule init(Integer rank, HashMap<String,String> rule) {
+    public static TransformationRule init(Integer rank, HashMap<String, String> rule) {
 
         return new TransformationRule(rank, rule);
     }
@@ -49,7 +53,13 @@ public final class TransformationRule implements Comparable<TransformationRule> 
 
     @Override
     public int compareTo(TransformationRule transformationRule) {
-        return (this.getRank() - transformationRule.getRank() );
+        if (this.getRank() < transformationRule.getRank()) {
+            return -1;
+        } else if (this.getRank() > transformationRule.getRank()) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
 }

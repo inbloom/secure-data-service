@@ -41,40 +41,35 @@ import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 
 /**
- * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
- * document into a Map of Maps data structure.
- *
- * Additionally, the class implements ErrorHandler so
- * that the parsing of a specific entity can be aware of validation errors.
+ * SAX based XML content/validation handler.
  *
  * @author ablum
  *
  */
 public class EdfiRecordValidator extends DefaultHandler {
 
+    /**
+     * Message report for validation warning/error reporting.
+     */
     protected AbstractMessageReport messageReport;
 
+    /**
+     * Associated report statistics.
+     */
     protected ReportStats reportStats;
 
+    /**
+     * Source of the messages.
+     */
     protected Source source;
 
-    public static void validate(InputStream input, Resource schemaResource, AbstractMessageReport messageReport, ReportStats reportStats, Source source)
-                    throws SAXException, IOException, XmlParseException {
-
-        EdfiRecordValidator validator = new EdfiRecordValidator(messageReport, reportStats, source);
-
-        validator.process(input, schemaResource);
-    }
-
-    public void process(InputStream input, Resource schemaResource)
-            throws SAXException, IOException, XmlParseException {
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-
-        Schema schema = schemaFactory.newSchema(schemaResource.getURL());
-
-        this.parseAndValidate(input, schema.newValidatorHandler());
-    }
-
+    /**
+     * Constructor.
+     *
+     * @param messageReport Message report for validation warning/error reporting
+     * @param reportStats Associated report statistics
+     * @param source Source of the messages
+     */
     public EdfiRecordValidator(AbstractMessageReport messageReport, ReportStats reportStats,
             Source source) {
 
@@ -84,6 +79,52 @@ public class EdfiRecordValidator extends DefaultHandler {
 
     }
 
+    /**
+     * Validates an XML represented by the input stream against provided XSD and reports validation issues.
+     *
+     * @param input XML to validate
+     * @param schemaResource XSD resource
+     * @param messageReport Message report for validation warning/error reporting
+     * @param reportStats Associated report statistics
+     * @param source Source of the messages
+     * @throws SAXException If a SAX error occurs during XSD parsing.
+     * @throws IOException If a IO error occurs during XSD/XML parsing.
+     * @throws XmlParseException If a SAX error occurs during XML parsing.
+     */
+    public static void validate(InputStream input, Resource schemaResource, AbstractMessageReport messageReport, ReportStats reportStats, Source source)
+                    throws SAXException, IOException, XmlParseException {
+
+        EdfiRecordValidator validator = new EdfiRecordValidator(messageReport, reportStats, source);
+
+        validator.process(input, schemaResource);
+    }
+
+    /**
+     * Validates an XML represented by the input stream against provided XSD and reports validation issues.
+     *
+     * @param input XML to validate
+     * @param schemaResource XSD resource
+     * @throws SAXException If a SAX error occurs during XSD parsing.
+     * @throws IOException If a IO error occurs during XSD/XML parsing.
+     * @throws XmlParseException If a SAX error occurs during XML parsing.
+     */
+    public void process(InputStream input, Resource schemaResource)
+            throws SAXException, IOException, XmlParseException {
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+
+        Schema schema = schemaFactory.newSchema(schemaResource.getURL());
+
+        this.parseAndValidate(input, schema.newValidatorHandler());
+    }
+
+    /**
+     * Validates an XML represented by the input stream against provided XSD and reports validation issues.
+     *
+     * @param input XML to validate
+     * @param vHandler Validator handler
+     * @throws IOException If a IO error occurs during XML parsing.
+     * @throws XmlParseException If a SAX error occurs during XML parsing.
+     */
     protected void parseAndValidate(InputStream input, ValidatorHandler vHandler) throws XmlParseException, IOException {
         vHandler.setErrorHandler(this);
 

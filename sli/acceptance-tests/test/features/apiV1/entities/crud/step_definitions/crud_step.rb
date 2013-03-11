@@ -26,6 +26,12 @@ include REXML
 require_relative '../../../../utils/sli_utils.rb'
 require_relative '../../../utils/api_utils.rb'
 
+Before do
+  @attendance_event_array = [
+      {"event"=> "Unexcused Absence", "date"=>"2010-09-16"}, {"event"=> "Unexcused Absence", "date"=>"2010-10-16"}
+  ]
+end
+
 ###############################################################################
 # TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM
 ###############################################################################
@@ -41,10 +47,14 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id
 end
 
+Transform /^"<ATT_EVENT_ARRAY>"$/ do |attendance_event_update|
+   attendance_event_update = @attendance_event_array.to_s
+   attendance_event_update
+end
+
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
-
 
 Given /^entity URI "([^"]*)"$/ do |arg1|
   @entityUri = arg1

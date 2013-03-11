@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * Supports the migration of entities by removing a top level data field.
  * Will not work with nested fields.
- * 
+ *
  * @author kmyers
  */
 
@@ -37,14 +37,12 @@ import java.util.Map;
 public class RemoveFieldStrategy implements MigrationStrategy<Entity> {
 
     public static final String FIELD_NAME = "fieldName";
-    
+
     private String fieldName;
-    
+
     @Override
     public Entity migrate(Entity entity) throws MigrationException {
-        
         entity.getBody().remove(fieldName);
-
         return entity;
     }
 
@@ -64,6 +62,7 @@ public class RemoveFieldStrategy implements MigrationStrategy<Entity> {
 
     @Override
     public List<Entity> migrate(List<Entity> entityList) throws MigrationException {
+        // This strategy should always expect a single entity
         throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
     }
 

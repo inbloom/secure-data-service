@@ -71,6 +71,7 @@ public class AddStrategy implements MigrationStrategy<Entity> {
 
     @Override
     public List<Entity> migrate(List<Entity> entityList) throws MigrationException {
+        // This strategy should always expect a single entity
         throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
     }
 
