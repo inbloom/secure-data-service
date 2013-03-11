@@ -1634,8 +1634,10 @@ end
 
 def cleanupSubDoc(superdocs, subdoc)
   superdocs.each do |superdoc|
-    superdoc[subdoc] = nil
-    @entity_collection.update({"_id"=>superdoc["_id"]}, superdoc)
+    if superdoc.has_key? subdoc
+      superdoc[subdoc] = []
+      @entity_collection.update({"_id"=>superdoc["_id"]}, superdoc)
+    end
   end
 end
 
@@ -1727,7 +1729,6 @@ def subdocMatch(subdoc, key, match_value)
         tmp = tmp.to_s()
       end
       if i == keys.length - 1
-        puts subdoc
         if match_value.is_a? Array and tmp.is_a? Array
           @contains = true if (match_value & tmp).size > 0
         elsif match_value.is_a? Array
