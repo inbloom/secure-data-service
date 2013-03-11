@@ -553,16 +553,14 @@ public class DefaultResourceService implements ResourceService {
 	}
 
 	private List<EntityBody> getTimeFilteredAssociations(List<EntityBody> associations, EntityDefinition baseEntity, EntityDefinition assocEntity) {
-    	List<EntityBody> filtered = new ArrayList<EntityBody>();
+    	List<EntityBody> filtered = new ArrayList<EntityBody>(associations);
     	if (!baseEntity.getResourceName().equals(ResourceNames.STUDENTS))  {
 			for (EntityBody associationEntity : associations) {
-				if ((this.endDates.keySet().contains(assocEntity.getResourceName()) && isCurrent(assocEntity, associationEntity))) {
-					filtered.add(associationEntity);
+				if ((this.endDates.keySet().contains(assocEntity.getResourceName()) && !isCurrent(assocEntity, associationEntity))) {
+					filtered.remove(associationEntity);
 				}
 			}
-		} else {
-			filtered = associations;
-		}
+		} 
 
     	return filtered;
     }
