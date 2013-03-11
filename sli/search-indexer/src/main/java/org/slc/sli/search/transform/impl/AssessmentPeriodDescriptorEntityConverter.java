@@ -31,6 +31,10 @@ import org.slc.sli.search.transform.EntityConverter;
 
 public class AssessmentPeriodDescriptorEntityConverter implements EntityConverter {
     
+    public final static String ASSESSMENT = "assessment";
+    public final static String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
+    public final static String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
+
     private SourceDatastoreConnector sourceDatastoreConnector;
     private IndexConfigStore indexConfigStore;
 
@@ -43,15 +47,15 @@ public class AssessmentPeriodDescriptorEntityConverter implements EntityConverte
             return entities;
         }
         
-        DBObject query = new BasicDBObject("body.assessmentPeriodDescriptorId", entityMap.get("_id"));
-        IndexConfig config = indexConfigStore.getConfig("assessment");
+        DBObject query = new BasicDBObject("body." + ASSESSMENT_PERIOD_DESCRIPTOR_ID, entityMap.get("_id"));
+        IndexConfig config = indexConfigStore.getConfig(ASSESSMENT);
         
-        DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, "assessment", config.getFields(), query);
+        DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT, config.getFields(), query);
         while (cursor.hasNext()) {
             DBObject obj = cursor.next();
             Map<String, Object> assessmentMap = obj.toMap();
-            ((Map<String, Object>) assessmentMap.get("body")).put("assessmentPeriodDescriptor", entityMap.get("body"));
-            ((Map<String, Object>) assessmentMap.get("body")).remove("assessmentPeriodDescriptorId");
+            ((Map<String, Object>) assessmentMap.get("body")).put(ASSESSMENT_PERIOD_DESCRIPTOR, entityMap.get("body"));
+            ((Map<String, Object>) assessmentMap.get("body")).remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID);
             entities.add(assessmentMap);
         }
             

@@ -31,9 +31,12 @@ import org.slc.sli.search.transform.EntityConverter;
 
 public class AssessmentEntityConverter implements EntityConverter {
     
+    public static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
+    public static final String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
+
     private SourceDatastoreConnector sourceDatastoreConnector;
     private IndexConfigStore indexConfigStore;
-
+    
     @SuppressWarnings("unchecked")
     public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
 
@@ -41,15 +44,15 @@ public class AssessmentEntityConverter implements EntityConverter {
         if (action != Action.DELETE) {
             Map<String, Object> body = (Map<String, Object>) entityMap.get("body");
             if (body != null) {
-                String assessmentPeriodDescriptorId = (String) body.remove("assessmentPeriodDescriptorId");
+                String assessmentPeriodDescriptorId = (String) body.remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID);
                 if (assessmentPeriodDescriptorId != null) {
-                    IndexConfig apdConfig = indexConfigStore.getConfig("assessmentPeriodDescriptor");
+                    IndexConfig apdConfig = indexConfigStore.getConfig(ASSESSMENT_PERIOD_DESCRIPTOR);
                     DBObject query = new BasicDBObject("_id", assessmentPeriodDescriptorId);
-                    DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, "assessmentPeriodDescriptor", apdConfig.getFields(), query);
+                    DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT_PERIOD_DESCRIPTOR, apdConfig.getFields(), query);
                     if (cursor.hasNext()) {
                         DBObject obj = cursor.next();
                         Map<String, Object> assessmentPeriodDescriptor = obj.toMap();
-                        ((Map<String, Object>) entityMap.get("body")).put("assessmentPeriodDescriptor", assessmentPeriodDescriptor.get("body"));
+                        ((Map<String, Object>) entityMap.get("body")).put(ASSESSMENT_PERIOD_DESCRIPTOR, assessmentPeriodDescriptor.get("body"));
                     }
                 }
             }
