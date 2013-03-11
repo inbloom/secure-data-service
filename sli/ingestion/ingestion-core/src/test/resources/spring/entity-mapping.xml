@@ -31,7 +31,7 @@
   <bean class="org.slc.sli.common.util.uuid.ShardType1UUIDGeneratorStrategy"/>
 
   <bean id="deterministicUUIDGeneratorStrategy" class="org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy"/>
-
+  <bean class="org.slc.sli.common.domain.ContainerDocumentHolder" />
   <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
     <property name="xsdLocation" value="classpath:edfiXsd/Ed-Fi-Core.xsd" />
     <property name="extensionXsdLocation" value="classpath:edfiXsd-SLI/SLI-Ed-Fi-Core.xsd" />
