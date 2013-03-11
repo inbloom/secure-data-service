@@ -985,6 +985,7 @@
             <BeginDate>2010-08-23</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <GradeReference>
@@ -1020,6 +1021,7 @@
             <BeginDate>2011-04-11</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <StudentCompetencyReference>
@@ -3039,6 +3041,7 @@
             <BeginDate>2010-08-23</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <GradeReference>
@@ -3074,6 +3077,7 @@
             <BeginDate>2011-04-11</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <StudentCompetencyReference>

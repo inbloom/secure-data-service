@@ -26300,7 +26300,7 @@
             <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
           </SectionIdentity>
         </SectionReference>
-        <BeginDate>2010-09-01</BeginDate>
+        <BeginDate>2011-09-01</BeginDate>
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
     <GradingPeriodReference>
@@ -26314,7 +26314,7 @@
         <BeginDate>2010-08-23</BeginDate>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
-    <SchoolYear>2010-2011</SchoolYear>
+    <SchoolYear>2011-2012</SchoolYear>
   </Grade>
   <Grade>
     <LetterGradeEarned>B</LetterGradeEarned>
@@ -26372,7 +26372,7 @@
                 <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
               </SectionIdentity>
             </SectionReference>
-            <BeginDate>2010-09-01</BeginDate>
+            <BeginDate>2011-09-01</BeginDate>
           </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradingPeriodReference>
@@ -26386,6 +26386,7 @@
             <BeginDate>2010-08-23</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2011-2012</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <GradeReference>
@@ -26421,6 +26422,7 @@
             <BeginDate>2011-04-11</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <StudentCompetencyReference>
@@ -27506,6 +27508,7 @@
             <BeginDate>2010-08-23</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <GradeReference>
@@ -27541,6 +27544,7 @@
             <BeginDate>2011-04-11</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <StudentCompetencyReference>
