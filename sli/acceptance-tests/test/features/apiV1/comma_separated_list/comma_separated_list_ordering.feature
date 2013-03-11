@@ -25,7 +25,7 @@ Feature: As an SLI application, I want to return the right order of entities.
 
   Scenario Outline: Doing a GET request on 3 comma-separated, some invalid student IDs, some I cannot see
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
-    Given the order of students I want is <STUDENT IDs ORDER>
+    And the order of students I want is <STUDENT IDs ORDER>
     When I navigate to GET "/v1/students/<STUDENT IDs LIST>"
     Then I should receive a return code of <CODE>
 
@@ -39,6 +39,27 @@ Feature: As an SLI application, I want to return the right order of entities.
     | <INVALID ID>,<MARVIN MILLER ID>,<MARVIN MILLER ID>        | 404  |
     | <MARVIN MILLER ID>,<MARVIN MILLER ID>,<INACCESSABLE ID>   | 403  |
     | <MARVIN MILLER ID>,<INVALID ID>,<INACCESSABLE ID>         | 404  |
+
+ Scenario Outline: Doing a GET request on 3 comma-separated, some invalid student IDs, some I cannot see Part 2
+     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+     And the sli securityEvent collection is empty
+     And the order of students I want is <STUDENT IDs ORDER>
+     When I navigate to GET "/v1/students/<STUDENT IDs LIST>"
+     Then I should receive a return code of <CODE>
+     And a security event matching "^Access Denied" should be in the sli db
+     And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+       | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
+
+
+ # Current behavior:
+ # If any of the IDs doesn't exist, return a 404
+ # Otherwise if any of the IDs aren't accessable, return 403
+ # Otherwise 200
+   Examples:
+     | STUDENT IDs ORDER                                         | CODE |
+     | <MARVIN MILLER ID>,<MARVIN MILLER ID>,<INACCESSABLE ID>   | 403  |
 
  Scenario Outline: Validate CSL for each endpoint
  	    Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
@@ -89,15 +110,27 @@ Feature: As an SLI application, I want to return the right order of entities.
  	    |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|db49239e-4813-44d6-98b1-da29eba0f47f|
  	    |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|26a4a0fc-fad4-45f4-a00d-285acd1f83eb|
  	    |teacherSectionAssociations             |706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id|
- 
+
  Scenario Outline: Validate CSL where staff has access to one ID but not two
       Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+      #And the sli securityEvent collection is empty
       When I navigate to GET "/v1/<ENDPOINT>/<GOOD_ID>"
       Then I should receive a return code of 200
       When I navigate to GET "/v1/<ENDPOINT>/<BAD_ID>"
       Then I should receive a return code of 403
-      When I navigate to GET "/v1/<ENDPOINT>/<GOOD_ID>,<BAD_ID>"
+       #And a security event matching "^Access Denied" should be in the sli db
+       #And I check to find if record is in sli db collection:
+         #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+         #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+         #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
+      #When the sli securityEvent collection is empty
+      And I navigate to GET "/v1/<ENDPOINT>/<GOOD_ID>,<BAD_ID>"
       Then I should receive a return code of 403
+       #And a security event matching "^Access Denied" should be in the sli db
+       #And I check to find if record is in sli db collection:
+         #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+         #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+         #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
       And I should see a total of 0 entities
       Examples:
       | ENDPOINT                  | GOOD_ID                            | BAD_ID                             |
@@ -131,12 +164,24 @@ Feature: As an SLI application, I want to return the right order of entities.
 
 Scenario Outline: Validate CSL where teacher has access to one ID but not two
       Given I am logged in using "cgray" "cgray1234" to realm "IL"
+      #And the sli securityEvent collection is empty
       When I navigate to GET "/v1/<ENDPOINT>/<GOOD_ID>"
       Then I should receive a return code of 200
       When I navigate to GET "/v1/<ENDPOINT>/<BAD_ID>"
       Then I should receive a return code of 403
-      When I navigate to GET "/v1/<ENDPOINT>/<GOOD_ID>,<BAD_ID>"
+       #And a security event matching "^Access Denied" should be in the sli db
+       #And I check to find if record is in sli db collection:
+         #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+         #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+         #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
+      #When the sli securityEvent collection is empty
+      And I navigate to GET "/v1/<ENDPOINT>/<GOOD_ID>,<BAD_ID>"
       Then I should receive a return code of 403
+       #And a security event matching "^Access Denied" should be in the sli db
+       #And I check to find if record is in sli db collection:
+         #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+         #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+         #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
       And I should see a total of 0 entities
       Examples:
       | ENDPOINT                  | GOOD_ID                            | BAD_ID                             |
