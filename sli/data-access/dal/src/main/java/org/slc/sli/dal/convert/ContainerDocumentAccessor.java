@@ -151,7 +151,7 @@ public class ContainerDocumentAccessor {
         final String fieldToPersist = containerDocument.getFieldToPersist();
         DBObject entityDetails = new BasicDBObject();
         for (Map.Entry<String, Object> newValue : newValues.entrySet()) {
-            if (newValue.getKey().equals(containerDocument.getFieldToPersist())) {
+            if (!newValue.getKey().equals(containerDocument.getFieldToPersist())) {
                 entityDetails.put("body." + newValue.getKey(), newValue.getValue());
             }
         }
@@ -167,10 +167,9 @@ public class ContainerDocumentAccessor {
 
         docToPersist.putAll(set);
 
-        boolean persisted = mongoTemplate.getCollection(collectionName).update(query.getQueryObject(),
+        return mongoTemplate.getCollection(collectionName).update(query.getQueryObject(),
                 docToPersist, true, false, WriteConcern.SAFE)
                 .getLastError().ok();
-        return persisted;
     }
 
     protected String updateContainerDoc(final Entity entity) {

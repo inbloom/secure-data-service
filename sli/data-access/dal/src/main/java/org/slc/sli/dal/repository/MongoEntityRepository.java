@@ -334,13 +334,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     @MigrateEntity
     public Entity findOne(String collectionName, Query query) {
-        if (subDocs.isSubDoc(collectionName) || containerDocumentAccessor.isContainerDocument(collectionName)) {
-            List<Entity> entities;
-            if (subDocs.isSubDoc(collectionName)) {
-                entities = subDocs.subDoc(collectionName).findAll(query);
-            } else {
-                entities = containerDocumentAccessor.findAll(collectionName, query);
-            }
+        if (subDocs.isSubDoc(collectionName) || containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            List<Entity> entities = subDocs.isSubDoc(collectionName) ? subDocs.subDoc(collectionName).findAll(query)
+                    : containerDocumentAccessor.findAll(collectionName, query);
             if (entities != null && entities.size() > 0) {
                 return entities.get(0);
             }
