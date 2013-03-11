@@ -113,18 +113,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       }
     ]
   },
-  "duplicateYearlyAttendance" => {
-      "entityType" => "attendance",
-      "studentId" => "5738d251-dd0b-4734-9ea6-417ac9320a15_id",
-      "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731",
-      "schoolYear" => "2010-2011",
-      "attendanceEvent" => [
-          {
-              "date" => "2010-09-16",
-              "event" => "Tardy"
-          }
-      ]
-  },
   "invalidYearlyAttendance" => {
       "entityType" => "attendance",
       "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731",
