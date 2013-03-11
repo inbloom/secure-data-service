@@ -361,7 +361,7 @@ public class DefaultResourceService implements ResourceService {
 
 		 entityBodyList = getTimeFilteredAssociations(entityBodyList, baseEntity, definition);
 
-		long count = entityBodyList.size();
+		long count = getEntityCount(definition, apiQuery);
 		return new ServiceResponse(entityBodyList, count);
 	}
 
