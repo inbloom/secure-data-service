@@ -16,10 +16,7 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
@@ -37,6 +34,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Sets;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.init.RoleInitializer;
@@ -45,6 +44,7 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -60,6 +60,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.slc.sli.common.util.logging.SecurityEvent;
 
 /**
  * Realm role mapping API. Allows full CRUD on realm objects. Primarily intended
@@ -99,6 +100,8 @@ public class RealmResource {
     @Autowired
     private RoleInitializer roleInitializer;
 
+    @Autowired
+    private EdOrgHelper helper;
 
     @PostConstruct
     public void init() {
@@ -142,9 +145,7 @@ public class RealmResource {
         updatedRealm.put(ED_ORG, SecurityUtil.getEdOrg());
 
         if (service.update(realmId, updatedRealm)) {
-        	audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(),
-                    "Realm [" + updatedRealm.get(NAME) + "] updated!"));
-            
+            logSecurityEvent(uriInfo, oldRealm, updatedRealm);
             return Response.status(Status.NO_CONTENT).build();
         }
         return Response.status(Status.BAD_REQUEST).build();
@@ -162,8 +163,7 @@ public class RealmResource {
         }
         service.delete(realmId);
         roleInitializer.dropRoles(realmId);
-        audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(),
-                "Realm [" + deletedRealm.get(NAME) + "] deleted!"));
+        logSecurityEvent(uriInfo, deletedRealm, null);
        
         return Response.status(Status.NO_CONTENT).build();
     }
@@ -189,11 +189,10 @@ public class RealmResource {
         newRealm.put(ED_ORG, SecurityUtil.getEdOrg());
 
         String id = service.create(newRealm);
+        logSecurityEvent(uriInfo, null, newRealm);
 
         // Also create custom roles
         roleInitializer.dropAndBuildRoles(id);
-        audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(),
-                "Realm [" + newRealm.get(NAME) + "] created!"));
         
         String uri = uriToString(uriInfo) + "/" + id;
 
@@ -320,5 +319,56 @@ public class RealmResource {
     private String getIdpId(Map body) {
         Map idp = (Map) body.get("idp");
         return (String) idp.get("id");
+    }
+
+    private void logSecurityEvent(UriInfo uriInfo, EntityBody oldRealm, EntityBody newRealm) {
+        Joiner joiner = Joiner.on("/").skipNulls();
+
+        String oldRealmName             = (oldRealm != null) ? (String) oldRealm.get(NAME)   : null;
+        String newRealmName             = (newRealm != null) ? (String) newRealm.get(NAME)   : null;
+        String oldEdOrg                 = (oldRealm != null) ? (String) oldRealm.get(ED_ORG) : null;
+        String newEdOrg                 = (newRealm != null) ? (String) newRealm.get(ED_ORG) : null;
+        List<String> oldTargetEdOrgList = (oldEdOrg != null) ?  Arrays.asList(oldEdOrg):new ArrayList<String>();
+        List<String> newTargetEdOrgList = (newEdOrg != null) ?  Arrays.asList(newEdOrg):new ArrayList<String>();
+
+        String message      = null;
+        SecurityEvent event = securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), message);
+
+        if (oldRealm == null && newRealm != null)        {//Create
+            event.setLogMessage("Realm [" + newRealmName + "] created!");
+            event.setTargetEdOrgList(newTargetEdOrgList);
+            audit(event);
+        } else if (oldRealm != null && newRealm == null) {//Delete
+            event.setLogMessage("Realm [" + oldRealmName + "] deleted!");
+            event.setTargetEdOrgList(oldTargetEdOrgList);
+            audit(event);
+        } else if (oldRealm != null && newRealm != null) {//Update. Can realm edOrg be updated? Assuming yes.
+            if (oldEdOrg == null && newEdOrg == null) {
+                event.setLogMessage("Realm [" + joiner.join(oldRealmName, newRealmName) + "] updated!");
+                audit(event);
+            } else if (oldEdOrg != null && newEdOrg == null) {
+                event.setLogMessage("Realm [" + oldRealmName + "] deleted!");
+                event.setTargetEdOrgList(oldTargetEdOrgList);
+                audit(event);
+            } else if (oldEdOrg == null && newEdOrg != null) {
+                event.setLogMessage("Realm [" + newRealmName + "] created!");
+                event.setTargetEdOrgList(newTargetEdOrgList);
+                audit(event);
+            } else if (oldEdOrg.equals(newEdOrg)) { //both not null and equal
+                event.setLogMessage("Realm [" + joiner.join(oldRealmName, newRealmName) + "] updated!");
+                event.setTargetEdOrgList(oldTargetEdOrgList);
+                audit(event);
+            } else {                                //both not null and unequal
+                event.setLogMessage("Realm [" + oldRealmName + "] deleted!");
+                event.setTargetEdOrgList(oldTargetEdOrgList);
+                audit(event);
+
+                event.setLogMessage("Realm [" + oldRealmName + "] created!");
+                event.setTargetEdOrgList(newTargetEdOrgList);
+                audit(event);
+            }
+        } else {                                          //None
+             info("Old and New Realms are both null!");
+        }
     }
 }
