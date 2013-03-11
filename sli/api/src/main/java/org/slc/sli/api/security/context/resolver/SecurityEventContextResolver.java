@@ -30,124 +30,138 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.resources.security.DelegationUtil;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.enums.Right;
 
 /**
  */
 @Component
 public class SecurityEventContextResolver implements EntityContextResolver {
 
-    static final List<String> ROLES_SEA_OR_REALM_ADMIN = Arrays.asList(RoleInitializer.SEA_ADMINISTRATOR,
-            RoleInitializer.REALM_ADMINISTRATOR);
-    static final List<String> ROLES_LEA_ADMIN          = Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR);
+	static final List<String> ROLES_SEA_OR_REALM_ADMIN = Arrays.asList(
+			RoleInitializer.SEA_ADMINISTRATOR,
+			RoleInitializer.REALM_ADMINISTRATOR);
+	static final List<String> ROLES_LEA_ADMIN = Arrays
+			.asList(RoleInitializer.LEA_ADMINISTRATOR);
 
-    @Autowired
+	@Autowired
+	private PagingRepositoryDelegate<Entity> repository;
 
-    private PagingRepositoryDelegate<Entity> repository;
+	private static final String RESOURCE_NAME = "securityEvent";
 
-    private static final String       RESOURCE_NAME              = "securityEvent";
+	@Autowired
+	private EdOrgHelper edOrgHelper;
 
-    @Autowired
-    private DelegationUtil delegationUtil;
+	@Override
+	public boolean canResolve(String fromEntityType, String toEntityType) {
+		return toEntityType.equals("securityEvent");
+	}
 
-    @Autowired
-    private EdOrgHelper edOrgHelper;
+	@Override
+	public List<String> findAccessible(Entity entity) {
+		List<String> securityEventIds = Collections.emptyList();
+		List<NeutralQuery> filters = buildQualifyingFilters();
+		if (filters.size() > 0) {
+			NeutralQuery query = new NeutralQuery();
+			for (NeutralQuery filter : filters) {
+				query.addOrQuery(filter);
+			}
+			securityEventIds = Lists.newArrayList((repository.findAllIds(
+					RESOURCE_NAME, query)));
+		} else {
+			info("User neither LEA Admin, nor SEA Admin, nor SLC Operator. Cannot access SecurityEvents!");
+		}
+		return securityEventIds;
+	}
 
-    @Override
-    public boolean canResolve(String fromEntityType, String toEntityType) {
-        return toEntityType.equals("securityEvent");
-    }
+	private List<NeutralQuery> buildQualifyingFilters() {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		List<NeutralQuery> filters = new ArrayList<NeutralQuery>();
+		if (auth != null) {
+			SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
+			if (principal != null) {
+				List<String> roles = principal.getRoles();
+				if (roles != null) {
+					if (roles.contains(RoleInitializer.SLC_OPERATOR)) {
+						NeutralQuery or = new NeutralQuery();
+						filters.add(or);
+					} else {
+						String edOrg = principal.getEdOrg();
+						String edOrgId = principal.getEdOrgId();
+						if (edOrg != null) {
+							Set<String> edOrgs = new HashSet<String>();
+							edOrgs.add(edOrgId);
+							Set<String> homeEdOrgs = new HashSet<String>();
+							homeEdOrgs.add(edOrg);
+							if (roles
+									.contains(RoleInitializer.SEA_ADMINISTRATOR)) {
 
-    @Override
-    public List<String> findAccessible(Entity entity) {
-        List<String> securityEventIds = Collections.emptyList();
-        List<NeutralQuery> filters = buildQualifyingFilters();
-        if (filters.size() > 0) {
-            NeutralQuery query = new NeutralQuery();
-            for (NeutralQuery filter : filters) {
-                query.addOrQuery(filter);
-            }
-            securityEventIds = Lists.newArrayList((repository.findAllIds(RESOURCE_NAME, query)));
-        } else {
-            info("User neither LEA Admin, nor SEA Admin, nor SLC Operator. Cannot access SecurityEvents!");
-        }
-        return securityEventIds;
-    }
+								NeutralQuery or = new NeutralQuery();
+								or.addCriteria(new NeutralCriteria(
+										"targetEdOrgList",
+										NeutralCriteria.CRITERIA_IN, homeEdOrgs));
+								or.addCriteria(new NeutralCriteria("roles",
+										NeutralCriteria.CRITERIA_IN,
+										ROLES_SEA_OR_REALM_ADMIN));
+								filters.add(or);
 
-    private List<NeutralQuery> buildQualifyingFilters() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        List<NeutralQuery> filters  = new ArrayList<NeutralQuery>();
-        if (auth != null) {
-            SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-            if (principal != null) {
-                List<String> roles = principal.getRoles();
-                if (roles != null) {
-                    if (roles.contains(RoleInitializer.SLC_OPERATOR)) {
-                        NeutralQuery or = new NeutralQuery();
-                        filters.add(or);
-                    } else {
-                        String edOrg = principal.getEdOrg();
-                        if (edOrg != null) {
-                        	Set<String> edOrgs = new HashSet<String>();
-                        	edOrgs.add(edOrg);
-                            List<String> homeEdOrgs = new ArrayList<String>();
-                            homeEdOrgs.addAll(edOrgHelper.getEdorgDescendents(edOrgs));
-                            if (roles.contains(RoleInitializer.SEA_ADMINISTRATOR) && homeEdOrgs.size() > 0) {
+								Set<String> delegatedLEAStateIds = edOrgHelper
+										.getDelegatedEdorgDescendents(edOrgs);
+								if (delegatedLEAStateIds.size() > 0) {
+									info(delegatedLEAStateIds
+											+ " have delegated SecurityEvents access to SEA!");
+									NeutralQuery delegateOr = new NeutralQuery();
+									delegateOr.addCriteria(new NeutralCriteria(
+											"targetEdOrgList",
+											NeutralCriteria.CRITERIA_IN,
+											delegatedLEAStateIds));
+									delegateOr.addCriteria(new NeutralCriteria(
+											"roles",
+											NeutralCriteria.CRITERIA_IN,
+											ROLES_LEA_ADMIN));
+									filters.add(delegateOr);
+								}
+							}
+							if (roles
+									.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
+								Set<String> delegatedLEAStateIds = edOrgHelper
+										.getChildEdOrgsName(edOrgs);
+								homeEdOrgs.addAll(delegatedLEAStateIds);
+								NeutralQuery or = new NeutralQuery();
+								or.addCriteria(new NeutralCriteria(
+										"targetEdOrgList",
+										NeutralCriteria.CRITERIA_IN, homeEdOrgs));
+								or.addCriteria(new NeutralCriteria("roles",
+										NeutralCriteria.CRITERIA_IN,
+										ROLES_LEA_ADMIN));
+								filters.add(or);
+							}
+						} else {
+							warn("Could not find edOrgs for SecurityEvents!");
+						}
+					}
+				} else {
+					warn("Could not find roles for SecurityEvents!");
+				}
+			} else {
+				warn("Could not find principal for SecurityEvents!");
+			}
+		} else {
+			warn("Could not find auth for SecurityEvents!");
+		}
+		return filters;
+	}
 
-                                NeutralQuery or = new NeutralQuery();
-//                                or.addCriteria(new NeutralCriteria("tenantId",      NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId()));
-                                or.addCriteria(new NeutralCriteria("targetEdOrgList",   NeutralCriteria.CRITERIA_IN,    homeEdOrgs));
-                                or.addCriteria(new NeutralCriteria("roles",         NeutralCriteria.CRITERIA_IN,    ROLES_SEA_OR_REALM_ADMIN));
-                                filters.add(or);
+	public void setRepository(PagingRepositoryDelegate<Entity> repository) {
+		this.repository = repository;
+	}
 
-                                if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
-                                    List<String> delegatedLEAStateIds = delegationUtil.getSecurityEventDelegateStateIds();
+	public void setEdOrgHelper(EdOrgHelper helper) {
+		this.edOrgHelper = helper;
 
-                                    if (delegatedLEAStateIds.size() > 0) {
-                                        info(delegatedLEAStateIds + " have delegated SecurityEvents access to SEA!");
-                                        NeutralQuery delegateOr = new NeutralQuery();
-                                        delegateOr.addCriteria(new NeutralCriteria("targetEdOrgList",  NeutralCriteria.CRITERIA_IN,    delegatedLEAStateIds));
-                                        delegateOr.addCriteria(new NeutralCriteria("roles",        NeutralCriteria.CRITERIA_IN,    ROLES_LEA_ADMIN));
-                                        filters.add(delegateOr);
-                                    } else {
-                                        info("Could not find any delegated edOrgs for SecurityEvents!");
-                                    }
-                                }
-                            }
-                            if (roles.contains(RoleInitializer.LEA_ADMINISTRATOR) && homeEdOrgs.size() > 0) {
-                                NeutralQuery or = new NeutralQuery();
-                                or.addCriteria(new NeutralCriteria("targetEdOrgList",  NeutralCriteria.CRITERIA_IN,    homeEdOrgs));
-                                or.addCriteria(new NeutralCriteria("roles",         NeutralCriteria.CRITERIA_IN,    ROLES_LEA_ADMIN));
-                                filters.add(or);
-                            }
-                        } else {
-                            warn("Could not find edOrgs for SecurityEvents!");
-                        }
-                    }
-                } else {
-                    warn("Could not find roles for SecurityEvents!");
-                }
-            } else {
-                warn("Could not find principal for SecurityEvents!");
-            }
-        } else {
-            warn("Could not find auth for SecurityEvents!");
-        }
-        return filters;
-    }
-
-    public void setRepository(PagingRepositoryDelegate<Entity> repository) {
-    	this.repository = repository;
-    }
-
-    public void setDelegationUtil(DelegationUtil delegationUtil) {
-    	this.delegationUtil = delegationUtil;
-    }
+	}
 }
