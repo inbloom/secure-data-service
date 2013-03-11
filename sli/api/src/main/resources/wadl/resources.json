@@ -1,5 +1,5 @@
 [{
-  "nameSpace": ["v1.0","v1.1"],
+  "nameSpace": ["v1.0","v1.1", "v1.2"],
   "resources": [
     {
       "path": "/reportCards",
@@ -541,7 +541,17 @@
         { "path": "/{id}/studentProgramAssociations/programs" },
         { "path": "/{id}/studentAssessments" },
         { "path": "/{id}/studentCohortAssociations" },
-        { "path": "/{id}/courseTranscripts", "dateSearchDisallowed": true },
+        { "path": "/{id}/courseTranscripts",
+          "dateSearchDisallowed": true,
+          "deprecatedVersion": "1.0",
+          "deprecatedReason" : "Deprecation occurred due to an evolution of the underlying data model.",
+          "doc": "This URI, /students/{id}/courseTranscripts, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /students/{ids}/studentAcademicRecords/courseTranscripts instead. These URIs are used internally instead of /students/{id}/courseTranscripts, and will still be available after the deprecation period ends."
+        },
+        { "path": "/{id}/courseTranscripts/courses" ,
+          "deprecatedVersion": "1.0",
+          "deprecatedReason" : "Deprecation occurred due to an evolution of the underlying data model.",
+          "doc": "This URI, /students/{id}/courseTranscripts/courses, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /students/{ids}/studentAcademicRecords/courseTranscripts/courses instead. These URIs are used internally instead of /students/{id}/courseTranscripts/courses, and will still be available after the deprecation period ends."
+        },
         { "path": "/{id}/studentParentAssociations", "dateSearchDisallowed": true },
         { "path": "/{id}/studentDisciplineIncidentAssociations", "dateSearchDisallowed": true },
         { "path": "/{id}/reportCards", "dateSearchDisallowed": true },
@@ -554,7 +564,6 @@
         { "path": "/{id}/studentAssessments/assessments" },
         { "path": "/{id}/attendances", "dateSearchDisallowed": true },
         { "path": "/{id}/yearlyAttendances", "dateSearchDisallowed": true },
-        { "path": "/{id}/courseTranscripts/courses" },
         { "path": "/{id}/studentDisciplineIncidentAssociations/disciplineIncidents" },
         { "path": "/{id}/studentCohortAssociations/cohorts" }, 
         { "path": "/{id}/studentGradebookEntries" }, 
@@ -585,7 +594,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.1"],
+  "nameSpace": ["v1.1", "v1.2"],
   "resources": [
     {
       "path": "/search",
@@ -647,5 +656,19 @@
       ]
     }
 
+  ]
+},
+{
+  "nameSpace": ["v1.2"],
+  "resources": [
+    {
+      "path": "/students",
+      "queryable": true,
+      "doc": "This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program. A student is a person who has been enrolled in a school or other educational institution. For more information, see the schema for the $$Student$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
+      "subResources": [
+        { "path": "/{id}/studentAcademicRecords/courseTranscripts", "dateSearchDisallowed": true },
+        { "path": "/{id}/studentAcademicRecords/courseTranscripts/courses"}
+        ]
+    }
   ]
 }]

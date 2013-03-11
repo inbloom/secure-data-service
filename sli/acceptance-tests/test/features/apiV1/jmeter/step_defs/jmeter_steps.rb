@@ -242,5 +242,6 @@ def aggregate(map)
 end
 
 def calculateFractionalDifference(avgCurrentTime, avgPreviousTime)
-  return (avgCurrentTime - avgPreviousTime) / avgPreviousTime
+  buffer = 10
+  return (avgCurrentTime - avgPreviousTime) / (avgPreviousTime + buffer)
 end
