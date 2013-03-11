@@ -65,6 +65,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private Set<String> authorizingEdOrgs;
     private String email;
     private Entity entity;
+    private Map<String, List<NeutralQuery>> obligations = new HashMap<String, List<NeutralQuery>>();
 
     public String getSessionId() {
         return sessionId;
@@ -306,5 +307,19 @@ public class SLIPrincipal implements Principal, Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<NeutralQuery> getObligation(String key) {
+        List<NeutralQuery> result = obligations.get(key);
+        
+        if(result == null) {
+            result = Collections.emptyList();
+        }
+        
+        return result;
+    }
+
+    public void addObligation(String collection, List<NeutralQuery> obligations) {
+        this.obligations.put(collection, obligations);
     }
 }
