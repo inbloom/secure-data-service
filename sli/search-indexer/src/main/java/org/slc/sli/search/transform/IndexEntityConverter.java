@@ -15,6 +15,8 @@
  */
 package org.slc.sli.search.transform;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -31,67 +33,96 @@ import org.slc.sli.search.util.SearchIndexerException;
  *
  */
 public class IndexEntityConverter {
-    private EntityEncryption entityEncryption;
-    private IndexConfigStore indexConfigStore;
+
     private final GenericTransformer transformer = new GenericTransformer();
+
+    private EntityConverterFactory entityConverterFactory;
+    private EntityEncryption entityEncryption;
+    protected IndexConfigStore indexConfigStore;
+
     // decrypt records flag
     private boolean decrypt = true;
 
-    public IndexEntity fromEntityJson(String index, String entity) {
+    public List<IndexEntity> fromEntityJson(String index, String entity) {
         return fromEntityJson(index, Action.INDEX, entity);
     }
 
-    public IndexEntity fromEntityJson(String index, Action action, String entity) {
+    public List<IndexEntity> fromEntityJson(String index, Action action, String entity) {
         Map<String, Object> entityMap = IndexEntityUtil.getEntity(entity);
         return fromEntity(index, action, entityMap);
     }
 
+	public List<IndexEntity> fromEntity(String index, Action action, Map<String, Object> entityMap) {
+        List<IndexEntity> entities = new ArrayList<IndexEntity>();
+        String type = (String)entityMap.get("type");
+        EntityConverter converter = entityConverterFactory.getConverter(type);
+
+        List<Map<String, Object>> entityMaps = converter.treatment(index, action, entityMap);
+        for (Map<String, Object> map : entityMaps) {
+            IndexEntity entity = convert(index, action, map, decrypt);
+            if (entity != null) {
+                entities.add(entity);
+            }
+        }
+        return entities;
+    }
+    
     @SuppressWarnings("unchecked")
-    public IndexEntity fromEntity(String index, Action action, Map<String, Object> entityMap) {
+    private IndexEntity convert(String index, Action action, Map<String, Object> entityMap, boolean decrypt) {
+        
         try {
             Map<String, Object> body = (Map<String, Object>) entityMap.get("body");
             Map<String, Object> metaData = (Map<String, Object>) entityMap.get("metaData");
-            String type = (String)entityMap.get("type");
+            String type = (String) entityMap.get("type");
+            
             // decrypt body if needed
             Map<String, Object> decryptedMap = null;
             if (body != null) {
-                decryptedMap = decrypt ? entityEncryption.decrypt(type, body): body;
+                decryptedMap = decrypt ? entityEncryption.decrypt(type, body) : body;
             }
-            //re-assemble entity map
+            // re-assemble entity map
             entityMap.put("body", decryptedMap);
             // get tenantId
-            String indexName = (index == null) ? ((String)metaData.get("tenantId")).toLowerCase() : index.toLowerCase();
+            String indexName = (index == null) ? ((String) metaData.get("tenantId")).toLowerCase() : index.toLowerCase();
+            
             IndexConfig config = indexConfigStore.getConfig(type);
-
+            
             // filter out
             if (!transformer.isMatch(config, entityMap)) {
                 return null;
             }
-
+            
             // transform the entities
             transformer.transform(config, entityMap);
-
-            String id = (String)entityMap.get("_id");
+            
+            String id = (String) entityMap.get("_id");
             String indexType = config.getIndexType() == null ? type : config.getIndexType();
-            Action finalAction = config.isChildDoc() ?  IndexEntity.Action.UPDATE : action;
-            body = (Map<String, Object>)entityMap.get("body");
+            Action finalAction = config.isChildDoc() ? IndexEntity.Action.UPDATE : action;
+            body = (Map<String, Object>) entityMap.get("body");
             if (body == null && action != Action.DELETE) {
                 return null;
             }
-            return new IndexEntity(finalAction, indexName, indexType, id, body );
-
+            
+            return new IndexEntity(finalAction, indexName, indexType, id, body);
+            
         } catch (Exception e) {
             throw new SearchIndexerException("Unable to convert entity", e);
         }
+        
     }
 
     public void setDecrypt(boolean decrypt) {
         this.decrypt = decrypt;
     }
+    
+    public void setEntityConverterFactory(EntityConverterFactory entityConverterFactory) {
+        this.entityConverterFactory = entityConverterFactory;
+    }
+    
     public void setEntityEncryption(EntityEncryption entityEncryption) {
         this.entityEncryption = entityEncryption;
     }
-
+    
     public void setIndexConfigStore(IndexConfigStore indexConfigStore) {
         this.indexConfigStore = indexConfigStore;
     }

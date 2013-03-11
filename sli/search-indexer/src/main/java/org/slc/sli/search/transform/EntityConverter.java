@@ -15,20 +15,23 @@
  */
 package org.slc.sli.search.transform;
 
+import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.search.config.IndexConfig;
+import org.slc.sli.search.entity.IndexEntity.Action;
 
-/**
- * Custom transformer to index json
- *
- */
-public interface CustomTransformer {
+public interface EntityConverter {
+
     /**
-     * Mutates the original entity according to specified.
-     * @param config - index config
-     * @param entity - entity to transform
+     * Transform the given entity map to a list of IndexEntities
+     * 
+     * @param index
+     *            tenantDB hash
+     * @param action
+     * @param entityMap
+     * @return List of Maps to be transformed by IndexEntityConverter
+     * 
      */
-    public void transform(IndexConfig config, Map<String, Object> entity);
-    
+    public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap);
+
 }

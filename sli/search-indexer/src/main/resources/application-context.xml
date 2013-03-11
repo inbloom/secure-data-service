@@ -72,8 +72,28 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	</bean>
 	
 	<bean id="indexEntityConverter" class="org.slc.sli.search.transform.IndexEntityConverter">
-		<property name="entityEncryption" ref="entityEncryption" />
 		<property name="indexConfigStore" ref="indexConfigStore" />
+		<property name="entityEncryption" ref="entityEncryption" />
+		<property name="entityConverterFactory" ref="entityConverterFactory" />
+	</bean>
+	
+	<bean id="entityConverterFactory" class="org.slc.sli.search.transform.EntityConverterFactory">
+		<property name="genericEntityConverter" ref="genericEntityConverter" />
+		<property name="assessmentEntityConverter" ref="assessmentEntityConverter" />
+		<property name="assessmentPeriodDescriptorEntityConverter" ref="assessmentPeriodDescriptorEntityConverter" />
+	</bean>
+	
+	<bean id="genericEntityConverter" class="org.slc.sli.search.transform.impl.GenericEntityConverter">
+	</bean>
+	
+	<bean id="assessmentEntityConverter" class="org.slc.sli.search.transform.impl.AssessmentEntityConverter">
+		<property name="indexConfigStore" ref="indexConfigStore" />
+		<property name="sourceDatastoreConnector" ref="sourceDatasourceConnector" />
+	</bean>
+	
+	<bean id="assessmentPeriodDescriptorEntityConverter" class="org.slc.sli.search.transform.impl.AssessmentPeriodDescriptorEntityConverter">
+		<property name="indexConfigStore" ref="indexConfigStore" />
+		<property name="sourceDatastoreConnector" ref="sourceDatasourceConnector" />
 	</bean>
 	
 	<bean id="indexConfigStore" class="org.slc.sli.search.config.IndexConfigStore">
@@ -83,6 +103,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	
 	<bean id="sourceDatasourceConnector" class="org.slc.sli.search.connector.impl.SourceDatastoreConnectorImpl">
 		<property name="mongoTemplate" ref="dataMongoTemplate" />
+		<property name="mongoDbFactory" ref="mongoDbFactory" />
 	</bean>
 
 	<bean id="encryptor" class="org.slc.sli.encryption.tool.Encryptor">
