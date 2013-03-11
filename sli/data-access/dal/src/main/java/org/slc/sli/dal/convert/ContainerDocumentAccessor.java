@@ -130,6 +130,10 @@ public class ContainerDocumentAccessor {
         return getLocation(collectionName).count(query);
     }
 
+    public boolean exists(String collectionName, String id) {
+        return getLocation(collectionName).exists(id);
+    }
+
     private DBObject getContainerDocQuery(final Entity entity) {
         final String parentKey = ContainerDocumentHelper.createParentKey(entity, containerDocumentHolder, generatorStrategy);
 

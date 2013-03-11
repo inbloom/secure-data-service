@@ -562,6 +562,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public boolean exists(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
             return subDocs.subDoc(collectionName).exists(id);
+        } else if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            return containerDocumentAccessor.exists(collectionName, id);
         }
         return super.exists(collectionName, id);
     }
