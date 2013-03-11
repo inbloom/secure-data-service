@@ -642,9 +642,24 @@ task :apiV1EntitySecurityTests do
   runTests("test/features/apiV1/entities/context_security")
 end
 
-desc "Run API V1 acceptance tests"
-task :apiSuperAssessmentTests => [:v1EndUserStorySuperAssessmentTests] do
+desc "Run API Tests using Odin ingested data"
+task :apiOdinTests => [:apiOdinGenerate, :apiOdinIngestion, :apiOdinSuperAssessment] do
   displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run API V1 Super Assessment acceptance tests"
+task :apiSuperAssessmentTests => [:apiOdinSuperAssessment] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################
