@@ -6,7 +6,7 @@ Background: None
 
 Scenario Outline: As a teacher, for my section, I want to get the most recent Math assessment
    
-Given I am a valid teacher <Username> with password <Password>
+Given I am a valid teacher "cgray" with password "cgray1234"
   And the testing device app key has been created
   And I have an open web browser
   And I import the odin-local-setup application and realm data
