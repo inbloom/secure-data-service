@@ -65,15 +65,11 @@ public class StudentAllAttendanceOptionalFieldAppender implements OptionalFieldA
             String studentId = (String) attendance.get("studentId");
             List<EntityBody> events = new ArrayList<EntityBody>();
 
-            if (attendance.containsKey("schoolYearAttendance")) {
-                List<Map<String, Object>> schoolYearAttendances = (List<Map<String, Object>>) attendance.get("schoolYearAttendance");
-                for (int i = 0; i < schoolYearAttendances.size(); i++) {
-                    Map<String, Object> year = schoolYearAttendances.get(i);
-                    List<Map<String, Object>> yearEvents = (List<Map<String, Object>>) year.get("attendanceEvent");
-                    if (yearEvents != null) {
-                        for (int j = 0; j < yearEvents.size(); j++) {
-                            events.add(new EntityBody(yearEvents.get(j)));
-                        }
+            if (attendance.containsKey("attendanceEvent")) {
+                List<Map<String, Object>> yearEvents = (List<Map<String, Object>>) attendance.get("attendanceEvent");
+                if (yearEvents != null) {
+                    for (int j = 0; j < yearEvents.size(); j++) {
+                        events.add(new EntityBody(yearEvents.get(j)));
                     }
                 }
             }
