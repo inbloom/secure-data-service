@@ -199,13 +199,13 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
     }
 
     private String retrieveParentId(Entity entity) {
-        if(EmbeddedDocumentRelations.getSubDocuments().contains(entity.getType())) {
+        if (EmbeddedDocumentRelations.getSubDocuments().contains(entity.getType())) {
             String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entity.getType());
             String parentId = (String) entity.getBody().get(parentKey);
             return parentId;
-        }else if(containerDocumentHolder.isContainerDocument(entity.getType())) {
+        } else if (containerDocumentHolder.isContainerDocument(entity.getType())) {
             ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-            if(containerDocument.isContainerSubdoc()){
+            if (containerDocument.isContainerSubdoc()) {
                 final List<String> parentKeys = containerDocument.getParentNaturalKeys();
                 final Map<String, String> naturalKeyMap = new HashMap<String, String>();
                 for (final String key : parentKeys) {
