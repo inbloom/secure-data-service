@@ -126,6 +126,10 @@ public class ContainerDocumentAccessor {
         return deleteContainerDoc(entity);
     }
 
+    public long count(String collectionName, Query query) {
+        return getLocation(collectionName).count(query);
+    }
+
     private DBObject getContainerDocQuery(final Entity entity) {
         final String parentKey = ContainerDocumentHelper.createParentKey(entity, containerDocumentHolder, generatorStrategy);
 

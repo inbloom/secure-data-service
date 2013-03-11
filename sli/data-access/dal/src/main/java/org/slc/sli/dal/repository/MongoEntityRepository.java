@@ -568,7 +568,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        if (subDocs.isSubDoc(collectionName)) {
+        if (subDocs.isSubDoc(collectionName) || containerDocumentAccessor.isContainerSubdoc(collectionName)) {
             Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
             return count(collectionName, query);
         }
@@ -579,6 +579,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public long count(String collectionName, Query query) {
         if (subDocs.isSubDoc(collectionName)) {
             return subDocs.subDoc(collectionName).count(query);
+        } else if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            return containerDocumentAccessor.count(collectionName, query);
         }
         return super.count(collectionName, query);
     }

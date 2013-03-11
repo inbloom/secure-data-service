@@ -509,8 +509,15 @@ public class SubDocAccessor {
             simplifyParentQuery(parentQuery);
             DBObject idQuery = buildIdQuery(parentQuery);
 
-            String queryCommand = buildAggregateQuery((idQuery == null ? parentQuery.toString() : idQuery.toString()),
-                    parentQuery.toString(), ", {$group: { _id: null, count: {$sum: 1}}}");
+//            String queryCommand = buildAggregateQuery((idQuery == null ? parentQuery.toString() : idQuery.toString()),
+//                    parentQuery.toString(), ", {$group: { _id: null, count: {$sum: 1}}}");
+            String groupQuery = ", {$group: { _id: null, count: {$sum: 1}}}";
+            String queryCommand;
+            if (idQuery == null) {
+                queryCommand = buildAggregateQuery(parentQuery.toString(), null, groupQuery);
+            } else {
+                queryCommand = buildAggregateQuery(idQuery.toString(), parentQuery.toString(), groupQuery);
+            }
             TenantContext.setIsSystemCall(false);
 
             CommandResult result = template.executeCommand(queryCommand);
@@ -540,8 +547,14 @@ public class SubDocAccessor {
             simplifyParentQuery(parentQuery);
 
             DBObject idQuery = buildIdQuery(parentQuery);
-            String queryCommand = buildAggregateQuery(idQuery != null ? idQuery.toString() : parentQuery.toString(),
-                    parentQuery.toString(), limitQuerySB.toString());
+//            String queryCommand = buildAggregateQuery(idQuery != null ? idQuery.toString() : parentQuery.toString(),
+//                    parentQuery.toString(), limitQuerySB.toString());
+            String queryCommand;
+            if (idQuery == null) {
+                queryCommand = buildAggregateQuery(parentQuery.toString(), null, limitQuerySB.toString());
+            } else {
+                queryCommand = buildAggregateQuery(idQuery.toString(), parentQuery.toString(), limitQuerySB.toString());
+            }
             TenantContext.setIsSystemCall(false);
             CommandResult result = template.executeCommand(queryCommand);
             List<DBObject> subDocs = (List<DBObject>) result.get("result");
