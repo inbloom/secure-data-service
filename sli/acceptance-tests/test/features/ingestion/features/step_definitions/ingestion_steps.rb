@@ -1146,7 +1146,7 @@ When /^a batch job has completed successfully in the database$/ do
    @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
    @entity_collection = @db.collection("newBatchJob")
    intervalTime = 1
-   @maxTimeout ? @maxTimeout : @maxTimeout = 600
+   @maxTimeout ? @maxTimeout : @maxTimeout = 900
    iters = (1.0*@maxTimeout/intervalTime).ceil
    found = false
      if (INGESTION_MODE == 'remote')
@@ -1201,7 +1201,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
 
   intervalTime = 1 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 600
+  @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
@@ -1290,7 +1290,7 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
   puts "checkForBatchJobLog"
   intervalTime = 3 #seconds
                    #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 600
+  @maxTimeout ? @maxTimeout : @maxTimeout = 900
   sleep(intervalTime)
   iters = (1.0*@maxTimeout/intervalTime).ceil
     found = false
