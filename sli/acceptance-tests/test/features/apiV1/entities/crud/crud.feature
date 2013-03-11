@@ -314,12 +314,12 @@ Examples:
          And "administrationEnvironment" should be "School"
      Then I delete both studentAssessment and Assessment
 
-  #yearlyAttendance CRUD tests
+  #yearlyAttendance CRUD
   @us5389
-  Scenario Outline:yearlyAttendance CRUD
+  Scenario: yearlyAttendance CRUD
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-      And entity URI <Entity Resource URI>
-      And an entity json document for a <Entity Type>
+      And entity URI "yearlyAttendances"
+      And an entity json document for a "yearlyAttendance"
   # Create
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 201
@@ -331,7 +331,7 @@ Examples:
     And "entityType" should be "attendance"
     And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
   # Update
-    When I set the <Update Field> array to "<ATT_EVENT_ARRAY>"
+    When I set the "attendanceEvent" array to "<ATT_EVENT_ARRAY>"
     And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 204
   # Delete
@@ -340,12 +340,7 @@ Examples:
     And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     And I should receive a return code of 404
 
-  Examples:
-    | Entity Type                             | Entity Resource URI | Update Field      |
-    | "yearlyAttendance"                      | "yearlyAttendances" | "attendanceEvent" |
-
-  #yearlyAttendance CRUD
-  @us5389 @1parttest
+  @us5389
   Scenario:  yearlyAttendance CRUD - read not allowed on /yearlyAttendance
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And entity URI "yearlyAttendance"
@@ -353,6 +348,53 @@ Examples:
     When I navigate to GET "/<ENTITY URI>"
     Then I should receive a return code of 404
 
+  @us5389
+  Scenario: yearlyAttendance CRUD for duplicate entity
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And entity URI "yearlyAttendances"
+    And an entity json document for a "yearlyAttendance"
+  # Create duplicate entity.
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI after a successful response
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 409
+  # Read
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+    And the response should contain the appropriate fields and values
+    And "entityType" should be "attendance"
+    And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+    And the response should contain the appropriate fields and values
+    And "entityType" should be "attendance"
+    And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+  # Update. Should be able to update the entity multiple times.
+    When I set the "attendanceEvent" array to "<ATT_EVENT_ARRAY>"
+    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    When I set the "attendanceEvent" array to "<ATT_EVENT_ARRAY>"
+    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+  # Delete
+    When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    And I should receive a return code of 404
+    When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 404
+    And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    And I should receive a return code of 404
+
+  @us5389
+  Scenario: yearlyAttendance CRUD for invalid entity
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And entity URI "yearlyAttendances"
+    And an entity json document for a "invalidYearlyAttendance"
+  # Create using invalid entity.
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 400
 
   Scenario Outline: CRUD operations till we unwip auto_crud
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"

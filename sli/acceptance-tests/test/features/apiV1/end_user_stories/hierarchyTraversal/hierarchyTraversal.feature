@@ -51,7 +51,7 @@ Scenario: Traverse from parent education organization through child education or
         And in an entity, I should receive a link named "self"
     When I navigate to GET "/v1/teacherSectionAssociations/<'TEACHER-SECTION-ASSOCIATION' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getTeacher" with URI "/v1.1/teachers/<'TEACHER' ID>"
+        And I should receive a link named "getTeacher" with URI "/v1.2/teachers/<'TEACHER' ID>"
     When I navigate to GET "/v1/teachers/<'TEACHER' ID>"
     Then I should receive a return code of 200
         And the "name" should be "Charles" "" "Gray"
@@ -173,7 +173,7 @@ Scenario: Traverse from parent education organization through child education or
         And in an entity, I should receive a link named "self"
     When I navigate to GET "/v1/teacherSectionAssociations/<'TEACHER-SECTION-ASSOCIATION' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getTeacher" with URI "/v1.1/teachers/<'TEACHER' ID>"
+        And I should receive a link named "getTeacher" with URI "/v1.2/teachers/<'TEACHER' ID>"
     When I navigate to GET "/v1/teachers/<'TEACHER' ID>"
     Then I should receive a return code of 200
         And the "name" should be "Charles" "" "Gray"

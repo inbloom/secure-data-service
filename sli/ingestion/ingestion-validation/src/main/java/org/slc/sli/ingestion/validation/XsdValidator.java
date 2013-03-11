@@ -23,15 +23,15 @@ import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.parser.impl.EdfiRecordValidator;
+import org.slc.sli.ingestion.parser.impl.EdfiRecordParser;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.util.XsdSelector;
-import org.springframework.core.io.Resource;
 
 /**
  * Validates the xml file against an xsd. Returns false if there is any error else it will always
@@ -42,11 +42,11 @@ import org.springframework.core.io.Resource;
  */
 public class XsdValidator implements Validator<IngestionFileEntry> {
     private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
-    
+
     private static final String STAGE_NAME = "XSD Validation";
-    
+
     private XsdSelector xsdSelector;
-    
+
     @Override
     public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report,
             ReportStats reportStats, Source source) {
@@ -56,8 +56,8 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
             input = entry.getFileStream();
             Resource xsdSchema = xsdSelector.provideXsdResource(entry);
 
-            EdfiRecordValidator.validate(input, xsdSchema, report, reportStats, source);
-            
+            EdfiRecordParser.parse(input, xsdSchema, report, reportStats, source);
+
             return !reportStats.hasErrors();
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + entry.getFileName(), e);
