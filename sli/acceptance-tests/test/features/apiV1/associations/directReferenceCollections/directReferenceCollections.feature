@@ -22,6 +22,7 @@ Scenario Outline: Control the presence of links by specifying an accept type for
   @pause
 Scenario Outline: Confirm all known reference fields generate two valid links that are implemented and update-able
    Given format "application/vnd.slc+json;charset=utf-8"
+     And the sli securityEvent collection is empty
      And referring collection <source entity type> exposed as <source expose name>
      And referring field <reference field> with value <reference value>
      And referred collection <target entity type> exposed as <target expose name>
@@ -43,6 +44,11 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
     When I set the list <reference field> to "<INVALID REFERENCE>"
      And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then I should receive a return code of 403
+     And a security event matching "^Access Denied" should be in the sli db
+     And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+       | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
     When I set the list <reference field> to <new valid value>
      And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then I should receive a return code of 204
