@@ -60,7 +60,7 @@ ldap_admin_pass: Y;Gtf@w{
 
 user_registration_app_production_url: "https://sulu-admin.slidev.org"
 user_registration_app_sandbox_url: "https://sulu-admin.slidev.org"
-user_registration_app_host_url: "slcedu.org"
+user_registration_app_host_url: "inbloom.org"
 registration_app_suffix: "/registration"
 samt_app_suffix: "/users"
 validation_base_suffix: "/user_account_validation"
