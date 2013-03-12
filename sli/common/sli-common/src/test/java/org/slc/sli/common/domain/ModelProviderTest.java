@@ -61,7 +61,7 @@ public class ModelProviderTest {
 
         provider = new ModelProvider(mockIndex);
         provider.getAssociationEnds(mockIdentifier);
-        verify(mockIndex).getAssociationEnds(mockIdentifier);
+        verify(mockIndex).getAssociationEnds(mockIdentifier, true, true);
 
         final QName qName = QName.valueOf("Student");
         provider.lookupByName(qName);

@@ -261,6 +261,12 @@ public class Uml2XsdWriterTest {
             }
 
             @Override
+            public List<AssociationEnd> getAssociationEnds(Identifier type, boolean parents, boolean chilren) {
+            	// Just ignore parent/children filters
+                return getAssociationEnds(type);
+            }
+
+            @Override
             public Map<String, ClassType> getClassTypes() {
                 return classTypes;
             }
