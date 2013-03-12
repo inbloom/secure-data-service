@@ -366,7 +366,7 @@
 			<xs:documentation>Grade record with key fields: StudentSectionAssociationReference (StudentUniqueStateId, StateOrganizationId, UniqueSectionCode, BeginDate) and GradingPeriodReference (StateOrganizationId, GradingPeriod, BeginDate). Changed types of StudentSectionAssociationReference and GradingPeriodReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>grade</sli:recordType>
-				<sli:naturalKeys>StudentReference,SectionReference,GradingPeriodReference,SchoolYear</sli:naturalKeys>
+				<sli:naturalKeys>DiDResolved_StudentReference,DiDResolved_SectionReference,GradingPeriodReference,SchoolYear</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
