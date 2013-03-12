@@ -25,7 +25,7 @@ Given I am using preconfigured Ingestion Landing Zone
   Then I should see following map of entry counts in the corresponding sli db collections:
         | collectionName              | count |
         | securityEvent               | 10    |
-  And I check to find if record is in sli db collection:
+  And I check to find if record is in sli database collection:
        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
        | securityEvent   | 10                   | body.appId              | Ingestion                                                                    | string          |
        | securityEvent   | 1                   | body.logMessage         | Ingestion process started.                                                   | string          |
@@ -36,4 +36,8 @@ Given I am using preconfigured Ingestion Landing Zone
 	   | securityEvent   | 1                   | body.logMessage         | [configProperty] tenantId: IL                                                | string          |
 	   | securityEvent   | 1                   | body.logMessage         | All records processed successfully.                                          | string          |
 	   | securityEvent   | 1                   | body.logMessage         | Processed 1 records.                                                         | string          |
-
+	   | securityEvent   | 1                   | body.logMessage         | [configProperty] tenantId: IL                                                | string          |
+	   | securityEvent   | 1                   | body.logMessage         | All records processed successfully.                                          | string          |
+	   | securityEvent   | 1                   | body.logMessage         | Processed 1 records.                                                         | string          |
+	   | securityEvent   | 10                  | body.targetEdOrg        | Daybreak                                                                     | string          |
+	   | securityEvent   | 10                  | body.targetEdOrgList    | Daybreak                                                                     | string          |
