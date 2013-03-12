@@ -954,26 +954,21 @@
   <ReportCard>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-09-01</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -985,30 +980,26 @@
             <BeginDate>2010-08-23</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-09-01</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -1020,6 +1011,7 @@
             <BeginDate>2011-04-11</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <StudentCompetencyReference>
@@ -3008,26 +3000,21 @@
   <ReportCard>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>100000017</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-09-01</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>100000017</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -3039,30 +3026,26 @@
             <BeginDate>2010-08-23</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>100000017</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-09-01</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>100000017</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -3074,6 +3057,7 @@
             <BeginDate>2011-04-11</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <StudentCompetencyReference>

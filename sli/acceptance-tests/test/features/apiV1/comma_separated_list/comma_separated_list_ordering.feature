@@ -80,18 +80,18 @@ Feature: As an SLI application, I want to return the right order of entities.
  	    |disciplineIncidents        |0e26de79-7efa-5e67-9201-5113ad50a03b|0e26de79-22ea-5d67-9201-5113ad50a03b|
  	    |educationOrganizations     |a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb|92d6d5a0-852c-45f4-907a-912752831772|
  	    |gradebookEntries           |0dbb262b-8a3e-4a7b-82f9-72de95903d91_id20120613-56b6-4d17-847b-2997b7227686_id|706ee3be-0dae-4e98-9525-f564e05aa388_id008fd89d-88a2-43aa-8af1-74ac16a29380_id|
- 	    |grades                     |708c4e08-9942-11e1-a8a9-68a86d21d918|ef42e2a2-9942-11e1-a8a9-68a86d21d918|
+ 	    |grades                     |6320dfce1c2a8277d206f51ebc9e980ce10838d7_id708c4e08-9942-11e1-a8a9-68a86d21d918|78501562270ca2938d56f793547bc3fc2c0b56e6_idef42e2a2-9942-11e1-a8a9-68a86d21d918|
  	    |gradingPeriods             |ef72b883-90fa-40fa-afc2-4cb1ae17623b|b40a7eb5-dd74-4666-a5b9-5c3f4425f130|
  	    |learningObjectives         |df9165f2-653e-df27-a86c-bfc5f4b7577d|df9165f2-65fe-de27-a82c-bfc5f4b7577c|
  	    |learningStandards          |dd9165f2-65fe-7d27-a8ec-bdc5f77757f7|dd9165f2-65be-6e27-a8ac-bec5f4a757ba|
  	    |parents                    |eb4d7e1b-7bed-890a-cddf-cdb25a29fc2d|38ba6ea7-7e73-47db-99e7-d0956f83d7e9|
  	    |programs                   |9b8cafdc-8fd5-11e1-86ec-0021701f543f_id|9b8c3aab-8fd5-11e1-86ec-0021701f543f_id|
- 	    |reportCards                |cf0ca1c6-a9db-4180-bf23-8276c4e2624c|8770da5b-dca5-4ced-bf3b-5fa17bc0001d|
+ 	    |reportCards                |3cebe871565fe8c45414d8487eaca3d1534d3177_idcf0ca1c6-a9db-4180-bf23-8276c4e2624c|648302f251c5a9b24753ddc45975720c939d7d73_id8770da5b-dca5-4ced-bf3b-5fa17bc0001d|
  	    |schools                    |a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb|92d6d5a0-852c-45f4-907a-912752831772|
  	    |sections                   |a00c740c-8753-4190-90ad-9fc026a65d53_id|14c68439-62c1-461a-a178-ad8ac9404f95_id|
  	    |staff                      |e59d9991-9d8f-48ab-8790-59df9bcf9bc7|cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4|
  	    |students                   |766519bf-31f2-4140-97ec-295297bc045e_id|fb71442f-1023-4c55-a675-92ad8c393c82_id|
- 	    |studentAcademicRecords     |56afc8d4-6c91-48f9-8a11-de527c1131b7|16afc8d4-6c91-48f9-8a51-de527c1131b7|
+ 	    |studentAcademicRecords     |7a70c01bf8d93d9b1f53ab45080777b0b49794fa_id56afc8d4-6c91-48f9-8a11-de527c1131b7|648302f251c5a9b24753ddc45975720c939d7d73_id16afc8d4-6c91-48f9-8a51-de527c1131b7|
  	    |studentGradebookEntries    |2713b97a-5632-44a5-8e04-031074bcb326|0f5e6f78-5434-f906-e51b-d63ef970ef8f|
  	    |studentCompetencies        |b57643e4-9acf-11e1-89a7-68a86d21d918|3a2ea9f8-9acf-11e1-add5-68a86d83461b|
  	    #|studentCompetencyObjectives|_id|_id|
@@ -144,7 +144,7 @@ Feature: As an SLI application, I want to return the right order of entities.
 #      |reportCards                |cf0ca1c6-a9db-4180-bf23-8276c4e2624c|8770da5b-dca5-4ced-bf3b-5fa17bc0001d| - Bad data
       |staff                      |e59d9991-9d8f-48ab-8790-59df9bcf9bc7|04f708bc-928b-420d-a440-f1592a5d1073|
       |students                   |766519bf-31f2-4140-97ec-295297bc045e_id|034e6e7f-9da2-454a-b67c-b95bd9f36433_id|
-      |studentAcademicRecords     |56afc8d4-6c91-48f9-8a11-de527c1131b7|3a0cc576-fe7f-40bd-b86c-ca861244db12|
+      |studentAcademicRecords     |7a70c01bf8d93d9b1f53ab45080777b0b49794fa_id56afc8d4-6c91-48f9-8a11-de527c1131b7|c1792ec2a0a37b12844973089ced0a7082938962_id3a0cc576-fe7f-40bd-b86c-ca861244db12|
 #      |studentGradebookEntries    |2713b97a-5632-44a5-8e04-031074bcb326|0f5e6f78-5434-f906-e51b-d63ef970ef8f| - Bad data
 #      |studentCompetencies        |b57643e4-9acf-11e1-89a7-68a86d21d918|3a2ea9f8-9acf-11e1-add5-68a86d83461b| - Bad data
       |teachers                   |bcfcc33f-f4a6-488f-baee-b92fbd062e8d|eb4d7e1b-7bed-890a-d574-1d729a37fd2d| 
@@ -190,12 +190,12 @@ Scenario Outline: Validate CSL where teacher has access to one ID but not two
 #      |disciplineActions          |db7f1d4b-9689-b2f4-9281-d88d65999423|0e26de6c-225b-9f67-9281-7213ad50a03b|
       |disciplineIncidents        |0e26de79-7efa-5e67-9201-5113ad50a03b|0e26de79-22ea-5d67-9201-5113ad50a03b|
       |gradebookEntries           |15ab6363-5509-470c-8b59-4f289c224107_ide49dc00c-182d-4f22-7919-201211130004_id|706ee3be-0dae-4e98-9525-f564e05aa388_id008fd89d-88a2-43aa-8af1-74ac16a29380_id|
-      |grades                     |ef42e2a2-9942-11e1-7919-201211130001|708c4e08-9942-11e1-a8a9-68a86d21d918|
+      |grades                     |d5adf50c7e7ac73db186761694f3f528648a4cdb_idef42e2a2-9942-11e1-7919-201211130001|6320dfce1c2a8277d206f51ebc9e980ce10838d7_id708c4e08-9942-11e1-a8a9-68a86d21d918|
       |parents                    |9b8f7237-ce8e-4dff-7919-201211130040|056dce8e-ec68-4df6-add0-a4243bddca9a|
-      |reportCards                |8770da5b-dca5-4ced-bf3b-5fa17bc0001d|cf0ca1c6-a9db-4180-bf23-8276c4e2624c|
+      |reportCards                |648302f251c5a9b24753ddc45975720c939d7d73_id8770da5b-dca5-4ced-bf3b-5fa17bc0001d|3cebe871565fe8c45414d8487eaca3d1534d3177_idcf0ca1c6-a9db-4180-bf23-8276c4e2624c|
       |staff                      |04f708bc-928b-420d-a440-f1592a5d1073|e59d9991-9d8f-48ab-8790-59df9bcf9bc7|
       |students                   |0c2756fd-6a30-4010-af79-488d6ef2735a_id|766519bf-31f2-4140-97ec-295297bc045e_id|
-      |studentAcademicRecords     |56afc8d4-6c91-48f9-8a11-de527c1131b7|3a0cc576-fe7f-40bd-b86c-ca861244db12|
+      |studentAcademicRecords     |7a70c01bf8d93d9b1f53ab45080777b0b49794fa_id56afc8d4-6c91-48f9-8a11-de527c1131b7|c1792ec2a0a37b12844973089ced0a7082938962_id3a0cc576-fe7f-40bd-b86c-ca861244db12|
       |studentGradebookEntries    |20120613-5434-f906-e51b-d63ef970ef8f|2713b97a-5632-44a5-8e04-031074bcb326|
       |studentCompetencies        |b57643e4-9acf-11e1-7919-201211130002|b57643e4-9acf-11e1-89a7-68a86d21d918|
       |teachers                   |e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b|bcfcc33f-f4a6-488f-baee-b92fbd062e8d| 

@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,6 +33,8 @@ import com.mongodb.util.ThreadUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -54,7 +57,9 @@ public class ExtractorImpl implements Extractor {
     private static final String ID_STRING = "id";
     private static final String TYPE_STRING = "entityType";
 
-    private List<String> collections;
+    private List<String> entities;
+
+    private Map<String, String> queriedEntities;
 
     private String extractDir;
 
@@ -125,8 +130,10 @@ public class ExtractorImpl implements Extractor {
         } catch (IOException e) {
             LOG.error("Error while extracting data for tenant " + tenant, e);
         }
-        for (String collection : collections) {
-           extractCollection(tenant, zipFile, collection);
+        TenantContext.setTenantId(tenant);
+
+        for (String entity : entities) {
+            extractEntity(tenant, zipFile, entity);
         }
 
         // Rename temp zip file to permanent.
@@ -153,36 +160,42 @@ public class ExtractorImpl implements Extractor {
         }
     }
 
-    public File extractCollection(String tenant, OutstreamZipFile zipFile, String collectionName) {
+    public File extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
         try {
-            zipFile.createArchiveEntry(collectionName);
-            extractCollection(tenant, zipFile, collectionName, 0);
+            zipFile.createArchiveEntry(entityName + ".json");
+            extractEntity(tenant, zipFile, entityName, 0);
         } catch (IOException e) {
-            LOG.error("Error while extracting " + collectionName, e);
+            LOG.error("Error while extracting " + entityName, e);
         }
         return zipFile.getZipFile();
     }
 
-    private File extractCollection(String tenant, OutstreamZipFile zipFile, String collectionName,
+    private File extractEntity(String tenant, OutstreamZipFile zipFile, String entityName,
             int retryCount) {
 
-        LOG.info("Extracting " + collectionName);
+        LOG.info("Extracting " + entityName);
         Iterable<Entity> records = null;
+        String collectionName = entityName;
+        Query query = new Query();
+        if (queriedEntities.containsKey(entityName)) {
+            collectionName = queriedEntities.get(entityName);
+            query.addCriteria(Criteria.where("type").is(entityName));
+        }
         try {
             TenantContext.setTenantId(tenant);
-            records = entityRepository.findAll(collectionName, null);
+            records = entityRepository.findByQuery(collectionName, query, 0, 0);
             // write each record to file
             for (Entity record : records) {
                 addAPIFields(record);
                 zipFile.writeData(toJSON(record));
             }
-            LOG.info("Finished extracting " + collectionName);
+            LOG.info("Finished extracting " + entityName);
         } catch (IOException e) {
-            LOG.error("Error while extracting " + collectionName, e);
+            LOG.error("Error while extracting " + entityName, e);
             if (retryCount <= 1) {
-                LOG.error("Retrying extract for " + collectionName);
+                LOG.error("Retrying extract for " + entityName);
                 ThreadUtil.sleep(1000);
-                extractCollection(tenant, zipFile, collectionName, retryCount + 1);
+                extractEntity(tenant, zipFile, entityName, retryCount + 1);
             }
         } finally {
             TenantContext.setTenantId(null);
@@ -191,19 +204,12 @@ public class ExtractorImpl implements Extractor {
     }
 
     private String toJSON(Entity record) {
-        // MongoEntity apiRecord = new MongoEntity(record.getType(),
-        // record.getBody());
-        // return JSON.serialize(apiRecord.toDBObject(null, null));
         return JSON.serialize(record.getBody());
     }
 
-    public void addAPIFields(Entity entity) {
+    private void addAPIFields(Entity entity) {
         entity.getBody().put(ID_STRING, entity.getEntityId());
         entity.getBody().put(TYPE_STRING, entity.getType());
-    }
-
-    public void setCollections(List<String> collections) {
-        this.collections = collections;
     }
 
     public void setExtractDir(String extractDir) {
@@ -224,6 +230,14 @@ public class ExtractorImpl implements Extractor {
 
     public void setTenants(List<String> tenants) {
         this.tenants = tenants;
+    }
+
+    public void setEntities(List<String> entities) {
+        this.entities = entities;
+    }
+
+    public void setQueriedEntities(Map<String, String> queriedEntities) {
+        this.queriedEntities = queriedEntities;
     }
 
     /**

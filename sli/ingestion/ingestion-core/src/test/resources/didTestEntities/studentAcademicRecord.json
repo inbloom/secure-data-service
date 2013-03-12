@@ -49,7 +49,8 @@
                             "GradingPeriod":{"_value":"First Six Weeks"},
                             "BeginDate":{"_value":"2011-09-01"}
                         }
-                    }
+                    },
+                    "SchoolYear": { "_value" : "2013-2014" }
                 }
             }
         ]

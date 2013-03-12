@@ -26,6 +26,8 @@ public final class ContainerDocument {
     private final String collectionName;
     private final List<String> parentNaturalKeys;
     private final String fieldToPersist;
+    private final String collectionToPersist;
+    private boolean isContainerSubdoc;
 
     public String getCollectionName() {
         return collectionName;
@@ -39,6 +41,15 @@ public final class ContainerDocument {
         return fieldToPersist;
     }
 
+
+    public String getCollectionToPersist() {
+        return collectionToPersist;
+    }
+
+    public boolean isContainerSubdoc() {
+        return isContainerSubdoc;
+    }
+
     public static ContainerDocumentBuilder builder() {
         return new ContainerDocumentBuilder();
     }
@@ -47,6 +58,8 @@ public final class ContainerDocument {
         this.collectionName = builder.collectionName;
         this.parentNaturalKeys = builder.parentNaturalKeys;
         this.fieldToPersist = builder.fieldToPersist;
+        this.collectionToPersist = builder.collectionToPersist;
+        this.isContainerSubdoc = builder.isContainerSubdoc;
     }
 
     /**
@@ -56,6 +69,8 @@ public final class ContainerDocument {
         private String collectionName;
         private List<String> parentNaturalKeys;
         private String fieldToPersist;
+        private String collectionToPersist;
+        private boolean isContainerSubdoc;
 
         public ContainerDocumentBuilder forCollection(final String collectionName) {
             this.collectionName = collectionName;
@@ -71,9 +86,18 @@ public final class ContainerDocument {
             this.fieldToPersist = fieldName;
             return this;
         }
+        public ContainerDocumentBuilder persistAs(final String collectionToPersist) {
+            this.collectionToPersist = collectionToPersist;
+            return this;
+        }
+
+        public ContainerDocumentBuilder asContainerSubdoc(final boolean isContainerSubdoc) {
+            this.isContainerSubdoc = isContainerSubdoc;
+            return this;
+        }
 
         public ContainerDocument build() {
-            if (collectionName == null || parentNaturalKeys == null || fieldToPersist == null) {
+            if (collectionName == null || parentNaturalKeys == null || fieldToPersist == null || collectionToPersist==null) {
                 throw new IllegalStateException("The container document is not fully initialized!");
             }
             return new ContainerDocument(this);
