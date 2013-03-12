@@ -252,18 +252,18 @@ public class DidReferenceResolutionTest {
         sectionNaturalKeys.put("uniqueSectionCode", "testSectionCode");
         String sectionDid = generateExpectedDid(sectionNaturalKeys, TENANT_ID, "section", null);
 
-        Map<String, String> studentSectionAssociationNaturalKeys = new HashMap<String, String>();
-        studentSectionAssociationNaturalKeys.put("studentId", studentDid);
-        studentSectionAssociationNaturalKeys.put("sectionId", sectionDid);
-        studentSectionAssociationNaturalKeys.put("beginDate", "02-02-2012");
-        String studentSectionAssociationDid = generateExpectedDid(studentSectionAssociationNaturalKeys, TENANT_ID,
-                "studentSectionAssociation", sectionDid);
+        Map<String, String> parentNaturalkeys = new HashMap<String, String>();
+        parentNaturalkeys.put("studentId", studentDid);
+        parentNaturalkeys.put("schoolYear", "2013-2014");
+        String parentId = generateExpectedDid(parentNaturalkeys, TENANT_ID, "yearlyTranscript", null);
 
         Map<String, String> gradeNaturalKeys = new HashMap<String, String>();
-        gradeNaturalKeys.put("studentSectionAssociationId", studentSectionAssociationDid);
+        gradeNaturalKeys.put("studentId", studentDid);
+        gradeNaturalKeys.put("sectionId", sectionDid);
         gradeNaturalKeys.put("gradingPeriodId", gradingPeriodDid);
+        gradeNaturalKeys.put("schoolYear", "2013-2014");
 
-        checkId(entity, "GradeReference", gradeNaturalKeys, "grade");
+        checkId(entity, "GradeReference", gradeNaturalKeys, "grade", parentId);
     }
 
     @Test
@@ -951,8 +951,14 @@ public class DidReferenceResolutionTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentId", studentId);
         naturalKeys.put("sessionId", sessionId);
+        naturalKeys.put("schoolYear", "2013-2014");
 
-        checkId(entity, "StudentAcademicRecordReference", naturalKeys, "studentAcademicRecord");
+        Map<String, String> parentNaturalkeys = new HashMap<String, String>();
+        parentNaturalkeys.put("studentId", studentId);
+        parentNaturalkeys.put("schoolYear", "2013-2014");
+        String parentId = generateExpectedDid(parentNaturalkeys, TENANT_ID, "yearlyTranscript", null);
+
+        checkId(entity, "StudentAcademicRecordReference", naturalKeys, "studentAcademicRecord", parentId);
     }
 
     @Test
@@ -1262,11 +1268,17 @@ public class DidReferenceResolutionTest {
         gradingPeriodNaturalKeys.put("stateOrganizationId", edOrgId);
         String gradingPeriodId = generateExpectedDid(gradingPeriodNaturalKeys, TENANT_ID, "gradingPeriod", null);
 
+        Map<String, String> parentNaturalkeys = new HashMap<String, String>();
+        parentNaturalkeys.put("studentId", studentId);
+        parentNaturalkeys.put("schoolYear", "2013-2014");
+        String parentId = generateExpectedDid(parentNaturalkeys, TENANT_ID, "yearlyTranscript", null);
+
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("gradingPeriodId", gradingPeriodId);
         naturalKeys.put("studentId", studentId);
+        naturalKeys.put("schoolYear", "2013-2014");
 
-        checkId(entity, "ReportCardReference", naturalKeys, "reportCard");
+        checkId(entity, "ReportCardReference", naturalKeys, "reportCard", parentId);
     }
 
     @Test
@@ -1286,11 +1298,12 @@ public class DidReferenceResolutionTest {
         return new DeterministicUUIDGeneratorStrategy().generateId(nkd);
     }
 
-    // validate reference resolution
+
+    // validate reference resolution with parentId
     @SuppressWarnings("unchecked")
     private void checkId(NeutralRecordEntity entity, String referenceField, Map<String, String> naturalKeys,
-            String collectionName) throws IOException {
-        String expectedDid = generateExpectedDid(naturalKeys, TENANT_ID, collectionName, null);
+                         String collectionName, String parentId) throws IOException {
+        String expectedDid = generateExpectedDid(naturalKeys, TENANT_ID, collectionName, parentId);
 
         Map<String, Object> body = entity.getBody();
         Object resolvedRef = null;
@@ -1310,6 +1323,13 @@ public class DidReferenceResolutionTest {
         } else {
             Assert.assertEquals(expectedDid, resolvedRef);
         }
+    }
+
+    // validate reference resolution
+    @SuppressWarnings("unchecked")
+    private void checkId(NeutralRecordEntity entity, String referenceField, Map<String, String> naturalKeys,
+            String collectionName) throws IOException {
+        checkId(entity, referenceField, naturalKeys, collectionName, null);
     }
 
     // load a sample NeutralRecordEntity from a json file
