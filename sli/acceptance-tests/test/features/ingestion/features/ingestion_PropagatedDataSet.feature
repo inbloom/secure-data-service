@@ -643,6 +643,9 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessment                     | 32                  | body.scoreResults.result                                                                                                              | body.scoreResults |
      | studentAssessment                     | 32                  | body.scoreResults.assessmentReportingMethod                                                                                           | body.scoreResults |
      | studentAssessment                     | 32                  | body.gradeLevelWhenAssessed                                                                                                           | none |
+     | studentAssessment                     | 32                  | body.performanceLevelDescriptors                                                                                                      | body.performanceLevelDescriptors: |
+     | studentAssessment                     | 31                  | body.performanceLevelDescriptors.codeValue                                                                                            | body.performanceLevelDescriptors: |
+     | studentAssessment                     | 1                   | body.performanceLevelDescriptors.description                                                                                          | body.performanceLevelDescriptors: |
      | studentAssessment                     | 32                  | body.studentId                                                                                                                        | none |
      | studentAssessment                     | 32                  | body.assessmentId                                                                                                                     | none |
 
@@ -657,6 +660,9 @@ Then I should see following map of entry counts in the corresponding collections
      | studentObjectiveAssessment            | 19                  | body.scoreResults                                                                                                                     | body.scoreResults |
      | studentObjectiveAssessment            | 19                  | body.scoreResults.result                                                                                                              | body.scoreResults |
      | studentObjectiveAssessment            | 19                  | body.scoreResults.assessmentReportingMethod                                                                                           | body.scoreResults |
+     | studentObjectiveAssessment            | 19                  | body.performanceLevelDescriptors                                                                                                      | body.performanceLevelDescriptors: |
+     | studentObjectiveAssessment            | 18                  | body.performanceLevelDescriptors.codeValue                                                                                            | body.performanceLevelDescriptors: |
+     | studentObjectiveAssessment            | 1                   | body.performanceLevelDescriptors.description                                                                                          | body.performanceLevelDescriptors: |
      | studentObjectiveAssessment            | 19                  | body.objectiveAssessmentId                                                                                                            | none |
 
      | studentCohortAssociation              | 46                  | body.studentId                                                                                                                        | none |
