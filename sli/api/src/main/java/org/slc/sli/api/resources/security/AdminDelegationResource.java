@@ -151,26 +151,44 @@ public class AdminDelegationResource {
             return Response.status(Status.BAD_REQUEST).entity(response).build();
         }
 
-        String delgId = getIdOfDelegationRecordForPrincipal();
-        if (delgId == null) {
+        EntityBody del =  getDelegationRecordForPrincipal();
+        Boolean appApprovalEnabled = (Boolean) body.get("appApprovalEnabled");
+        if(appApprovalEnabled == null) {
+        	appApprovalEnabled = false;
+        }
+        if (del == null) {
 
             if (service.create(body).isEmpty()) {
                 return Response.status(Status.BAD_REQUEST).build();
             } else {
-                SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA has delegated AppAuth and SecEvent to SEA!");
-                audit(event);
+                log(appApprovalEnabled, false, uriInfo);
                 return Response.status(Status.CREATED).build();
             }
 
         } else {
-
+            String delgId = (String)del.get("id");
+            Boolean oldAppApprovalEnabled = (Boolean)del.get("appApprovalEnabled");
+            if(oldAppApprovalEnabled == null) {
+            	oldAppApprovalEnabled = false;
+            }
             if (!service.update(delgId, body)) {
                 return Response.status(Status.BAD_REQUEST).build();
             }
 
+            log(appApprovalEnabled, oldAppApprovalEnabled, uriInfo);
         }
 
         return Response.status(Status.NO_CONTENT).build();
+    }
+
+    void log(boolean appApprovalEnabled, boolean oldAppApprovalEnabled, @Context final UriInfo uriInfo){
+    	 if (appApprovalEnabled && !oldAppApprovalEnabled) {
+             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is enabled!");
+             audit(event);
+         }	 else if (!appApprovalEnabled  && oldAppApprovalEnabled ) {
+             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is disabled!");
+             audit(event);
+         }
     }
 
     @POST
@@ -191,7 +209,7 @@ public class AdminDelegationResource {
     }
 
 
-    private String getIdOfDelegationRecordForPrincipal() {
+    private EntityBody getDelegationRecordForPrincipal() {
         String edOrgId = SecurityUtil.getEdOrgId();
         if (edOrgId == null) {
             throw new EntityNotFoundException("No edorg exists on principal.");
@@ -199,8 +217,9 @@ public class AdminDelegationResource {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrgId));
-        Iterator<String> it = service.listIds(query).iterator();
-        if (it.hasNext()) {
+        Iterator<EntityBody> it = service.list(query).iterator();
+        //Iterator<String> it = service.listIds(query).iterator();
+        if (it.hasNext()){
             return it.next();
         } else {
             return null;
@@ -211,7 +230,11 @@ public class AdminDelegationResource {
     private EntityBody getEntity() {
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
 
-            String entId = getIdOfDelegationRecordForPrincipal();
+        	EntityBody body = getDelegationRecordForPrincipal();
+        	if (body == null) {
+        		return null;
+        	}
+            String entId = (String)body.get("id");
             if (entId != null) {
                 return service.get(entId);
             }

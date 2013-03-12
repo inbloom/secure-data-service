@@ -113,8 +113,15 @@ Feature: Admin delegation CRUD
     And I change "appApprovalEnabled" to false
     When I PUT to admin delegation
     Then I should receive a return code of 204
+    And a security event "LEA's delegation is disabled!" should be created for these targetEdOrgs ONLY
+      | targetEdOrg                |
+      | fakeab32-b493-999b-a6f3-sliedorg1234|
+      | fakeab32-b493-999b-a6f3-sliedorg1234|
+      | fakeab32-b493-999b-a6f3-sliedorg1234|
+    
 
     #SEA administrator tries to do AppAproval for non delegated LEA and fails
+    And the sli securityEvent collection is empty
     And I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     Then I should grant all app authorizations for district "IL-SUNSET"
     And I should receive a return code of 403
@@ -130,6 +137,13 @@ Feature: Admin delegation CRUD
     And I change "appApprovalEnabled" to true
     When I PUT to admin delegation
     Then I should receive a return code of 204
+    And a security event "LEA's delegation is enabled!" should be created for these targetEdOrgs ONLY
+      | targetEdOrg                |
+      | fakeab32-b493-999b-a6f3-sliedorg1234|
+      | fakeab32-b493-999b-a6f3-sliedorg1234|
+      | fakeab32-b493-999b-a6f3-sliedorg1234|
+    
+    
 
     #SEA administrator tries to do AppAproval for non delegated LEA and succeeds, causes SecurityEvent to be logged
     And I am logged in using "iladmin" "iladmin1234" to realm "SLI"
