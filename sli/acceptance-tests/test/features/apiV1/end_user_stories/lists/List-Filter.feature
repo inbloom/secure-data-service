@@ -81,9 +81,15 @@ Scenario Outline: As a teacher or leader I want to see all my students in 3rd pe
 
 Scenario Outline: As teacher or leader in the Daybreak district but outside Daybreak Middle School, I should not have access to Linda Kim's students
     Given I am logged in using <Username> <Password> to realm "IL"
-    Given format "application/json"
+     And format "application/json"
+     And the sli securityEvent collection is empty
     When I navigate to GET "/v1/teachers/<'Linda Kim' ID>"
     Then I should receive a return code of <RC>
+     And a security event matching "^Access Denied" should be in the sli db
+     #And I check to find if record is in sli db collection:
+       #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+       #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
 
 	Examples:
 	| Username     | Password         | RC  | Role       | EdOrg                       |
@@ -94,9 +100,15 @@ Scenario Outline: As teacher or leader in the Daybreak district but outside Dayb
 
 Scenario Outline: As a teacher or leader in another district I cannot see any of Linda Kim's students in her 3rd period Algebra II class
     Given I am logged in using <Username> <Password> to realm "IL"
-    Given format "application/json"
+     And format "application/json"
+     And the sli securityEvent collection is empty
     When I navigate to GET "/v1/teachers/<'Linda Kim' ID>"
     Then I should receive a return code of <RC>
+     And a security event matching "^Access Denied" should be in the sli db
+     #And I check to find if record is in sli db collection:
+       #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+       #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
 
 	Examples:
 	| Username   | Password       | RC  | Role       | EdOrg                    |
