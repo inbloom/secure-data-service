@@ -85,8 +85,6 @@ public class LandingZoneProcessor implements Processor {
         } else {
             currentJob = createNewBatchJob(lzFile);
             createResourceEntryAndAddToJob(lzFile, currentJob);
-            TenantContext.setTenantId(currentJob.getTenantId());
-            TenantContext.setJobId(currentJob.getId());
             batchJobId = currentJob.getId();
 
             // Verify that the landing zone file is a zip file.
@@ -138,6 +136,8 @@ public class LandingZoneProcessor implements Processor {
     private NewBatchJob createNewBatchJob(File lzFile) {
         String batchJobId = NewBatchJob.createId(lzFile.getName());
         String tenantId = tenantDA.getTenantId(lzFile.getParent());
+        TenantContext.setTenantId(tenantId);
+        TenantContext.setJobId(batchJobId);
 
         NewBatchJob newJob = new NewBatchJob(batchJobId, tenantId);
         newJob.setStatus(BatchJobStatusType.RUNNING.getName());

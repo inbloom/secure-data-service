@@ -46,7 +46,7 @@ import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
  * @author ablum
  *
  */
-public class EdfiRecordValidator extends DefaultHandler {
+public class EdfiRecordParser extends DefaultHandler {
 
     /**
      * Message report for validation warning/error reporting.
@@ -70,7 +70,7 @@ public class EdfiRecordValidator extends DefaultHandler {
      * @param reportStats Associated report statistics
      * @param source Source of the messages
      */
-    public EdfiRecordValidator(AbstractMessageReport messageReport, ReportStats reportStats,
+    public EdfiRecordParser(AbstractMessageReport messageReport, ReportStats reportStats,
             Source source) {
 
         this.messageReport = messageReport;
@@ -80,29 +80,29 @@ public class EdfiRecordValidator extends DefaultHandler {
     }
 
     /**
-     * Validates an XML represented by the input stream against provided XSD and reports validation issues.
+     * Parses and Validates an XML represented by the input stream against provided XSD and reports validation issues.
      *
-     * @param input XML to validate
+     * @param input XML to parse and validate
      * @param schemaResource XSD resource
-     * @param messageReport Message report for validation warning/error reporting
+     * @param messageReport Message report for parsing and validation warning/error reporting
      * @param reportStats Associated report statistics
      * @param source Source of the messages
      * @throws SAXException If a SAX error occurs during XSD parsing.
      * @throws IOException If a IO error occurs during XSD/XML parsing.
      * @throws XmlParseException If a SAX error occurs during XML parsing.
      */
-    public static void validate(InputStream input, Resource schemaResource, AbstractMessageReport messageReport, ReportStats reportStats, Source source)
+    public static void parse(InputStream input, Resource schemaResource, AbstractMessageReport messageReport, ReportStats reportStats, Source source)
                     throws SAXException, IOException, XmlParseException {
 
-        EdfiRecordValidator validator = new EdfiRecordValidator(messageReport, reportStats, source);
+        EdfiRecordParser parser = new EdfiRecordParser(messageReport, reportStats, source);
 
-        validator.process(input, schemaResource);
+        parser.process(input, schemaResource);
     }
 
     /**
-     * Validates an XML represented by the input stream against provided XSD and reports validation issues.
+     * Parses and Validates an XML represented by the input stream against provided XSD and reports validation issues.
      *
-     * @param input XML to validate
+     * @param input XML to parse and validate
      * @param schemaResource XSD resource
      * @throws SAXException If a SAX error occurs during XSD parsing.
      * @throws IOException If a IO error occurs during XSD/XML parsing.
@@ -118,9 +118,9 @@ public class EdfiRecordValidator extends DefaultHandler {
     }
 
     /**
-     * Validates an XML represented by the input stream against provided XSD and reports validation issues.
+     * Parse and Validate an XML represented by the input stream against provided XSD and reports validation issues.
      *
-     * @param input XML to validate
+     * @param input XML to parse and validate
      * @param vHandler Validator handler
      * @throws IOException If a IO error occurs during XML parsing.
      * @throws XmlParseException If a SAX error occurs during XML parsing.

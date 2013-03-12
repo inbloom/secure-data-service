@@ -329,5 +329,11 @@ def data_builder
   formatted_data
 end
 
+Then /^the response should contain the "([^"]*)" field$/ do  |school_year|
+    jsonresult = JSON.parse(@res.body)
+    jsonresult.each do |data|
+        assert(data["schoolYear"] == school_year, "School year matches")
+    end
+end
 
 

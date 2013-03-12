@@ -1088,6 +1088,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
                 <configuration>
+		    <argLine>-Xms2G -Xmx6G -XX:PermSize=512m -XX:MaxPermSize=1024m -XX:NewRatio=1 -XX:+UseParallelGC -XX:+UseParallelOldGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps</argLine>
                     <runOrder>alphabetical</runOrder>
                     <parallel>methods</parallel>
                     <threadCount>${test.threadcount}</threadCount>
