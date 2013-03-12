@@ -190,6 +190,23 @@ public class AssessmentConverterTest {
         assessmentConverter.bodyFieldToSubdoc(entity);
         assertNull(entity.getBody().get(AssessmentConverter.ASSESSMENT_FAMILY_HIERARCHY_STRING));
     }
+    
+    @Test
+    public void downconvertShouldDeleteAssessmentFamilyHierarchyExistingAssessment() {
+        // if an update of an existing assessment is performed, the assessmentFamilyReference
+        // should remain part of the assessment after the update occurs.
+        Entity existingAssessment = createDownConvertEntity();
+        existingAssessment.getBody().put(AssessmentConverter.ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE, assessmentFamilyA.getEntityId());
+        when(template.findById(existingAssessment.getEntityId(), Entity.class, EntityNames.ASSESSMENT)).thenReturn(existingAssessment);
+        
+        Entity updatedAssessment = createDownConvertEntity();
+        updatedAssessment.getBody().put("assessmentTitle", "A_new_title");
+        
+        assessmentConverter.bodyFieldToSubdoc(updatedAssessment);
+        assertNull(updatedAssessment.getBody().get(AssessmentConverter.ASSESSMENT_FAMILY_HIERARCHY_STRING));
+        assertEquals(existingAssessment.getBody().get(AssessmentConverter.ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE),
+                updatedAssessment.getBody().get(AssessmentConverter.ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE));
+    }
 
     @SuppressWarnings("unchecked")
     @Test

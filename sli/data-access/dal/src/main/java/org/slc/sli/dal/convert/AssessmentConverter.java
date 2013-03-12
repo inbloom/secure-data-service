@@ -126,8 +126,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
                 }
             }
             
-            //assessmentFamilyHierarchy is ignored on create/update
-            entity.getBody().remove(ASSESSMENT_FAMILY_HIERARCHY_STRING);
+            fixAssessmentFamilyReference(entity);
         }
     }
 
@@ -161,6 +160,25 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             for (Entity entity : entities) {
                 bodyFieldToSubdoc(entity);
             }
+        }
+    }
+    
+    /**
+     * On update, AssessmentFamilyReference will not exist on the entity. Fetch it from
+     * the db and re-add it to the entity.
+     */
+    private void fixAssessmentFamilyReference(Entity entity) {
+        //assessmentFamilyHierarchy is ignored on create/update
+        entity.getBody().remove(ASSESSMENT_FAMILY_HIERARCHY_STRING);
+        
+        MongoTemplate mongo = ((MongoEntityRepository) repo).getTemplate();
+        Entity existingAssessment = mongo.findById(entity.getEntityId(), Entity.class, EntityNames.ASSESSMENT);
+        if (existingAssessment == null) {
+            return;
+        }
+        if (existingAssessment.getBody().containsKey(ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE)) {
+            String assessmentFamilyRef = (String) existingAssessment.getBody().get(ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE);
+            entity.getBody().put(ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE, assessmentFamilyRef);
         }
     }
     
