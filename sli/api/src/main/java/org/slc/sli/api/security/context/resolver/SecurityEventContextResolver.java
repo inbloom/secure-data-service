@@ -93,8 +93,6 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 						String edOrg = principal.getEdOrg();
 						String edOrgId = principal.getEdOrgId();
 						if (edOrg != null) {
-							Set<String> edOrgs = new HashSet<String>();
-							edOrgs.add(edOrgId);
 							Set<String> homeEdOrgs = new HashSet<String>();
 							homeEdOrgs.add(edOrg);
 							if (roles
@@ -128,9 +126,11 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 							}
 							if (roles
 									.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
-								Set<String> delegatedLEAStateIds = edOrgHelper
+								Set<String> edOrgs = new HashSet<String>();
+								edOrgs.add(edOrgId);
+								Set<String> childEdorgStateIds = edOrgHelper
 										.getChildEdOrgsName(edOrgs);
-								homeEdOrgs.addAll(delegatedLEAStateIds);
+								homeEdOrgs.addAll(childEdorgStateIds);
 								NeutralQuery or = new NeutralQuery();
 								or.addCriteria(new NeutralCriteria(
 										"targetEdOrgList",
