@@ -27,11 +27,11 @@ Given /^the testing device app key has been created$/ do
 end
 
 Given /^I import the odin-local-setup application and realm data$/ do
-  @local_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../../tools/jmeter/odin-local-setup/'
+  @local_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../../tools/jmeter/odin-ci/'
   #get current working dir
   current_dir = Dir.getwd
   Dir.chdir(@local_realm_store_path)
-  `sh local-jmeter-realm.sh`
+  `sh ci-jmeter-realm.sh`
   # restore back current dir
   Dir.chdir(current_dir)
 end
