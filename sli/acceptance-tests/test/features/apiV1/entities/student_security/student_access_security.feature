@@ -1,7 +1,7 @@
 Feature: Student Access Security Mega Test
 I want to test all combinations and permutations of accessing student data
 
-@DE_2712
+@DE_2712 @wip
 Scenario Outline: Users accessing students via multi-part URIs for Sections
 Given I am user <User> in IDP "SEC"
 When I make an API call to get all students in the section <Section>
@@ -92,7 +92,7 @@ Examples:
   |"staff14"|"section3"| 403 |  0  | "none"               | state-staff as Agg Viewer |
   |"staff15"|"section3"| 403 |  0  | "none"               | state-staff with expired association |
 
-@DE_2712
+@DE_2712 @wip
 Scenario Outline: Users accessing students via multi-part URIs for Cohorts
 Given I am user <User> in IDP "SEC"
 When I make an API call to get all students in the cohort <Cohort>
@@ -131,7 +131,7 @@ Examples:
   |"teach3"|"cohort5"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
   |"teach4"|"cohort5"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
 
-@DE_2712
+@DE_2712 @wip
 Scenario Outline: Users accessing students via multi-part URIs for Programs
 Given I am user <User> in IDP "SEC"
 When I make an API call to get all students in the program <Program>
@@ -169,7 +169,7 @@ Examples:
   |"teach3"|"program5"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
   |"teach4"|"program5"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
 
-@DE_2712
+@DE_2712 @wip
 Scenario Outline: Users accessing students via multi-part URIs for Schools
 Given I am user <User> in IDP "SEC"
 When I make an API call to get my student list at School <School>
