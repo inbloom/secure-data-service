@@ -16,23 +16,27 @@
 
 package org.slc.sli.dal.migration.strategy.impl;
 
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
-import java.lang.reflect.InvocationTargetException;
-
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.dal.migration.strategy.MigrationException;
-import org.slc.sli.dal.migration.strategy.MigrationStrategy;
+import org.slc.sli.common.migration.strategy.MigrationException;
+import org.slc.sli.common.migration.strategy.MigrationStrategy;
 import org.slc.sli.domain.Entity;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Supports the migration of entities by cardinality changes.
- * 
+ *
  * @author jcole
  */
 
-public class CardinalityStrategy implements MigrationStrategy {
+@Scope("prototype")
+@Component
+public class CardinalityStrategy implements MigrationStrategy<Entity> {
 
     public static final String FIELD_NAME = "fieldName";
     public static final String MIN_COUNT = "minCount";
@@ -58,7 +62,7 @@ public class CardinalityStrategy implements MigrationStrategy {
 
                 if (maxCount.equals("many")) {
                     List<String> fieldValues = new ArrayList<String>();
-                    fieldValues.add (DEFAULT_VALUE);
+                    fieldValues.add(DEFAULT_VALUE);
 
                     try {
                         PropertyUtils.setProperty(entity.getBody(), fieldName, fieldValues);
@@ -69,8 +73,7 @@ public class CardinalityStrategy implements MigrationStrategy {
                     } catch (NoSuchMethodException e) {
                         throw new MigrationException(e);
                     }
-                }
-                else {
+                } else {
                     try {
                         PropertyUtils.setProperty(entity.getBody(), fieldName, defaultValue);
                     } catch (IllegalAccessException e) {
@@ -109,7 +112,7 @@ public class CardinalityStrategy implements MigrationStrategy {
                 // this is the case where we've gone from 1 to many
                 String valueString = (String) valueObject;
                 List<String> fieldValues = new ArrayList<String>();
-                fieldValues.add (valueString);
+                fieldValues.add(valueString);
 
                 try {
                     PropertyUtils.setProperty(entity.getBody(), fieldName, fieldValues);
@@ -149,6 +152,12 @@ public class CardinalityStrategy implements MigrationStrategy {
         this.minCount = parameters.get(MIN_COUNT).toString();
         this.maxCount = parameters.get(MAX_COUNT).toString();
         this.defaultValue = DEFAULT_VALUE;
+    }
+
+    @Override
+    public List<Entity> migrate(List<Entity> entityList) throws MigrationException {
+        // This strategy should always expect a single entity
+        throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
     }
 
 }

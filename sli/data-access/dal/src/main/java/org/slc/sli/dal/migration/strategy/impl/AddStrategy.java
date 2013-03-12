@@ -16,29 +16,34 @@
 
 package org.slc.sli.dal.migration.strategy.impl;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
-
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.dal.migration.strategy.MigrationException;
-import org.slc.sli.dal.migration.strategy.MigrationStrategy;
+import org.slc.sli.common.migration.strategy.MigrationException;
+import org.slc.sli.common.migration.strategy.MigrationStrategy;
 import org.slc.sli.domain.Entity;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Supports the migration of entities by adding a new field with a default value.
- * 
+ *
  * @author pghosh
  * @author kmyers
  */
 
-public class AddStrategy implements MigrationStrategy {
+@Scope("prototype")
+@Component
+public class AddStrategy implements MigrationStrategy<Entity> {
 
     public static final String FIELD_NAME = "fieldName";
     public static final String DEFAULT_VALUE = "defaultValue";
-    
+
     private String fieldName;
     private Object defaultValue;
-    
+
     @Override
     public Entity migrate(Entity entity) throws MigrationException {
         try {
@@ -55,13 +60,19 @@ public class AddStrategy implements MigrationStrategy {
 
     @Override
     public void setParameters(Map<String, Object> parameters) throws MigrationException {
-        
+
         if (parameters == null || !parameters.containsKey(FIELD_NAME)) {
             throw new MigrationException(new IllegalArgumentException("Add strategy missing required argument: fieldName"));
         }
-        
+
         this.fieldName = parameters.get(FIELD_NAME).toString();
         this.defaultValue = parameters.get(DEFAULT_VALUE);
     }
-    
+
+    @Override
+    public List<Entity> migrate(List<Entity> entityList) throws MigrationException {
+        // This strategy should always expect a single entity
+        throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
+    }
+
 }

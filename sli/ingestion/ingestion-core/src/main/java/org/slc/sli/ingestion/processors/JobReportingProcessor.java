@@ -439,10 +439,12 @@ public class JobReportingProcessor implements Processor {
             logResourceMetric(job, resourceEntry, metric.getRecordCount(), metric.getErrorCount(), metric.getValidationErrorCount(),jobReportWriter);
 
             totalProcessed += metric.getRecordCount();
+            totalProcessed += metric.getValidationErrorCount();
 
             // update resource entries for zero-count reporting later
             resourceEntry.setRecordCount(metric.getRecordCount());
             resourceEntry.setErrorCount(metric.getErrorCount());
+            resourceEntry.setValidationErrorCount(metric.getValidationErrorCount());
         }
 
         writeZeroCountPersistenceMetrics(job, jobReportWriter);
@@ -463,16 +465,17 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void logResourceMetric(NewBatchJob job, ResourceEntry resourceEntry, long numProcessed, long numFailed,
-                                   long numFailedValidation, PrintWriter jobReportWriter) {
+            long numFailedValidation, PrintWriter jobReportWriter) {
         String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
         writeInfoLine(job, jobReportWriter,
                 id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
 
         long numPassed = numProcessed - numFailed;
 
-        writeInfoLine(job, jobReportWriter, id + " records considered: " + numProcessed);
+        writeInfoLine(job, jobReportWriter, id + " records considered for processing: " + numProcessed);
         writeInfoLine(job, jobReportWriter, id + " records ingested successfully: " + numPassed);
-        writeInfoLine(job, jobReportWriter, id + " records failed: " + numFailed);
+        writeInfoLine(job, jobReportWriter, id + " records failed processing: " + numFailed);
+        writeInfoLine(job, jobReportWriter, id + " records not considered for processing: " + numFailedValidation);
     }
 
     private void missingBatchJobIdError(Exchange exchange) {

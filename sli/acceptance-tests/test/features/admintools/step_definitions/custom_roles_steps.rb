@@ -111,6 +111,7 @@ Then /^the group "([^"]*)" contains the "([^"]*)" (rights "[^"]*")$/ do |title, 
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
 
   assertWithWait("Expected #{rights.size} roles, but saw #{group.find_elements(:class, css_class).size} in group #{title}") {group.find_elements(:class, css_class).size == rights.size}
+  puts "Group is currently #{group}"
   rights.each do |right|
     group.find_elements(:xpath, "//span[text()='#{right}']")
   end

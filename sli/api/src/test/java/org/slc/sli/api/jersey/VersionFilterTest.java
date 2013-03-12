@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.api.jersey;
 
 import com.sun.jersey.spi.container.ContainerRequest;
@@ -83,7 +98,7 @@ public class VersionFilterTest {
         ContainerRequest request = versionFilter.filter(containerRequest);
         verify(containerRequest).setUris((URI) any(), (URI) any());
         verify(builder).build();
-        verify(builder, times(1)).path("v1.1");
+        verify(builder, times(1)).path("v1.2");
         verify(builder, times(1)).path("students");
         assertEquals("Should match", "http://api/rest/v1/students", request.getProperties().get(REQUESTED_PATH));
     }
@@ -112,7 +127,7 @@ public class VersionFilterTest {
         verify(containerRequest).setUris((URI) any(), (URI) any());
         verify(builder).replaceQuery(anyString());
         verify(builder).build();
-        verify(builder, times(1)).path("v1.1");
+        verify(builder, times(1)).path("v1.2");
         verify(builder, times(1)).path("students");
     }
 
