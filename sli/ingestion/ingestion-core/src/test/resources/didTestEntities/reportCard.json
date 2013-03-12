@@ -90,34 +90,27 @@
         					"GradingPeriod":{"_value":"testGradingPeriod"}
         				}
         			},
-        			"StudentSectionAssociationReference":
-        			{
-        				"StudentSectionAssociationIdentity":
-        				{
-        					"StudentReference":
-        					{
-        						"StudentIdentity":
-        						{
-        							"StudentUniqueStateId":{"_value":"testStudentId"}
-        						}
-        					},
-        					"SectionReference":
-        					{
-        						"SectionIdentity":
-        						{
-        							"UniqueSectionCode":{"_value":"testSectionCode"},
-        							"EducationalOrgReference":
-        							{
-        								"EducationalOrgIdentity":
-        								{
-        									"StateOrganizationId":{"_value":"testEdOrgId"}
-        								}
-        							}
-        						}
-        					},
-        					"BeginDate":{"_value":"02-02-2012"}
-        				}
-        			}
+              "StudentReference":
+              {
+                "StudentIdentity":
+                {
+                  "StudentUniqueStateId":{"_value":"testStudentId"}
+                }
+              },
+              "SectionReference":
+              {
+                "SectionIdentity":
+                {
+                  "UniqueSectionCode":{"_value":"testSectionCode"},
+                  "EducationalOrgReference":
+                  {
+                    "EducationalOrgIdentity":
+                    {
+                      "StateOrganizationId":{"_value":"testEdOrgId"}
+                    }
+                  }
+                }
+              }
         		}
         	}
         ]
