@@ -149,7 +149,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         String now = DatatypeConverter.printDate(Calendar.getInstance());
         
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_GT, now));
-        NeutralQuery nq2 = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_EXISTS, true));
+        NeutralQuery nq2 = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_EXISTS, false));
 
         return Arrays.asList(nq, nq2);
 
