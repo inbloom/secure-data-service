@@ -88,17 +88,29 @@ Scenario:  As an Educator, I can retrieve correct custom entity for correct appl
     
     #But I can't create as an Educator
     Given format "application/json" 
+    And the sli securityEvent collection is empty
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" to the object
 	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
     Then I should receive a return code of 403
+     And a security event matching "^Access Denied" should be in the sli db
+     And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+       | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
 
     #And I can't update as an Educator
     Given format "application/json"
+    And the sli securityEvent collection is empty
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Writing Results</DisplayName>" to the object
 	When I navigate to PUT "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
 	Then I should receive a return code of 403
+	 And a security event matching "^Access Denied" should be in the sli db
+     And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+       | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
 
 Scenario Outline: As an educator or leader, I want to read a custom entity associated with any core entity belonging to my application 
 	   Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"

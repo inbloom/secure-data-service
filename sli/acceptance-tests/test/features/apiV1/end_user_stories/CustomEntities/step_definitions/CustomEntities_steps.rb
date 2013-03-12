@@ -25,6 +25,7 @@ require 'base64'
 include REXML
 require_relative '../../../../utils/sli_utils.rb'
 require_relative '../../../utils/api_utils.rb'
+require_relative '../../../../security/step_definitions/securityevent_util_steps.rb'
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "educationOrganizations"                     if human_readable_id == "EDUCATION ORGANIZATION URI"
