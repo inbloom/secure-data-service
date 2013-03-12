@@ -22,12 +22,16 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.ws.rs.core.PathSegment;
 import javax.xml.bind.DatatypeConverter;
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Component;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.PathConstants;
-import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -51,9 +55,10 @@ import org.springframework.stereotype.Component;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+
 /**
  * Pre-request processing filter. Adds security information for the user Records start time of the request
- * 
+ *
  * @author dkornishev
  */
 @Component
@@ -61,7 +66,6 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
     private static final List<String> WRITE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(), ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString());
     private static final List<String> CONTEXTERS = Arrays.asList(PathConstants.STUDENT_SCHOOL_ASSOCIATIONS, PathConstants.STUDENT_SECTION_ASSOCIATIONS, PathConstants.STUDENT_COHORT_ASSOCIATIONS, PathConstants.STUDENT_PROGRAM_ASSOCIATIONS);
-    
     @Resource(name = "urlValidators")
     private List<URLValidator> urlValidators;
 
@@ -106,32 +110,20 @@ public class PreProcessFilter implements ContainerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(auth);
         TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal()).getTenantId());
 
-        // Create obligations
+        //  Create obligations
         SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
-        
-        for(PathSegment seg : request.getPathSegments()) {
-            String resourceName = seg.getPath();
-            if(ResourceNames.STUDENTS.equals(resourceName)) {
-                break;
-            }
-            
-            if(CONTEXTERS.contains(resourceName)) {               
-                if(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS.equals(resourceName)) {                    
-                    prince.addObligation(resourceName.replaceAll("s$",""), construct("exitWithdrawDate"));
-                }
-                else {
-                    prince.addObligation(resourceName.replaceAll("s$",""), construct("endDate"));
-                }
-                
-                info("Injected a date-based obligation on association: {}", resourceName);
-            }
+        if(request.getPathSegments().size() > 4 && CONTEXTERS.contains(request.getPathSegments().get(3).getPath())) {
+            prince.addObligation(EntityNames.STUDENT_SCHOOL_ASSOCIATION, construct("exitWithdrawDate"));
+            prince.addObligation(EntityNames.STUDENT_SECTION_ASSOCIATION, construct("endDate"));
+            prince.addObligation(EntityNames.STUDENT_PROGRAM_ASSOCIATION, construct("endDate"));
+            prince.addObligation(EntityNames.STUDENT_COHORT_ASSOCIATION, construct("endDate"));
         }
-        
     }
 
     /**
-     * Creates a list of criteria which will be OR'ed when queries that are relevant are being executed
-     * 
+     * Creates a list of criteria which will be OR'ed when queries that are relevant
+     * are being executed
+     *
      * @param fieldName
      * @return
      */
@@ -146,8 +138,9 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
     /**
      * Returns true if the request is a write operation.
-     * 
-     * @param request Request to be checked.
+     *
+     * @param request
+     *            Request to be checked.
      * @return True if the request method is a PUT, PATCH, or DELETE, false otherwise.
      */
     private boolean isWrite(String operation) {
@@ -160,7 +153,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
     /**
      * Validate the request url
-     * 
+     *
      * @param request
      */
     private void validate(ContainerRequest request) {
@@ -170,7 +163,8 @@ public class PreProcessFilter implements ContainerRequestFilter {
             if (!validator.validate(request.getRequestUri())) {
                 request.getProperties().put("logIntoDb", false);
                 List<ValidationError> errors = new ArrayList<ValidationError>();
-                errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request.getRequestUri().toString(), null));
+                errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request
+                        .getRequestUri().toString(), null));
                 throw new EntityValidationException("", "", errors);
             }
         }
