@@ -129,7 +129,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1     | "/staff/@ids/staffEducationOrgAssignmentAssociations" |
       | staffProgramAssociation                | staffProgramAssociations                 | 3     | "/staff/@ids/staffProgramAssociations" |
       | studentAssessment           | studentAssessments                       | 0     | "/schools/@ids/studentSchoolAssociations/students/studentAssessments" |
-      | studentCohortAssociation               | studentCohortAssociations                | 6     | "/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations" |
+      | studentCohortAssociation               | studentCohortAssociations                | 4     | "/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations" |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0     | "/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations" |
       | studentParentAssociation               | studentParentAssociations                | 0     | "/schools/@ids/studentSchoolAssociations/students/studentParentAssociations" |
       | studentProgramAssociation              | studentProgramAssociations               | 10    | "/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations" |
