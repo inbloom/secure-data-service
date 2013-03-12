@@ -19,6 +19,7 @@ limitations under the License.
 
 require 'json'
 require_relative '../../../../utils/sli_utils.rb'
+require_relative '../../../../security/step_definitions/securityevent_util_steps.rb'
 
 Transform /the cohort "([^"]*)"/ do |arg1|
   id = "b40926af-8fd5-11e1-86ec-0021701f543f_id" if arg1 == "ACC-TEST-COH-2"
