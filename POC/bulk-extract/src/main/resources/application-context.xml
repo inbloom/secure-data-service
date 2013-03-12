@@ -105,14 +105,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 		<property name="retryWaitMillis" value="${sli.search.indexer.retryWaitMillis:2000}"></property>
 	</bean>
 	
-	<bean id="extractor" class="org.slc.sli.search.process.impl.ExtractorImpl" init-method="init" destroy-method="destroy">
-		<property name="sourceDatastoreConnector" ref="sourceDatasourceConnector" />
-		<property name="indexConfigStore" ref="indexConfigStore" />
-		<property name="loader" ref="loader" />
-		<property name="extractDir" value="${sli.search.indexer.dir.extract:data/tmp}" />
-		<property name="runOnStartup" value="${sli.search.indexer.extract.runOnStartup}" />
-	</bean>
-	
 	<bean id="incrementalListener" class="org.slc.sli.search.process.impl.IncrementalListenerImpl">
 		<property name="indexer" ref="indexer" />
 		<property name="indexEntityConverter" ref="indexEntityConverter" />
@@ -182,5 +174,67 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 		<property name="jmsTemplate" ref="jmsTemplate"/>
 		<property name="mongoTemplate" ref="sarjeMongoTemplate"/>
 	</bean>
+
+    <util:map id="entities"  key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="assessment" value="assessment" />
+        <entry key="assessmentFamily" value="" />
+        <entry key="assessmentPeriodDescriptor" value="" />
+        <entry key="attendance" value="" />
+        <entry key="cohort" value="" />
+        <entry key="competencyLevelDescriptor" value="" />
+        <entry key="competencyLevelDescriptorType" value="" />
+        <entry key="course" value="" />
+        <entry key="courseOffering" value="" />
+        <entry key="courseTranscript" value="" />
+        <entry key="disciplineIncident" value="" />
+        <entry key="disciplineAction" value="" />
+        <entry key="educationOrganization" value="" />
+        <entry key="grade" value="" />
+        <entry key="gradebookEntry" value="" />
+        <entry key="gradingPeriod" value="" />
+        <entry key="graduationPlan" value="" />
+        <entry key="learningObjective" value="" />
+        <entry key="learningStandard" value="" />
+        <entry key="objectiveAssessment" value="" />
+        <entry key="parent" value="" />
+        <entry key="program" value="" />
+        <entry key="reportCard" value="" />
+        <entry key="school" value="" />
+        <entry key="section" value="" />
+        <entry key="session" value="" />
+        <entry key="staff" value="" />
+        <entry key="staffCohortAssociation" value="" />
+        <entry key="staffEducationOrganizationAssociation" value="" />
+        <entry key="staffProgramAssociation" value="" />
+        <entry key="student" value="" />
+        <entry key="studentAcademicRecord" value="" />
+        <entry key="studentAssessment" value="" />
+        <entry key="studentCohortAssociation" value="" />
+        <entry key="studentCompetency" value="" />
+        <entry key="studentCompetencyObjective" value="" />
+        <entry key="studentDisciplineIncidentAssociation" value="" />
+        <entry key="studentObjectiveAssessment" value="" />
+        <entry key="studentProgramAssociation" value="" />
+        <entry key="studentGradebookEntry" value="" />
+        <entry key="studentSchoolAssociation" value="" />
+        <entry key="studentSectionAssociation" value="" />
+        <entry key="studentParentAssociation" value="" />
+        <entry key="teacher" value="" />
+        <entry key="teacherSchoolAssociation" value="" />
+        <entry key="teacherSectionAssociation" value="" />
+    </util:map>
+
+    <util:map id="queriedEntities" key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="educationOrganization" value="educationOrganization" />
+        <entry key="school" value="educationOrganization" />
+        <entry key="staff" value="staff" />
+        <entry key="teacher" value="staff" />
+    </util:map>
+
+    <bean id="extractor" class="extract.ExtractorImpl">
+         <property name="entities" ref="entities" />
+         <property name="queriedEntities" ref="queriedEntities" />
+         <property name="entityRepository" ref="mongoEntityRepository" />
+    </bean>
 
 </beans>
