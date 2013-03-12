@@ -84,7 +84,7 @@ public class ContainerDocumentAccessorTest {
         final ContainerDocument attendance = createAttendanceContainer();
         final MongoEntity entity = createAttendanceEntity();
         final NaturalKeyDescriptor stubKeyDescriptor =
-                ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, attendance.getParentNaturalKeys());
+                ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, attendance.getParentNaturalKeys(), attendance.getCollectionToPersist());
 
         when(mockHolder.getContainerDocument(ATTENDANCE)).thenReturn(attendance);
         when(generatorStrategy.generateId(stubKeyDescriptor)).thenReturn("abc-123");

@@ -22,6 +22,7 @@ import com.mongodb.DBObject;
 import org.slc.sli.common.domain.ContainerDocument;
 import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
@@ -38,13 +39,14 @@ import java.util.Map;
 public class ContainerDocumentHelper {
 
     public static NaturalKeyDescriptor extractNaturalKeyDescriptor(final Entity entity,
-                                                                   final List<String> parentKeys) {
+                                                                   final List<String> parentKeys, String collectionToPersist) {
         final Map<String, String> naturalKeyMap = new HashMap<String, String>();
         for (final String key : parentKeys) {
             String value = (String) entity.getBody().get(key);
             naturalKeyMap.put(key, value);
         }
-        return new NaturalKeyDescriptor(naturalKeyMap);
+        String tenantId = TenantContext.getTenantId();
+        return new NaturalKeyDescriptor(naturalKeyMap, tenantId, collectionToPersist, null);
     }
 
     public static DBObject buildDocumentToPersist(final ContainerDocumentHolder containerDocumentHolder, final Entity entity, final UUIDGeneratorStrategy generatorStrategy, final INaturalKeyExtractor naturalKeyExtractor) {
@@ -92,7 +94,7 @@ public class ContainerDocumentHelper {
 
         if (entity.getEntityId() == null || entity.getEntityId().isEmpty()) {
             final List<String> parentKeys = containerDocument.getParentNaturalKeys();
-            final NaturalKeyDescriptor naturalKeyDescriptor = extractNaturalKeyDescriptor(entity, parentKeys);
+            final NaturalKeyDescriptor naturalKeyDescriptor = extractNaturalKeyDescriptor(entity, parentKeys, containerDocument.getCollectionToPersist());
             return generatorStrategy.generateId(naturalKeyDescriptor);
         } else if (containerDocument.isContainerSubdoc()) {
             return extractParentId(entity.getEntityId());

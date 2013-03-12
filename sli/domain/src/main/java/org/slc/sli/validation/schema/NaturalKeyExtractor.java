@@ -56,6 +56,7 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
 
     @Autowired
     private ContainerDocumentHolder containerDocumentHolder;
+
     /*
      * (non-Javadoc)
      *
@@ -161,10 +162,9 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
                         Boolean isOptional = !fieldsAppInfo.isRequired() || fieldSchemaChoice;
                         naturalKeyFields.put(fieldXPath, isOptional);
                     }
-                }
-                else {
+                } else {
                     String schemaClass = fieldSchema.getValidatorClass();
-                    if (schemaClass.equals ("org.slc.sli.validation.schema.ChoiceSchema")) {
+                    if (schemaClass.equals("org.slc.sli.validation.schema.ChoiceSchema")) {
                         getNaturalKeyFields(naturalKeyFields, fieldSchema, true, fieldXPath + ".");
                     }
                 }
@@ -212,7 +212,9 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
                     String value = (String) entity.getBody().get(key);
                     naturalKeyMap.put(key, value);
                 }
-                return generatorStrategy.generateId(new NaturalKeyDescriptor(naturalKeyMap));
+                String entityType = containerDocument.getCollectionToPersist();
+                String tenantId = TenantContext.getTenantId();
+                return generatorStrategy.generateId(new NaturalKeyDescriptor(naturalKeyMap, tenantId, entityType, null));
 
             }
         }

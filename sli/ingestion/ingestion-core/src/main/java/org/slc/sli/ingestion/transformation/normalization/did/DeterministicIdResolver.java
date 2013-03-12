@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slc.sli.common.domain.ContainerDocument;
 import org.slc.sli.common.domain.ContainerDocumentHolder;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -350,14 +351,15 @@ public class DeterministicIdResolver implements BatchJobStage {
 
                 final Map<String, String> naturalKeyMap = new HashMap<String, String>();
                 for (final String parentKey : parentKeys) {
-                    String value ="";
+                    String value = "";
                     if (naturalKeys.containsKey(parentKey)) {
                         value = naturalKeys.get(parentKey);
                     }
                     naturalKeyMap.put(parentKey, value);
                 }
 
-                parentId = uuidGeneratorStrategy.generateId(new NaturalKeyDescriptor(naturalKeyMap));
+                String parentEntityType = containerDocument.getCollectionToPersist();
+                parentId = uuidGeneratorStrategy.generateId(new NaturalKeyDescriptor(naturalKeyMap, tenantId, parentEntityType, null));
                 if (parentId == null) {
                     throw new IdResolutionException("Container doc must have a parent reference", didRefConfig.getEntityType(), null);
                 }
