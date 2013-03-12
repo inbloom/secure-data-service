@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -62,12 +61,6 @@ public class SecurityEventContextResolverTest {
 			.asList(RoleInitializer.LEA_ADMINISTRATOR);
 
 	@Autowired
-	EdOrgHelper helper;
-
-	@Autowired
-	private EdOrgHelper edOrgHelper;
-
-	@Autowired
 	private SecurityEventContextResolver resolver;
 
 	private static final String RESOURCE_NAME = "securityEvent";
@@ -82,10 +75,8 @@ public class SecurityEventContextResolverTest {
 		homeEdOrgs.add("IL");
 		EdOrgHelper helper = Mockito.mock(EdOrgHelper.class);
 		resolver.setEdOrgHelper(helper);
-		Set<String> edOrgs = new HashSet<String>();
-		edOrgs.add("b1bd3db6-d020-4651-b1b8-a8dba688d9e1");
 		Set<String> delegatedLEAStateIds  = new HashSet<String>();
-		Mockito.when(helper.getDelegatedEdorgDescendents(edOrgs)).thenReturn(delegatedLEAStateIds);
+		Mockito.when(helper.getDelegatedEdorgDescendents()).thenReturn(delegatedLEAStateIds);
 		homeEdOrgs.addAll(delegatedLEAStateIds);
 		NeutralQuery or = createFilter(homeEdOrgs, ROLES_SEA_OR_REALM_ADMIN);
 		NeutralQuery query = new NeutralQuery();
@@ -110,7 +101,7 @@ public class SecurityEventContextResolverTest {
 		return or;
 	}
 
-	@Ignore
+
 	@Test
 	public void testFindAccessibleForSEAAdministratorWithDelegation() {
 		setAuth("SEA Administrator","IL");
@@ -118,8 +109,11 @@ public class SecurityEventContextResolverTest {
 				.mock(PagingRepositoryDelegate.class);
 		Set<String> delegatedEdOrgs = new HashSet<String>();
 		delegatedEdOrgs.add("IL-SUNSET");
-		delegatedEdOrgs.add("IL_LONGWOOD");
+		delegatedEdOrgs.add("IL-LONGWOOD");
 		delegatedEdOrgs.add("Sunset Central High School");
+		EdOrgHelper helper = Mockito.mock(EdOrgHelper.class);
+		resolver.setEdOrgHelper(helper);
+		Mockito.when(helper.getDelegatedEdorgDescendents()).thenReturn(delegatedEdOrgs);
 		Set<String> homeEdOrgs = new HashSet<String>();
 		homeEdOrgs.add("IL");
 		NeutralQuery or = createFilter(homeEdOrgs,ROLES_SEA_OR_REALM_ADMIN);

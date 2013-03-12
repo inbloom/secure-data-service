@@ -110,7 +110,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 								filters.add(or);
 
 								Set<String> delegatedLEAStateIds = edOrgHelper
-										.getDelegatedEdorgDescendents(edOrgs);
+										.getDelegatedEdorgDescendents();
 								if (delegatedLEAStateIds.size() > 0) {
 									info(delegatedLEAStateIds
 											+ " have delegated SecurityEvents access to SEA!");

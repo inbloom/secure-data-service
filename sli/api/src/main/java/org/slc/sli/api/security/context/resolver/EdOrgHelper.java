@@ -323,7 +323,7 @@ public class EdOrgHelper {
         return edOrgLineage;
     }
 
-    public Set<String> getDelegatedEdorgDescendents(Set<String> edOrgLineage) {
+    public Set<String> getDelegatedEdorgDescendents() {
 
     	List<String> getSecurityEventDelegateEdOrg =  delegationUtil.getSecurityEventDelegateStateIds();
     	List<String> getSecurityEventDelegateEdOrgIds = delegationUtil.getSecurityEventDelegateEdOrgs();
