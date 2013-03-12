@@ -314,12 +314,12 @@ Examples:
          And "administrationEnvironment" should be "School"
      Then I delete both studentAssessment and Assessment
 
-  #yearlyAttendance CRUD tests
+  #yearlyAttendance CRUD
   @us5389
-  Scenario Outline:yearlyAttendance CRUD
+  Scenario: yearlyAttendance CRUD
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-      And entity URI <Entity Resource URI>
-      And an entity json document for a <Entity Type>
+      And entity URI "yearlyAttendances"
+      And an entity json document for a "yearlyAttendance"
   # Create
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 201
@@ -331,7 +331,7 @@ Examples:
     And "entityType" should be "attendance"
     And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
   # Update
-    When I set the <Update Field> array to "<ATT_EVENT_ARRAY>"
+    When I set the "attendanceEvent" array to "<ATT_EVENT_ARRAY>"
     And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 204
   # Delete
@@ -340,12 +340,7 @@ Examples:
     And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     And I should receive a return code of 404
 
-  Examples:
-    | Entity Type                             | Entity Resource URI | Update Field      |
-    | "yearlyAttendance"                      | "yearlyAttendances" | "attendanceEvent" |
-
-  #yearlyAttendance CRUD
-  @us5389 @1parttest
+  @us5389
   Scenario:  yearlyAttendance CRUD - read not allowed on /yearlyAttendance
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And entity URI "yearlyAttendance"
@@ -353,6 +348,53 @@ Examples:
     When I navigate to GET "/<ENTITY URI>"
     Then I should receive a return code of 404
 
+  @us5389
+  Scenario: yearlyAttendance CRUD for duplicate entity
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And entity URI "yearlyAttendances"
+    And an entity json document for a "yearlyAttendance"
+  # Create duplicate entity.
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI after a successful response
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 409
+  # Read
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+    And the response should contain the appropriate fields and values
+    And "entityType" should be "attendance"
+    And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+    And the response should contain the appropriate fields and values
+    And "entityType" should be "attendance"
+    And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+  # Update. Should be able to update the entity multiple times.
+    When I set the "attendanceEvent" array to "<ATT_EVENT_ARRAY>"
+    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    When I set the "attendanceEvent" array to "<ATT_EVENT_ARRAY>"
+    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+  # Delete
+    When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+    And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    And I should receive a return code of 404
+    When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 404
+    And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    And I should receive a return code of 404
+
+  @us5389
+  Scenario: yearlyAttendance CRUD for invalid entity
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And entity URI "yearlyAttendances"
+    And an entity json document for a "invalidYearlyAttendance"
+  # Create using invalid entity.
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 400
 
   Scenario Outline: CRUD operations till we unwip auto_crud
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
@@ -385,3 +427,32 @@ Examples:
   Examples:
     | Entity Type                    | Entity Resource URI   | Update Field             | Updated Value             |
     | "gradebookEntry"               | "gradebookEntries"    | "description"            | "Updated description"     |
+
+
+  Scenario Outline: Get modified grade, reportCard and AcademicRecord entities
+
+    Given I am logged in using "cgray" "cgray1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    And my contextual access is defined by table:
+      | Context                | Ids                                                                          |
+      | schools	             | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe    |
+      | educationOrganizations | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe    |
+      | staff	                 | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
+      | teachers               | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
+      | sections               | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234_id |
+    Given entity URI <Entity Resource URI>
+    Given parameter "limit" is "250"
+    When I navigate to GET "/<ENTITY URI>"
+    Then I should receive a return code of 200
+    And I should receive a collection of "<Count>" entities
+    And each entity's "entityType" should be <Entity Type>
+    #And each entity's "schoolyear" value should be <school year>
+    And uri was rewritten to "<Rewrite URI>"
+    And the response should contain the "<school year>" field
+
+
+  Examples:
+    | Entity Type             | Entity Resource URI       | Count | Rewrite URI|                                                                  |school year|
+    | "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|     |2010-2011|
+    | "grade"                 | "grades"                  | 1     |/sections/@ids/studentSectionAssociations/grades|                              |2010-2011|
+    | "reportCard"            | "reportCards"             | 3     |/sections/@ids/studentSectionAssociations/students/reportCards|                |2010-2011|

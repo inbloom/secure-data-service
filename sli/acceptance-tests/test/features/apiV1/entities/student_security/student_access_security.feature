@@ -1,6 +1,210 @@
 Feature: Student Access Security Mega Test
 I want to test all combinations and permutations of accessing student data
 
+@DE_2712 @wip
+Scenario Outline: Users accessing students via multi-part URIs for Sections
+Given I am user <User> in IDP "SEC"
+When I make an API call to get all students in the section <Section>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include the students <Accessable Students>
+When I make an API call to get student associations to the section <Section>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include associaitons for the students <Accessable Students>
+Examples:
+  | User   | Section  |Code |Count| Accessable Students  | Comments |
+  |"teach1"|"section0"| 200 |  2  | "student04;student05"| Educator role teacher has no end date on teacherSectionAssociation |
+  |"teach2"|"section0"| 200 |  2  | "student04;student05"| Leader role teacher has no end date on teacherSectionAssociation |
+  |"teach3"|"section0"| 200 |  2  | "student04;student05"| IT Admin role teacher has no end date on teacherSectionAssociation |
+  |"teach4"|"section0"| 403 |  0  | "none"               | Agg Viewer role teacher has no end date on teacherSectionAssociation |
+  |"teach1"|"section1"| 200 |  2  | "student01;student02"| Educator role teacher has future end date on teacherSectionAssociation |
+  |"teach2"|"section1"| 200 |  2  | "student01;student02"| Leader role teacher has future end date on teacherSectionAssociation |
+  |"teach3"|"section1"| 200 |  2  | "student01;student02"| IT Admin role teacher has future end date on teacherSectionAssociation |
+  |"teach4"|"section1"| 403 |  0  | "none"               | Agg Viewer role teacher has future end date on teacherSectionAssociation |
+  |"teach1"|"section2"| 403 |  0  | "none"               | Educator role teacher has past end date on teacherSectionAssociation |
+  |"teach2"|"section2"| 403 |  0  | "none"               | Leader role teacher has past end date on teacherSectionAssociation |
+  |"teach3"|"section2"| 403 |  0  | "none"               | IT Admin role teacher has past end date on teacherSectionAssociation |
+  |"teach4"|"section2"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on teacherSectionAssociation |
+  |"teach1"|"section3"| 403 |  0  | "none"               | Educator role teacher has no teacherSectionAssociation to section |
+  |"teach2"|"section3"| 403 |  0  | "none"               | Leader role teacher has no teacherSectionAssociation to section |
+  |"teach3"|"section3"| 403 |  0  | "none"               | IT Admin role teacher has no teacherSectionAssociation to section |
+  |"teach4"|"section3"| 403 |  0  | "none"               | Agg Viewer role teacher has no teacherSectionAssociation to section |
+  #Staff
+  |"staff1" |"section0"| 200 |  2  | "student04;student05"| school-staff as Educator |
+  |"staff2" |"section0"| 200 |  2  | "student04;student05"| school-staff as Leader |
+  |"staff3" |"section0"| 200 |  2  | "student04;student05"| school-staff as IT Admin |
+  |"staff4" |"section0"| 403 |  0  | "none"               | school-staff as Agg Viewer |
+  |"staff5" |"section0"| 403 |  0  | "none"               | school-staff with expired associaiton |
+  |"staff6" |"section0"| 200 |  2  | "student04;student05"| district-staff as Educator |
+  |"staff7" |"section0"| 200 |  2  | "student04;student05"| district-staff as Leader |
+  |"staff8" |"section0"| 200 |  2  | "student04;student05"| district-staff as IT Admin |
+  |"staff9" |"section0"| 403 |  0  | "none"               | district-staff as Agg Viewer |
+  |"staff10"|"section0"| 403 |  0  | "none"               | district-staff with expired association |
+  |"staff11"|"section0"| 200 |  2  | "student04;student05"| state-staff as Educator |
+  |"staff12"|"section0"| 200 |  2  | "student04;student05"| state-staff as Leader |
+  |"staff13"|"section0"| 200 |  2  | "student04;student05"| state-staff as IT Admin |
+  |"staff14"|"section0"| 403 |  0  | "none"               | state-staff as Agg Viewer |
+  |"staff15"|"section0"| 403 |  0  | "none"               | state-staff with expired association |
+  |"staff1" |"section1"| 200 |  2  | "student01;student02"| school-staff as Educator |
+  |"staff2" |"section1"| 200 |  2  | "student01;student02"| school-staff as Leader |
+  |"staff3" |"section1"| 200 |  2  | "student01;student02"| school-staff as IT Admin |
+  |"staff4" |"section1"| 403 |  0  | "none"               | school-staff as Agg Viewer |
+  |"staff5" |"section1"| 403 |  0  | "none"               | school-staff with expired associaiton |
+  |"staff6" |"section1"| 200 |  2  | "student01;student02"| district-staff as Educator |
+  |"staff7" |"section1"| 200 |  2  | "student01;student02"| district-staff as Leader |
+  |"staff8" |"section1"| 200 |  2  | "student01;student02"| district-staff as IT Admin |
+  |"staff9" |"section1"| 403 |  0  | "none"               | district-staff as Agg Viewer |
+  |"staff10"|"section1"| 403 |  0  | "none"               | district-staff with expired association |
+  |"staff11"|"section1"| 200 |  2  | "student01;student02"| state-staff as Educator |
+  |"staff12"|"section1"| 200 |  2  | "student01;student02"| state-staff as Leader |
+  |"staff13"|"section1"| 200 |  2  | "student01;student02"| state-staff as IT Admin |
+  |"staff14"|"section1"| 403 |  0  | "none"               | state-staff as Agg Viewer |
+  |"staff15"|"section1"| 403 |  0  | "none"               | state-staff with expired association |
+  |"staff1" |"section2"| 200 |  2  | "student07;student08"| school-staff as Educator |
+  |"staff2" |"section2"| 200 |  2  | "student07;student08"| school-staff as Leader |
+  |"staff3" |"section2"| 200 |  2  | "student07;student08"| school-staff as IT Admin |
+  |"staff4" |"section2"| 403 |  0  | "none"               | school-staff as Agg Viewer |
+  |"staff5" |"section2"| 403 |  0  | "none"               | school-staff with expired associaiton |
+  |"staff6" |"section2"| 200 |  2  | "student07;student08"| district-staff as Educator |
+  |"staff7" |"section2"| 200 |  2  | "student07;student08"| district-staff as Leader |
+  |"staff8" |"section2"| 200 |  2  | "student07;student08"| district-staff as IT Admin |
+  |"staff9" |"section2"| 403 |  0  | "none"               | district-staff as Agg Viewer |
+  |"staff10"|"section2"| 403 |  0  | "none"               | district-staff with expired association |
+  |"staff11"|"section2"| 200 |  2  | "student07;student08"| state-staff as Educator |
+  |"staff12"|"section2"| 200 |  2  | "student07;student08"| state-staff as Leader |
+  |"staff13"|"section2"| 200 |  2  | "student07;student08"| state-staff as IT Admin |
+  |"staff14"|"section2"| 403 |  0  | "none"               | state-staff as Agg Viewer |
+  |"staff15"|"section3"| 403 |  0  | "none"               | state-staff with expired association |
+  |"staff1" |"section3"| 200 |  1  | "student10"          | school-staff as Educator |
+  |"staff2" |"section3"| 200 |  1  | "student10"          | school-staff as Leader |
+  |"staff3" |"section3"| 200 |  1  | "student10"          | school-staff as IT Admin |
+  |"staff4" |"section3"| 403 |  0  | "none"               | school-staff as Agg Viewer |
+  |"staff5" |"section3"| 403 |  0  | "none"               | school-staff with expired associaiton |
+  |"staff6" |"section3"| 200 |  1  | "student10"          | district-staff as Educator |
+  |"staff7" |"section3"| 200 |  1  | "student10"          | district-staff as Leader |
+  |"staff8" |"section3"| 200 |  1  | "student10"          | district-staff as IT Admin |
+  |"staff9" |"section3"| 403 |  0  | "none"               | district-staff as Agg Viewer |
+  |"staff10"|"section3"| 403 |  0  | "none"               | district-staff with expired association |
+  |"staff11"|"section3"| 200 |  1  | "student10"          | state-staff as Educator |
+  |"staff12"|"section3"| 200 |  1  | "student10"          | state-staff as Leader |
+  |"staff13"|"section3"| 200 |  1  | "student10"          | state-staff as IT Admin |
+  |"staff14"|"section3"| 403 |  0  | "none"               | state-staff as Agg Viewer |
+  |"staff15"|"section3"| 403 |  0  | "none"               | state-staff with expired association |
+
+@DE_2712 @wip
+Scenario Outline: Users accessing students via multi-part URIs for Cohorts
+Given I am user <User> in IDP "SEC"
+When I make an API call to get all students in the cohort <Cohort>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include the students <Accessable Students>
+When I make an API call to get student associations to the cohort <Cohort>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include associaitons for the students <Accessable Students>
+
+Examples:
+  | User   | Cohort  |Code |Count| Accessable Students  | Comments |
+  |"teach1"|"cohort0"| 200 |  2  | "student14;student15"| Educator role teacher has no end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach2"|"cohort0"| 200 |  2  | "student14;student15"| Leader role teacher has no end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach3"|"cohort0"| 200 |  2  | "student14;student15"| IT Admin role teacher has no end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach4"|"cohort0"| 403 |  0  | "none"               | Agg Viewer role teacher has no end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach1"|"cohort1"| 403 |  0  | "none"               | Educator role teacher has no end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach2"|"cohort1"| 403 |  0  | "none"               | Leader role teacher has no end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach3"|"cohort1"| 403 |  0  | "none"               | IT Admin role teacher has no end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach4"|"cohort1"| 403 |  0  | "none"               | Agg Viewer role teacher has no end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach1"|"cohort2"| 200 |  2  | "student11;student12"| Educator role teacher has future end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach2"|"cohort2"| 200 |  2  | "student11;student12"| Leader role teacher has future end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach3"|"cohort2"| 200 |  2  | "student11;student12"| IT Admin role teacher has future end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach4"|"cohort2"| 403 |  0  | "none"               | Agg Viewer role teacher has future end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach1"|"cohort3"| 403 |  0  | "none"               | Educator role teacher has future end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach2"|"cohort3"| 403 |  0  | "none"               | Leader role teacher has future end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach3"|"cohort3"| 403 |  0  | "none"               | IT Admin role teacher has future end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach4"|"cohort3"| 403 |  0  | "none"               | Agg Viewer role teacher has future end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach1"|"cohort4"| 403 |  0  | "none"               | Educator role teacher has past end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach2"|"cohort4"| 403 |  0  | "none"               | Leader role teacher has past end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach3"|"cohort4"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach4"|"cohort4"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffCohortAssociation, studentRecordAccess true |
+  |"teach1"|"cohort5"| 403 |  0  | "none"               | Educator role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach2"|"cohort5"| 403 |  0  | "none"               | Leader role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach3"|"cohort5"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
+  |"teach4"|"cohort5"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffCohortAssociation, studentRecordAccess false |
+
+@DE_2712 @wip
+Scenario Outline: Users accessing students via multi-part URIs for Programs
+Given I am user <User> in IDP "SEC"
+When I make an API call to get all students in the program <Program>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include the students <Accessable Students>
+When I make an API call to get student associations to the program <Program>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include associaitons for the students <Accessable Students>
+Examples:
+  | User   | Program  |Code |Count| Accessable Students | Comment |
+  |"teach1"|"program0"| 200 |  2  | "student32;student33"| Educator role teacher has no end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach2"|"program0"| 200 |  2  | "student32;student33"| Leader role teacher has no end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach3"|"program0"| 200 |  2  | "student32;student33"| IT Admin role teacher has no end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach4"|"program0"| 403 |  0  | "none"               | Agg Viewer role teacher has no end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach1"|"program1"| 403 |  0  | "none"               | Educator role teacher has no end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach2"|"program1"| 403 |  0  | "none"               | Leader role teacher has no end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach3"|"program1"| 403 |  0  | "none"               | IT Admin role teacher has no end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach4"|"program1"| 403 |  0  | "none"               | Agg Viewer role teacher has no end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach1"|"program2"| 200 |  2  | "student29;student30"| Educator role teacher has future end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach2"|"program2"| 200 |  2  | "student29;student30"| Leader role teacher has future end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach3"|"program2"| 200 |  2  | "student29;student30"| IT Admin role teacher has future end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach4"|"program2"| 403 |  0  | "none"               | Agg Viewer role teacher has future end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach1"|"program3"| 403 |  0  | "none"               | Educator role teacher has future end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach2"|"program3"| 403 |  0  | "none"               | Leader role teacher has future end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach3"|"program3"| 403 |  0  | "none"               | IT Admin role teacher has future end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach4"|"program3"| 403 |  0  | "none"               | Agg Viewer role teacher has future end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach1"|"program4"| 403 |  0  | "none"               | Educator role teacher has past end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach2"|"program4"| 403 |  0  | "none"               | Leader role teacher has past end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach3"|"program4"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach4"|"program4"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffProgramAssociation, studentRecordAccess true |
+  |"teach1"|"program5"| 403 |  0  | "none"               | Educator role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach2"|"program5"| 403 |  0  | "none"               | Leader role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach3"|"program5"| 403 |  0  | "none"               | IT Admin role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
+  |"teach4"|"program5"| 403 |  0  | "none"               | Agg Viewer role teacher has past end date on staffProgramAssociation, studentRecordAccess false |
+
+@DE_2712 @wip
+Scenario Outline: Users accessing students via multi-part URIs for Schools
+Given I am user <User> in IDP "SEC"
+When I make an API call to get my student list at School <School>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include the students <Accessable Students>
+When I make an API call to get student associations at School <School>
+Then I should receive a return code of <Code>
+And I should see a count of <Count>
+And I the response should only include associaitons for the students <Accessable Students>
+
+Examples:
+  | User   | School  |Code |Count| Accessable Students  | Comments |
+  |"teach1"|"Secured"| 200 |  4  | "student01;student02;student04;student05" | Teachers cant access students through a school, but this gets rewritten to students in their sections |
+  |"teach2"|"Secured"| 200 |  4  | "student01;student02;student04;student05" | Teachers cant access students through a school, but this gets rewritten to students in their sections |
+  |"teach3"|"Secured"| 200 |  4  | "student01;student02;student04;student05" | Teachers cant access students through a school, but this gets rewritten to students in their sections |
+  |"teach4"|"Secured"| 403 |  0  | "none"               | Teachers cant access students through a school, but this gets rewritten to students in their sections |
+#Staff
+  |"staff1" |"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| school-staff as Educator |
+  |"staff2" |"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| school-staff as Leader |
+  |"staff3" |"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| school-staff as IT Admin |
+  |"staff4" |"Secured"| 403 |  0  | "none"               | school-staff as Agg Viewer |
+  |"staff5" |"Secured"| 403 |  0  | "none"               | school-staff with expired associaiton |
+  |"staff6" |"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| district-staff as Educator |
+  |"staff7" |"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| district-staff as Leader |
+  |"staff8" |"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| district-staff as IT Admin |
+  |"staff9" |"Secured"| 403 |  0  | "none"               | district-staff as Agg Viewer |
+  |"staff10"|"Secured"| 403 |  0  | "none"               | district-staff with expired association |
+  |"staff11"|"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| state-staff as Educator |
+  |"staff12"|"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| state-staff as Leader |
+  |"staff13"|"Secured"| 200 |  45 | "student01;student02;student04;student05;student06;student07;student08;student09;student10;student11;student12;student13;student14;student15;student16;student17;student18;student19;student20;student21;student22;student23;student24;student25;student26;student27;student28;student29;student30;student31;student32;student33;student34;student35;student36;student37;student38;student39;student40;student41;student42;student43;student44;student45;student46"| state-staff as IT Admin |
+  |"staff14"|"Secured"| 403 |  0  | "none"               | state-staff as Agg Viewer |
+  |"staff15"|"Secured"| 403 |  0  | "none"               | state-staff with expired association |
+
+
 @smoke
 Scenario Outline: Teacher attempt to access students through sections
   Given I am user <User> in IDP "SEC"
