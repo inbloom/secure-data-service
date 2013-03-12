@@ -16,8 +16,8 @@ Scenario Outline: As a teacher or leader I want to see all my students in 3rd pe
 
     When I navigate to GET "/v1/teachers/<'Linda Kim' ID>"
     Then I should receive a return code of <RC>
-    Then I should receive a link named "getTeacherSectionAssociations" with URI "/v1.1/teachers/<'Linda Kim' ID>/teacherSectionAssociations"
-        And I should receive a link named "getSections" with URI "/v1.1/teachers/<'Linda Kim' ID>/teacherSectionAssociations/sections"
+    Then I should receive a link named "getTeacherSectionAssociations" with URI "/v1.2/teachers/<'Linda Kim' ID>/teacherSectionAssociations"
+        And I should receive a link named "getSections" with URI "/v1.2/teachers/<'Linda Kim' ID>/teacherSectionAssociations/sections"
         And I should receive a link named "self" with URI "/teachers/<'Linda Kim' ID>"
 
     When I navigate to "getSections" with URI "/v1/teachers/<'Linda Kim' ID>/teacherSectionAssociations/sections"
@@ -62,8 +62,8 @@ Scenario Outline: As a teacher or leader I want to see all my students in 3rd pe
         And I should have an entity with ID "<'Gerardo Rounsaville' ID>"
 
     When I navigate to GET "/v1/students/<'Matt Sollars' ID>"
-    Then I should receive a link named "getStudentAssessments" with URI "/v1.1/students/<'Matt Sollars' ID>/studentAssessments"
-        And I should receive a link named "getAssessments" with URI "/v1.1/students/<'Matt Sollars' ID>/studentAssessments/assessments"
+    Then I should receive a link named "getStudentAssessments" with URI "/v1.2/students/<'Matt Sollars' ID>/studentAssessments"
+        And I should receive a link named "getAssessments" with URI "/v1.2/students/<'Matt Sollars' ID>/studentAssessments/assessments"
 
     When I navigate to "getAssessments" with URI "/v1/students/<'Matt Sollars' ID>/studentAssessments/assessments" and filter by assessmentTitle is "SAT 2"
     Then I should have a list of 1 "assessment" entities

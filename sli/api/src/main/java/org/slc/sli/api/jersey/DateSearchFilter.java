@@ -116,7 +116,7 @@ public class DateSearchFilter implements ContainerRequestFilter {
 
         Matcher m = ID_REPLACEMENT_PATTERN.matcher(requestPath);
 
-        if (m.find()){
+        if (m.matches()){
             // transform requestPath from "v1.x/foo/2344,3453,5345/bar" to "v1.x/foo/{id}/bar"
             requestPath = m.group(1) + PathConstants.ID_PLACEHOLDER + m.group(2);
         }

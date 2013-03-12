@@ -83,10 +83,10 @@ When /^I navigate to POST "([^"]*)"$/ do |post_uri|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-When /^I set the "([^"]*)" array to "([^"]*)"$/ do |property,value|
+When /^I set the "([^"]*)" array to (.*)$/ do |property,value|
   @fields = {} if !defined? @fields
   if (value.is_a?(Array))
-    @fields[property] = value
+    step "\"#{property}\" is \"#{value}\""
   else
     @fields[property] = eval(value)
   end
@@ -329,5 +329,11 @@ def data_builder
   formatted_data
 end
 
+Then /^the response should contain the "([^"]*)" field$/ do  |school_year|
+    jsonresult = JSON.parse(@res.body)
+    jsonresult.each do |data|
+        assert(data["schoolYear"] == school_year, "School year matches")
+    end
+end
 
 

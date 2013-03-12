@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd">
+
+
+     <bean id="ApplicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+         <property name="ignoreResourceNotFound" value="true" />
+         <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+         <property name="locations">
+             <list>
+                 <value>file:///${sli.conf}</value>
+
+                 <!--  override specific properties for testing -->
+                 <value>file:///${sli.test.conf}</value>
+             </list>
+         </property>
+     </bean>
+
+     <import resource="classpath:/spring/db.xml"/>
+
+    <bean id="validator" class="org.slc.sli.validation.schema.ApiNeutralSchemaValidator" />
+
+     <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
+     <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
+
+    <context:component-scan base-package="org.slc">
+        <context:exclude-filter type="regex"
+            expression=".*CustomImpl" />
+        <context:exclude-filter type="regex"
+            expression=".*DummyEntityRepository" />
+        <context:exclude-filter type="regex"
+            expression=".*AvroEntityValidator" />
+        <context:exclude-filter type="regex"
+            expression=".*NeutralSchemaValidator" />
+        <context:exclude-filter type="regex"
+            expression=".*AggregationLoader" />
+        <context:exclude-filter type="regex"
+            expression=".*LdapServiceImpl" />
+    </context:component-scan>
+
+</beans>
+
