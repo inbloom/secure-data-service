@@ -1711,20 +1711,27 @@
 			<xs:documentation>New SLC identity type for Grade. Contains an embedded StudentSectionAssociationReference and an optional embedded GradingPeriodReference.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType">
+			<xs:element name="StudentReference" type="SLC-StudentReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
-						<sli:keyFieldName>studentSectionAssociationId</sli:keyFieldName>
+						<sli:keyFieldName>studentId</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0">
-				<xs:annotation>
-					<xs:appinfo>
-						<sli:keyFieldName>gradingPeriodId</sli:keyFieldName>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
+            <xs:element name="SectionReference" type="SLC-SectionReferenceType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>sectionId</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>gradingPeriodId</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="SchoolYear" type="SchoolYearType">
                 <xs:annotation>
                     <xs:appinfo>

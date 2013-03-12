@@ -442,8 +442,8 @@ Scenario: Verify deterministic ids generated: Clean Database
     | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
     | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id | body.incidentIdentifier              | Disruption                           |
 # grade
-    | grade                                | e0455f7be298818b1a3d24ebd2d7d905c25ce145_idc0a2f940e66b69f60b06e580c275633d258666f0_id | body.studentSectionAssociationId     | 9a0c4a206bf607abc2dd4786ebc1e8506311c618_id5cd63b8dd94e74d07b1c22d4d88f84bff419c5fe_id |
-    | grade                                | e0455f7be298818b1a3d24ebd2d7d905c25ce145_idc0a2f940e66b69f60b06e580c275633d258666f0_id | body.gradingPeriodId                 | 51cb091a11fa7a32e3cda1e5ce68128b875cd3b8_id |
+    | grade                                | e0455f7be298818b1a3d24ebd2d7d905c25ce145_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id | body.studentSectionAssociationId     | 9a0c4a206bf607abc2dd4786ebc1e8506311c618_id5cd63b8dd94e74d07b1c22d4d88f84bff419c5fe_id |
+    | grade                                | e0455f7be298818b1a3d24ebd2d7d905c25ce145_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id | body.gradingPeriodId                 | 51cb091a11fa7a32e3cda1e5ce68128b875cd3b8_id |
 # gradebookEntry
     | gradebookEntry                       | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       | 135963f2abd3320ae508546fbff31f37e10b949e_id |
     | gradebookEntry                       | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.gradebookEntryType              | Unit test                                 |
@@ -546,7 +546,7 @@ Scenario: Verify references were resolved correctly
 	#gradingPeriod
 	| session								| 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id											 | body.gradingPeriodReference					 | gradingPeriod							  |
 	| reportCard                            | 709b2eefd3006c8cc7653f40d0e1d9482913f053_id25a038f1108526afc18cc2351de481388b84878c_id 											 | body.gradingPeriodId 						 | gradingPeriod                       		  |
-	| grade                                 | e0455f7be298818b1a3d24ebd2d7d905c25ce145_idc0a2f940e66b69f60b06e580c275633d258666f0_id 											 | body.gradingPeriodId                 		 | gradingPeriod 							  |
+	| grade                                 | e0455f7be298818b1a3d24ebd2d7d905c25ce145_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id 											 | body.gradingPeriodId                 		 | gradingPeriod 							  |
 	| gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_id88cb14f9fbf459281d79c7c0561d6d9542989e02_id | body.gradingPeriodId							 | gradingPeriod							  |
 	#graduationPlan
 	| studentSchoolAssociation				| 53570e4b376fc1466f47eb3f2c0404f5b17eae37_id											 | body.graduationPlanId						| graduationPlan							  |
@@ -601,7 +601,7 @@ Scenario: Verify references were resolved correctly
 	| studentAssessment	         		    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentId            					| student 									  |
 	#studentSectionAssociation
 	| studentGradebookEntry           | 56751666983beeaa65cf74c1178f1f824fe02659_id 											| body.studentSectionAssociationId  			| studentSectionAssociation				  |
-	| grade                           | e0455f7be298818b1a3d24ebd2d7d905c25ce145_idc0a2f940e66b69f60b06e580c275633d258666f0_id 										  | body.studentSectionAssociationId  			| studentSectionAssociation				  |
+	| grade                           | e0455f7be298818b1a3d24ebd2d7d905c25ce145_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id 										  | body.studentSectionAssociationId  			| studentSectionAssociation				  |
 	| studentCompetency               | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											| body.studentSectionAssociationId  			| studentSectionAssociation  			  |
 	
 @integration @IL-Sunset

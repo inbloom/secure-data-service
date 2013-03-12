@@ -270,21 +270,6 @@ public class DidSchemaParser implements ResourceLoaderAware {
             externalRefs.add(assessment);
             objectiveAssessmentConfig.setExternalKeyFields(externalRefs);    
          }
-        DidRefConfig gradeConfig = configs.get("grade");
-        if(gradeConfig != null){
-            KeyFieldDef student =new KeyFieldDef();
-            student.setKeyFieldName("studentId");
-            student.setRefConfig(configs.get("student"));
-            student.setValueSource("GradeReference.GradeIdentity.StudentReference");
-            KeyFieldDef section = new KeyFieldDef();
-            section.setKeyFieldName("sectionId");
-            section.setRefConfig(configs.get("section"));
-            section.setValueSource("GradeReference.GradeIdentity.SectionReference");
-            List<KeyFieldDef> externalRefForGrade = new ArrayList<KeyFieldDef>();
-            externalRefForGrade.add(student);
-            externalRefForGrade.add(section);
-            gradeConfig.setExternalKeyFields(externalRefForGrade);
-        }
 
         return configs;
     }

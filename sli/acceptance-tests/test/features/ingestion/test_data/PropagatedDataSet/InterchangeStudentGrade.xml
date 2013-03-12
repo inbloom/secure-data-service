@@ -5487,26 +5487,21 @@
   <ReportCard id="CAP0-D0-HSch0-stu0_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS0-1-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS0-1-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -5523,26 +5518,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS0-1-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS0-1-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -5703,26 +5693,21 @@
   <ReportCard id="CAP0-D0-HSch0-stu0_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS0-1-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS0-1-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -5739,26 +5724,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS0-1-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS0-1-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -5919,26 +5899,21 @@
   <ReportCard id="CAP0-D0-HSch0-stu1_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS0-1-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS0-1-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -5955,26 +5930,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS0-1-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS0-1-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -6135,26 +6105,21 @@
   <ReportCard id="CAP0-D0-HSch0-stu1_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS0-1-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS0-1-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -6171,26 +6136,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS0-1-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS0-1-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -6351,26 +6311,21 @@
   <ReportCard id="CAP0-D0-HSch1-stu0_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS1-1-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS1-1-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -6387,26 +6342,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS1-0-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS1-0-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -6567,26 +6517,21 @@
   <ReportCard id="CAP0-D0-HSch1-stu0_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS1-1-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS1-1-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -6603,26 +6548,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS1-0-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS1-0-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -6783,26 +6723,21 @@
   <ReportCard id="CAP0-D0-HSch1-stu1_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS1-1-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS1-1-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -6819,26 +6754,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS1-1-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS1-1-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -6999,26 +6929,21 @@
   <ReportCard id="CAP0-D0-HSch1-stu1_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS1-1-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS1-1-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -7035,26 +6960,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D0-HS1-1-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D0-HS1-1-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -7215,26 +7135,21 @@
   <ReportCard id="CAP0-D1-HSch0-stu0_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS0-0-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS0-0-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -7251,26 +7166,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS0-0-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS0-0-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -7431,26 +7341,21 @@
   <ReportCard id="CAP0-D1-HSch0-stu0_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS0-0-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS0-0-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -7467,26 +7372,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS0-0-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS0-0-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -7647,26 +7547,21 @@
   <ReportCard id="CAP0-D1-HSch0-stu1_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS0-1-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS0-1-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -7683,26 +7578,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS0-1-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS0-1-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -7863,26 +7753,21 @@
   <ReportCard id="CAP0-D1-HSch0-stu1_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS0-1-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS0-1-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -7899,26 +7784,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS0-1-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS0-1-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -8079,26 +7959,21 @@
   <ReportCard id="CAP0-D1-HSch1-stu0_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS1-1-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS1-1-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -8115,26 +7990,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS1-1-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS1-1-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -8295,26 +8165,21 @@
   <ReportCard id="CAP0-D1-HSch1-stu0_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS1-1-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS1-1-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -8331,26 +8196,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS1-1-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS1-1-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -8511,26 +8371,21 @@
   <ReportCard id="CAP0-D1-HSch1-stu1_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS1-1-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS1-1-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -8547,26 +8402,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS1-0-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS1-0-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -8727,26 +8577,21 @@
   <ReportCard id="CAP0-D1-HSch1-stu1_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS1-1-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS1-1-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -8763,26 +8608,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP0-D1-HS1-0-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP0-D1-HS1-0-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -8943,26 +8783,21 @@
   <ReportCard id="CAP1-D0-HSch0-stu0_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS0-1-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS0-1-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -8979,26 +8814,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS0-1-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS0-1-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -9159,26 +8989,21 @@
   <ReportCard id="CAP1-D0-HSch0-stu0_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS0-1-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS0-1-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -9195,26 +9020,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS0-1-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS0-1-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -9375,26 +9195,21 @@
   <ReportCard id="CAP1-D0-HSch0-stu1_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS0-0-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS0-0-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -9411,26 +9226,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS0-0-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS0-0-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -9591,26 +9401,21 @@
   <ReportCard id="CAP1-D0-HSch0-stu1_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS0-0-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS0-0-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -9627,26 +9432,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS0-0-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS0-0-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -9807,26 +9607,21 @@
   <ReportCard id="CAP1-D0-HSch1-stu0_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS1-1-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS1-1-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -9843,26 +9638,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS1-0-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS1-0-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -10023,26 +9813,21 @@
   <ReportCard id="CAP1-D0-HSch1-stu0_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS1-1-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS1-1-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -10059,26 +9844,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS1-0-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS1-0-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -10239,26 +10019,21 @@
   <ReportCard id="CAP1-D0-HSch1-stu1_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS1-1-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS1-1-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -10275,26 +10050,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS1-1-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS1-1-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -10455,26 +10225,21 @@
   <ReportCard id="CAP1-D0-HSch1-stu1_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS1-1-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS1-1-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -10491,26 +10256,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D0-HS1-1-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D0-HS1-1-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -10671,26 +10431,21 @@
   <ReportCard id="CAP1-D1-HSch0-stu0_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS0-0-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS0-0-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -10707,26 +10462,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS0-0-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS0-0-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -10887,26 +10637,21 @@
   <ReportCard id="CAP1-D1-HSch0-stu0_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS0-0-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS0-0-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -10923,26 +10668,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS0-0-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS0-0-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -11103,26 +10843,21 @@
   <ReportCard id="CAP1-D1-HSch0-stu1_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS0-0-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS0-0-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -11139,26 +10874,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS0-1-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS0-1-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -11319,26 +11049,21 @@
   <ReportCard id="CAP1-D1-HSch0-stu1_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS0-0-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS0-0-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -11355,26 +11080,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS0-1-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS0-1-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -11535,26 +11255,21 @@
   <ReportCard id="CAP1-D1-HSch1-stu0_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS1-1-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS1-1-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -11571,26 +11286,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS1-1-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS1-1-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -11751,26 +11461,21 @@
   <ReportCard id="CAP1-D1-HSch1-stu0_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS1-1-1-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS1-1-1-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -11787,26 +11492,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS1-1-1-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS1-1-1-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -11967,26 +11667,21 @@
   <ReportCard id="CAP1-D1-HSch1-stu1_ReportCard_RC_0">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS1-0-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS1-0-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -12003,26 +11698,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS1-0-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS1-0-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -12183,26 +11873,21 @@
   <ReportCard id="CAP1-D1-HSch1-stu1_ReportCard_RC_1">
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS1-0-0-sec1</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS1-0-0-sec1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -12219,26 +11904,21 @@
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>CAP1-D1-HS1-0-0-sec0</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-03-04</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>CAP1-D1-HS1-0-0-sec0</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
