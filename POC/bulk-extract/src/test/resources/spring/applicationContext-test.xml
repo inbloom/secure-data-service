@@ -1,47 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd">
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 
-     <bean id="ApplicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-         <property name="ignoreResourceNotFound" value="true" />
-         <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-         <property name="locations">
-             <list>
-                 <value>file:///${sli.conf}</value>
+	<bean id="ApplicationProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="locations">
+			<list>
+				<value>file:///${sli.conf}</value>
 
-                 <!--  override specific properties for testing -->
-                 <value>file:///${sli.test.conf}</value>
-             </list>
-         </property>
-     </bean>
+				<!-- override specific properties for testing -->
+				<value>file:///${sli.test.conf}</value>
+			</list>
+		</property>
+	</bean>
 
-     <import resource="classpath:/spring/db.xml"/>
+	<import resource="classpath:/spring/db.xml" />
 
-    <bean id="validator" class="org.slc.sli.validation.schema.ApiNeutralSchemaValidator" />
+	<bean id="validator" class="org.slc.sli.validation.schema.ApiNeutralSchemaValidator" />
 
-     <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
-     <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
+	<bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher" />
+	<bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
 
-    <context:component-scan base-package="org.slc">
-        <context:exclude-filter type="regex"
-            expression=".*CustomImpl" />
-        <context:exclude-filter type="regex"
-            expression=".*DummyEntityRepository" />
-        <context:exclude-filter type="regex"
-            expression=".*AvroEntityValidator" />
-        <context:exclude-filter type="regex"
-            expression=".*NeutralSchemaValidator" />
-        <context:exclude-filter type="regex"
-            expression=".*AggregationLoader" />
-        <context:exclude-filter type="regex"
-            expression=".*LdapServiceImpl" />
-    </context:component-scan>
+	<util:list id="entities" value-type="java.lang.String">
+		<value>assessment</value>
+		<value>assessmentFamily</value>
+		<value>assessmentPeriodDescriptor</value>
+		<value>attendance</value>
+		<value>cohort</value>
+		<value>competencyLevelDescriptor</value>
+		<value>competencyLevelDescriptorType</value>
+		<value>course</value>
+		<value>courseOffering</value>
+		<value>courseTranscript</value>
+		<value>disciplineIncident</value>
+		<value>disciplineAction</value>
+		<value>educationOrganization</value>
+		<value>grade</value>
+		<value>gradebookEntry</value>
+		<value>gradingPeriod</value>
+		<value>graduationPlan</value>
+		<value>learningObjective</value>
+		<value>learningStandard</value>
+		<value>objectiveAssessment</value>
+		<value>parent</value>
+		<value>program</value>
+		<value>reportCard</value>
+		<value>school</value>
+		<value>section</value>
+		<value>session</value>
+		<value>staff</value>
+		<value>staffCohortAssociation</value>
+		<value>staffEducationOrganizationAssociation</value>
+		<value>staffProgramAssociation</value>
+		<value>student</value>
+		<value>studentAcademicRecord</value>
+		<value>studentAssessment</value>
+		<value>studentCohortAssociation</value>
+		<value>studentCompetency</value>
+		<value>studentCompetencyObjective</value>
+		<value>studentDisciplineIncidentAssociation</value>
+		<value>studentObjectiveAssessment</value>
+		<value>studentProgramAssociation</value>
+		<value>studentGradebookEntry</value>
+		<value>studentSchoolAssociation</value>
+		<value>studentSectionAssociation</value>
+		<value>studentParentAssociation</value>
+		<value>teacher</value>
+		<value>teacherSchoolAssociation</value>
+		<value>teacherSectionAssociation</value>
+	</util:list>
+
+	<util:map id="queriedEntities" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="educationOrganization" value="educationOrganization" />
+		<entry key="school" value="educationOrganization" />
+		<entry key="staff" value="staff" />
+		<entry key="teacher" value="staff" />
+	</util:map>
+
+    <bean id="extractor" class="extract.ExtractorImpl">
+         <property name="entities" ref="entities" />
+         <property name="queriedEntities" ref="queriedEntities" />
+         <property name="entityRepository" ref="mongoEntityRepository" />
+    </bean>
+
+	<context:component-scan base-package="org.slc">
+		<context:exclude-filter type="regex"
+			expression=".*CustomImpl" />
+		<context:exclude-filter type="regex"
+			expression=".*DummyEntityRepository" />
+		<context:exclude-filter type="regex"
+			expression=".*AvroEntityValidator" />
+		<context:exclude-filter type="regex"
+			expression=".*NeutralSchemaValidator" />
+		<context:exclude-filter type="regex"
+			expression=".*AggregationLoader" />
+		<context:exclude-filter type="regex"
+			expression=".*LdapServiceImpl" />
+	</context:component-scan>
 
 </beans>
 

@@ -31,9 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
-
 /**
  * Test bulk extraction into zip files.
  *
@@ -52,10 +49,12 @@ public class ExtractorImplTest {
 
     private List<String> collections;
 
-    @Autowired
-    private Repository<Entity> mongoEntityRepository;
+//    @Autowired
+//    private Repository<Entity> mongoEntityRepository;
 
-    private final ExtractorImpl extractor = new ExtractorImpl();
+//    private final ExtractorImpl extractor = new ExtractorImpl();
+    @Autowired
+    private  ExtractorImpl extractor;
 
     @Before
     public void init() throws IOException {
@@ -65,8 +64,8 @@ public class ExtractorImplTest {
         collections.add("staff");
         collections.add("staffEducationOrganizationAssociation");
 
-        extractor.setCollections(collections);
-        extractor.setEntityRepository(mongoEntityRepository);
+//        extractor.setCollections(collections);
+//        extractor.setEntityRepository(mongoEntityRepository);
         extractor.setTenants(tenants);
         extractor.setExtractDir(extractDir);
         extractor.init();
