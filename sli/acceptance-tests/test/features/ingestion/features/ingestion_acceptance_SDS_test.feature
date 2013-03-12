@@ -917,7 +917,6 @@ Then I should see following map of entry counts in the corresponding collections
    And there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-Writing")
   And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | studentAssessment | 8                   | body.performanceLevelDescriptors.0.0.description                          | Extremely well qualified    | string |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-02-01              | string               |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-03-01              | string               |
      | studentCohortAssociation    | 1                   | body.endDate                | 2011-12-31              | string               |
