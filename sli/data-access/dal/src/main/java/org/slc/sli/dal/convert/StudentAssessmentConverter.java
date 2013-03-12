@@ -78,6 +78,10 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
                 String referenceKeyId = (String) saSubEntity.getBody().remove(referenceKey);
                 Entity assessmentSubEntity = getEntityById(assessmentSubEntityMap, referenceKeyId);
                 if (assessmentSubEntity != null) {
+                    // remove the subObjectiveAssessment
+                    if (assmtSubEntityType.equals("objectiveAssessment")) {
+                        assessmentSubEntity.getBody().remove("subObjectiveAssessment");
+                    }
                     saSubEntity.getBody().put(assmtSubEntityType, assessmentSubEntity.getBody());
                     saConvertedSubEntities.add(saSubEntity);
                 }
