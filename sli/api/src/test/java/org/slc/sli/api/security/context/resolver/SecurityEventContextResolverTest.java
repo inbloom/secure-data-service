@@ -78,7 +78,7 @@ public class SecurityEventContextResolverTest {
 		Set<String> delegatedLEAStateIds  = new HashSet<String>();
 		Mockito.when(helper.getDelegatedEdorgDescendents()).thenReturn(delegatedLEAStateIds);
 		homeEdOrgs.addAll(delegatedLEAStateIds);
-		NeutralQuery or = createFilter(homeEdOrgs, ROLES_SEA_OR_REALM_ADMIN);
+		NeutralQuery or = createFilter(homeEdOrgs);
 		NeutralQuery query = new NeutralQuery();
 		query.addOrQuery(or);
 		List<String> result = createSEAResult();
@@ -92,12 +92,10 @@ public class SecurityEventContextResolverTest {
 		Assert.assertEquals(result, returnResult);
 	}
 
-	private NeutralQuery createFilter(Set<String> homeEdOrgs, List<String> roles) {
+	private NeutralQuery createFilter(Set<String> homeEdOrgs) {
 		NeutralQuery or = new NeutralQuery();
 		or.addCriteria(new NeutralCriteria("targetEdOrgList",
 				NeutralCriteria.CRITERIA_IN, homeEdOrgs));
-		or.addCriteria(new NeutralCriteria("roles",
-				NeutralCriteria.CRITERIA_IN, roles));
 		return or;
 	}
 
@@ -116,11 +114,10 @@ public class SecurityEventContextResolverTest {
 		Mockito.when(helper.getDelegatedEdorgDescendents()).thenReturn(delegatedEdOrgs);
 		Set<String> homeEdOrgs = new HashSet<String>();
 		homeEdOrgs.add("IL");
-		NeutralQuery or = createFilter(homeEdOrgs,ROLES_SEA_OR_REALM_ADMIN);
-        NeutralQuery delegateOr = createFilter(delegatedEdOrgs,ROLES_LEA_ADMIN);
+		homeEdOrgs.addAll(delegatedEdOrgs);
+		NeutralQuery or = createFilter(homeEdOrgs);
 		NeutralQuery query = new NeutralQuery();
 		query.addOrQuery(or);
-		query.addOrQuery(delegateOr);
 		List<String> result = createFullResult();
 		Mockito.when(repository.findAllIds(RESOURCE_NAME, query)).thenReturn(
 				result);
@@ -173,7 +170,7 @@ public class SecurityEventContextResolverTest {
 				.mock(PagingRepositoryDelegate.class);
 		Set<String> homeEdOrgs = new HashSet<String>();
 		homeEdOrgs.add("IL-SUNSET");
-		NeutralQuery or = createFilter(homeEdOrgs,ROLES_LEA_ADMIN);
+		NeutralQuery or = createFilter(homeEdOrgs);
 		NeutralQuery query = new NeutralQuery();
 		query.addOrQuery(or);
 		List<String> result = createLEAResult();
