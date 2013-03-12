@@ -1,1360 +1,1391 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100">
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D0-HSch0-stu0">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>0</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>11</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>52</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D0-HSch0-stu0">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>0</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>11</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>52</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Sixth Six Weeks</GradingPeriod>
-            <BeginDate>2011-03-15</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Sixth Six Weeks</GradingPeriod>
+                        <BeginDate>2011-03-15</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Summer Semester</GradingPeriod>
+                        <BeginDate>2011-03-16</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <DiplomaReference>
+            <DiplomaIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <DiplomaAwardDate>2003-02-01</DiplomaAwardDate>
+                <DiplomaType>Certificate of attendance</DiplomaType>
+            </DiplomaIdentity>
+        </DiplomaReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D0-HSch0-stu1">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>14</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>63</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Summer Semester</GradingPeriod>
-            <BeginDate>2011-03-16</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <DiplomaReference>
-      <DiplomaIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <DiplomaAwardDate>2003-02-01</DiplomaAwardDate>
-        <DiplomaType>Certificate of attendance</DiplomaType>
-      </DiplomaIdentity>
-    </DiplomaReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D0-HSch0-stu1">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>14</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>63</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Third Nine Weeks</GradingPeriod>
+                        <BeginDate>2011-03-17</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Third Six Weeks</GradingPeriod>
+                        <BeginDate>2011-03-18</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D0-HSch1-stu0">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>10</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>19</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Third Nine Weeks</GradingPeriod>
-            <BeginDate>2011-03-17</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>First Nine Weeks</GradingPeriod>
+                        <BeginDate>2011-03-03</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>First Semester</GradingPeriod>
+                        <BeginDate>2011-03-04</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D0-HSch1-stu1">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>1</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>13</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>45</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D0-HSch0-stu1</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Third Six Weeks</GradingPeriod>
-            <BeginDate>2011-03-18</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D0-HSch1-stu0">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>10</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>19</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>End of Year</GradingPeriod>
+                        <BeginDate>2011-03-01</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+                        <BeginDate>2011-03-02</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D1-HSch0-stu0">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>1</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>1</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>53</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>First Nine Weeks</GradingPeriod>
-            <BeginDate>2011-03-03</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>First Summer Session</GradingPeriod>
+                        <BeginDate>2011-03-06</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>First Trimester</GradingPeriod>
+                        <BeginDate>2011-03-07</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D1-HSch0-stu1">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>0</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>7</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>12</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D0-HSch1-stu0</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>First Semester</GradingPeriod>
-            <BeginDate>2011-03-04</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D0-HSch1-stu1">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>1</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>13</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>45</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
+                        <BeginDate>2011-03-08</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Fourth Six Weeks</GradingPeriod>
+                        <BeginDate>2011-03-09</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D1-HSch1-stu0">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>1</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>17</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>35</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>End of Year</GradingPeriod>
-            <BeginDate>2011-03-01</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Fourth Six Weeks</GradingPeriod>
+                        <BeginDate>2011-03-09</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Second Nine Weeks</GradingPeriod>
+                        <BeginDate>2011-03-10</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D1-HSch1-stu1">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>19</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>25</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D0-HSch1-stu1</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Fifth Six Weeks</GradingPeriod>
-            <BeginDate>2011-03-02</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D1-HSch0-stu0">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>1</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>1</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>53</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>First Trimester</GradingPeriod>
+                        <BeginDate>2011-03-07</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
+                        <BeginDate>2011-03-08</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D0-HSch0-stu0">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>0</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>16</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>24</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>First Summer Session</GradingPeriod>
-            <BeginDate>2011-03-06</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Third Nine Weeks</GradingPeriod>
+                        <BeginDate>2011-03-17</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Third Six Weeks</GradingPeriod>
+                        <BeginDate>2011-03-18</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D0-HSch0-stu1">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>0</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>5</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>1</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D1-HSch0-stu0</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>First Trimester</GradingPeriod>
-            <BeginDate>2011-03-07</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D1-HSch0-stu1">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>0</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>7</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>12</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Third Summer Session</GradingPeriod>
+                        <BeginDate>2011-03-19</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Third Trimester</GradingPeriod>
+                        <BeginDate>2011-03-20</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D0-HSch1-stu0">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>0</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>2</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>34</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
-            <BeginDate>2011-03-08</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Second Nine Weeks</GradingPeriod>
+                        <BeginDate>2011-03-10</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Second Semester</GradingPeriod>
+                        <BeginDate>2011-03-11</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D0-HSch1-stu1">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>16</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>69</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D1-HSch0-stu1</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D1-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Fourth Six Weeks</GradingPeriod>
-            <BeginDate>2011-03-09</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D1-HSch1-stu0">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>1</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>17</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>35</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
+                        <BeginDate>2011-03-08</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Fourth Six Weeks</GradingPeriod>
+                        <BeginDate>2011-03-09</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D1-HSch0-stu0">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>5</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>64</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Fourth Six Weeks</GradingPeriod>
-            <BeginDate>2011-03-09</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Third Summer Session</GradingPeriod>
+                        <BeginDate>2011-03-19</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Third Trimester</GradingPeriod>
+                        <BeginDate>2011-03-20</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D1-HSch0-stu1">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>16</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>22</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D1-HSch1-stu0</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Second Nine Weeks</GradingPeriod>
-            <BeginDate>2011-03-10</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D1-HSch1-stu1">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>19</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>25</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>End of Year</GradingPeriod>
+                        <BeginDate>2011-03-01</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+                        <BeginDate>2011-03-02</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D1-HSch1-stu0">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>0</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>5</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>43</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>First Trimester</GradingPeriod>
-            <BeginDate>2011-03-07</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>First Trimester</GradingPeriod>
+                        <BeginDate>2011-03-07</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
+                        <BeginDate>2011-03-08</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D1-HSch1-stu1">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>0</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>18</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>54</PercentageRanking>
+            <ClassRankingDate>2013-02-05</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2013-01-19</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP0-D1-HSch1-stu1</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D1-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
-            <BeginDate>2011-03-08</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D0-HSch0-stu0">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>0</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>16</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>24</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Third Nine Weeks</GradingPeriod>
-            <BeginDate>2011-03-17</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D0-HSch0-stu0</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Third Six Weeks</GradingPeriod>
-            <BeginDate>2011-03-18</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D0-HSch0-stu1">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>0</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>5</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>1</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Third Summer Session</GradingPeriod>
-            <BeginDate>2011-03-19</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D0-HSch0-stu1</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D0-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Third Trimester</GradingPeriod>
-            <BeginDate>2011-03-20</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D0-HSch1-stu0">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>0</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>2</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>34</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Second Nine Weeks</GradingPeriod>
-            <BeginDate>2011-03-10</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D0-HSch1-stu0</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Second Semester</GradingPeriod>
-            <BeginDate>2011-03-11</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D0-HSch1-stu1">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>16</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>69</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
-            <BeginDate>2011-03-08</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D0-HSch1-stu1</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D0-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Fourth Six Weeks</GradingPeriod>
-            <BeginDate>2011-03-09</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D1-HSch0-stu0">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>5</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>64</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Third Summer Session</GradingPeriod>
-            <BeginDate>2011-03-19</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D1-HSch0-stu0</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Third Trimester</GradingPeriod>
-            <BeginDate>2011-03-20</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D1-HSch0-stu1">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>16</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>22</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>End of Year</GradingPeriod>
-            <BeginDate>2011-03-01</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D1-HSch0-stu1</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D1-HSch0</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Fifth Six Weeks</GradingPeriod>
-            <BeginDate>2011-03-02</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D1-HSch1-stu0">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>1</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>0</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>5</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>43</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>First Trimester</GradingPeriod>
-            <BeginDate>2011-03-07</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D1-HSch1-stu0</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
-            <BeginDate>2011-03-08</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
-  <StudentAcademicRecord id="StudentAcademicRecord_CAP1-D1-HSch1-stu1">
-    <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsEarned>
-    <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
-      <Credit>3</Credit>
-    </CumulativeCreditsAttempted>
-    <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
-    <CumulativeGradePointAverage>0</CumulativeGradePointAverage>
-    <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
-    <ClassRanking>
-      <ClassRank>18</ClassRank>
-      <TotalNumberInClass>30</TotalNumberInClass>
-      <PercentageRanking>54</PercentageRanking>
-      <ClassRankingDate>2013-02-05</ClassRankingDate>
-    </ClassRanking>
-    <AcademicHonors>
-      <AcademicHonorsType>Attendance award</AcademicHonorsType>
-      <HonorsDescription>Good Attendance Honor</HonorsDescription>
-      <HonorAwardDate>2013-01-19</HonorAwardDate>
-    </AcademicHonors>
-    <Recognitions>
-      <RecognitionType>Athletic awards</RecognitionType>
-      <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
-      <RecognitionAwardDate>2013-02-05</RecognitionAwardDate>
-    </Recognitions>
-    <ProjectedGraduationDate>2013-02-22</ProjectedGraduationDate>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>First Six Weeks</GradingPeriod>
-            <BeginDate>2011-03-05</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <ReportCardReference>
-      <ReportCardIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <GradingPeriodReference>
-          <GradingPeriodIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <GradingPeriod>First Summer Session</GradingPeriod>
-            <BeginDate>2011-03-06</BeginDate>
-          </GradingPeriodIdentity>
-        </GradingPeriodReference>
-      </ReportCardIdentity>
-    </ReportCardReference>
-    <SchoolYear>2012-2013</SchoolYear>
-  </StudentAcademicRecord>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>First Six Weeks</GradingPeriod>
+                        <BeginDate>2011-03-05</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP1-D1-HSch1-stu1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP1-D1-HSch1</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>First Summer Session</GradingPeriod>
+                        <BeginDate>2011-03-06</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+                <SchoolYear>2012-2013</SchoolYear>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <SchoolYear>2012-2013</SchoolYear>
+    </StudentAcademicRecord>
   <CourseTranscript id="CourseTranscript_CAP0-D0-HSch0-cse0_CAP0-D0-HSch0-stu0">
     <CourseAttemptResult>Pass</CourseAttemptResult>
     <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">

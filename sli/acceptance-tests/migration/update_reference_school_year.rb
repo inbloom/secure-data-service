@@ -34,12 +34,12 @@ def write_file file, doc
 end
 
 def get_files file_name, dir=default_directory
-    file_to_search = dir + "/**//"+ file_name
-      Dir[file_to_search]
+  file_to_search = dir + "/**//"+ file_name
+  Dir[file_to_search]
 end
 def default_directory
-    top_level = `git rev-parse --show-toplevel`.chomp!
-      File.join(top_level, "sli", "acceptance-tests", "test", "features", "ingestion", "test_data")
+  top_level = `git rev-parse --show-toplevel`.chomp!
+  File.join(top_level, "sli", "acceptance-tests", "test", "features", "ingestion", "test_data")
 end
 
 def  add_school_year doc,xpath_ref,ref_to_replace,school_year_path,criteria_list
@@ -65,32 +65,37 @@ def  add_school_year doc,xpath_ref,ref_to_replace,school_year_path,criteria_list
     end
   end
 end
+def update_file file_name
+
+  file = read_file file_name
+  doc = get_doc file
+
+  course_transcript_criteria_list = Array.new
+  course_transcript_criteria_list<<'xmlns:StudentReference/xmlns:StudentIdentity/xmlns:StudentUniqueStateId'
+  course_transcript_criteria_list<<'xmlns:SessionReference/xmlns:SessionIdentity/xmlns:EducationalOrgReference/xmlns:EducationalOrgIdentity/xmlns:StateOrganizationId'
+  course_transcript_criteria_list<<'xmlns:SessionReference/xmlns:SessionIdentity/xmlns:SessionName'
+
+  add_school_year doc, '//xmlns:CourseTranscript','xmlns:StudentAcademicRecordReference/xmlns:StudentAcademicRecordIdentity','//xmlns:StudentAcademicRecord',course_transcript_criteria_list
+
+  sar_criteria_list = Array.new
+  sar_criteria_list<<'xmlns:StudentReference/xmlns:StudentIdentity/xmlns:StudentUniqueStateId'
+  sar_criteria_list<<'xmlns:GradingPeriodReference/xmlns:GradingPeriodIdentity/xmlns:EducationalOrgReference/xmlns:EducationalOrgIdentity/xmlns:StateOrganizationId'
+  sar_criteria_list<<'xmlns:GradingPeriodReference/xmlns:GradingPeriodIdentity/xmlns:GradingPeriod'
+  sar_criteria_list<<'xmlns:GradingPeriodReference/xmlns:GradingPeriodIdentity/xmlns:BeginDate'
+
+  add_school_year doc, '//xmlns:StudentAcademicRecord','xmlns:ReportCardReference/xmlns:ReportCardIdentity', '//xmlns:ReportCard',sar_criteria_list
+
+  write_file file,doc
+end
 def main
   if(ARGV[0].nil?)
-    name_of_file = "InterchangeStudentGrade.xml"
+    name_of_file = "InterchangeStudentGrade.xml" 
+    get_files(name_of_file).each do |file_name|
+      update_file file_name
+    end
   else
     name_of_file = ARGV[0]
-  end
-  get_files(name_of_file).each do |file_name|
-    file = read_file file_name
-    doc = get_doc file
-
-    course_transcript_criteria_list = Array.new
-    course_transcript_criteria_list<<'xmlns:StudentReference/xmlns:StudentIdentity/xmlns:StudentUniqueStateId'
-    course_transcript_criteria_list<<'xmlns:SessionReference/xmlns:SessionIdentity/xmlns:EducationalOrgReference/xmlns:EducationalOrgIdentity/xmlns:StateOrganizationId'
-    course_transcript_criteria_list<<'xmlns:SessionReference/xmlns:SessionIdentity/xmlns:SessionName'
-
-    add_school_year doc, '//xmlns:CourseTranscript','xmlns:StudentAcademicRecordReference/xmlns:StudentAcademicRecordIdentity','//xmlns:StudentAcademicRecord',course_transcript_criteria_list
-
-    sar_criteria_list = Array.new
-    sar_criteria_list<<'xmlns:StudentReference/xmlns:StudentIdentity/xmlns:StudentUniqueStateId'
-    sar_criteria_list<<'xmlns:GradingPeriodReference/xmlns:GradingPeriodIdentity/xmlns:EducationalOrgReference/xmlns:EducationalOrgIdentity/xmlns:StateOrganizationId'
-    sar_criteria_list<<'xmlns:GradingPeriodReference/xmlns:GradingPeriodIdentity/xmlns:GradingPeriod'
-    sar_criteria_list<<'xmlns:GradingPeriodReference/xmlns:GradingPeriodIdentity/xmlns:BeginDate'
-
-    add_school_year doc, '//xmlns:StudentAcademicRecord','xmlns:ReportCardReference/xmlns:ReportCardIdentity', '//xmlns:ReportCard',sar_criteria_list
-
-    write_file file,doc
+    update_file name_of_file
   end
 end
 
