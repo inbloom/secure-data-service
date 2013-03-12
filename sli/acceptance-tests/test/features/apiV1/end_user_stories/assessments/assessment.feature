@@ -290,18 +290,41 @@ Scenario Outline:  As a AggregateViewer I should not see personally identifiable
     And I have a Role attribute returned from the "SLI"
     And the role attribute equals <AnyDefaultSLIRole>
     And I am authenticated on "IL"
-
+    And the sli securityEvent collection is empty
     When I navigate to GET "/<TEACHER URI>/<'Ms. Smith' ID>"
     Then I should receive a return code of 403
+    And a security event matching "^Access Denied" should be in the sli db
+     And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+       | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
 
-    When I navigate to GET "/<TEACHER SECTION ASSOC URI>/<'Teacher Ms. Jones and Section Algebra II' ID>/<TEACHER URI>"
+    When the sli securityEvent collection is empty
+    And I navigate to GET "/<TEACHER SECTION ASSOC URI>/<'Teacher Ms. Jones and Section Algebra II' ID>/<TEACHER URI>"
     Then I should receive a return code of 403
+    And a security event matching "^Access Denied" should be in the sli db
+     And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+       | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
 
-    When I navigate to GET "/<SECTION URI>/<'Track and Field - Sec 6s10' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>"
+    When the sli securityEvent collection is empty
+    And I navigate to GET "/<SECTION URI>/<'Track and Field - Sec 6s10' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>"
     Then I should receive a return code of 403
+    And a security event matching "^Access Denied" should be in the sli db
+     And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+       | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
 
-    When I navigate to GET "/<STUDENT URI>/<'Matt Sollars' ID>"      
+    When the sli securityEvent collection is empty
+    And I navigate to GET "/<STUDENT URI>/<'Matt Sollars' ID>"
     Then I should receive a return code of 403
+    And a security event matching "^Access Denied" should be in the sli db
+     And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+       | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
 
 #Sections are now public and global
     When I navigate to GET "/<SECTION URI>/<'Algebra II' ID>"      

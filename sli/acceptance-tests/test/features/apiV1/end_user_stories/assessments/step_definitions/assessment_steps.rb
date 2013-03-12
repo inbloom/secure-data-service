@@ -24,6 +24,7 @@ require 'rexml/document'
 include REXML
 require_relative '../../../../utils/sli_utils.rb'
 require_relative '../../../utils/api_utils.rb'
+require_relative '../../../../security/step_definitions/securityevent_util_steps.rb'
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "assessments"                                if human_readable_id == "ASSESSMENT URI"
