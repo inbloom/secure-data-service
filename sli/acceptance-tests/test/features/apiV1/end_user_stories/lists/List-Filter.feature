@@ -105,12 +105,12 @@ Scenario Outline: As a teacher or leader in another district I cannot see any of
     When I navigate to GET "/v1/teachers/<'Linda Kim' ID>"
     Then I should receive a return code of <RC>
      And a security event matching "^Access Denied" should be in the sli db
-     #And I check to find if record is in sli db collection:
-       #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
-       #| securityEvent       | 1                   | body.userEdOrg        | <userEdOrg>                           |
-       #| securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
+     And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | <userEdOrg>                           |
+       | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
 
 	Examples:
 	| Username   | Password       | RC  | Role       | EdOrg                    |userEdOrg                             | targetEdOrg                           |
-	| "llogan"   | "llogan1234"   | 403 | "Leader"   | "Sunset School District" |IL-DAYBREAK                           | IL-DAYBREAK                           |
-	| "manthony" | "manthony1234" | 403 | "Educator" | "Sunset Central High"    |IL-DAYBREAK                           | IL-DAYBREAK                           |
+	| "llogan"   | "llogan1234"   | 403 | "Leader"   | "Sunset School District" |IL-SUNSET                             | IL-SUNSET                             |
+	| "manthony" | "manthony1234" | 403 | "Educator" | "Sunset Central High"    |IL-SUNSET                             | IL-SUNSET                             |
