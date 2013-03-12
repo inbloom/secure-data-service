@@ -32,7 +32,8 @@ public class CascadeResult {
 
 	public static final int   SUCCESS 			 = 0x0;
 	public static final int	MAX_OBJECTS_EXCEEDED = 0x1;
-	public static final int	ACCESS_DENIED		 = 0x2;
+    public static final int ACCESS_DENIED        = 0x2;
+    public static final int DATABASE_ERROR       = 0x3;
 
 	public CascadeResult() {
 		nObjects = 0;
