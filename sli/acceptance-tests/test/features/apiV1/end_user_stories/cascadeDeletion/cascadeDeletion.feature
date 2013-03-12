@@ -33,7 +33,8 @@ Scenario: Confirm cascade deletion involving arrays of references do NOT delete 
     
     
 Scenario: Delete a school and confirm deletion of related entities, associations, and their cascading entities and associations
-    When I navigate to GET "/<SECTION URI>/<SECTION ID>"
+    When the sli securityEvent collection is empty
+     And I navigate to GET "/<SECTION URI>/<SECTION ID>"
     Then I should receive a return code of 200
      And I should receive a link named "getSchool" with URI "/<SCHOOL URI>/<SCHOOL ID>"
     When I navigate to GET "/<TEACHER SECTION ASSOCIATION URI>/<TEACHER SECTION ASSOCIATION ID>"
@@ -49,4 +50,9 @@ Scenario: Delete a school and confirm deletion of related entities, associations
     When I navigate to GET "/<TEACHER SECTION ASSOCIATION URI>/<TEACHER SECTION ASSOCIATION ID>"
     Then I should receive a return code of 404
     When I navigate to GET "/<TEACHER URI>/<TEACHER ID>"
-    Then I should receive a return code of 403 
+    Then I should receive a return code of 403
+    And a security event matching "^Access Denied" should be in the sli db
+     And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+       | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
