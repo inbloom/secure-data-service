@@ -628,7 +628,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1SelectorTests,
                      :longLivedSessionTests,
                      :apiVersionTests,
-                     :apiV1GranularAccessTests] do
+                     :apiV1GranularAccessTests,
+                     :apiV1YearlyTranscriptTests] do
   displayFailureReport()
 end
 
