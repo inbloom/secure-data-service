@@ -16,8 +16,14 @@
 
 package org.slc.sli.dal.repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.HashSet;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -26,8 +32,6 @@ import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.domain.*;
-import org.slc.sli.validation.schema.ReferenceSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +44,12 @@ import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -490,7 +500,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
 
         boolean isArrayField(String field) {
-            // TODO test with array fields as well
+            // TODO use common/../ModelProvider instead of hardcoding
+            if ("studentArrayReference".equals(field)) {
+                return true;
+            }
+            
             return false;
         }
 
@@ -501,34 +515,39 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
-        CascadeResult result = new CascadeResult();
-
+        CascadeResult result = null;
+        Set<String> deletedIds = new HashSet<String>();
+        
         if (dryrun == Boolean.TRUE) {
             // just do a dryrun
-            result = safeDeleteHelper(collectionName, id, cascade, Boolean.TRUE, maxObjects, access, result);
+            result = safeDeleteHelper(collectionName, id, cascade, Boolean.TRUE, maxObjects, access, 0,  deletedIds);
         } else {
             // do a dryrun first and make sure it succeeds
-            result = safeDeleteHelper(collectionName, id, cascade, Boolean.TRUE, maxObjects, access, result);
+            result = safeDeleteHelper(collectionName, id, cascade, Boolean.TRUE, maxObjects, access, 0,  deletedIds);
             if (result.status == CascadeResult.SUCCESS) {
+                deletedIds.clear(); // here so nObjects is sane on dryrun error
                 // do the actual deletes with some confidence
-                result = safeDeleteHelper(collectionName, id, cascade, Boolean.FALSE, maxObjects, access, result);
+                result = safeDeleteHelper(collectionName, id, cascade, Boolean.FALSE, maxObjects, access, 0,  deletedIds);
             }
         }
 
-        // TODO remove this when we can actually delete something
-//        result.nObjects = 1;
-//        result.depth = 1;
-//        result.status = CascadeResult.SUCCESS;
-
+        result.nObjects = deletedIds.size();
         return result;
     }
 
-    private CascadeResult safeDeleteHelper(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access, CascadeResult result) {
+    private CascadeResult safeDeleteHelper(String collectionName, String id, Boolean cascade, Boolean dryrun, 
+            Integer maxObjects, AccessibilityCheck access, int currentDepth, Set<String> deletedIds) {
+        CascadeResult result = new CascadeResult();
 
-        // set our depth in the result
+        // update the current depth
         // TODO confirm this is the intended meaning of depth
-        result.depth++;
+        result.depth = currentDepth + 1;
 
+        // Delete the id only if it hasn't already been deleted - needed for correct dryrun counts
+        if (deletedIds.contains(id)) {
+            return result;
+        }
+        
         // check accessibility to this entity
         // TODO this looks like it will need to take collection as an argument
         if (access.accessibilityCheck(id) == false) {
@@ -536,12 +555,22 @@ public abstract class MongoRepository<T> implements Repository<T> {
             return result;
         }
 
-        // TODO call model interface to get list of referencing entity types and fields
+        // Do the cascade part of the delete - clean up the referencers first
+        if (cascade) {
+
+        // TODO call model interface to get list of referencing entity types and fields rather than hardcode for unittest
 //        List<ModelReferencingEntity> ref_entities = modelProvider.getReferencingEntities(collectionName);
-        List<String> fields = new ArrayList<String>();
-        fields.add("field1");
-        List<ModelReferencingEntity> ref_entities = new ArrayList<ModelReferencingEntity>();
-        ref_entities.add(new ModelReferencingEntity("student", fields));
+            List<ModelReferencingEntity> ref_entities = new ArrayList<ModelReferencingEntity>();
+            if (result.depth == 1) {
+                List<String> fields = new ArrayList<String>();
+                fields.add("studentReference");
+                fields.add("studentReference2");
+                fields.add("noMatchstudentReference");
+                ref_entities.add(new ModelReferencingEntity("studentref", fields));
+                
+                fields.add("studentArrayReference");
+                ref_entities.add(new ModelReferencingEntity("studentarrayref", fields));
+            }
 
         // loop for every Entity that references the deleted entity's type
         for (ModelReferencingEntity referencingEntity : ref_entities) {
@@ -564,33 +593,71 @@ public abstract class MongoRepository<T> implements Repository<T> {
                     if (referencingEntity.isArrayField(referenceField)) {
                         // list all entities that have the deleted entity's ID in one or more
                         // referencing array fields
-//                        for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
-//                            String idToBePatched = (String) entityBody.get("id");
-//                            List<?> basicDBList = (List<?>) entityBody.get(referenceField);
-//                            basicDBList.remove(id);
-//                            EntityBody patchEntityBody = new EntityBody();
-//                            patchEntityBody.put(referenceField, basicDBList);
-//                            referencingEntityService.patch(idToBePatched, patchEntityBody);
-//                            // account for this delete in the number of objects cascade deleted
-//                            result.nObjects++;
-//                        }
+                            for (Entity entity : (Iterable<Entity>) this.findAll(referencingEntity.getCollectionName(), neutralQuery)) {
+                                // TODO add logic to delete if this is the last element in the list and 1 element minimum is required by the xsd
+                                String idToBePatched = (String) entity.getEntityId();
+                                
+                                if (!dryrun) {
+                                    List<?> basicDBList = (List<?>) entity.getBody().get(referenceField);
+                                    basicDBList.remove(id);
+                                    Map<String, Object> patchEntityBody = new HashMap<String, Object>();
+                                    patchEntityBody.put(referenceField, basicDBList);
+                                    
+                                    if (this.patch(null, referencingEntity.getCollectionName(), idToBePatched,
+                                            patchEntityBody)) {
+                                        
+                                        // Track deleted ids for dryrun count correctness
+                                        if (deletedIds.contains(idToBePatched) == false) {
+                                            deletedIds.add(idToBePatched);
+                                        }
+                                        
+                                        if (deletedIds.size() > maxObjects) {
+                                            result.status = CascadeResult.MAX_OBJECTS_EXCEEDED;
+                                        }
+                                        
+                                    } else {
+                                        LOG.error(
+                                                "Database error while patching collection {}, document id {}, and fieldname {}",
+                                                new Object[] { referencingEntity.getCollectionName(), idToBePatched,
+                                                        referenceField });
+                                        result.status = CascadeResult.DATABASE_ERROR;
+                                    }
+                                } else {
+                                    // Track deleted ids for dryrun count correctness
+                                    if (deletedIds.contains(idToBePatched) == false) {
+                                        deletedIds.add(idToBePatched);
+                                    }
+                                    
+                                    if (deletedIds.size() > maxObjects) {
+                                        result.status = CascadeResult.MAX_OBJECTS_EXCEEDED;
+                                    }
+                                    
+                                }
+
+                            }
                     } else {
-                        CascadeResult singleResult = null;
+                        CascadeResult recursiveResult = null;
 
                         // get all entities that have the deleted entity's ID in their reference
                         // field (for deletion)
                         Collection<Entity> entities = (Collection<Entity>) this.findAll(referencingEntity.getCollectionName(), neutralQuery);
                         for (Entity entity : entities) {
-                            Map<String, Object> body = entity.getBody();
-                            String idToBeDeleted = entity.getEntityId();
-                            // delete that entity as well
-                            singleResult = safeDelete(referencingEntity.getCollectionName(), idToBeDeleted, cascade, dryrun, maxObjects, access);
-                            // delete custom entities attached to this entity
-                            Integer num_deleted = deleteAttachedCustomEntities(idToBeDeleted, dryrun);
-
-                            // update the overall result
-                            result.status = singleResult.status;
-                            result.nObjects += singleResult.nObjects;
+                            String referencerIdToBeDeleted = entity.getEntityId();
+                            
+                            // delete the referring entity
+                            recursiveResult = safeDeleteHelper(referencingEntity.getCollectionName(), referencerIdToBeDeleted,
+                                    cascade, dryrun, maxObjects, access, currentDepth + 1, deletedIds);
+                            
+                            // update the overall depth if necessary
+                            if (result.depth < recursiveResult.depth) {
+                                // report the deepest depth
+                                result.depth = recursiveResult.depth;
+                            }
+                            
+                            // update the overall status to be the latest non-SUCESS
+                            if (recursiveResult.status != CascadeResult.SUCCESS) {
+                                result.status = recursiveResult.status;
+                            }
                         }
                     }
                 } catch (AccessDeniedException ade) {
@@ -601,9 +668,15 @@ public abstract class MongoRepository<T> implements Repository<T> {
             }
         }
 
+        } // cascade
+
+        // Delete this entity
         if (dryrun == true) {
-            result.nObjects++;
-            if (result.nObjects > maxObjects) {
+            
+            // delete custom entities attached to this entity
+            result.nObjects += deleteAttachedCustomEntities(id, true, deletedIds);
+
+            if (deletedIds.size() > maxObjects) {
                 result.status = CascadeResult.MAX_OBJECTS_EXCEEDED;
             }
         } else {
@@ -611,13 +684,20 @@ public abstract class MongoRepository<T> implements Repository<T> {
             if (delete(collectionName, id) == true) {
                 // account for this delete in the number of objects cascade deleted
                 result.nObjects++;
-                if (result.nObjects > maxObjects) {
+                
+                // delete custom entities attached to this entity
+                result.nObjects += deleteAttachedCustomEntities(id, false, deletedIds);
+
+                if (deletedIds.size() > maxObjects) {
                     result.status = CascadeResult.MAX_OBJECTS_EXCEEDED;
                 }
             } else {
                 LOG.warn("attempted to delete a document with an empty _id from collection " + collectionName);
             }
         }
+        
+        // Track deleted ids for dryrun count correctness
+        deletedIds.add(id);
 
         return result;
 
@@ -633,7 +713,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
 
-    private Integer deleteAttachedCustomEntities(String sourceId, boolean dryrun) {
+    private Integer deleteAttachedCustomEntities(String sourceId, boolean dryrun, Set<String> deletedIds) {
         Integer count = 0;
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", sourceId, false));
@@ -643,6 +723,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             if (!dryrun) {
                 this.delete(CUSTOM_ENTITY_COLLECTION, id);
             }
+            deletedIds.add(id);
         }
         return count;
     }

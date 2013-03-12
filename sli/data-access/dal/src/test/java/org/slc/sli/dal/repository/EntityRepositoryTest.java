@@ -90,12 +90,16 @@ public class EntityRepositoryTest {
         mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
+    // TODO add a test for deleteAttachedCustomEntities
+    
     @Test
     public void testSafeDelete() {
 
-        // CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access)   \
-
+        // CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) 
+        
         CascadeResult result = null;
+        String idToDelete = null;
+        
         Integer maxObjects = 100;         // should be large enough to return all objects
         AccessibilityCheck access = new AccessibilityCheck() {
             // grant access to all entities
@@ -108,22 +112,92 @@ public class EntityRepositoryTest {
         // Mock the underlying safeDelete db access calls
 
         // Test cascade=false and dryrun=true
-
-        //   do the delete call
-        result = repository.safeDelete("student", "test_id", false, true, maxObjects, access);
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, false, true, maxObjects, access);
 
         //   verify expected results
-        //   TODO add more complex data structure after the plumbing is put in
         assertEquals(1, result.nObjects);
         assertEquals(1, result.depth);
         assertEquals(CascadeResult.SUCCESS, result.status);
 
-        // TODO add test for remaining safeDelete variations
         // Test cascade=false and dryrun=false
-        // Test cascade=true and dryrun=true
-        // Test cascade=true and dryrun=false
-        // Test maxobjects
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, false, false, maxObjects, access);
 
+        //   verify expected results
+        assertEquals(1, result.nObjects);
+        assertEquals(1, result.depth);
+        assertEquals(CascadeResult.SUCCESS, result.status);
+
+        // Test cascade=true and dryrun=true
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, true, true, maxObjects, access);
+
+        //   verify expected results
+        assertEquals(3, result.nObjects);
+        assertEquals(2, result.depth);
+        assertEquals(CascadeResult.SUCCESS, result.status);
+        
+        // Test cascade=true and dryrun=false
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, true, false, maxObjects, access);
+
+        //   verify expected results
+        assertEquals(3, result.nObjects);
+        assertEquals(2, result.depth);
+        assertEquals(CascadeResult.SUCCESS, result.status);
+        
+        // Test maxobjects
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, true, false, 1, access);
+
+        //   verify expected results
+        assertEquals(3, result.nObjects);
+        assertEquals(2, result.depth);
+        assertEquals(CascadeResult.MAX_OBJECTS_EXCEEDED, result.status);
+
+    }
+
+    private String prepareSafeDeleteData() {
+        // populate some test data
+        // TODO mock the db calls so we don't rely on the db running
+        repository.deleteAll("student", null);
+        repository.deleteAll("studentref", null);
+        repository.deleteAll("studentarrayref", null);
+
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
+
+        Map<String, Object> studentMap = buildTestStudentEntity();
+        studentMap.put("studentUniqueStateId", "susId1");
+        repository.create("student", studentMap);
+
+        // get the db id of the student since we can't set it explicitly
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("studentUniqueStateId=susId1"));
+        Entity student1 = repository.findOne("student", neutralQuery);
+        String idToDelete = student1.getEntityId();
+
+        // add fake referencing entity
+        Map<String, Object> studentrefMap = buildTestStudentEntity();
+        studentrefMap.put("studentReference", "notaMatchingId");
+        repository.create("studentref", studentrefMap); // add one non-matching document
+        studentrefMap.put("studentReference", idToDelete);
+        studentrefMap.put("studentReference2", idToDelete);
+        studentrefMap.put("noMatchstudentReference", "notaMatchingId");
+        repository.create("studentref", studentrefMap);
+        
+        // add fake referencing entity with array reference field
+        Map<String, Object> studentarrayrefMap = buildTestStudentEntity();
+        repository.create("studentarrayref", studentarrayrefMap); // add one non-matching document
+        List<String> studentRefArray = new ArrayList<String>();
+        studentRefArray.add("dog");
+        studentRefArray.add(idToDelete);
+        studentRefArray.add("mousearama");
+        studentarrayrefMap.put("studentArrayReference", studentRefArray);
+        repository.create("studentarrayref", studentarrayrefMap);
+
+        return idToDelete;
     }
 
     @Test
