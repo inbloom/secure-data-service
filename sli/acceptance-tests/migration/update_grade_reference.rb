@@ -45,27 +45,11 @@ def update_file file_name
   file = read_file file_name
   doc = get_doc file
 
-#  add_school_year doc, '//xmlns:ReportCard','xmlns:GradeReference/xmlns:GradeIdentity'
-  sanitize_grade_ref doc, '//xmlns:ReportCard','xmlns:GradeReference/xmlns:GradeIdentity'
+  add_school_year doc, '//xmlns:ReportCard','xmlns:GradeReference/xmlns:GradeIdentity'
 
   write_file file,doc
 end
 
-def  sanitize_grade_ref doc,xpath_ref,xpath_to_modify
-  doc.xpath(xpath_ref).each do |node|
-    node.xpath(xpath_to_modify).each do |inner_node|
-      school_year = inner_node.xpath('xmlns:SchoolYear').first
-      ssa_node = inner_node.xpath('xmlns:StudentSectionAssociationReference')
-      grading_period_node = inner_node.xpath('xmlns:GradingPeriodReference')
-      student_node = ssa_node.xpath('xmlns:StudentSectionAssociationIdentity/xmlns:StudentReference').first.clone
-      section_node = ssa_node.xpath('xmlns:StudentSectionAssociationIdentity/xmlns:SectionReference').first.clone
-      ssa_node.remove
-      grading_period_node.remove
-      school_year.before(student_node)
-      school_year.before(section_node)
-    end
-  end
-end
 def  add_school_year doc,xpath_ref,xpath_to_modify
   doc.xpath(xpath_ref).each do |node|
     node.xpath(xpath_to_modify).each do |inner_node|
