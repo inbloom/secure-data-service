@@ -11,6 +11,8 @@ startSearchIndexer
 processApps $APPSTODEPLOY
 
 # Generate and Ingest Odin data
+Xvfb :6 -screen 0 1024x768x24 >/dev/null 2>&1 &
+export DISPLAY=:6.0
 cd $WORKSPACE/sli/acceptance-tests
 export LANG=en_US.UTF-8
 bundle install --deployment
