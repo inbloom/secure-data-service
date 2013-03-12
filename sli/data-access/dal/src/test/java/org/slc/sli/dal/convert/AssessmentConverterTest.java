@@ -206,6 +206,7 @@ public class AssessmentConverterTest {
         assertNull(updatedAssessment.getBody().get(AssessmentConverter.ASSESSMENT_FAMILY_HIERARCHY_STRING));
         assertEquals(existingAssessment.getBody().get(AssessmentConverter.ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE),
                 updatedAssessment.getBody().get(AssessmentConverter.ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE));
+        assertEquals("A_new_title", updatedAssessment.getBody().get("assessmentTitle"));
     }
 
     @SuppressWarnings("unchecked")
