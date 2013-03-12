@@ -15,6 +15,23 @@
  */
 package org.slc.sli.api.resources.generic.service;
 
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.ws.rs.core.Response;
+import javax.xml.bind.DatatypeConverter;
+
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -41,7 +58,6 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.aspect.ApiMigrationAspect.MigratePostedEntity;
 import org.slc.sli.aspect.ApiMigrationAspect.MigrateResponse;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.common.migration.strategy.MigrationException;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -49,19 +65,6 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
-
-import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Default implementation of the resource service.
@@ -94,12 +97,24 @@ public class DefaultResourceService implements ResourceService {
 
     @Autowired
     private ApiSchemaAdapter adapter;
+    private Map<String, String> endDates = new HashMap<String, String>();
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
+
     private static final String POST = "POST";
     private static final String GET = "GET";
     private static final String PUT = "PUT";
 
+    @PostConstruct
+    public void init() {
+        endDates.put(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS,
+                "exitWithdrawDate");
+
+        endDates.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "endDate");
+        endDates.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "endDate");
+        endDates.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "endDate");
+    }    
+    
     /**
      * @author jstokes
      */
@@ -341,6 +356,9 @@ public class DefaultResourceService implements ResourceService {
             } catch (final UnsupportedSelectorException e) {
                 entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
             }
+            
+            EntityDefinition baseEntity = resourceHelper.getEntityDefinition(base);
+            entityBodyList = getTimeFilteredAssociations(entityBodyList, baseEntity, definition);
 
             long count = getEntityCount(definition, apiQuery);
             return new ServiceResponse(adapter.migrate(entityBodyList, definition.getResourceName(), GET), count);
@@ -395,22 +413,19 @@ public class DefaultResourceService implements ResourceService {
                 for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
                     @SuppressWarnings("unchecked")
                     List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
-
+                    
                     if (associations != null) {
-                        if (finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
-                            //if the finalEntity references the assocEntity
-                            for (EntityBody associationEntity : associations) {
-                                filteredIdList.add((String) associationEntity.get("id"));
-                            }
+                        String ident = resourceKey;
+                        if (finalEntityReferencesAssociation(finalEntity,
+                                assocEntity, resourceKey)) {
+                            ident = "id";
                             key = resourceKey;
-                        } else {
-                            //otherwise the assocEntity references the finalEntity
+                        }
 
-                            List<EntityBody> dateMatchedAssociations = filterAssociationEntitiesForDates(associations, assocEntity);
-
-                            for (EntityBody associationEntity : dateMatchedAssociations) {
-                                filteredIdList.add((String) associationEntity.get(resourceKey));
-                            }
+                        List<EntityBody> filtered = getTimeFilteredAssociations(associations, baseEntity, assocEntity);
+                        
+                        for(EntityBody body : filtered) {
+                            filteredIdList.add((String) body.get(ident));
                         }
                     }
                 }
@@ -654,4 +669,30 @@ public class DefaultResourceService implements ResourceService {
     private class NoGranularAccessDatesException extends Exception {
     }
 
+    private List<EntityBody> getTimeFilteredAssociations(List<EntityBody> associations, EntityDefinition baseEntity, EntityDefinition assocEntity) {
+        List<EntityBody> filtered = new ArrayList<EntityBody>(associations);
+        if (!baseEntity.getResourceName().equals(ResourceNames.STUDENTS))  {
+            for (EntityBody associationEntity : associations) {
+                if ((this.endDates.keySet().contains(assocEntity.getResourceName()) && !isCurrent(assocEntity, associationEntity))) {
+                    filtered.remove(associationEntity);
+                }
+            }
+        } 
+
+        return filtered;
+    }
+
+    
+    private boolean isCurrent(EntityDefinition def, EntityBody body) {
+        String now = DatatypeConverter.printDate(Calendar.getInstance());
+        String assocEnd = (String) body.get(this.endDates.get(def
+                .getResourceName()));
+
+        // Absent end date means association is 'current'
+        if (assocEnd == null) {
+            assocEnd = "6999-12-12"; // infinity
+        }
+
+        return now.compareTo(assocEnd) < 0;
+    }
 }
