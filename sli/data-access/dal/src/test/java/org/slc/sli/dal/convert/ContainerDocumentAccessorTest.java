@@ -27,6 +27,7 @@ import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -59,11 +60,14 @@ public class ContainerDocumentAccessorTest {
     private UUIDGeneratorStrategy generatorStrategy;
 
     @Mock
+    private INaturalKeyExtractor naturalKeyExtractor;
+
+    @Mock
     private MongoTemplate mongoTemplate;
 
     @Before
     public void setup() {
-        testAccessor = new ContainerDocumentAccessor(generatorStrategy, mongoTemplate);
+        testAccessor = new ContainerDocumentAccessor(generatorStrategy, naturalKeyExtractor, mongoTemplate);
         MockitoAnnotations.initMocks(this);
     }
 
@@ -80,12 +84,12 @@ public class ContainerDocumentAccessorTest {
         final ContainerDocument attendance = createAttendanceContainer();
         final MongoEntity entity = createAttendanceEntity();
         final NaturalKeyDescriptor stubKeyDescriptor =
-                ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, attendance.getParentNaturalKeys());
+                ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, attendance.getParentNaturalKeys(), attendance.getCollectionToPersist());
 
         when(mockHolder.getContainerDocument(ATTENDANCE)).thenReturn(attendance);
         when(generatorStrategy.generateId(stubKeyDescriptor)).thenReturn("abc-123");
 
-        final String parentUUID = testAccessor.createParentKey(entity);
+        final String parentUUID = ContainerDocumentHelper.createParentKey(entity, mockHolder, generatorStrategy);
         final String expected = "abc-123";
 
         assertFalse(parentUUID == null);
@@ -106,6 +110,7 @@ public class ContainerDocumentAccessorTest {
     private ContainerDocument createAttendanceContainer() {
         return ContainerDocument.builder().forCollection("testCollection")
                 .forField("array_field")
+                .persistAs("testCollection")
                 .withParent(createParentKeyMap()).build();
     }
 

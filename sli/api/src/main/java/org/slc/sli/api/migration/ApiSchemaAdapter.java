@@ -48,9 +48,9 @@ public class ApiSchemaAdapter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApiSchemaAdapter.class);
 
-    @Value("classpath:migration/apiSchemaAdapterTest-down.json/")
+    @Value("classpath:migration/up-api-migration.json/")
     protected Resource upMigrationConfigResource;
-    @Value("classpath:migration/apiSchemaAdapterTest-up.json/")
+    @Value("classpath:migration/down-api-migration.json/")
     protected Resource downMigrationConfigResource;
     @Value("classpath:migration/api-entity-transform.json/")
     protected Resource entityTransformConfigResource;

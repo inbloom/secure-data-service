@@ -361,7 +361,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "creditsEarned" => {"credit" => 3.0},
     "courseId" => "9bd92e8e-df8e-4af9-95e7-2efed847d03d",
     "gradeType" => "Final",
-    "studentAcademicRecordId" => "56afc8d4-6c91-48f9-8a11-de527c1131b7",
+    "studentAcademicRecordId" => "7a70c01bf8d93d9b1f53ab45080777b0b49794fa_id56afc8d4-6c91-48f9-8a11-de527c1131b7",
     "educationOrganizationReference" => ["92d6d5a0-852c-45f4-907a-912752831772"]
     }
 }

@@ -1,258 +1,262 @@
 <?xml version="1.0"?>
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
-  <StudentAcademicRecord>
-    <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
-      <Credit>5</Credit>
-    </CumulativeCreditsAttempted>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000021</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <SchoolYear>2009-2010</SchoolYear>
-  </StudentAcademicRecord>
-  <CourseTranscript>
-    <CourseAttemptResult>Pass</CourseAttemptResult>
-    <CreditsEarned CreditConversion="0" CreditType="Carnegie unit">
-      <Credit>1</Credit>
-    </CreditsEarned>
-    <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
-    <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
-    <FinalNumericGradeEarned>85</FinalNumericGradeEarned>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>Government-4-93</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StudentAcademicRecordReference>
-      <StudentAcademicRecordIdentity>
+    <StudentAcademicRecord>
+        <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
+            <Credit>5</Credit>
+        </CumulativeCreditsAttempted>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>900000021</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000021</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
         <SessionReference>
-          <SessionIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
-          </SessionIdentity>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+            </SessionIdentity>
         </SessionReference>
-      </StudentAcademicRecordIdentity>
-    </StudentAcademicRecordReference>
-  </CourseTranscript>
-  <StudentAcademicRecord>
-    <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
-      <Credit>5</Credit>
-    </CumulativeCreditsAttempted>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000021</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <SchoolYear>2009-2010</SchoolYear>
-  </StudentAcademicRecord>
-  <CourseTranscript>
-    <CourseAttemptResult>Pass</CourseAttemptResult>
-    <CreditsEarned CreditConversion="0" CreditType="Carnegie unit">
-      <Credit>1</Credit>
-    </CreditsEarned>
-    <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
-    <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
-    <FinalNumericGradeEarned>87</FinalNumericGradeEarned>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>Science-6B-62</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StudentAcademicRecordReference>
-      <StudentAcademicRecordIdentity>
-        <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>900000021</StudentUniqueStateId>
-          </StudentIdentity>
-        </StudentReference>
-        <SessionReference>
-          <SessionIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
+        <SchoolYear>2009-2010</SchoolYear>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsEarned CreditConversion="0" CreditType="Carnegie unit">
+            <Credit>1</Credit>
+        </CreditsEarned>
+        <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
+        <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+        <FinalNumericGradeEarned>85</FinalNumericGradeEarned>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Government-4-93</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
-          </SessionIdentity>
-        </SessionReference>
-      </StudentAcademicRecordIdentity>
-    </StudentAcademicRecordReference>
-  </CourseTranscript>
-  <StudentAcademicRecord>
-    <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
-      <Credit>5</Credit>
-    </CumulativeCreditsAttempted>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000021</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <SchoolYear>2009-2010</SchoolYear>
-  </StudentAcademicRecord>
-  <CourseTranscript>
-    <CourseAttemptResult>Pass</CourseAttemptResult>
-    <CreditsEarned CreditConversion="0" CreditType="Carnegie unit">
-      <Credit>1</Credit>
-    </CreditsEarned>
-    <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
-    <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
-    <FinalNumericGradeEarned>75</FinalNumericGradeEarned>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>Spanish-I-57</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StudentAcademicRecordReference>
-      <StudentAcademicRecordIdentity>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference>
+            <StudentAcademicRecordIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>900000021</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <SchoolYear>2009-2010</SchoolYear>
+            </StudentAcademicRecordIdentity>
+        </StudentAcademicRecordReference>
+    </CourseTranscript>
+    <StudentAcademicRecord>
+        <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
+            <Credit>5</Credit>
+        </CumulativeCreditsAttempted>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>900000021</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000021</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
         <SessionReference>
-          <SessionIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsEarned CreditConversion="0" CreditType="Carnegie unit">
+            <Credit>1</Credit>
+        </CreditsEarned>
+        <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
+        <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+        <FinalNumericGradeEarned>87</FinalNumericGradeEarned>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Science-6B-62</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
-          </SessionIdentity>
-        </SessionReference>
-      </StudentAcademicRecordIdentity>
-    </StudentAcademicRecordReference>
-  </CourseTranscript>
-  <StudentAcademicRecord>
-    <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
-      <Credit>5</Credit>
-    </CumulativeCreditsAttempted>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>800000022</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>Spring 2011 Daybreak Central High</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <SchoolYear>2009-2010</SchoolYear>
-  </StudentAcademicRecord>
-  <CourseTranscript>
-    <CourseAttemptResult>Pass</CourseAttemptResult>
-    <CreditsEarned CreditConversion="0" CreditType="Carnegie unit">
-      <Credit>1</Credit>
-    </CreditsEarned>
-    <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
-    <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
-    <FinalNumericGradeEarned>82</FinalNumericGradeEarned>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueCourseId>Phys-Ed-4A-95</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <StudentAcademicRecordReference>
-      <StudentAcademicRecordIdentity>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference>
+            <StudentAcademicRecordIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>900000021</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <SchoolYear>2009-2010</SchoolYear>
+            </StudentAcademicRecordIdentity>
+        </StudentAcademicRecordReference>
+    </CourseTranscript>
+    <StudentAcademicRecord>
+        <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
+            <Credit>5</Credit>
+        </CumulativeCreditsAttempted>
         <StudentReference>
-          <StudentIdentity>
-            <StudentUniqueStateId>800000022</StudentUniqueStateId>
-          </StudentIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>900000021</StudentUniqueStateId>
+            </StudentIdentity>
         </StudentReference>
         <SessionReference>
-          <SessionIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsEarned CreditConversion="0" CreditType="Carnegie unit">
+            <Credit>1</Credit>
+        </CreditsEarned>
+        <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
+        <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+        <FinalNumericGradeEarned>75</FinalNumericGradeEarned>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Spanish-I-57</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference>
+            <StudentAcademicRecordIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>900000021</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <SchoolYear>2009-2010</SchoolYear>
+            </StudentAcademicRecordIdentity>
+        </StudentAcademicRecordReference>
+    </CourseTranscript>
+    <StudentAcademicRecord>
+        <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
+            <Credit>5</Credit>
+        </CumulativeCreditsAttempted>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000022</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Spring 2011 Daybreak Central High</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsEarned CreditConversion="0" CreditType="Carnegie unit">
+            <Credit>1</Credit>
+        </CreditsEarned>
+        <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
+        <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+        <FinalNumericGradeEarned>82</FinalNumericGradeEarned>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Phys-Ed-4A-95</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <SessionName>Spring 2011 Daybreak Central High</SessionName>
-          </SessionIdentity>
-        </SessionReference>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference>
+            <StudentAcademicRecordIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>800000022</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Spring 2011 Daybreak Central High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>

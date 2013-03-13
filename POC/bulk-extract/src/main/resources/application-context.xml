@@ -175,54 +175,54 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 		<property name="mongoTemplate" ref="sarjeMongoTemplate"/>
 	</bean>
 
-    <util:map id="entities"  key-type="java.lang.String" value-type="java.lang.String">
-        <entry key="assessment" value="assessment" />
-        <entry key="assessmentFamily" value="" />
-        <entry key="assessmentPeriodDescriptor" value="" />
-        <entry key="attendance" value="" />
-        <entry key="cohort" value="" />
-        <entry key="competencyLevelDescriptor" value="" />
-        <entry key="competencyLevelDescriptorType" value="" />
-        <entry key="course" value="" />
-        <entry key="courseOffering" value="" />
-        <entry key="courseTranscript" value="" />
-        <entry key="disciplineIncident" value="" />
-        <entry key="disciplineAction" value="" />
-        <entry key="educationOrganization" value="" />
-        <entry key="grade" value="" />
-        <entry key="gradebookEntry" value="" />
-        <entry key="gradingPeriod" value="" />
-        <entry key="graduationPlan" value="" />
-        <entry key="learningObjective" value="" />
-        <entry key="learningStandard" value="" />
-        <entry key="objectiveAssessment" value="" />
-        <entry key="parent" value="" />
-        <entry key="program" value="" />
-        <entry key="reportCard" value="" />
-        <entry key="school" value="" />
-        <entry key="section" value="" />
-        <entry key="session" value="" />
-        <entry key="staff" value="" />
-        <entry key="staffCohortAssociation" value="" />
-        <entry key="staffEducationOrganizationAssociation" value="" />
-        <entry key="staffProgramAssociation" value="" />
-        <entry key="student" value="" />
-        <entry key="studentAcademicRecord" value="" />
-        <entry key="studentAssessment" value="" />
-        <entry key="studentCohortAssociation" value="" />
-        <entry key="studentCompetency" value="" />
-        <entry key="studentCompetencyObjective" value="" />
-        <entry key="studentDisciplineIncidentAssociation" value="" />
-        <entry key="studentObjectiveAssessment" value="" />
-        <entry key="studentProgramAssociation" value="" />
-        <entry key="studentGradebookEntry" value="" />
-        <entry key="studentSchoolAssociation" value="" />
-        <entry key="studentSectionAssociation" value="" />
-        <entry key="studentParentAssociation" value="" />
-        <entry key="teacher" value="" />
-        <entry key="teacherSchoolAssociation" value="" />
-        <entry key="teacherSectionAssociation" value="" />
-    </util:map>
+    <util:list id="entities" value-type="java.lang.String">
+        <value>assessment</value>
+        <value>assessmentFamily</value>
+        <value>assessmentPeriodDescriptor</value>
+        <value>attendance</value>
+        <value>cohort</value>
+        <value>competencyLevelDescriptor</value>
+        <value>competencyLevelDescriptorType</value>
+        <value>course</value>
+        <value>courseOffering</value>
+        <value>courseTranscript</value>
+        <value>disciplineIncident</value>
+        <value>disciplineAction</value>
+        <value>educationOrganization</value>
+        <value>grade</value>
+        <value>gradebookEntry</value>
+        <value>gradingPeriod</value>
+        <value>graduationPlan</value>
+        <value>learningObjective</value>
+        <value>learningStandard</value>
+        <value>objectiveAssessment</value>
+        <value>parent</value>
+        <value>program</value>
+        <value>reportCard</value>
+        <value>school</value>
+        <value>section</value>
+        <value>session</value>
+        <value>staff</value>
+        <value>staffCohortAssociation</value>
+        <value>staffEducationOrganizationAssociation</value>
+        <value>staffProgramAssociation</value>
+        <value>student</value>
+        <value>studentAcademicRecord</value>
+        <value>studentAssessment</value>
+        <value>studentCohortAssociation</value>
+        <value>studentCompetency</value>
+        <value>studentCompetencyObjective</value>
+        <value>studentDisciplineIncidentAssociation</value>
+        <value>studentObjectiveAssessment</value>
+        <value>studentProgramAssociation</value>
+        <value>studentGradebookEntry</value>
+        <value>studentSchoolAssociation</value>
+        <value>studentSectionAssociation</value>
+        <value>studentParentAssociation</value>
+        <value>teacher</value>
+        <value>teacherSchoolAssociation</value>
+        <value>teacherSectionAssociation</value>
+    </util:list>
 
     <util:map id="queriedEntities" key-type="java.lang.String" value-type="java.lang.String">
         <entry key="educationOrganization" value="educationOrganization" />
@@ -231,10 +231,22 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <entry key="teacher" value="staff" />
     </util:map>
 
+    <util:list id="educationOrganization" value-type="java.lang.String">
+        <value>localEducationAgency</value>
+        <value>stateEducationAgency</value>
+    </util:list>
+
+    <util:map id="combinedEntities" key-type="java.lang.String" value-type="java.util.List">
+        <entry key="educationOrganization">
+            <ref local="educationOrganization" />
+        </entry>
+    </util:map>
+
     <bean id="extractor" class="extract.ExtractorImpl">
+         <property name="entityRepository" ref="mongoEntityRepository" />
          <property name="entities" ref="entities" />
          <property name="queriedEntities" ref="queriedEntities" />
-         <property name="entityRepository" ref="mongoEntityRepository" />
+         <property name="combinedEntities" ref="combinedEntities" />
     </bean>
 
 </beans>

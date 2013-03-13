@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.common.domain.ContainerDocument;
+import org.slc.sli.common.domain.ContainerDocumentHolder;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +47,6 @@ import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
  *
  * @author jtully
  * @author vmcglaughlin
- *
  */
 public class DeterministicIdResolver implements BatchJobStage {
 
@@ -57,15 +59,18 @@ public class DeterministicIdResolver implements BatchJobStage {
     @Autowired
     private DidEntityConfigReader didConfigReader;
 
+    @Autowired
+    private ContainerDocumentHolder containerDocumentHolder;
+
     private static final Logger LOG = LoggerFactory.getLogger(DeterministicIdResolver.class);
 
     private static final String BODY_PATH = "body.";
     private static final String PATH_SEPARATOR = "\\.";
-    private static final String  REF_PREFIX = "DiDResolved_";
+    private static final String REF_PREFIX = "DiDResolved_";
     private static final String STAGE_NAME = "Deterministic Id Resolution";
 
     public void resolveInternalIds(NeutralRecordEntity entity, String tenantId, AbstractMessageReport report,
-            ReportStats reportStats) {
+                                   ReportStats reportStats) {
 
         DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 
@@ -144,7 +149,7 @@ public class DeterministicIdResolver implements BatchJobStage {
      */
     @SuppressWarnings("unchecked")
     private void extractReferenceParentNodes(List<Map<String, Object>> parentNodes, Map<String, Object> curNode,
-            String[] pathParts, int level) throws IdResolutionException {
+                                             String[] pathParts, int level) throws IdResolutionException {
         String nextNodeName = pathParts[level];
         if (level >= pathParts.length - 1) {
             parentNodes.add(curNode);
@@ -164,7 +169,7 @@ public class DeterministicIdResolver implements BatchJobStage {
     }
 
     private Object resolveReference(Entity entity, Object referenceObject, boolean isOptional, DidRefConfig didRefConfig,
-            String tenantId) throws IdResolutionException {
+                                    String tenantId) throws IdResolutionException {
 
         String refType = didRefConfig.getEntityType();
 
@@ -226,7 +231,7 @@ public class DeterministicIdResolver implements BatchJobStage {
     }
 
     private void handleException(NeutralRecordEntity entity, String sourceRefPath, String entityType,
-            String referenceType, Exception e, AbstractMessageReport report, ReportStats reportStats) {
+                                 String referenceType, Exception e, AbstractMessageReport report, ReportStats reportStats) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
         report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0009, entityType, referenceType, sourceRefPath);
     }
@@ -288,7 +293,7 @@ public class DeterministicIdResolver implements BatchJobStage {
                 Object value = null;
                 if (keyFieldDef.getRefConfig() != null) {
                     Object externalRef = getProperty(entity.getBody(), keyFieldDef.getValueSource());
-    
+
                     if (externalRef == null) {
                         if (!keyFieldDef.isOptional()) {
                             throw new IdResolutionException("No value found for required reference",
@@ -310,11 +315,11 @@ public class DeterministicIdResolver implements BatchJobStage {
                                     keyFieldDef.getValueSource(), "");
                         }
                     }
-    
+
                 } else {
                     value = getProperty(reference, keyFieldDef.getValueSource());
                 }
-    
+
                 String fieldName = keyFieldDef.getKeyFieldName();
                 // don't add null or empty keys to the naturalKeys map
                 if (fieldName != null && !fieldName.isEmpty() && (value != null || keyFieldDef.isOptional())) {
@@ -335,8 +340,29 @@ public class DeterministicIdResolver implements BatchJobStage {
         if (EmbeddedDocumentRelations.getSubDocuments().contains(entityType)) {
             String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entityType);
             parentId = naturalKeys.get(parentKey);
-            if(parentId == null) {
+            if (parentId == null) {
                 throw new IdResolutionException("Subdoc must have a parent reference", didRefConfig.getEntityType(), null);
+            }
+        } else if (containerDocumentHolder.isContainerDocument(entityType)) {
+            ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entityType);
+            if (containerDocument.isContainerSubdoc()) {
+
+                final List<String> parentKeys = containerDocument.getParentNaturalKeys();
+
+                final Map<String, String> naturalKeyMap = new HashMap<String, String>();
+                for (final String parentKey : parentKeys) {
+                    String value = "";
+                    if (naturalKeys.containsKey(parentKey)) {
+                        value = naturalKeys.get(parentKey);
+                    }
+                    naturalKeyMap.put(parentKey, value);
+                }
+
+                String parentEntityType = containerDocument.getCollectionToPersist();
+                parentId = uuidGeneratorStrategy.generateId(new NaturalKeyDescriptor(naturalKeyMap, tenantId, parentEntityType, null));
+                if (parentId == null) {
+                    throw new IdResolutionException("Container doc must have a parent reference", didRefConfig.getEntityType(), null);
+                }
             }
         }
 

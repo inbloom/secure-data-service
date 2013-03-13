@@ -5,8 +5,8 @@
     <LetterGradeEarned>A</LetterGradeEarned>
     <NumericGradeEarned>95</NumericGradeEarned>
     <CompetencyLevel>
-        <CodeValue>Barely Competent 1</CodeValue>
-      </CompetencyLevel>
+      <CodeValue>Barely Competent 1</CodeValue>
+    </CompetencyLevel>
     <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -50,8 +50,8 @@
     <LetterGradeEarned>B</LetterGradeEarned>
     <NumericGradeEarned>85</NumericGradeEarned>
     <CompetencyLevel>
-        <CodeValue>Barely Competent 1</CodeValue>
-      </CompetencyLevel>
+      <CodeValue>Barely Competent 1</CodeValue>
+    </CompetencyLevel>
     <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -95,8 +95,8 @@
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>75</NumericGradeEarned>
     <CompetencyLevel>
-        <CodeValue>Barely Competent 2</CodeValue>
-      </CompetencyLevel>
+      <CodeValue>Barely Competent 2</CodeValue>
+    </CompetencyLevel>
     <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -122,7 +122,6 @@
       <GradebookEntryIdentity>
         <GradebookEntryType>funeral homework 3</GradebookEntryType>
         <DateAssigned>2012-05-08</DateAssigned>
-        
         <SectionReference>
           <SectionIdentity>
             <EducationalOrgReference>
@@ -141,8 +140,8 @@
     <LetterGradeEarned>D</LetterGradeEarned>
     <NumericGradeEarned>65</NumericGradeEarned>
     <CompetencyLevel>
-        <CodeValue>Barely Competent 3</CodeValue>
-      </CompetencyLevel>
+      <CodeValue>Barely Competent 3</CodeValue>
+    </CompetencyLevel>
     <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -168,7 +167,6 @@
       <GradebookEntryIdentity>
         <GradebookEntryType>funeral homework 17</GradebookEntryType>
         <DateAssigned>2012-05-08</DateAssigned>
-        
         <SectionReference>
           <SectionIdentity>
             <EducationalOrgReference>
@@ -187,8 +185,8 @@
     <LetterGradeEarned>F</LetterGradeEarned>
     <NumericGradeEarned>55</NumericGradeEarned>
     <CompetencyLevel>
-        <CodeValue>Barely Competent 2</CodeValue>
-      </CompetencyLevel>
+      <CodeValue>Barely Competent 2</CodeValue>
+    </CompetencyLevel>
     <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -214,7 +212,6 @@
       <GradebookEntryIdentity>
         <GradebookEntryType>funeral homework 4</GradebookEntryType>
         <DateAssigned>2012-05-08</DateAssigned>
-        
         <SectionReference>
           <SectionIdentity>
             <EducationalOrgReference>
@@ -233,8 +230,8 @@
     <LetterGradeEarned>D</LetterGradeEarned>
     <NumericGradeEarned>65</NumericGradeEarned>
     <CompetencyLevel>
-        <CodeValue>Barely Competent 3</CodeValue>
-      </CompetencyLevel>
+      <CodeValue>Barely Competent 3</CodeValue>
+    </CompetencyLevel>
     <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -260,7 +257,6 @@
       <GradebookEntryIdentity>
         <GradebookEntryType>funeral homework 18</GradebookEntryType>
         <DateAssigned>2012-05-08</DateAssigned>
-        
         <SectionReference>
           <SectionIdentity>
             <EducationalOrgReference>
@@ -279,8 +275,8 @@
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>75</NumericGradeEarned>
     <CompetencyLevel>
-        <CodeValue>Barely Competent 4</CodeValue>
-      </CompetencyLevel>
+      <CodeValue>Barely Competent 4</CodeValue>
+    </CompetencyLevel>
     <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -306,7 +302,6 @@
       <GradebookEntryIdentity>
         <GradebookEntryType>funeral homework 19</GradebookEntryType>
         <DateAssigned>2012-05-08</DateAssigned>
-        
         <SectionReference>
           <SectionIdentity>
             <EducationalOrgReference>
@@ -325,8 +320,8 @@
     <LetterGradeEarned>B</LetterGradeEarned>
     <NumericGradeEarned>85</NumericGradeEarned>
     <CompetencyLevel>
-        <CodeValue>Barely Competent 4</CodeValue>
-      </CompetencyLevel>
+      <CodeValue>Barely Competent 4</CodeValue>
+    </CompetencyLevel>
     <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
@@ -352,7 +347,6 @@
       <GradebookEntryIdentity>
         <GradebookEntryType>funeral homework 20</GradebookEntryType>
         <DateAssigned>2012-05-08</DateAssigned>
-        
         <SectionReference>
           <SectionIdentity>
             <EducationalOrgReference>
@@ -377,9 +371,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -415,9 +409,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -453,9 +447,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -491,9 +485,10 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>      </LearningObjectiveIdentity>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
       <SectionIdentity>
@@ -528,9 +523,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -566,9 +561,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -604,9 +599,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -642,9 +637,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -680,9 +675,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -718,9 +713,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -756,9 +751,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -794,9 +789,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -832,9 +827,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -870,9 +865,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -908,9 +903,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -946,9 +941,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -984,9 +979,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -1022,9 +1017,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -1060,9 +1055,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -1098,9 +1093,9 @@
     </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
-                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
-                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
-                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
       </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <SectionReference>
@@ -1155,43 +1150,6 @@
     <Description>Herman tends to throw tantrums</Description>
     <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   <LearningObjective>
     <LearningObjectiveId ContentStandardName="Content Standard Name">
       <IdentificationCode>lobj1</IdentificationCode>

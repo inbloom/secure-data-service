@@ -25,7 +25,7 @@ require_relative 'enum/CourseRepeatCodeType.rb'
 class CourseTranscript < BaseEntity
   attr_accessor :student_id, :ed_org_id, :result, :credits_earned, :course_id, 
     :session, :grade_level, :final_letter_grade, :final_numeric_grade, :course_ed_org_id,
-    :method_credit_earned, :course_repeat_code, :credits_attempted, :additional_credits_earned
+    :method_credit_earned, :course_repeat_code, :credits_attempted, :additional_credits_earned, :school_year
 
   def initialize(student_id, school_id, course_id, session, grade, final_grade = nil, result = "Pass", credits_earned = 3)
     @student_id = student_id
@@ -36,6 +36,7 @@ class CourseTranscript < BaseEntity
     @rand = Random.new(@student_id ^ @course_id)
     @course_ed_org_id = (@@scenario['COURSES_ON_SEA'] && session['edOrgId']) || school_id
     @session = session
+    @school_year = session['year'].to_s + "-" + (session['year'] + 1).to_s
 
     # optional field support
     optional { @credits_attempted = @result == "Pass" ? @credits_earned : 3 }
