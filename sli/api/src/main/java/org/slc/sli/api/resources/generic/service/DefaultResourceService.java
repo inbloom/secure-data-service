@@ -357,9 +357,6 @@ public class DefaultResourceService implements ResourceService {
                 entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
             }
             
-            EntityDefinition baseEntity = resourceHelper.getEntityDefinition(base);
-            entityBodyList = getTimeFilteredAssociations(entityBodyList, baseEntity, definition);
-
             long count = getEntityCount(definition, apiQuery);
             return new ServiceResponse(adapter.migrate(entityBodyList, definition.getResourceName(), GET), count);
         } catch (NoGranularAccessDatesException e) {
