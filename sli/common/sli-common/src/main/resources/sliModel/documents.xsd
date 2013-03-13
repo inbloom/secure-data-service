@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+	<xs:element name="documents" type="DocumentList" />
+
+	<xs:complexType name="DocumentList">
+		<xs:sequence>
+			<xs:element name="document" type="Document" minOccurs="0"
+				maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Document">
+		<xs:sequence>
+			<xs:element name="class" type="Class"></xs:element>
+			<xs:element name="graph" type="xs:string"></xs:element>
+			<xs:element name="singular" type="xs:string"></xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+	<xs:complexType name="Class">
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+</xs:schema>
