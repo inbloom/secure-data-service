@@ -61,6 +61,8 @@ public class ExtractorImpl implements Extractor {
 
     private Map<String, String> queriedEntities;
 
+    private Map<String, List<String>> combinedEntities;
+
     private String extractDir;
 
     private ExecutorService executor;
@@ -181,12 +183,16 @@ public class ExtractorImpl implements Extractor {
             collectionName = queriedEntities.get(entityName);
             query.addCriteria(Criteria.where("type").is(entityName));
         }
+        if (combinedEntities.containsKey(entityName)) {
+            query = new Query();
+            query.addCriteria(Criteria.where("type").in(combinedEntities.get(entityName)));
+        }
         try {
             TenantContext.setTenantId(tenant);
             records = entityRepository.findByQuery(collectionName, query, 0, 0);
             // write each record to file
             for (Entity record : records) {
-                addAPIFields(record);
+                addAPIFields(entityName, record);
                 zipFile.writeData(toJSON(record));
             }
             LOG.info("Finished extracting " + entityName);
@@ -207,9 +213,13 @@ public class ExtractorImpl implements Extractor {
         return JSON.serialize(record.getBody());
     }
 
-    private void addAPIFields(Entity entity) {
-        entity.getBody().put(ID_STRING, entity.getEntityId());
+    private void addAPIFields(String archiveName, Entity entity) {
         entity.getBody().put(TYPE_STRING, entity.getType());
+        if (combinedEntities.containsKey(archiveName)) {
+            entity.getBody().put(ID_STRING, archiveName);
+        } else {
+            entity.getBody().put(ID_STRING, entity.getEntityId());
+        }
     }
 
     public void setExtractDir(String extractDir) {
@@ -238,6 +248,10 @@ public class ExtractorImpl implements Extractor {
 
     public void setQueriedEntities(Map<String, String> queriedEntities) {
         this.queriedEntities = queriedEntities;
+    }
+
+    public void setCombinedEntities(Map<String, List<String>> combinedEntities) {
+        this.combinedEntities = combinedEntities;
     }
 
     /**
