@@ -127,7 +127,7 @@ end
 desc "Run Tenant Purge Test"
 task :ingestionTenantPurgeTests do
   Rake::Task["realmInit"].invoke
-  Rake::Task["importSandboxData"].invoke
+  Rake::Task["importPurgeData"].invoke
   runTests("test/features/ingestion/features/tenant_purge.feature")
 end
 
@@ -271,6 +271,11 @@ end
 desc "Run Ingestion SecurityEvent Test"
 task :ingestionSecurityEventTest do
   runTests("test/features/ingestion/features/ingestion_securityEvent.feature")
+end
+
+desc "Run Ingestion Propagated Data Set Test"
+task :ingestionPropagatedTest do
+  runTests("test/features/ingestion/features/ingestion_PropagatedDataSet.feature")
 end
 
 ############################################################

@@ -35,4 +35,9 @@ public interface RecordVisitor {
      */
     void visit(RecordMeta edfiType, Map<String, Object> record);
 
+    /**
+     * Invoked for each record being ignored by the parser.
+     */
+    void ignored();
+
 }

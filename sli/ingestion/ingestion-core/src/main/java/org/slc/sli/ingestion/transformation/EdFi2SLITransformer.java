@@ -199,7 +199,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 message.append("\n" + "       Field      " + fieldName);
             }
             report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0010, entity.getType(),
-                    Long.toString(entity.getRecordNumber()), message.toString());
+                    message.toString());
             return null;
         } catch (NoNaturalKeysDefinedException e) {
             LOG.error(e.getMessage(), e);
@@ -208,8 +208,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
             // Okay for embedded entities
-            LOG.error("Unable to find natural key fields" + "       Entity     " + entity.getType() + "\n"
-                    + "       Instance   " + entity.getRecordNumber());
+            LOG.error("Unable to find natural keys fields for Entity: {} at line {} column {}",
+                    new Object[] { entity.getType(), entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber() });
 
             query = createEntityLookupQueryFromKeyFields(entity, entityConfig, report, reportStats);
         } else {

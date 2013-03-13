@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+                      xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <core:filterSettings type="SAX" readerPoolSize="5" />
+
+    <jb:bean beanId="learningStandards" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="learningStandard" />
+    </jb:bean>
+
+    <jb:bean beanId="learningStandard" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'learningStandard'</jb:expression>
+        <jb:wiring property="body" beanIdRef="learningStandardBody" />
+    </jb:bean>
+
+    <jb:bean beanId="learningStandardBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:wiring property="learningStandardId" beanIdRef="LearningStandardId" />
+        <jb:value property="description" data="attributes Description _value"/>
+        <jb:value property="contentStandard" data="attributes ContentStandard _value" />
+        <jb:value property="gradeLevel" data="attributes GradeLevel _value" />
+        <jb:value property="subjectArea" data="attributes SubjectArea _value" />
+        <jb:value property="courseTitle" data="attributes CourseTitle _value" />
+    </jb:bean>
+
+    <jb:bean beanId="LearningStandardId" class="java.util.HashMap" createOnElement="attributes LearningStandardId">
+        <jb:value property="identificationCode" data="attributes LearningStandardId IdentificationCode _value" />
+        <jb:value property="contentStandardName" data="attributes LearningStandardId a_ContentStandardName" />
+    </jb:bean>
+
+</smooks-resource-list>

@@ -27,3 +27,4 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 17" in the resulting batch job file
   And I should see "All records processed successfully" in the resulting batch job file
   And I should not see an error log file created
+  And I should not see a warning log file created

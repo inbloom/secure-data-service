@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 <meta http-equiv="Content-Script-Type" content="text/javascript"/>
-<title>${title}</title>
+<title>inBloom Login</title>
 <link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
 <script type="text/javascript" src="resources/jquery-1.7.2.min.js"></script>
 

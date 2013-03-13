@@ -31,25 +31,22 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Used to retrieve the list of apps that a user is allowed to use.
@@ -92,7 +89,7 @@ public class ApprovedApplicationResource {
             if (appValidator.isAuthorizedForApp(result, SecurityUtil.getSLIPrincipal())) {
                 EntityBody body = new EntityBody(result.getBody());
                 if (!shouldFilterApp(body, adminFilter)) {
-    
+
                     filterAttributes(body);
                     results.add(body);
                 }
@@ -101,8 +98,10 @@ public class ApprovedApplicationResource {
         return Response.status(Status.OK).entity(results).build();
     }
 
+    @SuppressWarnings("unchecked")
     private boolean shouldFilterApp(EntityBody result, String adminFilter) {
         if (result.containsKey("endpoints")) {
+
             List<Map<String, Object>> endpoints = (List<Map<String, Object>>) result.get("endpoints");
             filterEndpoints(endpoints);
 
@@ -199,6 +198,5 @@ public class ApprovedApplicationResource {
                 i.remove();
             }
         }
-
     }
 }

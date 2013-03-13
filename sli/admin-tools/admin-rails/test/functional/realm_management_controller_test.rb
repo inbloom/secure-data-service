@@ -20,9 +20,9 @@ limitations under the License.
 require 'test_helper'
 
 class RealmManagementControllerTest < ActionController::TestCase
-  # setup do
-  #   session[:edOrg] = "Waffles"
-  # end
+  setup do
+     session[:rights] = "CRUD_REALM"
+  end
 
   test "should get index with no realms" do
     get :index

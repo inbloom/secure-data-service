@@ -4,6 +4,7 @@ Feature: Partial Ingestion
 Background: I have a landing zone route configured
 Given I am using local data store
 
+@wip
 Scenario: Post StudentAssessment without required parent records in database
 
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -69,6 +70,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName                           |              count|
      | attendance                               |                  0|
     And I should see "Processed 2 records." in the resulting batch job file
+    And I should see "StudentAttendanceEvents.xml records not considered for processing: 2" in the resulting batch job file
 
 
 Scenario: Post Attendance records with required parent records previously ingested

@@ -46,6 +46,7 @@ require_relative 'enum/PerformanceBaseType'
 #          <xs:element name="PerformanceBaseConversion" type="PerformanceBaseType" minOccurs="0"/>
 #          <xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
 #          <xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0"/>
+#          <xs:element name="SchoolYear" type="SchoolYearType"/>
 #        </xs:sequence>
 #      </xs:extension>
 #    </xs:complexContent>
@@ -54,6 +55,7 @@ class Grade < BaseEntity
 
   # required fields
   attr_accessor :student_section_association   # maps to 'StudentSectionAssociationReference'  
+  attr_accessor :school_year                   # maps to 'SchoolYear'
   
   # optional fields
   attr_accessor :letter_grade                  # maps to 'LetterGradeEarned'
@@ -63,9 +65,10 @@ class Grade < BaseEntity
 
   attr_accessor :performance
 
-  def initialize(letter_grade, number_grade, type, student_section_association, grading_period = nil)
+  def initialize(letter_grade, number_grade, type, student_section_association, year, grading_period = nil)
     @type                        = type
     @student_section_association = student_section_association
+    @school_year                 = year.to_s + "-" + (year + 1).to_s
     @rand                        = Random.new((GradeType.to_string(type) + student_section_association['student'].to_s + student_section_association['ed_org_id'].to_s).size)
     
     # report card computations rely on this field being present

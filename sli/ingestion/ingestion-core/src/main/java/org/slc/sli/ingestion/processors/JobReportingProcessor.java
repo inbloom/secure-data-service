@@ -26,6 +26,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -331,31 +332,58 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
-        List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId(), BatchJobStageType.EDFI_PROCESSOR);
 
-        for (Stage stage : stages) {
-            List<Metrics> edfiMetrics = stage.getMetrics();
-            for (Metrics metric : edfiMetrics) {
-                Map<String, Long> duplicates = metric.getDuplicateCounts();
-
-                if (duplicates != null) {
-                    String resource = metric.getResourceId();
-                    for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
-                        Long count = dupEntry.getValue();
-                        if (count > 0) {
-                            writeInfoLine(jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
-                                    + " deltas!");
-                        }
-                    }
+        Map<String,Map<String, Long>> combinedMetrics = new HashMap<String, Map<String, Long>>();
+        List<Metrics> deltaStageMetrics = new ArrayList<Metrics>();
+        List<Stage> deltaStages = batchJobDAO.getBatchJobStages(job.getId(), BatchJobStageType.DELTA_PROCESSOR);
+        for(Stage stage : deltaStages) {
+            for(Metrics metric : stage.getMetrics()) {
+                if(metric.getDuplicateCounts() != null) {
+                    deltaStageMetrics.add(metric);
                 }
             }
         }
+
+        if(deltaStageMetrics != null) {
+            for(Metrics metrics : deltaStageMetrics) {
+                String resourceId = metrics.getResourceId();
+                Map<String, Long> combinedDuplicateCounts = combinedMetrics.containsKey(resourceId) ? collateDuplicateCounts(combinedMetrics.get(resourceId), metrics.getDuplicateCounts()) : metrics.getDuplicateCounts();
+                combinedMetrics.put(resourceId, combinedDuplicateCounts);
+            }
+        }
+
+        for(Entry<String, Map<String, Long>> entry : combinedMetrics.entrySet()) {
+            String resource = entry.getKey();
+            Map<String, Long> duplicates = entry.getValue();
+            if(duplicates != null) {
+                for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
+                  Long count = dupEntry.getValue();
+                  if (count > 0) {
+                      writeInfoLine(jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
+                              + " deltas!");
+                  }
+              }
+
+            }
+        }
+    }
+
+    private Map<String, Long> collateDuplicateCounts(Map<String, Long> currentCounts, Map<String, Long> metricsCount) {
+        Map<String, Long> combinedCounts = new HashMap<String, Long>();
+        combinedCounts.putAll(currentCounts);
+        for(Map.Entry<String,Long> entry : metricsCount.entrySet()) {
+            Long count = combinedCounts.containsKey(entry.getKey()) ? combinedCounts.get(entry.getKey()) + entry.getValue() : entry.getValue();
+            combinedCounts.put(entry.getKey(),count);
+        }
+        return combinedCounts;
     }
 
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         long totalProcessed = 0;
 
         List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId(), BatchJobStageType.PERSISTENCE_PROCESSOR);
+        stages.addAll(batchJobDAO.getBatchJobStages(job.getId(), BatchJobStageType.EDFI_PARSER_PROCESSOR));
+
         Iterator<Stage> it = stages.iterator();
 
         Stage stage;
@@ -376,16 +404,19 @@ public class JobReportingProcessor implements Processor {
                     temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
                     temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
                     temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
+                    temp.setValidationErrorCount(combinedMetricsMap.get(m.getResourceId()).getValidationErrorCount());
 
                     temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
                     temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
+                    temp.setValidationErrorCount(temp.getValidationErrorCount() + m.getValidationErrorCount());
 
                     combinedMetricsMap.put(m.getResourceId(), temp);
 
                 } else {
                     // adding metrics to the map
-                    combinedMetricsMap.put(m.getResourceId(),
-                            new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
+                    Metrics aggregatedMetrics = new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount());
+                    aggregatedMetrics.setValidationErrorCount(m.getValidationErrorCount());
+                    combinedMetricsMap.put(m.getResourceId(), aggregatedMetrics);
                 }
 
             }
@@ -401,13 +432,15 @@ public class JobReportingProcessor implements Processor {
                 continue;
             }
 
-            logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), jobReportWriter);
+            logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), metric.getValidationErrorCount(), jobReportWriter);
 
             totalProcessed += metric.getRecordCount();
+            totalProcessed += metric.getValidationErrorCount();
 
             // update resource entries for zero-count reporting later
             resourceEntry.setRecordCount(metric.getRecordCount());
             resourceEntry.setErrorCount(metric.getErrorCount());
+            resourceEntry.setValidationErrorCount(metric.getValidationErrorCount());
         }
 
         writeZeroCountPersistenceMetrics(job, jobReportWriter);
@@ -422,22 +455,23 @@ public class JobReportingProcessor implements Processor {
             if (resourceEntry.getResourceFormat() != null
                     && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())
                     && resourceEntry.getRecordCount() == 0 && resourceEntry.getErrorCount() == 0) {
-                logResourceMetric(resourceEntry, 0, 0, jobReportWriter);
+                logResourceMetric(resourceEntry, 0, 0, 0, jobReportWriter);
             }
         }
     }
 
     private void logResourceMetric(ResourceEntry resourceEntry, long numProcessed, long numFailed,
-            PrintWriter jobReportWriter) {
+            long numFailedValidation, PrintWriter jobReportWriter) {
         String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
         writeInfoLine(jobReportWriter,
                 id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
 
         long numPassed = numProcessed - numFailed;
 
-        writeInfoLine(jobReportWriter, id + " records considered: " + numProcessed);
+        writeInfoLine(jobReportWriter, id + " records considered for processing: " + numProcessed);
         writeInfoLine(jobReportWriter, id + " records ingested successfully: " + numPassed);
-        writeInfoLine(jobReportWriter, id + " records failed: " + numFailed);
+        writeInfoLine(jobReportWriter, id + " records failed processing: " + numFailed);
+        writeInfoLine(jobReportWriter, id + " records not considered for processing: " + numFailedValidation);
     }
 
     private void missingBatchJobIdError(Exchange exchange) {

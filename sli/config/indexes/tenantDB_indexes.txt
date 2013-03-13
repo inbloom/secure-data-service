@@ -171,6 +171,8 @@ staff,false,body.staffUniqueStateId:1
 # Find student by external ID
 student,false,body.studentUniqueStateId:1
 
+# needed for security lookups
+session,false,body.gradingPeriodReference:1
 
 # Natural Keys
 # US4388
@@ -189,5 +191,3 @@ educationOrganization,false,body.organizationCategories:1
 
 # To make Accaptance Tests pass -- REMOVE THIS - DE2609
 educationOrganization,false,type:1,body.nameOfInstitution:1
-# To make acceptance tests pass -- REMOVE THIS -- DE2622
-staff,false,type:1

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <core:filterSettings type="SAX" readerPoolSize="5" />
+
+    <jb:bean beanId="studentObjectiveAssessments" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="studentObjectiveAssessment" />
+    </jb:bean>
+
+    <jb:bean beanId="studentObjectiveAssessment" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'studentObjectiveAssessment'</jb:expression>
+        <jb:wiring property="body" beanIdRef="studentObjectiveAssessmentBody" />
+    </jb:bean>
+
+    <jb:bean beanId="studentObjectiveAssessmentBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="studentAssessmentId" data="attributes StudentAssessmentReference" />
+        <jb:value property="objectiveAssessmentId" data="attributes ObjectiveAssessmentReference" />
+        <jb:wiring property="scoreResults" beanIdRef="OAScoreResultsArray" />
+        <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
+    </jb:bean>
+
+    <jb:bean beanId="OAScoreResultsArray" class="java.util.ArrayList" createOnElement="attributes ScoreResults">
+    <jb:wiring beanIdRef="OAscoreResultMap" />
+  </jb:bean>
+  <jb:bean beanId="OAscoreResultMap" class="java.util.HashMap" createOnElement="attributes ScoreResults element">
+    <jb:value property="assessmentReportingMethod" data="attributes ScoreResults element a_AssessmentReportingMethod" />
+    <jb:value property="result" data="attributes ScoreResults element Result _value" />
+  </jb:bean>
+  
+  <jb:bean beanId="performanceLevelsTypeArray" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels">
+    <jb:wiring beanIdRef="PerformanceDescriptorList" />
+  </jb:bean>
+  
+    <jb:bean beanId="PerformanceDescriptorList" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels element">
+    <jb:wiring beanIdRef="PerformanceDescriptorCodeValue" />
+    <jb:wiring beanIdRef="PerformanceDescriptorDescription" />
+  </jb:bean>
+  
+
+  <jb:bean beanId="PerformanceDescriptorCodeValue" class="java.util.HashMap"
+    createOnElement="attributes PerformanceLevels element CodeValue">
+    <jb:value property="codeValue" data="attributes PerformanceLevels element CodeValue _value" />
+  </jb:bean>
+  
+   <jb:bean beanId="PerformanceDescriptorDescription" class="java.util.HashMap"
+    createOnElement="attributes PerformanceLevels element Description">
+    <jb:value property="description" data="attributes PerformanceLevels element Description _value" />
+  </jb:bean>
+
+
+</smooks-resource-list>

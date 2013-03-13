@@ -6,15 +6,15 @@
         {
             "StudentIdentity":
             {
-                "StudentUniqueStateId":"100000000"
+                "StudentUniqueStateId":{"_value":"100000000"}
             }
         },
-        "ParentReference":
-        {
-            "ParentIdentity":
-            {
-                "ParentUniqueStateId":"testParentId"
-            }
-        }
+    	"ParentReference":
+    	{
+			"ParentIdentity":
+			{
+				"ParentUniqueStateId":{"_value":"testParentId"}
+			}
+    	}
     }
 }

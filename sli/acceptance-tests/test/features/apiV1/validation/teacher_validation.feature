@@ -136,7 +136,7 @@ Scenario: Given a known school object, perform a PUT with a base school object t
 	Given format "application/json"
     When I navigate to GET "/v1/schools/<'Daybreak Central High' ID>"
     Then I should receive a return code of 200
-    When I create a valid base level school object
+    When I create a valid base level school object without parent education organization reference
       And "stateOrganizationId" has a value of "Daybreak Central High"
       And I navigate to PUT "/v1/schools/<'Daybreak Central High' ID>"
     Then I should receive a return code of 204
@@ -147,17 +147,6 @@ Scenario: Given a known school object, perform a PUT with a base school object t
       And "gradesOffered" should contain "First_grade" and "Second_grade"
       And "entityType" should be "school"
       And there should be no other contents in the response body other than links
-
-  Scenario: Given a school entity with no associations, when a GET is performed with an association id, I should receive a 200 
-    Given format "application/json"
-    And I create a valid base level school object
-    When I navigate to POST "/v1/schools"
-    Then I should receive a return code of 201
-    And I should receive an ID for the newly created school
-    When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations"
-    Then I should receive a return code of 200 
-    When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations/teachers"
-    Then I should receive a return code of 200
 
   Scenario: Given an invalid id, when I try to GET a target endpoint through 4-part URL, I should receive a 200 
     Given format "application/json"

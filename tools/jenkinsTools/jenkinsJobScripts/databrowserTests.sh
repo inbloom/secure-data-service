@@ -8,6 +8,8 @@ resetDatabases
 
 profileSwapAndPropGen
 
+startSearchIndexer
+
 databrowserUnitTests
 
 deployDatabrowser

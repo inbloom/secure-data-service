@@ -50,7 +50,8 @@ $known_ids = {
   'studentSectionAssociations' => 'b653fd937c66b23cd3449d235a627da4531ade7b_idbf588361e6db5c270fb95f6f6001c6dcf34abef3_id',
   'teachers' => '8107c5ce31cec58d4ac0b647e91b786b03091f02_id',
   'teacherSchoolAssociations' => '93a4133d17303788f99e3b229b9649d46de5f42e_id',
-  'teacherSectionAssociations' => 'b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id09f27aad1cc3054393f9c5d27fadb0c562a1b93e_id'
+  'teacherSectionAssociations' => 'b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id09f27aad1cc3054393f9c5d27fadb0c562a1b93e_id',
+  'yearlyAttendances' => '4851c7adbe7beecf29cc4a3046a8e62d1bced079_id',
 }
 
 # templates

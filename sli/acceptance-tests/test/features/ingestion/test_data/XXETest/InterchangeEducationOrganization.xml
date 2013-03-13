@@ -6,8 +6,8 @@
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
   
   <StateEducationAgency>
-    <StateOrganizationId>&xxe;</StateOrganizationId>
-    <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
+    <StateOrganizationId>SEA</StateOrganizationId>
+    <NameOfInstitution>&xxe;</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>State Education Agency</OrganizationCategory>
     </OrganizationCategories>

@@ -25,9 +25,9 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should not see a warning log file created
-  And I should see "tenant.xml records considered: 1" in the resulting batch job file
+  And I should see "tenant.xml records considered for processing: 1" in the resulting batch job file
   And I should see "tenant.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "tenant.xml records failed: 0" in the resulting batch job file
+  And I should see "tenant.xml records failed processing: 0" in the resulting batch job file
 
 Scenario: Add a landing zone to an existing tenant
 Given I add a new landing zone for "Midgar-Newtowne.te_\#&5st@wgen.net"
@@ -50,6 +50,6 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should not see a warning log file created
-  And I should see "tenant.xml records considered: 1" in the resulting batch job file
+  And I should see "tenant.xml records considered for processing: 1" in the resulting batch job file
   And I should see "tenant.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "tenant.xml records failed: 0" in the resulting batch job file
+  And I should see "tenant.xml records failed processing: 0" in the resulting batch job file

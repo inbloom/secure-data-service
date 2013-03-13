@@ -23,28 +23,25 @@
   </jb:bean>
 
   <jb:bean beanId="sectionBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="uniqueSectionCode" data="attributes UniqueSectionCode _value" />
+    <jb:value property="sequenceOfCourse" data="attributes SequenceOfCourse _value" decoder="Integer" />
+    <jb:value property="educationalEnvironment" data="attributes EducationalEnvironment _value" />
+    <jb:value property="mediumOfInstruction" data="attributes MediumOfInstruction _value" />
+    <jb:value property="populationServed" data="attributes PopulationServed _value" />
+    <jb:wiring property="availableCredit" beanIdRef="AvailableCreditValue" />
+    <jb:value property="courseOfferingId" data="attributes CourseOfferingReference" />
     <jb:value property="schoolId" data="attributes SchoolReference" />
     <jb:value property="sessionId" data="attributes SessionReference" />
-
-    <jb:value property="schoolId" data="attributes schoolId" />
-    <jb:value property="courseOfferingId" data="attributes CourseOfferingReference" />
-
-    <jb:wiring property="availableCredit" beanIdRef="availableCreditValue" />
-    <jb:value property="educationEnvironment" data="attributes educationEnvironment" />
-    <jb:value property="populationServed" data="attributes populationServed" />
-    <jb:value property="sequenceOfCourse" data="attributes sequenceOfCourse" decoder="Integer" />
-    <jb:value property="mediumOfInstruction" data="attributes mediumOfInstruction" />
-    <jb:value property="uniqueSectionCode" data="attributes uniqueSectionCode" />
     <jb:wiring property="programReference" beanIdRef="programReferenceArray" />
   </jb:bean>
 
-  <jb:bean beanId="availableCreditValue" class="java.util.HashMap" createOnElement="availableCredit">
-    <jb:value property="creditType" data="attributes avaliableCredit creditType" />
-    <jb:value property="creditConversion" data="attributes availableCredit creditConversion"/>
-    <jb:value property="credit" data="attributes availableCredit credit" />
+  <jb:bean beanId="AvailableCreditValue" class="java.util.HashMap" createOnElement="attributes AvailableCredit">
+    <jb:value property="creditType" data="attributes AvailableCredit a_CreditType" />
+    <jb:value property="creditConversion" data="attributes AvailableCredit a_CreditConversion"/>
+    <jb:value property="credit" data="attributes AvailableCredit Credit _value" />
   </jb:bean>
 
-  <jb:bean beanId="programReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
+  <jb:bean beanId="programReferenceArray" class="java.util.ArrayList" createOnElement="attributes ProgramReference">
     <jb:value data="attributes ProgramReference element" />
   </jb:bean>
 

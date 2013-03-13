@@ -20,6 +20,16 @@ limitations under the License.
 include GeneralRealmHelper
 
 class CustomRolesController < ApplicationController
+  before_filter :check_rights
+
+  def check_rights
+    unless session[:rights].include?("CRUD_ROLE")
+      logger.warn {'User does not have CRUD_ROLE right and cannot modify custom roles'}
+      raise ActiveResource::ForbiddenAccess, caller
+    end
+  end
+
+
   # GET /realms
   # GET /realms.json
   def index

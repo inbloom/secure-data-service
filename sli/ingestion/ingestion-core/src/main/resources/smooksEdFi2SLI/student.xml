@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+  <json:reader rootName="json" />
+
+  <core:filterSettings type="SAX" readerPoolSize="5" />
+
+  <jb:bean beanId="students" class="java.util.ArrayList" createOnElement="#document">
+      <jb:wiring beanIdRef="student" />
+  </jb:bean>
+
+  <jb:bean beanId="student" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'student'</jb:expression>
+    <jb:wiring property="body" beanIdRef="studentBody" />
+  </jb:bean>
+
+  <jb:bean beanId="studentBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="studentUniqueStateId" data="attributes StudentUniqueStateId _value" />
+    <jb:wiring property="studentIdentificationCode" beanIdRef="StudentIdentificationCodes" />
+    <jb:wiring property="name" beanIdRef="Name" />
+    <jb:wiring property="otherName" beanIdRef="OtherNames" />
+    <jb:value property="sex" data="attributes Sex _value" />
+    <jb:wiring property="birthData" beanIdRef="BirthData" />
+    <jb:wiring property="address" beanIdRef="Addresses" />
+    <jb:wiring property="telephone" beanIdRef="Telephones" />
+    <jb:wiring property="electronicMail" beanIdRef="ElectronicMails" />
+    <jb:value property="hispanicLatinoEthnicity" data="attributes HispanicLatinoEthnicity _value"  decoder="Boolean" />
+    <jb:value property="oldEthnicity" data="attributes OldEthnicity _value" />
+    <jb:wiring property="race" beanIdRef="Races" />
+    <jb:value property="economicDisadvantaged" data="attributes economicDisadvantaged _value"  decoder="Boolean" />
+    <jb:value property="schoolFoodServicesEligibility" data="attributes schoolFoodServicesEligibility _value" />
+    <jb:wiring property="studentCharacteristics" beanIdRef="StudentCharacteristics" />
+    <jb:value property="profileThumbnail" data="attributes ProfileThumbnail _value" />
+    <jb:value property="limitedEnglishProficiency" data="attributes LimitedEnglishProficiency _value" />
+    <jb:wiring property="languages" beanIdRef="Languages" />
+    <jb:wiring property="homeLanguages" beanIdRef="HomeLanguages" />
+    <jb:wiring property="disabilities" beanIdRef="Disabilities" />
+    <jb:wiring property="section504Disabilities" beanIdRef="Section504Disabilities" />
+    <jb:value property="displacementStatus" data="attributes DisplacementStatus _value" />
+    <jb:wiring property="programParticipations" beanIdRef="ProgramParticipations" />
+    <jb:wiring property="cohortYears" beanIdRef="CohortYears" />
+    <jb:wiring property="learningStyles" beanIdRef="LearningStyles" />
+    <jb:wiring property="studentIndicators" beanIdRef="StudentIndicators" />
+    <jb:value property="loginId" data="attributes LoginId _value" />
+  </jb:bean>
+  
+    <jb:bean beanId="StudentIdentificationCodes" class="java.util.ArrayList" createOnElement="attributes StudentIdentificationCode">
+        <jb:wiring beanIdRef="StudentIdentificationCode" />
+    </jb:bean>
+    <jb:bean beanId="StudentIdentificationCode" class="java.util.HashMap" createOnElement="attributes StudentIdentificationCode element">
+        <jb:value property="assigningOrganizationCode" data="attributes StudentIdentificationCode element a_AssigningOrganizationCode" />
+        <jb:value property="identificationSystem" data="attributes StudentIdentificationCode element a_IdentificationSystem" />
+        <jb:value property="identificationCode" data="attributes StudentIdentificationCode element IdentificationCode _value" />
+    </jb:bean>
+    
+  <jb:bean beanId="BirthData"  class="java.util.HashMap" createOnElement="attributes BirthData">
+        <jb:value property="birthDate" data="attributes BirthData BirthDate _value" />
+        <jb:value property="cityOfBirth" data="attributes BirthData CityOfBirth _value" />
+        <jb:value property="stateOfBirthAbbreviation" data="attributes BirthData StateOfBirthAbbreviation _value" />
+        <jb:value property="countryOfBirthCode" data="attributes BirthData CountryOfBirthCode _value" />
+        <jb:value property="dateEnteredUS" data="attributes BirthData DateEnteredUS _value" />
+        <jb:value property="multipleBirthStatus" data="attributes BirthData MultipleBirthStatus _value" decoder="Boolean"/>
+   </jb:bean>
+    
+  <jb:bean beanId="Name"  class="java.util.HashMap" createOnElement="attributes Name">
+        <jb:value property="verification" data="attributes Name a_Verification" />
+        <jb:value property="personalTitlePrefix" data="attributes Name PersonalTitlePrefix _value" />
+        <jb:value property="firstName" data="attributes Name FirstName _value" />
+        <jb:value property="middleName" data="attributes Name MiddleName _value" />
+        <jb:value property="lastSurname" data="attributes Name LastSurname _value" />
+        <jb:value property="generationCodeSuffix" data="attributes Name GenerationCodeSuffix _value" />
+        <jb:value property="maidenName" data="attributes Name MaidenName _value" />
+   </jb:bean>
+   
+    <jb:bean beanId="OtherNames" class="java.util.ArrayList" createOnElement="attributes OtherName">
+        <jb:wiring beanIdRef="OtherName" />
+    </jb:bean>
+  
+    <jb:bean beanId="OtherName"  class="java.util.HashMap" createOnElement="attributes OtherName element ">
+        <jb:value property="otherNameType" data="attributes OtherName element a_OtherNameType" />
+        <jb:value property="personalTitlePrefix" data="attributes OtherName element PersonalTitlePrefix _value" />
+        <jb:value property="firstName" data="attributes OtherName element FirstName _value" />
+        <jb:value property="middleName" data="attributes OtherName element MiddleName _value" />
+        <jb:value property="lastSurname" data="attributes OtherName element LastSurname _value" />
+        <jb:value property="generationCodeSuffix" data="attributes OtherName element GenerationCodeSuffix _value" />
+   </jb:bean>
+  
+    <jb:bean beanId="Addresses" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:wiring beanIdRef="Address" />
+    </jb:bean>
+    <jb:bean beanId="Address"  class="java.util.HashMap" createOnElement="attributes Address element">
+        <jb:value property="addressType " data="attributes Address element a_AddressType" />
+        <jb:value property="streetNumberName " data="attributes Address element StreetNumberName _value" />
+        <jb:value property="apartmentRoomSuiteNumber " data="attributes Address element ApartmentRoomSuiteNumber _value" />
+        <jb:value property="buildingSiteNumber " data="attributes Address element BuildingSiteNumber _value" />
+        <jb:value property="city " data="attributes Address element City _value" />
+        <jb:value property="stateAbbreviation " data="attributes Address element StateAbbreviation _value" />
+        <jb:value property="postalCode " data="attributes Address element PostalCode _value" />
+        <jb:value property="nameOfCounty " data="attributes Address element NameOfCounty _value" />
+        <jb:value property="countyFIPSCode " data="attributes Address element CountyFIPSCode _value" />
+        <jb:value property="countryCode " data="attributes Address element CountryCode _value" />
+        <jb:value property="latitude" data="attributes Address element Latitude _value" />
+        <jb:value property="longitude" data="attributes Address element Longitude _value" />
+        <jb:value property="openDate" data="attributes Address element BeginDate _value" />
+        <jb:value property="closeDate" data="attributes Address element EndDate _value" />
+    </jb:bean>
+
+    <jb:bean beanId="Telephones" class="java.util.ArrayList"  createOnElement="attributes">
+        <jb:wiring beanIdRef="Telephone" />
+    </jb:bean>
+    <jb:bean beanId="Telephone" class="java.util.HashMap" createOnElement="attributes Telephone element">
+        <jb:value property="telephoneNumberType" data="attributes Telephone element a_TelephoneNumberType" />
+        <jb:value property="telephoneNumber" data="attributes Telephone element TelephoneNumber _value" />
+        <jb:value property="primaryTelephoneNumberIndicator" data="attributes Telephone element a_PrimaryTelephoneNumberIndicator" decoder="Boolean"/>
+    </jb:bean>
+
+    <jb:bean beanId="ElectronicMails" class="java.util.ArrayList"  createOnElement="attributes">
+        <jb:wiring beanIdRef="ElectronicMail" />
+    </jb:bean>
+    <jb:bean beanId="ElectronicMail" class="java.util.HashMap" createOnElement="attributes ElectronicMail element">
+        <jb:value property="emailAddress" data="attributes ElectronicMail element EmailAddress _value" />
+        <jb:value property="emailAddressType" data="attributes ElectronicMail element a_EmailAddressType" />
+    </jb:bean>
+    
+    <jb:bean beanId="Races" class="java.util.ArrayList"  createOnElement="attributes Race">
+        <jb:value data="attributes Race RacialCategory element _value" />
+    </jb:bean>
+    
+    <jb:bean beanId="StudentCharacteristics" class="java.util.ArrayList"  createOnElement="attributes StudentCharacteristics">
+        <jb:wiring beanIdRef="StudentCharacteristic" />
+    </jb:bean>
+    <jb:bean beanId="StudentCharacteristic" class="java.util.HashMap" createOnElement="attributes StudentCharacteristics element">
+        <jb:value property="characteristic" data="attributes StudentCharacteristics element Characteristic _value" />
+        <jb:value property="beginDate" data="attributes StudentCharacteristics element BeginDate _value" />
+        <jb:value property="endDate" data="attributes StudentCharacteristics element EndDate _value" />
+        <jb:value property="designatedBy" data="attributes StudentCharacteristics element DesignatedBy _value" />
+    </jb:bean>
+    
+    <jb:bean beanId="Languages" class="java.util.ArrayList"  createOnElement="attributes Languages">
+        <jb:value data="attributes Languages Language element _value" />
+    </jb:bean>
+    
+    <jb:bean beanId="HomeLanguages" class="java.util.ArrayList"  createOnElement="attributes HomeLanguages">
+        <jb:value data="attributes HomeLanguages Language element _value" />
+    </jb:bean>
+    
+    <jb:bean beanId="Disabilities" class="java.util.ArrayList"  createOnElement="attributes Disabilities">
+        <jb:wiring beanIdRef="Disability" />
+    </jb:bean>
+    <jb:bean beanId="Disability" class="java.util.HashMap" createOnElement="attributes Disabilities element">
+        <jb:value property="disability" data="attributes Disabilities element Disability _value" />
+        <jb:value property="disabilityDiagnosis" data="attributes Disabilities element DisabilityDiagnosis _value" />
+        <jb:value property="orderOfDisability" data="attributes Disabilities element OrderOfDisability _value" />
+    </jb:bean>
+    
+    <jb:bean beanId="Section504Disabilities" class="java.util.ArrayList"  createOnElement="attributes Section504Disabilities">
+        <jb:value data="attributes Section504Disabilities Section504Disability element _value" />
+    </jb:bean>
+    
+    <jb:bean beanId="ProgramParticipations" class="java.util.ArrayList"  createOnElement="attributes ProgramParticipations">
+        <jb:wiring beanIdRef="ProgramParticipation" />
+    </jb:bean>
+    <jb:bean beanId="ProgramParticipation" class="java.util.HashMap" createOnElement="attributes ProgramParticipations element">
+        <jb:value property="program" data="attributes ProgramParticipations element Program _value" />
+        <jb:value property="beginDate" data="attributes ProgramParticipations element BeginDate _value" />
+        <jb:value property="endDate" data="attributes ProgramParticipations element EndDate _value" />
+        <jb:value property="designatedBy" data="attributes ProgramParticipations element DesignatedBy _value" />
+    </jb:bean>
+    
+    <jb:bean beanId="CohortYears" class="java.util.ArrayList"  createOnElement="attributes CohortYears">
+        <jb:wiring beanIdRef="CohortYear" />
+    </jb:bean>
+    <jb:bean beanId="CohortYear" class="java.util.HashMap" createOnElement="attributes CohortYears element">
+        <jb:value property="schoolYear" data="attributes CohortYears element SchoolYear _value" />
+        <jb:value property="cohortYearType" data="attributes CohortYears element a_CohortYearType" />
+    </jb:bean>
+    
+        <jb:bean beanId="LearningStyles" class="java.util.HashMap" createOnElement="attributes LearningStyles">
+        <jb:value property="visualLearning" data="attributes LearningStyles VisualLearning _value" />
+        <jb:value property="auditoryLearning" data="attributes LearningStyles AuditoryLearning _value" />
+        <jb:value property="tactileLearning" data="attributes LearningStyles TactileLearning _value" />
+    </jb:bean>
+    
+    <jb:bean beanId="StudentIndicators" class="java.util.ArrayList"  createOnElement="attributes StudentIndicators">
+        <jb:wiring beanIdRef="StudentIndicator" />
+    </jb:bean>
+    <jb:bean beanId="StudentIndicator" class="java.util.HashMap" createOnElement="attributes StudentIndicators element">
+        <jb:value property="indicatorGroup" data="attributes StudentIndicators element IndicatorGroup _value" />
+        <jb:value property="indicatorName" data="attributes StudentIndicators element IndicatorName _value" />
+        <jb:value property="indicator" data="attributes StudentIndicators element Indicator _value" />
+        <jb:value property="beginDate" data="attributes StudentIndicators element BeginDate _value" />
+        <jb:value property="endDate" data="attributes StudentIndicators element EndDate _value" />
+        <jb:value property="designatedBy" data="attributes StudentIndicators element DesignatedBy _value" />
+    </jb:bean>
+</smooks-resource-list>
