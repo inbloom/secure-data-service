@@ -29,9 +29,14 @@ import java.util.concurrent.atomic.AtomicLong;
 import com.mongodb.DBCollection;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.weaver.ast.Test;
+import org.slc.sli.dal.repository.MongoPerfRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,67 +48,48 @@ import org.slc.sli.dal.MongoStat;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
 
 /**
- * Tracks calls throught the API 
+ * Tracks calls throughout the API
  * Collects performance information.
  * Logs slow queries
  */
 @Aspect
 @SuppressWarnings("PMD.MoreThanOneLogger")
 public class APITrackingAspect {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(MongoTrackingAspect.class);
 
     @Value("${sli.api.performance.tracking}")
     private String apiCallTracking;
-    
+
     @Autowired
     private MongoStat callTracker;
-        
+
     /**
-     * Track calls in the various implementation of the Repository interface. 
+     * Track calls in the various implementation of the Repository interface.
      */
-
-    // Note: This is commented out, because it creates 1000+ point cuts, that are called even when 
-    // tracking is disabled.
-    // @Around("(call(* org.slc.sli.api.resources..*.*(..)) || call(* org.slc.sli.api.security..*(..)) || call(* org.slc.sli.api.service..*(..))) && !this(APITrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
-    public Object trackAPICalls(ProceedingJoinPoint pjp) throws Throwable {
-        if (Boolean.valueOf(apiCallTracking)) { 
-            return trackCallStartEnd(pjp);
+    private List<String> getArgs(JoinPoint pjp) {
+        List<String> args = null;
+        Object[] callArgs = pjp.getArgs();
+        args = new ArrayList<String>(callArgs.length);
+        for(Object ca : callArgs) {
+            args.add((null == ca) ? null : ca.getClass().getName() + ":" + ca.toString());
         }
-        else {
-            return pjp.proceed();
-        }
-    }
-    
-    private Object trackCallStartEnd(ProceedingJoinPoint pjp) throws Throwable {
-        Object result; 
-        long start = System.currentTimeMillis();
-        callTracker.addEvent("s", pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName(), start, null);
-        result = pjp.proceed();
-        long end = System.currentTimeMillis(); 
-
-        // The following captures the arguments and records them, this is very expensive in terms 
-        // of database use 
-        //        List<String> args = null; 
-        //        if ((end - start) > 0) {
-        //            Object[] callArgs = pjp.getArgs(); 
-        //            args = new ArrayList<String>(callArgs.length); 
-        //            for(Object ca : callArgs) {
-        //                args.add((null == ca) ? null : ca.getClass().getName() + ":" + ca.toString()); 
-        //            }
-        //        }
-        // we are not keeping the signature, because it's stored in the first event
-        callTracker.addEvent("e", "", end, null);
-        return result;
+        return args;
     }
 
-    private Object trackCallTime(ProceedingJoinPoint pjp) throws Throwable {
-        long start = System.currentTimeMillis();
-        Object result = pjp.proceed();
-        long duration = System.currentTimeMillis() - start; 
-        if (duration > 0) { 
-            callTracker.addMetric("t", pjp.getSignature().toString(), duration);
+    // !call(* java.util..*.*(..))
+    @After("call(* *..*.*(..)) && !call(* java.lang..*.*(..)) && !call(* java.util..*.*(..)) && !call(* org.slc.sli.dal.MongoStat(..)) && !within(org.slc..*.APITrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
+    public void trackAPIEnd(JoinPoint pjp) throws Throwable {
+        if (Boolean.valueOf(apiCallTracking)) {
+            callTracker.addEvent("e", pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName(), System.nanoTime(), null);
         }
-        return result;
+    }
+
+    @Before("call(* *..*.*(..)) && !call(* java.lang..*.*(..)) && !call(* java.util..*.*(..)) && !call(* org.slc.sli.dal.MongoStat(..)) && !this(org.slc.sli.api.perf.APITrackingAspect) && !within(org.slc..*.APITrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
+    public void trackAPIStart(JoinPoint pjp) throws Throwable {
+        if (Boolean.valueOf(apiCallTracking)) {
+            List<String> args = getArgs(pjp);
+            callTracker.addEvent("s", pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName(), System.nanoTime(), args);
+        }
     }
 }

@@ -16,8 +16,10 @@
 
 package org.slc.sli.api.jersey;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -62,7 +64,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
     private static final String GET = ResourceMethod.GET.toString();
 
     private DateTimeFormatter dateFormatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
-
+    
     @Autowired
     private ContextValidator contextValidator;
 
@@ -74,8 +76,8 @@ public class PostProcessFilter implements ContainerResponseFilter {
 
     @Autowired
     @Qualifier("performanceRepo")
-    private Repository<Entity> perfRepo;
-
+    private Repository<Entity> perfRepo;    
+    
     @Value("${sli.application.buildTag}")
     private String buildTag;
 
@@ -113,9 +115,9 @@ public class PostProcessFilter implements ContainerResponseFilter {
         response.getHttpHeaders().add("X-RequestedPath", request.getProperties().get("requestedPath"));
         response.getHttpHeaders().add("X-ExecutedPath", request.getPath() + queryString);
 
-        // Map<String,Object> body = (Map<String, Object>) response.getEntity();
-        // body.put("requestedPath", request.getProperties().get("requestedPath"));
-        // body.put("executedPath", request.getPath());
+        //        Map<String,Object> body = (Map<String, Object>) response.getEntity();
+        //        body.put("requestedPath", request.getProperties().get("requestedPath"));
+        //        body.put("executedPath", request.getPath());
 
         return response;
     }
@@ -159,14 +161,16 @@ public class PostProcessFilter implements ContainerResponseFilter {
         }
     }
 
+    static long bucket = 0;
     private void logApiDataToDb(ContainerRequest request, ContainerResponse response) {
         long startTime = (Long) request.getProperties().get("startTime");
-        long endTime = System.currentTimeMillis();
+        long endTime = System.currentTimeMillis(); 
         long elapsed = endTime - startTime;
+        long startBucket = bucket;
 
         Map<String, Object> body = new HashMap<String, Object>();
 
-        // extract parameters from the request URI
+        //extract parameters from the request URI
         String requestURL = request.getRequestUri().toString();
         if (requestURL.contains("?")) {
             requestURL = requestURL.substring(0, requestURL.indexOf("?"));
@@ -178,10 +182,10 @@ public class PostProcessFilter implements ContainerResponseFilter {
         UriTemplate readAllUri = new UriTemplate(serverUrl + "{resource}");
         HashMap<String, String> uri = new HashMap<String, String>();
         boolean logIntoDb = ((Boolean) request.getProperties().get("logIntoDb")).booleanValue();
-        if (!fourPartUri.match(requestURL, uri)) {
-            if (!threePartUri.match(requestURL, uri)) {
-                if (!twoPartUri.match(requestURL, uri)) {
-                    logIntoDb = readAllUri.match(requestURL, uri);
+        if (!fourPartUri.match(requestURL , uri)) {
+            if (!threePartUri.match(requestURL , uri)) {
+                if (!twoPartUri.match(requestURL , uri)) {
+                    logIntoDb = readAllUri.match(requestURL , uri);
                 }
             }
         }
@@ -197,10 +201,10 @@ public class PostProcessFilter implements ContainerResponseFilter {
                     endPoint += "/" + uri.get("associateEntity");
                 }
             }
-
+            
             String reqId = request.getHeaderValue("x-request-id");
             if (null != reqId) {
-                body.put("reqid", reqId);
+                body.put("reqid", reqId); 
             }
 
             body.put("url", requestURL.replace(serverUrl, "/"));
@@ -212,14 +216,42 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("parameters", request.getQueryParameters());
             body.put("Date", dateFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("startTime", startTime);
-            // Note: Currently the start and end times are recorded in ms since the epoch.
-            // here is how they were formatted in the past
-            // body.put("startTime", timeFormatter.print(new DateTime(startTime)));
-            // body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
+            // Note: Currently the start and end times are recorded in ms since the epoch. 
+            //       here is how they were formatted in the past 
+            //  body.put("startTime", timeFormatter.print(new DateTime(startTime)));
+            //  body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("endTime", endTime);
             body.put("responseTime", String.valueOf(elapsed));
             body.put("dbHitCount", mongoStat.getDbHitCount());
-            body.put("stats", mongoStat.getStats());
+
+            // break stats up into multiple 1k stat documents.
+            List<String> stats = mongoStat.getStats();
+            List<String> statsBucket = new ArrayList<String>();
+            for (int i=0; i < stats.size(); ++i) {
+                statsBucket.add(stats.get(i));
+                if (((i+1) % 1000) == 0) {
+                    Map<String, Object> statDoc = new HashMap<String, Object>();
+                    statDoc.put("id", Long.toString(bucket++));
+                    statDoc.put("stats", statsBucket);
+                    perfRepo.create("apiResponseStat", statDoc, "apiResponseStat");
+                    statsBucket.clear();
+                }
+            }
+
+            if (!statsBucket.isEmpty()) {
+                Map<String, Object> statDoc = new HashMap<String, Object>();
+                statDoc.put("id", Long.toString(bucket++));
+                statDoc.put("stats", statsBucket);
+                perfRepo.create("apiResponseStat", statDoc, "apiResponseStat");
+                statsBucket.clear();
+            }
+
+            ArrayList<String> tmp = new ArrayList<String>();
+            for (long i = startBucket; i < bucket; ++i) {
+                tmp.add(Long.toString(i));
+            }
+
+            body.put("stats", tmp);
             perfRepo.create("apiResponse", body, "apiResponse");
         }
 
