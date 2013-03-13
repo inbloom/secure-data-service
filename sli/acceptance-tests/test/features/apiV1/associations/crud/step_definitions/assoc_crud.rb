@@ -152,7 +152,7 @@ $entityData = {
         "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
         "cohortId" => "b408d88e-8fd5-11e1-86ec-0021701f543f_id",
         "beginDate" => "2012-02-29",
-        "endDate" => "2012-03-29"
+        "endDate" => "2015-03-29"
     },
     "studentDisciplineIncidentAssociation" => {
         "studentId" => "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id",
@@ -168,7 +168,7 @@ $entityData = {
         "studentId" => "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id",
         "programId" => "9b8cafdc-8fd5-11e1-86ec-0021701f543f_id",
         "beginDate" => "2012-01-12",
-        "endDate" => "2012-05-01",
+        "endDate" => "2015-05-01",
         "reasonExited" => "Refused services",
         "educationOrganizationId" =>"6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
     },
@@ -185,7 +185,7 @@ $entityData = {
 #        "sectionId" => "ceffbb26-1327-4313-9cfc-1c3afd38122e_id",
         "repeatIdentifier" => "Repeated, counted in grade point average",
         "beginDate" => "2011-12-01",
-        "endDate" => "2012-01-01",
+        "endDate" => "2015-01-01",
         "homeroomIndicator" => true
     },
     "teacherSchoolAssociation" => {

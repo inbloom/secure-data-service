@@ -323,5 +323,9 @@ public class SLIPrincipal implements Principal, Serializable {
     public void addObligation(String collection, List<NeutralQuery> obligations) {
         this.obligations.put(collection, obligations);
     }
+    
+    public void clearObligations() {
+    	this.obligations.clear();
+    }
 
 }
