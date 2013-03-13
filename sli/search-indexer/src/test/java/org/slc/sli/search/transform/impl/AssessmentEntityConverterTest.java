@@ -38,6 +38,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.connector.SourceDatastoreConnector;
@@ -59,6 +60,9 @@ public class AssessmentEntityConverterTest {
     
     @Mock
     DBCursor cursor;
+    
+    @Mock
+    DBCursor assessmentCursor;
 
     private final static String INDEX = "Midgar";
 
@@ -73,10 +77,13 @@ public class AssessmentEntityConverterTest {
         sourceDatastoreConnector = Mockito.mock(SourceDatastoreConnector.class);
         indexConfigStore = Mockito.mock(IndexConfigStore.class);
         cursor = Mockito.mock(DBCursor.class);
+        assessmentCursor = Mockito.mock(DBCursor.class);
         MockitoAnnotations.initMocks(this);
         
         when(sourceDatastoreConnector.getDBCursor(anyString(), eq(AssessmentEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR), anyList(), any(BasicDBObject.class))).thenReturn(cursor);
+        when(sourceDatastoreConnector.getDBCursor(anyString(), eq(AssessmentEntityConverter.ASSESSMENT), anyList(), any(BasicDBObject.class))).thenReturn(assessmentCursor);
         when(indexConfigStore.getConfig(AssessmentEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR)).thenReturn(assessmentPeriodDescriptorConfig);
+        when(indexConfigStore.getConfig(AssessmentEntityConverter.ASSESSMENT)).thenReturn(new IndexConfig());
     }
 
     @Test
@@ -110,6 +117,22 @@ public class AssessmentEntityConverterTest {
         Map<String, Object> assessmentPeriodDescriptor = (Map<String, Object>) body.get(AssessmentEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR);
         assertEquals(assessmentPeriodDescriptor.get("codeValue"), "red");
     }
+    
+    @Test
+    public void ifBodyIsEmptyWeShouldPullDataFromMongo() {
+        when(assessmentCursor.hasNext()).thenReturn(true);
+        when(assessmentCursor.next()).thenReturn(new BasicDBObject(buildAssessmentMap()));
+        
+        assessment.remove("body");
+        List<Map<String, Object>> entities = assessmentConverter.treatment(INDEX, Action.INDEX, assessment);
+        //should have 1 entity
+        assertEquals(1, entities.size());
+        //body should not be null
+        @SuppressWarnings("unchecked")
+        Map<String, Object> body = (Map<String, Object>) entities.get(0).get("body");
+        assertNotNull(body);
+        assertEquals("SAT", body.get("assessmentTitle"));
+    }
 
     private DBObject buildAssessmentPeriodDescriptor() {
         DBObject assessmentPeriodDescriptor = new BasicDBObject();
@@ -122,6 +145,7 @@ public class AssessmentEntityConverterTest {
     private Map<String, Object> buildAssessmentMap() {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(AssessmentEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR_ID, "apd_id");
+        body.put("assessmentTitle", "SAT");
         Map<String, Object> assessment = new HashMap<String, Object>();
         assessment.put("type", "assessment");
         assessment.put("_id", "assessment_id");

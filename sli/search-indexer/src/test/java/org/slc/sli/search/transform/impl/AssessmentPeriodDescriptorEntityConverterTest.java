@@ -62,6 +62,9 @@ public class AssessmentPeriodDescriptorEntityConverterTest {
     @Mock
     DBCursor cursor;
 
+    @Mock
+    DBCursor assessmentPeriodDescriptorCursor;
+
     private final static String INDEX = "Midgar";
 
     private IndexConfig assessmentConfig = new IndexConfig();
@@ -75,11 +78,14 @@ public class AssessmentPeriodDescriptorEntityConverterTest {
         sourceDatastoreConnector = Mockito.mock(SourceDatastoreConnector.class);
         indexConfigStore = Mockito.mock(IndexConfigStore.class);
         cursor = Mockito.mock(DBCursor.class);
+        assessmentPeriodDescriptorCursor = Mockito.mock(DBCursor.class);
         MockitoAnnotations.initMocks(this);
         
-        when(sourceDatastoreConnector.getDBCursor(anyString(), eq(AssessmentPeriodDescriptorEntityConverter.ASSESSMENT), anyList(), any(BasicDBObject.class))).thenReturn(cursor);
-        when(cursor.hasNext()).thenReturn(true);
+        when(sourceDatastoreConnector.getDBCursor(anyString(), eq(ASSESSMENT), anyList(), any(BasicDBObject.class))).thenReturn(cursor);
+        when(sourceDatastoreConnector.getDBCursor(anyString(), eq(ASSESSMENT_PERIOD_DESCRIPTOR),
+                anyList(), any(BasicDBObject.class))).thenReturn(assessmentPeriodDescriptorCursor);
         when(indexConfigStore.getConfig(ASSESSMENT)).thenReturn(assessmentConfig);
+        when(indexConfigStore.getConfig(ASSESSMENT_PERIOD_DESCRIPTOR)).thenReturn(new IndexConfig());
     }
 
     @Test
@@ -93,6 +99,33 @@ public class AssessmentPeriodDescriptorEntityConverterTest {
         when(cursor.hasNext()).thenReturn(false);
         List<Map<String, Object>> entities = converter.treatment(INDEX, Action.INDEX, assessmentPeriodDescriptor);
         assertEquals(0, entities.size());
+    }
+    
+    @Test
+    public void emptyListIfBodyIsNullAndAPDIsNotInMongo() {
+        when(assessmentPeriodDescriptorCursor.hasNext()).thenReturn(false);
+        assessmentPeriodDescriptor.remove("body");
+        List<Map<String, Object>> entities = converter.treatment(INDEX, Action.INDEX, assessmentPeriodDescriptor);
+        assertEquals(0, entities.size());
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void bodyShouldBePopulatedFromMongo() {
+        when(assessmentPeriodDescriptorCursor.hasNext()).thenReturn(true);
+        when(assessmentPeriodDescriptorCursor.next()).thenReturn(new BasicDBObject(buildAssessmentPeriodDescriptorMap()));
+        when(cursor.hasNext()).thenReturn(true, false);
+        when(cursor.next()).thenReturn(buildAssessmentMap());
+
+        assessmentPeriodDescriptor.remove("body");
+        List<Map<String, Object>> entities = converter.treatment(INDEX, Action.INDEX, assessmentPeriodDescriptor);
+        assertEquals(1, entities.size());
+        Map<String, Object> entity = entities.get(0);
+        assertEquals("assessment", entity.get("type"));
+        Map<String, Object> body = (Map<String, Object>) entity.get("body");
+        assertNotNull(body);
+        Map<String, Object> assessmentPeriodDescriptor = (Map<String, Object>) body.get(ASSESSMENT_PERIOD_DESCRIPTOR);
+        assertEquals("red", assessmentPeriodDescriptor.get("codeValue"));
     }
     
     @SuppressWarnings("unchecked")

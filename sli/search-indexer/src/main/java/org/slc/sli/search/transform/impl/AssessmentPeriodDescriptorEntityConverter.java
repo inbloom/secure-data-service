@@ -58,6 +58,12 @@ public class AssessmentPeriodDescriptorEntityConverter implements EntityConverte
             }
         }
         
+        // if there is still no body field even after we look into mongo, there is nothing to index
+        // for for this assessmentPeriodDescriptor, return empty list
+        if (entityMap.get("body") == null) {
+            return entities;
+        }
+        
         DBObject query = new BasicDBObject("body." + ASSESSMENT_PERIOD_DESCRIPTOR_ID, entityMap.get("_id"));
         IndexConfig config = indexConfigStore.getConfig(ASSESSMENT);
         
