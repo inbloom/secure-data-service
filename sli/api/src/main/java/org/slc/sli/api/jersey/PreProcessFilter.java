@@ -25,11 +25,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
+import javax.ws.rs.core.PathSegment;
 import javax.xml.bind.DatatypeConverter;
 
 import org.slc.sli.api.cache.SessionCache;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
 import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
@@ -114,6 +116,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
+        injectObligations(request);
         validateNotBlockGetRequest(request);
         if (isWrite(request.getMethod())) {
             contextValidator.validateContextToUri(request, principal);
@@ -123,6 +126,29 @@ public class PreProcessFilter implements ContainerRequestFilter {
         return request;
     }
 
+    private void injectObligations(ContainerRequest request) {
+        // Create obligations
+        SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
+        
+        for(PathSegment seg : request.getPathSegments()) {
+            String resourceName = seg.getPath();
+            if(ResourceNames.STUDENTS.equals(resourceName)) {
+                break;
+            }
+            
+            if(CONTEXTERS.contains(resourceName)) {               
+                if(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS.equals(resourceName)) {                    
+                    prince.addObligation(resourceName.replaceAll("s$",""), construct("exitWithdrawDate"));
+                }
+                else {
+                    prince.addObligation(resourceName.replaceAll("s$",""), construct("endDate"));
+                }
+                
+                info("Injected a date-based obligation on association: {}", resourceName);
+            }
+        }        
+    }
+    
     private void populateSecurityContext(ContainerRequest request) {
         OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
         SecurityContextHolder.getContext().setAuthentication(auth);
@@ -210,5 +236,5 @@ public class PreProcessFilter implements ContainerRequestFilter {
             throw new EntityNotFoundException(request.getPath());
         }
     }
-
+    
 }
