@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.model.ModelProvider;
+import org.slc.sli.common.domain.ModelProvider;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
@@ -67,7 +67,7 @@ public class DefaultSelectorDocumentTest {
     @Autowired
     private MockRepo repo;
 
-    static final String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
+    static final String TEST_XMI_LOC = "sliModel/test_SLI.xmi";
 
     private Entity student1;
     private Entity student2;

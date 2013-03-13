@@ -19,7 +19,7 @@ package org.slc.sli.api.criteriaGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.model.ModelProvider;
+import org.slc.sli.common.domain.ModelProvider;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.ClassType;
 import org.springframework.beans.factory.annotation.Autowired;

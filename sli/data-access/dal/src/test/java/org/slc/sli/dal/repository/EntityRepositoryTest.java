@@ -37,12 +37,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -74,8 +69,8 @@ public class EntityRepositoryTest {
     @Test
     public void testDeleteAll() {
         repository.deleteAll("student", null);
-        
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
+
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
         mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         Map<String, Object> studentMap = buildTestStudentEntity();
@@ -90,9 +85,136 @@ public class EntityRepositoryTest {
         neutralQuery.addCriteria(new NeutralCriteria("firstName=John"));
         repository.deleteAll("student", neutralQuery);
         assertEquals(4, repository.count("student", new NeutralQuery()));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys); 
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
+    }
+
+    // TODO add a test for deleteAttachedCustomEntities
+    
+    @Test
+    public void testSafeDelete() {
+
+        // CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) 
+        
+        CascadeResult result = null;
+        String idToDelete = null;
+        
+        Integer maxObjects = 100;         // should be large enough to return all objects
+        AccessibilityCheck access = new AccessibilityCheck() {
+            // grant access to all entities
+            // TODO exercise access denied logic
+            public boolean accessibilityCheck(String id) {
+                return true;
+            }
+        };
+
+        AccessibilityCheck accessDenied = new AccessibilityCheck() {
+            // grant access to no entities
+            // TODO exercise access denied logic
+            public boolean accessibilityCheck(String id) {
+                return false;
+            }
+        };
+
+        // Mock the underlying safeDelete db access calls
+
+        // Test cascade=false and dryrun=true
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, false, true, maxObjects, access);
+
+        //   verify expected results
+        assertEquals(1, result.nObjects);
+        assertEquals(1, result.depth);
+        assertEquals(CascadeResult.SUCCESS, result.status);
+
+        // Test cascade=false and dryrun=false
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, false, false, maxObjects, access);
+
+        //   verify expected results
+        assertEquals(1, result.nObjects);
+        assertEquals(1, result.depth);
+        assertEquals(CascadeResult.SUCCESS, result.status);
+
+        // Test cascade=true and dryrun=true
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, true, true, maxObjects, access);
+
+        //   verify expected results
+        assertEquals(3, result.nObjects);
+        assertEquals(2, result.depth);
+        assertEquals(CascadeResult.SUCCESS, result.status);
+        
+        // Test cascade=true and dryrun=false
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, true, false, maxObjects, access);
+
+        //   verify expected results
+        assertEquals(3, result.nObjects);
+        assertEquals(2, result.depth);
+        assertEquals(CascadeResult.SUCCESS, result.status);
+        
+        // Test maxobjects
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, true, false, 1, access);
+
+        //   verify expected results
+        assertEquals(3, result.nObjects);
+        assertEquals(2, result.depth);
+        assertEquals(CascadeResult.MAX_OBJECTS_EXCEEDED, result.status);
+
+        // Test access denied
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, true, false, maxObjects, accessDenied);
+
+        //   verify expected results
+        assertEquals(0, result.nObjects);
+        assertEquals(1, result.depth);
+        assertEquals(CascadeResult.ACCESS_DENIED, result.status);
+
+    }
+
+    private String prepareSafeDeleteData() {
+        // populate some test data
+        // TODO mock the db calls so we don't rely on the db running
+        repository.deleteAll("student", null);
+        repository.deleteAll("studentref", null);
+        repository.deleteAll("studentarrayref", null);
+
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
+
+        Map<String, Object> studentMap = buildTestStudentEntity();
+        studentMap.put("studentUniqueStateId", "susId1");
+        repository.create("student", studentMap);
+
+        // get the db id of the student since we can't set it explicitly
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("studentUniqueStateId=susId1"));
+        Entity student1 = repository.findOne("student", neutralQuery);
+        String idToDelete = student1.getEntityId();
+
+        // add fake referencing entity
+        Map<String, Object> studentrefMap = buildTestStudentEntity();
+        studentrefMap.put("studentReference", "notaMatchingId");
+        repository.create("studentref", studentrefMap); // add one non-matching document
+        studentrefMap.put("studentReference", idToDelete);
+        studentrefMap.put("studentReference2", idToDelete);
+        studentrefMap.put("noMatchstudentReference", "notaMatchingId");
+        repository.create("studentref", studentrefMap);
+        
+        // add fake referencing entity with array reference field
+        Map<String, Object> studentarrayrefMap = buildTestStudentEntity();
+        repository.create("studentarrayref", studentarrayrefMap); // add one non-matching document
+        List<String> studentRefArray = new ArrayList<String>();
+        studentRefArray.add("dog");
+        studentRefArray.add(idToDelete);
+        studentRefArray.add("mousearama");
+        studentarrayrefMap.put("studentArrayReference", studentRefArray);
+        repository.create("studentarrayref", studentarrayrefMap);
+
+        return idToDelete;
     }
 
     @Test

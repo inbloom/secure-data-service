@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.model;
-
-
-
-/**
- * @author jstokes
+/*
+ * This interface is for services or repositories that supply an accessibility check on an object.
+ * It is useful so that a reference to an implementing class can be given to a long-running or
+ * multi-step database operation (e.g. recursive delete, update) that needs to apply the check
+ * at multiple points during the processing of such an operation.
  */
-public class TestModelProvider extends ModelProvider {
 
-    private static final String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
+package org.slc.sli.domain;
 
-    public TestModelProvider() {
-        super(TEST_XMI_LOC);
-    }
+public interface AccessibilityCheck {
+	public boolean accessibilityCheck(String id);
 }

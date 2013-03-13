@@ -23,6 +23,7 @@
          </property>
      </bean>
 
+    <bean id="testModelProvider" class="org.slc.sli.common.domain.TestModelProvider" />
     
     <context:component-scan base-package="org.slc" />
 

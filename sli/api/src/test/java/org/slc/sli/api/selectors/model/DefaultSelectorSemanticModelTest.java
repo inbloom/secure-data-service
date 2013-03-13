@@ -18,7 +18,7 @@ package org.slc.sli.api.selectors.model;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.model.ModelProvider;
+import org.slc.sli.common.domain.ModelProvider;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
 import org.slc.sli.api.selectors.model.elem.EmptySelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
@@ -60,7 +60,7 @@ public class DefaultSelectorSemanticModelTest {
     private DefaultSelectorSemanticModel defaultSelectorSemanticModel;
     private ModelProvider provider;
 
-    private static final String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
+    private static final String TEST_XMI_LOC = "sliModel/test_SLI.xmi";
 
     @Before
     public void setup() {

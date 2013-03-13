@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -108,6 +110,12 @@ public class DummyEntityRepository implements Repository<Entity> {
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+    	// TODO Auto-generated method stub
+    	return null;
     }
 
     @Override

@@ -31,6 +31,8 @@ import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntity;
 import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntityCollection;
 import org.slc.sli.dal.versioning.SliSchemaVersionValidatorProvider;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.FullSuperDoc;
@@ -355,6 +357,27 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
         return entity;
     }
+
+    @Override
+    public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+
+        if (subDocs.isSubDoc(collectionName)) {
+            Entity entity = subDocs.subDoc(collectionName).findById(id);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).safeDelete(entity, id, cascade, dryrun, maxObjects, access);
+            }
+
+            return subDocs.subDoc(collectionName).safeDelete(entity, id, cascade, dryrun, maxObjects, access);
+        }
+
+        if (denormalizer.isDenormalizedDoc(collectionName)) {
+            denormalizer.denormalization(collectionName).safeDelete(null, id, cascade, dryrun, maxObjects, access);
+        }
+
+        return super.safeDelete(collectionName, id, cascade, dryrun, maxObjects, access);
+    }
+
 
     @Override
     public boolean delete(String collectionName, String id) {

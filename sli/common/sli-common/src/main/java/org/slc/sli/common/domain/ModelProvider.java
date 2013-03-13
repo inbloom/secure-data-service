@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.model;
+package org.slc.sli.common.domain;
 
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
@@ -23,6 +23,7 @@ import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
+import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
@@ -33,8 +34,15 @@ import org.springframework.stereotype.Component;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * Provides information from the model about Associations and Attributes
@@ -45,10 +53,12 @@ import java.util.Set;
 @Component
 public class ModelProvider {
     private final ModelIndex modelIndex;
-    private static final String DEFAULT_XMI_LOC = "/sliModel/SLI.xmi";
+    private static final String DEFAULT_XMI_LOC = "sliModel/SLI.xmi";
+    private static final Logger LOG = LoggerFactory.getLogger(ModelProvider.class);
 
     public ModelProvider(final String xmiLoc) {
-        final Model model = XmiReader.readModel(getClass().getResourceAsStream(xmiLoc));
+        java.io.InputStream r = Thread.currentThread().getContextClassLoader().getResourceAsStream(xmiLoc);
+        final Model model = XmiReader.readModel(r);
         modelIndex = new DefaultModelIndex(model);
     }
 
@@ -61,22 +71,86 @@ public class ModelProvider {
     }
 
     public List<AssociationEnd> getAssociationEnds(final Identifier type) {
+    	return getAssociationEnds(type, true, true);
+    }
+
+    public List<AssociationEnd> getAssociationEnds(final Identifier type, final boolean parents, final boolean children) {
         List<Generalization> baseGeneralizations = modelIndex.getGeneralizationBase(type);
         List<AssociationEnd> baseEnds = new ArrayList<AssociationEnd>();
         List<AssociationEnd> fullAssociationEnds = new ArrayList<AssociationEnd>();
 
         if (baseGeneralizations != null) {
             for (Generalization generalization : baseGeneralizations) {
-                baseEnds.addAll(getAssociationEnds(generalization.getParent()));
+                baseEnds.addAll(getAssociationEnds(generalization.getParent(), parents, children));
             }
         }
 
-        List<AssociationEnd> associationEnds = modelIndex.getAssociationEnds(type);
+        List<AssociationEnd> associationEnds = modelIndex.getAssociationEnds(type, parents, children);
 
         fullAssociationEnds.addAll(baseEnds);
         fullAssociationEnds.addAll(associationEnds);
 
         return fullAssociationEnds;
+    }
+
+    // THIS IS FOR DEBUGGING, WILL BE FACTORED OUT AND MADE USABLE TO GET A PROPER LIST OF
+    // CHILD REFERENCES FOR AN ENTITY TYPE.
+    public void endsRecurse(String typeName, Identifier typeId, String fieldNameIn, Map<String, Boolean> seenIn, int level, boolean isRequired) {
+    	Map<String, Boolean> seen = seenIn;
+    	if ( seen == null ) {
+    		seen = new HashMap<String, Boolean>();
+    	}
+    	String fieldName = fieldNameIn;
+    	if ( fieldName == null ) {
+    		fieldName = "<any>";
+    	}
+    	String pad = "INTROSPECT - ";
+    	for (int i=0; i < level; i++) {
+    		pad += "  ";
+    	}
+    	String msg = pad + typeName + "." + fieldName;
+    	if ( !isRequired ) {
+    		msg += " [optional]";
+    	}
+    	LOG.warn(msg);
+    	String typeUC = StringUtils.capitalize(typeName);
+
+    	if ( seen.get(typeUC) != null ) {
+    		LOG.warn(pad + "CYCLE!"); // NOPMD
+    		return;
+    	}
+    	seen.put(typeUC, Boolean.TRUE);
+
+    	if ( !isRequired ) {
+    		return;
+    	}
+    	// Handle input typeId - actually not used (it is always null) but leave this code in
+    	// to allow for passing it in below in the recursion as the (apparently ineffective) ae.getId()
+    	Identifier tid = typeId;
+    	if ( tid == null ) {
+    		ClassType ct = getClassType(typeUC);
+    		if ( null == ct ) {
+    			// Singularize
+    			ct = getClassType(typeUC.substring(0, typeUC.length() - 1));
+    		}
+    		if ( null != ct ) {
+    			tid = ct.getId();
+    		}
+    	}
+
+    	// Get child referrers
+		List<AssociationEnd> referrers = getAssociationEnds(tid, false, true);
+		for (AssociationEnd ae : referrers ) {
+                // Referring entity type:  ae.name
+                // Referring entity field: ae.associatedAttributeName
+                // Field cardinality:      ae.multiplicity
+
+			    // Don't recurse (cascade) on child references that are arrays, as we would not be deleting
+			    // the child.
+				Occurs occ = ae.getMultiplicity().getRange().getLower();
+				boolean req = occ == Occurs.ONE;
+				endsRecurse(ae.getName(), null, ae.getAssociatedAttributeName(), seen, level + 1, req);
+		}
     }
 
     public Set<ModelElement> lookupByName(final QName qName) {

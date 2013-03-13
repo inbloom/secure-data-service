@@ -17,7 +17,7 @@ package org.slc.sli.api.selectors.doc;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.model.ModelProvider;
+import org.slc.sli.common.domain.ModelProvider;
 import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;

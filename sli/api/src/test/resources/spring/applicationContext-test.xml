@@ -56,7 +56,7 @@
         <context:exclude-filter type="regex"
             expression=".*DefaultGranularAccessFilterProvider" />
             <context:exclude-filter type="assignable"
-            expression="org.slc.sli.api.model.ModelProvider" />
+            expression="org.slc.sli.common.domain.ModelProvider" />
             <context:exclude-filter type="regex"
             expression=".*GenericSuperdocConverter" />
             <context:exclude-filter type="regex"
@@ -72,7 +72,7 @@
 
     <bean id="EntityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
     <bean id="queryConverterCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
-    <bean id="testModelProvider" class="org.slc.sli.api.model.TestModelProvider" />
+    <bean id="testModelProvider" class="org.slc.sli.common.domain.TestModelProvider" />
 
 
     <import resource="classpath:/spring/db-test.xml" />

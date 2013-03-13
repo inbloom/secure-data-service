@@ -42,12 +42,12 @@ import org.slc.sli.modeling.uml.Visitor;
 
 /**
  * A default implementation of {@link ModelIndex} that uses {@link Model}.
- * 
+ *
  * Usage: When parsing into a {@link Model} is complete, the model should be set on this class. The
  * object contained in the model will then be available as a graph.
  */
 public class DefaultModelIndex implements ModelIndex {
-    
+
     private static final <T> T assertNotNull(final T obj, final Identifier memo) {
         if (obj != null) {
             return obj;
@@ -55,25 +55,25 @@ public class DefaultModelIndex implements ModelIndex {
             throw new ModelRuntimeException(memo.toString());
         }
     }
-    
+
     private final List<ClassType> associations;
     @SuppressWarnings("unused")
     private final Map<Identifier, ClassType> classTypeIndex;
-    
+
     // private final Map<Identifier, DataType> dataTypeIndex;
     private final Map<String, ClassType> classTypesByName;
     private final Map<QName, DataType> dataTypesByName;
-    
+
     private final Map<Identifier, ModelElement> elementMap;
     private final Map<Identifier, String> namespaceMap;
     private final Map<QName, Set<ModelElement>> nameMap;
     private final Map<Identifier, Set<ModelElement>> whereUsed;
     private final Map<Identifier, EnumType> enumTypeIndex;
     private final List<Generalization> generalizations;
-    
+
     private final Map<Identifier, TagDefinition> tagDefinitionIndex;
     private final Map<QName, TagDefinition> tagDefinitionsByName;
-    
+
     public DefaultModelIndex(final Model model) {
         final IndexingVisitor visitor = new IndexingVisitor();
         model.accept(visitor);
@@ -85,17 +85,17 @@ public class DefaultModelIndex implements ModelIndex {
         dataTypesByName = Collections.unmodifiableMap(new HashMap<QName, DataType>(visitor.getDataTypesByName()));
         tagDefinitionsByName = Collections.unmodifiableMap(new HashMap<QName, TagDefinition>(visitor
                 .getTagDefinitionsByName()));
-        
+
         final Map<Identifier, ClassType> classTypeIndex = new HashMap<Identifier, ClassType>();
         final Map<Identifier, DataType> dataTypeIndex = new HashMap<Identifier, DataType>();
         final Map<Identifier, EnumType> enumTypeIndex = new HashMap<Identifier, EnumType>();
-        
+
         final Map<Identifier, TagDefinition> tagDefinitionIndex = new HashMap<Identifier, TagDefinition>();
-        
+
         final List<ClassType> associations = new LinkedList<ClassType>();
         final List<Generalization> generalizations = new LinkedList<Generalization>();
         final List<UmlPackage> pkgs = new LinkedList<UmlPackage>();
-        
+
         for (final NamespaceOwnedElement ownedElement : model.getOwnedElements()) {
             if (ownedElement instanceof ClassType) {
                 final ClassType classType = (ClassType) ownedElement;
@@ -129,46 +129,57 @@ public class DefaultModelIndex implements ModelIndex {
         this.associations = Collections.unmodifiableList(associations);
         this.generalizations = Collections.unmodifiableList(generalizations);
     }
-    
+
     @Override
     public List<AssociationEnd> getAssociationEnds(final Identifier type) {
+    	return this.getAssociationEnds(type, true, true);
+    }
+
+    @Override
+    public List<AssociationEnd> getAssociationEnds(final Identifier type, final boolean parents, final boolean children) {
         // It might be a good idea to cache this when the model is known.
         final List<AssociationEnd> ends = new LinkedList<AssociationEnd>();
         for (final ClassType candidate : associations) {
-            final AssociationEnd lhsCandidateEnd = candidate.getLHS();
-            final Identifier lhsEndType = lhsCandidateEnd.getType();
-            if (lhsEndType.equals(type)) {
-                ends.add(candidate.getRHS());
-            }
-            final AssociationEnd rhsCandidateEnd = candidate.getRHS();
-            final Identifier rhsEndType = rhsCandidateEnd.getType();
-            if (rhsEndType.equals(type)) {
-                ends.add(candidate.getLHS());
-            }
+        	// Get parent association endpoints referred to by (outbound from) by type
+        	if ( parents ) {
+        		final AssociationEnd lhsCandidateEnd = candidate.getLHS();
+        		final Identifier lhsEndType = lhsCandidateEnd.getType();
+        		if (lhsEndType.equals(type)) {
+        			ends.add(candidate.getRHS());
+        		}
+        	}
+        	// Get child association endpoints referring to (inbound to) type
+        	if ( children ) {
+        		final AssociationEnd rhsCandidateEnd = candidate.getRHS();
+        		final Identifier rhsEndType = rhsCandidateEnd.getType();
+        		if (rhsEndType.equals(type)) {
+        			ends.add(candidate.getLHS());
+        		}
+        	}
         }
         return Collections.unmodifiableList(ends);
     }
-    
+
     @Override
     public Map<String, ClassType> getClassTypes() {
         return classTypesByName;
     }
-    
+
     @Override
     public String getNamespaceURI(final Type type) {
         return namespaceMap.get(type.getId());
     }
-    
+
     @Override
     public Map<QName, DataType> getDataTypes() {
         return dataTypesByName;
     }
-    
+
     @Override
     public Iterable<EnumType> getEnumTypes() {
         return enumTypeIndex.values();
     }
-    
+
     @Override
     public List<Generalization> getGeneralizationBase(final Identifier derived) {
         // It might be a good idea to cache this when the model is known.
@@ -181,7 +192,7 @@ public class DefaultModelIndex implements ModelIndex {
         }
         return Collections.unmodifiableList(base);
     }
-    
+
     @Override
     public List<Generalization> getGeneralizationDerived(final Identifier base) {
         // It might be a good idea to cache this when the model is known.
@@ -194,12 +205,12 @@ public class DefaultModelIndex implements ModelIndex {
         }
         return Collections.unmodifiableList(derived);
     }
-    
+
     @Override
     public TagDefinition getTagDefinition(final Identifier reference) {
         return assertNotNull(tagDefinitionIndex.get(reference), reference);
     }
-    
+
     @Override
     public Type getType(final Identifier reference) {
         if (elementMap.containsKey(reference)) {
@@ -213,7 +224,7 @@ public class DefaultModelIndex implements ModelIndex {
             throw new IllegalArgumentException(reference.toString());
         }
     }
-    
+
     @Override
     public Set<ModelElement> whereUsed(final Identifier id) {
         if (whereUsed.containsKey(id)) {
@@ -222,12 +233,12 @@ public class DefaultModelIndex implements ModelIndex {
             return Collections.emptySet();
         }
     }
-    
+
     @Override
     public TagDefinition getTagDefinition(final QName name) {
         return tagDefinitionsByName.get(name);
     }
-    
+
     @Override
     public Set<ModelElement> lookupByName(final QName name) {
         if (nameMap.containsKey(name)) {
@@ -236,7 +247,7 @@ public class DefaultModelIndex implements ModelIndex {
             return Collections.emptySet();
         }
     }
-    
+
     @Override
     public void lookup(final Identifier id, final Visitor visitor) {
         final ModelElement modelElement = elementMap.get(id);
