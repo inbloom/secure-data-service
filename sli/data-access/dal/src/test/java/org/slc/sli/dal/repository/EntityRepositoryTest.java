@@ -109,6 +109,14 @@ public class EntityRepositoryTest {
             }
         };
 
+        AccessibilityCheck accessDenied = new AccessibilityCheck() {
+            // grant access to no entities
+            // TODO exercise access denied logic
+            public boolean accessibilityCheck(String id) {
+                return false;
+            }
+        };
+
         // Mock the underlying safeDelete db access calls
 
         // Test cascade=false and dryrun=true
@@ -155,6 +163,15 @@ public class EntityRepositoryTest {
         assertEquals(3, result.nObjects);
         assertEquals(2, result.depth);
         assertEquals(CascadeResult.MAX_OBJECTS_EXCEEDED, result.status);
+
+        // Test access denied
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, true, false, maxObjects, accessDenied);
+
+        //   verify expected results
+        assertEquals(0, result.nObjects);
+        assertEquals(1, result.depth);
+        assertEquals(CascadeResult.ACCESS_DENIED, result.status);
 
     }
 
