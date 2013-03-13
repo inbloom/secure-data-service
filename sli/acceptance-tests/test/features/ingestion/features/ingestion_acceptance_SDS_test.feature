@@ -334,7 +334,7 @@ And I check to find if record is in collection:
        | courseTranscript              | 2                   | body.finalNumericGradeEarned          | 82                      | integer              |
        | courseTranscript              | 33                  | body.finalLetterGradeEarned           | B                       | string               |
        | courseTranscript              | 60                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
-       | studentAcademicRecord         | 100                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
+       | studentAcademicRecord         | 100                 | body.cumulativeCreditsAttempted.credit| 5.0                     | double              |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                              | searchValue      |  searchType           |
      | assessment                  | 1                   | assessmentItem.body.identificationCode       | AssessmentItem-1 |   string              |
@@ -433,8 +433,8 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentGradebookEntry                | 56751666983beeaa65cf74c1178f1f824fe02659_id | body.sectionId                    | 135963f2abd3320ae508546fbff31f37e10b949e_id    |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.uniqueCourseId  | State-History-II-G7-50 |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.schoolId  | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-    | reportCard                           | 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id | body.studentId | 067198fd6da91e1aa8d67e28e850f224d6851713_id                       |
-    | reportCard                           | 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id | body.gradingPeriodId | 5b68a0b672e485892f496987c05e9c32d95f7067_id                       |
+    | reportCard                           | 429dc90b61707fa474005db798cec3f46807fa69_id8c3ad0e37652bd73755b21b5290ef75876d25890_id | body.studentId | 067198fd6da91e1aa8d67e28e850f224d6851713_id                       |
+    | reportCard                           | 429dc90b61707fa474005db798cec3f46807fa69_id8c3ad0e37652bd73755b21b5290ef75876d25890_id | body.gradingPeriodId | 5b68a0b672e485892f496987c05e9c32d95f7067_id                       |
 # disciplineAction
     | disciplineAction                     | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id | body.responsibilitySchoolId          | a13489364c2eb015c219172d561c62350f0453f3_id |
     | disciplineAction                     | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id | body.disciplineActionIdentifier      | cap0-lea0-sch1-da0                   |
@@ -442,15 +442,15 @@ Scenario: Verify deterministic ids generated: Clean Database
     | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
     | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id | body.incidentIdentifier              | Disruption                           |
 # grade
-    | grade                                | 3f8df929951a9ea94709be3aeef49a91c5addea9_id | body.studentSectionAssociationId     | 9a0c4a206bf607abc2dd4786ebc1e8506311c618_id5cd63b8dd94e74d07b1c22d4d88f84bff419c5fe_id |
-    | grade                                | 3f8df929951a9ea94709be3aeef49a91c5addea9_id | body.gradingPeriodId                 | 51cb091a11fa7a32e3cda1e5ce68128b875cd3b8_id |
+    | grade                                | 0f3a7dbe3e7404583c126f3869c8d413ae1e88e0_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id | body.studentSectionAssociationId     | 9a0c4a206bf607abc2dd4786ebc1e8506311c618_id5cd63b8dd94e74d07b1c22d4d88f84bff419c5fe_id |
+    | grade                                | 0f3a7dbe3e7404583c126f3869c8d413ae1e88e0_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id | body.gradingPeriodId                 | 51cb091a11fa7a32e3cda1e5ce68128b875cd3b8_id |
 # gradebookEntry
     | gradebookEntry                       | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       | 135963f2abd3320ae508546fbff31f37e10b949e_id |
     | gradebookEntry                       | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.gradebookEntryType              | Unit test                                 |
     | gradebookEntry                       | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.dateAssigned                    | 2011-10-13                           |
 # studentAcademicRecord
-    | studentAcademicRecord                | a1e159796736acfe35a3dda1ece214dc380a2714_id | body.studentId                       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id |
-    | studentAcademicRecord                | a1e159796736acfe35a3dda1ece214dc380a2714_id | body.sessionId                       | a2f899c4b31e2dc11a5a5ab202d4590bb0a33c8b_id |
+    | studentAcademicRecord                | 3d7e898167fe27b1fa393f979a5f6bf89e6dcc04_id2c10dec5f74762e0fcdd0ba8d547d9b9f4f34b57_id | body.studentId                       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id |
+    | studentAcademicRecord                | 3d7e898167fe27b1fa393f979a5f6bf89e6dcc04_id2c10dec5f74762e0fcdd0ba8d547d9b9f4f34b57_id | body.sessionId                       | a2f899c4b31e2dc11a5a5ab202d4590bb0a33c8b_id |
 # staffEducationOrganizationAssociation
     | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.staffReference                 | e4320d0bef725998faa8579a987ada80f254e7be_id |
     | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.educationOrganizationReference | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id |
@@ -472,7 +472,7 @@ Scenario: Verify deterministic ids generated: Clean Database
     | teacherSchoolAssociation             | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id | body.schoolId                       | a13489364c2eb015c219172d561c62350f0453f3_id |
 # courseOffering
    | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id | body.localCourseCode              | Pre-Algebra I                        |
-   | courseTranscript                     | b40e7c315873a891873e4eb8b9036f47ac553d28_id | body.courseAttemptResult          | Pass                                 |
+   | courseTranscript                     | 774599b82398ed463809785b565aec75a64f6359_id | body.courseAttemptResult          | Pass                                 |
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.entryDate                    | 2011-09-01                           |
    | section                              | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.beginDate | 2011-09-01                    |
    | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId                    | ACC-TEST-PROG-1                      |
@@ -496,7 +496,7 @@ Scenario: Verify deterministic ids generated: Clean Database
     | learningStandard                     | 84a2dbad54ca44b613728cdfbe92d2e9a3bbcd9f_id | body.learningStandardId.identificationCode | 9DB2617F615743cfA8D225346AC4CB4D |
 And I check that multiple educationOrganization ids were generated properly:
      | collectionName                      | deterministicId                             | field                                                  | value                                       |
-     | courseTranscript                    | 0a5dd745aecf511780b1bcef48194d93602e1aae_id | body.educationOrganizationReference                    | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id,352e8570bd1116d11a72755b987902440045d346_id,a13489364c2eb015c219172d561c62350f0453f3_id |
+     | courseTranscript                    | 774599b82398ed463809785b565aec75a64f6359_id | body.educationOrganizationReference                    | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id,352e8570bd1116d11a72755b987902440045d346_id,a13489364c2eb015c219172d561c62350f0453f3_id |
 
 @smoke
 Scenario: Verify references were resolved correctly
@@ -513,7 +513,7 @@ Scenario: Verify references were resolved correctly
 	| section                      			| b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id 											 | body.courseOfferingId 						 | courseOffering							  |
 	#course
 	| courseOffering						| fee52ec62018d167371308be20b8a9096a6b2410_id											 | body.courseId								 | course									  |
-	| courseTranscript                      | b40e7c315873a891873e4eb8b9036f47ac553d28_id 											 | body.courseId                				 | course                                     |
+	| courseTranscript                      | 774599b82398ed463809785b565aec75a64f6359_id 											 | body.courseId                				 | course                                     |
 	#disciplineIncident
 	| disciplineAction						| 70b8c1f4b77823bf5ede69389e13b0487f32e720_id											 | body.disciplineIncidentId					 | disciplineIncident						  |
 	| studentDisciplineIncidentAssociation  | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.disciplineIncidentId    				 | disciplineIncident						  |
@@ -540,13 +540,13 @@ Scenario: Verify references were resolved correctly
 	| studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id 											 | body.schoolId             					 | educationOrganization  					  |
     | teacherSchoolAssociation             | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id 											 | body.schoolId                       			 | educationOrganization 					  |
 	#grade
-	| reportCard							| 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id											 | body.grades									 | grade									  |
+	| reportCard							| 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id25a038f1108526afc18cc2351de481388b84878c_id											 | body.grades									 | grade									  |
 	#gradebookEntry
 	| studentGradebookEntry					| acbc46150673fc24cbf23530c1baf408682f60de_id											 | body.gradebookEntryId						 | gradebookEntry							  |
 	#gradingPeriod
 	| session								| 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id											 | body.gradingPeriodReference					 | gradingPeriod							  |
-	| reportCard                            | 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id 											 | body.gradingPeriodId 						 | gradingPeriod                       		  |
-	| grade                                 | 6b024f0c5e85c6acbe10bec0f7d441236a1c56b1_id 											 | body.gradingPeriodId                 		 | gradingPeriod 							  |
+	| reportCard                            | 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id25a038f1108526afc18cc2351de481388b84878c_id 											 | body.gradingPeriodId 						 | gradingPeriod                       		  |
+	| grade                                 | 0f3a7dbe3e7404583c126f3869c8d413ae1e88e0_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id 											 | body.gradingPeriodId                 		 | gradingPeriod 							  |
 	| gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_id88cb14f9fbf459281d79c7c0561d6d9542989e02_id | body.gradingPeriodId							 | gradingPeriod							  |
 	#graduationPlan
 	| studentSchoolAssociation				| 53570e4b376fc1466f47eb3f2c0404f5b17eae37_id											 | body.graduationPlanId						| graduationPlan							  |
@@ -563,7 +563,7 @@ Scenario: Verify references were resolved correctly
 	| staffProgramAssociation				| 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id											 | body.programId								| program									  |
 	| section								| 135963f2abd3320ae508546fbff31f37e10b949e_id											 | body.programReference						| program									  |
 	#reportCard
-	| studentAcademicRecord					| 3def063da11388ae3cb1b86c3bd1e0bbc9bb15d9_id											 | body.reportCards								| reportCard								  |
+	| studentAcademicRecord					| 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id31b7513b764bed826297307baa560d88e211e687_id											 | body.reportCards								| reportCard								  |
 	#section
 	| gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       		| section									  |
 	| studentSectionAssociation			    | 84432d70656e1ab68df27cf2584282da351ab684_id3c11fbcc6e93af20a926e17438af188c53bc02ea_id | body.sectionId								| section									  |
@@ -571,10 +571,10 @@ Scenario: Verify references were resolved correctly
 	| studentGradebookEntry					| 5e4a91f91f408fc9e50cfed32c18e46858839e78_id											 | body.sectionId								| section									  |
 	#session
 	| courseOffering                        | a6c96dcc34fc021f685b6d082c7759b070731f93_id 											 | body.sessionId                      			| session 									  |
-	| studentAcademicRecord                 | a1e159796736acfe35a3dda1ece214dc380a2714_id 											 | body.sessionId                       		| session									  |
+	| studentAcademicRecord                 | 3d7e898167fe27b1fa393f979a5f6bf89e6dcc04_id2c10dec5f74762e0fcdd0ba8d547d9b9f4f34b57_id 											 | body.sessionId                       		| session									  |
 	| section								| b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id											 | body.sessionId								| session									  |
 	#studentAcademicRecord
-	| courseTranscript                      | b40e7c315873a891873e4eb8b9036f47ac553d28_id 											 | body.studentAcademicRecordId                 | studentAcademicRecord	                      |
+	| courseTranscript                      | 774599b82398ed463809785b565aec75a64f6359_id 											 | body.studentAcademicRecordId                 | studentAcademicRecord	                      |
 	#staff
 	| disciplineAction                      | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id 											 | body.staffId                      			| staff 									  |
 	| disciplineIncident					| 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id											 | body.staffId									| staff										  |
@@ -584,7 +584,7 @@ Scenario: Verify references were resolved correctly
 	| teacherSchoolAssociation              | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id 											 | body.teacherId                      			| staff										  |
     | teacherSectionAssociation             | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId            					| staff										  |
 	#studentCompetency
-	| reportCard							| 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id											 | body.studentCompetencyId						| studentCompetency							  |
+	| reportCard							| 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id25a038f1108526afc18cc2351de481388b84878c_id											 | body.studentCompetencyId						| studentCompetency							  |
 	#studentCompetencyObjective
 	| studentCompetency						| 0d1963676e1627e9a971d748851f549fdc9528c6_id											 | body.objectiveId.studentCompetencyObjectiveId | studentCompetencyObjective				  |
 	#student
@@ -596,12 +596,12 @@ Scenario: Verify references were resolved correctly
 	| studentSectionAssociation             | 84432d70656e1ab68df27cf2584282da351ab684_id3c11fbcc6e93af20a926e17438af188c53bc02ea_id | body.studentId            					| student									  |
 	| attendance                            | d0c9f4e72313c4f185fdbc9b1ed3d8859a641dfe_id 											 | body.studentId                      			| student									  |
 	| disciplineAction						| 70b8c1f4b77823bf5ede69389e13b0487f32e720_id											 | body.studentId								| student									  |
-	| reportCard                            | 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id 											 | body.studentId 								| student                       			  |
-    | studentAcademicRecord                 | a1e159796736acfe35a3dda1ece214dc380a2714_id 											 | body.studentId                       		| student									  |
+	| reportCard                            | 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id25a038f1108526afc18cc2351de481388b84878c_id 											 | body.studentId 								| student                       			  |
+    | studentAcademicRecord                 | 3d7e898167fe27b1fa393f979a5f6bf89e6dcc04_id2c10dec5f74762e0fcdd0ba8d547d9b9f4f34b57_id 											 | body.studentId                       		| student									  |
 	| studentAssessment	         		    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentId            					| student 									  |
 	#studentSectionAssociation
 	| studentGradebookEntry           | 56751666983beeaa65cf74c1178f1f824fe02659_id 											| body.studentSectionAssociationId  			| studentSectionAssociation				  |
-	| grade                           | 3f8df929951a9ea94709be3aeef49a91c5addea9_id 										  | body.studentSectionAssociationId  			| studentSectionAssociation				  |
+	| grade                           | 0f3a7dbe3e7404583c126f3869c8d413ae1e88e0_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id 										  | body.studentSectionAssociationId  			| studentSectionAssociation				  |
 	| studentCompetency               | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											| body.studentSectionAssociationId  			| studentSectionAssociation  			  |
 	
 @integration @IL-Sunset
@@ -906,7 +906,7 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-01              | string               |
      | staffProgramAssociation     | 2                   | body.beginDate              | 2011-06-02              | string               |
      | staffProgramAssociation     | 9                   | body.endDate                | 2012-02-15              | string               |
-     | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
+     | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5.0                       | double              |
      | studentAssessment | 11                  | studentAssessmentItem.body.assessmentResponse                             | False                       | string |
      | studentAssessment | 25                  | studentAssessmentItem.body.assessmentResponse                             | True                        | string |
   Then there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-English-Rhetorical")

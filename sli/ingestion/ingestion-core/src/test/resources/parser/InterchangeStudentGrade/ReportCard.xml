@@ -5,26 +5,21 @@
     <ReportCard id="ID002">
         <GradeReference>
             <GradeIdentity>
-                <StudentSectionAssociationReference>
-                    <StudentSectionAssociationIdentity>
-                        <StudentReference>
-                            <StudentIdentity>
-                                <StudentUniqueStateId>Zj0CWaJf1lHIVP0E</StudentUniqueStateId>
-                            </StudentIdentity>
-                        </StudentReference>
-                        <SectionReference>
-                            <SectionIdentity>
-                                <EducationalOrgReference>
-                                    <EducationalOrgIdentity>
-                                        <StateOrganizationId>iZaD-UJjr-xljYLGQgpsg</StateOrganizationId>
-                                    </EducationalOrgIdentity>
-                                </EducationalOrgReference>
-                                <UniqueSectionCode>o</UniqueSectionCode>
-                            </SectionIdentity>
-                        </SectionReference>
-                        <BeginDate>2014-01-20</BeginDate>
-                    </StudentSectionAssociationIdentity>
-                </StudentSectionAssociationReference>
+                  <StudentReference>
+                      <StudentIdentity>
+                          <StudentUniqueStateId>Zj0CWaJf1lHIVP0E</StudentUniqueStateId>
+                      </StudentIdentity>
+                  </StudentReference>
+                  <SectionReference>
+                      <SectionIdentity>
+                          <EducationalOrgReference>
+                              <EducationalOrgIdentity>
+                                  <StateOrganizationId>iZaD-UJjr-xljYLGQgpsg</StateOrganizationId>
+                              </EducationalOrgIdentity>
+                          </EducationalOrgReference>
+                          <UniqueSectionCode>o</UniqueSectionCode>
+                      </SectionIdentity>
+                  </SectionReference>
                 <GradingPeriodReference>
                     <GradingPeriodIdentity>
                         <EducationalOrgReference>
@@ -36,30 +31,26 @@
                         <BeginDate>2014-04-17</BeginDate>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
+                <SchoolYear>2013-2014</SchoolYear>
             </GradeIdentity>
         </GradeReference>
         <GradeReference>
             <GradeIdentity>
-                <StudentSectionAssociationReference>
-                    <StudentSectionAssociationIdentity>
-                        <StudentReference>
-                            <StudentIdentity>
-                                <StudentUniqueStateId>t1y9XjTdnicZbeZ3IKTkJ-HNZ</StudentUniqueStateId>
-                            </StudentIdentity>
-                        </StudentReference>
-                        <SectionReference>
-                            <SectionIdentity>
-                                <EducationalOrgReference>
-                                    <EducationalOrgIdentity>
-                                        <StateOrganizationId>iZaD-UJjr-xljYLGQgpsg</StateOrganizationId>
-                                    </EducationalOrgIdentity>
-                                </EducationalOrgReference>
-                                <UniqueSectionCode>GM-MXVcgWf3-Wi</UniqueSectionCode>
-                            </SectionIdentity>
-                        </SectionReference>
-                        <BeginDate>2014-08-04</BeginDate>
-                    </StudentSectionAssociationIdentity>
-                </StudentSectionAssociationReference>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>t1y9XjTdnicZbeZ3IKTkJ-HNZ</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>iZaD-UJjr-xljYLGQgpsg</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>GM-MXVcgWf3-Wi</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
                 <GradingPeriodReference>
                     <GradingPeriodIdentity>
                         <EducationalOrgReference>
@@ -71,6 +62,7 @@
                         <BeginDate>2013-07-25</BeginDate>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
+                <SchoolYear>2013-2014</SchoolYear>
             </GradeIdentity>
         </GradeReference>
         <StudentCompetencyReference>

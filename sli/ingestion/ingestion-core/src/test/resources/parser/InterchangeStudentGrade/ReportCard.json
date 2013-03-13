@@ -5,43 +5,33 @@
     {
       "GradeIdentity":
       {
-        "StudentSectionAssociationReference":
+        "StudentReference":
         {
-          "StudentSectionAssociationIdentity":
+          "StudentIdentity":
           {
-            "StudentReference":
+            "StudentUniqueStateId":
             {
-              "StudentIdentity":
+              "_value":"Zj0CWaJf1lHIVP0E"
+            }
+          }
+        },
+        "SectionReference":
+        {
+          "SectionIdentity":
+          {
+            "EducationalOrgReference":
+            {
+              "EducationalOrgIdentity":
               {
-                "StudentUniqueStateId":
+                "StateOrganizationId":
                 {
-                  "_value":"Zj0CWaJf1lHIVP0E"
+                  "_value":"iZaD-UJjr-xljYLGQgpsg"
                 }
               }
             },
-            "SectionReference":
+            "UniqueSectionCode":
             {
-              "SectionIdentity":
-              {
-                "EducationalOrgReference":
-                {
-                  "EducationalOrgIdentity":
-                  {
-                    "StateOrganizationId":
-                    {
-                      "_value":"iZaD-UJjr-xljYLGQgpsg"
-                    }
-                  }
-                },
-                "UniqueSectionCode":
-                {
-                  "_value":"o"
-                }
-              }
-            },
-            "BeginDate":
-            {
-              "_value":"2014-01-20"
+              "_value":"o"
             }
           }
         },
@@ -68,49 +58,43 @@
               "_value":"2014-04-17"
             }
           }
+        },
+        "SchoolYear" :
+        {
+          "_value":"2013-2014"
         }
       }
     },
     {
       "GradeIdentity":
       {
-        "StudentSectionAssociationReference":
+        "StudentReference":
         {
-          "StudentSectionAssociationIdentity":
+          "StudentIdentity":
           {
-            "StudentReference":
+            "StudentUniqueStateId":
             {
-              "StudentIdentity":
+              "_value":"t1y9XjTdnicZbeZ3IKTkJ-HNZ"
+            }
+          }
+        },
+        "SectionReference":
+        {
+          "SectionIdentity":
+          {
+            "EducationalOrgReference":
+            {
+              "EducationalOrgIdentity":
               {
-                "StudentUniqueStateId":
+                "StateOrganizationId":
                 {
-                  "_value":"t1y9XjTdnicZbeZ3IKTkJ-HNZ"
+                  "_value":"iZaD-UJjr-xljYLGQgpsg"
                 }
               }
             },
-            "SectionReference":
+            "UniqueSectionCode":
             {
-              "SectionIdentity":
-              {
-                "EducationalOrgReference":
-                {
-                  "EducationalOrgIdentity":
-                  {
-                    "StateOrganizationId":
-                    {
-                      "_value":"iZaD-UJjr-xljYLGQgpsg"
-                    }
-                  }
-                },
-                "UniqueSectionCode":
-                {
-                  "_value":"GM-MXVcgWf3-Wi"
-                }
-              }
-            },
-            "BeginDate":
-            {
-              "_value":"2014-08-04"
+              "_value":"GM-MXVcgWf3-Wi"
             }
           }
         },
@@ -137,7 +121,8 @@
               "_value":"2013-07-25"
             }
           }
-        }
+        },
+        "SchoolYear" : { "_value" : "2013-2014" }
       }
     }
   ],
