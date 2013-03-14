@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import org.slc.sli.bulk.extract.util.OutstreamZipFile;
+import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;

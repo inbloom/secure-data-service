@@ -17,65 +17,16 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
 
 	<import resource="classpath:/spring/validation.xml" />
+	<import resource="classpath:/spring/db.xml" />
 	<context:component-scan base-package="org.slc.sli.common.util.uuid" />
-	<context:component-scan base-package="org.slc.sli.dal" />
+	<context:component-scan base-package="org.slc.sli.common.domain" />
 	<context:component-scan base-package="org.slc.sli.validation" />
 	<context:annotation-config />
 	<tx:annotation-driven />
 	
-	<context:property-placeholder location="file:${sli.conf}" system-properties-mode="OVERRIDE" />
+	<context:property-placeholder location="file:${sli.conf}" system-properties-mode="OVERRIDE" order="0"/>
 	
-	<bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
-	
-	<bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher"></bean>
-    
-    <bean id="sliSchemaVersionValidator" class="org.slc.sli.dal.versioning.SliSchemaVersionValidator" >
-        <property name="mongoTemplate" ref="dataMongoTemplate" />
-    </bean>
-    
-    <bean id="migrationConfigResource" class="org.springframework.core.io.ClassPathResource">
-      <constructor-arg index="0" value="migration/migration-config.json" />
-    </bean>
-	
-	<mongo:mapping-converter id="mappingConverter" base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
-		<mongo:custom-converters>
-			<mongo:converter>
-				<bean class="org.slc.sli.dal.convert.EntityReadConverter" />
-			</mongo:converter>
-		</mongo:custom-converters>
-	</mongo:mapping-converter>
-	
-	<mongo:mongo id="searchMongo" replica-set="${sli.mongodb.host}"/>
-	
-	<bean id="mongoDbFactory" class="org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory">
-		<constructor-arg ref="searchMongo" />
-		<constructor-arg value="${sli.mongodb.database}" />
-	</bean>
-	
-	<bean id="simpleEntityRepository" name="simpleValidationRepo" class="org.slc.sli.dal.repository.SimpleEntityRepository"/>
-	
-	<bean id="dataMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-		<constructor-arg ref="mongoDbFactory" />
-		<constructor-arg ref="mappingConverter" />
-	</bean>
-	
-	
-	<bean id="entityKeyEncoder" class="org.slc.sli.dal.repository.EntityKeyEncoder" />
-	
- 	<bean id="mongoEntityRepository" name="validationRepo" 
- 	class="org.slc.sli.dal.repository.MongoEntityRepository"> 
- 		<property name="template" ref="dataMongoTemplate" /> 
- 		<property name="tenantAgnosticCollections" ref="tenantAgnosticCollections" />
- 	</bean>
-
-    <bean id="validator" class="org.slc.sli.validation.schema.ApiNeutralSchemaValidator" />
-	
-	<bean id="encryptor" class="org.slc.sli.encryption.tool.Encryptor">
-		<constructor-arg name="keyStoreLocation" value="${sli.encryption.keyStore}" />
-		<constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
-	</bean>
-
-    <util:list id="entities" value-type="java.lang.String">
+	<util:list id="entities" value-type="java.lang.String">
         <value>assessment</value>
         <value>assessmentFamily</value>
         <value>assessmentPeriodDescriptor</value>
