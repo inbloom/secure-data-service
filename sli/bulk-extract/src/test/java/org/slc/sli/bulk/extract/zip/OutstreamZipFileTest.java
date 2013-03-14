@@ -9,7 +9,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 public class OutstreamZipFileTest {
-    private static final String TESTPATH = "src/test/resources/zip/";
+    private static final String TESTPATH = "src/test/resources/";
     
     @Test
     public void testOutstreamZipFile() {
