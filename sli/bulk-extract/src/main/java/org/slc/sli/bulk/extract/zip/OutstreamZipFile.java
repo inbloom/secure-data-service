@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.bulk.extract.util;
+package org.slc.sli.bulk.extract.zip;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -33,12 +33,8 @@ import org.apache.commons.io.IOUtils;
  */
 public class OutstreamZipFile {
 
-    // private final Logger LOG =
-    // LoggerFactory.getLogger(OutstreamZipFile.class);
-    private final String TMP = "_tmp";
-
-    // private FileOutputStream fos;
-    private ZipArchiveOutputStream zos;
+    private static final String TMP_SUFFIX = "_tmp";
+    private ZipArchiveOutputStream zipArchiveStream;
     private File tempZipFile;
     private ArchiveEntry zipEntry = null;
     private File zipFile;
@@ -64,10 +60,10 @@ public class OutstreamZipFile {
     public OutstreamZipFile(String parentDirName, String zipFileName) throws IOException {
         File parentDir = new File(parentDirName + "/");
         if (parentDir.isDirectory()) {
-            tempZipFile = new File(parentDir, zipFileName + TMP + ".zip");
+            tempZipFile = new File(parentDir, zipFileName + TMP_SUFFIX + ".zip");
             tempZipFile.createNewFile();
             if (tempZipFile.canWrite()) {
-                zos = new ZipArchiveOutputStream(new BufferedOutputStream(new FileOutputStream(
+                zipArchiveStream = new ZipArchiveOutputStream(new BufferedOutputStream(new FileOutputStream(
                         tempZipFile)));
                 zipFile = new File(parentDir, zipFileName + ".zip");
             }
@@ -84,10 +80,10 @@ public class OutstreamZipFile {
      */
     public void createArchiveEntry(String fileEntryName) throws IOException {
         if (zipEntry != null) {
-            zos.closeArchiveEntry();
+            zipArchiveStream.closeArchiveEntry();
         }
-        zipEntry = zos.createArchiveEntry(tempZipFile, fileEntryName);
-        zos.putArchiveEntry(zipEntry);
+        zipEntry = zipArchiveStream.createArchiveEntry(tempZipFile, fileEntryName);
+        zipArchiveStream.putArchiveEntry(zipEntry);
     }
 
     /**
@@ -104,8 +100,8 @@ public class OutstreamZipFile {
         int length = data.length();
 
         // Write data to output stream.
-        zos.write(data.getBytes(), 0, length);
-        zos.write('\n');
+        zipArchiveStream.write(data.getBytes(), 0, length);
+        zipArchiveStream.write('\n');
 
         return length;
     }
@@ -117,10 +113,10 @@ public class OutstreamZipFile {
      */
     public boolean renameTempZipFile() throws IOException {
         if (zipEntry != null) {
-            zos.closeArchiveEntry();
+            zipArchiveStream.closeArchiveEntry();
         }
-        zos.finish();
-        IOUtils.closeQuietly(zos);
+        zipArchiveStream.finish();
+        IOUtils.closeQuietly(zipArchiveStream);
         boolean renamed = tempZipFile.renameTo(zipFile);
         return renamed;
     }

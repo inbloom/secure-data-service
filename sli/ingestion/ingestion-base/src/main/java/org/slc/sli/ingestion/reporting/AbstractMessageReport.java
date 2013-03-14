@@ -34,6 +34,8 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
     /**
      * Reports an message as an error and updates the wider-scope error state in the provided
      * reportStats. Will also log the error message if the implementation supports logging.
+     * If the error is caused by an exception, use the following method that logs the stacktrace
+     * as well
      *
      * @param reportStats
      *            statistics state
@@ -47,13 +49,34 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      *             if reportStats is <code>null</code>
      */
     public void error(ReportStats reportStats, Source source, MessageCode code, Object... args) {
+        error(null, reportStats, source, code, args);
+    }
+
+    /**
+     * Reports an message as an error and updates the wider-scope error state in the provided
+     * reportStats. Will also log the error message if the implementation supports logging.
+     * @param throwable
+     *            the exception causing this error
+     * @param reportStats
+     *            statistics state
+     * @param source
+     *            source where the error is from
+     * @param code
+     *            message defined by a code
+     * @param args
+     *            additional arguments for the message
+     *
+     * @throws IllegalStateException
+     *             if reportStats is <code>null</code>
+     */
+    public void error(Throwable throwable, ReportStats reportStats, Source source, MessageCode code, Object... args) {
         if (reportStats == null || source == null) {
             throw new IllegalStateException();
         }
 
         reportStats.incError();
 
-        reportError(reportStats, source, code, args);
+        reportError(throwable, reportStats, source, code, args);
     }
 
     /**
@@ -121,7 +144,7 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
         return MessageFormat.format("{0}:[{1}]-{2}", arguments);
     }
 
-    protected abstract void reportError(ReportStats reportStats, Source source, MessageCode code,
+    protected abstract void reportError(Throwable throwable, ReportStats reportStats, Source source, MessageCode code,
             Object... args);
 
     protected abstract void reportWarning(ReportStats reportStats, Source source, MessageCode code,

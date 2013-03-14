@@ -65,7 +65,7 @@ public class FilePresenceValidatorTest {
 
         Assert.assertFalse(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control")));
 
-        Mockito.verify(mr, Mockito.atLeastOnce()).error(Mockito.any(ReportStats.class),
+        Mockito.verify(mr, Mockito.atLeastOnce()).error(Mockito.any(Throwable.class), Mockito.any(ReportStats.class),
                 Mockito.any(Source.class), Mockito.eq(BaseMessageCode.BASE_0001), Mockito.any(Object[].class));
     }
 

@@ -33,7 +33,7 @@ import org.slc.sli.ingestion.reporting.Source;
 public class DummyMessageReport extends AbstractMessageReport {
 
     @Override
-    public void reportError(ReportStats reportStats, Source source, MessageCode code, Object... args) {
+    public void reportError(Throwable t, ReportStats reportStats, Source source, MessageCode code, Object... args) {
         // Do nothing
     }
 
