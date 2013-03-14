@@ -136,7 +136,7 @@ public class RealmHelper {
 		// If there's a realm directly associated with your edorg, we'll require
 		// that
 		List<String> toReturn = new ArrayList<String>();
-		Set<String> edOrgs = edorgHelper.getDirectEdorgs(userEntity);
+        Set<String> edOrgs = edorgHelper.locateDirectEdorgs(userEntity);
 		for (String edOrgId : edOrgs) {
 			Entity edOrgEntity = repo
 					.findById("educationOrganization", edOrgId);
