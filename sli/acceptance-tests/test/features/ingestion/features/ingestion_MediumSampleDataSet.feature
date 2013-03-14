@@ -112,4 +112,5 @@ Then I should see following map of entry counts in the corresponding collections
 	And I should see "Processed 45414 records." in the resulting batch job file
 	And I should not see an error log file created
 	And I should not see a warning log file created
+	#And there are no mismatches when executing "MediumSampleDataSet/expectedCounts.js" on tenant "Midgar"
 
