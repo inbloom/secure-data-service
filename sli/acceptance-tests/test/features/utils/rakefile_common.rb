@@ -88,6 +88,10 @@ class PropLoader
     return @@yml
   end
 
+  def self.update(key, val)
+    @@yml[key] = val
+  end
+
   private
 
   def self.updateHash()
