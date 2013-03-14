@@ -2,6 +2,12 @@
 # API V1 tests start
 ############################################################
 
+desc "Run API V1 Yearly Transcript Tests"
+task :apiV1YearlyTranscriptTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/container_doc/yearly_transcript.feature")
+end
+
 desc "Run API V1 Granular Access Tests"
 task :apiV1GranularAccessTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute

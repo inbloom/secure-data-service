@@ -60,6 +60,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | teacher                                   |
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
+     | yearlyTranscript                          |
 When zip file is scp to ingestion landing zone
   And a batch job for file "SmallSampleDataSet.zip" is completed in database
   And a batch job log has been created

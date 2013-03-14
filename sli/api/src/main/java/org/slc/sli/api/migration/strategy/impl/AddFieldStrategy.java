@@ -105,6 +105,9 @@ public class AddFieldStrategy implements MigrationStrategy<EntityBody> {
         for (int i = 1; i < ruleSet.size(); i++) {
             TransformationRule rule = ruleSet.get(i);
             Entity e = repository.findById(rule.getCollection(), id);
+            if (e == null) {
+                return null;
+            }
             List<String> fields = Arrays.asList(rule.getField().split(","));
             Map<String, Object> body = e.getBody();
             Object value = null;

@@ -16,6 +16,7 @@
 
 package org.slc.sli.common.domain;
 
+import org.slc.sli.api.constants.EntityNames;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -49,10 +50,38 @@ public class ContainerDocumentHolder {
 
     private void init() {
         final List<String> parentKeys = Arrays.asList("studentId", "schoolId", "schoolYear");
-        final ContainerDocument attendance = ContainerDocument.builder().forCollection("attendance")
+        final ContainerDocument attendance = ContainerDocument.builder()
+                .forCollection(EntityNames.ATTENDANCE)
                 .forField("attendanceEvent")
+                .persistAs(EntityNames.ATTENDANCE)
+                .asContainerSubdoc(false)
                 .withParent(parentKeys).build();
 
-        containerDocumentMap.put("attendance", attendance);
+        final List<String> parentKeysForGRCSAR = Arrays.asList("studentId", "schoolYear");
+        final ContainerDocument reportCard = ContainerDocument.builder()
+                .forCollection(EntityNames.REPORT_CARD)
+                .forField(EntityNames.REPORT_CARD)
+                .withParent(parentKeysForGRCSAR)
+                .persistAs("yearlyTranscript")
+                .asContainerSubdoc(true)
+                .build();
+        final ContainerDocument grade = ContainerDocument.builder()
+                .forCollection(EntityNames.GRADE)
+                .forField(EntityNames.GRADE)
+                .withParent(parentKeysForGRCSAR)
+                .persistAs("yearlyTranscript")
+                .asContainerSubdoc(true).build();
+        final ContainerDocument studentAcademicRecord = ContainerDocument.builder()
+                .forCollection(EntityNames.STUDENT_ACADEMIC_RECORD)
+                .forField(EntityNames.STUDENT_ACADEMIC_RECORD)
+                .withParent(parentKeysForGRCSAR)
+                .persistAs("yearlyTranscript")
+                .asContainerSubdoc(true)
+                .build();
+
+        containerDocumentMap.put(EntityNames.ATTENDANCE, attendance);
+        containerDocumentMap.put(EntityNames.REPORT_CARD, reportCard);
+        containerDocumentMap.put(EntityNames.GRADE, grade);
+        containerDocumentMap.put(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecord);
     }
 }

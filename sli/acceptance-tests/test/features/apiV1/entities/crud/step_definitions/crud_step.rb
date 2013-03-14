@@ -478,7 +478,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
 
   "grade" => {
     "studentSectionAssociationId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id49b277c3-4639-42c2-88ef-0f59dd5acba2_id",
-    "studentId" => "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
+    "studentId" => "2fab099f-47d5-4099-addf-69120db3b53b_id",
     "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id",
     "letterGradeEarned" => "B+",
     "gradeType" => "Final",
@@ -497,7 +497,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
 
   "reportCard" => {
-      "grades" => ["ef42e2a2-9942-11e1-a8a9-68a86d21d918"],
+      "grades" => ["78501562270ca2938d56f793547bc3fc2c0b56e6_idef42e2a2-9942-11e1-a8a9-68a86d21d918"],
       "studentCompetencyId" => ["3a2ea9f8-9acf-11e1-add5-68a86d83461b"],
       "gpaGivenGradingPeriod" => 3.14,
       "gpaCumulative" => 2.9,
