@@ -68,7 +68,6 @@ And the app "Smoke!" Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
-And a security event matching "^ALLOWED" should be in the sli db
 
 Scenario: Realm administrator operations
 Given I am a valid realm administrator
