@@ -11,4 +11,4 @@ Examples:
 | Association                  | Count |
 | staffProgramAssociations     | 3     |                                         
 | staffCohortAssociations      | 3     |                            
-| studentProgramAssociations   | 8     |                            
+| studentProgramAssociations   | 5     |                            
