@@ -28,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.CalculatedData;
@@ -51,6 +52,9 @@ public class NaturalKeyExtractorTest {
 
     @Mock
     SchemaRepository entitySchemaRegistry;
+
+    @Mock
+    private ContainerDocumentHolder mockHolder;
 
     NeutralSchema mockSchema;
 

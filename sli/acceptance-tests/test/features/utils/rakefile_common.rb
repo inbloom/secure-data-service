@@ -18,6 +18,7 @@ limitations under the License.
 
 require 'ldapstorage'
 require 'digest/sha1'
+require 'yaml'
 
 def cleanUpLdapUser(user_email)
   ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],

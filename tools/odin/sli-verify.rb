@@ -45,6 +45,12 @@ def where_stored(entity_type)
     {collection: 'assessment', subdoc: ['objectiveAssessment']}
   when "AttendanceEvent"
     {collection: 'attendance', subdoc: ['body', 'attendanceEvent']}
+  when "Grade"
+    {collection: 'yearlyTranscript', subdoc: ['grade']}
+  when "ReportCard"
+    {collection: 'yearlyTranscript', subdoc: ['reportCard']}
+  when "StudentAcademicRecord"
+    {collection: 'yearlyTranscript', subdoc: ['studentAcademicRecord']}
   when "GradebookEntry"
     {collection: 'section', subdoc: ['gradebookEntry']}
   when "LocalEducationAgency"

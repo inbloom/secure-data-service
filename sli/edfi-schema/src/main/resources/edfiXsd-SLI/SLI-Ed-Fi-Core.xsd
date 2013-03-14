@@ -478,7 +478,7 @@
                 reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>grade</sli:recordType>
-				<sli:naturalKeys>StudentSectionAssociationReference,GradingPeriodReference</sli:naturalKeys>
+				<sli:naturalKeys>DiDResolved_StudentReference,DiDResolved_SectionReference,GradingPeriodReference,SchoolYear</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -748,7 +748,7 @@
                 types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>reportCard</sli:recordType>
-				<sli:naturalKeys>StudentReference,GradingPeriodReference</sli:naturalKeys>
+				<sli:naturalKeys>StudentReference,GradingPeriodReference,SchoolYear</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -1035,7 +1035,7 @@
                 DiplomaReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentAcademicRecord</sli:recordType>
-				<sli:naturalKeys>StudentReference,SessionReference</sli:naturalKeys>
+				<sli:naturalKeys>StudentReference,SessionReference,SchoolYear</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -2035,22 +2035,34 @@
                 GradingPeriodReference.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-            <xs:element name="StudentSectionAssociationReference"
-                type="SLC-StudentSectionAssociationReferenceType">
+			<xs:element name="StudentReference" type="SLC-StudentReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
-						<sli:keyFieldName>studentSectionAssociationId</sli:keyFieldName>
+						<sli:keyFieldName>studentId</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"
-                minOccurs="0">
-				<xs:annotation>
-					<xs:appinfo>
-						<sli:keyFieldName>gradingPeriodId</sli:keyFieldName>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
+            <xs:element name="SectionReference" type="SLC-SectionReferenceType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>sectionId</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>gradingPeriodId</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SchoolYear" type="SchoolYearType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>schoolYear</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-GradeReferenceType">
@@ -2345,6 +2357,14 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="SchoolYear" type="SchoolYearType">
+                <xs:annotation>
+                    <xs:documentation/>
+                    <xs:appinfo>
+                        <sli:keyFieldName>schoolYear</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-ReportCardReferenceType">
@@ -2475,6 +2495,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="SchoolYear" type="SchoolYearType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>schoolYear</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentAcademicRecordReferenceType">

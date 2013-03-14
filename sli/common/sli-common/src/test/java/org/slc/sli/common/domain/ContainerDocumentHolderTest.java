@@ -59,6 +59,8 @@ public class ContainerDocumentHolderTest {
         final List<String> parentKeys = Arrays.asList("studentId", "schoolId", "schoolYear");
         final ContainerDocument attendance = ContainerDocument.builder().forCollection("attendance")
                 .forField("attendanceEvent")
+                .forCollection("attendance")
+                .persistAs("attendance")
                 .withParent(parentKeys).build();
         testContainer.put("test", attendance);
         return testContainer;

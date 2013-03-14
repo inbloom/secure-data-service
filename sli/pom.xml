@@ -1089,6 +1089,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
                 <configuration>
+		    <argLine>-Xms2G -Xmx6G -XX:PermSize=512m -XX:MaxPermSize=1024m -XX:NewRatio=1 -XX:+UseParallelGC -XX:+UseParallelOldGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps</argLine>
                     <runOrder>alphabetical</runOrder>
                     <parallel>methods</parallel>
                     <threadCount>${test.threadcount}</threadCount>
@@ -1185,6 +1186,34 @@
                     </execution>
                 </executions>
             </plugin>
+            
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <!-- here the phase you need -->
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>opstools/migration/index_migration</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>config/indexes</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>tenantDB_indexes.txt</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            
         </plugins>
     </build>
     <reporting>

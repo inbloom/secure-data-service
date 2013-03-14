@@ -199,6 +199,18 @@ public class SubDocAccessorTest {
                 + "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.nonExistProperty\" : \"someValue\"}}, "
                 + "{$group: { _id: null, count: {$sum: 1}}}]}";
         when(template.executeCommand(nonExistCountCommand)).thenReturn(countFailCR);
+
+        String sectionAggregate = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}},"
+                + "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},"
+                + "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\"}}]}";
+
+        when(template.executeCommand(sectionAggregate)).thenReturn(successCR);
+
+        String nonExistAggregate = "{aggregate : \"section\", pipeline:[{$match : { \"studentSectionAssociation._id\" "
+                + ": \"nonExistId\"}},{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },"
+                + "{$unwind: \"$studentSectionAssociation\"}]}";
+
+        when(template.executeCommand(nonExistAggregate)).thenReturn(failCR);
     }
 
     @Test

@@ -64,24 +64,12 @@ disciplineIncident,false,body.staffId:1
 educationOrganization,false,body.parentEducationAgencyReference:1
 # Used in cascade delete
 educationOrganization,false,body.programReference:1
-# Look up grade by gradingPeriod: /gradingPeriods/{id}/grades
-grade,false,body.gradePeriodId:1
-# Used in cascade delete
-grade,false,body.studentSectionAssociationId:1
 # Used in cascade delete
 gradingPeriod,false,body.gradingPeriodIdentity.schoolId:1
 # Look up graduation play by edorg: /educationOrganizations/{id}/graduationPlans
 graduationPlan,false,body.educationOrganizationId:1
 # Learning objective traversal
 learningObjective,false,body.parentLearningObjective:1
-# Used in cascade delete
-reportCard,false,body.grades:1
-# Look up reportCard by gradingPeriod: /gradingPeriods/{id}/reportCards
-reportCard,false,body.gradingPeriodId:1
-# Look up reportCard by studentCompetency: /studentCompetencies/{id}/reportCards
-reportCard,false,body.studentCompetencyId:1
-# Look up reportCard by student: /students/{id}/reportCards
-reportCard,false,body.studentId:1
 # Used in cascade delete
 section,false,body.assessmentReferences:1
 # Look up section by courseOffering: /courseOfferings/{id}/sections
@@ -106,10 +94,6 @@ staffEducationOrganizationAssociation,false,body.staffReference:1
 staffProgramAssociation,false,body.programId:1
 # Look up staffProgramAssoc by staff: /staff/{id}/staffProgramAssociations
 staffProgramAssociation,false,body.staffId:1
-# Look up studentAcademicRecord by session: /sessions/{id}/studentAcademicRecords
-studentAcademicRecord,false,body.sessionId:1
-# Look up studentAcademicRecord by student: /students/{id}/studentAcademicRecords
-studentAcademicRecord,false,body.studentId:1
 # studentAssessment is un-subdoced from student
 # Look up studentAssessment by assessment: /assessments/{id}/studentAssessments
 # student,false,studentAssessment.body.assessmentId:1
@@ -151,6 +135,21 @@ teacherSchoolAssociation,false,body.teacherId:1
 # teacherSectionAssociation is embedded into section
 # Look up teacherSectionAssoc by teacher: /teachers/{id}/teacherSectionAssociations
 section,false,teacherSectionAssociation.body.teacherId:1
+#yearlyTranscript
+yearlyTranscript,false,body.studentId:1
+# Look up grade by gradingPeriod: /gradingPeriods/{id}/grades
+yearlyTranscript,false,grade.body.gradingPeriodId:1
+# Used in cascade delete
+yearlyTranscript,false,grade.body.studentSectionAssociationId:1
+# Used in cascade delete
+yearlyTranscript,false,reportCard.body.grades:1
+# Look up reportCard by gradingPeriod: /gradingPeriods/{id}/reportCards
+yearlyTranscript,false,reportCard.body.gradingPeriodId:1
+# Look up reportCard by studentCompetency: /studentCompetencies/{id}/reportCards
+yearlyTranscript,false,reportCard.body.studentCompetencyId:1
+# Look up studentAcademicRecord by session: /sessions/{id}/studentAcademicRecords
+yearlyTranscript,false,studentAcademicRecord.body.sessionId:1
+
 
 
 # External IDs
@@ -193,5 +192,3 @@ educationOrganization,false,body.organizationCategories:1
 
 # To make Accaptance Tests pass -- REMOVE THIS - DE2609
 educationOrganization,false,type:1,body.nameOfInstitution:1
-# To make acceptance tests pass -- REMOVE THIS -- DE2622
-staff,false,type:1

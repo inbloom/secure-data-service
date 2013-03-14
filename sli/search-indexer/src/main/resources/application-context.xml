@@ -17,6 +17,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
 
 	<import resource="classpath:/spring/validation.xml" />
+    <context:component-scan base-package="org.slc.sli.common.domain" />
 	<context:component-scan base-package="org.slc.sli.dal" />
 	<context:component-scan base-package="org.slc.sli.validation" />
 	<context:component-scan base-package="org.slc.sli.common.util.uuid" />

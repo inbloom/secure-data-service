@@ -35,7 +35,7 @@ When /^I call "(.*?)" using ID "(.*?)"$/ do |arg1, arg2|
 end
 
 Then /^the executed URI should be "(.*?)"$/ do |expectedUri|
-  version = "v1.1"
+  version = "v1.2"
   root = expectedUri.match(/\/(.+?)\/|$/)[1]
   expected = version+expectedUri
   actual = @headers["x-executedpath"][0]
@@ -49,7 +49,7 @@ Then /^the executed URI should be "(.*?)"$/ do |expectedUri|
   #Then, validate the list of ids are the same
   ids = []
   if @ctx.has_key? root
-    idsString = actual.match(/v1.1\/[^\/]*\/([^\/]*)\/?/)[1]
+    idsString = actual.match(/v1.2\/[^\/]*\/([^\/]*)\/?/)[1]
     actualIds = idsString.split(",")
     expectedIds = @ctx[root].split(",")
     
