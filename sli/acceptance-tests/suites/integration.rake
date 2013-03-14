@@ -217,15 +217,15 @@ task :rcSandboxTests do
     Rake::Task["rcSandboxDatabrowserTests"].execute
     Rake::Task["rcSandboxPurgeTests"].execute
     Rake::Task["rcSandboxCleanUpTests"].execute
-    displayFailureReport()
-    if $SUCCESS
-      puts "Completed All Tests"
-    else
-      raise "Tests have failed"
-    end
   rescue
   ensure
     Rake::Task["rcDeleteSandboxLDAPUsers"].execute
+  end
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
   end
 end
 
