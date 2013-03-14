@@ -185,44 +185,22 @@ public class ContainerDocumentAccessor {
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
         final String fieldToPersist = containerDocument.getFieldToPersist();
 
-        DBObject entityDetails = new BasicDBObject();
         String parentKey = entity.getEntityId();
 
         final Query query = Query.query(Criteria.where("_id").is(parentKey));
-
-
         final Map<String, Object> entityBody = entity.getBody();
-        for (final String key : containerDocument.getParentNaturalKeys()) {
-            entityDetails.put("body." + key, entityBody.get(key));
-        }
-        Object arrayFieldToPersist = entity.getBody().get(fieldToPersist);
+
+        DBObject pullObject = BasicDBObjectBuilder.start().push("$pullAll").
+                add("body." + fieldToPersist, entityBody.get(fieldToPersist)).get();
         boolean persisted = true;
-
-        Entity mongoEntity = mongoTemplate.findOne(query, Entity.class, entity.getType());
-        Set<Object> persistedArrayField = new HashSet<Object>();
-        List<Object> mongoList = (List<Object>) mongoEntity.getBody().get(fieldToPersist);
-        if (mongoList != null) {
-            for (Object listObject : mongoList) {
-                persistedArrayField.add(listObject);
-            }
-        }
-        if (arrayFieldToPersist instanceof Collection) {
-            persistedArrayField.addAll((Collection<?>) arrayFieldToPersist);
-        } else {
-            persistedArrayField.add(arrayFieldToPersist);
-        }
-
-        entityDetails.put("body." + fieldToPersist, persistedArrayField);
-        DBObject set = new BasicDBObject("$set", entityDetails);
-
         persisted &= mongoTemplate.getCollection(entity.getType()).update(query.getQueryObject(),
-                set, false, false, WriteConcern.SAFE)
+                pullObject, false, false, WriteConcern.SAFE)
                 .getLastError().ok();
 
 
         //persisted &= updateContainerDoc(query, entityBody, entity.getType(), entity.getType());
         if (persisted) {
-            return (String) query.getQueryObject().get("_id");
+            return insertContainerDoc(query.getQueryObject(), entity);
         } else {
             return "";
         }
