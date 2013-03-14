@@ -114,9 +114,9 @@ public class ValidationController {
 
             processValidators(cfile, reportStats);
         } catch (IOException e) {
-            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0008);
+            messageReport.error(e, reportStats, source, ValidationMessageCode.VALIDATION_0008);
         } catch (SubmissionLevelException exception) {
-            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0010, exception.getMessage());
+            messageReport.error(exception, reportStats, source, ValidationMessageCode.VALIDATION_0010, exception.getMessage());
         } finally {
             messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0009, ctlFile);
         }
