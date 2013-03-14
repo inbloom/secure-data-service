@@ -99,12 +99,14 @@ public class EntityExtractor implements Extractor {
     public void execute() {
         Future<File> call;
         List<Future<File>> futures = new LinkedList<Future<File>>();
-        OutstreamZipFile zipFile = null;
         for (String tenant : tenants) {
             try {
+                OutstreamZipFile zipFile =new OutstreamZipFile(extractDir, tenant);
                 call = executor.submit(new ExtractWorker(tenant, zipFile));
                 futures.add(call);
             } catch (FileNotFoundException e) {
+                LOG.error("Error while extracting data for tenant " + tenant, e);
+            } catch (IOException e) {
                 LOG.error("Error while extracting data for tenant " + tenant, e);
             }
         }
@@ -260,7 +262,7 @@ public class EntityExtractor implements Extractor {
         @Override
         public File call() throws Exception {
             execute(tenant);
-            return zipFile.getZipFile();
+                return zipFile.getZipFile();
         }
     }
 
