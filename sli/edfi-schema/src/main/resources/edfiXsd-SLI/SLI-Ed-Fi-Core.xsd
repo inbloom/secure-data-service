@@ -1571,7 +1571,7 @@
                     <xs:element name="Version" type="Version" minOccurs="0"/>
                     <xs:element name="RevisionDate" type="xs:date" minOccurs="0"/>
                     <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
-                    <xs:element name="AssessmentPeriods" type="AssessmentPeriodDescriptorType"
+                    <xs:element name="AssessmentPeriods" type="SLC-AssessmentPeriodDescriptorReferenceType"
                         minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="AssessmentFamilyReference" type="SLC-AssessmentFamilyReferenceType"
                         minOccurs="0"/>

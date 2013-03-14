@@ -52,13 +52,7 @@ limitations under the License.
     {{#nomenclature}}
     <Nomenclature>{{nomenclature}}</Nomenclature>
     {{/nomenclature}}
-    {{#assessmentPeriod}}
-    <AssessmentPeriod>
-      <AssessmentPeriodDescriptorIdentity>
-        <AssessmentPeriodDescriptorCodeValue>{{codeValue}}</AssessmentPeriodDescriptorCodeValue>
-      </AssessmentPeriodDescriptorIdentity>
-    </AssessmentPeriod>
-    {{/assessmentPeriod}}
+    {{> Partials/_assessment_period_descriptor_reference}}
     {{> Partials/_assessment_item_reference}}
     {{#referenced_objective_assessments}}
     {{> Partials/_objective_assessment_reference}}
