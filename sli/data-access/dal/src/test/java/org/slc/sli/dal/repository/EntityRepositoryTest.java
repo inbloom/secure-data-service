@@ -100,7 +100,7 @@ public class EntityRepositoryTest {
         CascadeResult result = null;
         String idToDelete = null;
         
-        Integer maxObjects = 100;         // should be large enough to return all objects
+        Integer maxObjects = null;         // delete as many documents as needed
         AccessibilityCheck access = new AccessibilityCheck() {
             // grant access to all entities
             // TODO exercise access denied logic
@@ -110,10 +110,16 @@ public class EntityRepositoryTest {
         };
 
         AccessibilityCheck accessDenied = new AccessibilityCheck() {
+            int count = 0;
             // grant access to no entities
             // TODO exercise access denied logic
             public boolean accessibilityCheck(String id) {
-                return false;
+                count++;
+                if (count > 1) {
+                    // deny access after the first check
+                    return false;
+                }
+                return true;
             }
         };
 
@@ -124,18 +130,27 @@ public class EntityRepositoryTest {
         result = repository.safeDelete("student", idToDelete, false, true, maxObjects, access);
 
         //   verify expected results
-        assertEquals(1, result.nObjects);
-        assertEquals(1, result.depth);
+        assertEquals(3, result.nObjects);
+        assertEquals(2, result.depth);
         assertEquals(CascadeResult.SUCCESS, result.status);
 
-        // Test cascade=false and dryrun=false
-        idToDelete = prepareSafeDeleteData();
+        //Test leaf node delete success : cascade=false and dryrun=false
+        idToDelete = prepareSafeDeleteLeafData();
         result = repository.safeDelete("student", idToDelete, false, false, maxObjects, access);
 
         //   verify expected results
         assertEquals(1, result.nObjects);
         assertEquals(1, result.depth);
         assertEquals(CascadeResult.SUCCESS, result.status);
+
+        // Test leaf node delete failure : cascade=false and dryrun=false
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", idToDelete, false, false, maxObjects, access);
+
+        //   verify expected results
+        assertEquals(3, result.nObjects);
+        assertEquals(2, result.depth);
+        assertEquals(CascadeResult.NON_LEAF_NODE_DELETE, result.status);
 
         // Test cascade=true and dryrun=true
         idToDelete = prepareSafeDeleteData();
@@ -169,19 +184,21 @@ public class EntityRepositoryTest {
         result = repository.safeDelete("student", idToDelete, true, false, maxObjects, accessDenied);
 
         //   verify expected results
-        assertEquals(0, result.nObjects);
+        assertEquals(1, result.nObjects);
         assertEquals(1, result.depth);
         assertEquals(CascadeResult.ACCESS_DENIED, result.status);
 
     }
 
-    private String prepareSafeDeleteData() {
-        // populate some test data
-        // TODO mock the db calls so we don't rely on the db running
+    private void clearSafeDeleteData() {
         repository.deleteAll("student", null);
         repository.deleteAll("studentref", null);
-        repository.deleteAll("studentarrayref", null);
-
+        repository.deleteAll("studentarrayref", null);        
+    }
+    
+    private String prepareSafeDeleteLeafData() {
+        clearSafeDeleteData();
+        
         DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
         mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
@@ -193,8 +210,15 @@ public class EntityRepositoryTest {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("studentUniqueStateId=susId1"));
         Entity student1 = repository.findOne("student", neutralQuery);
-        String idToDelete = student1.getEntityId();
+        return student1.getEntityId();
+    }
 
+    private String prepareSafeDeleteData() {
+        clearSafeDeleteData();
+
+        // populate some test data
+        String idToDelete = prepareSafeDeleteLeafData();
+        
         // add fake referencing entity
         Map<String, Object> studentrefMap = buildTestStudentEntity();
         studentrefMap.put("studentReference", "notaMatchingId");
