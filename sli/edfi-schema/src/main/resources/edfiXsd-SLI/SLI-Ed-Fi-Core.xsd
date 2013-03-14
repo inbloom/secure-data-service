@@ -27,13 +27,53 @@
 
 	  <!-- Sequence of entities wrapped -->
 	  <xs:choice minOccurs="0" maxOccurs="unbounded">
-	    <!-- This is a starter list.  Eventually it would include all possible entities that can be at the top level of the action wrapper -->
-	    <xs:element name="Student" type="Student"/>
-
-	    <xs:element name="EducationOrgReference" type="SLC-EducationalOrgReferenceType"/>
-	    <xs:element name="LocationReference" type="LocationReferenceType"/>
-	    <xs:element name="CourseReference" type="SLC-CourseReferenceType"/>
-	    <xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
+	  
+		<!-- Any complex type -->
+		<xs:element name="Item" type="ComplexObjectType"/>
+		
+	    <!-- All reference types  -->
+	    <xs:element name="Reference" type="ReferenceType"/>
+  		<xs:element name="AccountReference" type="AccountReferenceType"/>
+  		<xs:element name="BellScheduleReference" type="BellScheduleReferenceType"/>
+        <xs:element name="LocationReference" type="LocationReferenceType"/>
+  		<xs:element name="AcademicWeekReference" type="SLC-AcademicWeekReferenceType"/>
+  		<xs:element name="AssessmentFamilyReference" type="SLC-AssessmentFamilyReferenceType"/>
+  		<xs:element name="AsessmentItemReference" type="SLC-AssessmentItemReferenceType"/>
+  		<xs:element name="AsessmentReference" type="SLC-AssessmentReferenceType"/>
+  		<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType"/>
+  		<xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType"/>
+  		<xs:element name="CohortReference" type="SLC-CohortReferenceType"/>
+  		<xs:element name="CourseOfferingReference" type="SLC-CourseOfferingReferenceType"/>
+  		<xs:element name="CourseReference" type="SLC-CourseReferenceType"/>
+  		<xs:element name="DiplomaReference" type="SLC-DiplomaReferenceType"/>
+  		<xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType"/>
+  	    <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType"/>
+  		<xs:element name="GradeReference" type="SLC-GradeReferenceType"/>
+  		<xs:element name="GradebookEntryReference" type="SLC-GradebookEntryReferenceType"/>
+  		<xs:element name="GradingPeriodReferenceType" type="SLC-GradingPeriodReferenceType"/>
+  		<xs:element name="GraduationPlanReference" type="SLC-GraduationPlanReferenceType"/>
+  		<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType"/>
+  		<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType"/>
+  		<xs:element name="MeetingTimeReferenceType" type="SLC-MeetingTimeReferenceType"/>
+  		<xs:element name="ObjectiveAssessmentReferenceType" type="SLC-ObjectiveAssessmentReferenceType"/>
+  		<xs:element name="ParentReferenceType" type="SLC-ParentReferenceType"/>
+  		<xs:element name="ProgramReferenceType" type="SLC-ProgramReferenceType"/>
+  		<xs:element name="ReportCardReferenceType" type="SLC-ReportCardReferenceType"/>
+  		<xs:element name="SectionReferenceType" type="SLC-SectionReferenceType"/>
+  		<xs:element name="SessionReferenceType" type="SLC-SessionReferenceType"/>
+  		<xs:element name="StaffReferenceType" type="SLC-StaffReferenceType"/>
+  		<xs:element name="StudentAcademicRecordReferenceType" type="SLC-StudentAcademicRecordReferenceType"/>
+  		<xs:element name="StudentAssessmentReferenceType" type="SLC-StudentAssessmentReferenceType"/>
+  		<xs:element name="StudentCompetencyObjectiveReferenceType" type="SLC-StudentCompetencyObjectiveReferenceType"/>
+  		<xs:element name="StudentCompetencyReferenceType" type="SLC-StudentCompetencyReferenceType"/>
+ 		<xs:element name="StudentObjectiveAssessmentReferenceType" type="SLC-StudentObjectiveAssessmentReferenceType"/>
+  		<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
+  		<xs:element name="StudentSectionAssociationReferenceType" type="SLC-StudentSectionAssociationReferenceType"/>
+  		
+  		<!-- Entity types do not have corresponding reference type -->
+  		<xs:element name="StudentParentAssociation" type="StudentParentAssociation"/>
+	    
+	    
 	  </xs:choice>
 	  
 	  <!--  Attributes -->

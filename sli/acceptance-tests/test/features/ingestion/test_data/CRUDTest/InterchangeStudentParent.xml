@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+
+  
+  <!-- Illustrative use of DELETE -->
+  <Action ActionType="DELETE" Cascade="true">
+	<StudentParentAssociation>
+    	<ParentReference>
+      <ParentIdentity>
+	    <ParentUniqueStateId>100000017</ParentUniqueStateId>
+      </ParentIdentity>
+    </ParentReference>
+    <StudentReference>
+      <StudentIdentity>
+	    <StudentUniqueStateId>IL-DAYBREAK<StudentUniqueStateId>
+     </StudentIdentity>
+    </StudentReference>
+    </StudentParentAssociation>
+
+</Action>
+
+</InterchangeEducationOrganization>
