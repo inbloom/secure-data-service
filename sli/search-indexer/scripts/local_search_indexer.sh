@@ -242,7 +242,7 @@ function run {
             nohup $jobString 1>> ${SEARCH_INDEXER_LOG} 2>&1 &
             stat=$?
 
-            sleep 10
+            sleep 30
             portListener=$(netstat -an | grep ${DEFAULT_REMOTE_COMMAND_PORT} | grep LISTEN )
             if  [[ -z "$portListener" ]]
             then
