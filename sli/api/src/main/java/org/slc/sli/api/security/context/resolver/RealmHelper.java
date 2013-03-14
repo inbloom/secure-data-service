@@ -206,7 +206,7 @@ public class RealmHelper {
 
 		// There wasn't a preferred realm, so let's check other realms in the
 		// hierarchy
-		Set<String> userEdorgs = edorgHelper.getDirectEdorgs(userEntity);
+        Set<String> userEdorgs = edorgHelper.locateDirectEdorgs(userEntity);
 		for (String id : userEdorgs) {
 			Entity edorgEntity = repo.findById("educationOrganization", id);
 
