@@ -180,7 +180,8 @@ desc "Run RC E2E Tests in Production mode"
 task :rcTests do
   @tags = ["~@wip", "@rc", "~@sandbox"]
   Rake::Task["rcDeleteLDAPUsers"].execute
-  Rake::Task["rcTenantCleanUp"].execute if tenant_exists
+  Rake::Task["rcTenantCleanUp"].execute # if tenant_exists
+  randomizeRcProdTenant()
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
   Rake::Task["rcIngestionTests"].execute
@@ -204,22 +205,27 @@ end
 desc "Run RC E2E Tests in Sandbox mode"
 task :rcSandboxTests do
   @tags = ["~@wip", "@rc", "@sandbox"]
-  Rake::Task["rcSandboxTenantCleanUp"].execute if tenant_exists(PropLoader.getProps['sandbox_tenant'])
-  Rake::Task["rcDeleteSandboxLDAPUsers"].execute
-  Rake::Task["rcSandboxAccountRequestTests"].execute
-  Rake::Task["rcSandboxProvisionTests"].execute
-  Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
-  Rake::Task["rcSandboxAppApprovalTests"].execute
-  Rake::Task["rcSandboxDamtTests"].execute
-  Rake::Task["rcSandboxDashboardTests"].execute
-  Rake::Task["rcSandboxDatabrowserTests"].execute
-  Rake::Task["rcSandboxPurgeTests"].execute
-  Rake::Task["rcSandboxCleanUpTests"].execute
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
+  begin
+    Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(PropLoader.getProps['sandbox_tenant'])
+    randomizeRcSandboxTenant()
+    Rake::Task["rcSandboxAccountRequestTests"].execute
+    Rake::Task["rcSandboxProvisionTests"].execute
+    Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
+    Rake::Task["rcSandboxAppApprovalTests"].execute
+    Rake::Task["rcSandboxDamtTests"].execute
+    Rake::Task["rcSandboxDashboardTests"].execute
+    Rake::Task["rcSandboxDatabrowserTests"].execute
+    Rake::Task["rcSandboxPurgeTests"].execute
+    Rake::Task["rcSandboxCleanUpTests"].execute
+    displayFailureReport()
+    if $SUCCESS
+      puts "Completed All Tests"
+    else
+      raise "Tests have failed"
+    end
+  rescue
+  ensure
+    Rake::Task["rcDeleteSandboxLDAPUsers"].execute
   end
 end
 
