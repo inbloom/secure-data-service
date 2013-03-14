@@ -62,14 +62,13 @@
   </bean>
 
   <bean id="edFiParserProcessor" class="org.slc.sli.ingestion.processors.EdFiParserProcessor" parent="ingestionProcessor">
-    <property name="batchSize" value="${sli.ingestion.parser.batch.size:500}" />
+    <property name="batchSize" value="${sli.ingestion.parser.batch.size:1000}" />
     <property name="typeProvider" ref="xsdTypeProvider" />
     <property name="xsdSelector" ref="xsdSelector" />
     <property name="producer" ref="parserEndPoint" />
     <property name="preValidators">
       <util:list value-type="org.slc.sli.ingestion.validation.Validator">
         <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
-        <ref bean="xsdValidator" />
       </util:list>
     </property>
   </bean>

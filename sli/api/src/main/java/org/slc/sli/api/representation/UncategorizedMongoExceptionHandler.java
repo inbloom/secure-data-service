@@ -36,6 +36,7 @@ public class UncategorizedMongoExceptionHandler implements ExceptionMapper<Uncat
     @Override
     public Response toResponse(UncategorizedMongoDbException exception) {
         Status errorStatus = Status.SERVICE_UNAVAILABLE;
+        error("Could not access database", exception);
         return Response
                 .status(errorStatus)
                 .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),

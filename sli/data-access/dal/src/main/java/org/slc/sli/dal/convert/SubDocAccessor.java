@@ -54,7 +54,6 @@ import org.slc.sli.validation.schema.INaturalKeyExtractor;
  * Utility for accessing subdocuments that have been collapsed into a super-doc
  *
  * @author nbrown
- *
  */
 public class SubDocAccessor {
 
@@ -69,7 +68,7 @@ public class SubDocAccessor {
     private final INaturalKeyExtractor naturalKeyExtractor;
 
     public SubDocAccessor(MongoTemplate template, UUIDGeneratorStrategy didGenerator,
-            INaturalKeyExtractor naturalKeyExtractor) {
+                          INaturalKeyExtractor naturalKeyExtractor) {
         this.template = template;
         this.didGenerator = didGenerator;
         this.naturalKeyExtractor = naturalKeyExtractor;
@@ -93,6 +92,10 @@ public class SubDocAccessor {
         return new LocationBuilder(type);
     }
 
+    public Location createLocation(String type, String parentColl, Map<String, String> lookup, String subField) {
+        return new LocationBuilder(type).as(subField).within(parentColl).mapping(lookup).build();
+    }
+
     private class LocationBuilder {
         private Map<String, String> lookup = new HashMap<String, String>();
         private String collection;
@@ -107,8 +110,7 @@ public class SubDocAccessor {
         /**
          * Store the subdoc within the given super doc collection
          *
-         * @param collection
-         *            the collection the subdoc gets stored in
+         * @param collection the collection the subdoc gets stored in
          * @return
          */
         public LocationBuilder within(String collection) {
@@ -119,8 +121,7 @@ public class SubDocAccessor {
         /**
          * The field the subdocs show up in
          *
-         * @param subField
-         *            The field the subdocs show up in
+         * @param subField The field the subdocs show up in
          * @return
          */
         public LocationBuilder as(String subField) {
@@ -147,13 +148,20 @@ public class SubDocAccessor {
             locations.put(type, new Location(collection, lookup, subField));
         }
 
+        public Location build() {
+            return new Location(collection, lookup, subField);
+        }
+
+        public LocationBuilder mapping(Map<String, String> lookupMap) {
+            lookup.putAll(lookupMap);
+            return this;
+        }
     }
 
     /**
      * THe location of the subDoc
      *
      * @author nbrown
-     *
      */
     public class Location {
 
@@ -164,12 +172,9 @@ public class SubDocAccessor {
         /**
          * Create a new location to store subdocs
          *
-         * @param collection
-         *            the collection the superdoc is in
-         * @param key
-         *            the field in the subdoc that refers to the super doc's id
-         * @param subField
-         *            the place to put the sub doc
+         * @param collection the collection the superdoc is in
+         * @param key        the field in the subdoc that refers to the super doc's id
+         * @param subField   the place to put the sub doc
          */
         public Location(String collection, Map<String, String> lookup, String subField) {
             super();
@@ -478,7 +483,7 @@ public class SubDocAccessor {
         }
 
         // retrieve the ids from DBObject value for "_id" field
-        @SuppressWarnings({ "unchecked" })
+        @SuppressWarnings({"unchecked"})
         private Set<String> getIds(Object queryValue) {
             Set<String> ids = new HashSet<String>();
             if (queryValue instanceof String) {
@@ -499,8 +504,15 @@ public class SubDocAccessor {
             simplifyParentQuery(parentQuery);
             DBObject idQuery = buildIdQuery(parentQuery);
 
-            String queryCommand = buildAggregateQuery((idQuery == null ? parentQuery.toString() : idQuery.toString()),
-                    parentQuery.toString(), ", {$group: { _id: null, count: {$sum: 1}}}");
+//            String queryCommand = buildAggregateQuery((idQuery == null ? parentQuery.toString() : idQuery.toString()),
+//                    parentQuery.toString(), ", {$group: { _id: null, count: {$sum: 1}}}");
+            String groupQuery = ", {$group: { _id: null, count: {$sum: 1}}}";
+            String queryCommand;
+            if (idQuery == null) {
+                queryCommand = buildAggregateQuery(parentQuery.toString(), null, groupQuery);
+            } else {
+                queryCommand = buildAggregateQuery(idQuery.toString(), parentQuery.toString(), groupQuery);
+            }
             TenantContext.setIsSystemCall(false);
 
             CommandResult result = template.executeCommand(queryCommand);
@@ -530,8 +542,14 @@ public class SubDocAccessor {
             simplifyParentQuery(parentQuery);
 
             DBObject idQuery = buildIdQuery(parentQuery);
-            String queryCommand = buildAggregateQuery(idQuery != null ? idQuery.toString() : parentQuery.toString(),
-                    parentQuery.toString(), limitQuerySB.toString());
+//            String queryCommand = buildAggregateQuery(idQuery != null ? idQuery.toString() : parentQuery.toString(),
+//                    parentQuery.toString(), limitQuerySB.toString());
+            String queryCommand;
+            if (idQuery == null) {
+                queryCommand = buildAggregateQuery(parentQuery.toString(), null, limitQuerySB.toString());
+            } else {
+                queryCommand = buildAggregateQuery(idQuery.toString(), parentQuery.toString(), limitQuerySB.toString());
+            }
             TenantContext.setIsSystemCall(false);
             CommandResult result = template.executeCommand(queryCommand);
             List<DBObject> subDocs = (List<DBObject>) result.get("result");
@@ -563,6 +581,7 @@ public class SubDocAccessor {
         private DBObject buildIdQuery(DBObject parentQuery) {
             DBObject idQuery = new Query().getQueryObject();
             Set<String> parentQueryKeys = parentQuery.keySet();
+            Set<String> removeFieldKeys = new HashSet<String>();
             if (parentQuery.containsField("_id")) {
                 Object idFinalList = parentQuery.get("_id");
                 if (idFinalList instanceof List) {
@@ -575,7 +594,15 @@ public class SubDocAccessor {
                 for (String parentQueryKey : parentQueryKeys) {
                     if (parentQueryKey.startsWith(subField + ".body.") && parentQueryKey.endsWith("Id")) {
                         idQuery.put(parentQueryKey, parentQuery.get(parentQueryKey));
+                    } else if (parentQueryKey.startsWith("body")) {
+                        idQuery.put(parentQueryKey, parentQuery.get(parentQueryKey));
+                        removeFieldKeys.add(parentQueryKey);
                     }
+                }
+            }
+            if (!removeFieldKeys.isEmpty()) {
+                for (String parentQueryKey : removeFieldKeys) {
+                    parentQuery.removeField(parentQueryKey);
                 }
             }
             if (idQuery.keySet().size() == 0) {

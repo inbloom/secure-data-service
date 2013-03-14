@@ -19,26 +19,21 @@ limitations under the License.
     <GradeReference>
       <GradeIdentity>
         {{#student_section_association}}
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>{{student}}</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>{{unique_section_code}}</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>{{begin_date}}</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>{{student}}</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>{{unique_section_code}}</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         {{/student_section_association}}
         {{#grading_period}}
         <GradingPeriodReference>
@@ -49,10 +44,12 @@ limitations under the License.
               </EducationalOrgIdentity>
             </EducationalOrgReference>
             <GradingPeriod>{{type}}</GradingPeriod>
-            <BeginDate>{{begin_date}}</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
         {{/grading_period}}
+        {{#school_year}}
+        <SchoolYear>{{school_year}}</SchoolYear>
+        {{/school_year}}
       </GradeIdentity>
     </GradeReference>
     {{/grades}}
@@ -125,5 +122,6 @@ limitations under the License.
     {{/grading_period}}
     {{#school_year}}
     <SchoolYear>{{school_year}}</SchoolYear>
-    {{/school_year}} </ReportCard>
+    {{/school_year}}
+  </ReportCard>
 {{/entity}}

@@ -101,6 +101,11 @@
                 <resource>
                   <directory>../../config/indexes</directory>
                   <filtering>true</filtering>
+                  <includes>
+                    <include>tenantDB_indexes.txt</include>
+                    <include>ingestion_batch_job_indexes.js</include>
+                    <include>sli_indexes.js</include>
+                  </includes>
                 </resource>
               </resources>
             </configuration>
@@ -153,7 +158,6 @@
         </property>
       </activation>
       <dependencies>
-        <!-- <dependency> <groupId>org.slc.sli</groupId> <artifactId>sli-configuration</artifactId> </dependency> -->
       </dependencies>
     </profile>
   </profiles>

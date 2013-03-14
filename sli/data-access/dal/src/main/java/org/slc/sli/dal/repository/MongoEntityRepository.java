@@ -16,28 +16,7 @@
 
 package org.slc.sli.dal.repository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import com.mongodb.DBObject;
-
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
-
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
@@ -59,6 +38,25 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -109,7 +107,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         setWriteConcern(writeConcern);
         subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
         denormalizer = new Denormalizer(getTemplate());
-        containerDocumentAccessor = new ContainerDocumentAccessor(uuidGeneratorStrategy, template);
+        containerDocumentAccessor = new ContainerDocumentAccessor(uuidGeneratorStrategy, naturalKeyExtractor, template);
     }
 
     @Override
@@ -215,6 +213,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 update.set("body." + patch.getKey(), patch.getValue());
             }
             result = subDocs.subDoc(collectionName).doUpdate(query, update);
+        } else if (containerDocumentAccessor.isContainerDocument(type)) {
+            result = containerDocumentAccessor.update(type, id, newValues, collectionName);
         } else {
             result = super.patch(type, collectionName, id, newValues);
         }
@@ -233,10 +233,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
 
             denormalizer.denormalization(collectionName).doUpdate(updateEntity, update);
-        }
-
-        if (containerDocumentAccessor.isContainerDocument(type)) {
-            result = containerDocumentAccessor.update(type, id, newValues, collectionName);
         }
 
         return result;
@@ -338,8 +334,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     @MigrateEntity
     public Entity findOne(String collectionName, Query query) {
-        if (subDocs.isSubDoc(collectionName)) {
-            List<Entity> entities = subDocs.subDoc(collectionName).findAll(query);
+        if (subDocs.isSubDoc(collectionName) || containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            List<Entity> entities = subDocs.isSubDoc(collectionName) ? subDocs.subDoc(collectionName).findAll(query)
+                    : containerDocumentAccessor.findAll(collectionName, query);
             if (entities != null && entities.size() > 0) {
                 return entities.get(0);
             }
@@ -370,6 +367,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
 
             return subDocs.subDoc(collectionName).delete(entity);
+        }
+
+        if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            Entity entity = containerDocumentAccessor.findById(collectionName, id);
+            return containerDocumentAccessor.delete(entity);
         }
 
         if (denormalizer.isDenormalizedDoc(collectionName)) {
@@ -516,6 +518,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public Entity findById(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
             return subDocs.subDoc(collectionName).findById(id);
+        } else if(containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            return containerDocumentAccessor.findById(collectionName, id);
         }
         return super.findById(collectionName, id);
     }
@@ -544,6 +548,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             this.addDefaultQueryParams(neutralQuery, collectionName);
             return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
         }
+        if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            this.addDefaultQueryParams(neutralQuery, collectionName);
+            return containerDocumentAccessor.findAll(collectionName, getQueryConverter().convert(collectionName, neutralQuery));
+        }
         if (FullSuperDoc.FULL_ENTITIES.containsKey(collectionName)) {
             Set<String> embededFields = FullSuperDoc.FULL_ENTITIES.get(collectionName);
             addEmbededFields(neutralQuery, embededFields);
@@ -560,13 +568,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public boolean exists(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
             return subDocs.subDoc(collectionName).exists(id);
+        } else if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            return containerDocumentAccessor.exists(collectionName, id);
         }
         return super.exists(collectionName, id);
     }
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        if (subDocs.isSubDoc(collectionName)) {
+        if (subDocs.isSubDoc(collectionName) || containerDocumentAccessor.isContainerSubdoc(collectionName)) {
             Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
             return count(collectionName, query);
         }
@@ -577,6 +587,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public long count(String collectionName, Query query) {
         if (subDocs.isSubDoc(collectionName)) {
             return subDocs.subDoc(collectionName).count(query);
+        } else if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            return containerDocumentAccessor.count(collectionName, query);
         }
         return super.count(collectionName, query);
     }

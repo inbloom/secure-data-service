@@ -57,23 +57,6 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
     }
 
     /**
-     * Method to report an error but not treat it as an error during pre validation to match the behavior of the parser
-     * This should be deleted after US5390
-     * @param reportStats
-     * @param source
-     * @param code
-     * @param args
-     */
-    public void warningAsError(ReportStats reportStats, Source source, MessageCode code, Object... args) {
-        if (reportStats == null || source == null) {
-            throw new IllegalStateException();
-        }
-
-        reportStats.incWarning();
-        reportError(reportStats, source, code, args);
-    }
-
-    /**
      * Reports an message as a warning and updates the wider-scope warning state in the provided
      * reportStats. Will also log the warning message if the implementation supports logging.
      *

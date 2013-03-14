@@ -15,23 +15,26 @@
  */
 package org.slc.sli.api.migration;
 
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.common.migration.config.MigrationConfig;
+import org.slc.sli.common.migration.config.Strategy;
+import org.slc.sli.common.migration.strategy.MigrationException;
+import org.slc.sli.common.migration.strategy.MigrationStrategy;
+import org.slc.sli.domain.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-
-import org.slc.sli.dal.migration.config.Strategy;
-import org.slc.sli.dal.migration.strategy.MigrationException;
-import org.slc.sli.dal.migration.strategy.MigrationStrategy;
-import org.slc.sli.dal.migration.strategy.config.MigrationConfig;
-import org.slc.sli.domain.Entity;
 
 /**
  *
@@ -40,29 +43,39 @@ import org.slc.sli.domain.Entity;
  * @author jtully
  *
  */
+@Component
 public class ApiSchemaAdapter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApiSchemaAdapter.class);
 
+    @Value("classpath:migration/up-api-migration.json/")
     protected Resource upMigrationConfigResource;
+    @Value("classpath:migration/down-api-migration.json/")
     protected Resource downMigrationConfigResource;
+    @Value("classpath:migration/api-entity-transform.json/")
+    protected Resource entityTransformConfigResource;
 
-    private Map<String, Map<Integer, List<MigrationStrategy>>> upMigrationStrategyMap;
-    private Map<String, Map<Integer, List<MigrationStrategy>>> downMigrationStrategyMap;
+    private Map<String, Map<String, List<MigrationStrategy>>> upMigrationStrategyMap;
+    private Map<String, Map<String, List<MigrationStrategy>>> downMigrationStrategyMap;
+    private Map<String, Map<String, List<MigrationStrategy>>> entityTransformStrategyMap;
+
+    @Autowired
+    ApplicationContext beanFactory;
 
     @PostConstruct
     public void initMigration() {
         upMigrationStrategyMap = buildMigrationStrategyMap(upMigrationConfigResource);
         downMigrationStrategyMap = buildMigrationStrategyMap(downMigrationConfigResource);
+        entityTransformStrategyMap = buildMigrationStrategyMap(entityTransformConfigResource);
     }
 
     /**
      * This method should be called post construct to load the strategies per entity type
      * TODO this code is common with SliSchemaVersionValidator - refactor
      */
-    private Map<String, Map<Integer, List<MigrationStrategy>>> buildMigrationStrategyMap(Resource migrationConfigResource) {
+    private Map<String, Map<String, List<MigrationStrategy>>> buildMigrationStrategyMap(Resource migrationConfigResource) {
 
-        Map<String, Map<Integer, List<MigrationStrategy>>> migrationStrategyMap = new HashMap<String, Map<Integer, List<MigrationStrategy>>>();
+        Map<String, Map<String, List<MigrationStrategy>>> migrationStrategyMap = new HashMap<String, Map<String, List<MigrationStrategy>>>();
 
         MigrationConfig config = null;
         try {
@@ -72,21 +85,21 @@ public class ApiSchemaAdapter {
             return migrationStrategyMap;
         }
 
-        Map<String, Map<Integer, List<Map<Strategy, Map<String, Object>>>>> entityConfig = config.getEntities();
+        Map<String, Map<String, List<Map<Strategy, Map<String, Object>>>>> entityConfig = config.getEntities();
 
         // iterate over entities
-        for (Map.Entry<String, Map<Integer, List<Map<Strategy, Map<String, Object>>>>> entityEntry : entityConfig
+        for (Map.Entry<String, Map<String, List<Map<Strategy, Map<String, Object>>>>> entityEntry : entityConfig
                 .entrySet()) {
 
             String entityType = entityEntry.getKey();
-            Map<Integer, List<Map<Strategy, Map<String, Object>>>> versionUpdates = entityEntry.getValue();
+            Map<String, List<Map<Strategy, Map<String, Object>>>> versionUpdates = entityEntry.getValue();
 
-            Map<Integer, List<MigrationStrategy>> migrationsForVersion = new HashMap<Integer, List<MigrationStrategy>>();
+            Map<String, List<MigrationStrategy>> migrationsForVersion = new HashMap<String, List<MigrationStrategy>>();
 
             // iterate over version updates for a single entity
-            for (Map.Entry<Integer, List<Map<Strategy, Map<String, Object>>>> versionEntry : versionUpdates.entrySet()) {
+            for (Map.Entry<String, List<Map<Strategy, Map<String, Object>>>> versionEntry : versionUpdates.entrySet()) {
 
-                Integer versionNumber = versionEntry.getKey();
+                String versionNumber = versionEntry.getKey();
                 List<Map<Strategy, Map<String, Object>>> versionStrategies = versionEntry.getValue();
 
                 List<MigrationStrategy> strategies = new ArrayList<MigrationStrategy>();
@@ -97,7 +110,8 @@ public class ApiSchemaAdapter {
                     // iterate over migration strategies for a single version update
                     for (Map.Entry<Strategy, Map<String, Object>> strategy : versionStrategy.entrySet()) {
                         try {
-                            MigrationStrategy migrationStrategy = strategy.getKey().getNewImplementation();
+                            MigrationStrategy migrationStrategy = (MigrationStrategy) beanFactory
+                                    .getBean(strategy.getKey().getBeanName());
                             migrationStrategy.setParameters(strategy.getValue());
                             strategies.add(migrationStrategy);
                         } catch (MigrationException e) {
@@ -115,10 +129,10 @@ public class ApiSchemaAdapter {
     /**
      * get the migration strategies for converting from the current DB version to the specified API version
      */
-    public List<MigrationStrategy> getUpMigrationStrategies(String entityType, int versionNumber) {
+    public List<MigrationStrategy> getUpMigrationStrategies(String entityType, String versionNumber) {
 
         List<MigrationStrategy> strategies = null;
-        Map<Integer, List<MigrationStrategy>> entityMigrations = upMigrationStrategyMap.get(entityType);
+        Map<String, List<MigrationStrategy>> entityMigrations = upMigrationStrategyMap.get(entityType);
 
         if (entityMigrations != null) {
             strategies = entityMigrations.get(versionNumber);
@@ -130,10 +144,10 @@ public class ApiSchemaAdapter {
     /**
      * get the migration strategies for converting from the specified API version to the current DB version
      */
-    public List<MigrationStrategy> getDownMigrationStrategies(String entityType, int versionNumber) {
+    public List<MigrationStrategy> getDownMigrationStrategies(String entityType, String versionNumber) {
 
         List<MigrationStrategy> strategies = null;
-        Map<Integer, List<MigrationStrategy>> entityMigrations = downMigrationStrategyMap.get(entityType);
+        Map<String, List<MigrationStrategy>> entityMigrations = downMigrationStrategyMap.get(entityType);
 
         if (entityMigrations != null) {
             strategies = entityMigrations.get(versionNumber);
@@ -142,10 +156,24 @@ public class ApiSchemaAdapter {
         return strategies;
     }
 
+    public List<MigrationStrategy> getEntityTransformMigrationStrategies(String entityType, String versionNumber) {
+
+        List<MigrationStrategy> strategies = null;
+        Map<String, List<MigrationStrategy>> entityMigrations = null;
+        if(entityTransformStrategyMap.containsKey(entityType)) {
+            entityMigrations = entityTransformStrategyMap.get(entityType);
+        }
+
+        if (entityMigrations != null) {
+            strategies = entityMigrations.get(versionNumber);
+        }
+
+        return strategies;
+    }
     /**
      * Migrate an entity to or from a specified API version
      */
-    public Entity migrate(Entity entity, int apiVersion, boolean upConversion)
+    public Entity migrate(Entity entity, String apiVersion, boolean upConversion)
             throws MigrationException {
 
         if (entity == null) {
@@ -164,7 +192,7 @@ public class ApiSchemaAdapter {
         Entity migratedEntity = entity;
         if (migrationStrategies != null) {
             for (MigrationStrategy migrationStrategy : migrationStrategies) {
-                migratedEntity = migrationStrategy.migrate(migratedEntity);
+                migratedEntity = (Entity) migrationStrategy.migrate(migratedEntity);
             }
         }
 
@@ -174,7 +202,7 @@ public class ApiSchemaAdapter {
     /**
      * Migrate a list of entities to or from a specified API version
      */
-    public Iterable<Entity> migrate(Iterable<Entity> entities, int apiVersion, boolean upConversion)
+    public Iterable<Entity> migrate(Iterable<Entity> entities, String apiVersion, boolean upConversion)
             throws MigrationException {
 
         if (entities == null) {
@@ -190,6 +218,38 @@ public class ApiSchemaAdapter {
         return migratedEntities;
     }
 
+    public List<EntityBody> migrate(EntityBody entityBody, String entityType, String versionNumber) {
+
+        if (entityBody == null) {
+            return null;
+        }
+        List<EntityBody> entityBodies = new ArrayList<EntityBody>();
+        entityBodies.add(entityBody);
+        List<MigrationStrategy> migrationStrategies = getEntityTransformMigrationStrategies(entityType, versionNumber);
+        if (migrationStrategies != null) {
+            for(MigrationStrategy migrationStrategy: migrationStrategies) {
+                entityBodies = migrationStrategy.migrate(entityBodies);
+            }
+        }
+       return  entityBodies;
+    }
+    public List<EntityBody> migrate(List<EntityBody> entityBodies, String entityType, String versionNumber) {
+
+        if (entityBodies == null) {
+            return null;
+        }
+
+        List<MigrationStrategy> migrationStrategies = getEntityTransformMigrationStrategies(entityType, versionNumber);
+        List<EntityBody> returnList = null;
+        if (migrationStrategies != null) {
+            for(MigrationStrategy migrationStrategy: migrationStrategies) {
+                returnList = migrationStrategy.migrate(entityBodies);
+            }
+            return returnList;
+        } else {
+           return entityBodies;
+        }
+    }
     public Resource getUpMigrationConfigResource() {
         return upMigrationConfigResource;
     }
@@ -204,6 +264,13 @@ public class ApiSchemaAdapter {
 
     public void setDownMigrationConfigResource(Resource downMigrationConfigResource) {
         this.downMigrationConfigResource = downMigrationConfigResource;
+    }
+    public Resource getEntityTransformConfigResource() {
+        return entityTransformConfigResource;
+    }
+
+    public void setEntityTransformConfigResource(Resource entityTransformConfigResource) {
+        this.entityTransformConfigResource = entityTransformConfigResource;
     }
 
 }

@@ -48,6 +48,8 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.parser.impl.RecordMetaImpl;
 import org.slc.sli.ingestion.processors.EdFiParserProcessor.ParserState;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.util.XsdSelector;
 
 /**
@@ -77,7 +79,9 @@ public class EdFiParserProcessorTest extends CamelTestSupport {
         processor.setProducer(producer);
         processor.setBatchJobDAO(batchJobDAO);
         processor.setBatchSize(2);
-        Mockito.doNothing().when(processor).parse(Mockito.any(InputStream.class), Mockito.any(Resource.class));
+        Mockito.doNothing().when(processor)
+            .parse(Mockito.any(InputStream.class), Mockito.any(Resource.class),
+                   Mockito.any(SimpleReportStats.class), Mockito.any(JobSource.class));
     }
 
     @Test
@@ -94,7 +98,9 @@ public class EdFiParserProcessorTest extends CamelTestSupport {
 
         processor.process(exchange);
 
-        Mockito.verify(processor, Mockito.times(1)).parse(Mockito.any(InputStream.class), Mockito.any(Resource.class));
+        Mockito.verify(processor, Mockito.times(1))
+            .parse(Mockito.any(InputStream.class), Mockito.any(Resource.class),
+                   Mockito.any(SimpleReportStats.class), Mockito.any(JobSource.class));
     }
 
     @Test

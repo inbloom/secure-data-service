@@ -66,10 +66,6 @@
     <property name="xsdList" ref="xsdSelection" />
   </bean>
 
-  <bean id="xsdValidator" class="org.slc.sli.ingestion.validation.XsdValidator" scope="prototype">
-    <property name="xsdSelector" ref="xsdSelector" />
-  </bean>
-
   <bean id="controlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
     <property name="ingestionFileValidators">
       <list>

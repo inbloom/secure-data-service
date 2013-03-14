@@ -40,7 +40,8 @@
                        },
                        "SessionName":{"_value":"theSessionName"}
                    }
-                }
+                },
+                "SchoolYear" : { "_value" : "2013-2014" }
             }
         }
     }

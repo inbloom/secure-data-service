@@ -46,6 +46,13 @@
   <GradebookEntry>
     <GradebookEntryType>Assignment</GradebookEntryType>
     <DateAssigned>2011-09-29</DateAssigned>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Fluency and Expression</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
     <SectionReference>
       <SectionIdentity>
         <EducationalOrgReference>
@@ -13200,6 +13207,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -13265,6 +13273,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -13330,6 +13339,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -13395,6 +13405,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -13460,6 +13471,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -13525,6 +13537,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -13590,6 +13603,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -13655,6 +13669,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -13720,6 +13735,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -13785,6 +13801,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -13850,6 +13867,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -13915,6 +13933,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -13980,6 +13999,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14045,6 +14065,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14110,6 +14131,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14175,6 +14197,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14240,6 +14263,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14305,6 +14329,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14370,6 +14395,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14435,6 +14461,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14500,6 +14527,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14565,6 +14593,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14630,6 +14659,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14695,6 +14725,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14760,6 +14791,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14825,6 +14857,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14890,6 +14923,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -14955,6 +14989,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15020,6 +15055,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15085,6 +15121,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15150,6 +15187,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15215,6 +15253,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15280,6 +15319,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15322,6 +15362,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15364,6 +15405,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15406,6 +15448,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15448,6 +15491,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15490,6 +15534,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15555,6 +15600,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15597,6 +15643,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15639,6 +15686,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15681,6 +15729,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15723,6 +15772,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15765,6 +15815,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15830,6 +15881,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15895,6 +15947,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -15960,6 +16013,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16025,6 +16079,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16090,6 +16145,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16155,6 +16211,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16220,6 +16277,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16285,6 +16343,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16350,6 +16409,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16415,6 +16475,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16480,6 +16541,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16545,6 +16607,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16610,6 +16673,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16675,6 +16739,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16740,6 +16805,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16805,6 +16871,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16870,6 +16937,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -16935,6 +17003,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17000,6 +17069,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17065,6 +17135,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17131,6 +17202,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17196,6 +17268,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17261,6 +17334,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17326,6 +17400,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17391,6 +17466,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17456,6 +17532,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17521,6 +17598,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17586,6 +17664,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17651,6 +17730,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17716,6 +17796,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17781,6 +17862,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17846,6 +17928,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17911,6 +17994,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -17976,6 +18060,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18041,6 +18126,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18106,6 +18192,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18171,6 +18258,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18236,6 +18324,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18301,6 +18390,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18366,6 +18456,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18431,6 +18522,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18496,6 +18588,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18561,6 +18654,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18626,6 +18720,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18691,6 +18786,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18756,6 +18852,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18821,6 +18918,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18886,6 +18984,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -18951,6 +19050,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19016,6 +19116,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19081,6 +19182,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19146,6 +19248,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19211,6 +19314,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19253,6 +19357,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19295,6 +19400,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19337,6 +19443,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19379,6 +19486,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19421,6 +19529,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19486,6 +19595,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19528,6 +19638,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19570,6 +19681,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19612,6 +19724,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19654,6 +19767,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19696,6 +19810,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19761,6 +19876,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19826,6 +19942,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19891,6 +20008,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -19956,6 +20074,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20021,6 +20140,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20086,6 +20206,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20151,6 +20272,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20216,6 +20338,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20281,6 +20404,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20346,6 +20470,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20411,6 +20536,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20476,6 +20602,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20541,6 +20668,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20606,6 +20734,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20671,6 +20800,7 @@
             <SessionName>Fall 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20736,6 +20866,7 @@
             <SessionName>Spring 2011 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20801,6 +20932,7 @@
             <SessionName>Spring 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20843,6 +20975,7 @@
             <SessionName>Spring 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20885,6 +21018,7 @@
             <SessionName>Spring 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20927,6 +21061,7 @@
             <SessionName>Spring 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -20969,6 +21104,7 @@
             <SessionName>Spring 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21011,6 +21147,7 @@
             <SessionName>Spring 2010 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21075,6 +21212,7 @@
             <SessionName>Fall 2009 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21117,6 +21255,7 @@
             <SessionName>Fall 2009 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21159,6 +21298,7 @@
             <SessionName>Fall 2009 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21201,6 +21341,7 @@
             <SessionName>Fall 2009 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21243,6 +21384,7 @@
             <SessionName>Fall 2009 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21285,6 +21427,7 @@
             <SessionName>Fall 2009 Daybreak Central High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21349,6 +21492,7 @@
             <SessionName>Spring 2009 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21391,6 +21535,7 @@
             <SessionName>Spring 2009 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21433,6 +21578,7 @@
             <SessionName>Spring 2009 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21475,6 +21621,7 @@
             <SessionName>Spring 2009 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21517,6 +21664,7 @@
             <SessionName>Spring 2009 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21559,6 +21707,7 @@
             <SessionName>Spring 2009 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21623,6 +21772,7 @@
             <SessionName>Fall 2008 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21665,6 +21815,7 @@
             <SessionName>Fall 2008 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21707,6 +21858,7 @@
             <SessionName>Fall 2008 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21749,6 +21901,7 @@
             <SessionName>Fall 2008 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21791,6 +21944,7 @@
             <SessionName>Fall 2008 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21833,6 +21987,7 @@
             <SessionName>Fall 2008 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21898,6 +22053,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21940,6 +22096,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -21982,6 +22139,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22024,6 +22182,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22066,6 +22225,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22108,6 +22268,7 @@
             <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22172,6 +22333,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22214,6 +22376,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22256,6 +22419,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22298,6 +22462,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22340,6 +22505,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22382,6 +22548,7 @@
             <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22446,6 +22613,7 @@
             <SessionName>Spring 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22488,6 +22656,7 @@
             <SessionName>Spring 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22530,6 +22699,7 @@
             <SessionName>Spring 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22572,6 +22742,7 @@
             <SessionName>Spring 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22614,6 +22785,7 @@
             <SessionName>Spring 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22656,6 +22828,7 @@
             <SessionName>Spring 2010 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22720,6 +22893,7 @@
             <SessionName>Fall 2009 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22762,6 +22936,7 @@
             <SessionName>Fall 2009 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22804,6 +22979,7 @@
             <SessionName>Fall 2009 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22846,6 +23022,7 @@
             <SessionName>Fall 2009 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22888,6 +23065,7 @@
             <SessionName>Fall 2009 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22930,6 +23108,7 @@
             <SessionName>Fall 2009 East Daybreak Junior High</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -22994,6 +23173,7 @@
             <SessionName>Spring 2009 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23036,6 +23216,7 @@
             <SessionName>Spring 2009 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23078,6 +23259,7 @@
             <SessionName>Spring 2009 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23120,6 +23302,7 @@
             <SessionName>Spring 2009 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23162,6 +23345,7 @@
             <SessionName>Spring 2009 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23204,6 +23388,7 @@
             <SessionName>Spring 2009 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23268,6 +23453,7 @@
             <SessionName>Fall 2008 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23310,6 +23496,7 @@
             <SessionName>Fall 2008 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23352,6 +23539,7 @@
             <SessionName>Fall 2008 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23394,6 +23582,7 @@
             <SessionName>Fall 2008 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23436,6 +23625,7 @@
             <SessionName>Fall 2008 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23478,6 +23668,7 @@
             <SessionName>Fall 2008 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23542,6 +23733,7 @@
             <SessionName>Spring 2008 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23584,6 +23776,7 @@
             <SessionName>Spring 2008 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23626,6 +23819,7 @@
             <SessionName>Spring 2008 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23668,6 +23862,7 @@
             <SessionName>Spring 2008 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23710,6 +23905,7 @@
             <SessionName>Spring 2008 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23752,6 +23948,7 @@
             <SessionName>Spring 2008 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23816,6 +24013,7 @@
             <SessionName>Fall 2007 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23858,6 +24056,7 @@
             <SessionName>Fall 2007 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23900,6 +24099,7 @@
             <SessionName>Fall 2007 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23942,6 +24142,7 @@
             <SessionName>Fall 2007 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -23984,6 +24185,7 @@
             <SessionName>Fall 2007 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -24026,6 +24228,7 @@
             <SessionName>Fall 2007 South Daybreak Elementary</SessionName>
           </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
       </StudentAcademicRecordIdentity>
     </StudentAcademicRecordReference>
   </CourseTranscript>
@@ -26152,26 +26355,21 @@
   <ReportCard>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>100000017</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2010-09-01</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>100000017</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -26183,30 +26381,26 @@
             <BeginDate>2010-08-23</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2011-2012</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>100000017</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-04-11</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>100000017</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -26218,6 +26412,7 @@
             <BeginDate>2011-04-11</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <StudentCompetencyReference>
@@ -27272,26 +27467,21 @@
   <ReportCard>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2010-08-23</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -27303,30 +27493,26 @@
             <BeginDate>2010-08-23</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <GradeReference>
       <GradeIdentity>
-        <StudentSectionAssociationReference>
-          <StudentSectionAssociationIdentity>
-            <StudentReference>
-              <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
-              </StudentIdentity>
-            </StudentReference>
-            <SectionReference>
-              <SectionIdentity>
-                <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                  </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
-              </SectionIdentity>
-            </SectionReference>
-            <BeginDate>2011-04-11</BeginDate>
-          </StudentSectionAssociationIdentity>
-        </StudentSectionAssociationReference>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
         <GradingPeriodReference>
           <GradingPeriodIdentity>
             <EducationalOrgReference>
@@ -27338,6 +27524,7 @@
             <BeginDate>2011-04-11</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </GradeIdentity>
     </GradeReference>
     <StudentCompetencyReference>
@@ -28263,6 +28450,7 @@
             <BeginDate>2011-05-27</BeginDate>
           </GradingPeriodIdentity>
         </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
       </ReportCardIdentity>
     </ReportCardReference>
     <DiplomaReference>

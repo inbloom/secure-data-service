@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+xmlns:amq="http://activemq.apache.org/schema/core"
+xmlns:jms="http://www.springframework.org/schema/jms"
+xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<import resource="classpath:/spring/validation.xml" />
+	<context:component-scan base-package="org.slc.sli.dal" />
+	<context:component-scan base-package="org.slc.sli.validation" />
+	<context:component-scan base-package="org.slc.sli.common.util.uuid" />
+	<context:annotation-config />
+	<tx:annotation-driven />
+	
+	<context:property-placeholder location="file:${sli.conf}" system-properties-mode="OVERRIDE" />
+	
+	<bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
+	
+	<bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher"></bean>
+    
+    <bean id="sliSchemaVersionValidator" class="org.slc.sli.dal.versioning.SliSchemaVersionValidator" >
+        <property name="mongoTemplate" ref="dataMongoTemplate" />
+    </bean>
+    
+    <bean id="migrationConfigResource" class="org.springframework.core.io.ClassPathResource">
+      <constructor-arg index="0" value="migration/migration-config.json" />
+    </bean>
+	
+	<mongo:mapping-converter id="mappingConverter" base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
+		<mongo:custom-converters>
+			<mongo:converter>
+				<bean class="org.slc.sli.dal.convert.EntityReadConverter" />
+			</mongo:converter>
+		</mongo:custom-converters>
+	</mongo:mapping-converter>
+	
+	<mongo:mongo id="searchMongo" replica-set="${sli.mongodb.host}"/>
+	
+	<bean id="mongoDbFactory" class="org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory">
+		<constructor-arg ref="searchMongo" />
+		<constructor-arg value="${sli.mongodb.database}" />
+	</bean>
+	
+	<bean id="simpleEntityRepository" name="simpleValidationRepo" class="org.slc.sli.dal.repository.SimpleEntityRepository"/>
+	
+	<bean id="dataMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongoDbFactory" />
+		<constructor-arg ref="mappingConverter" />
+	</bean>
+	
+	<bean id="sarjeMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="searchMongo" />
+		<constructor-arg value="${sli.eventbus.mongodb.database:eventbus}" />
+	</bean>
+	
+	<bean id="entityKeyEncoder" class="org.slc.sli.dal.repository.EntityKeyEncoder" />
+	
+<!-- 	<bean id="mongoEntityRepository" name="validationRepo" -->
+<!-- 	class="org.slc.sli.dal.repository.MongoEntityRepository"> -->
+<!-- 		<property name="template" ref="dataMongoTemplate" /> -->
+<!-- 	</bean> -->
+
+    <bean id="validator" class="org.slc.sli.validation.schema.ApiNeutralSchemaValidator" />
+	
+	<bean id="indexEntityConverter" class="org.slc.sli.search.transform.IndexEntityConverter">
+		<property name="entityEncryption" ref="entityEncryption" />
+		<property name="indexConfigStore" ref="indexConfigStore" />
+	</bean>
+	
+	<bean id="indexConfigStore" class="org.slc.sli.search.config.IndexConfigStore">
+		<constructor-arg name="configFile"
+		value="${sli.search.indexer.config:index-config.json}" />
+	</bean>
+	
+	<bean id="sourceDatasourceConnector" class="org.slc.sli.search.connector.impl.SourceDatastoreConnectorImpl">
+		<property name="mongoTemplate" ref="dataMongoTemplate" />
+	</bean>
+
+	<bean id="encryptor" class="org.slc.sli.encryption.tool.Encryptor">
+		<constructor-arg name="keyStoreLocation" value="${sli.encryption.keyStore}" />
+		<constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
+	</bean>
+	
+	<bean id="searchEngineConnector" class="org.slc.sli.search.connector.impl.ESOperation">
+		<property name="searchUrl" value="${sli.search.url}" />
+      <property name="encryptor" ref="encryptor" />
+      <property name="dalKeyAlias" value="${sli.encryption.dalKeyAlias}" />
+      <property name="keyStorePass" value="${sli.encryption.keyStorePass}" />
+      <property name="searchUsername" value="${sli.search.username}" />
+      <property name="searchPassword" value="${sli.search.password}" />
+      <property name="enableEncryption" value="${sli.search.encryption:true}" />
+		<property name="searchTemplate" ref="searchTemplate" />
+		<property name="retryCount" value="${sli.search.indexer.retryCount:2}"></property>
+		<property name="retryWaitMillis" value="${sli.search.indexer.retryWaitMillis:2000}"></property>
+	</bean>
+	
+	<bean id="incrementalListener" class="org.slc.sli.search.process.impl.IncrementalListenerImpl">
+		<property name="indexer" ref="indexer" />
+		<property name="indexEntityConverter" ref="indexEntityConverter" />
+	</bean>
+
+    <amq:connectionFactory id="jmsFactory" maxThreadPoolSize="10"  brokerURL="${sli.search.indexer.broker.uri}" />
+     
+    <amq:topic id="sarjeSubTopic" physicalName="${sli.search.indexer.sarje.sub.topic}"/>
+    <bean id="stompMessageConverter" class="org.slc.sli.search.util.StompMessageConverter"/>
+	<jms:listener-container connection-factory="jmsFactory" message-converter="stompMessageConverter">
+	    <jms:listener destination="${sli.search.indexer.queue.name}" ref="incrementalListener" method="process"/>
+	    <jms:listener destination="${sli.search.indexer.sarje.sub.req.queue}" ref="sarjeSubscriptionAdmin" method="publishOnDemand"/>
+	</jms:listener-container>
+	
+	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy" lazy-init="false">
+		<property name="indexer" ref="indexer" />
+		<property name="indexEntityConverter" ref="indexEntityConverter" />
+		<property name="inboxDir" value="${sli.search.indexer.dir.inbox:data/inbox}" />
+		<property name="executorThreads" value="${sli.search.loader.thread.number:5}" />
+	</bean>
+	
+	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate" >
+		<constructor-arg>
+			<bean class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+				<property name="connectTimeout" value="${sli.search.indexer.search.connTimeout:5000}" />
+				<property name="readTimeout" value="${sli.search.indexer.search.readTimeout:10000}" />
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="indexer" class="org.slc.sli.search.process.impl.IndexerImpl" init-method="init" destroy-method="destroy">
+		<property name="searchEngineConnector" ref="searchEngineConnector"/>
+		<property name="indexConfigStore" ref="indexConfigStore"/>
+		<property name="aggregatePeriod" value="${sli.search.indexer.aggregatePeriodInMillis:500}"/>
+		<property name="bulkSize" value="${sli.search.indexer.bulkSize:5000}"/>
+		<property name="indexerWorkerPoolSize" value="${sli.search.indexer.indexerWorkerPoolSize:4}"/>
+	</bean>
+	
+	<bean id="admin" class="org.slc.sli.search.process.impl.AdminImpl">
+		<property name="indexer" ref="indexer"/>
+		<property name="loader" ref="loader"/>
+		<property name="extractor" ref="extractor"/>
+		<property name="searchEngineConnector" ref="searchEngineConnector"/>
+		<property name="sourceDatastoreConnector" ref="sourceDatasourceConnector"/>
+	</bean>
+	
+	<task:scheduled-tasks scheduler="scheduler">
+		<task:scheduled ref="extractor" method="execute" cron="${sli.search.indexer.extract.schedule}" />
+	</task:scheduled-tasks>
+	
+	<task:scheduler id="scheduler" pool-size="5" />
+	
+	<bean class="org.slc.sli.search.util.RemoteCommandService" init-method="init">
+		<property name="admin" ref="admin" />
+		<property name="port" value="${sli.search.indexer.service.port:10024}" />
+	</bean>
+	
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+	     <property name="connectionFactory" ref="jmsFactory" />
+	</bean>
+	
+	<bean id="sarjeSubscriptionAdmin" class="org.slc.sli.search.util.SarjeSubscriptionAdmin" init-method="init" depends-on="jmsFactory">
+		<property name="indexConfigStore" ref="indexConfigStore"/>
+		<property name="searchQueue" value="${sli.search.indexer.queue.name}"/>
+		<property name="dbJobsCollection" value="${sli.search.indexer.sarje.sub.jobsCollection:jobs}"/>
+		<property name="subscriptionBroadcastTopic" ref="sarjeSubTopic"/>
+		<property name="jmsTemplate" ref="jmsTemplate"/>
+		<property name="mongoTemplate" ref="sarjeMongoTemplate"/>
+	</bean>
+
+    <util:list id="entities" value-type="java.lang.String">
+        <value>assessment</value>
+        <value>assessmentFamily</value>
+        <value>assessmentPeriodDescriptor</value>
+        <value>attendance</value>
+        <value>cohort</value>
+        <value>competencyLevelDescriptor</value>
+        <value>competencyLevelDescriptorType</value>
+        <value>course</value>
+        <value>courseOffering</value>
+        <value>courseTranscript</value>
+        <value>disciplineIncident</value>
+        <value>disciplineAction</value>
+        <value>educationOrganization</value>
+        <value>grade</value>
+        <value>gradebookEntry</value>
+        <value>gradingPeriod</value>
+        <value>graduationPlan</value>
+        <value>learningObjective</value>
+        <value>learningStandard</value>
+        <value>objectiveAssessment</value>
+        <value>parent</value>
+        <value>program</value>
+        <value>reportCard</value>
+        <value>school</value>
+        <value>section</value>
+        <value>session</value>
+        <value>staff</value>
+        <value>staffCohortAssociation</value>
+        <value>staffEducationOrganizationAssociation</value>
+        <value>staffProgramAssociation</value>
+        <value>student</value>
+        <value>studentAcademicRecord</value>
+        <value>studentAssessment</value>
+        <value>studentCohortAssociation</value>
+        <value>studentCompetency</value>
+        <value>studentCompetencyObjective</value>
+        <value>studentDisciplineIncidentAssociation</value>
+        <value>studentObjectiveAssessment</value>
+        <value>studentProgramAssociation</value>
+        <value>studentGradebookEntry</value>
+        <value>studentSchoolAssociation</value>
+        <value>studentSectionAssociation</value>
+        <value>studentParentAssociation</value>
+        <value>teacher</value>
+        <value>teacherSchoolAssociation</value>
+        <value>teacherSectionAssociation</value>
+    </util:list>
+
+    <util:map id="queriedEntities" key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="educationOrganization" value="educationOrganization" />
+        <entry key="school" value="educationOrganization" />
+        <entry key="staff" value="staff" />
+        <entry key="teacher" value="staff" />
+    </util:map>
+
+    <util:list id="educationOrganization" value-type="java.lang.String">
+        <value>localEducationAgency</value>
+        <value>stateEducationAgency</value>
+    </util:list>
+
+    <util:map id="combinedEntities" key-type="java.lang.String" value-type="java.util.List">
+        <entry key="educationOrganization">
+            <ref local="educationOrganization" />
+        </entry>
+    </util:map>
+
+    <bean id="extractor" class="extract.ExtractorImpl">
+         <property name="entityRepository" ref="mongoEntityRepository" />
+         <property name="entities" ref="entities" />
+         <property name="queriedEntities" ref="queriedEntities" />
+         <property name="combinedEntities" ref="combinedEntities" />
+    </bean>
+
+</beans>
