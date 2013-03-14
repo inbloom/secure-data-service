@@ -19,7 +19,7 @@
           { "path": "/{id}/studentSectionAssociations" },
           { "path": "/{id}/studentSectionAssociations/grades" },
           { "path": "/{id}/studentSectionAssociations/studentCompetencies" },
-          { "path": "/{id}/studentSectionAssociations/students" },
+          { "path": "/{id}/studentSectionAssociations/students", "dateSearchDisallowed": true },
           { "path": "/{id}/studentSectionAssociations/students/attendances" },
           { "path": "/{id}/studentSectionAssociations/students/yearlyAttendances" },
           { "path": "/{id}/studentSectionAssociations/students/courseTranscripts", "dateSearchDisallowed": true },
@@ -99,7 +99,7 @@
         { "path": "/{id}/staffCohortAssociations" },
         { "path": "/{id}/staffCohortAssociations/staff" },
         { "path": "/{id}/studentCohortAssociations" },
-        { "path": "/{id}/studentCohortAssociations/students" }
+        { "path": "/{id}/studentCohortAssociations/students", "dateSearchDisallowed": true }
       ]
     },
     {
@@ -245,7 +245,7 @@
           "doc": "This URI, /schools/{id}/studentSchoolAssociations, should only be called in the context of a staff member, and should not be used in the context of a teacher. Use /sections/{id}/studentSectionAssociations/students/studentSchoolAssociations instead, as this URI is used internally instead of /schools/{id}/studentSchoolAssociations (for teachers)."
         },
         { 
-          "path": "/{id}/studentSchoolAssociations/students",
+          "path": "/{id}/studentSchoolAssociations/students", "dateSearchDisallowed": true ,
           "doc": "This URI, /schools/{id}/studentSchoolAssociations/students, should only be called in the context of a staff member, and should not be used in the context of a teacher. Use /sections/{id}/studentSectionAssociations/students instead, as this URI is used internally instead of /schools/{id}/studentSchoolAssociations/students (for teachers)."
         },
         { 
@@ -322,7 +322,7 @@
       "subResources": [
         { "path": "/{id}/staffProgramAssociations/staff" },
         { "path": "/{id}/studentProgramAssociations" },
-        { "path": "/{id}/studentProgramAssociations/students" },
+        { "path": "/{id}/studentProgramAssociations/students", "dateSearchDisallowed": true },
         { "path": "/{id}/staffProgramAssociations" }
       ]
     },
@@ -536,6 +536,7 @@
     {
       "path": "/students",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program. A student is a person who has been enrolled in a school or other educational institution. For more information, see the schema for the $$Student$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/studentProgramAssociations/programs" },

@@ -16,10 +16,21 @@
 
 package org.slc.sli.api.jersey;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerRequestFilter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.annotation.Resource;
+import javax.ws.rs.core.PathSegment;
+import javax.xml.bind.DatatypeConverter;
+
 import org.slc.sli.api.cache.SessionCache;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
 import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
@@ -30,9 +41,12 @@ import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.pdp.EndpointMutator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.translator.URITranslator;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,138 +55,202 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
 
 /**
- * Pre-request processing filter. Adds security information for the user Records start time of the request
+ * Pre-request processing filter. Adds security information for the user Records
+ * start time of the request
  * 
  * @author dkornishev
  */
 @Component
 public class PreProcessFilter implements ContainerRequestFilter {
 
-    private static final List<String> WRITE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(), ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString());
+	private static final List<String> WRITE_OPERATIONS = Arrays.asList(
+			ResourceMethod.PUT.toString(), ResourceMethod.PATCH.toString(),
+			ResourceMethod.DELETE.toString());
+	private static final List<String> CONTEXTERS = Arrays.asList(
+			PathConstants.STUDENT_SCHOOL_ASSOCIATIONS,
+			PathConstants.STUDENT_SECTION_ASSOCIATIONS,
+			PathConstants.STUDENT_COHORT_ASSOCIATIONS,
+			PathConstants.STUDENT_PROGRAM_ASSOCIATIONS);
 
-    @Resource(name = "urlValidators")
-    private List<URLValidator> urlValidators;
+	@Resource(name = "urlValidators")
+	private List<URLValidator> urlValidators;
 
-    @Autowired
-    private OauthSessionManager manager;
+	@Autowired
+	private OauthSessionManager manager;
 
-    @Autowired
-    private MongoStat mongoStat;
+	@Autowired
+	private MongoStat mongoStat;
 
-    @Resource
-    private EndpointMutator mutator;
+	@Resource
+	private EndpointMutator mutator;
 
-    @Autowired
-    private ContextValidator contextValidator;
+	@Autowired
+	private ContextValidator contextValidator;
 
-    @Autowired
-    private URITranslator translator;
+	@Autowired
+	private URITranslator translator;
 
-    @Autowired
-    private EdOrgHelper edOrgHelper;
+	@Autowired
+	private EdOrgHelper edOrgHelper;
 
-    @Autowired
-    private DateFilterCriteriaGenerator criteriaGenerator;
+	@Autowired
+	private DateFilterCriteriaGenerator criteriaGenerator;
 
-    @Autowired
-    private ResourceEndPoint resourceEndPoint;
+	@Autowired
+	private ResourceEndPoint resourceEndPoint;
 
-    private final Pattern ID_REPLACEMENT_PATTERN = Pattern.compile("([^/]+/[^/]+/)[^/]+(/.*)");
+	private final Pattern ID_REPLACEMENT_PATTERN = Pattern
+			.compile("([^/]+/[^/]+/)[^/]+(/.*)");
 
-    @Resource
-    private SessionCache sessions;
+	@Resource
+	private SessionCache sessions;
 
-    @Override
-    public ContainerRequest filter(ContainerRequest request) {
-        recordStartTime(request);
-        validate(request);
-        populateSecurityContext(request);
-        // mongoStat.clear();
-        mongoStat.startRequest();
+	@Override
+	public ContainerRequest filter(ContainerRequest request) {
+		recordStartTime(request);
+		validate(request);
+		populateSecurityContext(request);
+		// mongoStat.clear();
+		mongoStat.startRequest();
 
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
+		SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
+		principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
 
-        info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
-        request.getProperties().put("original-request", request.getPath());
-        mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
-        validateNotBlockGetRequest(request);
-        if (isWrite(request.getMethod())) {
-            contextValidator.validateContextToUri(request, principal);
-        }
-        translator.translate(request);
-        criteriaGenerator.generate(request);
-        return request;
-    }
+		info("uri: {} -> {}", request.getBaseUri().getPath(), request
+				.getRequestUri().getPath());
+		request.getProperties().put("original-request", request.getPath());
+		mutator.mutateURI(SecurityContextHolder.getContext()
+				.getAuthentication(), request);
+		injectObligations(request);
+		validateNotBlockGetRequest(request);
+		if (isWrite(request.getMethod())) {
+			contextValidator.validateContextToUri(request, principal);
+		}
+		translator.translate(request);
+		criteriaGenerator.generate(request);
+		return request;
+	}
 
-    private void populateSecurityContext(ContainerRequest request) {
-        OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal()).getTenantId());
-    }
+	private void injectObligations(ContainerRequest request) {
+		// Create obligations
+		SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
 
-    /**
-     * Returns true if the request is a write operation.
-     *
-     * @param request
-     *            Request to be checked.
-     * @return True if the request method is a PUT, PATCH, or DELETE, false otherwise.
-     */
-    private boolean isWrite(String operation) {
-        return WRITE_OPERATIONS.contains(operation);
-    }
+		if (request.getPathSegments().size() > 3) {	// not applied on two parters
+			for (PathSegment seg : request.getPathSegments()) {
+				String resourceName = seg.getPath();
+				if (ResourceNames.STUDENTS.equals(resourceName)) {	// once student is encountered, no more obligations
+					break;
+				}
 
-    private void recordStartTime(ContainerRequest request) {
-        request.getProperties().put("startTime", System.currentTimeMillis());
-    }
+				if (CONTEXTERS.contains(resourceName)) {
+					if (ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS
+							.equals(resourceName)) {
+						prince.addObligation(resourceName.replaceAll("s$", ""),
+								construct("exitWithdrawDate"));
+					} else {
+						prince.addObligation(resourceName.replaceAll("s$", ""),
+								construct("endDate"));
+					}
 
-    /**
-     * Validate the request url
-     * 
-     * @param request
-     */
-    private void validate(ContainerRequest request) {
-        request.getProperties().put("logIntoDb", true);
+					info("Injected a date-based obligation on association: {}",
+							resourceName);
+				}
+			}
+		}
+	}
 
-        for (URLValidator validator : urlValidators) {
-            if (!validator.validate(request.getRequestUri())) {
-                request.getProperties().put("logIntoDb", false);
-                List<ValidationError> errors = new ArrayList<ValidationError>();
-                errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request.getRequestUri().toString(), null));
-                throw new EntityValidationException("", "", errors);
-            }
-        }
-    }
+	private void populateSecurityContext(ContainerRequest request) {
+		OAuth2Authentication auth = manager.getAuthentication(request
+				.getHeaderValue("Authorization"));
+		SecurityContextHolder.getContext().setAuthentication(auth);
+		TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal())
+				.getTenantId());
+	}
 
-    /**
-     * Validate the request URL is not blocked
-     *
-     * @param request
-     */
-    private void validateNotBlockGetRequest(ContainerRequest request) {
-        if (!request.getMethod().equals(RequestMethod.GET.name())) {
-            return;
-        }
+	/**
+	 * Creates a list of criteria which will be OR'ed when queries that are
+	 * relevant are being executed
+	 * 
+	 * @param fieldName
+	 * @return
+	 */
+	private List<NeutralQuery> construct(String fieldName) {
+		String now = DatatypeConverter.printDate(Calendar.getInstance());
 
-        String requestPath = request.getPath();
-        Matcher m = ID_REPLACEMENT_PATTERN.matcher(requestPath);
+		NeutralQuery nq = new NeutralQuery(new NeutralCriteria(fieldName,
+				NeutralCriteria.CRITERIA_GT, now));
+		NeutralQuery nq2 = new NeutralQuery(new NeutralCriteria(fieldName,
+				NeutralCriteria.CRITERIA_EXISTS, false));
 
-        if (m.matches()){
-            // transform requestPath from "v1.x/foo/2344,3453,5345/bar" to "v1.x/foo/{id}/bar"
-            requestPath = m.group(1) + PathConstants.ID_PLACEHOLDER + m.group(2);
-        }
+		return Arrays.asList(nq, nq2);
 
-        if (this.resourceEndPoint.getBlockGetRequestEndPoints().contains(requestPath)) {
-            throw new EntityNotFoundException(request.getPath());
-        }
-    }
+	}
+
+	/**
+	 * Returns true if the request is a write operation.
+	 * 
+	 * @param request
+	 *            Request to be checked.
+	 * @return True if the request method is a PUT, PATCH, or DELETE, false
+	 *         otherwise.
+	 */
+	private boolean isWrite(String operation) {
+		return WRITE_OPERATIONS.contains(operation);
+	}
+
+	private void recordStartTime(ContainerRequest request) {
+		request.getProperties().put("startTime", System.currentTimeMillis());
+	}
+
+	/**
+	 * Validate the request url
+	 * 
+	 * @param request
+	 */
+	private void validate(ContainerRequest request) {
+		request.getProperties().put("logIntoDb", true);
+
+		for (URLValidator validator : urlValidators) {
+			if (!validator.validate(request.getRequestUri())) {
+				request.getProperties().put("logIntoDb", false);
+				List<ValidationError> errors = new ArrayList<ValidationError>();
+				errors.add(0, new ValidationError(
+						ValidationError.ErrorType.INVALID_VALUE, "URL", request
+								.getRequestUri().toString(), null));
+				throw new EntityValidationException("", "", errors);
+			}
+		}
+	}
+
+	/**
+	 * Validate the request URL is not blocked
+	 * 
+	 * @param request
+	 */
+	private void validateNotBlockGetRequest(ContainerRequest request) {
+		if (!request.getMethod().equals(RequestMethod.GET.name())) {
+			return;
+		}
+
+		String requestPath = request.getPath();
+		Matcher m = ID_REPLACEMENT_PATTERN.matcher(requestPath);
+
+		if (m.matches()) {
+			// transform requestPath from "v1.x/foo/2344,3453,5345/bar" to
+			// "v1.x/foo/{id}/bar"
+			requestPath = m.group(1) + PathConstants.ID_PLACEHOLDER
+					+ m.group(2);
+		}
+
+		if (this.resourceEndPoint.getBlockGetRequestEndPoints().contains(
+				requestPath)) {
+			throw new EntityNotFoundException(request.getPath());
+		}
+	}
 
 }
