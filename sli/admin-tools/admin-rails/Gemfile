@@ -51,6 +51,7 @@ group :test do
 end
 
 gem 'encrypted-cookie-store'
+gem 'valid_email'
 
 
 

@@ -22,7 +22,8 @@ class User < SessionResource
 
   validates_presence_of :email
   validates :fullName, :presence => true, :length => { :maximum => 128 }
-  validates :tenant, :length => { :maximum => 160 }, :format => { :with => /^[-_a-zA-Z0-9]+[-_.@a-zA-Z0-9]*$/, :message => "should not contains spaces or special characters" }, :unless => "tenant.blank?"
+  validates :email, :length => { :maximum => 160 }, :unless => "email.blank?", :email => true
+  validates :tenant, :length => { :maximum => 160 }, :unless => "tenant.blank?"
   validates :edorg, :length => { :maximum => 255 }, :unless => "edorg.blank?"
 
   schema do
