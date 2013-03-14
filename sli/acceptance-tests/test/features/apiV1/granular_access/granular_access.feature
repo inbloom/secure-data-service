@@ -22,7 +22,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     # 2011-2012: 2011-09-06 to 2011-12-16
     | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List                                                                    |
     | attendances                             | 2010-2011    | 1                   | 0                |                                                                                |
-    | courseOfferings                         | 2010-2011    | 138                  | 1                | LCC1149GR1                                                                     |
+    | courseOfferings                         | 2010-2011    | 138                 | 1                | LCC1149GR1                                                                     |
 #    | courseTranscripts                       | 2010-2011    | 0                   | 0                |                                                                               |
     | disciplineActions                       | 2010-2011    | 0                   | 0                |                                                                                |
     | disciplineIncidents                     | 2010-2011    | 0                   | 0                |                                                                                |
@@ -32,7 +32,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | programs                                | 2009-2010    | 0                   | 0                |                                                                                |
 #    | reportCards                             | 2010-2011    | 0                   | 0                |                                                                               |
 #    | sections                                | 2010-2011    | 0                   | 0                |                                                                               |
-    | sessions                                | 2010-2011    | 29                   | 3                | e19cd46a-e50d-4157-a2b4-68d06f328058,377c734f-7c15-455f-9209-ac15b3118236,e100045b-25b3-41d6-9f1c-cd86db18eb68                                          |
+    | sessions                                | 2010-2011    | 29                  | 3                | e19cd46a-e50d-4157-a2b4-68d06f328058,377c734f-7c15-455f-9209-ac15b3118236,e100045b-25b3-41d6-9f1c-cd86db18eb68 |
     | staffCohortAssociations                 | 2009-2010    | 0                   | 0                |                                                                                |
     | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 1                | b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a                                           |
     | staffProgramAssociations                | 2009-2010    | 0                   | 0                |                                                                                |
@@ -44,8 +44,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
 #    | studentGradebookEntries                 | 2010-2011    | 1                   | 0                |                                                                                |
     | studentProgramAssociations              | 2009-2010    | 0                   | 0                |                                                                                |
     | studentSchoolAssociations               | 2008-2009    | 53                  | 5                | <LIST-SSA-AKOPEL>                                                              |
-    | studentSectionAssociations              | 2010-2011    | 62                   | 1                | ef28485d-ce82-4f13-b22e-7c9e29f8f69f_id193b3d2e-bef0-467a-8bed-166f66f0517a_id                                                                               |
-    | students                                | 2008-2009    | 26                  | 2                | 5738c251-dd0b-4734-9ea6-417ac9320a15_id,5738d251-dd0b-4734-9ea6-417ac9320a15_id |
+    | studentSectionAssociations              | 2010-2011    | 62                  | 1                | ef28485d-ce82-4f13-b22e-7c9e29f8f69f_id193b3d2e-bef0-467a-8bed-166f66f0517a_id |
 #    | teacherSchoolAssociations               | 2010-2011    | 1                   | 0                |                                                                               |
 #    | teacherSectionAssociations              | 2010-2011    | 1                   | 0                |                                                                                |
     | teachers                                | 2010-2011    | 1                   | 1                | rbraverman                                                                     |
@@ -90,7 +89,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | studentProgramAssociations              | 2010-2011    | 0                   | 0                |                                                                                |
     | studentSchoolAssociations               | 2009-2010    | 67                  | 5                | <LIST-SSA-LINDAKIM>                                                            |
     | studentSectionAssociations              | 2010-2012    | 31                  | 1                | 706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id |
-    | students                                | 2010-2011    | 31                  | 0                |                                                                                |
 #    | teacherSchoolAssociations               | 2010-2011    | 1                   | 0                |                                                                                |
 #    | teacherSectionAssociations              | 2010-2011    | 4                   | 0                |                                                                                |
     | teachers                                | 2010-2011    | 1                   | 1                | linda.kim                                                                      |
@@ -120,6 +118,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | search                      |
     | sections                    |
     | staff                       |
+    | students                    |
     | studentAcademicRecords      |
     | studentCompetencyObjectives |
     | studentGradebookEntries     |
@@ -154,6 +153,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | search                      |
     | sections                    |
     | staff                       |
+    | students                    |
     | studentAcademicRecords      |
     | studentCompetencyObjectives |
     | studentGradebookEntries     |
