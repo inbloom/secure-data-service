@@ -19,6 +19,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	<import resource="classpath:/spring/validation.xml" />
 	<import resource="classpath:/spring/db.xml" />
 	<context:component-scan base-package="org.slc.sli.common.util.uuid" />
+	<context:component-scan base-package="org.slc.sli.common.domain" />
 	<context:component-scan base-package="org.slc.sli.validation" />
 	<context:annotation-config />
 	<tx:annotation-driven />
