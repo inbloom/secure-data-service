@@ -105,7 +105,7 @@ public class EdfiRecordParserTest {
 
         EdfiRecordParser.parse(xml.getInputStream(), schema, mr, new SimpleReportStats(), new JobSource(xml.getFilename()));
 
-        verify(mr, Mockito.atLeast(1)).error(Mockito.any(ReportStats.class), Mockito.any(Source.class), Mockito.any(MessageCode.class), Mockito.any());
+        verify(mr, Mockito.atLeast(1)).error(Mockito.any(Throwable.class), Mockito.any(ReportStats.class), Mockito.any(Source.class), Mockito.any(MessageCode.class), Mockito.any());
     }
 
 

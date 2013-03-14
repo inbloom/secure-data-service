@@ -397,7 +397,7 @@ class UsersController < ApplicationController
   end
 
   def validate_email
-    return EmailValidator.is_valid_email?(@user, :email, @user.email)
+    return SLIEmailValidator.is_valid_email?(@user, :email, @user.email)
   end
 
   def validate_tenant_edorg

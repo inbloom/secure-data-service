@@ -204,9 +204,13 @@ public class EntityPersistHandlerTest {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
         DummyMessageReport errorReport = mock(DummyMessageReport.class);
         Mockito.doCallRealMethod().when(errorReport)
-                .error(Mockito.any(ReportStats.class), Matchers.any(Source.class),
-                        Mockito.any(CoreMessageCode.class), Mockito.anyString()
-                        , Mockito.anyString(), Mockito.anyString(), Mockito.anyObject(), Mockito.any());
+        .error(Mockito.any(ReportStats.class), Matchers.any(Source.class),
+                Mockito.any(CoreMessageCode.class), Mockito.anyString()
+                , Mockito.anyString(), Mockito.anyString(), Mockito.anyObject(), Mockito.any());
+        Mockito.doCallRealMethod().when(errorReport)
+        .error(Mockito.any(Throwable.class), Mockito.any(ReportStats.class), Matchers.any(Source.class),
+                Mockito.any(CoreMessageCode.class), Mockito.anyString()
+                , Mockito.anyString(), Mockito.anyString(), Mockito.anyObject(), Mockito.any());
 
         ReportStats reportStats = new SimpleReportStats();
 

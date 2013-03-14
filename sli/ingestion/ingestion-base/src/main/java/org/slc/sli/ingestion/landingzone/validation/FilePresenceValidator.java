@@ -55,7 +55,7 @@ public class FilePresenceValidator implements Validator<IngestionFileEntry> {
             try {
                 is = entry.getFileStream();
             } catch (IOException e) {
-                report.error(reportStats, new ControlFileSource(source.getResourceId(), entry), BaseMessageCode.BASE_0001, entry.getFileName());
+                report.error(e, reportStats, new ControlFileSource(source.getResourceId(), entry), BaseMessageCode.BASE_0001, entry.getFileName());
                 valid = false;
             } finally {
                 IOUtils.closeQuietly(is);
