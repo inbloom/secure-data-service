@@ -38,19 +38,26 @@ class UsersTest < ActiveSupport::TestCase
     assert_equal true, @valid_user.valid?
     @valid_user.tenant = ""
     assert_equal true, @valid_user.valid?
-    @valid_user.tenant = "tenant$%#!"
-    assert_equal false, @valid_user.valid?
-    @valid_user.tenant = "tenant.tenant"
-    assert_equal true, @valid_user.valid?
-    @valid_user.tenant = ".tenant"
-    assert_equal false, @valid_user.valid?
-    @valid_user.tenant = "@tenant"
-    assert_equal false, @valid_user.valid?
-    @valid_user.tenant = "ten@nt"
-    assert_equal true, @valid_user.valid?
     @valid_user.tenant = "A" * 160
     assert_equal true, @valid_user.valid?
     @valid_user.tenant = "A" * 161
+    assert_equal false, @valid_user.valid?
+  end
+
+  test "email field" do
+    @valid_user.email = "tenant$%#!"
+    assert_equal false, @valid_user.valid?
+    @valid_user.email = "tenant.tenant"
+    assert_equal false, @valid_user.valid?
+    @valid_user.email = ".tenant"
+    assert_equal false, @valid_user.valid?
+    @valid_user.email = "@tenant"
+    assert_equal false, @valid_user.valid?
+    @valid_user.email = "ten@nt"
+    assert_equal false, @valid_user.valid?
+    @valid_user.email = "A" * 150 + "@gmail.com"
+    assert_equal true, @valid_user.valid?
+    @valid_user.email = "A" * 151 + "@gmail.com"
     assert_equal false, @valid_user.valid?
   end
 
