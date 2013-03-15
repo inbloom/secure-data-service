@@ -50,28 +50,29 @@
   	    <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType"/>
   		<xs:element name="GradeReference" type="SLC-GradeReferenceType"/>
   		<xs:element name="GradebookEntryReference" type="SLC-GradebookEntryReferenceType"/>
-  		<xs:element name="GradingPeriodReferenceType" type="SLC-GradingPeriodReferenceType"/>
+  		<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"/>
   		<xs:element name="GraduationPlanReference" type="SLC-GraduationPlanReferenceType"/>
   		<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType"/>
   		<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType"/>
-  		<xs:element name="MeetingTimeReferenceType" type="SLC-MeetingTimeReferenceType"/>
-  		<xs:element name="ObjectiveAssessmentReferenceType" type="SLC-ObjectiveAssessmentReferenceType"/>
-  		<xs:element name="ParentReferenceType" type="SLC-ParentReferenceType"/>
-  		<xs:element name="ProgramReferenceType" type="SLC-ProgramReferenceType"/>
-  		<xs:element name="ReportCardReferenceType" type="SLC-ReportCardReferenceType"/>
-  		<xs:element name="SectionReferenceType" type="SLC-SectionReferenceType"/>
-  		<xs:element name="SessionReferenceType" type="SLC-SessionReferenceType"/>
-  		<xs:element name="StaffReferenceType" type="SLC-StaffReferenceType"/>
-  		<xs:element name="StudentAcademicRecordReferenceType" type="SLC-StudentAcademicRecordReferenceType"/>
-  		<xs:element name="StudentAssessmentReferenceType" type="SLC-StudentAssessmentReferenceType"/>
-  		<xs:element name="StudentCompetencyObjectiveReferenceType" type="SLC-StudentCompetencyObjectiveReferenceType"/>
-  		<xs:element name="StudentCompetencyReferenceType" type="SLC-StudentCompetencyReferenceType"/>
- 		<xs:element name="StudentObjectiveAssessmentReferenceType" type="SLC-StudentObjectiveAssessmentReferenceType"/>
+  		<xs:element name="MeetingTimeReference" type="SLC-MeetingTimeReferenceType"/>
+  		<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType"/>
+  		<xs:element name="ParentReference" type="SLC-ParentReferenceType"/>
+  		<xs:element name="ProgramReference" type="SLC-ProgramReferenceType"/>
+  		<xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType"/>
+  		<xs:element name="SectionReference" type="SLC-SectionReferenceType"/>
+  		<xs:element name="SessionReference" type="SLC-SessionReferenceType"/>
+  		<xs:element name="StaffReference" type="SLC-StaffReferenceType"/>
+  		<xs:element name="StudentAcademicRecordReference" type="SLC-StudentAcademicRecordReferenceType"/>
+  		<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType"/>
+  		<xs:element name="StudentCompetencyObjectiveReference" type="SLC-StudentCompetencyObjectiveReferenceType"/>
+  		<xs:element name="StudentCompetencyReference" type="SLC-StudentCompetencyReferenceType"/>
+ 		<xs:element name="StudentObjectiveAssessmentReference" type="SLC-StudentObjectiveAssessmentReferenceType"/>
   		<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
-  		<xs:element name="StudentSectionAssociationReferenceType" type="SLC-StudentSectionAssociationReferenceType"/>
+  		<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
   		
   		<!-- Entity types do not have corresponding reference type -->
   		<xs:element name="StudentParentAssociation" type="StudentParentAssociation"/>
+	    <xs:element name="StudentSchoolAssociation" type="StudentSchoolAssociation"/>
 	    
 	    
 	  </xs:choice>

@@ -5,19 +5,22 @@
   
   <!-- Illustrative use of DELETE -->
   <Action ActionType="DELETE" Cascade="true">
+	
+	<Item>
+	  <SchoolReference>
+    	<EducationalOrgReference>
+      		<EducationalOrgIdentity>
+	    		<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      		</EducationalOrgIdentity>
+    	</EducationalOrgReference>
 
-    <EducationalOrgReference>
-      <EducationalOrgIdentity>
-	    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationalOrgReference>
-
-    <StudentReference>
-      <StudentIdentity>
-	    <StudentUniqueStateId>IL-DAYBREAK<StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-
+    	<StudentReference>
+      		<StudentIdentity>
+	    		<StudentUniqueStateId>100000017<StudentUniqueStateId>
+      		</StudentIdentity>
+    		</StudentReference>
+         </SchoolReference>
+	</Item>
 </Action>
 
 </InterchangeEducationOrganization>

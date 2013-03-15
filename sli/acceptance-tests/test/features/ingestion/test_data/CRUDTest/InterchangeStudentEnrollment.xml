@@ -6,30 +6,38 @@
   <!-- Illustrative use of DELETE -->
   <Action ActionType="DELETE" Cascade="true">
 
-    <ParentReference>
-      <ParentIdentity>
-	    <ParentUniqueStateId>100000017</ParentUniqueStateId>
-      </ParentIdentity>
-    </ParentReference>
-
-    <StudentReference>
-      <StudentIdentity>
-	    <StudentUniqueStateId>IL-DAYBREAK<StudentUniqueStateId>
-     </StudentIdentity>
-    </StudentReference>
-
-
-	<StudentSectionAssociationReference>
-	  <StudentSectionAssociationIdentity>
+	<StudentSchoolAssociation>
+	  <StudentReference>
         <StudentIdentity>
-	      <StudentUniqueStateId>900000000<StudentUniqueStateId>
+	      <StudentUniqueStateId>100000017<StudentUniqueStateId>
         </StudentIdentity>
       </StudentReference>
-      </StudentSectionAssociationIdentity>
-      
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+    </StudentSchoolAssociation>
+
+	<StudentSectionAssociationReference>
+		<StudentSectionAssociationIdentity>
+			<StudentReference>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+		    </StudentReference>
+		    <SectionReference>
+		    	<SectionIdentity>
+		    		<EducationalOrgReference>
+			    		<EducationalOrgIdentity>
+        					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+						</EducationalOrgIdentity>
+					</EducationalOrgReference>
+					<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>		    		
+		    </SectionReference>		
+		</StudentSectionAssociationIdentity>
 	</StudentSectionAssociationReference>
-
-
 </Action>
 
 </InterchangeEducationOrganization>
