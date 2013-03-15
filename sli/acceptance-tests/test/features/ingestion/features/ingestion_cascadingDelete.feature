@@ -66,16 +66,16 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
-     | assessment                               |                 0|
-     | attendance                               |                 0|
+     | assessment                               |                 2|
+     | attendance                               |                 1|
      | calendarDate                             |                 1|
-     | cohort                                   |                 0|
+     | cohort                                   |                 2|
      | competencyLevelDescriptor                |                 0|
      | course                                   |                 1|
      | courseOffering                           |                 1|
      | courseSectionAssociation                 |                 0|
-     | disciplineAction                         |                 0|
-     | disciplineIncident                       |                 0|
+     | disciplineAction                         |                 1|
+     | disciplineIncident                       |                 1|
      | educationOrganization                    |                 3|
      | educationOrganizationAssociation         |                 0|
      | educationOrganizationSchoolAssociation   |                 0|
@@ -83,11 +83,11 @@ Then I should see following map of entry counts in the corresponding collections
      | gradebookEntry                           |                 0|
      | gradingPeriod                            |                 1|
      | graduationPlan                           |                 0|
-     | learningObjective                        |                 0|
-     | learningStandard                         |                 0|
+     | learningObjective                        |                 1|
+     | learningStandard                         |                 1|
      | parent                                   |                 1|
      | program                                  |                 1|
-     | recordHash                               |                22|
+     | recordHash                               |                31|
      | reportCard                               |                 0|
      | schoolSessionAssociation                 |                 0|
      | section                                  |                 3|
@@ -96,16 +96,16 @@ Then I should see following map of entry counts in the corresponding collections
      | session                                  |                 1|
      | sessionCourseAssociation                 |                 0|
      | staff                                    |                 2|
-     | staffCohortAssociation                   |                 0|
+     | staffCohortAssociation                   |                 1|
      | staffEducationOrganizationAssociation    |                 1|
      | staffProgramAssociation                  |                 1|
      | student                                  |                 1|
      | studentAcademicRecord                    |                 0|
      | studentAssessment                        |                 0|
-     | studentCohortAssociation                 |                 0|
+     | studentCohortAssociation                 |                 1|
      | studentCompetency                        |                 0|
      | studentCompetencyObjective               |                 0|
-     | studentDisciplineIncidentAssociation     |                 0|
+     | studentDisciplineIncidentAssociation     |                 1|
      | studentObjectiveAssessment               |                 0|
      | studentParentAssociation                 |                 1|
      | studentProgramAssociation                |                 1|
@@ -115,6 +115,6 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                 0|
      | teacherSchoolAssociation                 |                 1|
      | teacherSectionAssociation                |                 1|
-    And I should see "Processed 22 records." in the resulting batch job file
+    And I should see "Processed 34 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
