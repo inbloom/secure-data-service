@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.representation;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -24,9 +23,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Representation of an error message in response to issues encountered servicing API requests.
- *
+ * 
  * @author Ryan Farris <rfarris@wgen.net>
- *
+ * 
  */
 @XmlRootElement(name = "error")
 public class ErrorResponse {
@@ -41,6 +40,12 @@ public class ErrorResponse {
     @XmlElement(name = "message")
     @JsonProperty("message")
     String message;
+
+    public ErrorResponse() {
+        this.statusCode = -1;
+        this.type = "-1";
+        this.message = "-1";
+    }
 
     public ErrorResponse(int statusCode, String type, String message) {
         this.statusCode = statusCode;

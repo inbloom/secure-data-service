@@ -22,6 +22,9 @@ require 'json'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
+require_relative '../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
+require_relative '../../apiV1/long_lived_session/step_definitions/token_generator_steps.rb'
+
 Transform /rights "(.*?)"/ do |arg1|
   # Default rights for SLI Default roles  
   rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Educator"
@@ -34,6 +37,7 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_GENERAL"] if arg1 == "Read General"
   rights = ["READ_GENERAL", "WRITE_GENERAL"] if arg1 == "Read and Write General"
   rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE"] if arg1 == "Read General Public and Aggregate"
+  rights = ["BULK_EXTRACT"] if arg1 == "BULK_EXTRACT"
   rights = [] if arg1 == "none"
   rights
 end
@@ -43,6 +47,10 @@ Transform /roles "(.*?)"/ do |arg1|
   roles = ["Educator"] if arg1 == "Educator"
   roles = [] if arg1 == "none"
   roles
+end
+
+Then /^I should not see right "(.*?)" on any existing role$/ do |arg1|
+  assert(@driver.page_source.index(arg1) == nil, "ALL YOUR RITE ARE BELONG TO BALROG")
 end
 
 When /^I navigate to the Custom Role Mapping Page$/ do

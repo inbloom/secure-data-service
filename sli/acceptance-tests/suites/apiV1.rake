@@ -1,6 +1,10 @@
 ############################################################
 # API V1 tests start
 ############################################################
+task :bulkExtract => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/bulkExtract/")
+end
 
 task :apiVersionTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
