@@ -16,7 +16,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
 http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
 
-	<import resource="classpath:/spring/validation.xml" />
+
+    <context:component-scan base-package="org.slc.sli.common.domain" />
 	<context:component-scan base-package="org.slc.sli.dal" />
 	<context:component-scan base-package="org.slc.sli.validation" />
 	<context:component-scan base-package="org.slc.sli.common.util.uuid" />
@@ -24,6 +25,9 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	<tx:annotation-driven />
 	
 	<context:property-placeholder location="file:${sli.conf}" system-properties-mode="OVERRIDE" />
+    
+    <import resource="classpath:/spring/db.xml" />
+<!--    <import resource="classpath:/spring/validation.xml" /> -->
 	
 	<bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
 	
@@ -59,120 +63,13 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 		<constructor-arg ref="mappingConverter" />
 	</bean>
 	
-	<bean id="sarjeMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-		<constructor-arg ref="searchMongo" />
-		<constructor-arg value="${sli.eventbus.mongodb.database:eventbus}" />
-	</bean>
-	
 	<bean id="entityKeyEncoder" class="org.slc.sli.dal.repository.EntityKeyEncoder" />
-	
-<!-- 	<bean id="mongoEntityRepository" name="validationRepo" -->
-<!-- 	class="org.slc.sli.dal.repository.MongoEntityRepository"> -->
-<!-- 		<property name="template" ref="dataMongoTemplate" /> -->
-<!-- 	</bean> -->
 
     <bean id="validator" class="org.slc.sli.validation.schema.ApiNeutralSchemaValidator" />
-	
-	<bean id="indexEntityConverter" class="org.slc.sli.search.transform.IndexEntityConverter">
-		<property name="entityEncryption" ref="entityEncryption" />
-		<property name="indexConfigStore" ref="indexConfigStore" />
-	</bean>
-	
-	<bean id="indexConfigStore" class="org.slc.sli.search.config.IndexConfigStore">
-		<constructor-arg name="configFile"
-		value="${sli.search.indexer.config:index-config.json}" />
-	</bean>
-	
-	<bean id="sourceDatasourceConnector" class="org.slc.sli.search.connector.impl.SourceDatastoreConnectorImpl">
-		<property name="mongoTemplate" ref="dataMongoTemplate" />
-	</bean>
 
 	<bean id="encryptor" class="org.slc.sli.encryption.tool.Encryptor">
 		<constructor-arg name="keyStoreLocation" value="${sli.encryption.keyStore}" />
 		<constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
-	</bean>
-	
-	<bean id="searchEngineConnector" class="org.slc.sli.search.connector.impl.ESOperation">
-		<property name="searchUrl" value="${sli.search.url}" />
-      <property name="encryptor" ref="encryptor" />
-      <property name="dalKeyAlias" value="${sli.encryption.dalKeyAlias}" />
-      <property name="keyStorePass" value="${sli.encryption.keyStorePass}" />
-      <property name="searchUsername" value="${sli.search.username}" />
-      <property name="searchPassword" value="${sli.search.password}" />
-      <property name="enableEncryption" value="${sli.search.encryption:true}" />
-		<property name="searchTemplate" ref="searchTemplate" />
-		<property name="retryCount" value="${sli.search.indexer.retryCount:2}"></property>
-		<property name="retryWaitMillis" value="${sli.search.indexer.retryWaitMillis:2000}"></property>
-	</bean>
-	
-	<bean id="incrementalListener" class="org.slc.sli.search.process.impl.IncrementalListenerImpl">
-		<property name="indexer" ref="indexer" />
-		<property name="indexEntityConverter" ref="indexEntityConverter" />
-	</bean>
-
-    <amq:connectionFactory id="jmsFactory" maxThreadPoolSize="10"  brokerURL="${sli.search.indexer.broker.uri}" />
-     
-    <amq:topic id="sarjeSubTopic" physicalName="${sli.search.indexer.sarje.sub.topic}"/>
-    <bean id="stompMessageConverter" class="org.slc.sli.search.util.StompMessageConverter"/>
-	<jms:listener-container connection-factory="jmsFactory" message-converter="stompMessageConverter">
-	    <jms:listener destination="${sli.search.indexer.queue.name}" ref="incrementalListener" method="process"/>
-	    <jms:listener destination="${sli.search.indexer.sarje.sub.req.queue}" ref="sarjeSubscriptionAdmin" method="publishOnDemand"/>
-	</jms:listener-container>
-	
-	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy" lazy-init="false">
-		<property name="indexer" ref="indexer" />
-		<property name="indexEntityConverter" ref="indexEntityConverter" />
-		<property name="inboxDir" value="${sli.search.indexer.dir.inbox:data/inbox}" />
-		<property name="executorThreads" value="${sli.search.loader.thread.number:5}" />
-	</bean>
-	
-	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate" >
-		<constructor-arg>
-			<bean class="org.springframework.http.client.SimpleClientHttpRequestFactory">
-				<property name="connectTimeout" value="${sli.search.indexer.search.connTimeout:5000}" />
-				<property name="readTimeout" value="${sli.search.indexer.search.readTimeout:10000}" />
-			</bean>
-		</constructor-arg>
-	</bean>
-	
-	<bean id="indexer" class="org.slc.sli.search.process.impl.IndexerImpl" init-method="init" destroy-method="destroy">
-		<property name="searchEngineConnector" ref="searchEngineConnector"/>
-		<property name="indexConfigStore" ref="indexConfigStore"/>
-		<property name="aggregatePeriod" value="${sli.search.indexer.aggregatePeriodInMillis:500}"/>
-		<property name="bulkSize" value="${sli.search.indexer.bulkSize:5000}"/>
-		<property name="indexerWorkerPoolSize" value="${sli.search.indexer.indexerWorkerPoolSize:4}"/>
-	</bean>
-	
-	<bean id="admin" class="org.slc.sli.search.process.impl.AdminImpl">
-		<property name="indexer" ref="indexer"/>
-		<property name="loader" ref="loader"/>
-		<property name="extractor" ref="extractor"/>
-		<property name="searchEngineConnector" ref="searchEngineConnector"/>
-		<property name="sourceDatastoreConnector" ref="sourceDatasourceConnector"/>
-	</bean>
-	
-	<task:scheduled-tasks scheduler="scheduler">
-		<task:scheduled ref="extractor" method="execute" cron="${sli.search.indexer.extract.schedule}" />
-	</task:scheduled-tasks>
-	
-	<task:scheduler id="scheduler" pool-size="5" />
-	
-	<bean class="org.slc.sli.search.util.RemoteCommandService" init-method="init">
-		<property name="admin" ref="admin" />
-		<property name="port" value="${sli.search.indexer.service.port:10024}" />
-	</bean>
-	
-	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-	     <property name="connectionFactory" ref="jmsFactory" />
-	</bean>
-	
-	<bean id="sarjeSubscriptionAdmin" class="org.slc.sli.search.util.SarjeSubscriptionAdmin" init-method="init" depends-on="jmsFactory">
-		<property name="indexConfigStore" ref="indexConfigStore"/>
-		<property name="searchQueue" value="${sli.search.indexer.queue.name}"/>
-		<property name="dbJobsCollection" value="${sli.search.indexer.sarje.sub.jobsCollection:jobs}"/>
-		<property name="subscriptionBroadcastTopic" ref="sarjeSubTopic"/>
-		<property name="jmsTemplate" ref="jmsTemplate"/>
-		<property name="mongoTemplate" ref="sarjeMongoTemplate"/>
 	</bean>
 
     <util:list id="entities" value-type="java.lang.String">
@@ -247,6 +144,10 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
          <property name="entities" ref="entities" />
          <property name="queriedEntities" ref="queriedEntities" />
          <property name="combinedEntities" ref="combinedEntities" />
+    </bean>
+
+    <bean id="launcher" class="extract.Launcher">
+         <property name="extractor" ref="extractor" />
     </bean>
 
 </beans>

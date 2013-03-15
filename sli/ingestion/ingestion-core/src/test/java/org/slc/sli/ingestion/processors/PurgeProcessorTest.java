@@ -21,6 +21,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import junitx.util.PrivateAccessor;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.junit.Before;
@@ -99,6 +106,8 @@ public class PurgeProcessorTest {
 
         RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(BATCHJOBID);
 
+        PrivateAccessor.setField(purgeProcessor, "purgeBatchSize", 2);
+
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
@@ -110,13 +119,35 @@ public class PurgeProcessorTest {
 
         Set<String> collectionNames = new HashSet<String>();
         collectionNames.add("student");
-        collectionNames.add("teacher");
 
         Mockito.when(mongoTemplate.getCollectionNames()).thenReturn(collectionNames);
 
+        DBCollection studentCollection = Mockito.mock(DBCollection.class);
+
+        Mockito.when(mongoTemplate.getCollection(Mockito.eq("student"))).thenReturn(studentCollection);
+
+        DBCursor cursor = Mockito.mock(DBCursor.class);
+
+        DBCursor firstCursor = Mockito.mock(DBCursor.class);
+        Mockito.when(firstCursor.size()).thenReturn(2);
+        Mockito.when(firstCursor.hasNext()).thenReturn(true, true, false);
+        Mockito.when(firstCursor.next()).thenReturn(new BasicDBObject("_id", "123"), new BasicDBObject("_id", "456"));
+
+        DBCursor secondCursor = Mockito.mock(DBCursor.class);
+        Mockito.when(secondCursor.size()).thenReturn(1);
+        Mockito.when(secondCursor.hasNext()).thenReturn(true, false);
+        Mockito.when(secondCursor.next()).thenReturn(new BasicDBObject("_id", "678"));
+
+        DBCursor thirdCursor = Mockito.mock(DBCursor.class);
+        Mockito.when(thirdCursor.size()).thenReturn(0);
+        Mockito.when(thirdCursor.hasNext()).thenReturn(false);
+
+        Mockito.when(studentCollection.find(Mockito.any(BasicDBObject.class), Mockito.any(BasicDBObject.class))).thenReturn(cursor);
+        Mockito.when(cursor.limit(2)).thenReturn(firstCursor, secondCursor, thirdCursor);
+
         purgeProcessor.process(ex);
 
-        Mockito.verify(mongoTemplate, Mockito.atLeastOnce()).remove(Mockito.any(Query.class), Mockito.eq("student"));
+        Mockito.verify(studentCollection, Mockito.atLeast(2)).remove(Mockito.any(DBObject.class));
     }
 
     @Test
