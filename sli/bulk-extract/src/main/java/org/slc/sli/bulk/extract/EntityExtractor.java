@@ -21,12 +21,15 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -161,13 +164,8 @@ public class EntityExtractor implements Extractor {
     }
 
     public File extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
-        try {
-            zipFile.createArchiveEntry(entityName + ".json");
             extractEntity(tenant, zipFile, entityName, 0);
-        } catch (IOException e) {
-            LOG.error("Error while extracting " + entityName, e);
-        }
-        return zipFile.getZipFile();
+            return zipFile.getZipFile();
     }
 
     private File extractEntity(String tenant, OutstreamZipFile zipFile, String entityName,
@@ -187,11 +185,19 @@ public class EntityExtractor implements Extractor {
         try {
             TenantContext.setTenantId(tenant);
             records = entityRepository.findByQuery(collectionName, query, 0, 0);
-            // write each record to file
-            for (Entity record : records) {
-                addAPIFields(entityName, record);
-                zipFile.writeData(toJSON(record));
+            
+            if(records.iterator().hasNext())
+            {   
+                zipFile.createArchiveEntry(entityName + ".json");
+                // write each record to file
+                JSONArray jsonRecords = new JSONArray();
+                for (Entity record : records) {
+                    addAPIFields(entityName, record);
+                    jsonRecords.put(new JSONObject(record.getBody()));
+                }
+                writeToZip(zipFile,jsonRecords);
             }
+            
             LOG.info("Finished extracting " + entityName);
         } catch (IOException e) {
             LOG.error("Error while extracting " + entityName, e);
@@ -206,10 +212,10 @@ public class EntityExtractor implements Extractor {
         return zipFile.getZipFile();
     }
 
-    private String toJSON(Entity record) {
-        return JSON.serialize(record.getBody());
+    private void writeToZip(OutstreamZipFile zipFile, JSONArray records) throws NoSuchElementException, IOException  {
+        zipFile.writeData(records.toString());
     }
-
+    
     private void addAPIFields(String archiveName, Entity entity) {
         entity.getBody().put(TYPE_STRING, entity.getType());
         if (combinedEntities.containsKey(archiveName)) {
