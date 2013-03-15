@@ -69,7 +69,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                               |                 2|
      | attendance                               |                 1|
      | calendarDate                             |                 1|
-     | cohort                                   |                 2|
+     | cohort                                   |                 1|
      | competencyLevelDescriptor                |                 0|
      | course                                   |                 1|
      | courseOffering                           |                 1|
@@ -87,7 +87,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard                         |                 1|
      | parent                                   |                 1|
      | program                                  |                 1|
-     | recordHash                               |                40|
+     | recordHash                               |                39|
      | reportCard                               |                 1|
      | schoolSessionAssociation                 |                 0|
      | section                                  |                 4|
@@ -104,7 +104,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessment                        |                 1|
      | studentCohortAssociation                 |                 1|
      | studentCompetency                        |                 1|
-     | studentCompetencyObjective               |                 2|
+     | studentCompetencyObjective               |                 1|
      | studentDisciplineIncidentAssociation     |                 1|
      | studentObjectiveAssessment               |                 1|
      | studentParentAssociation                 |                 1|
@@ -115,6 +115,6 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                 1|
      | teacherSchoolAssociation                 |                 1|
      | teacherSectionAssociation                |                 1|
-    And I should see "Processed 46 records." in the resulting batch job file
+    And I should see "Processed 45 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
