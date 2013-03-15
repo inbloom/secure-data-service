@@ -56,6 +56,7 @@ end
 
 desc "Run RC SAMT Tests"
 task :rcSamtTests do
+  puts "Tenant in rcSamtTests = #{PropLoader.getProps['tenant']}"
   runTests("test/features/cross_app_tests/rc_integration_samt.feature")
 end
 
@@ -182,6 +183,7 @@ task :rcTests do
   Rake::Task["rcDeleteLDAPUsers"].execute
   Rake::Task["rcTenantCleanUp"].execute # if tenant_exists
   randomizeRcProdTenant() if RUN_ON_RC
+  puts "Tenant in rcTests = #{PropLoader.getProps['tenant']}"
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
   Rake::Task["rcIngestionTests"].execute
