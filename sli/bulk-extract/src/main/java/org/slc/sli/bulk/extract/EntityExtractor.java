@@ -25,7 +25,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import com.mongodb.util.JSON;
@@ -77,6 +76,12 @@ public class EntityExtractor implements Extractor {
         executor.shutdown();
     }
 
+    public void init(List<String> tenants, String outputDirectory) throws FileNotFoundException {
+        setTenants(tenants);
+        setExtractDir(outputDirectory);
+        init();
+    }
+    
     public void init() throws FileNotFoundException {
         createExtractDir();
         // create thread pool to process files
@@ -120,7 +125,7 @@ public class EntityExtractor implements Extractor {
     /*
      * (non-Javadoc)
      *
-     * @see org.slc.sli.search.process.Extractor#execute()
+     * @see org.slc.sli.bulk.extract.Extractor#execute()
      */
     @Override
     public void execute(String tenant) {
@@ -144,14 +149,6 @@ public class EntityExtractor implements Extractor {
         } catch (IOException e) {
             LOG.error("Error attempting to create zipfile " + zipFile.getZipFile().getPath(), e);
         }
-    }
-
-    @Override
-    public String getHealth() {
-        ThreadPoolExecutor tpe = (ThreadPoolExecutor) executor;
-        return getClass() + ": {" + extractDir + " size:" + new File(extractDir).list().length
-                + ", active count:" + tpe.getActiveCount() + ", completed count:"
-                + tpe.getCompletedTaskCount() + "}";
     }
 
     protected void processFuture(Future<File> future) {

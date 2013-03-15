@@ -15,7 +15,7 @@ public class OutstreamZipFileTest {
     public void testOutstreamZipFile() {
         File tmpFile = null;
         try {
-            OutstreamZipFile zip = new OutstreamZipFile(TESTPATH, "test");
+            new OutstreamZipFile(TESTPATH, "test");
             
             tmpFile = new File(TESTPATH + "test_tmp.zip");
             Assert.assertTrue(tmpFile.exists());
