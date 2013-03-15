@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+	<property file="${sli.conf}"/>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d %-5level [%thread] %logger{0}: %msg%n</pattern>
+			<outputPatternAsHeader>true</outputPatternAsHeader>
+		</encoder>
+	</appender>
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File >${sli.bulk.extract.log.path}/bulk-extract.log</File>
+		<Append>true</Append>
+		<encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${sli.bulk.extract.log.path}/bulk-extract-%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+		
+	<root level="${sli.bulk.extract.log.level:INFO}">
+		<appender-ref ref="FILE"/>
+	</root>
+
+</configuration>

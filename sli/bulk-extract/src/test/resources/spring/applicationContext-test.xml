@@ -85,10 +85,22 @@
 		<entry key="teacher" value="staff" />
 	</util:map>
 
+    <util:list id="educationOrganization" value-type="java.lang.String">
+        <value>localEducationAgency</value>
+        <value>stateEducationAgency</value>
+    </util:list>
+
+    <util:map id="combinedEntities" key-type="java.lang.String" value-type="java.util.List">
+        <entry key="educationOrganization">
+            <ref local="educationOrganization" />
+        </entry>
+    </util:map>
+
     <bean id="extractor" class="org.slc.sli.bulk.extract.EntityExtractor">
+         <property name="entityRepository" ref="mongoEntityRepository" />
          <property name="entities" ref="entities" />
          <property name="queriedEntities" ref="queriedEntities" />
-         <property name="entityRepository" ref="mongoEntityRepository" />
+         <property name="combinedEntities" ref="combinedEntities" />
     </bean>
 
 	<context:component-scan base-package="org.slc">

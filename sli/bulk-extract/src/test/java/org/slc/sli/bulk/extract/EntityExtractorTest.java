@@ -77,7 +77,7 @@ public class EntityExtractorTest {
         zipFile = Mockito.mock(OutstreamZipFile.class);
         extractor.setEntityRepository(mongoEntityRepository);
         extractor.setTenants(tenants);
-        extractor.setExtractDir(extractDir);
+        extractor.setBaseDirectory(extractDir);
         extractor.init();
     }
 

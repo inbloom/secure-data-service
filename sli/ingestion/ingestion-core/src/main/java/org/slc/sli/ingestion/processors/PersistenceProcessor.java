@@ -137,9 +137,6 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
     public static final Map<String, SelfRefEntityConfig> SELF_REF_ENTITY_CONFIG;
     static {
         HashMap<String, SelfRefEntityConfig> m = new HashMap<String, SelfRefEntityConfig>();
-        // learning objective's parent reference is stored in localParentId map.
-        m.put("learningObjective", new SelfRefEntityConfig("learningObjectiveId.identificationCode", null,
-                "parentObjectiveId"));
         // localEducationAgency's parent reference is stored in a field an attribute
         m.put("localEducationAgency", new SelfRefEntityConfig("stateOrganizationId", "localEducationAgencyReference",
                 null));
