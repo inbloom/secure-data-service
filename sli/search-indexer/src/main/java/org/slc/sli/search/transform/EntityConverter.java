@@ -23,7 +23,7 @@ import org.slc.sli.search.entity.IndexEntity.Action;
 public interface EntityConverter {
 
     /**
-     * Transform the given entity map to a list of IndexEntities
+     * Transform the given entity map to a list of maps to be indexed
      * 
      * @param index
      *            tenantDB hash
@@ -33,5 +33,14 @@ public interface EntityConverter {
      * 
      */
     public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap);
+
+    /**
+     * Some actions may also need to changed depending on the situation
+     * 
+     * @param action
+     * @return
+     *         new action
+     */
+    public Action convertAction(Action action);
 
 }

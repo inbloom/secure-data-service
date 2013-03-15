@@ -154,6 +154,22 @@ public class AssessmentPeriodDescriptorEntityConverterTest {
         assertNotNull(body);
         assertNull(body.get(ASSESSMENT_PERIOD_DESCRIPTOR));
     }
+    
+    @Test
+    public void actionShouldRemainSameExceptDelete() {
+        Action origAction = Action.DELETE;
+        Action newAction = converter.convertAction(origAction);
+        assertEquals(Action.UPDATE, newAction);
+        origAction = Action.INDEX;
+        newAction = converter.convertAction(origAction);
+        assertEquals(origAction, newAction);
+        origAction = Action.UPDATE;
+        newAction = converter.convertAction(origAction);
+        assertEquals(origAction, newAction);
+        origAction = Action.UPDATE;
+        newAction = converter.convertAction(origAction);
+        assertEquals(origAction, newAction);
+    }
 
     private Map<String, Object> buildAssessmentPeriodDescriptorMap() {
         Map<String, Object> body = new HashMap<String, Object>();

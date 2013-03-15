@@ -76,6 +76,12 @@ public class AssessmentPeriodDescriptorEntityConverter implements EntityConverte
         return entities;
     }
     
+    @Override
+    public Action convertAction(Action action) {
+        // delete action will need to changed into an update action on assessments
+        return action == Action.DELETE ? Action.UPDATE : action;
+    }
+
     public void setIndexConfigStore(IndexConfigStore indexConfigStore) {
         this.indexConfigStore = indexConfigStore;
     }
@@ -83,4 +89,5 @@ public class AssessmentPeriodDescriptorEntityConverter implements EntityConverte
     public void setSourceDatastoreConnector(SourceDatastoreConnector sourceDatastoreConnector) {
         this.sourceDatastoreConnector = sourceDatastoreConnector;
     }
+
 }
