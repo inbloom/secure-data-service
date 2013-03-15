@@ -23,16 +23,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+
 import org.apache.commons.lang3.StringUtils;
+
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.connector.SourceDatastoreConnector;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.transform.EntityConverter;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 public class AssessmentEntityConverter implements EntityConverter {
     
@@ -76,6 +77,12 @@ public class AssessmentEntityConverter implements EntityConverter {
         return Arrays.asList(assessmentEntityMap);
     }
     
+    @Override
+    // No action needs to be updated
+    public Action convertAction(Action action) {
+        return action;
+    }
+
     @SuppressWarnings("unchecked")
     private Map<String, Object> extractPeriodDescriptor(String index, Map<String, Object> body) {
         String assessmentPeriodDescriptorId = (String) body.remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID);
@@ -122,4 +129,5 @@ public class AssessmentEntityConverter implements EntityConverter {
     public void setSourceDatastoreConnector(SourceDatastoreConnector sourceDatastoreConnector) {
         this.sourceDatastoreConnector = sourceDatastoreConnector;
     }
+
 }

@@ -18,10 +18,10 @@ package org.slc.sli.search.transform.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -187,6 +187,22 @@ public class AssessmentEntityConverterTest {
         
     }
     
+    @Test
+    public void actionShouldRemainSame() {
+        Action origAction = Action.DELETE;
+        Action newAction = assessmentConverter.convertAction(origAction);
+        assertEquals(origAction, newAction);
+        origAction = Action.INDEX;
+        newAction = assessmentConverter.convertAction(origAction);
+        assertEquals(origAction, newAction);
+        origAction = Action.UPDATE;
+        newAction = assessmentConverter.convertAction(origAction);
+        assertEquals(origAction, newAction);
+        origAction = Action.UPDATE;
+        newAction = assessmentConverter.convertAction(origAction);
+        assertEquals(origAction, newAction);
+    }
+
     private DBObject buildFamily(String id, String title, String parent) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("assessmentFamilyTitle", title);

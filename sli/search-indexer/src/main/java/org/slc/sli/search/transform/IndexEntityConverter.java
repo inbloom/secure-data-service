@@ -56,10 +56,11 @@ public class IndexEntityConverter {
         List<IndexEntity> entities = new ArrayList<IndexEntity>();
         String type = (String)entityMap.get("type");
         EntityConverter converter = entityConverterFactory.getConverter(type);
-
         List<Map<String, Object>> entityMaps = converter.treatment(index, action, entityMap);
+        
+        Action newAction = converter.convertAction(action);
         for (Map<String, Object> map : entityMaps) {
-            IndexEntity entity = convert(index, action, map, decrypt);
+            IndexEntity entity = convert(index, newAction, map, decrypt);
             if (entity != null) {
                 entities.add(entity);
             }

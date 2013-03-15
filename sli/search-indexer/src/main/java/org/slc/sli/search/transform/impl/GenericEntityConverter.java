@@ -33,4 +33,12 @@ public class GenericEntityConverter implements EntityConverter {
         return Arrays.asList(entityMap);
     }
 
+    /**
+     * No op converter
+     */
+    @Override
+    public Action convertAction(Action action) {
+        return action;
+    }
+
 }
