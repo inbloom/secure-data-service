@@ -21,25 +21,27 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import com.mongodb.util.JSON;
-import com.mongodb.util.ThreadUtil;
-
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
+import com.mongodb.util.JSON;
+import com.mongodb.util.ThreadUtil;
 
 
 /**
@@ -56,12 +58,14 @@ public class EntityExtractor implements Extractor {
     private static final int DEFAULT_EXTRACTOR_JOB_TIME = 600;
     private static final String ID_STRING = "id";
     private static final String TYPE_STRING = "entityType";
+    
+    private String baseDirectory;
 
     private List<String> entities;
 
     private Map<String, String> queriedEntities;
 
-    private String extractDir;
+    private Map<String, List<String>> combinedEntities;
 
     private ExecutorService executor;
 
@@ -77,8 +81,13 @@ public class EntityExtractor implements Extractor {
         executor.shutdown();
     }
 
+    public void init(List<String> tenants) throws FileNotFoundException {
+        setTenants(tenants);
+        init();
+    }
+    
     public void init() throws FileNotFoundException {
-        createExtractDir();
+        createBaseDir();
         // create thread pool to process files
         executor = Executors.newFixedThreadPool(executorThreads);
         if (runOnStartup) {
@@ -91,8 +100,8 @@ public class EntityExtractor implements Extractor {
         }
     }
 
-    public void createExtractDir() {
-        new File(extractDir).mkdirs();
+    public void createBaseDir() {
+        new File(baseDirectory).mkdirs();
     }
 
     @Override
@@ -101,7 +110,7 @@ public class EntityExtractor implements Extractor {
         List<Future<File>> futures = new LinkedList<Future<File>>();
         for (String tenant : tenants) {
             try {
-                OutstreamZipFile zipFile =new OutstreamZipFile(extractDir, tenant);
+                OutstreamZipFile zipFile =new OutstreamZipFile(getTenantDirectory(tenant), tenant);
                 call = executor.submit(new ExtractWorker(tenant, zipFile));
                 futures.add(call);
             } catch (FileNotFoundException e) {
@@ -120,7 +129,7 @@ public class EntityExtractor implements Extractor {
     /*
      * (non-Javadoc)
      *
-     * @see org.slc.sli.search.process.Extractor#execute()
+     * @see org.slc.sli.bulk.extract.Extractor#execute()
      */
     @Override
     public void execute(String tenant) {
@@ -128,7 +137,7 @@ public class EntityExtractor implements Extractor {
         // running at a time
         OutstreamZipFile zipFile = null;
         try {
-            zipFile = new OutstreamZipFile(extractDir, tenant);
+            zipFile = new OutstreamZipFile(getTenantDirectory(tenant), tenant);
         } catch (IOException e) {
             LOG.error("Error while extracting data for tenant " + tenant, e);
         }
@@ -146,14 +155,6 @@ public class EntityExtractor implements Extractor {
         }
     }
 
-    @Override
-    public String getHealth() {
-        ThreadPoolExecutor tpe = (ThreadPoolExecutor) executor;
-        return getClass() + ": {" + extractDir + " size:" + new File(extractDir).list().length
-                + ", active count:" + tpe.getActiveCount() + ", completed count:"
-                + tpe.getCompletedTaskCount() + "}";
-    }
-
     protected void processFuture(Future<File> future) {
         try {
             future.get(DEFAULT_EXTRACTOR_JOB_TIME, TimeUnit.SECONDS);
@@ -163,13 +164,8 @@ public class EntityExtractor implements Extractor {
     }
 
     public File extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
-        try {
-            zipFile.createArchiveEntry(entityName + ".json");
             extractEntity(tenant, zipFile, entityName, 0);
-        } catch (IOException e) {
-            LOG.error("Error while extracting " + entityName, e);
-        }
-        return zipFile.getZipFile();
+            return zipFile.getZipFile();
     }
 
     private File extractEntity(String tenant, OutstreamZipFile zipFile, String entityName,
@@ -183,14 +179,25 @@ public class EntityExtractor implements Extractor {
             collectionName = queriedEntities.get(entityName);
             query.addCriteria(Criteria.where("type").is(entityName));
         }
+        if (combinedEntities.containsKey(entityName)) {
+            query = new Query(Criteria.where("type").in(combinedEntities.get(entityName)));
+        }
         try {
             TenantContext.setTenantId(tenant);
             records = entityRepository.findByQuery(collectionName, query, 0, 0);
-            // write each record to file
-            for (Entity record : records) {
-                addAPIFields(record);
-                zipFile.writeData(toJSON(record));
+            
+            if(records.iterator().hasNext())
+            {   
+                zipFile.createArchiveEntry(entityName + ".json");
+                // write each record to file
+                JSONArray jsonRecords = new JSONArray();
+                for (Entity record : records) {
+                    addAPIFields(entityName, record);
+                    jsonRecords.put(new JSONObject(record.getBody()));
+                }
+                writeToZip(zipFile,jsonRecords);
             }
+            
             LOG.info("Finished extracting " + entityName);
         } catch (IOException e) {
             LOG.error("Error while extracting " + entityName, e);
@@ -205,17 +212,24 @@ public class EntityExtractor implements Extractor {
         return zipFile.getZipFile();
     }
 
-    private String toJSON(Entity record) {
-        return JSON.serialize(record.getBody());
+    private void writeToZip(OutstreamZipFile zipFile, JSONArray records) throws NoSuchElementException, IOException  {
+        zipFile.writeData(records.toString());
     }
-
-    private void addAPIFields(Entity entity) {
-        entity.getBody().put(ID_STRING, entity.getEntityId());
+    
+    private void addAPIFields(String archiveName, Entity entity) {
         entity.getBody().put(TYPE_STRING, entity.getType());
+        if (combinedEntities.containsKey(archiveName)) {
+            entity.getBody().put(ID_STRING, archiveName);
+        } else {
+            entity.getBody().put(ID_STRING, entity.getEntityId());
+        }
     }
-
-    public void setExtractDir(String extractDir) {
-        this.extractDir = extractDir;
+    
+    private String getTenantDirectory(String tenant) {
+        
+        File tenantDirectory = new File(baseDirectory, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
+        tenantDirectory.mkdirs();
+        return tenantDirectory.getPath();
     }
 
     public void setExecutorThreads(int executorThreads) {
@@ -242,6 +256,14 @@ public class EntityExtractor implements Extractor {
         this.queriedEntities = queriedEntities;
     }
 
+    public void setCombinedEntities(Map<String, List<String>> combinedEntities) {
+        this.combinedEntities = combinedEntities;
+    }
+
+    public void setBaseDirectory(String baseDirectory) {
+        this.baseDirectory = baseDirectory;
+    }
+
     /**
      * Runnable Thread class to write into file read from Mongo.
      *
@@ -252,7 +274,7 @@ public class EntityExtractor implements Extractor {
 
         private final String tenant;
 
-        private OutstreamZipFile zipFile;
+        private final OutstreamZipFile zipFile;
 
         public ExtractWorker(String tenant, OutstreamZipFile zipFile) throws FileNotFoundException {
             this.tenant = tenant;
@@ -262,7 +284,7 @@ public class EntityExtractor implements Extractor {
         @Override
         public File call() throws Exception {
             execute(tenant);
-                return zipFile.getZipFile();
+            return zipFile.getZipFile();
         }
     }
 
