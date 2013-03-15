@@ -12,17 +12,7 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentCompetencyObjective>
-  <StudentCompetencyObjective>
-    <StudentCompetencyObjectiveId>SCO-K-2</StudentCompetencyObjectiveId>
-    <Objective>Phonics</Objective>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentCompetencyObjective>
-  
+ 
   <GradebookEntry>
     <GradebookEntryType>Assignment</GradebookEntryType>
     <DateAssigned>2011-09-29</DateAssigned>

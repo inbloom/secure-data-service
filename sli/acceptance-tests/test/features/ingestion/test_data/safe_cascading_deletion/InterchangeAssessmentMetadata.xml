@@ -122,12 +122,6 @@
     <ObjectiveAssessment>
         <IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
         <MaxRawScore>18</MaxRawScore>
-        <!-- Commenting out circular reference -->
-        <!-- <ObjectiveAssessmentReference>
-			<ObjectiveAssessmentIdentity>
-				<ObjectiveAssessmentIdentificationCode>ACT-Reading-SocialStudies</ObjectiveAssessmentIdentificationCode>
-			</ObjectiveAssessmentIdentity>
-		</ObjectiveAssessmentReference> -->
         <ObjectiveAssessmentReference>
             <ObjectiveAssessmentIdentity>
                 <ObjectiveAssessmentIdentificationCode>ACT-Reading-SocialStudies</ObjectiveAssessmentIdentificationCode>
