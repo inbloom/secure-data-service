@@ -39,9 +39,9 @@ public class SchemaReferencesMetaData {
         Set<String > keys = refMap.keySet();
         for(String key:keys) {
             List<List<SchemaReferenceNode>> lists = refMap.get(key);
-            System.out.print("\n" + key + " is referred from ");
+            //System.out.print("\n" + key + " is referred from ");
             for(List list: lists){
-                System.out.print(list +  "   AND   ") ;
+                //System.out.print(list +  "   AND   ") ;
             }
 
         }
@@ -58,7 +58,7 @@ public class SchemaReferencesMetaData {
                 List<SchemaReferenceNode> refPath = new ArrayList<SchemaReferenceNode>(currentPath);
                 refMap.put(type, refPath);
             } else {
-                System.out.println("Could not find AppInfo for [" + currentPath + "]");
+                //System.out.println("Could not find AppInfo for [" + currentPath + "]");
             }
 
         } else {
