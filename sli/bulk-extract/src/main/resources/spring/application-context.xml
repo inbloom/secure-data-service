@@ -16,6 +16,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
 http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
 
+    <import resource="classpath:/spring/validation.xml" />
+    <import resource="classpath:/spring/db.xml" />
+    
 	<context:component-scan base-package="org.slc.sli.common.util.uuid" />
 	<context:component-scan base-package="org.slc.sli.common.domain" />
 	<context:component-scan base-package="org.slc.sli.validation" />
@@ -23,8 +26,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	<tx:annotation-driven />
 	
 	<context:property-placeholder location="file:${sli.conf}" system-properties-mode="OVERRIDE" order="0"/>
-
-    <import resource="classpath:/spring/db.xml" />
 	
 	<util:list id="entities" value-type="java.lang.String">
         <value>assessment</value>

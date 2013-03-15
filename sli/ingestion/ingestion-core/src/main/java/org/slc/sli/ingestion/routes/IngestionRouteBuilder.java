@@ -235,6 +235,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: lzDropFile
         from(landingZoneQueueUri).routeId("lzDropFile")
+            .bean(batchJobManager, "setTenantId")
             .log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected. Routing to LandingZoneProcessor.")
             .to("direct:processLandingZone");
 

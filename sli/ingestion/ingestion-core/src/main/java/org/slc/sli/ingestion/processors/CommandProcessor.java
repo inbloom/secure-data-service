@@ -41,6 +41,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.aspect.StageTrackingAspect;
 import org.slc.sli.ingestion.cache.CacheProvider;
+import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
@@ -69,9 +70,16 @@ public class CommandProcessor {
     @Handler
     public void processCommand(Exchange exch) throws Exception {
         String command = exch.getIn().getBody().toString();
+        String[] chunks = command.split("\\|");
+
+        if (chunks != null && chunks.length > 1) {
+            String jobId = chunks[1];
+            NewBatchJob currentJob = batchJobDAO.findBatchJobById(jobId);
+            String tenantId = currentJob==null ? null : currentJob.getTenantId();
+            TenantContext.setTenantId(tenantId);
+        }
 
         LOG.info("Received: " + command);
-        String[] chunks = command.split("\\|");
 
         if (JOB_COMPLETED.equals(chunks[0])) {
 

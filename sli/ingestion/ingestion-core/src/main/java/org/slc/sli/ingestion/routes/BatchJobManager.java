@@ -39,10 +39,12 @@ public final class BatchJobManager {
 
     public void setTenantId(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        String tenantId = null;
         if (workNote != null) {
             NewBatchJob currentJob = batchJobDAO.findBatchJobById(workNote.getBatchJobId());
-            TenantContext.setTenantId(currentJob.getTenantId());
+            tenantId = currentJob==null ? null : currentJob.getTenantId();
         }
+        TenantContext.setTenantId(tenantId);
     }
 
     public boolean isDryRun(Exchange exchange) {

@@ -21,8 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import junitx.util.PrivateAccessor;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -106,7 +104,7 @@ public class PurgeProcessorTest {
 
         RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(BATCHJOBID);
 
-        PrivateAccessor.setField(purgeProcessor, "purgeBatchSize", 2);
+        purgeProcessor.setPurgeBatchSize(2);
 
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
