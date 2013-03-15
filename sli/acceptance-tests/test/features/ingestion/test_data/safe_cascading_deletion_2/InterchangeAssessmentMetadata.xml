@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                               xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+  <!-- Grade 7 2011 State Reading Test -->
+   <Assessment>
+    <AssessmentTitle>Grade 6 2011 State Reading</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>Grade 6 2011 State Reading</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>W</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>120</MinimumScore>
+      <MaximumScore>179</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>B</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>180</MinimumScore>
+      <MaximumScore>230</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>S</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>231</MinimumScore>
+      <MaximumScore>277</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>E</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>278</MinimumScore>
+      <MaximumScore>364</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <ContentStandard>State Standard</ContentStandard>
+    <Version>1</Version>
+    <RevisionDate>2011-03-12</RevisionDate>
+    <MaxRawScore>364</MaxRawScore>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>State Reading for Grades 3-8</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </Assessment>
+  
+    <AssessmentFamily>
+    <AssessmentFamilyTitle>State Reading for Grades 3-8</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode
+            IdentificationSystem="Test Contractor">
+      <ID>State Reading for Grades 3-8</ID>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>State Reading Assessments</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </AssessmentFamily>
+  
+   <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-G3-2</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for writing</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Writing</SubjectArea>
+        <CourseTitle>Writing</CourseTitle>
+    </LearningStandard>
+    
+     <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-6</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Narrative Writing</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    
+   <AssessmentPeriodDescriptor>
+	<CodeValue>READ2-BOY-2011</CodeValue>
+	<Description>Beginning of Year 2011-2012</Description>
+	<ShortDescription>READ2-BOY-2011</ShortDescription>
+	<BeginDate>2011-08-01</BeginDate>
+	<EndDate>2011-12-31</EndDate>
+  </AssessmentPeriodDescriptor>
+  
+  <AssessmentItem>
+	<AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>Grade 6 2011 State Reading</AssessmentTitle>
+                <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
+        <IdentificationCode>AssessmentItem-4</IdentificationCode>
+        <ItemCategory>True-False</ItemCategory>
+        <MaxRawScore>5</MaxRawScore>
+        <CorrectResponse>False</CorrectResponse>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </AssessmentItem>
+    
+    <ObjectiveAssessment>
+        <IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
+        <MaxRawScore>18</MaxRawScore>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>ACT-Reading-SocialStudies</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>Grade 6 2011 State Reading</AssessmentTitle>
+		        <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
+    </ObjectiveAssessment>
+  </InterchangeAssessmentMetadata>

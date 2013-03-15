@@ -1,0 +1,333 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
+<InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
+  <!-- learning objectives for kindergartners -->
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
+    <Objective>Phonemic Awareness</Objective>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+ 
+  <GradebookEntry>
+    <GradebookEntryType>Assignment</GradebookEntryType>
+    <DateAssigned>2011-09-29</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  
+  <StudentGradebookEntry>
+    <DateFulfilled>2011-10-05</DateFulfilled>
+    <LetterGradeEarned>D</LetterGradeEarned>
+    <StudentSectionAssociationReference>
+      <StudentSectionAssociationIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2011-09-01</BeginDate>
+      </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+    <!--GradebookEntryReference/ -->
+    <GradebookEntryReference>
+      <GradebookEntryIdentity>
+        <GradebookEntryType>Assignment</GradebookEntryType>
+        <DateAssigned>2011-09-29</DateAssigned>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+      </GradebookEntryIdentity>
+    </GradebookEntryReference>
+  </StudentGradebookEntry>
+  
+  <StudentAcademicRecord>
+    <CumulativeCreditsAttempted CreditConversion="0" CreditType="Semester hour credit">
+      <Credit>5</Credit>
+    </CumulativeCreditsAttempted>
+    <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000005</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <SchoolYear>2009-2010</SchoolYear>
+  </StudentAcademicRecord>
+  
+  
+  <CourseTranscript>
+    <CourseAttemptResult>Pass</CourseAttemptResult>
+    <CreditsEarned CreditConversion="0" CreditType="Semester hour credit">
+      <Credit>1</Credit>
+    </CreditsEarned>
+    <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+    <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+    <FinalNumericGradeEarned>75</FinalNumericGradeEarned>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>3rd Grade Homeroom</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StudentAcademicRecordReference>
+      <StudentAcademicRecordIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000005</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
+      </StudentAcademicRecordIdentity>
+    </StudentAcademicRecordReference>
+  </CourseTranscript>
+  
+   <Grade>
+    <LetterGradeEarned>B</LetterGradeEarned>
+    <GradeType>Final</GradeType>
+    <StudentSectionAssociationReference>
+      <StudentSectionAssociationIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+             <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2011-09-01</BeginDate>
+      </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>Sixth Six Weeks</GradingPeriod>
+        <BeginDate>2011-04-11</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <SchoolYear>2011-2012</SchoolYear>
+  </Grade>
+  
+  <ReportCard>
+    <GradeReference>
+      <GradeIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+             <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <GradingPeriodReference>
+          <GradingPeriodIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <GradingPeriod>First Six Weeks</GradingPeriod>
+            <BeginDate>2010-08-23</BeginDate>
+          </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
+      </GradeIdentity>
+    </GradeReference>
+    <GradeReference>
+      <GradeIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+             <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <GradingPeriodReference>
+          <GradingPeriodIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <GradingPeriod>Sixth Six Weeks</GradingPeriod>
+            <BeginDate>2011-04-11</BeginDate>
+          </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <SchoolYear>2010-2011</SchoolYear>
+      </GradeIdentity>
+    </GradeReference>
+   
+    <StudentCompetencyReference>
+      <StudentCompetencyIdentity>
+        <LearningObjectiveReference>
+          <LearningObjectiveIdentity>
+            <Objective>The Rainforest</Objective>
+            <AcademicSubject>Science</AcademicSubject>
+            <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+          </LearningObjectiveIdentity>
+        </LearningObjectiveReference>
+        <CodeValue>3</CodeValue>
+        <StudentSectionAssociationReference>
+          <StudentSectionAssociationIdentity>
+            <StudentReference>
+              <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+              </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
+              <SectionIdentity>
+                <EducationalOrgReference>
+                  <EducationalOrgIdentity>
+                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                  </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                 <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+              </SectionIdentity>
+            </SectionReference>
+            <BeginDate>2011-09-01</BeginDate>
+          </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+      </StudentCompetencyIdentity>
+    </StudentCompetencyReference>
+    <GPAGivenGradingPeriod>2.6</GPAGivenGradingPeriod>
+    <GPACumulative>2.6</GPACumulative>
+    <NumberOfDaysAbsent>2</NumberOfDaysAbsent>
+    <NumberOfDaysInAttendance>183</NumberOfDaysInAttendance>
+    <NumberOfDaysTardy>2</NumberOfDaysTardy>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <!-- id does not exist in this file -->
+    <!-- GradingPeriodReference/-->
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2011-05-27</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <SchoolYear>2010-2011</SchoolYear>
+  </ReportCard> 
+  
+   <StudentCompetency>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>The Solar System</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevel>
+      <CodeValue>3</CodeValue>
+    </CompetencyLevel>
+    <StudentSectionAssociationReference>
+      <StudentSectionAssociationIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+             <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2011-09-01</BeginDate>
+      </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+  </StudentCompetency>
+ </InterchangeStudentGrade>

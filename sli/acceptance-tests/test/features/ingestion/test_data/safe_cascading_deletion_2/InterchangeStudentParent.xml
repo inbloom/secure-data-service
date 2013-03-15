@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentParent xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd">
+     <Parent>
+        <ParentUniqueStateId>5713667332</ParentUniqueStateId>
+        <Name>
+            <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+            <FirstName>Peter</FirstName>
+            <LastSurname>Terrance</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <Telephone TelephoneNumberType="Work">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+    </Parent>
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>5713667332</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Minister or priest</Relation>
+        <EmergencyContactStatus>false</EmergencyContactStatus>
+    </StudentParentAssociation>
+</InterchangeStudentParent>

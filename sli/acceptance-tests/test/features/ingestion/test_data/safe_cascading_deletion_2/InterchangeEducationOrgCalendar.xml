@@ -1,0 +1,66 @@
+<?xml version="1.0" ?>
+<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter 
+	Backes (Wireless Generation) -->
+<InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
+	<!-- CalendarDates for the 2010-2011 school year -->
+	<CalendarDate>
+		<Date>2010-08-23</Date>
+		<CalendarEvent>Instructional day</CalendarEvent>
+		<EducationOrgReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrgReference>
+	</CalendarDate>
+	
+	<GradingPeriod>
+		<GradingPeriod>Second Six Weeks</GradingPeriod>
+		<SchoolYear>2010-2011</SchoolYear>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<BeginDate>2010-08-23</BeginDate>
+		<EndDate>2010-10-03</EndDate>
+		<TotalInstructionalDays>29</TotalInstructionalDays>
+		<CalendarDateReference>
+			<CalendarDateIdentity>
+				<Date>2010-08-23</Date>
+				<EducationOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>IL</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationOrgReference>
+			</CalendarDateIdentity>
+		</CalendarDateReference>
+	</GradingPeriod>
+	
+	<Session>
+		<SessionName>Fall 2011 West Daybreak Junior High</SessionName>
+		<SchoolYear>2011-2012</SchoolYear>
+		<Term>Fall Semester</Term>
+		<BeginDate>2011-09-06</BeginDate>
+		<EndDate>2011-12-16</EndDate>
+		<TotalInstructionalDays>75</TotalInstructionalDays>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>North Daybreak Elementary
+						</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<GradingPeriod>Second Six Weeks</GradingPeriod>
+				<BeginDate>2010-08-23</BeginDate>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+	</Session>
+</InterchangeEducationOrgCalendar>
