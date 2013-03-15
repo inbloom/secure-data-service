@@ -18,7 +18,7 @@ public class Launcher {
      */
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/application-context.xml");
-        EntityExtractor main = context.getBean(EntityExtractor.class);
+        Extractor main = context.getBean(EntityExtractor.class);
         
         if (args.length != 2) {
             LOG.error(USAGE);
@@ -30,10 +30,8 @@ public class Launcher {
 
         List<String> tenants = new ArrayList<String>();
         tenants.add(tenantId);
-        main.setTenants(tenants);
-        main.setExtractDir(outputDir);
         try {
-            main.init();
+            main.init(tenants, outputDir);
         } catch (FileNotFoundException e) {
             LOG.error("Invalid output directory");
             return;
