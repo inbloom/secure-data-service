@@ -181,7 +181,7 @@ task :rcTests do
   @tags = ["~@wip", "@rc", "~@sandbox"]
   Rake::Task["rcDeleteLDAPUsers"].execute
   Rake::Task["rcTenantCleanUp"].execute # if tenant_exists
-  randomizeRcProdTenant()
+  randomizeRcProdTenant() unless RUN_ON_RC
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
   Rake::Task["rcIngestionTests"].execute
@@ -207,7 +207,7 @@ task :rcSandboxTests do
   @tags = ["~@wip", "@rc", "@sandbox"]
   begin
     Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(PropLoader.getProps['sandbox_tenant'])
-    randomizeRcSandboxTenant()
+    randomizeRcSandboxTenant() unless RUN_ON_RC
     Rake::Task["rcSandboxAccountRequestTests"].execute
     Rake::Task["rcSandboxProvisionTests"].execute
     Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
