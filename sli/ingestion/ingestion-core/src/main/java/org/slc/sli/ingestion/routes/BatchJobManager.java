@@ -37,7 +37,7 @@ public final class BatchJobManager {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
-    public void setTenantId(Exchange exchange) {
+    public void prepareTenantContext(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         String tenantId = null;
         if (workNote != null) {
