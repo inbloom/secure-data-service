@@ -79,18 +79,18 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization                    |                 3|
      | educationOrganizationAssociation         |                 0|
      | educationOrganizationSchoolAssociation   |                 0|
-     | grade                                    |                 0|
-     | gradebookEntry                           |                 0|
+     | grade                                    |                 1|
+     | gradebookEntry                           |                 1|
      | gradingPeriod                            |                 1|
      | graduationPlan                           |                 0|
      | learningObjective                        |                 1|
      | learningStandard                         |                 1|
      | parent                                   |                 1|
      | program                                  |                 1|
-     | recordHash                               |                31|
-     | reportCard                               |                 0|
+     | recordHash                               |                40|
+     | reportCard                               |                 1|
      | schoolSessionAssociation                 |                 0|
-     | section                                  |                 3|
+     | section                                  |                 4|
      | sectionAssessmentAssociation             |                 0|
      | sectionSchoolAssociation                 |                 0|
      | session                                  |                 1|
@@ -100,21 +100,21 @@ Then I should see following map of entry counts in the corresponding collections
      | staffEducationOrganizationAssociation    |                 1|
      | staffProgramAssociation                  |                 1|
      | student                                  |                 1|
-     | studentAcademicRecord                    |                 0|
+     | studentAcademicRecord                    |                 1|
      | studentAssessment                        |                 0|
      | studentCohortAssociation                 |                 1|
-     | studentCompetency                        |                 0|
-     | studentCompetencyObjective               |                 0|
+     | studentCompetency                        |                 1|
+     | studentCompetencyObjective               |                 2|
      | studentDisciplineIncidentAssociation     |                 1|
      | studentObjectiveAssessment               |                 0|
      | studentParentAssociation                 |                 1|
      | studentProgramAssociation                |                 1|
      | studentSchoolAssociation                 |                 1|
      | studentSectionAssociation                |                 1|
-     | studentGradebookEntry                    |                 0|
-     | courseTranscript                         |                 0|
+     | studentGradebookEntry                    |                 1|
+     | courseTranscript                         |                 1|
      | teacherSchoolAssociation                 |                 1|
      | teacherSectionAssociation                |                 1|
-    And I should see "Processed 34 records." in the resulting batch job file
+    And I should see "Processed 43 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
