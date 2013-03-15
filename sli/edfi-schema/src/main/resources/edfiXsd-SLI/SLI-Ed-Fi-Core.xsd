@@ -29,7 +29,6 @@
 	  <xs:choice minOccurs="0" maxOccurs="unbounded">
 	  
 	    <!-- All reference types  -->
-	    <xs:element name="Reference" type="ReferenceType"/>
   		<xs:element name="AccountReference" type="AccountReferenceType"/>
   		<xs:element name="BellScheduleReference" type="BellScheduleReferenceType"/>
         <xs:element name="LocationReference" type="LocationReferenceType"/>
@@ -119,9 +118,6 @@
 		<xs:element name="TeacherSchoolAssociation" type="SLC-TeacherSchoolAssociation"/>
 		<xs:element name="TeacherSectionAssociation" type="SLC-TeacherSectionAssociation"/>
 
-  		<!-- Entity types do not have corresponding reference type -->
-  		<xs:element name="StudentParentAssociation" type="StudentParentAssociation"/>
-	    <xs:element name="StudentSchoolAssociation" type="StudentSchoolAssociation"/>
 	    
 	  </xs:choice>
 	  
