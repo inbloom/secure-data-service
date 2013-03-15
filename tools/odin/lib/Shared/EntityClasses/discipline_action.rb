@@ -75,10 +75,12 @@ class DisciplineAction < BaseEntity
     @incidents       = [incident]
     @resp_ed_org_id  = ed_org_id
 
-    optional { @action_length   = DataUtility.select_random_from_options(@rand, (1..5).to_a) }
-    optional { @actual_length   = DataUtility.select_random_from_options(@rand, (0..@action_length).to_a) }
-    optional { @length_diff_rsn = :NO_DIFFERENCE if @action_length - @actual_length == 0 }
-    optional { @length_diff_rsn = :OTHER         if @action_length - @actual_length != 0 }
+    optional {
+      @action_length   = DataUtility.select_random_from_options(@rand, (1..5).to_a)
+      @actual_length   = DataUtility.select_random_from_options(@rand, (0..@action_length).to_a)
+      @length_diff_rsn = :NO_DIFFERENCE if @action_length - @actual_length == 0
+      @length_diff_rsn = :OTHER         if @action_length - @actual_length != 0
+    }
     optional { 
       members          = []
       members          << incident.staff_id unless incident.staff_id.nil?

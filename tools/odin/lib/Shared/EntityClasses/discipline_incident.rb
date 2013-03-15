@@ -91,8 +91,10 @@ class DisciplineIncident < BaseEntity
     reporter       = DataUtility.select_random_from_options(@rand, reporters)
     weapon         = DataUtility.select_random_from_options(@rand, weapons)
 
-    optional { @reporter_desc = reporter.value }
-    optional { @reporter_name = "Reported " + @reporter_desc + " Name" }
+    optional {
+      @reporter_desc = reporter.value
+      @reporter_name = "Reported " + @reporter_desc + " Name"
+    }
     optional { 
       @sec_behaviors = [] 
       @behaviors.each do |behavior| 
