@@ -23,7 +23,7 @@
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </GradebookEntry>
@@ -330,6 +330,4 @@
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
   </StudentCompetency>
-
-  
  </InterchangeStudentGrade>
