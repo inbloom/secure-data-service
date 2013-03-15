@@ -28,6 +28,7 @@
     <property name="messageReport" ref="databaseMessageReport" />
     <property name="sandboxEnabled" value="${sli.sandbox.enabled}" />
     <property name="excludeCollections" ref="excluded" />
+    <property name="purgeBatchSize" value="${sli.ingestion.purge.batch.size:30000}" />
   </bean>
 
   <bean name="ingestionProcessor" class="org.slc.sli.ingestion.processors.IngestionProcessor" abstract="true">
