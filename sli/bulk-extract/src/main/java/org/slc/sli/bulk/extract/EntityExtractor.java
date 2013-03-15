@@ -157,7 +157,7 @@ public class EntityExtractor implements Extractor {
 
     protected void processFuture(Future<File> future) {
         try {
-            future.get(DEFAULT_EXTRACTOR_JOB_TIME, TimeUnit.SECONDS);
+            future.get();
         } catch (Exception e) {
             LOG.error("Error while waiting for extractor job to be finished", e);
         }
