@@ -438,6 +438,9 @@ default:
         sli.search.indexer.sarje.sub.req.queue: /queue/subscription/poll
         sli.search.indexer.env: local
 
+        # bulk extract
+        sli.bulk.extract.output.directory: ./extract
+
 acceptance-tests:
     api:
         <<: *API-DEFAULT

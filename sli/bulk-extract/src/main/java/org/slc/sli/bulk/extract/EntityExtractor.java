@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
@@ -57,14 +58,14 @@ public class EntityExtractor implements Extractor {
     private static final int DEFAULT_EXTRACTOR_JOB_TIME = 600;
     private static final String ID_STRING = "id";
     private static final String TYPE_STRING = "entityType";
+    
+    private String baseDirectory;
 
     private List<String> entities;
 
     private Map<String, String> queriedEntities;
 
     private Map<String, List<String>> combinedEntities;
-
-    private String extractDir;
 
     private ExecutorService executor;
 
@@ -80,14 +81,13 @@ public class EntityExtractor implements Extractor {
         executor.shutdown();
     }
 
-    public void init(List<String> tenants, String outputDirectory) throws FileNotFoundException {
+    public void init(List<String> tenants) throws FileNotFoundException {
         setTenants(tenants);
-        setExtractDir(outputDirectory);
         init();
     }
     
     public void init() throws FileNotFoundException {
-        createExtractDir();
+        createBaseDir();
         // create thread pool to process files
         executor = Executors.newFixedThreadPool(executorThreads);
         if (runOnStartup) {
@@ -100,8 +100,8 @@ public class EntityExtractor implements Extractor {
         }
     }
 
-    public void createExtractDir() {
-        new File(extractDir).mkdirs();
+    public void createBaseDir() {
+        new File(baseDirectory).mkdirs();
     }
 
     @Override
@@ -110,7 +110,7 @@ public class EntityExtractor implements Extractor {
         List<Future<File>> futures = new LinkedList<Future<File>>();
         for (String tenant : tenants) {
             try {
-                OutstreamZipFile zipFile =new OutstreamZipFile(extractDir, tenant);
+                OutstreamZipFile zipFile =new OutstreamZipFile(getTenantDirectory(tenant), tenant);
                 call = executor.submit(new ExtractWorker(tenant, zipFile));
                 futures.add(call);
             } catch (FileNotFoundException e) {
@@ -137,7 +137,7 @@ public class EntityExtractor implements Extractor {
         // running at a time
         OutstreamZipFile zipFile = null;
         try {
-            zipFile = new OutstreamZipFile(extractDir, tenant);
+            zipFile = new OutstreamZipFile(getTenantDirectory(tenant), tenant);
         } catch (IOException e) {
             LOG.error("Error while extracting data for tenant " + tenant, e);
         }
@@ -224,9 +224,12 @@ public class EntityExtractor implements Extractor {
             entity.getBody().put(ID_STRING, entity.getEntityId());
         }
     }
-
-    public void setExtractDir(String extractDir) {
-        this.extractDir = extractDir;
+    
+    private String getTenantDirectory(String tenant) {
+        
+        File tenantDirectory = new File(baseDirectory, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
+        tenantDirectory.mkdirs();
+        return tenantDirectory.getPath();
     }
 
     public void setExecutorThreads(int executorThreads) {
@@ -255,6 +258,10 @@ public class EntityExtractor implements Extractor {
 
     public void setCombinedEntities(Map<String, List<String>> combinedEntities) {
         this.combinedEntities = combinedEntities;
+    }
+
+    public void setBaseDirectory(String baseDirectory) {
+        this.baseDirectory = baseDirectory;
     }
 
     /**

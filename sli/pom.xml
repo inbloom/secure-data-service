@@ -18,7 +18,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
         <sli.build.tools>1.0-SNAPSHOT</sli.build.tools>
-	<test.threadcount>2</test.threadcount>
         <!-- Maven Plugin Versions -->
         <maven.compiler.version>2.3.2</maven.compiler.version>
         <maven.jar.version>2.3.2</maven.jar.version>
@@ -1088,9 +1087,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
                 <configuration>
-		    <argLine>-Xms2G -Xmx6G -XX:PermSize=512m -XX:MaxPermSize=1024m -XX:NewRatio=1 -XX:+UseParallelGC -XX:+UseParallelOldGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps</argLine>
                     <runOrder>alphabetical</runOrder>
-                    <parallel>methods</parallel>
                     <threadCount>${test.threadcount}</threadCount>
                     <systemPropertyVariables>
                         <emma.rt.control>false</emma.rt.control>
@@ -1185,7 +1182,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
@@ -1211,8 +1208,8 @@
                     </execution>
                 </executions>
             </plugin>
-            
-            
+
+
         </plugins>
     </build>
     <reporting>
