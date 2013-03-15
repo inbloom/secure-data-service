@@ -19,7 +19,9 @@ import org.apache.camel.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
@@ -34,6 +36,14 @@ public final class BatchJobManager {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    public void setTenantId(Exchange exchange) {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        if (workNote != null) {
+            NewBatchJob currentJob = batchJobDAO.findBatchJobById(workNote.getBatchJobId());
+            TenantContext.setTenantId(currentJob.getTenantId());
+        }
+    }
 
     public boolean isDryRun(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);

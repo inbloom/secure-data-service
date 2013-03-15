@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+xmlns:amq="http://activemq.apache.org/schema/core"
+xmlns:jms="http://www.springframework.org/schema/jms"
+xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<import resource="classpath:/spring/validation.xml" />
+	<import resource="classpath:/spring/db.xml" />
+	<context:component-scan base-package="org.slc.sli.common.util.uuid" />
+	<context:component-scan base-package="org.slc.sli.common.domain" />
+	<context:component-scan base-package="org.slc.sli.validation" />
+	<context:annotation-config />
+	<tx:annotation-driven />
+	
+	<context:property-placeholder location="file:${sli.conf}" system-properties-mode="OVERRIDE" order="0"/>
+	
+	<util:list id="entities" value-type="java.lang.String">
+        <value>assessment</value>
+        <value>assessmentFamily</value>
+        <value>assessmentPeriodDescriptor</value>
+        <value>attendance</value>
+        <value>cohort</value>
+        <value>competencyLevelDescriptor</value>
+        <value>competencyLevelDescriptorType</value>
+        <value>course</value>
+        <value>courseOffering</value>
+        <value>courseTranscript</value>
+        <value>disciplineIncident</value>
+        <value>disciplineAction</value>
+        <value>educationOrganization</value>
+        <value>grade</value>
+        <value>gradebookEntry</value>
+        <value>gradingPeriod</value>
+        <value>graduationPlan</value>
+        <value>learningObjective</value>
+        <value>learningStandard</value>
+        <value>objectiveAssessment</value>
+        <value>parent</value>
+        <value>program</value>
+        <value>reportCard</value>
+        <value>school</value>
+        <value>section</value>
+        <value>session</value>
+        <value>staff</value>
+        <value>staffCohortAssociation</value>
+        <value>staffEducationOrganizationAssociation</value>
+        <value>staffProgramAssociation</value>
+        <value>student</value>
+        <value>studentAcademicRecord</value>
+        <value>studentAssessment</value>
+        <value>studentCohortAssociation</value>
+        <value>studentCompetency</value>
+        <value>studentCompetencyObjective</value>
+        <value>studentDisciplineIncidentAssociation</value>
+        <value>studentObjectiveAssessment</value>
+        <value>studentProgramAssociation</value>
+        <value>studentGradebookEntry</value>
+        <value>studentSchoolAssociation</value>
+        <value>studentSectionAssociation</value>
+        <value>studentParentAssociation</value>
+        <value>teacher</value>
+        <value>teacherSchoolAssociation</value>
+        <value>teacherSectionAssociation</value>
+    </util:list>
+
+    <util:map id="queriedEntities" key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="educationOrganization" value="educationOrganization" />
+        <entry key="school" value="educationOrganization" />
+        <entry key="staff" value="staff" />
+        <entry key="teacher" value="staff" />
+    </util:map>
+
+    <util:list id="educationOrganization" value-type="java.lang.String">
+        <value>localEducationAgency</value>
+        <value>stateEducationAgency</value>
+    </util:list>
+
+    <bean id="extractor" class="org.slc.sli.bulk.extract.EntityExtractor">
+         <property name="entityRepository" ref="mongoEntityRepository" />
+         <property name="entities" ref="entities" />
+         <property name="queriedEntities" ref="queriedEntities" />
+    </bean>
+    
+      <util:set id="tenantAgnosticCollections" value-type="java.lang.String">
+  </util:set>
+
+</beans>
