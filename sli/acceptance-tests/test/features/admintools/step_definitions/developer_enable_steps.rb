@@ -95,7 +95,10 @@ end
 Then /^I can see the on\-boarded states$/ do
   found = false
   for attempt in 1..5
-    sleep(2) if attempt > 1
+    if attempt > 1
+      puts "Did not find any states in select menu.  Retrying..."
+      sleep(2)
+    end
     found = true if @driver.find_elements(:css, 'div#state-menu select option').count > 1
   end
   assert(found, "At least one state should exist")
