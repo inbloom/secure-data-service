@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<InterchangeStudentDiscipline xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd">
+	<DisciplineIncident>
+		<IncidentIdentifier>Disruption</IncidentIdentifier>
+		<IncidentDate>2011-02-01</IncidentDate>
+		<IncidentTime>15:23:02</IncidentTime>
+		<IncidentLocation>On School</IncidentLocation>
+		<ReporterDescription>Student</ReporterDescription>
+		<ReporterName>Gold Finger</ReporterName>
+		<Behaviors>
+			<CodeValue>BEH01</CodeValue>
+		</Behaviors>
+		<Weapons>
+			<Weapon>Club</Weapon>
+		</Weapons>
+		<ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>mjohnson</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+	</DisciplineIncident>
+	<StudentDisciplineIncidentAssociation>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>800000025</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<DisciplineIncidentReference>
+			<DisciplineIncidentIdentity>
+				<IncidentIdentifier>Tardiness</IncidentIdentifier>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+			</DisciplineIncidentIdentity>
+		</DisciplineIncidentReference>
+		<StudentParticipationCode>Perpetrator</StudentParticipationCode>
+		<Behaviors>
+			<CodeValue>BEH02</CodeValue>
+		</Behaviors>
+	</StudentDisciplineIncidentAssociation>
+	<DisciplineAction>
+		<DisciplineActionIdentifier>cap0-lea0-sch1-da1</DisciplineActionIdentifier>
+		<Disciplines>
+			<Description>Suspension from school for a week</Description>
+		</Disciplines>
+		<DisciplineDate>2011-04-04</DisciplineDate>
+		<DisciplineActionLength>74</DisciplineActionLength>
+		<ActualDisciplineActionLength>64</ActualDisciplineActionLength>
+		<DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>800000025</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<DisciplineIncidentReference>
+			<DisciplineIncidentIdentity>
+				<IncidentIdentifier>Tardiness</IncidentIdentifier>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+			</DisciplineIncidentIdentity>
+		</DisciplineIncidentReference>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>mjohnson</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<ResponsibilitySchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</ResponsibilitySchoolReference>
+		<AssignmentSchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</AssignmentSchoolReference>
+	</DisciplineAction>
