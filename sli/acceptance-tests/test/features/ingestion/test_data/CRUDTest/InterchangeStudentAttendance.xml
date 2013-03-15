@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+
+  
+  <!-- Illustrative use of DELETE -->
+  <Action ActionType="DELETE" Cascade="true">
+	
+	<Item>
+	  <SchoolReference>
+    	<EducationalOrgReference>
+      		<EducationalOrgIdentity>
+	    		<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      		</EducationalOrgIdentity>
+    	</EducationalOrgReference>
+
+    	<StudentReference>
+      		<StudentIdentity>
+	    		<StudentUniqueStateId>100000017<StudentUniqueStateId>
+      		</StudentIdentity>
+    		</StudentReference>
+         </SchoolReference>
+	</Item>
+</Action>
+
+</InterchangeEducationOrganization>
