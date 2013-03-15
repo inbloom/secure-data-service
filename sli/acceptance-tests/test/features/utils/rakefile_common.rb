@@ -99,15 +99,17 @@ end
 
 class PropLoader
   @@yml = YAML.load_file(File.join(File.dirname(__FILE__),'properties.yml'))
-  @@modified=false
+  #@@modified=false
 
   def self.getProps
-    self.updateHash() unless @@modified
+    #self.updateHash() unless @@modified
+    self.updateHash()
     return @@yml
   end
 
   def self.update(key, val)
-    @@yml[key] = val
+    #@@yml[key] = val
+    ENV[key] = val
   end
 
   private
@@ -116,7 +118,7 @@ class PropLoader
     @@yml.each do |key, value|
       @@yml[key] = ENV[key] if ENV[key]
     end
-    @@modified=true
+    #@@modified=true
   end
 end
 
