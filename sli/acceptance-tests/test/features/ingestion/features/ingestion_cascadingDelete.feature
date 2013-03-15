@@ -90,7 +90,7 @@ Then I should see following map of entry counts in the corresponding collections
      | recordHash                               |                39|
      | reportCard                               |                 1|
      | schoolSessionAssociation                 |                 0|
-     | section                                  |                 4|
+     | section                                  |                 1|
      | sectionAssessmentAssociation             |                 0|
      | sectionSchoolAssociation                 |                 0|
      | session                                  |                 1|
