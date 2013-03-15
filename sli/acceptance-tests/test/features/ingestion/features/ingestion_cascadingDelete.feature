@@ -73,12 +73,9 @@ Then I should see following map of entry counts in the corresponding collections
      | competencyLevelDescriptor                |                 0|
      | course                                   |                 1|
      | courseOffering                           |                 1|
-     | courseSectionAssociation                 |                 0|
      | disciplineAction                         |                 1|
      | disciplineIncident                       |                 1|
      | educationOrganization                    |                 3|
-     | educationOrganizationAssociation         |                 0|
-     | educationOrganizationSchoolAssociation   |                 0|
      | grade                                    |                 1|
      | gradebookEntry                           |                 1|
      | gradingPeriod                            |                 1|
@@ -89,12 +86,8 @@ Then I should see following map of entry counts in the corresponding collections
      | program                                  |                 1|
      | recordHash                               |                39|
      | reportCard                               |                 1|
-     | schoolSessionAssociation                 |                 0|
      | section                                  |                 1|
-     | sectionAssessmentAssociation             |                 0|
-     | sectionSchoolAssociation                 |                 0|
      | session                                  |                 1|
-     | sessionCourseAssociation                 |                 0|
      | staff                                    |                 2|
      | staffCohortAssociation                   |                 1|
      | staffEducationOrganizationAssociation    |                 1|
