@@ -80,17 +80,17 @@ public class ZipFileValidator implements Validator<File> {
                 report.error(reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0009, zipFile.getName());
             }
         } catch (UnsupportedZipFeatureException ex) {
-            report.error(reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0022, zipFile.getName());
+            report.error(ex, reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0022, zipFile.getName());
 
             isValid = false;
         } catch (FileNotFoundException ex) {
-            report.error(reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0020, zipFile.getName());
+            report.error(ex, reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0020, zipFile.getName());
 
             isValid = false;
         } catch (IOException ex) {
             LOG.warn("Caught IO exception processing " + zipFile.getAbsolutePath());
 
-            report.error(reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0021, zipFile.getName());
+            report.error(ex, reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0021, zipFile.getName());
 
             isValid = false;
         } finally {

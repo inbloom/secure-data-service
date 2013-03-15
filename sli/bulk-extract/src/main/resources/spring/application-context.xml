@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+xmlns:amq="http://activemq.apache.org/schema/core"
+xmlns:jms="http://www.springframework.org/schema/jms"
+xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<import resource="classpath:/spring/validation.xml" />
+    <import resource="classpath:/spring/db.xml" />
+	<context:component-scan base-package="org.slc.sli.dal" />
+	<context:component-scan base-package="org.slc.sli.validation" />
+	<context:component-scan base-package="org.slc.sli.common.util.uuid" />
+	<context:annotation-config />
+	<tx:annotation-driven />   
+	
+    <bean id="validator" class="org.slc.sli.validation.schema.ApiNeutralSchemaValidator" />
+	
+	<task:scheduler id="scheduler" pool-size="5" />
+	
+    <util:map id="entities"  key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="assessment" value="assessment" />
+        <entry key="assessmentFamily" value="" />
+        <entry key="assessmentPeriodDescriptor" value="" />
+        <entry key="attendance" value="" />
+        <entry key="cohort" value="" />
+        <entry key="competencyLevelDescriptor" value="" />
+        <entry key="competencyLevelDescriptorType" value="" />
+        <entry key="course" value="" />
+        <entry key="courseOffering" value="" />
+        <entry key="courseTranscript" value="" />
+        <entry key="disciplineIncident" value="" />
+        <entry key="disciplineAction" value="" />
+        <entry key="educationOrganization" value="" />
+        <entry key="grade" value="" />
+        <entry key="gradebookEntry" value="" />
+        <entry key="gradingPeriod" value="" />
+        <entry key="graduationPlan" value="" />
+        <entry key="learningObjective" value="" />
+        <entry key="learningStandard" value="" />
+        <entry key="objectiveAssessment" value="" />
+        <entry key="parent" value="" />
+        <entry key="program" value="" />
+        <entry key="reportCard" value="" />
+        <entry key="school" value="" />
+        <entry key="section" value="" />
+        <entry key="session" value="" />
+        <entry key="staff" value="" />
+        <entry key="staffCohortAssociation" value="" />
+        <entry key="staffEducationOrganizationAssociation" value="" />
+        <entry key="staffProgramAssociation" value="" />
+        <entry key="student" value="" />
+        <entry key="studentAcademicRecord" value="" />
+        <entry key="studentAssessment" value="" />
+        <entry key="studentCohortAssociation" value="" />
+        <entry key="studentCompetency" value="" />
+        <entry key="studentCompetencyObjective" value="" />
+        <entry key="studentDisciplineIncidentAssociation" value="" />
+        <entry key="studentObjectiveAssessment" value="" />
+        <entry key="studentProgramAssociation" value="" />
+        <entry key="studentGradebookEntry" value="" />
+        <entry key="studentSchoolAssociation" value="" />
+        <entry key="studentSectionAssociation" value="" />
+        <entry key="studentParentAssociation" value="" />
+        <entry key="teacher" value="" />
+        <entry key="teacherSchoolAssociation" value="" />
+        <entry key="teacherSectionAssociation" value="" />
+    </util:map>
+
+    <util:map id="queriedEntities" key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="educationOrganization" value="educationOrganization" />
+        <entry key="school" value="educationOrganization" />
+        <entry key="staff" value="staff" />
+        <entry key="teacher" value="staff" />
+    </util:map>
+
+    <bean id="extractor" class="org.slc.sli.bulk.extract.EntityExtractor">
+         <property name="entities" ref="entities" />
+         <property name="queriedEntities" ref="queriedEntities" />
+         <property name="entityRepository" ref="mongoEntityRepository" />
+    </bean>
+
+</beans>

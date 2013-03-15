@@ -46,7 +46,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     private BatchJobDAO batchJobDAO;
 
     @Override
-    protected void reportError(ReportStats reportStats, Source source, MessageCode code, Object... args) {
+    protected void reportError(Throwable e, ReportStats reportStats, Source source, MessageCode code, Object... args) {
         String message = getMessage(reportStats, source, code, args);
         logError(message);
 

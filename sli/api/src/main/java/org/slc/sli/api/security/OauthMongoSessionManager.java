@@ -297,6 +297,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
             if (cached != null) {
                 auth = cached;
+                SLIPrincipal prince = (SLIPrincipal) auth.getPrincipal();
+                prince.clearObligations();
             } else {
                 Entity sessionEntity = findEntityForAccessToken(accessToken);
                 if (sessionEntity != null) {

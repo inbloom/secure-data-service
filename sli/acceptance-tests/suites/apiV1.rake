@@ -11,7 +11,7 @@ end
 desc "Run API V1 Granular Access Tests"
 task :apiV1GranularAccessTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/granular_access/")
+  runTests("test/features/apiV1/granular_access")
 end
 
 task :apiVersionTests => [:realmInit] do
@@ -21,7 +21,7 @@ end
 
 task :longLivedSessionTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/long_lived_session/")
+  runTests("test/features/apiV1/long_lived_session")
 end
 
 task :apiV1EntityTests => [:realmInit] do
