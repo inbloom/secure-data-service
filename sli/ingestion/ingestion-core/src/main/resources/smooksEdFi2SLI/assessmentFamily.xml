@@ -28,7 +28,7 @@
         <jb:wiring property="assessmentFamilyIdentificationCode" beanIdRef="AssessmentFamilyIdentificationCodeTypeArray"/>
         <jb:value property="assessmentFamilyReference" data="attributes AssessmentFamilyReference"/>
         <jb:value property="assessmentFamilyTitle" data="attributes AssessmentFamilyTitle _value"/>
-        <jb:value property="assessmentPeriodDescriptorId" data="attributes AssessmentPeriod"/>
+        <jb:wiring property="assessmentPeriods" beanIdRef="AssessmentPeriodReferenceTypeArray"/>
         <jb:value property="contentStandard" data="attributes ContentStandard _value"/>
         <jb:value property="gradeLevelAssessed" data="attributes GradeLevelAssessed _value"/>
         <jb:value property="lowestGradeLevelAssessed" data="attributes LowestGradeLevelAssessed _value"/>
@@ -44,6 +44,10 @@
 
     <jb:bean beanId="AssessmentFamilyIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="attributes">
         <jb:wiring beanIdRef="AssessmentFamilyIdentificationCodeType"/>
+    </jb:bean>
+
+    <jb:bean beanId="AssessmentPeriodReferenceTypeArray" class="java.util.ArrayList" createOnElement="attributes AssessmentPeriods">
+        <jb:value data="attributes AssessmentPeriods element"/>
     </jb:bean>
 
 </smooks-resource-list>
