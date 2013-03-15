@@ -40,8 +40,12 @@ public class SchemaReferenceNode {
     @Override
     public String toString() {
         String r = name;
-        if(isArray) r += '*';
-        if(references != null) r += "@" + references;
+        if(isArray) {
+            r += '*';
+        }
+        if(references != null) {
+            r += "@" + references;
+        }
         return r;
     }
 }
