@@ -101,12 +101,12 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation                  |                 1|
      | student                                  |                 1|
      | studentAcademicRecord                    |                 1|
-     | studentAssessment                        |                 0|
+     | studentAssessment                        |                 1|
      | studentCohortAssociation                 |                 1|
      | studentCompetency                        |                 1|
      | studentCompetencyObjective               |                 2|
      | studentDisciplineIncidentAssociation     |                 1|
-     | studentObjectiveAssessment               |                 0|
+     | studentObjectiveAssessment               |                 1|
      | studentParentAssociation                 |                 1|
      | studentProgramAssociation                |                 1|
      | studentSchoolAssociation                 |                 1|
@@ -115,6 +115,6 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                 1|
      | teacherSchoolAssociation                 |                 1|
      | teacherSectionAssociation                |                 1|
-    And I should see "Processed 43 records." in the resulting batch job file
+    And I should see "Processed 46 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
