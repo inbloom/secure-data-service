@@ -440,6 +440,8 @@ default:
 
         # bulk extract
         sli.bulk.extract.output.directory: ./extract
+        sli.bulk.extract.log.path: logs
+        sli.bulk.extract.log.level: INFO
 
 acceptance-tests:
     api:
