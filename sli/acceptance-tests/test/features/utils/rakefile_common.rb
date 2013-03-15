@@ -74,6 +74,24 @@ def allLeaAllowAppForTenant(appName, tenantName)
   enable_NOTABLESCAN()
 end
 
+def randomizeRcProdTenant()
+  PropLoader.update('tenant', "#{PropLoader.getProps['tenant']}_#{Time.now.to_i}")
+end
+
+def randomizeRcSandboxTenant()
+  email = PropLoader.getProps['developer_sb_email_imap_registration_user_email']
+  email2 = PropLoader.getProps['developer2_sb_email_imap_registration_user_email']
+  
+  emailParts = email.split("@")
+  randomEmail = "#{emailParts[0]}+#{Random.rand(1000)}"+"@"+"#{emailParts[1]}"
+  PropLoader.update('developer_sb_email_imap_registration_user_email', randomEmail)
+  PropLoader.update('sandbox_tenant', randomEmail)
+  
+  email2Parts = email2.split("@")
+  randomEmail2 = "#{email2Parts[0]}+#{Random.rand(1000)}"+"@"+"#{email2Parts[1]}"
+  PropLoader.update('developer2_sb_email_imap_registration_user_email', randomEmail2)
+end
+
 def convertTenantIdToDbName(tenantId)
   return Digest::SHA1.hexdigest tenantId
 end
@@ -86,6 +104,10 @@ class PropLoader
   def self.getProps
     self.updateHash() unless @@modified
     return @@yml
+  end
+
+  def self.update(key, val)
+    @@yml[key] = val
   end
 
   private

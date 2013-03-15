@@ -42,7 +42,6 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
 
 /**
  * Unit Tests for ValidationController
@@ -257,7 +256,7 @@ public class ValidationControllerTest {
 
         validationController.processControlFile(ctlFile.getParentFile(), ctlFile.getName(), reportStats);
 
-        Mockito.verify(messageReport).error(Matchers.any(ReportStats.class),
+        Mockito.verify(messageReport).error(Matchers.any(Throwable.class), Matchers.any(ReportStats.class),
                 Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0010), Matchers.anyString());
     }
 
