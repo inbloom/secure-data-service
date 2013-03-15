@@ -28,9 +28,6 @@
 	  <!-- Sequence of entities wrapped -->
 	  <xs:choice minOccurs="0" maxOccurs="unbounded">
 	  
-		<!-- Any complex type -->
-		<xs:element name="Item" type="ComplexObjectType"/>
-		
 	    <!-- All reference types  -->
 	    <xs:element name="Reference" type="ReferenceType"/>
   		<xs:element name="AccountReference" type="AccountReferenceType"/>
@@ -70,10 +67,61 @@
   		<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
   		<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
   		
+		<!-- All top level entity types from the Interchange schemas -->
+		<xs:element name="Assessment" type="SLC-Assessment"/>
+		<xs:element name="AssessmentFamily" type="AssessmentFamily"/>
+		<xs:element name="AssessmentItem" type="SLC-AssessmentItem"/>
+		<xs:element name="AssessmentPeriodDescriptor" type="AssessmentPeriodDescriptor"/>
+		<xs:element name="AttendanceEvent" type="SLC-AttendanceEvent"/>
+		<xs:element name="CalendarDate" type="SLC-CalendarDate"/>
+		<xs:element name="Cohort" type="SLC-Cohort"/>
+		<xs:element name="CompetencyLevelDescriptor" type="SLC-CompetencyLevelDescriptor"/>
+		<xs:element name="Course" type="SLC-Course"/>
+		<xs:element name="CourseOffering" type="SLC-CourseOffering"/>
+		<xs:element name="CourseTranscript" type="SLC-CourseTranscript"/>
+		<xs:element name="Diploma" type="Diploma"/>
+		<xs:element name="DisciplineAction" type="SLC-DisciplineAction"/>
+		<xs:element name="DisciplineIncident" type="SLC-DisciplineIncident"/>
+		<xs:element name="Grade" type="SLC-Grade"/>
+		<xs:element name="GradebookEntry" type="SLC-GradebookEntry"/>
+		<xs:element name="GradingPeriod" type="SLC-GradingPeriod"/>
+		<xs:element name="GraduationPlan" type="SLC-GraduationPlan"/>
+		<xs:element name="LearningObjective" type="SLC-LearningObjective"/>
+		<xs:element name="LearningStandard" type="SLC-LearningStandard"/>
+		<xs:element name="LocalEducationAgency" type="SLC-LocalEducationAgency"/>
+		<xs:element name="ObjectiveAssessment" type="SLC-ObjectiveAssessment"/>
+		<xs:element name="Parent" type="SLC-Parent"/>
+		<xs:element name="Program" type="SLC-Program"/>
+		<xs:element name="ReportCard" type="SLC-ReportCard"/>
+		<xs:element name="School" type="SLC-School"/>
+		<xs:element name="Section" type="SLC-Section"/>
+		<xs:element name="Session" type="SLC-Session"/>
+		<xs:element name="Staff" type="SLC-Staff"/>
+		<xs:element name="StaffCohortAssociation" type="SLC-StaffCohortAssociation"/>
+		<xs:element name="StaffEducationOrgAssignmentAssociation" type="SLC-StaffEducationOrgAssignmentAssociation"/>
+		<xs:element name="StaffProgramAssociation" type="SLC-StaffProgramAssociation"/>
+		<xs:element name="StateEducationAgency" type="SLC-StateEducationAgency"/>
+		<xs:element name="Student" type="SLC-Student"/>
+		<xs:element name="StudentAcademicRecord" type="SLC-StudentAcademicRecord"/>
+		<xs:element name="StudentAssessment" type="SLC-StudentAssessment"/>
+		<xs:element name="StudentAssessmentItem" type="SLC-StudentAssessmentItem"/>
+		<xs:element name="StudentCohortAssociation" type="SLC-StudentCohortAssociation"/>
+		<xs:element name="StudentCompetency" type="SLC-StudentCompetency"/>
+		<xs:element name="StudentCompetencyObjective" type="SLC-StudentCompetencyObjective"/>
+		<xs:element name="StudentDisciplineIncidentAssociation" type="SLC-StudentDisciplineIncidentAssociation"/>
+		<xs:element name="StudentGradebookEntry" type="SLC-StudentGradebookEntry"/>
+		<xs:element name="StudentObjectiveAssessment" type="SLC-StudentObjectiveAssessment"/>
+		<xs:element name="StudentParentAssociation" type="SLC-StudentParentAssociation"/>
+		<xs:element name="StudentProgramAssociation" type="SLC-StudentProgramAssociation"/>
+		<xs:element name="StudentSchoolAssociation" type="SLC-StudentSchoolAssociation"/>
+		<xs:element name="StudentSectionAssociation" type="SLC-StudentSectionAssociation"/>
+		<xs:element name="Teacher" type="SLC-Teacher"/>
+		<xs:element name="TeacherSchoolAssociation" type="SLC-TeacherSchoolAssociation"/>
+		<xs:element name="TeacherSectionAssociation" type="SLC-TeacherSectionAssociation"/>
+
   		<!-- Entity types do not have corresponding reference type -->
   		<xs:element name="StudentParentAssociation" type="StudentParentAssociation"/>
 	    <xs:element name="StudentSchoolAssociation" type="StudentSchoolAssociation"/>
-	    
 	    
 	  </xs:choice>
 	  
