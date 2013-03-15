@@ -12,9 +12,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter; 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +25,6 @@ public class ZipFileUtil {
     static final int BUFFER = 2048;
 
     public static File extract(File zipFile) throws IOException {
-
-        Date date = new Date();
-        Timestamp time = new Timestamp(date.getTime());
 
         String filePath = zipFile.getParentFile().getAbsolutePath() + File.separator + "unzip" + File.separator
                 + zipFile.getName().substring(0, zipFile.getName().lastIndexOf("."));

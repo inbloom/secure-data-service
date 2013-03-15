@@ -16,8 +16,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
 http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
 
-	<import resource="classpath:/spring/validation.xml" />
-	<import resource="classpath:/spring/db.xml" />
+    <import resource="classpath:/spring/validation.xml" />
+    <import resource="classpath:/spring/db.xml" />
+    
 	<context:component-scan base-package="org.slc.sli.common.util.uuid" />
 	<context:component-scan base-package="org.slc.sli.common.domain" />
 	<context:component-scan base-package="org.slc.sli.validation" />
@@ -87,10 +88,18 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <value>stateEducationAgency</value>
     </util:list>
 
+    <util:map id="combinedEntities" key-type="java.lang.String" value-type="java.util.List">
+        <entry key="educationOrganization">
+            <ref local="educationOrganization" />
+        </entry>
+    </util:map>
+
     <bean id="extractor" class="org.slc.sli.bulk.extract.EntityExtractor">
          <property name="entityRepository" ref="mongoEntityRepository" />
          <property name="entities" ref="entities" />
          <property name="queriedEntities" ref="queriedEntities" />
+         <property name="combinedEntities" ref="combinedEntities" />
+         <property name="baseDirectory" value="${sli.bulk.extract.output.directory:./extract}" />
     </bean>
     
       <util:set id="tenantAgnosticCollections" value-type="java.lang.String">
