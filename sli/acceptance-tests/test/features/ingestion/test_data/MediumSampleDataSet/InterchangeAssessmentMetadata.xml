@@ -192,8 +192,10 @@
 		<Version>1</Version>
 		<RevisionDate>2011-01-01</RevisionDate>
 		<Nomenclature>Nomenclature</Nomenclature>
-		<AssessmentPeriods>
-			<CodeValue>apd0</CodeValue>
+        <AssessmentPeriods>
+            <AssessmentPeriodDescriptorIdentity>
+                <AssessmentPeriodDescriptorCodeValue>apd0</AssessmentPeriodDescriptorCodeValue>
+            </AssessmentPeriodDescriptorIdentity>
 		</AssessmentPeriods>
 	</AssessmentFamily>
 	<Assessment>

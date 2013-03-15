@@ -1236,10 +1236,14 @@
         <RevisionDate>2011-01-01</RevisionDate>
         <Nomenclature>Nomenclature</Nomenclature>
         <AssessmentPeriods>
-            <CodeValue>apd0</CodeValue>
+            <AssessmentPeriodDescriptorIdentity>
+                <AssessmentPeriodDescriptorCodeValue>apd0</AssessmentPeriodDescriptorCodeValue>
+            </AssessmentPeriodDescriptorIdentity>
         </AssessmentPeriods>
         <AssessmentPeriods>
-            <CodeValue>apd0</CodeValue>
+            <AssessmentPeriodDescriptorIdentity>
+                <AssessmentPeriodDescriptorCodeValue>apd0</AssessmentPeriodDescriptorCodeValue>
+            </AssessmentPeriodDescriptorIdentity>
         </AssessmentPeriods>
     </AssessmentFamily>
     <AssessmentFamily>
@@ -1256,10 +1260,14 @@
         <RevisionDate>2011-01-01</RevisionDate>
         <Nomenclature>Nomenclature</Nomenclature>
         <AssessmentPeriods>
-            <CodeValue>apd2</CodeValue>
+            <AssessmentPeriodDescriptorIdentity>
+                <AssessmentPeriodDescriptorCodeValue>apd2</AssessmentPeriodDescriptorCodeValue>
+            </AssessmentPeriodDescriptorIdentity>
         </AssessmentPeriods>
         <AssessmentPeriods>
-            <CodeValue>apd3</CodeValue>
+            <AssessmentPeriodDescriptorIdentity>
+                <AssessmentPeriodDescriptorCodeValue>apd3</AssessmentPeriodDescriptorCodeValue>
+            </AssessmentPeriodDescriptorIdentity>
         </AssessmentPeriods>
     </AssessmentFamily>
     <AssessmentFamily>
@@ -1276,10 +1284,14 @@
         <RevisionDate>2011-01-01</RevisionDate>
         <Nomenclature>Nomenclature</Nomenclature>
         <AssessmentPeriods>
-            <CodeValue>apd2</CodeValue>
+            <AssessmentPeriodDescriptorIdentity>
+                <AssessmentPeriodDescriptorCodeValue>apd2</AssessmentPeriodDescriptorCodeValue>
+            </AssessmentPeriodDescriptorIdentity>
         </AssessmentPeriods>
         <AssessmentPeriods>
-            <CodeValue>apd4</CodeValue>
+            <AssessmentPeriodDescriptorIdentity>
+                <AssessmentPeriodDescriptorCodeValue>apd4</AssessmentPeriodDescriptorCodeValue>
+            </AssessmentPeriodDescriptorIdentity>
         </AssessmentPeriods>
     </AssessmentFamily>
     <Assessment>
