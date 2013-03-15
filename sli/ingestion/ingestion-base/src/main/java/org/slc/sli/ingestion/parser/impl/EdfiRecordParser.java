@@ -202,7 +202,7 @@ public class EdfiRecordParser extends DefaultHandler {
             }
         });
 
-        messageReport.error(reportStats, elementSource, BaseMessageCode.BASE_0027, ex.getMessage());
+        messageReport.error(ex, reportStats, elementSource, BaseMessageCode.BASE_0027, ex.getMessage());
     }
 
     @Override

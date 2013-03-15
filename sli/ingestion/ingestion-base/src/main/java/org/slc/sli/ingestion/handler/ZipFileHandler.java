@@ -46,7 +46,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<FileResource, Strin
             return ZipFileUtil.getControlFileName(zipFile);
         } catch (IOException e) {
             // we know more of our source
-            report.error(reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0025, zipFile.getName());
+            report.error(e, reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0025, zipFile.getName());
         }
 
         return null;

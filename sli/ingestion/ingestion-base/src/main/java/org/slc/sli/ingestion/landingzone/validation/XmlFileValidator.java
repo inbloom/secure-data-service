@@ -70,11 +70,11 @@ public class XmlFileValidator implements Validator<IngestionFileEntry> {
             }
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + entry.getFileName(), e);
-            report.error(reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0013, entry.getFileName());
+            report.error(e, reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0013, entry.getFileName());
             isEmpty = true;
         } catch (IOException e) {
             LOG.error("Problem reading file: " + entry.getFileName());
-            report.error(reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0014, entry.getFileName());
+            report.error(e, reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0014, entry.getFileName());
             isEmpty = true;
         } finally {
             IOUtils.closeQuietly(is);
