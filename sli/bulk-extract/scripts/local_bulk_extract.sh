@@ -58,7 +58,7 @@ function show_help {
 
 function run {
 echo $BULK_EXTRACT_OPT
-java $BULK_EXTRACT_OPT -Dsli.encryption.keyStore=/Users/ablum/git/sli/sli/data-access/dal/keyStore/ciKeyStore.jks -jar $DEFAULT_BULK_EXTRACTOR_JAR Midgar ~/
+java $BULK_EXTRACT_OPT -Dsli.encryption.keyStore=/Users/ablum/git/sli/sli/data-access/dal/keyStore/ciKeyStore.jks -jar $DEFAULT_BULK_EXTRACTOR_JAR Midgar
 }
 
 

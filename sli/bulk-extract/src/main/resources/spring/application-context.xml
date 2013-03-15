@@ -99,6 +99,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
          <property name="entities" ref="entities" />
          <property name="queriedEntities" ref="queriedEntities" />
          <property name="combinedEntities" ref="combinedEntities" />
+         <property name="baseDirectory" value="${sli.bulk.extract.output.directory:./extract}" />
     </bean>
     
       <util:set id="tenantAgnosticCollections" value-type="java.lang.String">
