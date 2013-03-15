@@ -93,7 +93,12 @@ Then /^I can see the on\-boarded states\/districts$/ do
 end
 
 Then /^I can see the on\-boarded states$/ do
-  assert(@driver.find_elements(:css, 'div#state-menu select option').count > 1, "At least one state should exist")
+  found = false
+  for attempt in 1..5
+    sleep(2) if attempt > 1
+    found = true if @driver.find_elements(:css, 'div#state-menu select option').count > 1
+  end
+  assert(found, "At least one state should exist")
 end
 
 When /^I select a state$/ do

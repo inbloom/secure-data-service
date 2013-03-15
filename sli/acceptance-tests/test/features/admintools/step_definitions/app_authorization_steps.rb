@@ -171,12 +171,16 @@ end
 
 Then /^the app "([^"]*)" Status becomes "([^"]*)"$/ do |app, arg1|
   rows = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{app}']/..")
+  visible_rows = []
   rows.each do |curRow|
     if curRow.displayed?
-      @row = curRow
+      visible_rows << curRow
       break
     end
   end
+  puts("Multiple rows found for app #{app}") if visible_rows.length > 1
+  assert(visible_rows.length != 0, "Could not find application #{app}")
+  @row = visible_rows[0]
   assertWithWait("Status should have switched to #{arg1}"){  @row.find_element(:xpath, ".//td[4]").text == arg1} 
 end
 

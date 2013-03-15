@@ -56,7 +56,6 @@ end
 
 desc "Run RC SAMT Tests"
 task :rcSamtTests do
-  puts "Tenant in rcSamtTests = #{PropLoader.getProps['tenant']}"
   runTests("test/features/cross_app_tests/rc_integration_samt.feature")
 end
 
@@ -183,7 +182,6 @@ task :rcTests do
   Rake::Task["rcDeleteLDAPUsers"].execute
   Rake::Task["rcTenantCleanUp"].execute # if tenant_exists
   randomizeRcProdTenant() if RUN_ON_RC
-  puts "Tenant in rcTests = #{PropLoader.getProps['tenant']}"
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
   Rake::Task["rcIngestionTests"].execute
@@ -193,9 +191,8 @@ task :rcTests do
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
-  Rake::Task["rcCleanUpTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
-
+  Rake::Task["rcCleanUpTests"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -218,8 +215,8 @@ task :rcSandboxTests do
     Rake::Task["rcSandboxDamtTests"].execute
     Rake::Task["rcSandboxDashboardTests"].execute
     Rake::Task["rcSandboxDatabrowserTests"].execute
-    Rake::Task["rcSandboxPurgeTests"].execute
     Rake::Task["rcSandboxCleanUpTests"].execute
+    Rake::Task["rcSandboxPurgeTests"].execute
   rescue
   ensure
     Rake::Task["rcDeleteSandboxLDAPUsers"].execute if RUN_ON_RC
