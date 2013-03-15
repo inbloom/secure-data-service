@@ -42,13 +42,8 @@ public class AssessmentPeriodDescriptorEntityConverter implements EntityConverte
     public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
         List<Map<String, Object>> entities = new ArrayList<Map<String, Object>>();
 
-        // return empty list as there is no need to delete anything for assessmentPeriodDescriptor
-        if (action == Action.DELETE) {
-            return entities;
-        }
-        
         // this is from sarje update event, that body is null
-        if (entityMap.get("body") == null) {
+        if (entityMap.get("body") == null && action != Action.DELETE) {
             DBObject apdQuery = new BasicDBObject("_id", entityMap.get("_id"));
             IndexConfig apdConfig = indexConfigStore.getConfig(ASSESSMENT_PERIOD_DESCRIPTOR);
             DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT_PERIOD_DESCRIPTOR, apdConfig.getFields(), apdQuery);
@@ -60,7 +55,7 @@ public class AssessmentPeriodDescriptorEntityConverter implements EntityConverte
         
         // if there is still no body field even after we look into mongo, there is nothing to index
         // for for this assessmentPeriodDescriptor, return empty list
-        if (entityMap.get("body") == null) {
+        if (entityMap.get("body") == null && action != Action.DELETE) {
             return entities;
         }
         
@@ -71,7 +66,9 @@ public class AssessmentPeriodDescriptorEntityConverter implements EntityConverte
         while (cursor.hasNext()) {
             DBObject obj = cursor.next();
             Map<String, Object> assessmentMap = obj.toMap();
-            ((Map<String, Object>) assessmentMap.get("body")).put(ASSESSMENT_PERIOD_DESCRIPTOR, entityMap.get("body"));
+            if (action != Action.DELETE) {
+                ((Map<String, Object>) assessmentMap.get("body")).put(ASSESSMENT_PERIOD_DESCRIPTOR, entityMap.get("body"));
+            }
             ((Map<String, Object>) assessmentMap.get("body")).remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID);
             entities.add(assessmentMap);
         }

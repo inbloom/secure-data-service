@@ -17,6 +17,7 @@ package org.slc.sli.search.transform.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
@@ -141,6 +142,18 @@ public class AssessmentPeriodDescriptorEntityConverterTest {
         assertEquals("red", apd.get("codeValue"));
         assertEquals("assessment", entities.get(0).get("type"));
     }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void deleteActionShouldRemoveAssessmentPeriodDescriptorID() {
+        when(cursor.hasNext()).thenReturn(true, false);
+        when(cursor.next()).thenReturn(buildAssessmentMap());
+        List<Map<String, Object>> entities = converter.treatment(INDEX, Action.DELETE, assessmentPeriodDescriptor);
+        assertEquals(1, entities.size());
+        Map<String, Object> body = (Map<String, Object>) entities.get(0).get("body");
+        assertNotNull(body);
+        assertNull(body.get(ASSESSMENT_PERIOD_DESCRIPTOR));
+    }
 
     private Map<String, Object> buildAssessmentPeriodDescriptorMap() {
         Map<String, Object> body = new HashMap<String, Object>();
@@ -156,6 +169,7 @@ public class AssessmentPeriodDescriptorEntityConverterTest {
         DBObject assessment = new BasicDBObject();
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(AssessmentEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR_ID, "apd_id");
+        body.put("title", "my title");
         assessment.put("type", "assessment");
         assessment.put("_id", "assessment_id");
         assessment.put("body", body);
