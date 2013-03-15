@@ -154,7 +154,7 @@ public class EntityRepositoryTest {
 
         // Test cascade=true and dryrun=true
         idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("student", idToDelete, true, true, maxObjects, access);
+        result = repository.safeDelete("student", idToDelete, true, true, 4, access);
 
         //   verify expected results
         assertEquals(3, result.nObjects);
@@ -163,7 +163,7 @@ public class EntityRepositoryTest {
         
         // Test cascade=true and dryrun=false
         idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("student", idToDelete, true, false, maxObjects, access);
+        result = repository.safeDelete("student", idToDelete, true, false, 3, access);
 
         //   verify expected results
         assertEquals(3, result.nObjects);
@@ -172,7 +172,7 @@ public class EntityRepositoryTest {
         
         // Test maxobjects
         idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("student", idToDelete, true, false, 1, access);
+        result = repository.safeDelete("student", idToDelete, true, false, 2, access);
 
         //   verify expected results
         assertEquals(3, result.nObjects);
@@ -187,6 +187,24 @@ public class EntityRepositoryTest {
         assertEquals(1, result.nObjects);
         assertEquals(1, result.depth);
         assertEquals(CascadeResult.ACCESS_DENIED, result.status);
+
+        // Test deletion from a non-existent collection
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("nonexistentCollection", idToDelete, true, false, maxObjects, accessDenied);
+
+        //   verify expected results
+        assertEquals(0, result.nObjects);
+        assertEquals(1, result.depth);
+        assertEquals(CascadeResult.DATABASE_ERROR, result.status);
+
+        // Test deletion of a non-existent id
+        idToDelete = prepareSafeDeleteData();
+        result = repository.safeDelete("student", "noMatchId", true, false, maxObjects, accessDenied);
+
+        //   verify expected results
+        assertEquals(0, result.nObjects);
+        assertEquals(1, result.depth);
+        assertEquals(CascadeResult.DATABASE_ERROR, result.status);
 
     }
 

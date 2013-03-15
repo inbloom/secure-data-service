@@ -682,7 +682,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
                                 result.depth = recursiveResult.depth;
                             }
 
-                            // update the overall status to be the latest non-SUCESS
+                            // update the overall status to be the latest non-SUCCESS
                             if (recursiveResult.status != CascadeResult.SUCCESS) {
                                 result.status = recursiveResult.status;
                             }
