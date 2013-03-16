@@ -77,7 +77,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     </util:list>
 
     <util:map id="queriedEntities" key-type="java.lang.String" value-type="java.lang.String">
-        <entry key="educationOrganization" value="educationOrganization" />
         <entry key="school" value="educationOrganization" />
         <entry key="staff" value="staff" />
         <entry key="teacher" value="staff" />

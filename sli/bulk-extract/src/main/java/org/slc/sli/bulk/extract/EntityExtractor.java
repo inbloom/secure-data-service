@@ -34,6 +34,8 @@ import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -174,17 +176,17 @@ public class EntityExtractor implements Extractor {
         LOG.info("Extracting " + entityName);
         Iterable<Entity> records = null;
         String collectionName = entityName;
-        Query query = new Query();
-        if (queriedEntities.containsKey(entityName)) {
-            collectionName = queriedEntities.get(entityName);
-            query.addCriteria(Criteria.where("type").is(entityName));
-        }
+        NeutralQuery nquery = new NeutralQuery();
         if (combinedEntities.containsKey(entityName)) {
-            query = new Query(Criteria.where("type").in(combinedEntities.get(entityName)));
-        }
+            nquery.addCriteria(new NeutralCriteria("type", "in", combinedEntities.get(entityName),false));
+        } else if (queriedEntities.containsKey(entityName)) {
+            collectionName = queriedEntities.get(entityName);
+            nquery.addCriteria(new NeutralCriteria("type", "=", entityName, false));
+        } 
+
         try {
             TenantContext.setTenantId(tenant);
-            records = entityRepository.findByQuery(collectionName, query, 0, 0);
+            records = entityRepository.findAll(collectionName, nquery);
             
             if(records.iterator().hasNext())
             {   
