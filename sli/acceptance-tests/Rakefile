@@ -574,7 +574,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :migrationTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :migrationTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests, :runAssmtSearchIndexer ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

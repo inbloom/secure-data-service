@@ -19,6 +19,9 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/common_stepdefs.rb'
 require_relative '../../apiV1/utils/api_utils.rb'
 require 'socket'
+require 'mongo'
+
+MIDGAR_DB_NAME = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"
 
 ############################### Before Scenario Do ################################
 
@@ -63,6 +66,106 @@ Given /^I flush the Indexer$/ do
   assert(@res != nil, "Response from rest-client POST is nil")
   puts @res
 end
+
+When /^I do elastic search for assessment in Midgar tenant$/ do
+      url = PropLoader.getProps['elastic_search_address'] + "/" + MIDGAR_DB_NAME + "/assessment/_search?from=0&size=100"
+      restHttpGetAbs(url)
+      assert(@res != nil, "Response from rest-client GET is nil")
+      #puts @res
+      result = JSON.parse(@res.body)
+      @index_entities = result["hits"]["hits"]
+      #puts @index_entities
+end
+
+Then /^I should see below records in response$/ do |table|
+    @table = table
+    verifyIndexerEntities(@index_entities,@table)
+end
+
+When /^I update some assessment records in mongo$/ do
+  updateAssmtEntityId = "e33ce38ad4136e409b426b1ffe7781d09aed2aec_id"
+  updateAPDId = "486b2868f8556c81e7d2094845bf3a40a0abef02_id"
+  
+  updateAssmtEntityBody =   
+  { 
+        "assessmentTitle"=>"READ2-MOY 2", 
+        "assessmentFamilyReference"=>"3e06112dd0cdb94f96c8dc55e770e5e51c65c6e7_id", 
+        "assessmentIdentificationCode"=>
+        [
+         {"identificationSystem"=>"LEA", 
+           "ID"=>"01234B"}
+         ], 
+         "academicSubject"=>"Reading", 
+         "assessmentCategory"=>"Benchmark test", 
+         "gradeLevelAssessed"=>"Second grade",
+         "lowestGradeLevelAssessed"=>"First grade", 
+         "assessmentPerformanceLevel"=>[
+           {
+             "performanceLevelDescriptor"=>
+             [
+             {"codeValue"=>"Level 1"}, 
+               {"description"=>"At or Above Benchmark"}
+                 ], 
+               "assessmentReportingMethod"=>"Composite Score", 
+               "minimumScore"=>190,
+               "maximumScore"=>380
+           }, 
+               {
+                 "performanceLevelDescriptor"=>
+                 [
+                   {"codeValue"=>"Level 2"}, 
+                     {"description"=>"Below Benchmark"}
+                       ], 
+                 "assessmentReportingMethod"=>"Composite Score", 
+                 "minimumScore"=>100, 
+                 "maximumScore"=>200
+               }, 
+                 {
+                   "performanceLevelDescriptor"=>[
+                     {"codeValue"=>"Level 3"}, 
+                     {"description"=>"Well Below Benchmark"}
+                       ], 
+                     "assessmentReportingMethod"=>"Composite Score", 
+                     "minimumScore"=>13, 
+                     "maximumScore"=>144}
+                     ], 
+                     "maxRawScore"=>380, 
+                     "minRawScore"=>13, 
+                     "contentStandard"=>"School Standard", 
+                     "version"=>2,
+                     "assessmentPeriodDescriptorId"=>"486b2868f8556c81e7d2094845bf3a40a0abef02_id"
+  }
+  
+  
+  updateAPDBody = {
+     "codeValue"=>"assessment_2012", 
+     "description"=>"updated_assessment", 
+     "beginDate"=>"2013-01-01", 
+     "endDate"=>"2013-02-01"}
+  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  mdb = conn.db(MIDGAR_DB_NAME)
+  
+  # update the assessment entity with id is e33ce38ad4136e409b426b1ffe7781d09aed2aec_id
+  assmt_coll = mdb["assessment"]
+  assmtEntity=assmt_coll.find_one({"_id"=>updateAssmtEntityId})
+  assert(assmtEntity, "cant find assmt entity with id: #{updateAssmtEntityId}")
+  assmtEntity["body"] = updateAssmtEntityBody
+  assmt_coll.save(assmtEntity)
+  
+  #update APD with id is 486b2868f8556c81e7d2094845bf3a40a0abef02_id
+  apd_coll = mdb["assessmentPeriodDescriptor"]
+  apdEntity = apd_coll.find_one({"_id"=> updateAPDId})
+  apdEntity["body"] = updateAPDBody
+  apd_coll.save(apdEntity)
+  
+  
+end
+
+When /^I send a command to start the extractor to update "(.*?)" tenant now$/ do |tenant|
+  sendCommand("reconcile #{tenant}")
+  sleep 10
+end
+
 
 # Current not being used
 Given /^I import some student data$/ do
@@ -298,9 +401,12 @@ def verifyElementsOnResponse(arrayOfElements, table)
       while (field.include? ".")
         delimiter = field.index('.') + 1
         length = field.length - delimiter      
-        current = field[0..delimiter-2]        
+        current = field[0..delimiter-2] 
+        puts current       
         field = field[delimiter,length]  
+        puts field
         currentRes = currentRes[current]   
+        puts currentRes
       end          
       value = currentRes[field]
       assert(value == row["Value"], "Expected #{row["Value"]} Actual #{value}" )
@@ -358,4 +464,45 @@ def sendCommand(command)
   socket.close 
 end
 
+def verifyIndexerEntities(arrayElements,table)
+  
+  table.hashes.each do |row|
+  id_field = row["_id"]
+  index_field = row["_index"]
+  type_field = row["_type"]
+    found = false
+    arrayElements.each do |indexEntity|
+      if indexEntity["_index"] == index_field and indexEntity["_id"] == id_field and indexEntity["_type"] == type_field
+        possibleValues = findPossibleNestedValue(row["Field"],indexEntity["_source"])
+          if !possibleValues.nil? and (possibleValues.include? row["Value"] or possibleValues.include? row["Value"].to_i or possibleValues.include? row["Value"].to_f)
+          found = true
+          end
+        break
+      end
+    end
+    assert(found,"didnt find indexer entity with _id: #{id_field}, _index: #{index_field}, _type: #{type_field}, Field: #{row["Field"]}, Value:#{row["Value"]}")
+  end
+  
+end
+
+def findPossibleNestedValue(field,resp,possibleValues=[])
+  currentResp = resp
+  while(field.include? ".")
+    delimiter = field.index('.') + 1
+    length = field.length - delimiter      
+    current = field[0..delimiter-2] 
+    field = field[delimiter,length]  
+    resp = resp[current]   
+    if resp.kind_of?(Array) 
+      resp.each do |elementResp|
+        findPossibleNestedValue(field,elementResp,possibleValues)
+      end
+    else
+      currentResp = resp
+    end
+  end
+  possibleValues << currentResp[field] if !currentResp[field].nil?
+  return possibleValues
+end
+  
 
