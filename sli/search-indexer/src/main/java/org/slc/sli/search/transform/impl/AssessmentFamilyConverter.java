@@ -16,11 +16,11 @@
 package org.slc.sli.search.transform.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.search.entity.IndexEntity.Action;
-import org.springframework.stereotype.Component;
 
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBCursor;
@@ -32,13 +32,13 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
         List<Map<String, Object>> results = new ArrayList<Map<String,Object>>();
         String id = entityMap.get("_id").toString();
-        String familyName = action == Action.DELETE ? "" : getName(index, entityMap);
+        String familyName = action == Action.DELETE ? "" : getName(index, entityMap).toString();
         results.addAll(addAssessmentsForFamilyId(id, familyName));
         return results;
     }
 
     /**
-     * Add the assessessments matching the given family id to the list to be updated
+     * Add the assessments matching the given family id to the list to be updated
      * 
      * @param id the family id
      * @param familyName the family name
@@ -61,9 +61,21 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
         return results;
     }
     
-    private String getName(String index, Map<String, Object> entityMap){
+    @SuppressWarnings("unchecked")
+    private StringBuilder getName(String index, Map<String, Object> entityMap){
         Map<String, Object> body = getBody(index, entityMap);
-        return body.get("assessmentFamilyTitle").toString();
+        String parentRef = (String) body.get("assessmentFamilyReference");
+        StringBuilder builder = new StringBuilder();
+        if(parentRef != null && !parentRef.equals("")) {
+            DBCursor cursor = getSourceDatastoreConnector().getDBCursor("assessmentFamily",
+                    Arrays.asList("body.assessmentFamilyReferece", "body.assessmentFamilyTitle"),
+                    BasicDBObjectBuilder.start().add("_id", parentRef).get());
+            if(cursor.hasNext()) {
+                builder = getName(index, cursor.next().toMap());
+                builder.append(".");
+            }
+        }
+        return builder.append(body.get("assessmentFamilyTitle").toString());
     }
     
     @Override

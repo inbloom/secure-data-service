@@ -36,8 +36,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -174,11 +172,11 @@ public class AssessmentEntityConverterTest {
         DBCursor family1Cursor = TestUtils.buildMockCursor(buildFamily("family1", "ChildFamily", "family2"));
         when(
                 sourceDatastoreConnector.getDBCursor(anyString(), eq(AssessmentEntityConverter.ASSESSMENT_FAMILY_COLLECTION), anyList(),
-                        argThat(buildIdMatcher("family1")))).thenReturn(family1Cursor);
+                        argThat(TestUtils.buildIdMatcher("family1")))).thenReturn(family1Cursor);
         DBCursor family2Cursor = TestUtils.buildMockCursor(buildFamily("family2", "ParentFamily", null));
         when(
                 sourceDatastoreConnector.getDBCursor(anyString(), eq(AssessmentEntityConverter.ASSESSMENT_FAMILY_COLLECTION), anyList(),
-                        argThat(buildIdMatcher("family2")))).thenReturn(family2Cursor);
+                        argThat(TestUtils.buildIdMatcher("family2")))).thenReturn(family2Cursor);
         List<Map<String, Object>> entities = assessmentConverter.treatment(INDEX, Action.INDEX, assessment);
         assertEquals(null, PropertyUtils.getProperty(entities, "[0].body.assessmentFamilyReference"));
         assertEquals("ParentFamily.ChildFamily",
@@ -207,20 +205,6 @@ public class AssessmentEntityConverterTest {
         body.put("assessmentFamilyTitle", title);
         body.put("assessmentFamilyReference", parent);
         return BasicDBObjectBuilder.start("body", body).add("_id", id).get();
-    }
-    
-    private BaseMatcher<DBObject> buildIdMatcher(final String id) {
-        return new BaseMatcher<DBObject>() {
-            
-            @Override
-            public boolean matches(Object arg0) {
-                return id.equals(((DBObject) arg0).get("_id"));
-            }
-            
-            @Override
-            public void describeTo(Description arg0) {
-            }
-        };
     }
     
 }

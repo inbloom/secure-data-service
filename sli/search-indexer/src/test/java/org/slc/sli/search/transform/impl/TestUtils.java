@@ -18,6 +18,9 @@ package org.slc.sli.search.transform.impl;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
@@ -34,6 +37,27 @@ public class TestUtils {
         when(cursor.hasNext()).thenReturn(true, false);
         when(cursor.next()).thenReturn(obj);
         return cursor;
+    }
+
+    public static DBCursor buildEmptyMockCursor() {
+        DBCursor cursor = mock(DBCursor.class);
+        when(cursor.hasNext()).thenReturn(false);
+        when(cursor.next()).thenReturn(null);
+        return cursor;
+    }
+
+    static BaseMatcher<DBObject> buildIdMatcher(final String id) {
+        return new BaseMatcher<DBObject>() {
+            
+            @Override
+            public boolean matches(Object arg0) {
+                return id.equals(((DBObject) arg0).get("_id"));
+            }
+            
+            @Override
+            public void describeTo(Description arg0) {
+            }
+        };
     }
     
 }

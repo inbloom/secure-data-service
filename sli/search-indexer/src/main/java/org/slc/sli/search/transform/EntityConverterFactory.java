@@ -19,7 +19,6 @@ import org.slc.sli.search.transform.impl.AssessmentEntityConverter;
 import org.slc.sli.search.transform.impl.AssessmentFamilyConverter;
 import org.slc.sli.search.transform.impl.AssessmentPeriodDescriptorEntityConverter;
 import org.slc.sli.search.transform.impl.GenericEntityConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class EntityConverterFactory {
 
