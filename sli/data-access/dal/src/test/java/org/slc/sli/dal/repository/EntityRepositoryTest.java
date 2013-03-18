@@ -98,177 +98,162 @@ public class EntityRepositoryTest {
         mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
-    // TODO add a test for deleteAttachedCustomEntities
+    private AccessibilityCheck access = new AccessibilityCheck() {
+        // grant access to all entities
+        // TODO exercise access denied logic
+        @Override
+        public boolean accessibilityCheck(String id) {
+            return true;
+        }
+    };
+
+    private AccessibilityCheck accessDenied = new AccessibilityCheck() {
+        int count = 0;
+        // grant access to no entities
+        // TODO exercise access denied logic
+        @Override
+        public boolean accessibilityCheck(String id) {
+            count++;
+            if (count > 1) {
+                // deny access after the first check
+                return false;
+            }
+            return true;
+        }
+    };
 
     @Test
     public void testSafeDelete() {
-
-        // CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access)
-
-        CascadeResult result = null;
-        String idToDelete = null;
-
-        Integer maxObjects = null;         // delete as many documents as needed
-        AccessibilityCheck access = new AccessibilityCheck() {
-            // grant access to all entities
-            // TODO exercise access denied logic
-            @Override
-            public boolean accessibilityCheck(String id) {
-                return true;
-            }
-        };
-
-        AccessibilityCheck accessDenied = new AccessibilityCheck() {
-            int count = 0;
-            // grant access to no entities
-            // TODO exercise access denied logic
-            @Override
-            public boolean accessibilityCheck(String id) {
-                count++;
-                if (count > 1) {
-                    // deny access after the first check
-                    return false;
-                }
-                return true;
-            }
-        };
-
-        // Mock the underlying safeDelete db access calls
-
-        // Test cascade=false and dryrun=true
-        idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("student", idToDelete, false, true, maxObjects, access);
-
-        //   verify expected results
-        assertEquals(3, result.getnObjects());
-        assertEquals(2, result.getDepth());
-        assertEquals(CascadeResult.Status.SUCCESS, result.getStatus());
-
-        //Test leaf node delete success : cascade=false and dryrun=false
-        idToDelete = prepareSafeDeleteLeafData();
-        result = repository.safeDelete("student", idToDelete, false, false, maxObjects, access);
-
-        //   verify expected results
-        assertEquals(1, result.getnObjects());
-        assertEquals(1, result.getDepth());
-        assertEquals(CascadeResult.Status.SUCCESS, result.getStatus());
+        // Test leaf node delete success : cascade=false and dryrun=false
+        testSafeDeleteHelper("session", null, false, false, null, access, true, 1, 1, CascadeResult.Status.SUCCESS);
 
         // Test leaf node delete failure : cascade=false and dryrun=false
-        idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("student", idToDelete, false, false, maxObjects, access);
+        testSafeDeleteHelper("session", null, false, false, null, access, false, 3, 2, CascadeResult.Status.CHILD_DATA_EXISTS);
 
-        //   verify expected results
-        assertEquals(3, result.getnObjects());
-        assertEquals(2, result.getDepth());
-        assertEquals(CascadeResult.Status.CHILD_DATA_EXISTS, result.getStatus());
+        // Test cascade=false and dryrun=true
+        testSafeDeleteHelper("session", null, false, true, null, access, false, 3, 2, CascadeResult.Status.SUCCESS);
 
         // Test cascade=true and dryrun=true
-        idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("student", idToDelete, true, true, 4, access);
-
-        //   verify expected results
-        assertEquals(3, result.getnObjects());
-        assertEquals(2, result.getDepth());
-        assertEquals(CascadeResult.Status.SUCCESS, result.getStatus());
+        testSafeDeleteHelper("session", null, true, true, null, access, false, 3, 2, CascadeResult.Status.SUCCESS);
 
         // Test cascade=true and dryrun=false
-        idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("student", idToDelete, true, false, 3, access);
-
-        //   verify expected results
-        assertEquals(3, result.getnObjects());
-        assertEquals(2, result.getDepth());
-        assertEquals(CascadeResult.Status.SUCCESS, result.getStatus());
+        testSafeDeleteHelper("session", null, true, false, null, access, false, 3, 2, CascadeResult.Status.SUCCESS);
 
         // Test maxobjects
-        idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("student", idToDelete, true, false, 2, access);
-
-        //   verify expected results
-        assertEquals(3, result.getnObjects());
-        assertEquals(2, result.getDepth());
-        assertEquals(CascadeResult.Status.MAX_OBJECTS_EXCEEDED, result.getStatus());
+        testSafeDeleteHelper("session", null, true, false, 2, access, false, 3, 2, CascadeResult.Status.MAX_OBJECTS_EXCEEDED);
 
         // Test access denied
-        idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("student", idToDelete, true, false, maxObjects, accessDenied);
-
-        //   verify expected results
-        assertEquals(1, result.getnObjects());
-        assertEquals(2, result.getDepth());
-        assertEquals(CascadeResult.Status.ACCESS_DENIED, result.getStatus());
+        testSafeDeleteHelper("session", null, true, false, null, accessDenied, false, 1, 2, CascadeResult.Status.ACCESS_DENIED);
 
         // Test deletion from a non-existent collection
-        idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("nonexistentCollection", idToDelete, true, false, maxObjects, access);
-
-        //   verify expected results
-        // TODO update these values for non-hardcoded relationship values once model work is hooked up
-        assertEquals(2, result.getnObjects());
-        assertEquals(2, result.getDepth());
-        assertEquals(CascadeResult.Status.DATABASE_ERROR, result.getStatus());
+        testSafeDeleteHelper("nonexistentCollection", null, true, false, null, access, false, 0, 1, CascadeResult.Status.DATABASE_ERROR);
 
         // Test deletion of a non-existent id
-        idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("student", "noMatchId", true, false, maxObjects, access);
+        testSafeDeleteHelper("session", "noMatchId", true, false, null, access, false, 0, 1, CascadeResult.Status.DATABASE_ERROR);
+
+        // TODO add a test for deleteAttachedCustomEntities
+}
+
+    private void testSafeDeleteHelper(String collectionName, String overridingId,
+            boolean cascade, boolean dryrun, Integer maxObjects, AccessibilityCheck access,
+            boolean leafDataOnly,
+            int expectedNObjects, int expectedDepth, CascadeResult.Status expectedStatus) {
+        CascadeResult result = null;
+        String idToDelete = prepareSafeDeleteSessionData(leafDataOnly);
+
+        // used to test bad id scenario
+        if (overridingId != null) {
+            idToDelete = overridingId;
+        }
+
+        result = repository.safeDelete(collectionName, idToDelete, cascade, dryrun, maxObjects, access);
 
         //   verify expected results
-        // TODO update these values for non-hardcoded relationship values once model work is hooked up
-        assertEquals(0, result.getnObjects());
-        assertEquals(1, result.getDepth());
-        assertEquals(CascadeResult.Status.DATABASE_ERROR, result.getStatus());
-
+        assertEquals(expectedNObjects, result.getnObjects());
+        assertEquals(expectedDepth, result.getDepth());
+        assertEquals(expectedStatus, result.getStatus());
     }
 
-    private void clearSafeDeleteData() {
-        repository.deleteAll("student", null);
-        repository.deleteAll("studentref", null);
-        repository.deleteAll("studentarrayref", null);
+    private void clearSafeDeleteSessionData() {
+        repository.deleteAll("session", null);
+        repository.deleteAll("courseOffering", null);
+        repository.deleteAll("studentAcademicRecord", null);
+        repository.deleteAll("section", null);
     }
 
-    private String prepareSafeDeleteLeafData() {
-        clearSafeDeleteData();
+    private String prepareSafeDeleteSessionLeafData() {
+        DBObject indexKeys =  new BasicDBObject("body.sessionName", 1);
+        mongoTemplate.getCollection("session").ensureIndex(indexKeys);
 
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
-        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
+        // create a minimal session document
+        Map<String, Object> sessionMap = new HashMap<String, Object>();
+        sessionMap.put("sessionName", "session1");
+        sessionMap.put("schoolId", "schoolId1");
+        repository.create("session", sessionMap);
 
-        Map<String, Object> studentMap = buildTestStudentEntity();
-        studentMap.put("studentUniqueStateId", "susId1");
-        repository.create("student", studentMap);
-
-        // get the db id of the student since we can't set it explicitly
+        // get the db id of the session since we can't set it explicitly
         NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("studentUniqueStateId=susId1"));
-        Entity student1 = repository.findOne("student", neutralQuery);
-        return student1.getEntityId();
+        neutralQuery.addCriteria(new NeutralCriteria("sessionName=session1"));
+        Entity session1 = repository.findOne("session", neutralQuery);
+        return session1.getEntityId();
     }
 
-    private String prepareSafeDeleteData() {
-        clearSafeDeleteData();
+    private String prepareSafeDeleteSessionData(boolean justLeaf) {
+        clearSafeDeleteSessionData();
 
-        // populate some test data
-        String idToDelete = prepareSafeDeleteLeafData();
+        // populate the leaf session entity to be deleted
+        String idToDelete = prepareSafeDeleteSessionLeafData();
 
-        // add fake referencing entity
-        Map<String, Object> studentrefMap = buildTestStudentEntity();
-        studentrefMap.put("studentReference", "notaMatchingId");
-        repository.create("studentref", studentrefMap); // add one non-matching document
-        studentrefMap.put("studentReference", idToDelete);
-        studentrefMap.put("studentReference2", idToDelete);
-        studentrefMap.put("noMatchstudentReference", "notaMatchingId");
-        repository.create("studentref", studentrefMap);
-
-        // add fake referencing entity with array reference field
-        Map<String, Object> studentarrayrefMap = buildTestStudentEntity();
-        repository.create("studentarrayref", studentarrayrefMap); // add one non-matching document
-        List<String> studentRefArray = new ArrayList<String>();
-        studentRefArray.add("dog");
-        studentRefArray.add(idToDelete);
-        studentRefArray.add("mousearama");
-        studentarrayrefMap.put("studentArrayReference", studentRefArray);
-        repository.create("studentarrayref", studentarrayrefMap);
+        if (!justLeaf) {
+            prepareSafeDeleteSessionReferenceData(idToDelete);
+        }
 
         return idToDelete;
+    }
+
+    private void prepareSafeDeleteSessionReferenceData(String idToDelete) {
+        DBObject indexKeys =  new BasicDBObject("body.sessionId", 1);
+        mongoTemplate.getCollection("courseOffering").ensureIndex(indexKeys);
+        mongoTemplate.getCollection("studentAcademicRecord").ensureIndex(indexKeys);
+        mongoTemplate.getCollection("section").ensureIndex(indexKeys);
+
+        // add referencing courseOffering entities
+        Map<String, Object> courseOfferingMap = new HashMap<String, Object>();
+        courseOfferingMap.put("sessionId", "notaMatchingId");
+        courseOfferingMap.put("schoolId", "schoolId1");
+        courseOfferingMap.put("localCourseTitle", idToDelete);
+        courseOfferingMap.put("localCourseCode", "localCourseCode1");
+        repository.create("courseOffering", courseOfferingMap); // add one non-matching document
+        courseOfferingMap.put("sessionId", idToDelete);
+        courseOfferingMap.put("localCourseTitle", "courseTitle1"); // overwrite
+        courseOfferingMap.put("localCourseCode", "localCourseCode2");  // overwrite
+        repository.create("courseOffering", courseOfferingMap); // add matching document
+
+        // add referencing studentAcademicRecord entities
+//        Map<String, Object> studentAcademicRecordMap = new HashMap<String, Object>();
+//        studentAcademicRecordMap.put("sessionId", "notaMatchingId");
+//        studentAcademicRecordMap.put("studentId", idToDelete); // matching id in a different field
+//        studentAcademicRecordMap.put("schoolYear", "2012-2013");
+//        repository.create("studentAcademicRecord", studentAcademicRecordMap); // add one non-matching document
+//        studentAcademicRecordMap.put("sessionId", idToDelete);
+//        studentAcademicRecordMap.put("studentId", "studentId1");    // overwrite
+//        repository.create("studentAcademicRecord", studentAcademicRecordMap); // add matching document
+
+        // add referencing section entity with array reference field
+        Map<String, Object> sectionMap = new HashMap<String, Object>();
+        sectionMap.put("schoolId", "schoolId1");
+        sectionMap.put("uniqueSectionCode", "uniqueSectionCode1");
+        List<String> sessionRefArray = new ArrayList<String>();
+        sessionRefArray.add("dog");
+        sessionRefArray.add("mousearama");
+        sectionMap.put("sessionId", sessionRefArray);
+        repository.create("section", sectionMap); // add one non-matching document
+        sectionMap.put("schoolId", "schoolId1");    // overwrite
+        sectionMap.put("uniqueSectionCode", "uniqueSectionCode2");    // overwrite
+        // add the matching id
+        sessionRefArray.add(idToDelete);    // modify existing value
+        sectionMap.put("sessionId", sessionRefArray);
+        repository.create("section", sectionMap);
     }
 
     @Test

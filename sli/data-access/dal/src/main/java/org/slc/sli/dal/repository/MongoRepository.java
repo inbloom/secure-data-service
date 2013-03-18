@@ -50,6 +50,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.validation.schema.SchemaReferencesMetaData;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -68,8 +69,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Autowired
     private MongoQueryConverter queryConverter;
 
-//    @Autowired
-//    private ModelProvider modelProvider;
+    @Autowired
+    private SchemaReferencesMetaData schemaRefMetaData;
 
     @Value("${sli.maxCascadeDeleteDepth:200}")
     private Integer maxCascadeDeleteDepth;
@@ -503,8 +504,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
 
         boolean isArrayField(String field) {
-            // TODO use common/../ModelProvider instead of hardcoding
-            if ("studentArrayReference".equals(field)) {
+            // TODO use schemaRefMetaData instead of hardcoding
+            if ("section".equals(entity) && "sessionId".equals(field)) {
                 return true;
             }
 
@@ -521,8 +522,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
         CascadeResult result = null;
         Set<String> deletedIds = new HashSet<String>();
 
-        // Always do a dryrun
-        result = safeDeleteHelper(collectionName, id, cascade, Boolean.TRUE, maxObjects, access, 0, deletedIds);
+        // Always do a cascading dryrun first since even in non-cascade cases we detect whether the id is a leaf
+        // by checking the number of objects that would be deleted by a cascade
+        result = safeDeleteHelper(collectionName, id, Boolean.TRUE, Boolean.TRUE, maxObjects, access, 0, deletedIds);
 
         if (!dryrun && result.getStatus() == CascadeResult.Status.SUCCESS) {
             if (!cascade && result.getnObjects() > 1) {
@@ -590,20 +592,17 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // Do the cascade part of the delete - clean up the referencers first
         // Simulate deleting references for dryruns so we can determine if the non-cascade delete is a leaf
         // based on the number of objects reported by the dryrun
-        if (cascade || dryrun) {
+        if (cascade) {
 
             // TODO call model interface to get list of referencing entity types and fields rather than hardcode for unittest
-//        List<ModelReferencingEntity> ref_entities = modelProvider.getReferencingEntities(collectionName);
+//        List<List<SchemaReferenceNode>> ref_entities = schemaRefMetaData.getReferencesTo("session");
             List<ModelReferencingEntity> ref_entities = new ArrayList<ModelReferencingEntity>();
-            if (result.getDepth() == 1) {
+            if ("session".equals(collectionName) && result.getDepth() == 1) {
                 List<String> fields = new ArrayList<String>();
-                fields.add("studentReference");
-                fields.add("studentReference2");
-                fields.add("noMatchstudentReference");
-                ref_entities.add(new ModelReferencingEntity("studentref", fields));
-
-                fields.add("studentArrayReference");
-                ref_entities.add(new ModelReferencingEntity("studentarrayref", fields));
+                fields.add("sessionId");
+                ref_entities.add(new ModelReferencingEntity("courseOffering", fields));
+                ref_entities.add(new ModelReferencingEntity("studentAcademicRecord", fields));
+                ref_entities.add(new ModelReferencingEntity("section", fields));
             }
 
             // Loop over entities that reference the deleted entity's type
