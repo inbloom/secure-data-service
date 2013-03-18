@@ -18,6 +18,8 @@ package org.slc.sli.bulk.extract;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -139,14 +141,16 @@ public class EntityExtractor implements Extractor {
         // TODO: implement isRunning flag to make sure only one extract is
         // running at a time
         OutstreamZipFile zipFile = null;
+        Date startTime = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String timeStamp = df.format(startTime);
         try {
-            zipFile = new OutstreamZipFile(getTenantDirectory(tenant), tenant);
+            zipFile = new OutstreamZipFile(getTenantDirectory(tenant), tenant + "-" + timeStamp);
         } catch (IOException e) {
             LOG.error("Error while extracting data for tenant " + tenant, e);
         }
         TenantContext.setTenantId(tenant);
 
-        Date startTime = new Date();
         for (String entity : entities) {
             extractEntity(tenant, zipFile, entity);
         }
