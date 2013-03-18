@@ -31,13 +31,13 @@ function configure {
         DEFAULT_MAX_MEMORY="1024m"
         DEFAULT_MIN_MEMORY="1024m"
 
+        JAVA_OPT="-Dfile.encoding=UTF-8"
+
         CHECK_SLI_CONF=0
         CHECK_KEYSTORE=0
 
-        RUN_EXTRACT=0
+        RUN_EXTRACT=1
         RUN_HELP=0
-        RUN_STOP=0
-        RUN_START=0
 
         SLI_CONF="sli.conf"
         SLI_ENCRYPTION_KEYSTORE="sli.encryption.keyStore"
@@ -48,16 +48,67 @@ function configure {
     fi
 }
 
+function readOption {
+   if [ ${1:0:2} == "-D" ]; then
+      PROPERTY=`echo ${1:2} |cut -d'=' -f1`
+      FILE_LOCATION=`echo ${1:2} |cut -d'=' -f2`
+      if [ ${PROPERTY} == ${SLI_CONF} ]; then
+         CHECK_SLI_CONF=${FILE_LOCATION}
+      elif [ ${PROPERTY} == ${SLI_ENCRYPTION_KEYSTORE} ]; then
+         CHECK_KEYSTORE=${FILE_LOCATION}
+      else
+         JAVA_OPT="${JAVA_OPT} ${1}"
+      fi
+   elif [ ${1:0:2} == "-X" ]; then
+      PROPERTY=${1:2:2}
+      if [ ${PROPERTY} == "mx" ]; then
+         DEFAULT_MAX_MEMORY=${1:4}
+      elif [ ${PROPERTY} == "ms" ]; then
+         DEFAULT_MIN_MEMORY=${1:4}
+      else
+         JAVA_OPT="${JAVA_OPT} ${1}"
+      fi
+   elif [ ${1:0:2} == "-t" ]; then
+      DEFAULT_TENANT=${1:2}
+   elif [ ${1} == "help" ]; then
+      RUN_EXTRACT=0
+      RUN_HELP=1
+   else
+      RUN_EXTRACT=0
+      RUN_HELP=1
+   fi
+}
+
 function show_help {
-    echo "TBD help"
+   echo "# run bulk-extract with default"
+   echo "./local_bulk_extract.sh"
+   echo "# run bulk-extract with specifying memory"
+   echo "./local_bulk_extract.sh -Xms<size>[g|G|m|M|k|K] -Xmx<size>[g|G|m|M|k|K]"
+   echo "# run bulk-extract with specifying conf and keyStore files"
+   echo "./local_bulk_extract.sh -D${SLI_CONF}=<file> -D${SLI_ENCRYPTION_KEYSTORE}=<file>"
+   echo "# run bulk-extract with specifying tenant"
+   echo "./local_bulk_extract.sh -t<tenant>"
 }
 
 function run {
+    stat=0
+    if [ ${RUN_EXTRACT} == 0 -a ${RUN_HELP} == 0 ]; then
+      RUN_HELP=1
+    fi
+
+    if [ ${RUN_HELP} == 1 ]; then
+        show_help
+        return $stat
+    fi
+
     T="$(date +%s)"
     echo "$(date): bulk-extracter Starting with $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT"
-    java $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT -jar $DEFAULT_BULK_EXTRACTOR_JAR $DEFAULT_TENANT
+    java -Xms$DEFAULT_MIN_MEMORY -Xmx$DEFAULT_MAX_MEMORY $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT -jar $DEFAULT_BULK_EXTRACTOR_JAR $DEFAULT_TENANT
+    stat=$?
     T="$(($(date +%s)-T))"
     echo "$(date): bulk-extracter Finished in $T seconds"
+
+    return $stat
 }
 
 
@@ -65,7 +116,12 @@ function run {
 # MAIN
 ############
 configure
+
+for OPT in $*
+do
+   readOption "$OPT"
+done
+
 echo $ROOT
 #Execute
 run
-exit 0
