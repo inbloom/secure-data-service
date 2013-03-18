@@ -157,6 +157,7 @@
     <value>tenantJobLock</value>
     <value>userSession</value>
     <value>userAccount</value>
+    <value>bulkExtractFiles</value>
   </util:set>
 
 </beans>
