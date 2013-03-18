@@ -14,7 +14,7 @@ end
 Then /^I should see that my role is "(.*?)"$/ do |role|
   restHttpGet("/system/session/check", "application/json")
   check = JSON.parse(@res.body)
-  assert(check["sliRoles"].include?("Educator"), "Should be an Educator") 
+  assert(check["sliRoles"].include?(role), "Expected #{role} got #{check["sliRoles"]}") 
 end
 
 
