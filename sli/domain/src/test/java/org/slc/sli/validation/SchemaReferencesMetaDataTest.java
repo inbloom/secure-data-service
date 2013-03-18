@@ -17,31 +17,13 @@
 
 package org.slc.sli.validation;
 
-import ch.qos.logback.core.joran.conditional.ElseAction;
-import com.google.common.collect.ArrayListMultimap;
-import org.aspectj.apache.bcel.classfile.AnnotationDefault;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.*;
-import org.slc.sli.validation.schema.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.*;
-
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
+import org.slc.sli.validation.schema.SchemaReferencesMetaData;
 
 
 
@@ -55,7 +37,7 @@ public class SchemaReferencesMetaDataTest {
     @Test
     public void aggregateForeignKeyReferences() {
         System.out.println("\n*******************************************");
-        System.out.println(schemaRefMetaData.getReferencesTo("educationOrganization"));;
+        System.out.println(schemaRefMetaData.getReferencesTo("session"));;
         System.out.println("*******************************************");
     }
 
