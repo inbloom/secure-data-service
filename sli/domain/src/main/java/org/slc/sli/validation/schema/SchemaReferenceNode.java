@@ -1,17 +1,16 @@
 package org.slc.sli.validation.schema;
 
-/**
- * Created with IntelliJ IDEA.
- * User: ldalgado
- * Date: 3/15/13
- * Time: 5:13 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class SchemaReferenceNode {
 
     String name;
     String references;
-    boolean isArray = false;
+    Long minOccurs = null;
+    Long maxOccurs = null;
+
+    public SchemaReferenceNode(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;
@@ -30,22 +29,27 @@ public class SchemaReferenceNode {
     }
 
     public boolean isArray() {
-        return isArray;
+        return (minOccurs != null && minOccurs > 1) || (maxOccurs !=null && maxOccurs > 1);
     }
 
-    public void setArray(boolean array) {
-        isArray = array;
+    public Long getMinOccurs() {
+        return minOccurs;
+    }
+
+    public void setMinOccurs(Long minOccurs) {
+        this.minOccurs = minOccurs;
+    }
+
+    public Long getMaxOccurs() {
+        return maxOccurs;
+    }
+
+    public void setMaxOccurs(Long maxOccurs) {
+        this.maxOccurs = maxOccurs;
     }
 
     @Override
     public String toString() {
-        String r = name;
-        if(isArray) {
-            r += '*';
-        }
-        if(references != null) {
-            r += "@" + references;
-        }
-        return r;
+        return String.format("%-37s %-4d %-4d", name, minOccurs, maxOccurs);
     }
 }
