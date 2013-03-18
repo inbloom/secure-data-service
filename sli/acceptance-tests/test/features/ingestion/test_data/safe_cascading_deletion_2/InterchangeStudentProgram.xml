@@ -4,12 +4,12 @@
 	<StudentProgramAssociation>
 		<StudentReference>
 			<StudentIdentity>
-				<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				<StudentUniqueStateId>100000000</StudentUniqueStateId>
 			</StudentIdentity>
 		</StudentReference>
 		<ProgramReference>
 			<ProgramIdentity>
-				<ProgramId>ACC-TEST-PROG-1</ProgramId>
+				<ProgramId>ACC-TEST-PROG-2</ProgramId>
 			</ProgramIdentity>
 		</ProgramReference>
 		<BeginDate>2011-03-01</BeginDate>

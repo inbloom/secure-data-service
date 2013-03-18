@@ -6,7 +6,7 @@
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
 	<!-- CalendarDates for the 2010-2011 school year -->
 	<CalendarDate>
-		<Date>2010-08-23</Date>
+		<Date>2010-09-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
 			<EducationalOrgIdentity>
@@ -23,12 +23,12 @@
 				<StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<BeginDate>2010-08-23</BeginDate>
+		<BeginDate>2010-09-23</BeginDate>
 		<EndDate>2010-10-03</EndDate>
 		<TotalInstructionalDays>29</TotalInstructionalDays>
 		<CalendarDateReference>
 			<CalendarDateIdentity>
-				<Date>2010-08-23</Date>
+				<Date>2010-09-23</Date>
 				<EducationOrgReference>
 					<EducationalOrgIdentity>
 						<StateOrganizationId>IL</StateOrganizationId>

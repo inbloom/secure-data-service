@@ -2,7 +2,7 @@
 <InterchangeStudentCohort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentCohort.xsd">
   <Cohort>
-    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
+    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
 	<CohortDescription>Statewide academic intervention cohort for English</CohortDescription>
 	<CohortType>Academic Intervention</CohortType>
 	<CohortScope>Statewide</CohortScope>
@@ -14,19 +14,19 @@
 	</EducationOrgReference>
 	<ProgramReference>
 	  <ProgramIdentity>
-	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
+	    <ProgramId>ACC-TEST-PROG-2</ProgramId>
 	  </ProgramIdentity>
 	</ProgramReference>
   </Cohort>
    <StudentCohortAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>800000025</StudentUniqueStateId>
+	    <StudentUniqueStateId>100000000</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<CohortReference>
 	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
+	    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -39,12 +39,12 @@
   <StaffCohortAssociation>
     <StaffReference>
     <StaffIdentity>
-      <StaffUniqueStateId>mjohnson</StaffUniqueStateId>
+      <StaffUniqueStateId>badmin</StaffUniqueStateId>
     </StaffIdentity>
   </StaffReference>
   <CohortReference>
     <CohortIdentity>
-      <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
+      <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>

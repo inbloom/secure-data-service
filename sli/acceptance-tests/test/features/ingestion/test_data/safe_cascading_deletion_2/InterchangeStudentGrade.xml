@@ -23,7 +23,7 @@
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </GradebookEntry>
@@ -45,7 +45,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+            <UniqueSectionCode>Sec 145</UniqueSectionCode>
           </SectionIdentity>
         </SectionReference>
         <BeginDate>2011-09-01</BeginDate>
@@ -63,7 +63,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+            <UniqueSectionCode>Sec 145</UniqueSectionCode>
           </SectionIdentity>
         </SectionReference>
       </GradebookEntryIdentity>
@@ -156,7 +156,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-             <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+             <UniqueSectionCode>Sec 145</UniqueSectionCode>
           </SectionIdentity>
         </SectionReference>
         <BeginDate>2011-09-01</BeginDate>
@@ -191,7 +191,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-             <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+             <UniqueSectionCode>Sec 145</UniqueSectionCode>
           </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference>
@@ -222,7 +222,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-             <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+             <UniqueSectionCode>Sec 145</UniqueSectionCode>
           </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference>
@@ -264,7 +264,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                   </EducationalOrgIdentity>
                 </EducationalOrgReference>
-                 <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+                 <UniqueSectionCode>Sec 145</UniqueSectionCode>
               </SectionIdentity>
             </SectionReference>
             <BeginDate>2011-09-01</BeginDate>
@@ -323,7 +323,7 @@
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-             <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+             <UniqueSectionCode>Sec 145</UniqueSectionCode>
           </SectionIdentity>
         </SectionReference>
         <BeginDate>2011-09-01</BeginDate>
