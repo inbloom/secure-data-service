@@ -15,10 +15,8 @@
 */
 package org.slc.sli.bulk.extract;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.domain.Entity;
@@ -53,22 +51,19 @@ public class BulkExtractMongoDA {
      */
     public void updateDBRecord(String tenantId, String path, Date date) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(TENANT_ID, "=", tenantId));
-        Map<String, Object> newFile = new HashMap<String, Object>();
-        newFile.put(FILE_PATH, path);
-        newFile.put(DATE, date);
 
         if (entityRepository.findOne(BULK_EXTRACT_COLLECTION ,query) == null) {
             Map<String, Object> body = new HashMap<String, Object>();
             body.put(TENANT_ID, tenantId);
-            List<Map<String, Object>> fileList = new ArrayList<Map<String, Object>>();
-            fileList.add(newFile);
-            body.put(FILE_PATH, fileList);
+            body.put(FILE_PATH, path);
+            body.put(DATE, date);
             entityRepository.create(BULK_EXTRACT_COLLECTION, body);
             LOG.info("Finished creating bulk extract record");
         }
         else {
             Update update = new Update();
-            update.addToSet("body." + FILE_PATH, newFile);
+            update.set("body." + FILE_PATH, path);
+            update.set("body." + DATE, date);
             entityRepository.doUpdate(BULK_EXTRACT_COLLECTION, query, update);
             LOG.info("Finished updating bulk extract record");
         }

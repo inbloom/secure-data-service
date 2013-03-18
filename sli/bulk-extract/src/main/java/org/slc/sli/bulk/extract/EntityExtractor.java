@@ -146,6 +146,7 @@ public class EntityExtractor implements Extractor {
         }
         TenantContext.setTenantId(tenant);
 
+        Date startTime = new Date();
         for (String entity : entities) {
             extractEntity(tenant, zipFile, entity);
         }
@@ -153,11 +154,10 @@ public class EntityExtractor implements Extractor {
         // Rename temp zip file to permanent.
         try {
             zipFile.renameTempZipFile();
+            bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getZipFile().getAbsolutePath(), startTime);
         } catch (IOException e) {
             LOG.error("Error attempting to create zipfile " + zipFile.getZipFile().getPath(), e);
         }
-
-        bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getZipFile().getAbsolutePath(), new Date());
     }
 
     protected void processFuture(Future<File> future) {
