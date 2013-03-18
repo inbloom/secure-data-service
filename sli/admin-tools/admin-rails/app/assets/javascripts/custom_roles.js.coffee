@@ -1,15 +1,10 @@
-<<<<<<< HEAD
-defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE", "READ_PUBLIC", "WRITE_PUBLIC"]
+defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE", "READ_PUBLIC", "WRITE_PUBLIC", "BULK_EXTRACT"]
 selfRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED"]
 ROLE_COL = "td:eq(0)";
 RIGHT_COL = "td:eq(1)";
 SELF_RIGHT_COL = "td:eq(2)";
 ADMIN_COL = "td:eq(3)";
 EDIT_COL = "td:eq(4)";
-=======
-defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE", "READ_PUBLIC", "BULK_EXTRACT"]
-
->>>>>>> bca284f... US5481 Bulk extract added.  Tests for the feature added
 jQuery ->
   unless initCustomRoleScripts?
     return
