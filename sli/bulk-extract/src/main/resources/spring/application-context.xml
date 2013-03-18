@@ -29,12 +29,9 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	
 	<util:list id="entities" value-type="java.lang.String">
         <value>assessment</value>
-        <value>assessmentFamily</value>
-        <value>assessmentPeriodDescriptor</value>
         <value>attendance</value>
         <value>cohort</value>
         <value>competencyLevelDescriptor</value>
-        <value>competencyLevelDescriptorType</value>
         <value>course</value>
         <value>courseOffering</value>
         <value>courseTranscript</value>
@@ -105,8 +102,5 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     <bean id="bulkExtractMongoDA" class="org.slc.sli.bulk.extract.BulkExtractMongoDA">
          <property name="entityRepository" ref="mongoEntityRepository" />
     </bean>
-    
-      <util:set id="tenantAgnosticCollections" value-type="java.lang.String">
-  </util:set>
 
 </beans>
