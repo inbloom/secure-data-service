@@ -22,7 +22,7 @@ Background: None
 #new
      When I navigate to GET "/<ASSESSMENT URI>"
       Then I should receive a return code of 200
-      And I should have a list of 17 "assessment" entities
+      And I should have a list of 18 "assessment" entities
 #/new     
      When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>"
       Then I should have a list of 10 "assessment" entities
