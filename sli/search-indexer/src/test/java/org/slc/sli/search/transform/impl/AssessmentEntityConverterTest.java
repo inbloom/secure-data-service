@@ -23,7 +23,6 @@ import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.InvocationTargetException;
@@ -172,11 +171,11 @@ public class AssessmentEntityConverterTest {
     @Test
     public void testBuildingFamilyOnAssessmentUpdate() throws IllegalAccessException, InvocationTargetException,
             NoSuchMethodException {
-        DBCursor family1Cursor = buildMockCursor(buildFamily("family1", "ChildFamily", "family2"));
+        DBCursor family1Cursor = TestUtils.buildMockCursor(buildFamily("family1", "ChildFamily", "family2"));
         when(
                 sourceDatastoreConnector.getDBCursor(anyString(), eq(AssessmentEntityConverter.ASSESSMENT_FAMILY_COLLECTION), anyList(),
                         argThat(buildIdMatcher("family1")))).thenReturn(family1Cursor);
-        DBCursor family2Cursor = buildMockCursor(buildFamily("family2", "ParentFamily", null));
+        DBCursor family2Cursor = TestUtils.buildMockCursor(buildFamily("family2", "ParentFamily", null));
         when(
                 sourceDatastoreConnector.getDBCursor(anyString(), eq(AssessmentEntityConverter.ASSESSMENT_FAMILY_COLLECTION), anyList(),
                         argThat(buildIdMatcher("family2")))).thenReturn(family2Cursor);
@@ -222,13 +221,6 @@ public class AssessmentEntityConverterTest {
             public void describeTo(Description arg0) {
             }
         };
-    }
-    
-    private DBCursor buildMockCursor(final DBObject obj) {
-        DBCursor cursor = mock(DBCursor.class);
-        when(cursor.hasNext()).thenReturn(true, false);
-        when(cursor.next()).thenReturn(obj);
-        return cursor;
     }
     
 }

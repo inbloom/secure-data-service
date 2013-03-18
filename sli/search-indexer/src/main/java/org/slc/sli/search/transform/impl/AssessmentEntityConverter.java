@@ -54,27 +54,34 @@ public class AssessmentEntityConverter implements EntityConverter {
         
         // no need to denormalize anything if it's a delete operation
         if (action != Action.DELETE) {
-            Map<String, Object> body = (Map<String, Object>) assessmentEntityMap.get("body");
-            
-            // from sarge update event, body is null
-            if (body == null) {
-                DBObject assessmentQuery = new BasicDBObject("_id", assessmentEntityMap.get("_id"));
-                IndexConfig assessmentConfig = indexConfigStore.getConfig(ASSESSMENT);
-                DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT, assessmentConfig.getFields(),
-                        assessmentQuery);
-                if (cursor.hasNext()) {
-                    assessmentEntityMap = cursor.next().toMap();
-                    body = (Map<String, Object>) assessmentEntityMap.get("body");
-                }
-            }
+            Map<String, Object> body = getBody(index, assessmentEntityMap);
             
             if (body != null) {
                 body.put(ASSESSMENT_PERIOD_DESCRIPTOR, extractPeriodDescriptor(index, body));
                 body.put(ASSESSMENT_FAMILY_HIERARCHY, extractFamilyHierarchy(index, body));
+                assessmentEntityMap.put("body", body);
             }
         }
         
         return Arrays.asList(assessmentEntityMap);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Map<String, Object> getBody(String index, Map<String, Object> assessmentEntityMap) {
+        Map<String, Object> body = (Map<String, Object>) assessmentEntityMap.get("body");
+        
+        // from sarge update event, body is null
+        if (body == null) {
+            DBObject assessmentQuery = new BasicDBObject("_id", assessmentEntityMap.get("_id"));
+            IndexConfig assessmentConfig = indexConfigStore.getConfig(ASSESSMENT);
+            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT, assessmentConfig.getFields(),
+                    assessmentQuery);
+            if (cursor.hasNext()) {
+                Map<String, Object> newAssessmentEntityMap = cursor.next().toMap();
+                body = (Map<String, Object>) newAssessmentEntityMap.get("body");
+            }
+        }
+        return body;
     }
     
     @Override
@@ -129,5 +136,14 @@ public class AssessmentEntityConverter implements EntityConverter {
     public void setSourceDatastoreConnector(SourceDatastoreConnector sourceDatastoreConnector) {
         this.sourceDatastoreConnector = sourceDatastoreConnector;
     }
+
+    protected SourceDatastoreConnector getSourceDatastoreConnector() {
+        return sourceDatastoreConnector;
+    }
+
+    protected IndexConfigStore getIndexConfigStore() {
+        return indexConfigStore;
+    }
+
 
 }
