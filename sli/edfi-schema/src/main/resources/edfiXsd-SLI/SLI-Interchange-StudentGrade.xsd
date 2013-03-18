@@ -21,6 +21,8 @@
 				<xs:element name="CompetencyLevelDescriptor" type="CompetencyLevelDescriptor"/>
 				<xs:element name="LearningObjective" type="SLC-LearningObjective"/>
 				<xs:element name="StudentCompetencyObjective" type="SLC-StudentCompetencyObjective"/>
+				
+				<xs:element name="Action" type="SLC-ActionType"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

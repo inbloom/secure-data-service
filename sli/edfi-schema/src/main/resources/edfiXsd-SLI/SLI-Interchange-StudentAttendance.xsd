@@ -11,6 +11,8 @@
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="AttendanceEvent" type="SLC-AttendanceEvent"/>
+				
+				<xs:element name="Action" type="SLC-ActionType"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

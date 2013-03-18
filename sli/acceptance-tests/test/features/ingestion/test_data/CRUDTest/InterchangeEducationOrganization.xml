@@ -25,7 +25,7 @@
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>3rd Grade Homeroom</UniqueCourseId>
+        <UniqueCourseId>5th-Grade-Homeroom-3</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
 
@@ -36,11 +36,11 @@
       </LocationIdentity>
     </LocationReference>
     
-   </ProgramReference>
-     <ProgramIdentity>
-     	<programId>ACC-TEST-PROG-2</programId>
-     </ProgramIdentity>
    <ProgramReference>
+     <ProgramIdentity>
+     	<ProgramId>ACC-TEST-PROG-1</ProgramId>
+     </ProgramIdentity>
+   </ProgramReference>
 	   	
 
   </Action>
@@ -59,6 +59,7 @@
     </StudentReference>
     
     <!-- ... followed by the new data, which may change the key -->
+    
     <Student>
       <StudentUniqueStateId>98765432</StudentUniqueStateId>
       <Name>
@@ -87,7 +88,7 @@
       <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
       <LoginId>2895@fakemail.com</LoginId>
     </Student>
-    
+   
   </Action>
   
 </InterchangeEducationOrganization>

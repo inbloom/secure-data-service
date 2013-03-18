@@ -4,9 +4,9 @@ Feature: Sample Data Set Ingestion Timimg
 Background: I have a landing zone route configured
 Given I am using local data store
 
-Scenario: Post Small Sample Data Set
+Scenario: Test insert dataset 
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-  And I post "cascading_deletion.zip" file as the payload of the ingestion job
+  And I post "prep_cascading_deletion.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
@@ -57,7 +57,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
 When zip file is scp to ingestion landing zone
-  And a batch job for file "cascading_deletion.zip" is completed in database
+  And a batch job for file "prep_ascading_deletion.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
@@ -104,5 +104,103 @@ Then I should see following map of entry counts in the corresponding collections
      | teacherSchoolAssociation                 |                 1|
      | teacherSectionAssociation                |                 1|
     And I should see "Processed 49 records." in the resulting batch job file
+    And I should not see an error log file created
+	And I should not see a warning log file created
+@wip	
+Scenario: delete basic student
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+  And I post "prpe_cascading_deletion.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+     | collectionName                            |
+     | student                                   |
+     | studentParentAssociation                  |
+     | studentAssessment                         |
+     | studentAcademicRecord                     |
+     | studentProgramAssociation                 |
+     | attendance                                |
+     | studentSchoolAssociation                  |
+     | studentSectionAssociation                 |
+     | parent                                    |
+     | diploma                                   |
+     | reportCard                                |
+     | session                                   |
+     | educationOrganization                     |
+     | program                                   |
+     | section                                   |
+     | school                                    |
+     | graduationPlan                            |
+     | course                                    |
+     | courseTranscript                          |
+     | studentGradebookEntry                     |
+     | gradebookEntry                            |
+     | assessment                                |
+     | disciplineIncident                        |
+     | disciplineAction                          |
+     | studentDisciplineIncidentAssociation      |
+When zip file is scp to ingestion landing zone
+  And a batch job for file "prpe_cascading_deletion.zip" is completed in database
+  And a batch job log has been created
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                            |              count|
+     | student                                   |					1|
+     | studentParentAssociation                  |					1|
+     | studentAssessment                         |					1|
+     | studentAcademicRecord                     |					1|
+     | studentProgramAssociation                 |					1|
+     | attendance                                |					1|
+     | studentSchoolAssociation                  |					1|
+     | studentSectionAssociation                 |					1|
+     | parent                                    |					1|
+     | diploma                                   |					1|
+     | reportCard                                |					1|
+     | session                                   |					1|
+     | educationOrganization                     |					1|
+     | program                                   |					1|
+     | section                                   |					1|
+     | school                                    |					1|
+     | graduationPlan                            |					1|
+     | course                                    |					1|
+     | courseTranscript                          |					1|
+     | studentGradebookEntry                     |					1|
+     | gradebookEntry                            |					1|
+     | assessment                                |					1|
+     | disciplineIncident                        |					1|
+     | disciplineAction                          |					1|
+     | studentDisciplineIncidentAssociation      |					1|
+    And I should see "Processed 49 records." in the resulting batch job file
+    And I should not see an error log file created
+	And I should not see a warning log file created
+	And I post "cascading_deletion_student.zip" file as the payload of the ingestion job
+	When zip file is scp to ingestion landing zone
+    And a batch job for file "cascading_deletion_student.zip" is completed in database
+    And a batch job log has been created
+	Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                            |              count|
+     | student                                   |					0|
+     | studentParentAssociation                  |					0|
+     | studentAssessment                         |					0|
+     | studentAcademicRecord                     |					0|
+     | studentProgramAssociation                 |					0|
+     | attendance                                |					0|
+     | studentSchoolAssociation                  |					0|
+     | studentSectionAssociation                 |					0|
+     | parent                                    |					1|
+     | diploma                                   |					1|
+     | reportCard                                |					0|
+     | session                                   |					1|
+     | educationOrganization                     |					1|
+     | program                                   |					1|
+     | section                                   |					1|
+     | school                                    |					1|
+     | graduationPlan                            |					1|
+     | course                                    |					1|
+     | courseTranscript                          |					0|
+     | studentGradebookEntry                     |					0|
+     | gradebookEntry                            |					1|
+     | assessment                                |					1|
+     | disciplineIncident                        |					1|
+     | disciplineAction                          |					0|
+     | studentDisciplineIncidentAssociation      |					0|
+    And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
