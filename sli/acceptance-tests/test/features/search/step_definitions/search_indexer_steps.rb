@@ -142,6 +142,59 @@ When /^I update some assessment records in mongo$/ do
      "description"=>"updated_assessment", 
      "beginDate"=>"2013-01-01", 
      "endDate"=>"2013-02-01"}
+     
+  updateOA = [
+    {
+      "type" => "objectiveAssessment",
+      "_id" => "49da176bc1b8025d5a6c2855cebfec421a418541_idfe14cc91fa32a668208a1ea2b9fac0df193fdb26_id",
+      "body" => {
+        "nomenclature" => "updated-Nomenclature",
+        "identificationCode" => "2004-First grade Assessment 2.OA-0 Sub",
+        "percentOfAssessment" => 60,
+        "assessmentItemRefs" => [
+          "49da176bc1b8025d5a6c2855cebfec421a418541_id7b95f8ecea0d09751d711509609be46ed8d81758_id",
+          "49da176bc1b8025d5a6c2855cebfec421a418541_id734e6f72fcd15f68b580aec31c6bf918ee6df278_id"
+        ],
+        "assessmentId" => "49da176bc1b8025d5a6c2855cebfec421a418541_id",
+        "assessmentPerformanceLevel" => [
+          {
+            "performanceLevelDescriptor" => [
+              {
+                "codeValue" => "code1"
+              }
+            ],
+            "assessmentReportingMethod" => "Number score",
+            "minimumScore" => 10,
+            "maximumScore" => 60
+          }
+        ],
+        "learningObjectives" => [
+          "18f258460004b33fa9c1249b8c9ed3bd33c41645_id",
+          "c19a0f38f598ba8d6d8b7968efd1861f754dcc04_id",
+          "43ebe40d85cb70c4dc00ed94ee9f68cfae0c5d1a_id",
+          "ff84d3d1c6594847234ab13f8cc8bcd2a45bb75d_id",
+          "8f8b1ff4fd3459d3ab1bc54c9deb3581820e0bac_id"
+        ],
+        "maxRawScore" => 50
+      }
+    }  
+  ]
+  
+  updateAI =  [
+  {
+    "type" => "assessmentItem",
+    "_id" => "49da176bc1b8025d5a6c2855cebfec421a418541_id29dffcc6126fc40afd39abe470e80f56e0ce9225_id",
+    "body" => {
+      "identificationCode" => "2004-First grade Assessment 2#4",
+      "assessmentId" => "49da176bc1b8025d5a6c2855cebfec421a418541_id",
+      "correctResponse" => "false",
+      "itemCategory" => "True-False",
+      "maxRawScore" => 20
+    }
+  }
+  ]
+
+
   conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
   mdb = conn.db(MIDGAR_DB_NAME)
   
@@ -157,6 +210,19 @@ When /^I update some assessment records in mongo$/ do
   apdEntity = apd_coll.find_one({"_id"=> updateAPDId})
   apdEntity["body"] = updateAPDBody
   apd_coll.save(apdEntity)
+  
+  #update OA in assessment with id is 49da176bc1b8025d5a6c2855cebfec421a418541_id
+  
+  updateAssmtEntityId = "49da176bc1b8025d5a6c2855cebfec421a418541_id"
+  assmtEntity = assmt_coll.find_one({"_id"=>updateAssmtEntityId})
+  assert(assmtEntity, "cant find assmt entity with id: #{updateAssmtEntityId}")
+  assmtEntity["objectiveAssessment"]= updateOA
+  assmtEntity["assessmentItem"] = updateAI
+  assmt_coll.save(assmtEntity)
+  
+  
+  
+  #update AI in assessment with id is 49da176bc1b8025d5a6c2855cebfec421a418541_id
   
   
 end
@@ -492,7 +558,7 @@ def findPossibleNestedValue(field,resp,possibleValues=[])
     length = field.length - delimiter      
     current = field[0..delimiter-2] 
     field = field[delimiter,length]  
-    resp = resp[current]   
+    resp = resp[current] if !resp.kind_of?(Array) 
     if resp.kind_of?(Array) 
       resp.each do |elementResp|
         findPossibleNestedValue(field,elementResp,possibleValues)
