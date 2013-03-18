@@ -72,6 +72,8 @@ Scenario: Verify entities in education organization calendar were ingested corre
     And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                   | searchType           |
      | assessmentFamily            | 13                  | body.assessmentFamilyReference           | 8a66422e6a4756a0c412b5856d94ae30fab650ca_id   | string               |
+     | assessmentFamily            | 1                   | body.assessmentPeriods                   | 8d6d7b017c9b865f2a932d8aaf615bf4394361b5_id   | string               |
+     | assessmentPeriodDescriptor  | 1                   | _id                                      | 8d6d7b017c9b865f2a932d8aaf615bf4394361b5_id   | string               |
      | assessment                  | 2                   | body.assessmentPeriodDescriptorId        | 5b074ef7c104dd0cdd2e4f65d554c3ae5adf073f_id   | string               |
      | assessment                  | 2                   | body.assessmentFamilyReference           | c32be9ce85a4a387c7dc407277d1a8db99b8446e_id   | string               |
      | session                     | 1                   | body.sessionName                         | 2001-2002 Year Round session: IL-DAYBREAK     | string               |
