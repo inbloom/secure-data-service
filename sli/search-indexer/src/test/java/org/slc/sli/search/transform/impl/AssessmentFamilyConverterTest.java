@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -50,7 +52,11 @@ public class AssessmentFamilyConverterTest {
     private SourceDatastoreConnector sourceDatastoreConnector;
     @Mock
     private IndexConfigStore indexConfigStore;
+    private DBObject childFamily = buildFamily("Child", "family1", "parent");
+    private DBObject parentFamily = buildFamily("Parent", "parent", "grandParent");
+    private DBObject grandParentFamily = buildFamily("GrandParent", "grandParent", "ggparent");
     
+    @SuppressWarnings("unchecked")
     @Before
     public void setup() {
         sourceDatastoreConnector = mock(SourceDatastoreConnector.class);
@@ -58,14 +64,24 @@ public class AssessmentFamilyConverterTest {
         when(indexConfigStore.getConfig(AssessmentEntityConverter.ASSESSMENT)).thenReturn(new IndexConfig());
         converter.setIndexConfigStore(indexConfigStore);
         converter.setSourceDatastoreConnector(sourceDatastoreConnector);
+        DBCursor assessmentCursor = TestUtils.buildMockCursor(buildAssessment());
+        DBCursor emptyCursor = TestUtils.buildEmptyMockCursor();
+        when(sourceDatastoreConnector.getDBCursor(eq("assessment"), anyList(), any(DBObject.class))).thenReturn(emptyCursor);
+        when(sourceDatastoreConnector.getDBCursor(eq("assessment"), anyList(), argThat(buildAssessmentFamilyReferenceMatcher("family1")))).thenReturn(assessmentCursor);
+        DBCursor childFamilyCursor = TestUtils.buildMockCursor(childFamily);
+        DBCursor parentFamilyCursor = TestUtils.buildMockCursor(parentFamily);
+        DBCursor grandParentFamilyCursor = TestUtils.buildMockCursor(grandParentFamily);
+        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), any(DBObject.class))).thenReturn(emptyCursor);
+        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), argThat(TestUtils.buildIdMatcher("family1")))).thenReturn(childFamilyCursor);
+        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), argThat(TestUtils.buildIdMatcher("parent")))).thenReturn(parentFamilyCursor);
+        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), argThat(TestUtils.buildIdMatcher("grandParent")))).thenReturn(grandParentFamilyCursor);
+        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), argThat(buildAssessmentFamilyReferenceMatcher("parent")))).thenReturn(childFamilyCursor);
+        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), argThat(buildAssessmentFamilyReferenceMatcher("grandParent")))).thenReturn(parentFamilyCursor);
    }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testSimpleUpdateAF() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        DBObject assessment = buildAssessment();
-        DBCursor cursor = TestUtils.buildMockCursor(assessment);
-        when(sourceDatastoreConnector.getDBCursor(eq("assessment"), anyList(), any(DBObject.class))).thenReturn(cursor);
         Map<String, Object> family = buildFamily("simple", "family1", "").toMap();
         List<Map<String, Object>> results = converter.treatment("Midgar", Action.UPDATE, family);
         assertEquals("simple", PropertyUtils.getProperty(results, "[0].body.assessmentFamilyHierarchyName"));
@@ -73,19 +89,26 @@ public class AssessmentFamilyConverterTest {
     
     @SuppressWarnings("unchecked")
     @Test
-    public void testUpdateSubFamily() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        DBCursor assessmentCursor = TestUtils.buildMockCursor(buildAssessment());
-        DBCursor parentFamilyCursor = TestUtils.buildMockCursor(buildFamily("Parent", "parent", "grandParent"));
-        DBCursor grandParentFamilyCursor = TestUtils.buildMockCursor(buildFamily("GrandParent", "grandParent", "ggparent"));
-        DBCursor emptyCursor = TestUtils.buildEmptyMockCursor();
-        when(sourceDatastoreConnector.getDBCursor(eq("assessment"), anyList(), any(DBObject.class))).thenReturn(assessmentCursor);
-        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), any(DBObject.class))).thenReturn(emptyCursor);
-        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), argThat(TestUtils.buildIdMatcher("parent")))).thenReturn(parentFamilyCursor);
-        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), argThat(TestUtils.buildIdMatcher("grandParent")))).thenReturn(grandParentFamilyCursor);
-        Map<String, Object> family = buildFamily("Child", "family1", "parent").toMap();
+    public void testUpdateChildFamily() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        testHierarchicalUpdate(childFamily.toMap());
+    }
+
+    protected void testHierarchicalUpdate(Map<String, Object> family) throws IllegalAccessException,
+            InvocationTargetException, NoSuchMethodException {
         List<Map<String, Object>> results = converter.treatment("Midgar", Action.UPDATE, family);
         assertEquals("GrandParent.Parent.Child", PropertyUtils.getProperty(results, "[0].body.assessmentFamilyHierarchyName"));
-        
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testUpdateParentFamily() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        testHierarchicalUpdate(parentFamily.toMap());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testUpdateGrandParentFamily() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        testHierarchicalUpdate(grandParentFamily.toMap());
     }
 
     protected DBObject buildFamily(String title, String id, String parent) {
@@ -106,4 +129,23 @@ public class AssessmentFamilyConverterTest {
         return assessment;
     }
     
+    private BaseMatcher<DBObject> buildAssessmentFamilyReferenceMatcher(final String id) {
+        return new BaseMatcher<DBObject>() {
+            
+            @Override
+            public boolean matches(Object arg0) {
+                try {
+                    return id.equals(((DBObject) arg0).get("body.assessmentFamilyReference"));
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+            
+            @Override
+            public void describeTo(Description arg0) {
+            }
+        };
+    }
+    
+
 }

@@ -28,49 +28,59 @@ import com.mongodb.DBObject;
 
 public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     
+    private static final List<String> FAMILY_FIELDS = Arrays.asList("body.assessmentFamilyReferece",
+            "body.assessmentFamilyTitle");
+    
     @Override
     public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
-        List<Map<String, Object>> results = new ArrayList<Map<String,Object>>();
         String id = entityMap.get("_id").toString();
         String familyName = action == Action.DELETE ? "" : getName(index, entityMap).toString();
-        results.addAll(addAssessmentsForFamilyId(id, familyName));
-        return results;
+        return addAssessmentsForFamilyId(id, familyName);
     }
-
+    
     /**
      * Add the assessments matching the given family id to the list to be updated
      * 
-     * @param id the family id
-     * @param familyName the family name
-     * @param results the list of results
+     * @param id
+     *            the family id
+     * @param familyName
+     *            the family name
+     * @param results
+     *            the list of results
      */
     @SuppressWarnings("unchecked")
     protected List<Map<String, Object>> addAssessmentsForFamilyId(String id, String familyName) {
-        List<Map<String, Object>> results = new ArrayList<Map<String,Object>>();
-        DBCursor cursor = getSourceDatastoreConnector().getDBCursor("assessment",
-                getIndexConfigStore().getConfig("assessment").getFields(),
-                BasicDBObjectBuilder.start().add("body.assessmentFamilyReference", id).get());
-        while(cursor.hasNext()) {
-            DBObject obj = cursor.next();
+        List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
+        DBObject referenceQuery = BasicDBObjectBuilder.start().add("body.assessmentFamilyReference", id).get();
+        DBCursor assessmentCursor = getSourceDatastoreConnector().getDBCursor("assessment",
+                getIndexConfigStore().getConfig("assessment").getFields(), referenceQuery);
+        while (assessmentCursor.hasNext()) {
+            DBObject obj = assessmentCursor.next();
             Map<String, Object> assessment = obj.toMap();
             Map<String, Object> body = (Map<String, Object>) assessment.get("body");
             body.put("assessmentFamilyHierarchyName", familyName);
             assessment.put("body", body);
             results.add(assessment);
         }
+        DBCursor familyCursor = getSourceDatastoreConnector().getDBCursor("assessmentFamily", FAMILY_FIELDS, referenceQuery);
+        while (familyCursor.hasNext()) {
+            DBObject subFamily = familyCursor.next();
+            String subId = (String) subFamily.get("_id");
+            String subName = (String) ((Map<String, Object>) subFamily.get("body")).get("assessmentFamilyTitle");
+            results.addAll(addAssessmentsForFamilyId(subId, familyName + "." + subName));
+        }
         return results;
     }
     
     @SuppressWarnings("unchecked")
-    private StringBuilder getName(String index, Map<String, Object> entityMap){
+    private StringBuilder getName(String index, Map<String, Object> entityMap) {
         Map<String, Object> body = getBody(index, entityMap);
         String parentRef = (String) body.get("assessmentFamilyReference");
         StringBuilder builder = new StringBuilder();
-        if(parentRef != null && !parentRef.equals("")) {
-            DBCursor cursor = getSourceDatastoreConnector().getDBCursor("assessmentFamily",
-                    Arrays.asList("body.assessmentFamilyReferece", "body.assessmentFamilyTitle"),
+        if (parentRef != null && !parentRef.equals("")) {
+            DBCursor cursor = getSourceDatastoreConnector().getDBCursor("assessmentFamily", FAMILY_FIELDS,
                     BasicDBObjectBuilder.start().add("_id", parentRef).get());
-            if(cursor.hasNext()) {
+            if (cursor.hasNext()) {
                 builder = getName(index, cursor.next().toMap());
                 builder.append(".");
             }
