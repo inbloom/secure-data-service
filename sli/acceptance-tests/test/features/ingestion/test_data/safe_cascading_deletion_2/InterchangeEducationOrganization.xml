@@ -104,16 +104,6 @@
 	</Services>
   </Program>
   
-   <GraduationPlan>
-        <GraduationPlanType>Minimum</GraduationPlanType>
-        <TotalCreditsRequired>
-            <Credit>9</Credit>
-        </TotalCreditsRequired>
-        <EducationOrganizationReference>
-        	<EducationalOrgIdentity>
-            	<StateOrganizationId>NON-STANDARD-SEA</StateOrganizationId>
-        	</EducationalOrgIdentity>
-    	</EducationOrganizationReference>
-    </GraduationPlan>
+
     
 </InterchangeEducationOrganization>
