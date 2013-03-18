@@ -32,12 +32,13 @@ import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 
 /**
@@ -101,22 +102,6 @@ public class EntityExtractorTest {
         Mockito.verify(zipFile, Mockito.atLeast(1)).writeData(Matchers.eq(toJSON(students.get(0))));
         Mockito.verify(zipFile, Mockito.atLeast(1)).writeData(Matchers.eq(toJSON(students.get(1))));
 
-    }
-
-    @SuppressWarnings("boxing")
-    @Test
-    public void testExtractEntityUnhappy() throws IOException{
-        String testTenant = "Midgar";
-        String testEntity = "student";
-
-        List<Entity> students = createStudents();
-
-        Mockito.when(mongoEntityRepository.findAll(Matchers.eq(testEntity), Matchers.any(NeutralQuery.class))).thenReturn(students.subList(0, 1));
-        Mockito.when(zipFile.writeData(Matchers.anyString())).thenThrow(new IOException());
-
-        extractor.extractEntity(testTenant, zipFile, testEntity);
-
-        Mockito.verify(zipFile, Mockito.atLeast(3)).writeData(Matchers.anyString());
     }
 
     private String toJSON(Entity record) {
