@@ -13,6 +13,8 @@
 				<xs:element name="StudentAssessment" type="SLC-StudentAssessment"/>
 				<xs:element name="StudentObjectiveAssessment" type="SLC-StudentObjectiveAssessment"/>
 				<xs:element name="StudentAssessmentItem" type="SLC-StudentAssessmentItem"/>
+				
+				<xs:element name="Action" type="SLC-ActionType"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

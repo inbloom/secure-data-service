@@ -66,6 +66,7 @@
   		<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
   		<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
   		
+
 		<!-- All top level entity types from the Interchange schemas -->
 		<xs:element name="Assessment" type="SLC-Assessment"/>
 		<xs:element name="AssessmentFamily" type="AssessmentFamily"/>
@@ -118,7 +119,7 @@
 		<xs:element name="TeacherSchoolAssociation" type="SLC-TeacherSchoolAssociation"/>
 		<xs:element name="TeacherSectionAssociation" type="SLC-TeacherSectionAssociation"/>
 
-	    
+
 	  </xs:choice>
 	  
 	  <!--  Attributes -->

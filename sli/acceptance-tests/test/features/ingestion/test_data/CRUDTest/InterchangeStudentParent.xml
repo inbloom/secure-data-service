@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
 
   
   <!-- Illustrative use of DELETE -->
@@ -12,6 +12,11 @@
   	    </ParentIdentity>		
    </ParentReference>
    
+    <StudentReference>
+  		<StudentIdentity>
+  			<StudentUniqueStateId>100000017</StudentUniqueStateId>
+  	    </StudentIdentity>		
+   </StudentReference>
   	
 	<StudentParentAssociation>
       <ParentReference>
@@ -21,11 +26,11 @@
       </ParentReference>
     <StudentReference>
       <StudentIdentity>
-	    <StudentUniqueStateId>100000017<StudentUniqueStateId>
+	    <StudentUniqueStateId>100000017</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     </StudentParentAssociation>
 
 </Action>
 
-</InterchangeEducationOrganization>
+</InterchangeStudentParent>

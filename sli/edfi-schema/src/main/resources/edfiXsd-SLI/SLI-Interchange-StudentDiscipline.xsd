@@ -13,6 +13,8 @@
 				<xs:element name="DisciplineIncident" type="SLC-DisciplineIncident"/>
 				<xs:element name="StudentDisciplineIncidentAssociation" type="SLC-StudentDisciplineIncidentAssociation"/>
 				<xs:element name="DisciplineAction" type="SLC-DisciplineAction"/>
+				
+				<xs:element name="Action" type="SLC-ActionType"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

@@ -13,6 +13,8 @@
 				<xs:element name="Cohort" type="SLC-Cohort"/>
 				<xs:element name="StudentCohortAssociation" type="SLC-StudentCohortAssociation"/>
 				<xs:element name="StaffCohortAssociation" type="SLC-StaffCohortAssociation"/>
+				
+				<xs:element name="Action" type="SLC-ActionType"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
