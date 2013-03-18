@@ -39,6 +39,7 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import org.slc.sli.ingestion.parser.ActionVerb;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
@@ -60,10 +61,15 @@ import org.slc.sli.ingestion.reporting.Source;
 public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordUnmarshaller.class);
+    private static final String ACTION_TYPE = "ActionType";
+    private static final String CASCADE = "Cascade";
+    private static final String ACTION = "Action";
 
     private TypeProvider typeProvider;
 
+
     private Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
+    private ActionVerb action = ActionVerb.NONE;
 
     private boolean currentEntityValid = false;
 
@@ -130,7 +136,9 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         elementValue.setLength(0);
 
-        if (interchange != null) {
+        if( ACTION.equals( localName)) {
+            action = getAction( localName, attributes);
+        } else if (interchange != null) {
             parseInterchangeEvent(localName, attributes);
         } else if (localName.startsWith("Interchange")) {
             interchange = localName;
@@ -139,6 +147,12 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
+
+        if( ACTION.equals( localName)) {
+            action = ActionVerb.NONE;
+            return;
+        }
+
         if (complexTypeStack.isEmpty()) {
             return;
         }
@@ -170,17 +184,54 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     }
 
     private void parseInterchangeEvent(String localName, Attributes attributes) {
+
+
         if (complexTypeStack.isEmpty()) {
-            initCurrentEntity(localName, attributes);
+            initCurrentEntity(localName, attributes, action);
         } else {
             parseStartElement(localName, attributes);
         }
     }
 
-    private void initCurrentEntity(String localName, Attributes attributes) {
+
+    private ActionVerb getAction( String localName, Attributes attributes ) {
+        String xsdType = typeProvider.getTypeFromInterchange(interchange, localName);
+        ActionVerb doAction = ActionVerb.NONE;
+
+        if( typeProvider.isActionType( xsdType) ) {
+            String action = attributes.getValue( ACTION_TYPE);
+            String cascade = attributes.getValue( CASCADE);
+            if( action == null || cascade == null ) {
+                /*
+                 * Shouldn't happen - xsd validation would've failed
+                 */
+                LOG.warn("Could not get ActionType or Cascade properties for {}", localName );
+            }
+
+
+            try {
+                doAction = ActionVerb.valueOf( action);
+                if( doAction == ActionVerb.DELETE &&Boolean.parseBoolean( cascade ) ) {
+                    doAction = ActionVerb.CASCADE_DELETE;
+                }
+
+            } catch ( Exception e ) {
+                /*
+                 * Shouldn't happen - xsd validation would've failed
+                 */
+                doAction = ActionVerb.NONE;
+                LOG.warn("Could not get ActionVerb for {}", action );
+            }
+        }
+
+      return ( doAction );
+    }
+
+    private void initCurrentEntity(String localName, Attributes attributes, ActionVerb doAction ) {
         String xsdType = typeProvider.getTypeFromInterchange(interchange, localName);
 
-        RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType);
+
+        RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType, false, doAction);
 
         recordMeta.setSourceStartLocation(getCurrentLocation());
 
@@ -215,7 +266,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
     private RecordMeta getRecordMetaForEvent(String eventName) {
         RecordMeta typeMeta = typeProvider
-                .getTypeFromParentType(complexTypeStack.peek().getLeft().getType(), eventName);
+                .getTypeFromParentType(complexTypeStack.peek().getLeft(), eventName);
 
         if (typeMeta == null) {
             // the parser must go on building the stack
