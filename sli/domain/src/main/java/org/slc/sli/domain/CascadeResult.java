@@ -24,26 +24,83 @@ package org.slc.sli.domain;
 
 public class CascadeResult {
 
-	public	int 	nObjects;		// Number of objects affected
-	public	int		depth;			// Depth we are at
-	public	int		status;			// Current/overall status of the operation
+    public enum Status {
+        SUCCESS,
+        MAX_OBJECTS_EXCEEDED,
+        ACCESS_DENIED,
+        DATABASE_ERROR,
+        CHILD_DATA_EXISTS,
+        MAX_DEPTH_EXCEEDED
+    }
 
-	public String errorMessage;
+    private int nObjects;		    // Number of objects affected
+    private int	   depth;			// Furthest depth examined
+    private Status status;			// Current/overall status of the operation
 
-	public static final int   SUCCESS 			 = 0x0;
-	public static final int	MAX_OBJECTS_EXCEEDED = 0x1;
-    public static final int ACCESS_DENIED        = 0x2;
-    public static final int DATABASE_ERROR       = 0x3;
-    public static final int NON_LEAF_NODE_DELETE = 0x4;
+    private String message;          // Status message e.g. error text
+
+    // Used to identify the error object for ACCESS_DENIED and CHILD_DATA_EXISTS status
+    private String objectType;
+    private String objectId;
 
 	public CascadeResult() {
 		nObjects = 0;
 		depth = 0;
-		status = SUCCESS; // Until further notice
-	}
-	// Return true if the operation is a success
-	public boolean success() {
-		return status == SUCCESS;
+		status = Status.SUCCESS; // Until further notice
 	}
 
+	// Return true if the operation is a success
+	public boolean success() {
+		return status == Status.SUCCESS;
+	}
+
+    public int getnObjects() {
+        return nObjects;
+    }
+
+    public void setnObjects(int nObjects) {
+        this.nObjects = nObjects;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
+
+    public void incrementDepth() {
+        depth++;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getObjectType() {
+        return objectType;
+    }
+
+    public void setObjectType(String objectType) {
+        this.objectType = objectType;
+    }
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
 }
