@@ -272,6 +272,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             neutralRecord.setVisitBeforeColumnNumber(startLoc.getColumnNumber());
             neutralRecord.setVisitAfterLineNumber(endLoc.getLineNumber());
             neutralRecord.setVisitAfterColumnNumber(endLoc.getColumnNumber());
+            neutralRecord.setActionVerb( recordMeta.getAction());
 
             neutralRecord.setAttributes(record);
             dataBatch.add(neutralRecord);

@@ -40,6 +40,7 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import org.slc.sli.ingestion.parser.ActionVerb;
 import org.slc.sli.ingestion.reporting.ElementSource;
 
 /**
@@ -137,6 +138,13 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
      * stores a mapping that captures contextual information regarding the record.
      */
     private Map<String, Object> metaData;
+
+    /**
+     * Stores action type that needs to be performed on this record
+     * Not all action have been implemented yet
+     */
+
+    private ActionVerb actionVerb;
 
     /**
      * Default constructor
@@ -520,5 +528,13 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
     @Override
     public String getResourceId() {
         return getSourceFile();
+    }
+
+    public ActionVerb getActionVerb() {
+        return actionVerb;
+    }
+
+    public void setActionVerb(ActionVerb action) {
+        this.actionVerb = action;
     }
 }

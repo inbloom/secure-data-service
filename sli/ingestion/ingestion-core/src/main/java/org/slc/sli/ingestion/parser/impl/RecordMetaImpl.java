@@ -18,6 +18,7 @@ package org.slc.sli.ingestion.parser.impl;
 import javax.xml.stream.Location;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.ingestion.parser.ActionVerb;
 import org.slc.sli.ingestion.parser.RecordMeta;
 
 /**
@@ -31,6 +32,8 @@ public final class RecordMetaImpl implements RecordMeta {
     final String name;
     final String type;
     final boolean isList;
+    private ActionVerb action;
+    private boolean isCascade = false;
     Location sourceStartLocation;
     Location sourceEndLocation;
 
@@ -38,12 +41,22 @@ public final class RecordMetaImpl implements RecordMeta {
         this.name = name;
         this.type = type;
         isList = false;
+        action = ActionVerb.NONE;
     }
 
     public RecordMetaImpl(String name, String type, boolean isList) {
         this.name = name;
         this.type = type;
         this.isList = isList;
+        this.action = ActionVerb.NONE;
+
+    }
+
+    public RecordMetaImpl( String name, String type, boolean isList, ActionVerb doWhat ) {
+        this.name = name;
+        this.type = type;
+        this.isList = isList;
+        this.action = doWhat;
     }
 
     @Override
@@ -95,9 +108,33 @@ public final class RecordMetaImpl implements RecordMeta {
         this.sourceEndLocation = sourceEndLocation;
     }
 
+    public void setAction( String name) {
+        action = ActionVerb.valueOf( name);
+
+    }
+
     public void audit(SecurityEvent event) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public boolean isAction() {
+        return action == ActionVerb.NONE ? false : true;
+    }
+
+    @Override
+    public ActionVerb getAction() {
+        return action;
+    }
+
+    @Override
+    public boolean doCascade() {
+        return isCascade;
+    }
+
+    public void setCascade(boolean isCascade) {
+        this.isCascade = isCascade;
     }
 
 }
