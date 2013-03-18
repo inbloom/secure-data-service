@@ -18,6 +18,9 @@ package org.slc.sli.bulk.extract;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +63,7 @@ public class EntityExtractor implements Extractor {
     private static final String TYPE = "type";
     private static final String BODY = "body";
     
+
     private String baseDirectory;
 
     private List<String> entities;
@@ -78,15 +82,19 @@ public class EntityExtractor implements Extractor {
 
     private Repository<Entity> entityRepository;
 
+    private BulkExtractMongoDA bulkExtractMongoDA;
+
+    @Override
     public void destroy() {
         executor.shutdown();
     }
 
+    @Override
     public void init(List<String> tenants) throws FileNotFoundException {
         setTenants(tenants);
         init();
     }
-    
+
     public void init() throws FileNotFoundException {
         createBaseDir();
         // create thread pool to process files
@@ -137,8 +145,11 @@ public class EntityExtractor implements Extractor {
         // TODO: implement isRunning flag to make sure only one extract is
         // running at a time
         OutstreamZipFile zipFile = null;
+        Date startTime = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String timeStamp = df.format(startTime);
         try {
-            zipFile = new OutstreamZipFile(getTenantDirectory(tenant), tenant);
+            zipFile = new OutstreamZipFile(getTenantDirectory(tenant), tenant + "-" + timeStamp);
         } catch (IOException e) {
             LOG.error("Error while extracting data for tenant " + tenant, e);
         }
@@ -151,6 +162,7 @@ public class EntityExtractor implements Extractor {
         // Rename temp zip file to permanent.
         try {
             zipFile.renameTempZipFile();
+            bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getZipFile().getAbsolutePath(), startTime);
         } catch (IOException e) {
             LOG.error("Error attempting to create zipfile " + zipFile.getZipFile().getPath(), e);
         }
@@ -231,7 +243,7 @@ public class EntityExtractor implements Extractor {
         }
         return query;
     }
-    
+
     private void addAPIFields(String archiveName, Entity entity) {
         entity.getBody().put(TYPE_STRING, entity.getType());
         if (combinedEntities.containsKey(archiveName)) {
@@ -240,9 +252,9 @@ public class EntityExtractor implements Extractor {
             entity.getBody().put(ID_STRING, entity.getEntityId());
         }
     }
-    
+
     private String getTenantDirectory(String tenant) {
-        
+
         File tenantDirectory = new File(baseDirectory, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
         tenantDirectory.mkdirs();
         return tenantDirectory.getPath();
@@ -276,6 +288,13 @@ public class EntityExtractor implements Extractor {
         this.combinedEntities = combinedEntities;
     }
 
+    public BulkExtractMongoDA getBulkExtractMongoDA() {
+        return bulkExtractMongoDA;
+    }
+
+    public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
+        this.bulkExtractMongoDA = bulkExtractMongoDA;
+    }
     public void setBaseDirectory(String baseDirectory) {
         this.baseDirectory = baseDirectory;
     }

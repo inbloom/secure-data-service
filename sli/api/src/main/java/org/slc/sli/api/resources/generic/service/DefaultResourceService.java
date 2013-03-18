@@ -49,7 +49,6 @@ import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.resources.util.InProcessDateQueryEvaluator;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -91,9 +90,6 @@ public class DefaultResourceService implements ResourceService {
 
     @Autowired
     private GranularAccessFilterProvider granularAccessFilterProvider;
-
-    @Autowired
-    private InProcessDateQueryEvaluator inProcessDateQueryEvaluator;
 
     @Autowired
     private ApiSchemaAdapter adapter;
@@ -385,6 +381,7 @@ public class DefaultResourceService implements ResourceService {
 
         return isAssociation;
     }
+    @SuppressWarnings("unchecked")
     private ServiceResponse getAssociatedEntities(final Resource base, final Resource association, final String id,
                                                   final Resource resource, final String associationKey, final URI requestUri) {
         List<String> valueList = Arrays.asList(id.split(","));
@@ -408,7 +405,6 @@ public class DefaultResourceService implements ResourceService {
                 apiQuery.setEmbeddedFields(Arrays.asList(assocEntity.getType()));
 
                 for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
-                    @SuppressWarnings("unchecked")
                     List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
                     
                     if (associations != null) {
@@ -472,9 +468,9 @@ public class DefaultResourceService implements ResourceService {
                 if (crit.getKey().equals(key)
                         && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
                     skipIn = true;
-                    Set valueSet = new HashSet();
+                    Set<Object> valueSet = new HashSet<Object>();
                     if (crit.getValue() instanceof Collection) {
-                        valueSet.addAll((Collection) crit.getValue());
+                        valueSet.addAll((Collection<Object>) crit.getValue());
                     } else {
                         valueSet.add(crit.getValue());
                     }
@@ -596,76 +592,6 @@ public class DefaultResourceService implements ResourceService {
         }
     }
 
-    private List<EntityBody> filterAssociationEntitiesForDates(List<EntityBody> originalList, EntityDefinition assocEntity) {
-
-        if (granularAccessFilterProvider.hasFilter()) {
-            GranularAccessFilter filter = granularAccessFilterProvider.getFilter();
-
-            if (assocEntity.getType().equals(filter.getEntityName())) {
-                // need to filter in java, not using mongo query
-                NeutralQuery query = filter.getNeutralQuery();
-                List<EntityBody> resultList = new ArrayList<EntityBody>();
-
-                for (EntityBody entity : originalList){
-
-                    if(inProcessDateQueryEvaluator.entitySatisfiesDateQuery(entity,query)){
-                        resultList.add(entity);
-                    }
-                }
-
-                return resultList;
-            } else {
-                return originalList;
-            }
-        } else {
-            return originalList;
-        }
-    }
-
-
-    /**
-     * Determines whether a query matches an entity. This does NOT handle all operators,
-     * and it assumes that all the fields are strings. This is a minimal filter function
-     * that is used to apply the granular access query in Java in the case of embedded
-     * docs that are loaded in a batch. This is not intended to be a general purpose query
-     * handler.
-     *
-     * @param entity
-     * @param query
-     * @return
-     */
-    private boolean entitySatisfiesDateQuery(EntityBody entity, NeutralQuery query) {
-        for (NeutralCriteria andCriteria : query.getCriteria()) {
-            String fieldName = andCriteria.getKey();
-            String fieldValue = (String) entity.get(fieldName);
-            String operator = andCriteria.getOperator();
-
-
-            if (NeutralCriteria.CRITERIA_EXISTS.equals(operator)) {
-                boolean shouldExist = (Boolean) andCriteria.getValue();
-                Object actualValue = entity.get(fieldName);
-                if (shouldExist && actualValue == null) {
-                    return false;
-                }
-            } else {
-                String expectedValue = (String) andCriteria.getValue();
-                int comparison = fieldValue.compareTo(expectedValue);
-                if(NeutralCriteria.CRITERIA_LT.equals(operator)){
-
-                }
-            }
-
-        }
-        return true;
-    }
-
-    /**
-     * Indicates that for a valid granular access query, no sessions and hence
-     * no beginDate or endDate were found.
-     */
-    private class NoGranularAccessDatesException extends Exception {
-    }
-
     private List<EntityBody> getTimeFilteredAssociations(List<EntityBody> associations, EntityDefinition baseEntity, EntityDefinition assocEntity) {
         List<EntityBody> filtered = new ArrayList<EntityBody>(associations);
         if (!baseEntity.getResourceName().equals(ResourceNames.STUDENTS))  {
@@ -692,4 +618,13 @@ public class DefaultResourceService implements ResourceService {
 
         return now.compareTo(assocEnd) < 0;
     }
+    
+    /**
+     * Indicates that for a valid granular access query, no sessions and hence
+     * no beginDate or endDate were found.
+     */
+    private class NoGranularAccessDatesException extends Exception {
+        private static final long serialVersionUID = 1L;
+    }
+
 }

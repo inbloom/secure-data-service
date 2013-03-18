@@ -38,12 +38,19 @@ public final class BatchJobManager {
     private BatchJobDAO batchJobDAO;
 
     public void prepareTenantContext(Exchange exchange) {
+        String[] commandChunks = exchange.getIn().getBody().toString().split("\\|");
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
-        String tenantId = null;
+
+        // How to find the current batch job id?
+        // If the body is of WorkNote (for most cases), use workNote.getBatchJobId(
+        // Otherwise (such as between JobReportingProcessor and CommandProcessor), use commandChunks[1]
+        NewBatchJob currentJob = null;
         if (workNote != null) {
-            NewBatchJob currentJob = batchJobDAO.findBatchJobById(workNote.getBatchJobId());
-            tenantId = currentJob==null ? null : currentJob.getTenantId();
+            currentJob = batchJobDAO.findBatchJobById(workNote.getBatchJobId());
+        } else if (commandChunks != null && commandChunks.length > 1) {
+            currentJob = batchJobDAO.findBatchJobById(commandChunks[1]);
         }
+        String tenantId = currentJob==null ? null : currentJob.getTenantId();
         TenantContext.setTenantId(tenantId);
     }
 

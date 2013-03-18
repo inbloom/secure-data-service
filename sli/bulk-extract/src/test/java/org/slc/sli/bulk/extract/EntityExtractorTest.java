@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
@@ -37,8 +36,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 
 /**
@@ -94,13 +91,13 @@ public class EntityExtractorTest {
         String testTenant = "Midgar";
         String testEntity = "student";
 
-        List<Entity> students = createStudents();
+        List<Entity> students = TestUtils.createStudents();
         Mockito.when(mongoEntityRepository.findByQuery(Matchers.eq(testEntity), Matchers.any(Query.class), Matchers.anyInt(), Matchers.anyInt())).thenReturn(students);
 
         extractor.extractEntity(testTenant, zipFile, testEntity);
 
-        Mockito.verify(zipFile, Mockito.atLeast(1)).writeData(Matchers.eq(toJSON(students.get(0))));
-        Mockito.verify(zipFile, Mockito.atLeast(1)).writeData(Matchers.eq(toJSON(students.get(1))));
+        Mockito.verify(zipFile, Mockito.atLeast(1)).writeData(Matchers.eq(TestUtils.toJSON(students.get(0))));
+        Mockito.verify(zipFile, Mockito.atLeast(1)).writeData(Matchers.eq(TestUtils.toJSON(students.get(1))));
 
     }
 
