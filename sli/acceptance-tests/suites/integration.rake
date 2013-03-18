@@ -203,7 +203,7 @@ task :rcSandboxTests do
   begin
     Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(PropLoader.getProps['sandbox_tenant'])
     Rake::Task["rcDeleteSandboxLDAPUsers"].execute unless RUN_ON_RC
-    randomizeRcSandboxTenant() if RUN_ON_RC
+    #randomizeRcSandboxTenant() if RUN_ON_RC  # We cannot randomize sandbox using the + alias due to ssh not working.  Leaving the code in incase we can reuse some logic 
     Rake::Task["rcSandboxAccountRequestTests"].execute
     Rake::Task["rcSandboxProvisionTests"].execute
     Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
