@@ -18,6 +18,7 @@ package org.slc.sli.bulk.extract;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,13 +34,12 @@ import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
-import com.mongodb.util.JSON;
 import com.mongodb.util.ThreadUtil;
 
 
@@ -58,7 +57,7 @@ public class EntityExtractor implements Extractor {
     private static final int DEFAULT_EXTRACTOR_JOB_TIME = 600;
     private static final String ID_STRING = "id";
     private static final String TYPE_STRING = "entityType";
-    
+
     private String baseDirectory;
 
     private List<String> entities;
@@ -77,15 +76,19 @@ public class EntityExtractor implements Extractor {
 
     private Repository<Entity> entityRepository;
 
+    private BulkExtractMongoDA bulkExtractMongoDA;
+
+    @Override
     public void destroy() {
         executor.shutdown();
     }
 
+    @Override
     public void init(List<String> tenants) throws FileNotFoundException {
         setTenants(tenants);
         init();
     }
-    
+
     public void init() throws FileNotFoundException {
         createBaseDir();
         // create thread pool to process files
@@ -143,6 +146,7 @@ public class EntityExtractor implements Extractor {
         }
         TenantContext.setTenantId(tenant);
 
+        Date startTime = new Date();
         for (String entity : entities) {
             extractEntity(tenant, zipFile, entity);
         }
@@ -150,6 +154,7 @@ public class EntityExtractor implements Extractor {
         // Rename temp zip file to permanent.
         try {
             zipFile.renameTempZipFile();
+            bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getZipFile().getAbsolutePath(), startTime);
         } catch (IOException e) {
             LOG.error("Error attempting to create zipfile " + zipFile.getZipFile().getPath(), e);
         }
@@ -157,7 +162,7 @@ public class EntityExtractor implements Extractor {
 
     protected void processFuture(Future<File> future) {
         try {
-            future.get(DEFAULT_EXTRACTOR_JOB_TIME, TimeUnit.SECONDS);
+            future.get();
         } catch (Exception e) {
             LOG.error("Error while waiting for extractor job to be finished", e);
         }
@@ -174,20 +179,20 @@ public class EntityExtractor implements Extractor {
         LOG.info("Extracting " + entityName);
         Iterable<Entity> records = null;
         String collectionName = entityName;
-        Query query = new Query();
-        if (queriedEntities.containsKey(entityName)) {
-            collectionName = queriedEntities.get(entityName);
-            query.addCriteria(Criteria.where("type").is(entityName));
-        }
+        NeutralQuery nquery = new NeutralQuery();
         if (combinedEntities.containsKey(entityName)) {
-            query = new Query(Criteria.where("type").in(combinedEntities.get(entityName)));
+            nquery.addCriteria(new NeutralCriteria("type", "in", combinedEntities.get(entityName),false));
+        } else if (queriedEntities.containsKey(entityName)) {
+            collectionName = queriedEntities.get(entityName);
+            nquery.addCriteria(new NeutralCriteria("type", "=", entityName, false));
         }
+
         try {
             TenantContext.setTenantId(tenant);
-            records = entityRepository.findByQuery(collectionName, query, 0, 0);
-            
+            records = entityRepository.findAll(collectionName, nquery);
+
             if(records.iterator().hasNext())
-            {   
+            {
                 zipFile.createArchiveEntry(entityName + ".json");
                 // write each record to file
                 JSONArray jsonRecords = new JSONArray();
@@ -197,7 +202,7 @@ public class EntityExtractor implements Extractor {
                 }
                 writeToZip(zipFile,jsonRecords);
             }
-            
+
             LOG.info("Finished extracting " + entityName);
         } catch (IOException e) {
             LOG.error("Error while extracting " + entityName, e);
@@ -215,7 +220,7 @@ public class EntityExtractor implements Extractor {
     private void writeToZip(OutstreamZipFile zipFile, JSONArray records) throws NoSuchElementException, IOException  {
         zipFile.writeData(records.toString());
     }
-    
+
     private void addAPIFields(String archiveName, Entity entity) {
         entity.getBody().put(TYPE_STRING, entity.getType());
         if (combinedEntities.containsKey(archiveName)) {
@@ -224,9 +229,9 @@ public class EntityExtractor implements Extractor {
             entity.getBody().put(ID_STRING, entity.getEntityId());
         }
     }
-    
+
     private String getTenantDirectory(String tenant) {
-        
+
         File tenantDirectory = new File(baseDirectory, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
         tenantDirectory.mkdirs();
         return tenantDirectory.getPath();
@@ -260,6 +265,13 @@ public class EntityExtractor implements Extractor {
         this.combinedEntities = combinedEntities;
     }
 
+    public BulkExtractMongoDA getBulkExtractMongoDA() {
+        return bulkExtractMongoDA;
+    }
+
+    public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
+        this.bulkExtractMongoDA = bulkExtractMongoDA;
+    }
     public void setBaseDirectory(String baseDirectory) {
         this.baseDirectory = baseDirectory;
     }

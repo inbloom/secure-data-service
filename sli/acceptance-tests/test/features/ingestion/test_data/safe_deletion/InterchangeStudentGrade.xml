@@ -330,4 +330,11 @@
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
   </StudentCompetency>
+  
+    <CompetencyLevelDescriptor>
+    <CodeValue>CLD-CodeValue-CLD_0</CodeValue>
+    <Description>CompetencyLevelDesciptor Description CLD_0</Description>
+    <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  
  </InterchangeStudentGrade>
