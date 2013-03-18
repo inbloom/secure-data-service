@@ -31,22 +31,30 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.MongoException;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.MongoException;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * JUnits for DAL
@@ -54,7 +62,7 @@ import com.mongodb.MongoException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityRepositoryTest {
-    
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -91,19 +99,20 @@ public class EntityRepositoryTest {
     }
 
     // TODO add a test for deleteAttachedCustomEntities
-    
+
     @Test
     public void testSafeDelete() {
 
-        // CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) 
-        
+        // CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access)
+
         CascadeResult result = null;
         String idToDelete = null;
-        
+
         Integer maxObjects = null;         // delete as many documents as needed
         AccessibilityCheck access = new AccessibilityCheck() {
             // grant access to all entities
             // TODO exercise access denied logic
+            @Override
             public boolean accessibilityCheck(String id) {
                 return true;
             }
@@ -113,6 +122,7 @@ public class EntityRepositoryTest {
             int count = 0;
             // grant access to no entities
             // TODO exercise access denied logic
+            @Override
             public boolean accessibilityCheck(String id) {
                 count++;
                 if (count > 1) {
@@ -130,93 +140,95 @@ public class EntityRepositoryTest {
         result = repository.safeDelete("student", idToDelete, false, true, maxObjects, access);
 
         //   verify expected results
-        assertEquals(3, result.nObjects);
-        assertEquals(2, result.depth);
-        assertEquals(CascadeResult.SUCCESS, result.status);
+        assertEquals(3, result.getnObjects());
+        assertEquals(2, result.getDepth());
+        assertEquals(CascadeResult.Status.SUCCESS, result.getStatus());
 
         //Test leaf node delete success : cascade=false and dryrun=false
         idToDelete = prepareSafeDeleteLeafData();
         result = repository.safeDelete("student", idToDelete, false, false, maxObjects, access);
 
         //   verify expected results
-        assertEquals(1, result.nObjects);
-        assertEquals(1, result.depth);
-        assertEquals(CascadeResult.SUCCESS, result.status);
+        assertEquals(1, result.getnObjects());
+        assertEquals(1, result.getDepth());
+        assertEquals(CascadeResult.Status.SUCCESS, result.getStatus());
 
         // Test leaf node delete failure : cascade=false and dryrun=false
         idToDelete = prepareSafeDeleteData();
         result = repository.safeDelete("student", idToDelete, false, false, maxObjects, access);
 
         //   verify expected results
-        assertEquals(3, result.nObjects);
-        assertEquals(2, result.depth);
-        assertEquals(CascadeResult.NON_LEAF_NODE_DELETE, result.status);
+        assertEquals(3, result.getnObjects());
+        assertEquals(2, result.getDepth());
+        assertEquals(CascadeResult.Status.CHILD_DATA_EXISTS, result.getStatus());
 
         // Test cascade=true and dryrun=true
         idToDelete = prepareSafeDeleteData();
         result = repository.safeDelete("student", idToDelete, true, true, 4, access);
 
         //   verify expected results
-        assertEquals(3, result.nObjects);
-        assertEquals(2, result.depth);
-        assertEquals(CascadeResult.SUCCESS, result.status);
-        
+        assertEquals(3, result.getnObjects());
+        assertEquals(2, result.getDepth());
+        assertEquals(CascadeResult.Status.SUCCESS, result.getStatus());
+
         // Test cascade=true and dryrun=false
         idToDelete = prepareSafeDeleteData();
         result = repository.safeDelete("student", idToDelete, true, false, 3, access);
 
         //   verify expected results
-        assertEquals(3, result.nObjects);
-        assertEquals(2, result.depth);
-        assertEquals(CascadeResult.SUCCESS, result.status);
-        
+        assertEquals(3, result.getnObjects());
+        assertEquals(2, result.getDepth());
+        assertEquals(CascadeResult.Status.SUCCESS, result.getStatus());
+
         // Test maxobjects
         idToDelete = prepareSafeDeleteData();
         result = repository.safeDelete("student", idToDelete, true, false, 2, access);
 
         //   verify expected results
-        assertEquals(3, result.nObjects);
-        assertEquals(2, result.depth);
-        assertEquals(CascadeResult.MAX_OBJECTS_EXCEEDED, result.status);
+        assertEquals(3, result.getnObjects());
+        assertEquals(2, result.getDepth());
+        assertEquals(CascadeResult.Status.MAX_OBJECTS_EXCEEDED, result.getStatus());
 
         // Test access denied
         idToDelete = prepareSafeDeleteData();
         result = repository.safeDelete("student", idToDelete, true, false, maxObjects, accessDenied);
 
         //   verify expected results
-        assertEquals(1, result.nObjects);
-        assertEquals(1, result.depth);
-        assertEquals(CascadeResult.ACCESS_DENIED, result.status);
+        assertEquals(1, result.getnObjects());
+        assertEquals(2, result.getDepth());
+        assertEquals(CascadeResult.Status.ACCESS_DENIED, result.getStatus());
 
         // Test deletion from a non-existent collection
         idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("nonexistentCollection", idToDelete, true, false, maxObjects, accessDenied);
+        result = repository.safeDelete("nonexistentCollection", idToDelete, true, false, maxObjects, access);
 
         //   verify expected results
-        assertEquals(0, result.nObjects);
-        assertEquals(1, result.depth);
-        assertEquals(CascadeResult.DATABASE_ERROR, result.status);
+        // TODO update these values for non-hardcoded relationship values once model work is hooked up
+        assertEquals(2, result.getnObjects());
+        assertEquals(2, result.getDepth());
+        assertEquals(CascadeResult.Status.DATABASE_ERROR, result.getStatus());
 
         // Test deletion of a non-existent id
         idToDelete = prepareSafeDeleteData();
-        result = repository.safeDelete("student", "noMatchId", true, false, maxObjects, accessDenied);
+        result = repository.safeDelete("student", "noMatchId", true, false, maxObjects, access);
 
         //   verify expected results
-        assertEquals(0, result.nObjects);
-        assertEquals(1, result.depth);
-        assertEquals(CascadeResult.DATABASE_ERROR, result.status);
+        // TODO update these values for non-hardcoded relationship values once model work is hooked up
+        assertEquals(0, result.getnObjects());
+        assertEquals(1, result.getDepth());
+        assertEquals(CascadeResult.Status.DATABASE_ERROR, result.getStatus());
 
     }
 
     private void clearSafeDeleteData() {
         repository.deleteAll("student", null);
         repository.deleteAll("studentref", null);
-        repository.deleteAll("studentarrayref", null);        
+        repository.deleteAll("studentarrayref", null);
     }
-    
+
     private String prepareSafeDeleteLeafData() {
         clearSafeDeleteData();
-        
+
         DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
         mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
@@ -236,7 +248,7 @@ public class EntityRepositoryTest {
 
         // populate some test data
         String idToDelete = prepareSafeDeleteLeafData();
-        
+
         // add fake referencing entity
         Map<String, Object> studentrefMap = buildTestStudentEntity();
         studentrefMap.put("studentReference", "notaMatchingId");
@@ -245,7 +257,7 @@ public class EntityRepositoryTest {
         studentrefMap.put("studentReference2", idToDelete);
         studentrefMap.put("noMatchstudentReference", "notaMatchingId");
         repository.create("studentref", studentrefMap);
-        
+
         // add fake referencing entity with array reference field
         Map<String, Object> studentarrayrefMap = buildTestStudentEntity();
         repository.create("studentarrayref", studentarrayrefMap); // add one non-matching document
@@ -413,8 +425,8 @@ public class EntityRepositoryTest {
     @Test
     public void testCount() {
         repository.deleteAll("student", null);
-        
-        DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1); 
+
+        DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1);
         mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         repository.create("student", buildTestStudentEntity());
@@ -428,9 +440,9 @@ public class EntityRepositoryTest {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=Nantucket"));
         assertEquals(1, repository.count("student", neutralQuery));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);        
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
     private Map<String, Object> buildTestStudentEntity() {
@@ -518,8 +530,8 @@ public class EntityRepositoryTest {
     @Test
     public void findOneTest() {
         repository.deleteAll("student", null);
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        mongoTemplate.getCollection("student").ensureIndex(indexKeys);        
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
@@ -531,15 +543,15 @@ public class EntityRepositoryTest {
         assertNotNull(this.repository.findOne("student", neutralQuery));
 
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);    
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
     @Test
     public void findOneMultipleMatches() {
         repository.deleteAll("student", null);
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        mongoTemplate.getCollection("student").ensureIndex(indexKeys);        
-        
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
+
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
         this.repository.create("student", student);
@@ -557,22 +569,22 @@ public class EntityRepositoryTest {
         assertNotNull(this.repository.findOne("student", neutralQuery));
 
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);     
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
     @Test
     public void findOneTestNegative() {
         repository.deleteAll("student", null);
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        mongoTemplate.getCollection("student").ensureIndex(indexKeys);        
-        
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
+
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
 
         assertNull(this.repository.findOne("student", neutralQuery));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);       
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
     @Test
@@ -580,7 +592,7 @@ public class EntityRepositoryTest {
         TenantContext.setTenantId("SLIUnitTest");
         repository.deleteAll("student", null);
 
-        DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1); 
+        DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1);
         mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         repository.create("student", buildTestStudentEntity());
@@ -595,9 +607,9 @@ public class EntityRepositoryTest {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=ABC"));
         assertEquals(1, repository.count("student", neutralQuery));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);         
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
     @Test
     public void testCreateWithMetadata() {
