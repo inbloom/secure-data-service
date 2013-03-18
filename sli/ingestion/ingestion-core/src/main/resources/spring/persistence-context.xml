@@ -42,6 +42,7 @@
     <value>graduationPlan</value>
     <value>learningStandard</value>
     <value>localEducationAgency</value>
+    <value>learningObjective</value>
     <value>objectiveAssessment</value>
     <value>parent</value>
     <value>program</value>
@@ -76,7 +77,6 @@
   <!-- collections that should be persisted using the new pipeline and a transformation has been performed. the collection
     to use will be <name>_transformed -->
   <util:set id="transformedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
-    <value>learningObjective</value>
     <value>courseTranscript</value>
   </util:set>
 

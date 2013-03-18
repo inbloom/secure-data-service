@@ -196,7 +196,7 @@ def checkForRegression(testName)
 end
 
 def findPreviousJtl(testName)
-  pattern = "#{testName}\\.jtl\\..*"
+  pattern = "^#{testName}\\.jtl\\..*$"
   previousJtl = nil
   Dir.foreach(JMETER_JTL_ARCHIVE) do |archivedFile|
     archivedFile.match(pattern) do |matchedFile|

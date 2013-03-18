@@ -11,21 +11,18 @@ var entities ={
               'disciplineAction':2,
               'disciplineIncident':2,
               'educationOrganization':5,
-              'grade':4,
               'gradingPeriod':17,
               'graduationPlan':0,
               'learningObjective':257,
               'learningStandard':1509,
               'parent':9,
               'program':2,
-              'reportCard':2,
               'section':97,
               'session':22,
               'staff':14,
               'staffCohortAssociation':3,
               'staffProgramAssociation':7,
               'student':78,
-              'studentAcademicRecord':117,
               'studentCompetency':59,
               'studentCompetencyObjective':4,
               'studentGradebookEntry':315,
@@ -48,6 +45,11 @@ var superdocs = {
         'studentDisciplineIncidentAssociation':4,
         'studentParentAssociation':9,
     },
+    'yearlyTranscript':{
+        'grade':4,
+        'reportCard':2,
+        'studentAcademicRecord':117
+    }
 }
 for(var entity in  entities){
     var expectedCount = entities[entity];
