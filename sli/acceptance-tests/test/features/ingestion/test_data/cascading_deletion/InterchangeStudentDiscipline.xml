@@ -28,7 +28,7 @@
 	<StudentDisciplineIncidentAssociation>
 		<StudentReference>
 			<StudentIdentity>
-				<StudentUniqueStateId>100000000</StudentUniqueStateId>
+				<StudentUniqueStateId>CAP0-D0-HSch0-stu78</StudentUniqueStateId>
 			</StudentIdentity>
 		</StudentReference>
 		<DisciplineIncidentReference>
@@ -57,7 +57,7 @@
 		<DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
 		<StudentReference>
 			<StudentIdentity>
-				<StudentUniqueStateId>100000000</StudentUniqueStateId>
+				<StudentUniqueStateId>CAP0-D0-HSch0-stu78</StudentUniqueStateId>
 			</StudentIdentity>
 		</StudentReference>
 		<DisciplineIncidentReference>
@@ -65,7 +65,7 @@
 				<IncidentIdentifier>Tardiness</IncidentIdentifier>
 				<EducationalOrgReference>
 					<EducationalOrgIdentity>
-						<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+						<StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
 					</EducationalOrgIdentity>
 				</EducationalOrgReference>
 			</DisciplineIncidentIdentity>
