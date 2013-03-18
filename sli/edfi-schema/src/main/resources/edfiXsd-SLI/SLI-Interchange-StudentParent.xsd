@@ -13,6 +13,8 @@
 				<xs:element name="Student" type="SLC-Student"/>
 				<xs:element name="Parent" type="SLC-Parent"/>
 				<xs:element name="StudentParentAssociation" type="SLC-StudentParentAssociation"/>
+				
+				<xs:element name="Action" type="SLC-ActionType"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
