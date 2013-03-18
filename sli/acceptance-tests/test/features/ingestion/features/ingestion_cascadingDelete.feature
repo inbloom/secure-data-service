@@ -6,7 +6,7 @@ Given I am using local data store
 
 Scenario: Post Small Sample Data Set
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-  And I post "safe_cascading_deletion_2.zip" file as the payload of the ingestion job
+  And I post "cascading_deletion.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
@@ -57,7 +57,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
 When zip file is scp to ingestion landing zone
-  And a batch job for file "safe_cascading_deletion_2.zip" is completed in database
+  And a batch job for file "cascading_deletion.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
@@ -77,9 +77,9 @@ Then I should see following map of entry counts in the corresponding collections
      | graduationPlan                           |                 1|
      | learningObjective                        |                 1|
      | learningStandard                         |                 1|
-     | parent                                   |                 1|
+     | parent                                   |                 2|
      | program                                  |                 1|
-     | recordHash                               |                41|
+     | recordHash                               |                43|
      | reportCard                               |                 1|
      | section                                  |                 1|
      | session                                  |                 1|
@@ -95,7 +95,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCompetencyObjective               |                 1|
      | studentDisciplineIncidentAssociation     |                 1|
      | studentObjectiveAssessment               |                 1|
-     | studentParentAssociation                 |                 1|
+     | studentParentAssociation                 |                 2|
      | studentProgramAssociation                |                 1|
      | studentSchoolAssociation                 |                 1|
      | studentSectionAssociation                |                 1|
@@ -103,6 +103,6 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                 1|
      | teacherSchoolAssociation                 |                 1|
      | teacherSectionAssociation                |                 1|
-    And I should see "Processed 47 records." in the resulting batch job file
+    And I should see "Processed 49 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
