@@ -69,7 +69,7 @@
   
    <LearningStandard>
         <LearningStandardId>
-            <IdentificationCode>LS-G3-2</IdentificationCode>
+            <IdentificationCode>LS-G3-3</IdentificationCode>
         </LearningStandardId>
         <Description>Description of learning standard for writing</Description>
         <ContentStandard>State Standard</ContentStandard>
@@ -80,14 +80,14 @@
     
      <LearningObjective>
         <LearningObjectiveId>
-            <IdentificationCode>LO-G3-6</IdentificationCode>
+            <IdentificationCode>LO-G3-3</IdentificationCode>
         </LearningObjectiveId>
         <Objective>Narrative Writing</Objective>
         <AcademicSubject>Writing</AcademicSubject>
         <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <IdentificationCode>LS-G3-2</IdentificationCode>
+                <IdentificationCode>LS-G3-3</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
     </LearningObjective>
@@ -114,7 +114,7 @@
         <CorrectResponse>False</CorrectResponse>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <IdentificationCode>LS-G3-2</IdentificationCode>
+                <IdentificationCode>LS-G3-3</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
     </AssessmentItem>

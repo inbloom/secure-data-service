@@ -8,7 +8,7 @@
     <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentCompetencyObjective>
@@ -20,7 +20,7 @@
       <SectionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
          <UniqueSectionCode>Sec 145</UniqueSectionCode>
@@ -35,14 +35,14 @@
       <StudentSectionAssociationIdentity>
         <StudentReference>
           <StudentIdentity>
-            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            <StudentUniqueStateId>100000000</StudentUniqueStateId>
           </StudentIdentity>
         </StudentReference>
         <SectionReference>
           <SectionIdentity>
             <EducationalOrgReference>
               <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
             <UniqueSectionCode>Sec 145</UniqueSectionCode>
@@ -60,7 +60,7 @@
           <SectionIdentity>
             <EducationalOrgReference>
               <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
             <UniqueSectionCode>Sec 145</UniqueSectionCode>
@@ -77,14 +77,14 @@
     <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>800000005</StudentUniqueStateId>
+        <StudentUniqueStateId>100000000</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SessionReference>
       <SessionIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
@@ -106,7 +106,7 @@
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueCourseId>3rd Grade Homeroom</UniqueCourseId>
@@ -114,21 +114,21 @@
     </CourseReference>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <StudentAcademicRecordReference>
       <StudentAcademicRecordIdentity>
         <StudentReference>
           <StudentIdentity>
-            <StudentUniqueStateId>800000005</StudentUniqueStateId>
+            <StudentUniqueStateId>100000000</StudentUniqueStateId>
           </StudentIdentity>
         </StudentReference>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
               <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
             <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
@@ -146,14 +146,14 @@
       <StudentSectionAssociationIdentity>
         <StudentReference>
           <StudentIdentity>
-            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            <StudentUniqueStateId>100000000</StudentUniqueStateId>
           </StudentIdentity>
         </StudentReference>
         <SectionReference>
           <SectionIdentity>
             <EducationalOrgReference>
               <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
              <UniqueSectionCode>Sec 145</UniqueSectionCode>
@@ -166,7 +166,7 @@
       <GradingPeriodIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <GradingPeriod>Sixth Six Weeks</GradingPeriod>
@@ -181,14 +181,14 @@
       <GradeIdentity>
         <StudentReference>
           <StudentIdentity>
-            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            <StudentUniqueStateId>100000000</StudentUniqueStateId>
           </StudentIdentity>
         </StudentReference>
         <SectionReference>
           <SectionIdentity>
             <EducationalOrgReference>
               <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
              <UniqueSectionCode>Sec 145</UniqueSectionCode>
@@ -198,7 +198,7 @@
           <GradingPeriodIdentity>
             <EducationalOrgReference>
               <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
             <GradingPeriod>First Six Weeks</GradingPeriod>
@@ -212,14 +212,14 @@
       <GradeIdentity>
         <StudentReference>
           <StudentIdentity>
-            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            <StudentUniqueStateId>100000000</StudentUniqueStateId>
           </StudentIdentity>
         </StudentReference>
         <SectionReference>
           <SectionIdentity>
             <EducationalOrgReference>
               <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
              <UniqueSectionCode>Sec 145</UniqueSectionCode>
@@ -229,7 +229,7 @@
           <GradingPeriodIdentity>
             <EducationalOrgReference>
               <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
             <GradingPeriod>Sixth Six Weeks</GradingPeriod>
@@ -254,14 +254,14 @@
           <StudentSectionAssociationIdentity>
             <StudentReference>
               <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                <StudentUniqueStateId>100000000</StudentUniqueStateId>
               </StudentIdentity>
             </StudentReference>
             <SectionReference>
               <SectionIdentity>
                 <EducationalOrgReference>
                   <EducationalOrgIdentity>
-                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
                   </EducationalOrgIdentity>
                 </EducationalOrgReference>
                  <UniqueSectionCode>Sec 145</UniqueSectionCode>
@@ -279,7 +279,7 @@
     <NumberOfDaysTardy>2</NumberOfDaysTardy>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+        <StudentUniqueStateId>100000000</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <!-- id does not exist in this file -->
@@ -288,7 +288,7 @@
       <GradingPeriodIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <GradingPeriod>End of Year</GradingPeriod>
@@ -313,14 +313,14 @@
       <StudentSectionAssociationIdentity>
         <StudentReference>
           <StudentIdentity>
-            <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            <StudentUniqueStateId>100000000</StudentUniqueStateId>
           </StudentIdentity>
         </StudentReference>
         <SectionReference>
           <SectionIdentity>
             <EducationalOrgReference>
               <EducationalOrgIdentity>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
              <UniqueSectionCode>Sec 145</UniqueSectionCode>
