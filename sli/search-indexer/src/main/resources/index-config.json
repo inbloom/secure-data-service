@@ -449,6 +449,12 @@
             }
         }
     },
+    "assessmentFamily": {
+      "fields": [
+        "body.assessmentFamilyTitle",
+        "body.assessmentFamilyReference"
+      ]
+    },
     "assessmentPeriodDescriptor": {
         "fields": [
             "body.codeValue",

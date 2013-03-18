@@ -16,14 +16,17 @@
 package org.slc.sli.search.transform;
 
 import org.slc.sli.search.transform.impl.AssessmentEntityConverter;
+import org.slc.sli.search.transform.impl.AssessmentFamilyConverter;
 import org.slc.sli.search.transform.impl.AssessmentPeriodDescriptorEntityConverter;
 import org.slc.sli.search.transform.impl.GenericEntityConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class EntityConverterFactory {
 
     private GenericEntityConverter genericEntityConverter;
     private AssessmentEntityConverter assessmentEntityConverter;
     private AssessmentPeriodDescriptorEntityConverter assessmentPeriodDescriptorEntityConverter;
+    private AssessmentFamilyConverter assessmentFamilyConverter;
     
     public EntityConverter getConverter(String type) {
         if ("assessment".equals(type)) {
@@ -32,6 +35,10 @@ public class EntityConverterFactory {
 
         if ("assessmentPeriodDescriptor".equals(type)) {
             return assessmentPeriodDescriptorEntityConverter;
+        }
+        
+        if ("assessmentFamily".equals(type)){
+            return assessmentFamilyConverter;
         }
 
         return genericEntityConverter;
@@ -51,4 +58,8 @@ public class EntityConverterFactory {
         this.assessmentPeriodDescriptorEntityConverter = assessmentPeriodDescriptorEntityConverter;
     }
 
+    public void setAssessmentFamilyConverter(AssessmentFamilyConverter assessmentFamilyConverter) {
+        this.assessmentFamilyConverter = assessmentFamilyConverter;
+    }
+    
 }
