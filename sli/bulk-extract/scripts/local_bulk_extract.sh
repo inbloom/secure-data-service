@@ -80,14 +80,21 @@ function readOption {
 }
 
 function show_help {
+   echo 
+   echo "Usage: /local_bulk_extract.sh [memoryOption] [fileOption] [tenantOption]"
+   echo 
    echo "# run bulk-extract with default"
    echo "./local_bulk_extract.sh"
+   echo 
    echo "# run bulk-extract with specifying memory"
    echo "./local_bulk_extract.sh -Xms<size>[g|G|m|M|k|K] -Xmx<size>[g|G|m|M|k|K]"
-   echo "# run bulk-extract with specifying conf and keyStore files"
+   echo 
+   echo "# run bulk-extract with specifying conf/keyStore files"
    echo "./local_bulk_extract.sh -D${SLI_CONF}=<file> -D${SLI_ENCRYPTION_KEYSTORE}=<file>"
+   echo 
    echo "# run bulk-extract with specifying tenant"
    echo "./local_bulk_extract.sh -t<tenant>"
+   echo 
 }
 
 function run {
