@@ -13,7 +13,7 @@ Feature: Admininstrating role-based access to bulking
         When I add the right "BULK_EXTRACT" to the group "Balrogs"   
         And I add the role "Balrog" to the group "Balrogs"
         And I hit the save button
-        And the group "Balrogs" contains the rights "BULK_EXTRACT"
+        And the group "Balrogs" contains the "right" rights "BULK_EXTRACT"
         
         # Now test generation and use of the endpoint
         Given I used the long lived session token generator script to create a token for user "manthony" with role "Balrog" in tenant "Midgar"  for realm "IL-Sunset" that will expire in "300" seconds with client_id "AT1k3PdHzX" 
