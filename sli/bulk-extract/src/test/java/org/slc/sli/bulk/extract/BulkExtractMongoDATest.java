@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
@@ -43,7 +42,6 @@ public class BulkExtractMongoDATest {
         mongoEntityRepository = Mockito.mock(MongoEntityRepository.class);
     }
 
-    @Ignore
     @Test
     public void testNewTenant() {
         String existingTenant = "Midgar";
