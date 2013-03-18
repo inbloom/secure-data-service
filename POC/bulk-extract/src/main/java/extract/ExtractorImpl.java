@@ -99,12 +99,11 @@ public class ExtractorImpl implements Extractor {
 
     @Override
     public void execute() {
-        Future<File> call;
-        List<Future<File>> futures = new LinkedList<Future<File>>();
-        OutstreamZipFile zipFile = null;
+        Future<String> call;
+        List<Future<String>> futures = new LinkedList<Future<String>>();
         for (String tenant : tenants) {
             try {
-                call = executor.submit(new ExtractWorker(tenant, zipFile));
+                call = executor.submit(new ExtractWorker(tenant));
                 futures.add(call);
             } catch (FileNotFoundException e) {
                 LOG.error("Error while extracting data for tenant " + tenant, e);
@@ -112,9 +111,12 @@ public class ExtractorImpl implements Extractor {
         }
 
         // Wait for job to be finished.
-        for (Future<File> future : futures) {
+        for (Future<String> future : futures) {
             processFuture(future);
         }
+
+        // Shutdown.
+        destroy();
     }
 
     /*
@@ -126,11 +128,12 @@ public class ExtractorImpl implements Extractor {
     public void execute(String tenant) {
         // TODO: implement isRunning flag to make sure only one extract is
         // running at a time
+        LOG.info("Extracting data from tenant " + tenant);
         OutstreamZipFile zipFile = null;
         try {
             zipFile = new OutstreamZipFile(extractDir, tenant);
         } catch (IOException e) {
-            LOG.error("Error while extracting data for tenant " + tenant, e);
+            LOG.error("Error while extracting data from tenant " + tenant, e);
         }
         TenantContext.setTenantId(tenant);
 
@@ -154,7 +157,7 @@ public class ExtractorImpl implements Extractor {
                 + tpe.getCompletedTaskCount() + "}";
     }
 
-    protected void processFuture(Future<File> future) {
+    protected void processFuture(Future<String> future) {
         try {
             future.get(DEFAULT_EXTRACTOR_JOB_TIME, TimeUnit.SECONDS);
         } catch (Exception e) {
@@ -167,7 +170,7 @@ public class ExtractorImpl implements Extractor {
             zipFile.createArchiveEntry(entityName + ".json");
             extractEntity(tenant, zipFile, entityName, 0);
         } catch (IOException e) {
-            LOG.error("Error while extracting " + entityName, e);
+            LOG.error("Error while extracting " + entityName + " from " + tenant, e);
         }
         return zipFile.getZipFile();
     }
@@ -175,7 +178,7 @@ public class ExtractorImpl implements Extractor {
     private File extractEntity(String tenant, OutstreamZipFile zipFile, String entityName,
             int retryCount) {
 
-        LOG.info("Extracting " + entityName);
+        LOG.debug("Extracting " + entityName + " from " + tenant);
         Iterable<Entity> records = null;
         String collectionName = entityName;
         Query query = new Query();
@@ -195,11 +198,11 @@ public class ExtractorImpl implements Extractor {
                 addAPIFields(entityName, record);
                 zipFile.writeData(toJSON(record));
             }
-            LOG.info("Finished extracting " + entityName);
+            LOG.debug("Finished extracting " + entityName + " from " + tenant);
         } catch (IOException e) {
-            LOG.error("Error while extracting " + entityName, e);
+            LOG.error("Error while extracting " + entityName + " from " + tenant, e);
             if (retryCount <= 1) {
-                LOG.error("Retrying extract for " + entityName);
+                LOG.error("Retrying extract for " + entityName + " from " + tenant);
                 ThreadUtil.sleep(1000);
                 extractEntity(tenant, zipFile, entityName, retryCount + 1);
             }
@@ -260,21 +263,18 @@ public class ExtractorImpl implements Extractor {
      * @author tosako
      *
      */
-    private class ExtractWorker implements Callable<File> {
+    private class ExtractWorker implements Callable<String> {
 
         private final String tenant;
 
-        private OutstreamZipFile zipFile;
-
-        public ExtractWorker(String tenant, OutstreamZipFile zipFile) throws FileNotFoundException {
+        public ExtractWorker(String tenant) throws FileNotFoundException {
             this.tenant = tenant;
-            this.zipFile = zipFile;
         }
 
         @Override
-        public File call() throws Exception {
+        public String call() throws Exception {
             execute(tenant);
-            return zipFile.getZipFile();
+            return tenant;
         }
     }
 

@@ -56,54 +56,6 @@ public class PersistenceProcessorTest {
     @Autowired
     PersistenceProcessor processor;
 
-
-    @Test
-    public void testSortLearningObjectivesByDependency() {
-        List<NeutralRecord> unsortedRecords = new ArrayList<NeutralRecord>();
-        unsortedRecords.add(createNeutralRecord("objective1", null));
-        unsortedRecords.add(createNeutralRecord("objective3", "objective2"));
-        unsortedRecords.add(createNeutralRecord("objective4", "objective3"));
-        unsortedRecords.add(createNeutralRecord("objective5", "objective4"));
-        unsortedRecords.add(createNeutralRecord("objective6", null));
-        unsortedRecords.add(createNeutralRecord("objective7", "objective6"));
-
-        // do n! runs with random shuffle. shuffle won't cover every combination but does enough
-        for (int count = 0; count < factorial(unsortedRecords.size()); count++) {
-
-            Collections.shuffle(unsortedRecords);
-
-            List<NeutralRecord> sortedRecords = PersistenceProcessor
-                    .sortNrListByDependency(unsortedRecords, "learningObjective");
-
-            for (int i = 0; i < sortedRecords.size(); i++) {
-                NeutralRecord sortedRecord = sortedRecords.get(i);
-                String parentObjectiveId = (String) sortedRecord.getLocalParentIds().get("parentObjectiveId");
-
-                assertParentNotLaterInList(sortedRecords, i + 1, parentObjectiveId, "learningObjectiveId.identificationCode");
-            }
-        }
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void testCyclicLearningObjectivesByDependency() throws javax.jms.IllegalStateException {
-        List<NeutralRecord> unsortedRecords = new ArrayList<NeutralRecord>();
-        unsortedRecords.add(createNeutralRecord("objective1", "objective4"));
-        unsortedRecords.add(createNeutralRecord("objective2", "objective1"));
-        unsortedRecords.add(createNeutralRecord("objective3", "objective2"));
-        unsortedRecords.add(createNeutralRecord("objective4", "objective3"));
-
-        // do n! runs with random shuffle. shuffle won't cover every combination but does enough
-        for (int count = 0; count < factorial(unsortedRecords.size()); count++) {
-
-            Collections.shuffle(unsortedRecords);
-
-            List<NeutralRecord> sortedRecords = PersistenceProcessor
-                    .sortNrListByDependency(unsortedRecords, "learningObjective");
-
-            assertNotNull(sortedRecords);
-        }
-    }
-
     private void assertParentNotLaterInList(List<NeutralRecord> sortedRecords, int startIndex, String parentId, String idPath) {
         if (parentId != null) {
             for (int i = startIndex; i < sortedRecords.size(); i++) {

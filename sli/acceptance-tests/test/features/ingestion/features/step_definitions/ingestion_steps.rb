@@ -2672,6 +2672,11 @@ def findField(object, field)
   object
 end
 
+Then /^there are no mismatches when executing "(.*?)" on tenant "(.*?)"$/ do |filename, tenant|
+  `mongo #{convertTenantIdToDbName(tenant)} test/features/ingestion/test_data/#{filename} | grep Mismatch`
+  assert($?.to_i!=0, "Mismatches or other error when executing mongo #{convertTenantIdToDbName(tenant)} test/features/ingestion/test_data/#{filename} | grep Mismatch")
+end
+
 Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
   object = findField(@record, field)
   assert(object.length==Integer(arrayCount),"the field #{field}, #{object} is not an array of size #{arrayCount}")

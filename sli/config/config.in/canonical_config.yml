@@ -202,6 +202,8 @@ default:
 
         sli.ingestion.parser.batch.size: 1000
 
+        sli.ingestion.purge.batch.size: 30000
+
         sli.ingestion.nodeType: standalone
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
@@ -435,6 +437,11 @@ default:
         sli.search.indexer.sarje.sub.topic: /topic/oplog_subscribe
         sli.search.indexer.sarje.sub.req.queue: /queue/subscription/poll
         sli.search.indexer.env: local
+
+        # bulk extract
+        sli.bulk.extract.output.directory: ./extract
+        sli.bulk.extract.log.path: logs
+        sli.bulk.extract.log.level: INFO
 
 acceptance-tests:
     api:

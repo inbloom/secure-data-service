@@ -15,14 +15,26 @@
  */
 package org.slc.sli.bulk.extract;
 
+import java.io.FileNotFoundException;
+import java.util.List;
+
 
 /**
  * Process that is responsible for data extract from the primary data store.
  * @author tshewchuk
  *
  */
-public interface Extractor extends Process {
+public interface Extractor {
 
+    /**
+     * Initializes the extractor
+     * 
+     * @param tenants The list of tenants whose data could be extracted
+     * @throws FileNotFoundException 
+     */
+    void init(List<String> tenants) throws FileNotFoundException;
+
+    
     /**
      * Execute extraction for all tenants.
      */
@@ -34,5 +46,10 @@ public interface Extractor extends Process {
      * @param tenant
      */
     void execute(String tenant);
+    
+    /**
+     * Terminates processes at the end of the extract 
+     */
+    public void destroy();
 
 }
