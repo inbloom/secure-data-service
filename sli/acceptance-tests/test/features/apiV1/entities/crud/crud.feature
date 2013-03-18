@@ -215,7 +215,7 @@ Examples:
 
 Examples:
 | Entity Type             | Entity Resource URI       | Count | Rewrite URI|
-| "assessment"            | "assessments"             | 17    |/search/assessments|                                                                            
+| "assessment"            | "assessments"             | 18    |/search/assessments|                                                                            
 | "attendance"            | "attendances"             | 3     |/sections/@ids/studentSectionAssociations/students/attendances|
 | "cohort"                | "cohorts"                 | 4     |/staff/@ids/staffCohortAssociations/cohorts|
 | "course"                | "courses"                 | 92    |/search/courses|
