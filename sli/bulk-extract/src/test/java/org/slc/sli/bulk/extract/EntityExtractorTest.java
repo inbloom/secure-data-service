@@ -29,6 +29,7 @@ import org.mockito.Mockito;
 import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
@@ -72,7 +73,7 @@ public class EntityExtractorTest {
         zipFile = Mockito.mock(OutstreamZipFile.class);
         extractor.setEntityRepository(mongoEntityRepository);
         extractor.setTenants(tenants);
-        extractor.setExtractDir(extractDir);
+        extractor.setBaseDirectory(extractDir);
         extractor.init();
     }
 
@@ -105,7 +106,7 @@ public class EntityExtractorTest {
 
         List<Entity> students = TestUtils.createStudents();
 
-        Mockito.when(mongoEntityRepository.findByQuery(Matchers.eq(testEntity), Matchers.any(Query.class), Matchers.anyInt(), Matchers.anyInt())).thenReturn(students.subList(0, 1));
+        Mockito.when(mongoEntityRepository.findAll(Matchers.eq(testEntity), Matchers.any(NeutralQuery.class))).thenReturn(students.subList(0, 1));
         Mockito.when(zipFile.writeData(Matchers.anyString())).thenThrow(new IOException());
 
         extractor.extractEntity(testTenant, zipFile, testEntity);

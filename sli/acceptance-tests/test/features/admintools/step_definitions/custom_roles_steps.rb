@@ -327,7 +327,7 @@ Then /^the user "(.*?)" in tenant "(.*?)" can access the API with self (rights "
   checkRights(user, tenant, rights, true)
 end
 
-def checkRights(user, tenant, rights, isSelf) 
+def checkRights(user, tenant, rights, isSelf)
   for num in 0..5
     begin 
        sleep 1
@@ -358,7 +358,7 @@ def checkRights(user, tenant, rights, isSelf)
       end 
       #If we get this far the test probably succeeded
       break
-    rescue => e
+    rescue MiniTest::Assertion, StandardError => e
       raise e if num == 5
     end
   end

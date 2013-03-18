@@ -30,10 +30,9 @@ public interface Extractor {
      * Initializes the extractor
      * 
      * @param tenants The list of tenants whose data could be extracted
-     * @param outputDirectory The directory that will contain a zip file containg the extract
      * @throws FileNotFoundException 
      */
-    void init(List<String> tenants, String outputDirectory) throws FileNotFoundException;
+    void init(List<String> tenants) throws FileNotFoundException;
 
     
     /**

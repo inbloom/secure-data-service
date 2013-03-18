@@ -77,7 +77,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     </util:list>
 
     <util:map id="queriedEntities" key-type="java.lang.String" value-type="java.lang.String">
-        <entry key="educationOrganization" value="educationOrganization" />
         <entry key="school" value="educationOrganization" />
         <entry key="staff" value="staff" />
         <entry key="teacher" value="staff" />
@@ -100,6 +99,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
          <property name="queriedEntities" ref="queriedEntities" />
          <property name="combinedEntities" ref="combinedEntities" />
          <property name="bulkExtractMongoDA" ref="bulkExtractMongoDA" />
+         <property name="baseDirectory" value="${sli.bulk.extract.output.directory:./extract}" />
     </bean>
     
     <bean id="bulkExtractMongoDA" class="org.slc.sli.bulk.extract.BulkExtractMongoDA">

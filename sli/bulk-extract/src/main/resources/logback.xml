@@ -8,23 +8,18 @@
 		</encoder>
 	</appender>
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>${sli.search.indexer.log.path}/bulk-extract.log</File>
+		<File >${sli.bulk.extract.log.path}/bulk-extract.log</File>
 		<Append>true</Append>
 		<encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
 			<layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${sli.search.indexer.log.path}/bulk-extract-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>${sli.bulk.extract.log.path}/bulk-extract-%d{yyyy-MM-dd}.log</fileNamePattern>
 		</rollingPolicy>
 	</appender>
 		
-	<root level="${sli.search.indexer.log.level}">
+	<root level="${sli.bulk.extract.log.level:INFO}">
 		<appender-ref ref="FILE"/>
-		<if condition='"${sli.search.indexer.env}" == "local"'>
-			<then>
-				<appender-ref ref="STDOUT"/>
-			</then>
-		</if>
 	</root>
 
 </configuration>

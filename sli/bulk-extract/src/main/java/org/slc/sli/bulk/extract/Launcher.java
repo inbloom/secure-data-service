@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Launcher {
-    private final static String USAGE = "Usage: bulk-extract <tenant> <output-directory>";
+    private final static String USAGE = "Usage: bulk-extract <tenant>";
     private static final Logger LOG = LoggerFactory.getLogger(Launcher.class);
 
     /**
@@ -20,18 +20,17 @@ public class Launcher {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/application-context.xml");
         Extractor main = context.getBean(EntityExtractor.class);
         
-        if (args.length != 2) {
+        if (args.length != 1) {
             LOG.error(USAGE);
             return;
         }
         
         String tenantId = args[0];
-        String outputDir = args[1];
 
         List<String> tenants = new ArrayList<String>();
         tenants.add(tenantId);
         try {
-            main.init(tenants, outputDir);
+            main.init(tenants);
         } catch (FileNotFoundException e) {
             LOG.error("Invalid output directory");
             return;
