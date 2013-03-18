@@ -18,6 +18,7 @@ package org.slc.sli.bulk.extract;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -73,16 +74,20 @@ public class EntityExtractor implements Extractor {
 
     private Repository<Entity> entityRepository;
 
+    private BulkExtractMongoDA bulkExtractMongoDA;
+
+    @Override
     public void destroy() {
         executor.shutdown();
     }
 
+    @Override
     public void init(List<String> tenants, String outputDirectory) throws FileNotFoundException {
         setTenants(tenants);
         setExtractDir(outputDirectory);
         init();
     }
-    
+
     public void init() throws FileNotFoundException {
         createExtractDir();
         // create thread pool to process files
@@ -150,6 +155,8 @@ public class EntityExtractor implements Extractor {
         } catch (IOException e) {
             LOG.error("Error attempting to create zipfile " + zipFile.getZipFile().getPath(), e);
         }
+
+        bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getZipFile().getAbsolutePath(), new Date());
     }
 
     protected void processFuture(Future<File> future) {
@@ -249,6 +256,14 @@ public class EntityExtractor implements Extractor {
 
     public void setCombinedEntities(Map<String, List<String>> combinedEntities) {
         this.combinedEntities = combinedEntities;
+    }
+
+    public BulkExtractMongoDA getBulkExtractMongoDA() {
+        return bulkExtractMongoDA;
+    }
+
+    public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
+        this.bulkExtractMongoDA = bulkExtractMongoDA;
     }
 
     /**

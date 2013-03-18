@@ -99,6 +99,11 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
          <property name="entities" ref="entities" />
          <property name="queriedEntities" ref="queriedEntities" />
          <property name="combinedEntities" ref="combinedEntities" />
+         <property name="bulkExtractMongoDA" ref="bulkExtractMongoDA" />
+    </bean>
+    
+    <bean id="bulkExtractMongoDA" class="org.slc.sli.bulk.extract.BulkExtractMongoDA">
+         <property name="entityRepository" ref="mongoEntityRepository" />
     </bean>
     
       <util:set id="tenantAgnosticCollections" value-type="java.lang.String">
