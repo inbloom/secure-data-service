@@ -24,19 +24,13 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import org.slc.sli.search.config.IndexConfig;
-import org.slc.sli.search.config.IndexConfigStore;
-import org.slc.sli.search.connector.SourceDatastoreConnector;
 import org.slc.sli.search.entity.IndexEntity.Action;
-import org.slc.sli.search.transform.EntityConverter;
 
-public class AssessmentPeriodDescriptorEntityConverter implements EntityConverter {
+public class AssessmentPeriodDescriptorEntityConverter extends AssessmentEntityConverter {
     
     public final static String ASSESSMENT = "assessment";
     public final static String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     public final static String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
-
-    private SourceDatastoreConnector sourceDatastoreConnector;
-    private IndexConfigStore indexConfigStore;
 
     @SuppressWarnings("unchecked")
     public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
@@ -45,8 +39,8 @@ public class AssessmentPeriodDescriptorEntityConverter implements EntityConverte
         // this is from sarje update event, that body is null
         if (entityMap.get("body") == null && action != Action.DELETE) {
             DBObject apdQuery = new BasicDBObject("_id", entityMap.get("_id"));
-            IndexConfig apdConfig = indexConfigStore.getConfig(ASSESSMENT_PERIOD_DESCRIPTOR);
-            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT_PERIOD_DESCRIPTOR, apdConfig.getFields(), apdQuery);
+            IndexConfig apdConfig = getIndexConfigStore().getConfig(ASSESSMENT_PERIOD_DESCRIPTOR);
+            DBCursor cursor = getSourceDatastoreConnector().getDBCursor(index, ASSESSMENT_PERIOD_DESCRIPTOR, apdConfig.getFields(), apdQuery);
             if (cursor.hasNext()) {
                 Map<String, Object> apdEntity = cursor.next().toMap();
                 entityMap.put("body", apdEntity.get("body"));
@@ -60,9 +54,9 @@ public class AssessmentPeriodDescriptorEntityConverter implements EntityConverte
         }
         
         DBObject query = new BasicDBObject("body." + ASSESSMENT_PERIOD_DESCRIPTOR_ID, entityMap.get("_id"));
-        IndexConfig config = indexConfigStore.getConfig(ASSESSMENT);
+        IndexConfig config = getIndexConfigStore().getConfig(ASSESSMENT);
         
-        DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT, config.getFields(), query);
+        DBCursor cursor = getSourceDatastoreConnector().getDBCursor(index, ASSESSMENT, config.getFields(), query);
         while (cursor.hasNext()) {
             DBObject obj = cursor.next();
             Map<String, Object> assessmentMap = obj.toMap();
@@ -70,24 +64,17 @@ public class AssessmentPeriodDescriptorEntityConverter implements EntityConverte
                 ((Map<String, Object>) assessmentMap.get("body")).put(ASSESSMENT_PERIOD_DESCRIPTOR, entityMap.get("body"));
             }
             ((Map<String, Object>) assessmentMap.get("body")).remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID);
-            entities.add(assessmentMap);
+            entities.addAll(super.treatment(index, action, assessmentMap));
         }
-            
+
         return entities;
     }
+
     
     @Override
     public Action convertAction(Action action) {
         // delete action will need to changed into an update action on assessments
         return action == Action.DELETE ? Action.UPDATE : action;
-    }
-
-    public void setIndexConfigStore(IndexConfigStore indexConfigStore) {
-        this.indexConfigStore = indexConfigStore;
-    }
-
-    public void setSourceDatastoreConnector(SourceDatastoreConnector sourceDatastoreConnector) {
-        this.sourceDatastoreConnector = sourceDatastoreConnector;
     }
 
 }

@@ -195,9 +195,9 @@ Scenario Outline: Confirm that entities that block queries dont block 2+ part UR
       | "linda.kim"    | "linda.kim1234"  | "/v1/learningObjectives/dd9165f2-65be-6d27-a8ac-bdc5f46757b6"               |
       | "linda.kim"    | "linda.kim1234"  | "/v1/learningStandards/dd9165f2-653e-6e27-a82c-bec5f48757b8"                |
 
+  @joe
 Scenario: Search Indexer should reindex when I update the Assessment Period Descriptor
-  Given I send a command to start the extractor to extract now
-  And I check that Elastic Search is non-empty
+  Given I check that Elastic Search is non-empty
   Then I am logged in using "rrogers" "rrogers1234" to realm "IL"
   And format "application/json"
   When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=hello%20world"

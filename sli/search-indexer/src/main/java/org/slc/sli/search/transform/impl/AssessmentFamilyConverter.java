@@ -19,19 +19,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.search.entity.IndexEntity.Action;
-
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+
+import org.slc.sli.search.entity.IndexEntity.Action;
 
 public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     
     @Override
     public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
+        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         String id = entityMap.get("_id").toString();
         String familyName = action == Action.DELETE ? "" : getName(index, entityMap).toString();
-        return addAssessmentsForFamilyId(index, id, familyName);
+        List<Map<String, Object>> assessments = addAssessmentsForFamilyId(index, id, familyName);
+        for (Map<String, Object> assessment : assessments) {
+            result.addAll(super.treatment(index, action, assessment));
+        }
+        
+        return result;
     }
     
     /**
