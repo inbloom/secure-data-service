@@ -76,6 +76,22 @@ public class SchemaReferencePath {
         return path;
     }
 
+    public String getField() {
+        int idx = path.indexOf('.');
+        if (idx < 0 ) {
+            return null;
+        }
+        return path.substring(idx+1);
+    }
+
+    public String getEntity() {
+        int idx = path.indexOf('.');
+        if (idx < 0 ) {
+            return null;
+        }
+        return path.substring(0, idx);
+    }
+
     public String getReferent() {
         return referent;
     }
