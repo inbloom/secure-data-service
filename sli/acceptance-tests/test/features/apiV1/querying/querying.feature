@@ -194,7 +194,38 @@ Scenario Outline: Confirm that entities that block queries dont block 2+ part UR
 #      | "linda.kim"    | "linda.kim1234"  | "/v1/competencyLevelDescriptor/3a7b0473fd3fdeb24254c08d1250087a2144c642_id" |
       | "linda.kim"    | "linda.kim1234"  | "/v1/learningObjectives/dd9165f2-65be-6d27-a8ac-bdc5f46757b6"               |
       | "linda.kim"    | "linda.kim1234"  | "/v1/learningStandards/dd9165f2-653e-6e27-a82c-bec5f48757b8"                |
-    
+
+Scenario: Search Indexer should reindex when I update the Assessment Period Descriptor
+  Given I send a command to start the extractor to extract now
+  And I check that Elastic Search is non-empty
+  Then I am logged in using "rrogers" "rrogers1234" to realm "IL"
+  And format "application/json"
+  When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=hello%20world"
+  Then I should receive a return code of 200
+  Then I should receive a collection with 0 elements
+  When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=assessment"
+  Then I should receive a return code of 200
+  Then I should receive a collection with 5 elements
+  Then I update the "assessmentPeriodDescriptor" with ID "486b2868f8556c81e7d2094845bf3a40a0abef02_id" field "body.description" to "hello world"
+  When I send an update event to the search indexer for collection "assessmentPeriodDescriptor" and ID "486b2868f8556c81e7d2094845bf3a40a0abef02_id"
+    Then I will EVENTUALLY GET "/v1/assessments?assessmentPeriodDescriptor.description=hello%20world" with 1 elements
+  When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=hello%20world"
+  Then I should receive a return code of 200
+  Then I should receive a collection with 1 elements
+  When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=assessment"
+  Then I should receive a return code of 200
+  Then I should receive a collection with 4 elements
+  Then I update the "assessmentPeriodDescriptor" with ID "486b2868f8556c81e7d2094845bf3a40a0abef02_id" field "body.description" to "assessment"
+  When I send an update event to the search indexer for collection "assessmentPeriodDescriptor" and ID "486b2868f8556c81e7d2094845bf3a40a0abef02_id"
+  Then I will EVENTUALLY GET "/v1/assessments?assessmentPeriodDescriptor.description=hello%20world" with 0 elements
+  Then I will EVENTUALLY GET "/v1/assessments?assessmentPeriodDescriptor.description=assessment" with 5 elements
+  When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=hello%20world"
+  Then I should receive a return code of 200
+  Then I should receive a collection with 0 elements
+  When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=assessment"
+  Then I should receive a return code of 200
+  Then I should receive a collection with 5 elements
+
 Scenario Outline: Filter by collections routed to Elastic Search
   Given I am logged in using <username> <password> to realm "IL"
     And format "application/json"

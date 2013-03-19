@@ -16,7 +16,6 @@
 package org.slc.sli.search.transform.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -56,6 +55,7 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
             DBObject obj = assessmentCursor.next();
             Map<String, Object> assessment = obj.toMap();
             Map<String, Object> body = (Map<String, Object>) assessment.get("body");
+            body.remove(ASSESSMENT_FAMILY_REFERENCE);
             body.put(ASSESSMENT_FAMILY_HIERARCHY, familyName);
             assessment.put("body", body);
             results.add(assessment);
