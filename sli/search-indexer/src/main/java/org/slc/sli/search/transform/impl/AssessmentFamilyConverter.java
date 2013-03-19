@@ -28,19 +28,17 @@ import com.mongodb.DBObject;
 
 public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     
-    private static final List<String> FAMILY_FIELDS = Arrays.asList("body.assessmentFamilyReferece",
-            "body.assessmentFamilyTitle");
-    
     @Override
     public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
         String id = entityMap.get("_id").toString();
         String familyName = action == Action.DELETE ? "" : getName(index, entityMap).toString();
-        return addAssessmentsForFamilyId(id, familyName);
+        return addAssessmentsForFamilyId(index, id, familyName);
     }
     
     /**
      * Add the assessments matching the given family id to the list to be updated
      * 
+     * @param dbname the name of the db
      * @param id
      *            the family id
      * @param familyName
@@ -49,36 +47,36 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
      *            the list of results
      */
     @SuppressWarnings("unchecked")
-    protected List<Map<String, Object>> addAssessmentsForFamilyId(String id, String familyName) {
+    protected List<Map<String, Object>> addAssessmentsForFamilyId(String dbname, String id, String familyName) {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         DBObject referenceQuery = BasicDBObjectBuilder.start().add("body.assessmentFamilyReference", id).get();
-        DBCursor assessmentCursor = getSourceDatastoreConnector().getDBCursor("assessment",
-                getIndexConfigStore().getConfig("assessment").getFields(), referenceQuery);
+        DBCursor assessmentCursor = getSourceDatastoreConnector().getDBCursor(dbname, ASSESSMENT,
+                getIndexConfigStore().getConfig(ASSESSMENT).getFields(), referenceQuery);
         while (assessmentCursor.hasNext()) {
             DBObject obj = assessmentCursor.next();
             Map<String, Object> assessment = obj.toMap();
             Map<String, Object> body = (Map<String, Object>) assessment.get("body");
-            body.put("assessmentFamilyHierarchyName", familyName);
+            body.put(ASSESSMENT_FAMILY_HIERARCHY, familyName);
             assessment.put("body", body);
             results.add(assessment);
         }
-        DBCursor familyCursor = getSourceDatastoreConnector().getDBCursor("assessmentFamily", FAMILY_FIELDS, referenceQuery);
+        DBCursor familyCursor = getSourceDatastoreConnector().getDBCursor(dbname, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS, referenceQuery);
         while (familyCursor.hasNext()) {
             DBObject subFamily = familyCursor.next();
             String subId = (String) subFamily.get("_id");
             String subName = (String) ((Map<String, Object>) subFamily.get("body")).get("assessmentFamilyTitle");
-            results.addAll(addAssessmentsForFamilyId(subId, familyName + "." + subName));
+            results.addAll(addAssessmentsForFamilyId(dbname, subId, familyName + "." + subName));
         }
         return results;
     }
     
     @SuppressWarnings("unchecked")
     private StringBuilder getName(String index, Map<String, Object> entityMap) {
-        Map<String, Object> body = getBody(index, entityMap);
-        String parentRef = (String) body.get("assessmentFamilyReference");
+        Map<String, Object> body = getBody(index, entityMap, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS);
+        String parentRef = (String) body.get(ASSESSMENT_FAMILY_REFERENCE);
         StringBuilder builder = new StringBuilder();
         if (parentRef != null && !parentRef.equals("")) {
-            DBCursor cursor = getSourceDatastoreConnector().getDBCursor("assessmentFamily", FAMILY_FIELDS,
+            DBCursor cursor = getSourceDatastoreConnector().getDBCursor(index, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS,
                     BasicDBObjectBuilder.start().add("_id", parentRef).get());
             if (cursor.hasNext()) {
                 builder = getName(index, cursor.next().toMap());
@@ -90,7 +88,7 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     
     @Override
     public Action convertAction(Action action) {
-        return action;
+        return action == Action.DELETE ? Action.UPDATE : action;
     }
     
 }
