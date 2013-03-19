@@ -764,10 +764,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return true;
     }
 
-    // TODO these should be taken from schema
-    private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
-    private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
-    private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
+    // TODO determine whether this is the best place to have custom entity meta information
+    static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
+    static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
+    static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
 
     private Integer deleteAttachedCustomEntities(String sourceId, boolean dryrun, Set<String> deletedIds) {
         Integer count = 0;
