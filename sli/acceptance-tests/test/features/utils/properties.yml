@@ -33,6 +33,12 @@ ingestion_rc_edorg: ""
 ingestion_timeout_override_seconds: 0
 activemq_host: "localhost"
 
+#Bulk Extract Configuration
+bulk_extract_script: "../bulk-extract/scripts/local_bulk_extract.sh"
+bulk_extract_output_directory: "../bulk-extract/scripts/extract/"
+bulk_extract_db: "localhost"
+bulk_extract_port: 27017
+
 sif_db: "localhost"
 sif_port: 27017
 sif_database_name: "sli"

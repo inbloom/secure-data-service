@@ -149,7 +149,7 @@ public class RightCheckFilterFactory implements ResourceFilterFactory {
             
             for (Right right : rightList) {
                 if (SecurityUtil.hasRight(right)) {
-                    debug("User has needed right {} to access {}.", right, request.getPath());
+                    info("User has needed right {} to access {}.", right, request.getPath());
                     return request;
                 }
             }

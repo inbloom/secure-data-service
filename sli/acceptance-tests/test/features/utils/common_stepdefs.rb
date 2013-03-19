@@ -261,6 +261,24 @@ Then /^in an entity "([^"]*)", I should receive a link named "([^"]*)"$/ do |id,
   assert(found, "Link not found rel=#{arg1}")
 end
 
+Then /^the header "([^\"]*)" equals (\d+)$/ do |header, value|
+  value = convert(value)
+  header.downcase!
+  headers = @res.raw_headers
+  assert(headers != nil, "Headers came back nil.. there's a problem.")
+  if @res.code >= 400
+    assert(value == 0, "Received return code: #{@res.code}, but expected non-zero count (#{value}).")
+  else
+    assert(headers[header], "Header: #{header} not found.")
+    assert(headers[header] != nil, "Header: #{header} not found.")
+    resultValue = headers[header]
+    assert(resultValue.kind_of?(Array), "Header: #{header} is of the wrong form.")
+    assert(resultValue.length == 1, "Header: #{header} is of the wrong form.")
+    singleValue = convert(resultValue[0])
+    assert(singleValue == value, "Value in header: #{header} did not match. Expected: #{value}, received: #{singleValue}.")
+  end
+end
+
 When /^I navigate to GET the link named "([^"]*)"$/ do |arg1|
   #Try to make test more deterministic by using ordered search
   @the_link = @the_link.sort

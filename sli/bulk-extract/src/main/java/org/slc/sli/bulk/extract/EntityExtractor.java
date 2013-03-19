@@ -18,6 +18,9 @@ package org.slc.sli.bulk.extract;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -26,24 +29,21 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
-import com.mongodb.util.ThreadUtil;
 
 
 /**
@@ -57,10 +57,13 @@ public class EntityExtractor implements Extractor {
     private static final Logger LOG = LoggerFactory.getLogger(EntityExtractor.class);
 
     private static final int DEFAULT_EXECUTOR_THREADS = 3;
-    private static final int DEFAULT_EXTRACTOR_JOB_TIME = 600;
     private static final String ID_STRING = "id";
     private static final String TYPE_STRING = "entityType";
+    private static final String ID = "_id";
+    private static final String TYPE = "type";
+    private static final String BODY = "body";
     
+
     private String baseDirectory;
 
     private List<String> entities;
@@ -79,15 +82,19 @@ public class EntityExtractor implements Extractor {
 
     private Repository<Entity> entityRepository;
 
+    private BulkExtractMongoDA bulkExtractMongoDA;
+
+    @Override
     public void destroy() {
         executor.shutdown();
     }
 
+    @Override
     public void init(List<String> tenants) throws FileNotFoundException {
         setTenants(tenants);
         init();
     }
-    
+
     public void init() throws FileNotFoundException {
         createBaseDir();
         // create thread pool to process files
@@ -138,8 +145,11 @@ public class EntityExtractor implements Extractor {
         // TODO: implement isRunning flag to make sure only one extract is
         // running at a time
         OutstreamZipFile zipFile = null;
+        Date startTime = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String timeStamp = df.format(startTime);
         try {
-            zipFile = new OutstreamZipFile(getTenantDirectory(tenant), tenant);
+            zipFile = new OutstreamZipFile(getTenantDirectory(tenant), tenant + "-" + timeStamp);
         } catch (IOException e) {
             LOG.error("Error while extracting data for tenant " + tenant, e);
         }
@@ -152,6 +162,7 @@ public class EntityExtractor implements Extractor {
         // Rename temp zip file to permanent.
         try {
             zipFile.renameTempZipFile();
+            bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getZipFile().getAbsolutePath(), startTime);
         } catch (IOException e) {
             LOG.error("Error attempting to create zipfile " + zipFile.getZipFile().getPath(), e);
         }
@@ -165,59 +176,74 @@ public class EntityExtractor implements Extractor {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public File extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
-            extractEntity(tenant, zipFile, entityName, 0);
-            return zipFile.getZipFile();
-    }
-
-    private File extractEntity(String tenant, OutstreamZipFile zipFile, String entityName,
-            int retryCount) {
 
         LOG.info("Extracting " + entityName);
-        Iterable<Entity> records = null;
-        String collectionName = entityName;
-        NeutralQuery nquery = new NeutralQuery();
-        if (combinedEntities.containsKey(entityName)) {
-            nquery.addCriteria(new NeutralCriteria("type", "in", combinedEntities.get(entityName),false));
-        } else if (queriedEntities.containsKey(entityName)) {
-            collectionName = queriedEntities.get(entityName);
-            nquery.addCriteria(new NeutralCriteria("type", "=", entityName, false));
-        } 
-
+        
+        String collectionName = getCollectionName(entityName);
+        Query query = getQuery(entityName);
+        
         try {
             TenantContext.setTenantId(tenant);
-            records = entityRepository.findAll(collectionName, nquery);
+            DBCursor cursor = entityRepository.getDBCursor(collectionName, query);
             
-            if(records.iterator().hasNext())
-            {   
+            if (cursor.hasNext()) {
                 zipFile.createArchiveEntry(entityName + ".json");
-                // write each record to file
-                JSONArray jsonRecords = new JSONArray();
-                for (Entity record : records) {
+                writeToZip(zipFile, "[");
+
+                while (cursor.hasNext()) {
+                    DBObject object = cursor.next();
+                    String type = object.get(TYPE).toString();
+                    String id = object.get(ID).toString();
+                    Map<String, Object> body = (Map<String, Object>) object.get(BODY);
+                    Entity record = new MongoEntity(type, id, body, null);
+
+                    // write each record to file
                     addAPIFields(entityName, record);
-                    jsonRecords.put(new JSONObject(record.getBody()));
+                    writeToZip(zipFile, JSON.serialize(record.getBody()));
+                    
+                    if (cursor.hasNext()) {
+                        writeToZip(zipFile, ",");
+                    }
                 }
-                writeToZip(zipFile,jsonRecords);
+                writeToZip(zipFile, "]");
             }
-            
             LOG.info("Finished extracting " + entityName);
+            
         } catch (IOException e) {
             LOG.error("Error while extracting " + entityName, e);
-            if (retryCount <= 1) {
-                LOG.error("Retrying extract for " + entityName);
-                ThreadUtil.sleep(1000);
-                extractEntity(tenant, zipFile, entityName, retryCount + 1);
-            }
         } finally {
             TenantContext.setTenantId(null);
         }
         return zipFile.getZipFile();
     }
 
-    private void writeToZip(OutstreamZipFile zipFile, JSONArray records) throws NoSuchElementException, IOException  {
-        zipFile.writeData(records.toString());
+    private void writeToZip(OutstreamZipFile zipFile, String data) throws NoSuchElementException, IOException  {
+        zipFile.writeData(data);
     }
     
+    private String getCollectionName(String entityName) {
+        if (queriedEntities.containsKey(entityName)) {
+            return queriedEntities.get(entityName);
+        } else {
+            return entityName;
+        }
+    }
+    
+    private Query getQuery(String entityName) {
+        Query query = new Query();
+        
+        if (queriedEntities.containsKey(entityName)) {
+            query.addCriteria(Criteria.where("type").is(entityName));
+        }
+        
+        if (combinedEntities.containsKey(entityName)) {
+            query = new Query(Criteria.where("type").in(combinedEntities.get(entityName)));
+        }
+        return query;
+    }
+
     private void addAPIFields(String archiveName, Entity entity) {
         entity.getBody().put(TYPE_STRING, entity.getType());
         if (combinedEntities.containsKey(archiveName)) {
@@ -226,9 +252,9 @@ public class EntityExtractor implements Extractor {
             entity.getBody().put(ID_STRING, entity.getEntityId());
         }
     }
-    
+
     private String getTenantDirectory(String tenant) {
-        
+
         File tenantDirectory = new File(baseDirectory, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
         tenantDirectory.mkdirs();
         return tenantDirectory.getPath();
@@ -262,6 +288,13 @@ public class EntityExtractor implements Extractor {
         this.combinedEntities = combinedEntities;
     }
 
+    public BulkExtractMongoDA getBulkExtractMongoDA() {
+        return bulkExtractMongoDA;
+    }
+
+    public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
+        this.bulkExtractMongoDA = bulkExtractMongoDA;
+    }
     public void setBaseDirectory(String baseDirectory) {
         this.baseDirectory = baseDirectory;
     }

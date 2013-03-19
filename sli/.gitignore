@@ -29,3 +29,5 @@ opstools/search-indexer/data/
 opstools/migration/index_migration/tenantDB_indexes.txt
 
 search-indexer/activemq-data
+
+bulk-extract/scripts/extract
