@@ -673,14 +673,20 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
         }
 
 
+
+
         Long min = element.getMinOccurs();
         Long max = element.getMaxOccurs();
+        QName type = element.getSchemaTypeName();
 
         if(min != null) {
             elementSchema.getProperties().put("minCardinality", min);
         }
         if( max != null) {
             elementSchema.getProperties().put("maxCardinality", max);
+        }
+        if(type != null) {
+            elementSchema.getProperties().put("elementType", type.toString());
         }
 
         return elementSchema;
