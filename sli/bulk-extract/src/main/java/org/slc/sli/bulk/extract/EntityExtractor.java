@@ -30,6 +30,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.slc.sli.bulk.extract.metadata.MetaData;
 import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
@@ -62,7 +63,7 @@ public class EntityExtractor implements Extractor {
     private static final String ID = "_id";
     private static final String TYPE = "type";
     private static final String BODY = "body";
-    
+
 
     private String baseDirectory;
 
@@ -83,6 +84,8 @@ public class EntityExtractor implements Extractor {
     private Repository<Entity> entityRepository;
 
     private BulkExtractMongoDA bulkExtractMongoDA;
+
+    private MetaData metaData;
 
     @Override
     public void destroy() {
@@ -146,7 +149,7 @@ public class EntityExtractor implements Extractor {
         // running at a time
         OutstreamZipFile zipFile = null;
         Date startTime = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss");
         String timeStamp = df.format(startTime);
         try {
             zipFile = new OutstreamZipFile(getTenantDirectory(tenant), tenant + "-" + timeStamp);
@@ -161,6 +164,7 @@ public class EntityExtractor implements Extractor {
 
         // Rename temp zip file to permanent.
         try {
+            metaData.writeToZip(zipFile, timeStamp);
             zipFile.renameTempZipFile();
             bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getZipFile().getAbsolutePath(), startTime);
         } catch (IOException e) {
@@ -180,14 +184,14 @@ public class EntityExtractor implements Extractor {
     public File extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
 
         LOG.info("Extracting " + entityName);
-        
+
         String collectionName = getCollectionName(entityName);
         Query query = getQuery(entityName);
-        
+
         try {
             TenantContext.setTenantId(tenant);
             DBCursor cursor = entityRepository.getDBCursor(collectionName, query);
-            
+
             if (cursor.hasNext()) {
                 zipFile.createArchiveEntry(entityName + ".json");
                 writeToZip(zipFile, "[");
@@ -202,7 +206,7 @@ public class EntityExtractor implements Extractor {
                     // write each record to file
                     addAPIFields(entityName, record);
                     writeToZip(zipFile, JSON.serialize(record.getBody()));
-                    
+
                     if (cursor.hasNext()) {
                         writeToZip(zipFile, ",");
                     }
@@ -210,7 +214,7 @@ public class EntityExtractor implements Extractor {
                 writeToZip(zipFile, "]");
             }
             LOG.info("Finished extracting " + entityName);
-            
+
         } catch (IOException e) {
             LOG.error("Error while extracting " + entityName, e);
         } finally {
@@ -222,7 +226,7 @@ public class EntityExtractor implements Extractor {
     private void writeToZip(OutstreamZipFile zipFile, String data) throws NoSuchElementException, IOException  {
         zipFile.writeData(data);
     }
-    
+
     private String getCollectionName(String entityName) {
         if (queriedEntities.containsKey(entityName)) {
             return queriedEntities.get(entityName);
@@ -230,14 +234,14 @@ public class EntityExtractor implements Extractor {
             return entityName;
         }
     }
-    
+
     private Query getQuery(String entityName) {
         Query query = new Query();
-        
+
         if (queriedEntities.containsKey(entityName)) {
             query.addCriteria(Criteria.where("type").is(entityName));
         }
-        
+
         if (combinedEntities.containsKey(entityName)) {
             query = new Query(Criteria.where("type").in(combinedEntities.get(entityName)));
         }
@@ -321,6 +325,20 @@ public class EntityExtractor implements Extractor {
             execute(tenant);
             return zipFile.getZipFile();
         }
+    }
+
+    /**
+     * @return the metaData
+     */
+    public MetaData getMetaData() {
+        return metaData;
+    }
+
+    /**
+     * @param metaData the metaData to set
+     */
+    public void setMetaData(MetaData metaData) {
+        this.metaData = metaData;
     }
 
 }
