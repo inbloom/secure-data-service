@@ -24,7 +24,7 @@ import java.util.List;
  * @author tshewchuk
  *
  */
-public interface Extractor {
+public interface Extractor extends Process{
 
     /**
      * Initializes the extractor
