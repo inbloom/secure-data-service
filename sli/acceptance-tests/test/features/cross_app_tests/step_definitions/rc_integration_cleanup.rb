@@ -32,6 +32,7 @@ Given /^I have a connection to Mongo$/ do
   host = PropLoader.getProps['ingestion_db']
   port = PropLoader.getProps['ingestion_db_port']
   @conn = Mongo::Connection.new(host, port)
+  @conn2 = Mongo::Connection.new(host, 27020)
 end
 
 ###############################################################################
@@ -84,7 +85,18 @@ Then /^my tenant database should be cleared$/ do
 end
 
 Then /^I will drop the whole database$/ do
-  @conn.drop_database(@tenant_db_name)
+  attempts = 0
+  begin
+    attempts += 1
+    res = @conn.drop_database(@tenant_db_name)
+    puts "Attempted to drop database #{attempts} times: #{res.to_a}"
+    raise "Could not drop database" if (attempts > 15)
+  end while @conn.database_names.include?(@tenant_db_name)
+
+  # drop from second database to force mongos to recognize the database was dropped
+  res = @conn2.drop_database(@tenant_db_name)
+  puts "Attempted to drop database from second mongos: #{res.to_a}"
+
   tenant_dropped = false
   if (!@conn.database_names.include?(@tenant_db_name) || @conn.db(@tenant_db_name).collection_names.empty?)
     tenant_dropped = true

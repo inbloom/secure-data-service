@@ -47,11 +47,7 @@ end
 
 desc "Run DataBrowser RC Test"
 task :rcDataBrowserTests do
-  if RUN_ON_RC
-    runTests("test/features/cross_app_tests/rc_pike_integration_databrowser.feature")
-  else
-    runTests("test/features/cross_app_tests/rc_integration_databrowser.feature")
-  end
+  runTests("test/features/cross_app_tests/rc_integration_databrowser.feature")
 end
 
 desc "Run RC SAMT Tests"
@@ -204,23 +200,17 @@ end
 desc "Run RC E2E Tests in Sandbox mode"
 task :rcSandboxTests do
   @tags = ["~@wip", "@rc", "@sandbox"]
-  begin
-    Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(PropLoader.getProps['sandbox_tenant'])
-    Rake::Task["rcDeleteSandboxLDAPUsers"].execute unless RUN_ON_RC
-    randomizeRcSandboxTenant() if RUN_ON_RC
-    Rake::Task["rcSandboxAccountRequestTests"].execute
-    Rake::Task["rcSandboxProvisionTests"].execute
-    Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
-    Rake::Task["rcSandboxAppApprovalTests"].execute
-    Rake::Task["rcSandboxDamtTests"].execute
-    Rake::Task["rcSandboxDashboardTests"].execute
-    Rake::Task["rcSandboxDatabrowserTests"].execute
-    Rake::Task["rcSandboxCleanUpTests"].execute
-    Rake::Task["rcSandboxPurgeTests"].execute
-  rescue
-  ensure
-    Rake::Task["rcDeleteSandboxLDAPUsers"].execute if RUN_ON_RC
-  end
+  Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(PropLoader.getProps['sandbox_tenant'])
+  Rake::Task["rcDeleteSandboxLDAPUsers"].execute
+  Rake::Task["rcSandboxAccountRequestTests"].execute
+  Rake::Task["rcSandboxProvisionTests"].execute
+  Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
+  Rake::Task["rcSandboxAppApprovalTests"].execute
+  Rake::Task["rcSandboxDamtTests"].execute
+  Rake::Task["rcSandboxDashboardTests"].execute
+  Rake::Task["rcSandboxDatabrowserTests"].execute
+  Rake::Task["rcSandboxCleanUpTests"].execute
+  Rake::Task["rcSandboxPurgeTests"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

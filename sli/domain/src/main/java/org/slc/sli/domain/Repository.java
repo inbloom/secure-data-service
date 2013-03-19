@@ -19,11 +19,12 @@ package org.slc.sli.domain;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.WriteResult;
+
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
 
 /**
  * Define the object repository interface that provides basic CRUD and field
@@ -260,4 +261,12 @@ public interface Repository<T> {
      * @return
      */
     public abstract T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update);
+
+    /**
+     * Get DB cursor for the collection
+     * @param collectionName
+     * @param query TODO
+     * @return
+     */
+    public DBCursor getDBCursor(String collectionName, Query query);
 }

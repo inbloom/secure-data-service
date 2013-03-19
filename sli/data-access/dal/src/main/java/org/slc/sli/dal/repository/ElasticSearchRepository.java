@@ -28,6 +28,11 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.io.NullOutputStream;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.WriteResult;
+
 import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
@@ -42,6 +47,16 @@ import org.elasticsearch.common.cache.CacheBuilder;
 import org.elasticsearch.common.cache.CacheLoader;
 import org.elasticsearch.common.cache.LoadingCache;
 import org.elasticsearch.common.collect.Iterators;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
+
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.CalculatedData;
@@ -49,18 +64,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.encryption.tool.Encryptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.web.client.RestTemplate;
-
-import com.google.common.io.NullOutputStream;
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
 
 /**
  * elasticsearch connector
@@ -112,26 +115,26 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * called by init-method
-     * 
+     *
      * @throws Exception
      */
     public void init() throws Exception {
-        // This is an ugly hack to prevent an exception to be written to 
-        // standard output by the elastic search package, when it cannot load the "snappy" library 
-        // TODO: remove this when elastic search removes snappy compression as a dependency. 
+        // This is an ugly hack to prevent an exception to be written to
+        // standard output by the elastic search package, when it cannot load the "snappy" library
+        // TODO: remove this when elastic search removes snappy compression as a dependency.
         PrintStream stdout = System.out;
-        System.setOut(new PrintStream(new NullOutputStream())); 
-        try { 
+        System.setOut(new PrintStream(new NullOutputStream()));
+        try {
             esClient = new TransportClient();
         }
         finally {
-            System.setOut(stdout); 
+            System.setOut(stdout);
         }
     }
 
     /**
      * called by destroy-method
-     * 
+     *
      * @throws Exception
      */
     public void destroy() throws Exception {
@@ -145,7 +148,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * Send REST query to elasticsearch server
-     * 
+     *
      * @param query
      * @return
      */
@@ -183,7 +186,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * Get ES Query
-     * 
+     *
      * @param neutralQuery
      * @return query topost as a body
      */
@@ -373,6 +376,11 @@ public class ElasticSearchRepository implements Repository<Entity> {
         throw new UnsupportedOperationException("ElasticSearchRepository.updateMulti not implemented");
     }
 
+    @Override
+    public DBCursor getDBCursor(String collectionName, Query query) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.getDBCursor not implemented");
+    }
+
     public static class ReadConverter {
 
         private static JsonNode getHitsNode(HttpEntity<String> response) throws JsonProcessingException, IOException {
@@ -381,7 +389,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
         /**
          * Converts elasticsearch http response to collection of entities
-         * 
+         *
          * @param response
          * @return
          */
@@ -454,7 +462,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * Simple adapter for SearchHits to Entity
-     * 
+     *
      */
     static final class SearchHitEntity implements Entity {
         private Map<String, Object> body;
