@@ -45,7 +45,7 @@ import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.convert.IdConverter;
-<<<<<<< HEAD
+
 import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
@@ -53,11 +53,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.schema.SchemaReferencesMetaData;
-=======
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
->>>>>>> master
+
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD

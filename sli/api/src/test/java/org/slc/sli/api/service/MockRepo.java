@@ -489,7 +489,6 @@ public class MockRepo implements Repository<Entity> {
         return newEntity;
     }
 
-<<<<<<< HEAD
     @Override
     public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
     	// TODO do real cascade
@@ -497,8 +496,6 @@ public class MockRepo implements Repository<Entity> {
     	return new CascadeResult();
     }
 
-=======
->>>>>>> master
     @Override
     public boolean delete(String entityType, String id) {
         return repo.get(entityType).remove(id) != null;
