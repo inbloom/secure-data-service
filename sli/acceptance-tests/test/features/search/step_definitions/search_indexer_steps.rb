@@ -85,6 +85,7 @@ end
 When /^I update some assessment records in mongo$/ do
   updateAssmtEntityId = "e33ce38ad4136e409b426b1ffe7781d09aed2aec_id"
   updateAPDId = "486b2868f8556c81e7d2094845bf3a40a0abef02_id"
+  updateAFId = "1f3dfc4ddafb1360d971c78c71263cbc07081736_id"
   
   updateAssmtEntityBody =   
   { 
@@ -193,6 +194,21 @@ When /^I update some assessment records in mongo$/ do
     }
   }
   ]
+  
+  updateAFBody = {
+    "assessmentFamilyTitle" => "2003 First grade Standard",
+    "assessmentPeriods" => [
+      "2eb2c7b35c165a1ba14fb391fce3520a7a9aa564_id"
+    ],
+    "assessmentFamilyIdentificationCode" => [
+      {
+        "identificationSystem" => "State",
+        "ID" => "2003 First grade Standard"
+      }
+    ],
+    "version" => 1
+  }
+
 
 
   conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
@@ -219,6 +235,14 @@ When /^I update some assessment records in mongo$/ do
   assmtEntity["objectiveAssessment"]= updateOA
   assmtEntity["assessmentItem"] = updateAI
   assmt_coll.save(assmtEntity)
+  
+  #update AF with id is 1f3dfc4ddafb1360d971c78c71263cbc07081736_id
+  #remove its reference to parent assessmentFamily
+  af_coll = mdb["assessmentFamily"]
+  afEntity = af_coll.find_one({"_id"=> updateAFId})
+  afEntity["body"] = updateAFBody
+  af_coll.save(afEntity)
+  
   
 end
 

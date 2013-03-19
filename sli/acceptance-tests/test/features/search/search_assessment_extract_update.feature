@@ -31,6 +31,7 @@ Then I should see below records in response
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentItem.maxRawScore                         | 10                                            |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentItem.itemCategory                        | True-False                                    |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentItem.correctResponse                     | false                                         |
+       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentFamilyHierarchyName                      | 2003 Standard.2003 First grade Standard       |
 
 When I update some assessment records in mongo
 And I send a command to start the extractor to update "Midgar" tenant now
@@ -59,4 +60,5 @@ Then I should see below records in response
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentItem.maxRawScore                         | 20                                            |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentItem.itemCategory                        | Multiple Choice                               |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentItem.correctResponse                     | A                                             |
-       
+       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentFamilyHierarchyName                      | 2003 First grade Standard                     |
+      
