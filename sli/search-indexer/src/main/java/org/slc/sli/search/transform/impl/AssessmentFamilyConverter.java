@@ -28,9 +28,6 @@ import com.mongodb.DBObject;
 
 public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     
-    private static final List<String> FAMILY_FIELDS = Arrays.asList("body.assessmentFamilyReferece",
-            "body.assessmentFamilyTitle");
-    
     @Override
     public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
         String id = entityMap.get("_id").toString();
@@ -54,16 +51,16 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         DBObject referenceQuery = BasicDBObjectBuilder.start().add("body.assessmentFamilyReference", id).get();
         DBCursor assessmentCursor = getSourceDatastoreConnector().getDBCursor(dbname, ASSESSMENT,
-                getIndexConfigStore().getConfig("assessment").getFields(), referenceQuery);
+                getIndexConfigStore().getConfig(ASSESSMENT).getFields(), referenceQuery);
         while (assessmentCursor.hasNext()) {
             DBObject obj = assessmentCursor.next();
             Map<String, Object> assessment = obj.toMap();
             Map<String, Object> body = (Map<String, Object>) assessment.get("body");
-            body.put("assessmentFamilyHierarchyName", familyName);
+            body.put(ASSESSMENT_FAMILY_HIERARCHY, familyName);
             assessment.put("body", body);
             results.add(assessment);
         }
-        DBCursor familyCursor = getSourceDatastoreConnector().getDBCursor(dbname, "assessmentFamily", FAMILY_FIELDS, referenceQuery);
+        DBCursor familyCursor = getSourceDatastoreConnector().getDBCursor(dbname, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS, referenceQuery);
         while (familyCursor.hasNext()) {
             DBObject subFamily = familyCursor.next();
             String subId = (String) subFamily.get("_id");
@@ -75,11 +72,11 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     
     @SuppressWarnings("unchecked")
     private StringBuilder getName(String index, Map<String, Object> entityMap) {
-        Map<String, Object> body = getBody(index, entityMap);
-        String parentRef = (String) body.get("assessmentFamilyReference");
+        Map<String, Object> body = getBody(index, entityMap, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS);
+        String parentRef = (String) body.get(ASSESSMENT_FAMILY_REFERENCE);
         StringBuilder builder = new StringBuilder();
         if (parentRef != null && !parentRef.equals("")) {
-            DBCursor cursor = getSourceDatastoreConnector().getDBCursor(index, "assessmentFamily", FAMILY_FIELDS,
+            DBCursor cursor = getSourceDatastoreConnector().getDBCursor(index, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS,
                     BasicDBObjectBuilder.start().add("_id", parentRef).get());
             if (cursor.hasNext()) {
                 builder = getName(index, cursor.next().toMap());
@@ -91,7 +88,7 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     
     @Override
     public Action convertAction(Action action) {
-        return action;
+        return action == Action.DELETE ? Action.UPDATE : action;
     }
     
 }

@@ -37,12 +37,15 @@ import org.slc.sli.search.transform.EntityConverter;
 
 public class AssessmentEntityConverter implements EntityConverter {
     
-    public final static String ASSESSMENT = "assessment";
+    public static final String ASSESSMENT = "assessment";
     public static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     public static final String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
     public static final String ASSESSMENT_FAMILY_COLLECTION = "assessmentFamily";
     public static final String ASSESSMENT_FAMILY_REFERENCE = "assessmentFamilyReference";
     public static final String ASSESSMENT_FAMILY_HIERARCHY = "assessmentFamilyHierarchyName";
+    public static final String ASSESSMENT_FAMILY_TITLE = "assessmentFamilyTitle";
+    public static final List<String> FAMILY_FIELDS = Arrays.asList("body.assessmentFamilyReferece",
+            "body.assessmentFamilyTitle");
     
     private SourceDatastoreConnector sourceDatastoreConnector;
     private IndexConfigStore indexConfigStore;
@@ -66,15 +69,20 @@ public class AssessmentEntityConverter implements EntityConverter {
         return Arrays.asList(assessmentEntityMap);
     }
 
-    @SuppressWarnings("unchecked")
     protected Map<String, Object> getBody(String index, Map<String, Object> assessmentEntityMap) {
+        IndexConfig assessmentConfig = indexConfigStore.getConfig(ASSESSMENT);
+        List<String> fields = assessmentConfig.getFields();
+        return getBody(index, assessmentEntityMap, ASSESSMENT, fields);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Map<String, Object> getBody(String index, Map<String, Object> assessmentEntityMap, String type, List<String> fields) {
         Map<String, Object> body = (Map<String, Object>) assessmentEntityMap.get("body");
         
         // from sarge update event, body is null
         if (body == null) {
             DBObject assessmentQuery = new BasicDBObject("_id", assessmentEntityMap.get("_id"));
-            IndexConfig assessmentConfig = indexConfigStore.getConfig(ASSESSMENT);
-            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT, assessmentConfig.getFields(),
+            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, type, fields,
                     assessmentQuery);
             if (cursor.hasNext()) {
                 Map<String, Object> newAssessmentEntityMap = cursor.next().toMap();
@@ -113,16 +121,15 @@ public class AssessmentEntityConverter implements EntityConverter {
         Set<String> checkedReferences = new HashSet<String>();
         while (assessmentFamilyReference != null && !checkedReferences.contains(assessmentFamilyReference)) {
             checkedReferences.add(assessmentFamilyReference);
-            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT_FAMILY_COLLECTION, Arrays.asList(
-                    "body.assessmentFamilyReference", "body.assessmentFamilyTitle"), new BasicDBObject("_id",
+            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS, new BasicDBObject("_id",
                     assessmentFamilyReference));
             if (cursor != null && cursor.hasNext()) {
                 DBObject family = cursor.next();
                 if (family != null && family.containsField("body")) {
                     @SuppressWarnings("unchecked")
                     Map<String, Object> familyBody = (Map<String, Object>) family.get("body");
-                    familyTitles.addFirst((String) familyBody.get("assessmentFamilyTitle"));
-                    assessmentFamilyReference = (String) familyBody.get("assessmentFamilyReference");
+                    familyTitles.addFirst((String) familyBody.get(ASSESSMENT_FAMILY_TITLE));
+                    assessmentFamilyReference = (String) familyBody.get(ASSESSMENT_FAMILY_REFERENCE);
                 }
             }
         }
