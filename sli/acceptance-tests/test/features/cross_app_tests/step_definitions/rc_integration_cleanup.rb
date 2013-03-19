@@ -126,20 +126,24 @@ Then /^I will clean my tenants recordHash documents from ingestion_batch_job db$
 end
 
 Then /^I clean my tenant's landing zone$/ do
-if RUN_ON_RC
-    steps %Q{
+  begin
+    if RUN_ON_RC
+      steps %Q{
         Given I am using local data store
         And I am using default landing zone
         And I am using the tenant "<SANDBOX_TENANT>"
         And I use the landingzone user name "<DEVELOPER_SB_EMAIL>" and password "<DEVELOPER_SB_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE_PORT>"
    }
-
-   Net::SFTP.start(@lz_url, @lz_username, {:password => @lz_password, :port => @lz_port_number}) do |sftp|
+      puts "SFTP Connection info: #{@lz_url}, #{@lz_username}, #{@lz_password}, #{@lz_port_number}, #{@landing_zone_path}"
+      Net::SFTP.start(@lz_url, @lz_username, {:password => @lz_password, :port => @lz_port_number}) do |sftp|
         clear_remote_lz(sftp)
       end
+    end
+  rescue Exception => e
+    puts "Error cleaning out Landing Zone.  Continuing regardless."
+    puts "#{e}"
+    puts e.backtrace.join("\n")
   end
-
-
 end
 
 
