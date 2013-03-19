@@ -24,12 +24,13 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
+import org.slc.sli.bulk.extract.metadata.DataFile;
 import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
@@ -62,7 +63,7 @@ public class EntityExtractor implements Extractor {
     private static final String ID = "_id";
     private static final String TYPE = "type";
     private static final String BODY = "body";
-    
+
 
     private String baseDirectory;
 
@@ -83,6 +84,8 @@ public class EntityExtractor implements Extractor {
     private Repository<Entity> entityRepository;
 
     private BulkExtractMongoDA bulkExtractMongoDA;
+
+    private DataFile metaData;
 
     @Override
     public void destroy() {
@@ -115,24 +118,20 @@ public class EntityExtractor implements Extractor {
 
     @Override
     public void execute() {
-        Future<File> call;
-        List<Future<File>> futures = new LinkedList<Future<File>>();
+        Future<String> call;
+        List<Future<String>> futures = new LinkedList<Future<String>>();
         for (String tenant : tenants) {
-            try {
-                OutstreamZipFile zipFile =new OutstreamZipFile(getTenantDirectory(tenant), tenant);
-                call = executor.submit(new ExtractWorker(tenant, zipFile));
-                futures.add(call);
-            } catch (FileNotFoundException e) {
-                LOG.error("Error while extracting data for tenant " + tenant, e);
-            } catch (IOException e) {
-                LOG.error("Error while extracting data for tenant " + tenant, e);
-            }
+            call = executor.submit(new ExtractWorker(tenant));
+            futures.add(call);
         }
 
         // Wait for job to be finished.
-        for (Future<File> future : futures) {
+        for (Future<String> future : futures) {
             processFuture(future);
         }
+
+        // Shutdown.
+        destroy();
     }
 
     /*
@@ -146,54 +145,53 @@ public class EntityExtractor implements Extractor {
         // running at a time
         OutstreamZipFile zipFile = null;
         Date startTime = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        String timeStamp = df.format(startTime);
+        
+        
         try {
-            zipFile = new OutstreamZipFile(getTenantDirectory(tenant), tenant + "-" + timeStamp);
+            zipFile = createExtractArchiveFile(tenant, startTime); 
         } catch (IOException e) {
             LOG.error("Error while extracting data for tenant " + tenant, e);
         }
+        
         TenantContext.setTenantId(tenant);
-
+        initiateExtractForEntites(tenant, zipFile, startTime);
+    }
+    
+    public void initiateExtractForEntites(String tenant, OutstreamZipFile zipFile, Date startTime) {
         for (String entity : entities) {
             extractEntity(tenant, zipFile, entity);
         }
 
-        // Rename temp zip file to permanent.
         try {
-            zipFile.renameTempZipFile();
+            metaData.writeToZip(zipFile, getTimeStamp(startTime));
+            
+            zipFile.closeZipFile();
             bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getZipFile().getAbsolutePath(), startTime);
         } catch (IOException e) {
-            LOG.error("Error attempting to create zipfile " + zipFile.getZipFile().getPath(), e);
-        }
-    }
-
-    protected void processFuture(Future<File> future) {
-        try {
-            future.get();
-        } catch (Exception e) {
-            LOG.error("Error while waiting for extractor job to be finished", e);
+            LOG.error("Error attempting to close zipfile " + zipFile.getZipFile().getPath(), e);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public File extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
+    public void extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
 
         LOG.info("Extracting " + entityName);
-        
+
         String collectionName = getCollectionName(entityName);
         Query query = getQuery(entityName);
-        
+        long noOfRecords = 0;
+
         try {
             TenantContext.setTenantId(tenant);
             DBCursor cursor = entityRepository.getDBCursor(collectionName, query);
-            
+
             if (cursor.hasNext()) {
                 zipFile.createArchiveEntry(entityName + ".json");
-                writeToZip(zipFile, "[");
+                zipFile.writeJsonDelimiter("[");
 
                 while (cursor.hasNext()) {
                     DBObject object = cursor.next();
+                    noOfRecords++;
                     String type = object.get(TYPE).toString();
                     String id = object.get(ID).toString();
                     Map<String, Object> body = (Map<String, Object>) object.get(BODY);
@@ -201,28 +199,23 @@ public class EntityExtractor implements Extractor {
 
                     // write each record to file
                     addAPIFields(entityName, record);
-                    writeToZip(zipFile, JSON.serialize(record.getBody()));
+                    zipFile.writeData(JSON.serialize(record.getBody()));
                     
                     if (cursor.hasNext()) {
-                        writeToZip(zipFile, ",");
+                        zipFile.writeJsonDelimiter(",");
                     }
                 }
-                writeToZip(zipFile, "]");
+                zipFile.writeJsonDelimiter("]");
             }
-            LOG.info("Finished extracting " + entityName);
-            
+            LOG.info("Finished extracting {} records for " + entityName, noOfRecords);
+
         } catch (IOException e) {
             LOG.error("Error while extracting " + entityName, e);
         } finally {
             TenantContext.setTenantId(null);
         }
-        return zipFile.getZipFile();
     }
 
-    private void writeToZip(OutstreamZipFile zipFile, String data) throws NoSuchElementException, IOException  {
-        zipFile.writeData(data);
-    }
-    
     private String getCollectionName(String entityName) {
         if (queriedEntities.containsKey(entityName)) {
             return queriedEntities.get(entityName);
@@ -230,14 +223,14 @@ public class EntityExtractor implements Extractor {
             return entityName;
         }
     }
-    
+
     private Query getQuery(String entityName) {
         Query query = new Query();
-        
+
         if (queriedEntities.containsKey(entityName)) {
             query.addCriteria(Criteria.where("type").is(entityName));
         }
-        
+
         if (combinedEntities.containsKey(entityName)) {
             query = new Query(Criteria.where("type").in(combinedEntities.get(entityName)));
         }
@@ -258,6 +251,32 @@ public class EntityExtractor implements Extractor {
         File tenantDirectory = new File(baseDirectory, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
         tenantDirectory.mkdirs();
         return tenantDirectory.getPath();
+    }
+    
+    private OutstreamZipFile createExtractArchiveFile(String tenant, Date startTime) throws IOException {
+        
+        return new OutstreamZipFile(getTenantDirectory(tenant), tenant + "-" + getTimeStamp(startTime));
+    }
+    
+    private String getTimeStamp(Date date) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String timeStamp = df.format(date);
+        return timeStamp;
+    }
+    @Override
+    public String getHealth() {
+        ThreadPoolExecutor tpe = (ThreadPoolExecutor) executor;
+        return getClass() + ": {" + baseDirectory + " size:" + new File(baseDirectory).list().length
+                + ", active count:" + tpe.getActiveCount() + ", completed count:"
+                + tpe.getCompletedTaskCount() + "}";
+    }
+    
+    protected void processFuture(Future<String> future) {
+        try {
+            future.get();
+        } catch (Exception e) {
+            LOG.error("Error while waiting for extractor job to be finished", e);
+        }
     }
 
     public void setExecutorThreads(int executorThreads) {
@@ -305,22 +324,33 @@ public class EntityExtractor implements Extractor {
      * @author tosako
      *
      */
-    private class ExtractWorker implements Callable<File> {
+    private class ExtractWorker implements Callable<String> {
 
         private final String tenant;
 
-        private final OutstreamZipFile zipFile;
-
-        public ExtractWorker(String tenant, OutstreamZipFile zipFile) throws FileNotFoundException {
+        public ExtractWorker(String tenant) {
             this.tenant = tenant;
-            this.zipFile = zipFile;
         }
 
         @Override
-        public File call() throws Exception {
+        public String call() throws Exception {
             execute(tenant);
-            return zipFile.getZipFile();
+            return tenant;
         }
+    }
+
+    /**
+     * @return the metaData
+     */
+    public DataFile getMetaData() {
+        return metaData;
+    }
+
+    /**
+     * @param metaData the metaData to set
+     */
+    public void setMetaData(DataFile metaData) {
+        this.metaData = metaData;
     }
 
 }
