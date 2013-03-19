@@ -124,26 +124,29 @@ public class EntityRepositoryTest {
 
     @Test
     public void testSafeDelete() {
+//        testSafeDeleteHelper(collectionName, overridingId, cascade, dryrun, maxObjects, access, leafDataOnly,
+//                leafDataOnly, expectedNObjects, expectedDepth, expectedStatus)
+
         // Test leaf node delete success : cascade=false and dryrun=false
         testSafeDeleteHelper("session", null, false, false, null, access, true, 1, 1, CascadeResult.Status.SUCCESS);
 
         // Test leaf node delete failure : cascade=false and dryrun=false
-        testSafeDeleteHelper("session", null, false, false, null, access, false, 3, 2, CascadeResult.Status.CHILD_DATA_EXISTS);
+        testSafeDeleteHelper("session", null, false, false, null, access, false, 5, 2, CascadeResult.Status.CHILD_DATA_EXISTS);
 
         // Test cascade=false and dryrun=true
-        testSafeDeleteHelper("session", null, false, true, null, access, false, 3, 2, CascadeResult.Status.SUCCESS);
+        testSafeDeleteHelper("session", null, false, true, null, access, false, 5, 2, CascadeResult.Status.SUCCESS);
 
         // Test cascade=true and dryrun=true
-        testSafeDeleteHelper("session", null, true, true, null, access, false, 3, 2, CascadeResult.Status.SUCCESS);
+        testSafeDeleteHelper("session", null, true, true, null, access, false, 5, 2, CascadeResult.Status.SUCCESS);
 
         // Test cascade=true and dryrun=false
-        testSafeDeleteHelper("session", null, true, false, null, access, false, 3, 2, CascadeResult.Status.SUCCESS);
+        testSafeDeleteHelper("session", null, true, false, null, access, false, 5, 2, CascadeResult.Status.SUCCESS);
 
         // Test maxobjects
-        testSafeDeleteHelper("session", null, true, false, 2, access, false, 3, 2, CascadeResult.Status.MAX_OBJECTS_EXCEEDED);
+        testSafeDeleteHelper("session", null, true, false, 2, access, false, 5, 2, CascadeResult.Status.MAX_OBJECTS_EXCEEDED);
 
         // Test access denied
-        testSafeDeleteHelper("session", null, true, false, null, accessDenied, false, 1, 2, CascadeResult.Status.ACCESS_DENIED);
+        testSafeDeleteHelper("session", null, true, false, null, accessDenied, false, 2, 2, CascadeResult.Status.ACCESS_DENIED);
 
         // Test deletion from a non-existent collection
         testSafeDeleteHelper("nonexistentCollection", null, true, false, null, access, false, 0, 1, CascadeResult.Status.DATABASE_ERROR);
@@ -151,7 +154,6 @@ public class EntityRepositoryTest {
         // Test deletion of a non-existent id
         testSafeDeleteHelper("session", "noMatchId", true, false, null, access, false, 0, 1, CascadeResult.Status.DATABASE_ERROR);
 
-        // TODO add a test for deleteAttachedCustomEntities
 }
 
     private void testSafeDeleteHelper(String collectionName, String overridingId,
@@ -176,8 +178,10 @@ public class EntityRepositoryTest {
 
     private void clearSafeDeleteSessionData() {
         repository.deleteAll("session", null);
+        repository.deleteAll(MongoRepository.CUSTOM_ENTITY_COLLECTION, null);
         repository.deleteAll("courseOffering", null);
-        repository.deleteAll("studentAcademicRecord", null);
+//        repository.deleteAll("studentAcademicRecord", null);  // does not appear to work for subdocced entities
+        repository.deleteAll("yearlyTranscript", null); // actual mongo collection for studentAcademicRecord
         repository.deleteAll("section", null);
     }
 
@@ -214,8 +218,19 @@ public class EntityRepositoryTest {
     private void prepareSafeDeleteSessionReferenceData(String idToDelete) {
         DBObject indexKeys =  new BasicDBObject("body.sessionId", 1);
         mongoTemplate.getCollection("courseOffering").ensureIndex(indexKeys);
-        mongoTemplate.getCollection("studentAcademicRecord").ensureIndex(indexKeys);
+//        mongoTemplate.getCollection("studentAcademicRecord").ensureIndex(indexKeys);
         mongoTemplate.getCollection("section").ensureIndex(indexKeys);
+        mongoTemplate.getCollection(MongoRepository.CUSTOM_ENTITY_COLLECTION).ensureIndex("metaData." + MongoRepository.CUSTOM_ENTITY_ENTITY_ID);
+
+        // add a custom entity referencing the entity to be deleted
+        Map<String, Object> customEntityMetaData = new HashMap<String, Object>();
+        customEntityMetaData.put(MongoRepository.CUSTOM_ENTITY_ENTITY_ID, idToDelete);
+        Map<String, Object> customEntityBody = new HashMap<String, Object>();
+        customEntityBody.put("customBodyData", "customData1");
+        repository.create(MongoRepository.CUSTOM_ENTITY_COLLECTION, customEntityBody, customEntityMetaData, MongoRepository.CUSTOM_ENTITY_COLLECTION);
+        customEntityMetaData.put(MongoRepository.CUSTOM_ENTITY_ENTITY_ID, "nonMatchingId");
+        customEntityBody.put("customBodyData", "customData2");
+        repository.create(MongoRepository.CUSTOM_ENTITY_COLLECTION, customEntityBody, customEntityMetaData, MongoRepository.CUSTOM_ENTITY_COLLECTION);
 
         // add referencing courseOffering entities
         Map<String, Object> courseOfferingMap = new HashMap<String, Object>();
@@ -230,14 +245,14 @@ public class EntityRepositoryTest {
         repository.create("courseOffering", courseOfferingMap); // add matching document
 
         // add referencing studentAcademicRecord entities
-//        Map<String, Object> studentAcademicRecordMap = new HashMap<String, Object>();
-//        studentAcademicRecordMap.put("sessionId", "notaMatchingId");
-//        studentAcademicRecordMap.put("studentId", idToDelete); // matching id in a different field
-//        studentAcademicRecordMap.put("schoolYear", "2012-2013");
-//        repository.create("studentAcademicRecord", studentAcademicRecordMap); // add one non-matching document
-//        studentAcademicRecordMap.put("sessionId", idToDelete);
-//        studentAcademicRecordMap.put("studentId", "studentId1");    // overwrite
-//        repository.create("studentAcademicRecord", studentAcademicRecordMap); // add matching document
+        Map<String, Object> studentAcademicRecordMap = new HashMap<String, Object>();
+        studentAcademicRecordMap.put("sessionId", "notaMatchingId");
+        studentAcademicRecordMap.put("studentId", idToDelete);
+        studentAcademicRecordMap.put("schoolYear", "2012-2013");
+        repository.create("studentAcademicRecord", studentAcademicRecordMap); // add one non-matching document
+        studentAcademicRecordMap.put("sessionId", idToDelete);
+        studentAcademicRecordMap.put("studentId", "studentId1");    // overwrite
+        repository.create("studentAcademicRecord", studentAcademicRecordMap); // add matching document
 
         // add referencing section entity with array reference field
         Map<String, Object> sectionMap = new HashMap<String, Object>();

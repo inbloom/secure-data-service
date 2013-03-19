@@ -11,6 +11,10 @@ import java.util.List;
 public class SchemaReferencePath {
     private List<SchemaReferenceNode> nodeList;
 
+    private String entityName;
+
+    private String fieldPath;
+
     private String path;
 
     private String referent;
@@ -51,6 +55,9 @@ public class SchemaReferencePath {
                 }));
         path = Joiner.on(".").join(names);
 
+        entityName = names.remove(0);
+        fieldPath = Joiner.on(".").join(names);
+
         SchemaReferenceNode topNode = nodeList.get(listSize - 1);
         referent = topNode.getReferences();
 
@@ -87,12 +94,28 @@ public class SchemaReferencePath {
         return path;
     }
 
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public String getFieldPath() {
+        return fieldPath;
+    }
+
     public String getReferent() {
         return referent;
     }
 
     public boolean isArray() {
         return isArray;
+    }
+
+    public boolean isOptional() {
+        return isOptional;
+    }
+
+    public boolean isRequired() {
+        return isRequired;
     }
 
     public Long getMaxOccurs() {

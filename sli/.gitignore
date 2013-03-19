@@ -31,3 +31,5 @@ opstools/migration/index_migration/tenantDB_indexes.txt
 search-indexer/activemq-data
 
 bulk-extract/scripts/extract
+!bulk-extract/src/main/java/org/slc/sli/bulk/extract/metadata
+bulk-extract/src/main/resources/api
