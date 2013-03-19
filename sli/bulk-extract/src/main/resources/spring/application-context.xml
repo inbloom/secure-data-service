@@ -96,7 +96,11 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
          <property name="queriedEntities" ref="queriedEntities" />
          <property name="combinedEntities" ref="combinedEntities" />
          <property name="bulkExtractMongoDA" ref="bulkExtractMongoDA" />
-         <property name="baseDirectory" value="${sli.bulk.extract.output.directory:./extract}" />
+         <property name="baseDirectory" value="${sli.bulk.extract.output.directory:extract}" />
+         <property name="metaData" ref="metaData"/>
+    </bean>
+    
+    <bean id="metaData" class="org.slc.sli.bulk.extract.metadata.DataFile">
     </bean>
     
     <bean id="bulkExtractMongoDA" class="org.slc.sli.bulk.extract.BulkExtractMongoDA">

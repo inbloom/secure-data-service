@@ -17,7 +17,7 @@ public class OutstreamZipFileTest {
         try {
             new OutstreamZipFile(TESTPATH, "test");
             
-            tmpFile = new File(TESTPATH + "test_tmp.zip");
+            tmpFile = new File(TESTPATH + "test.zip");
             Assert.assertTrue(tmpFile.exists());
             Assert.assertTrue(!tmpFile.isDirectory());
             
@@ -37,7 +37,7 @@ public class OutstreamZipFileTest {
             
             zip.createArchiveEntry("testArchive.json");
             zip.writeData("testArchive");
-            zip.renameTempZipFile();
+            zip.closeZipFile();
             
             unzipDirectory = new File(TESTPATH + "unzip/test");
             if (unzipDirectory.exists()) {

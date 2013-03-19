@@ -200,23 +200,17 @@ end
 desc "Run RC E2E Tests in Sandbox mode"
 task :rcSandboxTests do
   @tags = ["~@wip", "@rc", "@sandbox"]
-  begin
-    Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(PropLoader.getProps['sandbox_tenant'])
-    Rake::Task["rcDeleteSandboxLDAPUsers"].execute unless RUN_ON_RC
-    #randomizeRcSandboxTenant() if RUN_ON_RC  # We cannot randomize sandbox using the + alias due to ssh not working.  Leaving the code in incase we can reuse some logic 
-    Rake::Task["rcSandboxAccountRequestTests"].execute
-    Rake::Task["rcSandboxProvisionTests"].execute
-    Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
-    Rake::Task["rcSandboxAppApprovalTests"].execute
-    Rake::Task["rcSandboxDamtTests"].execute
-    Rake::Task["rcSandboxDashboardTests"].execute
-    Rake::Task["rcSandboxDatabrowserTests"].execute
-    Rake::Task["rcSandboxCleanUpTests"].execute
-    Rake::Task["rcSandboxPurgeTests"].execute
-  rescue
-  ensure
-    Rake::Task["rcDeleteSandboxLDAPUsers"].execute if RUN_ON_RC
-  end
+  Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(PropLoader.getProps['sandbox_tenant'])
+  Rake::Task["rcDeleteSandboxLDAPUsers"].execute
+  Rake::Task["rcSandboxAccountRequestTests"].execute
+  Rake::Task["rcSandboxProvisionTests"].execute
+  Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
+  Rake::Task["rcSandboxAppApprovalTests"].execute
+  Rake::Task["rcSandboxDamtTests"].execute
+  Rake::Task["rcSandboxDashboardTests"].execute
+  Rake::Task["rcSandboxDatabrowserTests"].execute
+  Rake::Task["rcSandboxCleanUpTests"].execute
+  Rake::Task["rcSandboxPurgeTests"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

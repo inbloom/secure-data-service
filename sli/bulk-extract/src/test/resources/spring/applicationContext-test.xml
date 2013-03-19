@@ -101,6 +101,10 @@
          <property name="entities" ref="entities" />
          <property name="queriedEntities" ref="queriedEntities" />
          <property name="combinedEntities" ref="combinedEntities" />
+         <property name="metaData" ref="metaData" />
+    </bean>
+    
+    <bean id="metaData" class="org.slc.sli.bulk.extract.metadata.DataFile">
     </bean>
 
 	<context:component-scan base-package="org.slc">
