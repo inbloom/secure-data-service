@@ -31,7 +31,14 @@ limitations under the License.
 Given /^I have a connection to Mongo$/ do
   host = PropLoader.getProps['ingestion_db']
   port = PropLoader.getProps['ingestion_db_port']
+
   @conn = Mongo::Connection.new(host, port)
+
+  # HACK TO WORK AROUND MONGOS DROP DATABASE BUG
+  port2 = PropLoader.getProps['rcingest02_port']
+  port3 = PropLoader.getProps['rcingest03_port']
+  @conn2 = Mongo::Connection.new(host, port2) if port2
+  @conn3 = Mongo::Connection.new(host, port3) if port3
 end
 
 ###############################################################################
@@ -84,7 +91,25 @@ Then /^my tenant database should be cleared$/ do
 end
 
 Then /^I will drop the whole database$/ do
-  @conn.drop_database(@tenant_db_name)
+  attempts = 0
+  begin
+    attempts += 1
+    res = @conn.drop_database(@tenant_db_name)
+    puts "Attempted to drop database #{attempts} times: #{res.to_a}"
+    raise "Could not drop database" if (attempts > 15)
+  end while @conn.database_names.include?(@tenant_db_name)
+
+  # HACK TO WORK AROUND MONGOS DROP DATABASE BUG
+  if @conn2
+    res = @conn2.drop_database(@tenant_db_name)
+    puts "Attempted to drop database from second mongos: #{res.to_a}"
+  end
+  if @conn3
+    res = @conn3.drop_database(@tenant_db_name)
+    puts "Attempted to drop database from second mongos: #{res.to_a}"
+  end
+  #/ HACK TO WORK AROUND MONGOS DROP DATABASE BUG
+
   tenant_dropped = false
   if (!@conn.database_names.include?(@tenant_db_name) || @conn.db(@tenant_db_name).collection_names.empty?)
     tenant_dropped = true
