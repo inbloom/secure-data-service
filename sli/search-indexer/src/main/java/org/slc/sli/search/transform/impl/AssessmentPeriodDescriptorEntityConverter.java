@@ -27,9 +27,8 @@ import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.connector.SourceDatastoreConnector;
 import org.slc.sli.search.entity.IndexEntity.Action;
-import org.slc.sli.search.transform.EntityConverter;
 
-public class AssessmentPeriodDescriptorEntityConverter implements EntityConverter {
+public class AssessmentPeriodDescriptorEntityConverter extends AssessmentEntityConverter {
     
     public final static String ASSESSMENT = "assessment";
     public final static String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
@@ -70,11 +69,12 @@ public class AssessmentPeriodDescriptorEntityConverter implements EntityConverte
                 ((Map<String, Object>) assessmentMap.get("body")).put(ASSESSMENT_PERIOD_DESCRIPTOR, entityMap.get("body"));
             }
             ((Map<String, Object>) assessmentMap.get("body")).remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID);
-            entities.add(assessmentMap);
+            entities.addAll(super.treatment(index, action, assessmentMap));
         }
-            
+
         return entities;
     }
+
     
     @Override
     public Action convertAction(Action action) {

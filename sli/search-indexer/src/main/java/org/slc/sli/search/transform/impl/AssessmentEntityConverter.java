@@ -76,12 +76,12 @@ public class AssessmentEntityConverter implements EntityConverter {
     }
 
     @SuppressWarnings("unchecked")
-    protected Map<String, Object> getBody(String index, Map<String, Object> assessmentEntityMap, String type, List<String> fields) {
-        Map<String, Object> body = (Map<String, Object>) assessmentEntityMap.get("body");
+    protected Map<String, Object> getBody(String index, Map<String, Object> entityMap, String type, List<String> fields) {
+        Map<String, Object> body = (Map<String, Object>) entityMap.get("body");
         
         // from sarge update event, body is null
         if (body == null) {
-            DBObject assessmentQuery = new BasicDBObject("_id", assessmentEntityMap.get("_id"));
+            DBObject assessmentQuery = new BasicDBObject("_id", entityMap.get("_id"));
             DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, type, fields,
                     assessmentQuery);
             if (cursor.hasNext()) {
