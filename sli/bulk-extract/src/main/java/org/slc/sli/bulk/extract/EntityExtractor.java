@@ -62,7 +62,7 @@ public class EntityExtractor implements Extractor {
     private static final String ID = "_id";
     private static final String TYPE = "type";
     private static final String BODY = "body";
-    
+
 
     private String baseDirectory;
 
@@ -83,6 +83,8 @@ public class EntityExtractor implements Extractor {
     private Repository<Entity> entityRepository;
 
     private BulkExtractMongoDA bulkExtractMongoDA;
+
+    private MetaData metaData;
 
     @Override
     public void destroy() {
@@ -143,6 +145,7 @@ public class EntityExtractor implements Extractor {
         OutstreamZipFile zipFile = null;
         Date startTime = new Date();
         
+        
         try {
             zipFile = createExtractArchiveFile(tenant, startTime); 
         } catch (IOException e) {
@@ -159,6 +162,8 @@ public class EntityExtractor implements Extractor {
         }
 
         try {
+            metaData.writeToZip(zipFile, getTimeStamp(startTime));
+            
             zipFile.closeZipFile();
             bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getZipFile().getAbsolutePath(), startTime);
         } catch (IOException e) {
@@ -170,14 +175,14 @@ public class EntityExtractor implements Extractor {
     public void extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
 
         LOG.info("Extracting " + entityName);
-        
+
         String collectionName = getCollectionName(entityName);
         Query query = getQuery(entityName);
-        
+
         try {
             TenantContext.setTenantId(tenant);
             DBCursor cursor = entityRepository.getDBCursor(collectionName, query);
-            
+
             if (cursor.hasNext()) {
                 zipFile.createArchiveEntry(entityName + ".json");
                 zipFile.writeJsonDelimiter("[");
@@ -200,7 +205,7 @@ public class EntityExtractor implements Extractor {
                 zipFile.writeJsonDelimiter("]");
             }
             LOG.info("Finished extracting " + entityName);
-            
+
         } catch (IOException e) {
             LOG.error("Error while extracting " + entityName, e);
         } finally {
@@ -208,9 +213,6 @@ public class EntityExtractor implements Extractor {
         }
     }
 
-
-    
-    
     private String getCollectionName(String entityName) {
         if (queriedEntities.containsKey(entityName)) {
             return queriedEntities.get(entityName);
@@ -218,14 +220,14 @@ public class EntityExtractor implements Extractor {
             return entityName;
         }
     }
-    
+
     private Query getQuery(String entityName) {
         Query query = new Query();
-        
+
         if (queriedEntities.containsKey(entityName)) {
             query.addCriteria(Criteria.where("type").is(entityName));
         }
-        
+
         if (combinedEntities.containsKey(entityName)) {
             query = new Query(Criteria.where("type").in(combinedEntities.get(entityName)));
         }
@@ -250,10 +252,13 @@ public class EntityExtractor implements Extractor {
     
     private OutstreamZipFile createExtractArchiveFile(String tenant, Date startTime) throws IOException {
         
+        return new OutstreamZipFile(getTenantDirectory(tenant), tenant + "-" + getTimeStamp(startTime));
+    }
+    
+    private String getTimeStamp(Date date) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        String timeStamp = df.format(startTime);
-        
-        return new OutstreamZipFile(getTenantDirectory(tenant), tenant + "-" + timeStamp);
+        String timeStamp = df.format(date);
+        return timeStamp;
     }
     @Override
     public String getHealth() {
@@ -329,6 +334,20 @@ public class EntityExtractor implements Extractor {
             execute(tenant);
             return tenant;
         }
+    }
+
+    /**
+     * @return the metaData
+     */
+    public MetaData getMetaData() {
+        return metaData;
+    }
+
+    /**
+     * @param metaData the metaData to set
+     */
+    public void setMetaData(MetaData metaData) {
+        this.metaData = metaData;
     }
 
 }
