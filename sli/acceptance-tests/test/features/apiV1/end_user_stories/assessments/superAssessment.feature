@@ -103,6 +103,18 @@ Given I am a valid teacher "cgray" with password "cgray1234"
 
   When I follow the links for assessment
     Then I should validate the "objectiveAssessment.0.learningObjectives" from "assessment" links map to learningObjectives
+
+  When I navigate to GET "/v1/search/assessments?q=Sixth"
+    Then I should have a list of 6 "assessment" entities
+
+  When I navigate to GET "/v1/search/assessments?q=sub"
+    Then I should have a list of 50 "assessment" entities
+
+  When I navigate to GET "/v1/search/assessments?q=2014-ninth%20grade%20assessment%201&limit=100"
+    Then I should have a list of 78 "assessment" entities
+
+  When I navigate to GET "/v1/search/assessments?q=2014-ninth&offset=0&limit=100&q=grade"
+    Then I should have a list of 6 "assessment" entities
     
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
