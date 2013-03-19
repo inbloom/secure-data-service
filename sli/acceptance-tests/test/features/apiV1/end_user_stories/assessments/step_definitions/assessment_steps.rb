@@ -68,6 +68,10 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   # Assessment Period Descriptor
   id = "Beginning of Year 2014-2015 for Eleventh grade"        if human_readable_id == "assessment period descriptor"
 
+  # Search endpoints
+  id = "assessmentIdentificationCode.0.ID"                     if human_readable_id == "search.assessment.ID"
+  id = "assessmentIdentificationCode.0.identificationSystem"   if human_readable_id == "search.assessment.ID.system"
+
   # REALLY REALLY Ugly Transforms
   # Assessment Performance Level
   # The zeroes mean that field is an array, and we are taking the first element in it
@@ -262,7 +266,12 @@ Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
   # dig the value for that field out of a potentially
   # dot-delimited response-body structure
   # ex: field=body.name.firstName, @result=[json response body]
-  result = fieldExtract(field, @result)
+  result = fieldExtract(field, @result) 
+  assert(result == value, "Unexpected response: expected #{value}, found #{result}")  
+end
+
+Then /^the offset response field "([^"]*)" should be "([^"]*)"$/ do |field, value|
+  result = fieldExtract(field, @result[0]) 
   assert(result == value, "Unexpected response: expected #{value}, found #{result}")  
 end
 
@@ -440,9 +449,9 @@ else
 end
 
 def fieldExtract(field, body)
-  #split the field string into URI segments
+  # Split the field string into URI segments
   part = field.split(".")
-  #parse the response field value based on how deep that field is embedded
+  # Parse the response field value based on how deep that field is embedded
   # Grab the first array element if an array is encountered
   for i in 0..(part.length-1)
     part[i] = part[i].to_i if is_num?(part[i])
@@ -490,7 +499,7 @@ def sectionArray(value)
   end
 end
 
-# Build the section array
+# Build the student array
 def studentArray(value)
   @students = Array.new unless defined? @students
   # 

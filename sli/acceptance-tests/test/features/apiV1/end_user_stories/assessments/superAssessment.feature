@@ -113,8 +113,19 @@ Given I am a valid teacher "cgray" with password "cgray1234"
   When I navigate to GET "/v1/search/assessments?q=2014-ninth%20grade%20assessment%201&limit=100"
     Then I should have a list of 78 "assessment" entities
 
-  When I navigate to GET "/v1/search/assessments?q=2014-ninth&offset=0&limit=100&q=grade"
-    Then I should have a list of 6 "assessment" entities
+  When I navigate to GET "/v1/search/assessments?q=2014-ninth&offset=5&limit=100&q=grade"
+    Then I should have a list of 1 "assessment" entities
+    And the offset response field "assessmentTitle" should be "2014-Ninth grade Assessment 1"
+    And the offset response field "<search.assessment.ID>" should be "2014-Ninth grade Assessment 1"
+    And the offset response field "<search.assessment.ID.system>" should be "State"
+    And the offset response field "assessmentPeriodDescriptor.description" should be "Beginning of Year 2014-2015 for Ninth grade"
+    And the offset response field "assessmentPeriodDescriptor.codeValue" should be "BOY-9-2014"
+    #And the response field "<search.assessment.ID.system>" should be "State"
+    # assessmentPeriodDescriptorId = ac743445484ab8745f3921fea80bad59bf484593_id
+    #And the response field "<search.APD.id>" should be valid   
+    # assessmentFamilyReference = 3391fabed45ea970b84a47ae545ab165b4370cc4_id
+    # And the offset response field "assessmentFamilyHierarchyName" should be "2014 Standard.2014 Ninth grade Standard"
+    # assessmentFamilyHierarchyName = 2014 Standard.2014 Ninth grade Standard
     
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
