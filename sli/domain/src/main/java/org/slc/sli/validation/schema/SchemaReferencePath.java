@@ -25,6 +25,8 @@ public class SchemaReferencePath {
 
     private Long maxOccurs;
 
+    private String typePath;
+
     public SchemaReferencePath(String path, String referent, Long min, Long max, boolean array, boolean isOptional, boolean isRequired) {
 
         this.path = path;
@@ -70,6 +72,15 @@ public class SchemaReferencePath {
                      ( (minOccurs == null || minOccurs == 1) && (maxOccurs != null && maxOccurs > 1) )
                      );
 
+        List<String> types =
+                Lists.newArrayList(Iterables.transform(nodeList, new Function<SchemaReferenceNode, String>() {
+                    @Override
+                    public String apply(@Nullable SchemaReferenceNode schemaReferenceNode) {
+                        return schemaReferenceNode.getReferences();
+                    }
+                }));
+        typePath = Joiner.on(".").useForNull("{NULL}").join(types);
+
     }
 
     public String getPath() {
@@ -90,6 +101,10 @@ public class SchemaReferencePath {
 
     public Long getMinOccurs() {
         return minOccurs;
+    }
+
+    public String getTypePath() {
+        return typePath;
     }
 
     @Override

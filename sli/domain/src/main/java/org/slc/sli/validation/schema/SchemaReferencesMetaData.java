@@ -1,6 +1,8 @@
 package org.slc.sli.validation.schema;
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
 import com.google.common.collect.*;
 import org.slc.sli.validation.SchemaRepository;
 import org.slf4j.Logger;
@@ -68,16 +70,31 @@ public class SchemaReferencesMetaData {
             stack.push(root);
             collectReferences(schema, stack, refNodeLists);
         }
+
+        /*
+        NeutralSchema schema = schemaRepo.getSchema("session");
+        String schemaType = schema.getType();
+        LOG.info("Introspecting {} for References.", schemaType);
+        SchemaReferenceNode root = new SchemaReferenceNode(schemaType);
+        stack.clear();
+        stack.push(root);
+        collectReferences(schema, stack, refNodeLists);
+        */
     }
 
-    public void collectReferences(NeutralSchema schema, Stack<SchemaReferenceNode> currentPath, ListMultimap refMap) {
+    public void collectReferences(NeutralSchema schema, final Stack<SchemaReferenceNode> currentPath, ListMultimap refMap) {
         if(schema instanceof ReferenceSchema) {
             ReferenceSchema reference = (ReferenceSchema)schema;
             AppInfo appInfo = (AppInfo)reference.getAnnotation(Annotation.AnnotationType.APPINFO);
             if(appInfo != null) {
+
+                Stack<SchemaReferenceNode> refPath = new Stack<SchemaReferenceNode>();
+                refPath.addAll(currentPath);
+                if(refPath.peek().getName().equals("reference")) {
+                    refPath.pop();
+                }
                 String type = appInfo.getReferenceType();
-                currentPath.peek().setReferences(type);
-                List<SchemaReferenceNode> refPath = new ArrayList<SchemaReferenceNode>(currentPath);
+                refPath.peek().setReferences(type);
                 refMap.put(type, refPath);
                 LOG.info("Found a Reference from {}->{}", refPath, type);
             } else {
@@ -87,18 +104,60 @@ public class SchemaReferencesMetaData {
         } else {
             Map<String, NeutralSchema> fields = schema.getFields();
             for(String fieldName:fields.keySet()) {
+
                 NeutralSchema fieldSchema = fields.get(fieldName);
                 Map<String, Object> properties = fieldSchema.getProperties();
-                Long minOccurs = (Long)properties.get("minCardinality");
-                Long maxOccurs = (Long)properties.get("maxCardinality");
+                Long minOccurs           =       (Long)  properties.get("minCardinality");
+                Long maxOccurs           =       (Long)  properties.get("maxCardinality");
+                final String elementType =       (String)properties.get("elementType");
+
+                boolean loop = Iterables.any(currentPath, new Predicate<SchemaReferenceNode>() {
+                    @Override
+                    public boolean apply(@Nullable SchemaReferenceNode schemaReferenceNode) {
+                        String refs =  schemaReferenceNode.getReferences();
+                        if(refs != null && elementType != null && refs.equals(elementType)){
+                            LOG.info("Cycle found. Repeating [" + elementType + "]" + " in [" + getTypePath(currentPath) + "]");
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                });
+
+                if(loop) {
+                    continue;
+                }
 
                 SchemaReferenceNode pathNode = new SchemaReferenceNode(fieldName);
                 pathNode.setMinOccurs(minOccurs); pathNode.setMaxOccurs(maxOccurs);
+                pathNode.setReferences(elementType);
                 currentPath.push(pathNode);
                 collectReferences(fieldSchema, currentPath, refMap);
                 currentPath.pop();
             }
         }
+    }
+
+    private String getTypePath(Stack<SchemaReferenceNode> currentPath) {
+        List<String> types =
+                Lists.newArrayList(Iterables.transform(currentPath, new Function<SchemaReferenceNode, String>() {
+                    @Override
+                    public String apply(@Nullable SchemaReferenceNode schemaReferenceNode) {
+                        String type = schemaReferenceNode.getReferences();
+                        String name = schemaReferenceNode.getName();
+                        if(type != null) {
+                            return type;
+                        }
+                        else if(name != null) {
+                            return "N{" + name + "}";
+                        }
+                        else {
+                            return null;
+                        }
+                    }
+                }));
+        String typePath = Joiner.on(".").useForNull("{NULL}").join(types);
+        return typePath;
     }
 
 }
