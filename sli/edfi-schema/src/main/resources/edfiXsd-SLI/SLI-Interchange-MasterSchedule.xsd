@@ -11,8 +11,7 @@
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="CourseOffering" type="SLC-CourseOffering"/>
-				<xs:element name="Section" type="SLC-Section"/>
-				
+				<xs:element name="Section" type="SLC-Section"/>				
 				<xs:element name="Action" type="SLC-ActionType"/>
 			</xs:choice>
 		</xs:complexType>
