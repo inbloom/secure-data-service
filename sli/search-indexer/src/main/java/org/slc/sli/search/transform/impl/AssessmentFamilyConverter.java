@@ -35,12 +35,13 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
         String id = entityMap.get("_id").toString();
         String familyName = action == Action.DELETE ? "" : getName(index, entityMap).toString();
-        return addAssessmentsForFamilyId(id, familyName);
+        return addAssessmentsForFamilyId(index, id, familyName);
     }
     
     /**
      * Add the assessments matching the given family id to the list to be updated
      * 
+     * @param dbname the name of the db
      * @param id
      *            the family id
      * @param familyName
@@ -49,10 +50,10 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
      *            the list of results
      */
     @SuppressWarnings("unchecked")
-    protected List<Map<String, Object>> addAssessmentsForFamilyId(String id, String familyName) {
+    protected List<Map<String, Object>> addAssessmentsForFamilyId(String dbname, String id, String familyName) {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         DBObject referenceQuery = BasicDBObjectBuilder.start().add("body.assessmentFamilyReference", id).get();
-        DBCursor assessmentCursor = getSourceDatastoreConnector().getDBCursor("assessment",
+        DBCursor assessmentCursor = getSourceDatastoreConnector().getDBCursor(dbname, ASSESSMENT,
                 getIndexConfigStore().getConfig("assessment").getFields(), referenceQuery);
         while (assessmentCursor.hasNext()) {
             DBObject obj = assessmentCursor.next();
@@ -62,12 +63,12 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
             assessment.put("body", body);
             results.add(assessment);
         }
-        DBCursor familyCursor = getSourceDatastoreConnector().getDBCursor("assessmentFamily", FAMILY_FIELDS, referenceQuery);
+        DBCursor familyCursor = getSourceDatastoreConnector().getDBCursor(dbname, "assessmentFamily", FAMILY_FIELDS, referenceQuery);
         while (familyCursor.hasNext()) {
             DBObject subFamily = familyCursor.next();
             String subId = (String) subFamily.get("_id");
             String subName = (String) ((Map<String, Object>) subFamily.get("body")).get("assessmentFamilyTitle");
-            results.addAll(addAssessmentsForFamilyId(subId, familyName + "." + subName));
+            results.addAll(addAssessmentsForFamilyId(dbname, subId, familyName + "." + subName));
         }
         return results;
     }
@@ -78,7 +79,7 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
         String parentRef = (String) body.get("assessmentFamilyReference");
         StringBuilder builder = new StringBuilder();
         if (parentRef != null && !parentRef.equals("")) {
-            DBCursor cursor = getSourceDatastoreConnector().getDBCursor("assessmentFamily", FAMILY_FIELDS,
+            DBCursor cursor = getSourceDatastoreConnector().getDBCursor(index, "assessmentFamily", FAMILY_FIELDS,
                     BasicDBObjectBuilder.start().add("_id", parentRef).get());
             if (cursor.hasNext()) {
                 builder = getName(index, cursor.next().toMap());

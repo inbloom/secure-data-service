@@ -66,17 +66,17 @@ public class AssessmentFamilyConverterTest {
         converter.setSourceDatastoreConnector(sourceDatastoreConnector);
         DBCursor assessmentCursor = TestUtils.buildMockCursor(buildAssessment());
         DBCursor emptyCursor = TestUtils.buildEmptyMockCursor();
-        when(sourceDatastoreConnector.getDBCursor(eq("assessment"), anyList(), any(DBObject.class))).thenReturn(emptyCursor);
-        when(sourceDatastoreConnector.getDBCursor(eq("assessment"), anyList(), argThat(buildAssessmentFamilyReferenceMatcher("family1")))).thenReturn(assessmentCursor);
+        when(sourceDatastoreConnector.getDBCursor(any(String.class), eq("assessment"), anyList(), any(DBObject.class))).thenReturn(emptyCursor);
+        when(sourceDatastoreConnector.getDBCursor(any(String.class), eq("assessment"), anyList(), argThat(buildAssessmentFamilyReferenceMatcher("family1")))).thenReturn(assessmentCursor);
         DBCursor childFamilyCursor = TestUtils.buildMockCursor(childFamily);
         DBCursor parentFamilyCursor = TestUtils.buildMockCursor(parentFamily);
         DBCursor grandParentFamilyCursor = TestUtils.buildMockCursor(grandParentFamily);
-        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), any(DBObject.class))).thenReturn(emptyCursor);
-        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), argThat(TestUtils.buildIdMatcher("family1")))).thenReturn(childFamilyCursor);
-        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), argThat(TestUtils.buildIdMatcher("parent")))).thenReturn(parentFamilyCursor);
-        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), argThat(TestUtils.buildIdMatcher("grandParent")))).thenReturn(grandParentFamilyCursor);
-        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), argThat(buildAssessmentFamilyReferenceMatcher("parent")))).thenReturn(childFamilyCursor);
-        when(sourceDatastoreConnector.getDBCursor(eq("assessmentFamily"), anyList(), argThat(buildAssessmentFamilyReferenceMatcher("grandParent")))).thenReturn(parentFamilyCursor);
+        when(sourceDatastoreConnector.getDBCursor(any(String.class), eq("assessmentFamily"), anyList(), any(DBObject.class))).thenReturn(emptyCursor);
+        when(sourceDatastoreConnector.getDBCursor(any(String.class), eq("assessmentFamily"), anyList(), argThat(TestUtils.buildIdMatcher("family1")))).thenReturn(childFamilyCursor);
+        when(sourceDatastoreConnector.getDBCursor(any(String.class), eq("assessmentFamily"), anyList(), argThat(TestUtils.buildIdMatcher("parent")))).thenReturn(parentFamilyCursor);
+        when(sourceDatastoreConnector.getDBCursor(any(String.class), eq("assessmentFamily"), anyList(), argThat(TestUtils.buildIdMatcher("grandParent")))).thenReturn(grandParentFamilyCursor);
+        when(sourceDatastoreConnector.getDBCursor(any(String.class), eq("assessmentFamily"), anyList(), argThat(buildAssessmentFamilyReferenceMatcher("parent")))).thenReturn(childFamilyCursor);
+        when(sourceDatastoreConnector.getDBCursor(any(String.class), eq("assessmentFamily"), anyList(), argThat(buildAssessmentFamilyReferenceMatcher("grandParent")))).thenReturn(parentFamilyCursor);
    }
 
     @SuppressWarnings("unchecked")
