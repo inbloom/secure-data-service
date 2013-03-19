@@ -225,6 +225,7 @@
         <module>simple-idp</module>
         <module>sif</module>
         <module>search-indexer</module>
+        <module>bulk-extract</module>
     </modules>
     <dependencyManagement>
         <dependencies>
