@@ -27,11 +27,27 @@ Given /^the testing device app key has been created$/ do
 end
 
 Given /^I import the odin-local-setup application and realm data$/ do
-  @local_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../../tools/jmeter/odin-ci/'
+  @ci_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../../tools/jmeter/odin-ci/'
+  @local_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../../tools/jmeter/odin-local-setup/'
   #get current working dir
   current_dir = Dir.getwd
-  Dir.chdir(@local_realm_store_path)
-  `sh ci-jmeter-realm.sh`
+  # Get current server environment (ci or local) from properties.yml
+  app_server = PropLoader.getProps['app_bootstrap_server']
+  # Drop in ci specific app-auth fixture data
+  if app_server == "ci"
+    puts "\b\bDEBUG: We are setting CI environment app auth data"
+    Dir.chdir(@ci_realm_store_path)
+    `sh ci-jmeter-realm.sh`
+  # Drop in local specific app-auth fixture data
+  elsif app_server == "local"
+    puts "\b\bDEBUG: We are setting LOCAL environment app auth data"
+    Dir.chdir(@local_realm_store_path)
+    `sh local-jmeter-realm.sh`
+  else
+    puts "\n\nWARNING: No App server context set, assuming CI environment.."
+    Dir.chdir(@ci_realm_store_path)
+    `sh ci-jmeter-realm.sh`
+  end
   # restore back current dir
   Dir.chdir(current_dir)
 end
