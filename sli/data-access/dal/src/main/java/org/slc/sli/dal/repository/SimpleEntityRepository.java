@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 
 import org.springframework.data.mongodb.core.query.Query;
@@ -194,6 +195,11 @@ public class SimpleEntityRepository implements Repository<Entity> {
 
     @Override
     public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
+
+    @Override
+    public DBCursor getDBCursor(String collectionName, Query query) {
         return null;
     }
 }

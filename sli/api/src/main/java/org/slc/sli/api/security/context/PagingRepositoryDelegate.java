@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,11 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.ParameterConstants;
+<<<<<<< HEAD
 import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CascadeResult;
+=======
+>>>>>>> master
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -380,6 +384,11 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     @Override
     public T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
+
+    @Override
+    public DBCursor getDBCursor(String collectionName, Query query) {
         return null;
     }
 }

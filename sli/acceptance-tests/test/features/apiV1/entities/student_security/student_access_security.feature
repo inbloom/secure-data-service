@@ -2,17 +2,22 @@ Feature: Student Access Security Mega Test
 I want to test all combinations and permutations of accessing student data
 
 @DE_2712
+@DE_2726
 Scenario Outline: Users accessing students via multi-part URIs for Sections
-Given I am user <User> in IDP "SEC"
-When I make an API call to get all students in the section <Section>
-Then I should receive a return code of <Code>
-And I should see a count of <Count>
-And I the response should only include the students <Accessable Students>
-When I make an API call to get student associations to the section <Section>
-Then I should receive a return code of <Code>
-And I should see a count of <Count>
-And I the response should only include associaitons for the students <Accessable Students>
-Examples:
+  Given I am user <User> in IDP "SEC"
+  When I make an API call to get all students in the section <Section>
+  Then I should receive a return code of <Code>
+    And I should see a count of <Count>
+    #de2726
+    And the header "TotalCount" equals <Count>
+    And I the response should only include the students <Accessable Students>
+  When I make an API call to get student associations to the section <Section>
+  Then I should receive a return code of <Code>
+    And I should see a count of <Count>
+    #de2726
+    And the header "TotalCount" equals <Count>
+    And I the response should only include associaitons for the students <Accessable Students>
+  Examples:
   | User   | Section  |Code |Count| Accessable Students  | Comments |
   |"teach1"|"section0"| 200 |  2  | "student04;student05"| Educator role teacher has no end date on teacherSectionAssociation |
   |"teach2"|"section0"| 200 |  2  | "student04;student05"| Leader role teacher has no end date on teacherSectionAssociation |

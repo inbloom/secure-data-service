@@ -27,6 +27,7 @@ import java.util.Set;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
@@ -44,6 +45,7 @@ import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.convert.IdConverter;
+<<<<<<< HEAD
 import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
@@ -51,6 +53,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.schema.SchemaReferencesMetaData;
+=======
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+>>>>>>> master
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -964,5 +971,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @SuppressWarnings("PMD")
     public T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
         return null;
+    }
+
+    @Override
+    public DBCursor getDBCursor(String collectionName, Query query) {
+        guideIfTenantAgnostic(collectionName);
+
+        DBCollection collection = template.getCollection(collectionName);
+        return collection.find(query.getFieldsObject());
     }
 }

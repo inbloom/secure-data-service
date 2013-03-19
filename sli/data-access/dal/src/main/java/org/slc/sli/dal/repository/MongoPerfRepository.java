@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
@@ -31,8 +32,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.dal.convert.IdConverter;
+<<<<<<< HEAD
 import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CascadeResult;
+=======
+>>>>>>> master
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -215,6 +219,11 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
 
     @Override
     public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
+
+    @Override
+    public DBCursor getDBCursor(String collectionName, Query query) {
         return null;
     }
 }
