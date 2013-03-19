@@ -17,7 +17,6 @@ limitations under the License.
 =end
 
 require_relative '../../../utils/sli_utils.rb'
-require_relative '../../utils/api_utils.rb'
 
 Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"$/ do |token|
   @sessionId=token
