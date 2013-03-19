@@ -30,6 +30,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import org.slc.sli.bulk.extract.metadata.DataFile;
 import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
@@ -84,7 +85,7 @@ public class EntityExtractor implements Extractor {
 
     private BulkExtractMongoDA bulkExtractMongoDA;
 
-    private MetaData metaData;
+    private DataFile metaData;
 
     @Override
     public void destroy() {
@@ -339,14 +340,14 @@ public class EntityExtractor implements Extractor {
     /**
      * @return the metaData
      */
-    public MetaData getMetaData() {
+    public DataFile getMetaData() {
         return metaData;
     }
 
     /**
      * @param metaData the metaData to set
      */
-    public void setMetaData(MetaData metaData) {
+    public void setMetaData(DataFile metaData) {
         this.metaData = metaData;
     }
 
