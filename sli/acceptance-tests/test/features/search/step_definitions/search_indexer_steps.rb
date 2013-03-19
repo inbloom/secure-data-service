@@ -68,7 +68,7 @@ Given /^I flush the Indexer$/ do
 end
 
 When /^I do elastic search for assessment in Midgar tenant$/ do
-      url = PropLoader.getProps['elastic_search_address'] + "/" + MIDGAR_DB_NAME + "/assessment/_search?from=0&size=100"
+      url = PropLoader.getProps['elastic_search_address'] + "/" + MIDGAR_DB_NAME + "/assessment/_search?from=0&size=10000"
       restHttpGetAbs(url)
       assert(@res != nil, "Response from rest-client GET is nil")
       #puts @res
@@ -175,7 +175,7 @@ When /^I update some assessment records in mongo$/ do
           "ff84d3d1c6594847234ab13f8cc8bcd2a45bb75d_id",
           "8f8b1ff4fd3459d3ab1bc54c9deb3581820e0bac_id"
         ],
-        "maxRawScore" => 50
+        "maxRawScore" => 60
       }
     }  
   ]
@@ -187,8 +187,8 @@ When /^I update some assessment records in mongo$/ do
     "body" => {
       "identificationCode" => "2004-First grade Assessment 2#4",
       "assessmentId" => "49da176bc1b8025d5a6c2855cebfec421a418541_id",
-      "correctResponse" => "false",
-      "itemCategory" => "True-False",
+      "correctResponse" => "A",
+      "itemCategory" => "Multiple Choice",
       "maxRawScore" => 20
     }
   }
@@ -211,7 +211,7 @@ When /^I update some assessment records in mongo$/ do
   apdEntity["body"] = updateAPDBody
   apd_coll.save(apdEntity)
   
-  #update OA in assessment with id is 49da176bc1b8025d5a6c2855cebfec421a418541_id
+  #update OA and AI in assessment with id is 49da176bc1b8025d5a6c2855cebfec421a418541_id
   
   updateAssmtEntityId = "49da176bc1b8025d5a6c2855cebfec421a418541_id"
   assmtEntity = assmt_coll.find_one({"_id"=>updateAssmtEntityId})
@@ -219,11 +219,6 @@ When /^I update some assessment records in mongo$/ do
   assmtEntity["objectiveAssessment"]= updateOA
   assmtEntity["assessmentItem"] = updateAI
   assmt_coll.save(assmtEntity)
-  
-  
-  
-  #update AI in assessment with id is 49da176bc1b8025d5a6c2855cebfec421a418541_id
-  
   
 end
 
