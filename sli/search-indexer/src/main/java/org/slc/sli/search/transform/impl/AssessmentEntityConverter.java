@@ -60,8 +60,12 @@ public class AssessmentEntityConverter implements EntityConverter {
             Map<String, Object> body = getBody(index, assessmentEntityMap);
             
             if (body != null) {
-                body.put(ASSESSMENT_PERIOD_DESCRIPTOR, extractPeriodDescriptor(index, body));
-                body.put(ASSESSMENT_FAMILY_HIERARCHY, extractFamilyHierarchy(index, body));
+                if (body.containsKey(ASSESSMENT_PERIOD_DESCRIPTOR_ID)) {
+                    body.put(ASSESSMENT_PERIOD_DESCRIPTOR, extractPeriodDescriptor(index, body));
+                }
+                if (body.containsKey(ASSESSMENT_FAMILY_REFERENCE)) {
+                    body.put(ASSESSMENT_FAMILY_HIERARCHY, extractFamilyHierarchy(index, body));
+                }
                 assessmentEntityMap.put("body", body);
             }
         }
@@ -112,12 +116,17 @@ public class AssessmentEntityConverter implements EntityConverter {
                 return (Map<String, Object>) assessmentPeriodDescriptor.get("body");
             }
         }
+
         return null;
     }
     
     private String extractFamilyHierarchy(String index, Map<String, Object> body) {
         Deque<String> familyTitles = new LinkedList<String>();
         String assessmentFamilyReference = (String) body.remove(ASSESSMENT_FAMILY_REFERENCE);
+        if (assessmentFamilyReference == null) {
+            return null;
+        }
+
         Set<String> checkedReferences = new HashSet<String>();
         while (assessmentFamilyReference != null && !checkedReferences.contains(assessmentFamilyReference)) {
             checkedReferences.add(assessmentFamilyReference);
