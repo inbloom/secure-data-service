@@ -51,7 +51,7 @@ import org.slc.sli.ingestion.reporting.ElementSource;
 public class NeutralRecord implements Cloneable, Resource, ElementSource {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    private static final String KEY_ACTION = "Action";
+    public static final String KEY_ACTION = "Action";
 
     /**
      * stores an Id value uniquely identifying the record within the data store.
