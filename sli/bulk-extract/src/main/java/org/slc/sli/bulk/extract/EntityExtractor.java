@@ -32,6 +32,7 @@ import java.util.concurrent.Future;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slc.sli.bulk.extract.metadata.MetaData;
 import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
@@ -79,6 +80,8 @@ public class EntityExtractor implements Extractor {
     private Repository<Entity> entityRepository;
 
     private BulkExtractMongoDA bulkExtractMongoDA;
+
+    private MetaData metaData;
 
     @Override
     public void destroy() {
@@ -142,7 +145,7 @@ public class EntityExtractor implements Extractor {
         // running at a time
         OutstreamZipFile zipFile = null;
         Date startTime = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss");
         String timeStamp = df.format(startTime);
         try {
             zipFile = new OutstreamZipFile(getTenantDirectory(tenant), tenant + "-" + timeStamp);
@@ -157,6 +160,7 @@ public class EntityExtractor implements Extractor {
 
         // Rename temp zip file to permanent.
         try {
+            metaData.writeToZip(zipFile, timeStamp);
             zipFile.renameTempZipFile();
             bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getZipFile().getAbsolutePath(), startTime);
         } catch (IOException e) {
@@ -302,6 +306,20 @@ public class EntityExtractor implements Extractor {
             execute(tenant);
             return zipFile.getZipFile();
         }
+    }
+
+    /**
+     * @return the metaData
+     */
+    public MetaData getMetaData() {
+        return metaData;
+    }
+
+    /**
+     * @param metaData the metaData to set
+     */
+    public void setMetaData(MetaData metaData) {
+        this.metaData = metaData;
     }
 
 }
