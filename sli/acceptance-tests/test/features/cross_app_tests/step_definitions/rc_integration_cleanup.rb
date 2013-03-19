@@ -139,6 +139,8 @@ Then /^I clean my tenant's landing zone$/ do
         clear_remote_lz(sftp)
       end
     end
+  rescue SystemExit, Interrupt
+    raise
   rescue Exception => e
     puts "Error cleaning out Landing Zone.  Continuing regardless."
     puts "#{e}"
