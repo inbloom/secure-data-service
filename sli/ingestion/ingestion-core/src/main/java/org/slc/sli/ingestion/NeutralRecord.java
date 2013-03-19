@@ -51,6 +51,7 @@ import org.slc.sli.ingestion.reporting.ElementSource;
 public class NeutralRecord implements Cloneable, Resource, ElementSource {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final String KEY_ACTION = "Action";
 
     /**
      * stores an Id value uniquely identifying the record within the data store.
@@ -139,12 +140,6 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
      */
     private Map<String, Object> metaData;
 
-    /**
-     * Stores action type that needs to be performed on this record
-     * Not all action have been implemented yet
-     */
-
-    private ActionVerb actionVerb;
 
     /**
      * Default constructor
@@ -531,10 +526,16 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
     }
 
     public ActionVerb getActionVerb() {
-        return actionVerb;
+        String name = (String) this.metaData.get( KEY_ACTION);
+        ActionVerb verb = ActionVerb.NONE;
+        if( name != null ) {
+            verb = ActionVerb.valueOf( name );
+        }
+        return (verb );
     }
 
     public void setActionVerb(ActionVerb action) {
-        this.actionVerb = action;
+        this.metaData.put( KEY_ACTION, action.toString());
+        //this.actionVerb = action;
     }
 }
