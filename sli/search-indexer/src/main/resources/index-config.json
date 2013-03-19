@@ -246,6 +246,7 @@
             "body.academicSubject", 
             "body.assessmentCategory", 
             "body.assessmentFamilyHierarchyName", 
+            "body.assessmentFamilyReference", 
             "body.assessmentForm", 
             "body.assessmentIdentificationCode.assigningOrganizationCode", 
             "body.assessmentIdentificationCode.ID", 
