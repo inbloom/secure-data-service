@@ -119,3 +119,11 @@ When /^I make an API call to access myself$/ do
   restHttpGet("/v1/teachers/bcfcc33f-f4a6-488f-baee-b92fbd062e8d", @format)
   @staff = JSON.parse(@res.body)
 end
+
+When /^I update association "(.*?)" "(.*?)" to set studentAccessFlag to "(.*?)"$/ do |type, id, boolean|
+  @format = "application/json"
+  flag = (boolean == "true")
+  restHttpPatch("/v1/#{type}/#{id}", {"studentRecordAccess"=>flag}.to_json)
+  assert(@res.code==204, "There was an error patching studentRecordAccess flag")
+end
+

@@ -28,7 +28,6 @@ import javax.ws.rs.core.PathSegment;
 import javax.xml.bind.DatatypeConverter;
 
 import org.slc.sli.api.cache.SessionCache;
-import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
@@ -141,6 +140,16 @@ public class PreProcessFilter implements ContainerRequestFilter {
 		SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
 
 		if (request.getPathSegments().size() > 3) {	// not applied on two parters
+		    
+		    String base = request.getPathSegments().get(1).getPath();
+		    String assoc = request.getPathSegments().get(3).getPath();
+		    
+            if(base.equals(ResourceNames.PROGRAMS) || base.equals(ResourceNames.COHORTS)) {
+                if(assoc.equals(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS) || assoc.equals(ResourceNames.STAFF_COHORT_ASSOCIATIONS)) {
+                    prince.setStudentAccessFlag(false);
+                }
+            }
+		    
 			for (PathSegment seg : request.getPathSegments()) {
 				String resourceName = seg.getPath();
 				if (ResourceNames.STUDENTS.equals(resourceName)) {	// once student is encountered, no more obligations
