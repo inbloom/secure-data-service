@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                               xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+  <!-- Grade 7 2011 State Reading Test -->
+   <Assessment>
+    <AssessmentTitle>Grade 6 2011 State Reading</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>Grade 6 2011 State Reading</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>W</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>120</MinimumScore>
+      <MaximumScore>179</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>B</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>180</MinimumScore>
+      <MaximumScore>230</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>S</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>231</MinimumScore>
+      <MaximumScore>277</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>E</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>278</MinimumScore>
+      <MaximumScore>364</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <ContentStandard>State Standard</ContentStandard>
+    <Version>1</Version>
+    <RevisionDate>2011-03-12</RevisionDate>
+    <MaxRawScore>364</MaxRawScore>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>State Reading for Grades 3-8</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+         <UniqueSectionCode>Sec 145</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </Assessment>
+  
+    <AssessmentFamily>
+    <AssessmentFamilyTitle>State Reading for Grades 3-8</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode
+            IdentificationSystem="Test Contractor">
+      <ID>State Reading for Grades 3-8</ID>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>State Reading Assessments</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </AssessmentFamily>
+    
+  </InterchangeAssessmentMetadata>
