@@ -27,6 +27,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +44,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.SecurityEventBuilder;
 
 /**
  * System resource class for security session context.
@@ -57,6 +59,9 @@ public class SecuritySessionResource {
     @Autowired
     private OauthSessionManager sessionManager;
 
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
+
     @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
 
@@ -70,7 +75,7 @@ public class SecuritySessionResource {
      */
     @GET
     @Path("logout")
-    public Map<String, Object> logoutUser(@Context HttpHeaders headers) {
+    public Map<String, Object> logoutUser(@Context HttpHeaders headers, @Context UriInfo uriInfo) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Authentication oAuth = ((OAuth2Authentication) auth).getUserAuthentication();
@@ -83,6 +88,9 @@ public class SecuritySessionResource {
             logoutMap.put("logout", this.sessionManager.logout((String) userAuth.getCredentials()));
         }
 
+        String status = (Boolean) logoutMap.get("logout") ? "Success" : "Failure";
+        audit(securityEventBuilder.createSecurityEvent(SecuritySessionResource.class.getName(),
+                uriInfo.getRequestUri(), "Logout: " + status));
         return logoutMap;
     }
 

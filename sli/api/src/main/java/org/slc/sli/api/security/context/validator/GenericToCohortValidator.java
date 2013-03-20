@@ -17,31 +17,26 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class GenericToCohortValidator extends
-		AbstractContextValidator {
+public class GenericToCohortValidator extends AbstractContextValidator {
 
-	@Override
-	public boolean canValidate(String entityType, boolean isTransitive) {
-		return !isTransitive && EntityNames.COHORT.equals(entityType);
-	}
+    @Override
+    public boolean canValidate(String entityType, boolean isTransitive) {
+        return !isTransitive && EntityNames.COHORT.equals(entityType);
+    }
 
-	@Override
-	public boolean validate(String entityType, Set<String> ids)
-			throws IllegalStateException {
-		if (!areParametersValid(EntityNames.COHORT, entityType, ids)) {
+    @Override
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+        if (!areParametersValid(EntityNames.COHORT, entityType, ids)) {
             return false;
         }
-		
-		NeutralCriteria studentCriteria = new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
-                NeutralCriteria.OPERATOR_EQUAL, true);
 
-        Set<String> myCohortIds = new HashSet<String>();
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+
+        if (SecurityUtil.getSLIPrincipal().isStudentAccessFlag()) {
+            basicQuery.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS, NeutralCriteria.OPERATOR_EQUAL, true));
+        }
         
-        // Get the one's I'm associated to.
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
-                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        basicQuery.addCriteria(studentCriteria);
-
+        Set<String> myCohortIds = new HashSet<String>();
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
         for (Entity sca : scas) {
             Map<String, Object> body = sca.getBody();
@@ -51,8 +46,8 @@ public class GenericToCohortValidator extends
                 myCohortIds.add((String) body.get(ParameterConstants.COHORT_ID));
             }
         }
-        
+
         return myCohortIds.containsAll(ids);
-	}
+    }
 
 }

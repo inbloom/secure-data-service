@@ -350,7 +350,7 @@ end
 
 def assertText(text)
   body = @explicitWait.until{@driver.find_element(:tag_name, "body")}
-  assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
+  assertWithWait("Cannot find the text \"#{text}\"") { @driver.page_source.include?(text) }
 end
 
 def build_user(uid,fullName,groups,tenant,edorg)

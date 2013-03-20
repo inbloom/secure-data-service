@@ -66,7 +66,14 @@ Then /^I should be on Portal home page$/ do
     puts accept.inspect
     puts "EULA is present"
     accept.click
-    #sleep 2
+    sleep 2
+    attempts = 1
+    while attempts < 6 && @driver.page_source.include?("d_popup")
+      attempts += 1
+      puts "EULA still present.  Trying attempt #{attempt}..."
+      accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
+      accept.click
+    end
     assertWithWait("EULA pop up did not get dismissed") { !@driver.page_source.include?("d_popup") }
   else
     puts "EULA has already been accepted"
