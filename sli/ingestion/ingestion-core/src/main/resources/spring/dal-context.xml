@@ -58,7 +58,7 @@
   </mongo:mapping-converter>
 
 
-  <bean id="neutralRecordMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
+  <bean id="neutralRecordMongoTemplate" class="org.slc.sli.dal.template.MongoEntityTemplate" depends-on="mongoTrackingAspect">
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbStagingFactory" />
     <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
   </bean>

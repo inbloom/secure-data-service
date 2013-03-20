@@ -25,7 +25,6 @@ import java.util.Set;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
@@ -34,7 +33,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -42,6 +40,7 @@ import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.dal.template.MongoEntityTemplate;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -56,7 +55,7 @@ import org.slc.sli.domain.Repository;
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
 
-    protected MongoTemplate template;
+    protected MongoEntityTemplate template;
 
     protected IdConverter idConverter;
 
@@ -145,11 +144,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return new Criteria();
     }
 
-    public void setTemplate(MongoTemplate template) {
+    public void setTemplate(MongoEntityTemplate template) {
         this.template = template;
     }
 
-    public MongoTemplate getTemplate() {
+    public MongoEntityTemplate getTemplate() {
         return template;
     }
 
@@ -657,11 +656,5 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return null;
     }
 
-    @Override
-    public DBCursor getDBCursor(String collectionName, Query query) {
-        guideIfTenantAgnostic(collectionName);
 
-        DBCollection collection = template.getCollection(collectionName);
-        return collection.find(query.getFieldsObject());
-    }
 }

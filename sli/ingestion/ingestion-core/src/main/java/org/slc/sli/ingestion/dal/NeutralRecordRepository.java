@@ -18,16 +18,13 @@ package org.slc.sli.ingestion.dal;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.dal.RetryMongoCommand;
-import org.slc.sli.dal.repository.MongoQueryConverter;
-import org.slc.sli.dal.repository.MongoRepository;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
+import com.mongodb.DBCollection;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +33,12 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import com.mongodb.DBCollection;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.RetryMongoCommand;
+import org.slc.sli.dal.repository.MongoQueryConverter;
+import org.slc.sli.dal.repository.MongoRepository;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Specialized class providing basic CRUD and field query methods for neutral records
@@ -257,6 +259,11 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
     @Override
     public NeutralRecord findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
+
+    @Override
+    public Iterator<NeutralRecord> findEach(String collectionName, Query query) {
         return null;
     }
 }

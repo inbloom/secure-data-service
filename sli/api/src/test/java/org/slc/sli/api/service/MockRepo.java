@@ -29,7 +29,6 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 
 import org.bson.BasicBSONObject;
@@ -663,7 +662,7 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
-    public DBCursor getDBCursor(String collectionName, Query query) {
+    public Iterator<Entity> findEach(String collectionName, Query query) {
         return null;
     }
 }

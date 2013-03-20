@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 
@@ -182,18 +182,14 @@ public class EntityExtractor implements Extractor {
 
         try {
             TenantContext.setTenantId(tenant);
-            DBCursor cursor = entityRepository.getDBCursor(collectionName, query);
+            Iterator<Entity> cursor = entityRepository.findEach(collectionName, query);
 
             if (cursor.hasNext()) {
                 zipFile.createArchiveEntry(entityName + ".json");
                 zipFile.writeJsonDelimiter("[");
 
                 while (cursor.hasNext()) {
-                    DBObject object = cursor.next();
-                    String type = object.get(TYPE).toString();
-                    String id = object.get(ID).toString();
-                    Map<String, Object> body = (Map<String, Object>) object.get(BODY);
-                    Entity record = new MongoEntity(type, id, body, null);
+                    Entity record = cursor.next();
 
                     // write each record to file
                     addAPIFields(entityName, record);

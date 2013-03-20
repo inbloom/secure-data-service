@@ -70,7 +70,7 @@
   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
   </bean>
 
-  <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
+  <bean id="mongoTemplate" class="org.slc.sli.dal.template.MongoEntityTemplate" depends-on="mongoTrackingAspect">
     <constructor-arg ref="sliMongoDbFactory" />
     <constructor-arg ref="mappingConverter" />
     <!-- property name="slaveOk" value="false" / -->

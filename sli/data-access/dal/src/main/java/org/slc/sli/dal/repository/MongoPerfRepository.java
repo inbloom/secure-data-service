@@ -17,11 +17,11 @@
 package org.slc.sli.dal.repository;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
@@ -213,7 +213,7 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     }
 
     @Override
-    public DBCursor getDBCursor(String collectionName, Query query) {
+    public Iterator<Entity> findEach(String collectionName, Query query) {
         return null;
     }
 }
