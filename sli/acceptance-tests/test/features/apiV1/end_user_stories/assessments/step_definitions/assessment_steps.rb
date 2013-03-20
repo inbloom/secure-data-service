@@ -271,7 +271,7 @@ Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
 end
 
 Then /^the offset response field "([^"]*)" should be "([^"]*)"$/ do |field, value|
-  puts "\n\nDEBUG: response body is #{@result[0]}"
+  #puts "\n\nDEBUG: response body is #{@result[0]}"
   result = fieldExtract(field, @result[0]) 
   assert(result == value, "Unexpected response: expected #{value}, found #{result}")  
 end
