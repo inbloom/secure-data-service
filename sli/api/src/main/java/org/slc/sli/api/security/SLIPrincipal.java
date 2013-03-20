@@ -66,6 +66,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private Set<String> authorizingEdOrgs;
     private String email;
     private Map<String, List<NeutralQuery>> obligations;
+    private boolean studentAccessFlag = true;
 
     public String getSessionId() {
         return sessionId;
@@ -326,6 +327,14 @@ public class SLIPrincipal implements Principal, Serializable {
     
     public void clearObligations() {
     	this.obligations.clear();
+    }
+
+    public boolean isStudentAccessFlag() {
+        return studentAccessFlag;
+    }
+
+    public void setStudentAccessFlag(boolean studentAccessFlag) {
+        this.studentAccessFlag = studentAccessFlag;
     }
 
 }

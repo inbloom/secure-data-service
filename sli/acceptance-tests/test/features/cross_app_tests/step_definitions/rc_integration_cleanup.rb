@@ -139,6 +139,8 @@ Then /^I clean my tenant's landing zone$/ do
         clear_remote_lz(sftp)
       end
     end
+  rescue SystemExit, Interrupt
+    raise
   rescue Exception => e
     puts "Error cleaning out Landing Zone.  Continuing regardless."
     puts "#{e}"
@@ -166,4 +168,11 @@ Then /^I will delete the applications "([^\"]*)" from the collection$/ do |apps|
     sli_db['application'].remove("body.name" => name)
     assert(sli_db['application'].find("body.name" => name).count == 0, "The application '#{name}' is not deleted.")
   end
+end
+
+
+Then /^I close all open Mongo connections$/ do
+  @conn.close if @conn != nil
+  @conn2.close if @conn2 != nil
+  @conn3.close if @conn3 != nil
 end

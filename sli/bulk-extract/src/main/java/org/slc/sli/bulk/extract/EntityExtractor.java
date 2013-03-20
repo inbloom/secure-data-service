@@ -179,6 +179,7 @@ public class EntityExtractor implements Extractor {
 
         String collectionName = getCollectionName(entityName);
         Query query = getQuery(entityName);
+        long noOfRecords = 0;
 
         try {
             TenantContext.setTenantId(tenant);
@@ -190,6 +191,7 @@ public class EntityExtractor implements Extractor {
 
                 while (cursor.hasNext()) {
                     Entity record = cursor.next();
+                    noOfRecords++;
 
                     // write each record to file
                     addAPIFields(entityName, record);
@@ -201,7 +203,7 @@ public class EntityExtractor implements Extractor {
                 }
                 zipFile.writeJsonDelimiter("]");
             }
-            LOG.info("Finished extracting " + entityName);
+            LOG.info("Finished extracting {} records for " + entityName, noOfRecords);
 
         } catch (IOException e) {
             LOG.error("Error while extracting " + entityName, e);
