@@ -33,8 +33,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.validation.schema.SchemaReferencesMetaData;
+import org.slc.sli.validation.schema.SchemaReferencePath;
 
-
+import java.util.List;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
