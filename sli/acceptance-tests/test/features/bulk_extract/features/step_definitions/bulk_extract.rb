@@ -140,16 +140,15 @@ def	compareRecords(mongoRecord, jsonRecord)
 end
 
 def compareEncryptedRecords(mongoRecord, jsonRecord)
-    assert(get_nested_keys(mongoRecord['body']).eql?(get_nested_keys(jsonRecord)), "Record fields do not match for records \nMONGORecord:\n" + get_nested_keys(mongoRecord['body']).to_s + "\nJSONRecord:\n" + get_nested_keys(mongoRecord['body']).to_s)
+    assert(get_nested_keys(mongoRecord['body']).eql?(get_nested_keys(jsonRecord)), 
+      "Record fields do not match for records \nMONGORecord:\n" + get_nested_keys(mongoRecord['body']).to_s + "\nJSONRecord:\n" + get_nested_keys(jsonRecord).to_s)
 
-    removeEncryptedFields(mongoRecord['body'])
-    removeEncryptedFields(jsonRecord)
-
-    assert(mongoRecord['body'].eql?(jsonRecord), "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
+    assert(removeEncryptedFields(mongoRecord['body']).eql?(removeEncryptedFields(jsonRecord)), 
+      "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
 end
 
 def removeEncryptedFields(record)
-    record.reject!{ |key,value| !ENCRYPTED_FIELDS.include?(key)}
+    record.delete_if{ |key,value| ENCRYPTED_FIELDS.include?(key)}
 end
 
 
@@ -158,12 +157,12 @@ def get_nested_keys(hash, keys=Array.new)
    keys << k
    case v
     when Array
-      v.each {|vv| (Hash.try_convert(vv)!=nil)?get_nested_keys(vv, keys): keys }
+      v.each {|vv| (Hash.try_convert(vv)!=nil)?get_nested_keys(vv, keys): keys.sort }
     when Hash
       get_nested_keys(v,keys)
     end
    end
-   keys
+   keys.sort
 end
 
 
