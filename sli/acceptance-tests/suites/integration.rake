@@ -133,6 +133,10 @@ task :rcSandboxTenantCleanUp do
   runTests("test/features/cross_app_tests/rc_sandbox_delete_tenant.feature")
 end
 
+desc "Run RC Portal Compile"
+task :rcPortalCompile do
+  runTests("test/features/cross_app_tests/rc_portal_init.feature")
+end
 
 desc "Delete SEA, LEA and dev from LDAP"
 task :rcDeleteLDAPUsers do
@@ -177,6 +181,7 @@ task :rcTests do
   @tags = ["~@wip", "@rc", "~@sandbox"]
   Rake::Task["rcDeleteLDAPUsers"].execute
   Rake::Task["rcTenantCleanUp"].execute # if tenant_exists
+  Rake::Task["rcPortalCompile"].execute if RUN_ON_RC
   randomizeRcProdTenant() if RUN_ON_RC
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
@@ -202,6 +207,7 @@ task :rcSandboxTests do
   @tags = ["~@wip", "@rc", "@sandbox"]
   Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(PropLoader.getProps['sandbox_tenant'])
   Rake::Task["rcDeleteSandboxLDAPUsers"].execute
+  Rake::Task["rcPortalCompile"].execute if RUN_ON_RC
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
   Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
