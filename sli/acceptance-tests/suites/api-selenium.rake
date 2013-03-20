@@ -21,6 +21,11 @@ task :adminRealmTests => [:realmInit] do
   runTests("test/features/admintools/edit_realms.feature")
 end
 
+desc "Run Reset and Change Password Selenium Tests"
+task :resetAndChangePasswordTests => [:realmInit] do
+  runTests("test/features/admintools/reset_change_password.feature")
+end
+
 desc "Run custom Roles Tests"
 task :customRolesTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
