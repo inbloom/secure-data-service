@@ -33,16 +33,11 @@ function configure {
 
         JAVA_OPT="-Dfile.encoding=UTF-8"
 
-        CHECK_SLI_CONF=0
-        CHECK_KEYSTORE=0
-
         RUN_EXTRACT=1
         RUN_HELP=0
 
         SLI_CONF="sli.conf"
         SLI_ENCRYPTION_KEYSTORE="sli.encryption.keyStore"
-        BULK_EXTRACT_OPT="-D${SLI_CONF}=${DEFAULT_CHECK_SLI_CONF}"
-        SLI_ENCRYPTION_OPT="-D${SLI_ENCRYPTION_KEYSTORE}=${DEFAULT_CHECK_KEYSTORE}"
 
         BULK_EXTRACTER_LOG="bulk-extracter.log"
     fi
@@ -53,9 +48,9 @@ function readOption {
       PROPERTY=`echo ${1:2} |cut -d'=' -f1`
       FILE_LOCATION=`echo ${1:2} |cut -d'=' -f2`
       if [ ${PROPERTY} == ${SLI_CONF} ]; then
-         CHECK_SLI_CONF=${FILE_LOCATION}
+         DEFAULT_CHECK_SLI_CONF=${FILE_LOCATION}
       elif [ ${PROPERTY} == ${SLI_ENCRYPTION_KEYSTORE} ]; then
-         CHECK_KEYSTORE=${FILE_LOCATION}
+         DEFAULT_CHECK_KEYSTORE=${FILE_LOCATION}
       else
          JAVA_OPT="${JAVA_OPT} ${1}"
       fi
@@ -108,6 +103,8 @@ function run {
         return $stat
     fi
 
+    BULK_EXTRACT_OPT="-D${SLI_CONF}=${DEFAULT_CHECK_SLI_CONF}"
+    SLI_ENCRYPTION_OPT="-D${SLI_ENCRYPTION_KEYSTORE}=${DEFAULT_CHECK_KEYSTORE}"
     T="$(date +%s)"
     echo "$(date): bulk-extracter Starting with $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT"
     java -Xms$DEFAULT_MIN_MEMORY -Xmx$DEFAULT_MAX_MEMORY $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT -jar $DEFAULT_BULK_EXTRACTOR_JAR $DEFAULT_TENANT
