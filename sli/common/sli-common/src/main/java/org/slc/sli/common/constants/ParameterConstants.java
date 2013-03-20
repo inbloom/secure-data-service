@@ -15,7 +15,7 @@
  */
 
 
-package org.slc.sli.api.constants;
+package org.slc.sli.common.constants;
 
 /**
  * Constants used in URI requests.

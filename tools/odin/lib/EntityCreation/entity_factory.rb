@@ -82,7 +82,7 @@ class EntityFactory
           rval << TeacherSchoolAssociation.new(work_order[:id], work_order[:school], work_order[:assignment], work_order[:grades], work_order[:subjects])
 
         when [TeacherSectionAssociation]
-          rval << TeacherSectionAssociation.new(work_order[:teacher], work_order[:section], work_order[:school], work_order[:position])
+          rval << TeacherSectionAssociation.new(work_order[:teacher], work_order[:section], work_order[:school], work_order[:position], work_order[:start_date], work_order[:end_date])
 
         when [GradebookEntry]
           rval << GradebookEntry.new(work_order[:gbe_type], work_order[:date_assigned], work_order[:section], work_order[:description], work_order[:grading_period],  work_order[:learning_objectives])

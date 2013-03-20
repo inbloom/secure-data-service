@@ -37,7 +37,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;

@@ -86,15 +86,15 @@ public class NeutralJsonExporter {
         File complexDir = new File(outputDir, "complexDir");
         
         try {
-            if (!enumDir.mkdirs()) {
+            if (!enumDir.exists() && !enumDir.mkdirs()) {
                 System.err.println("Failed to create enum output directory");
                 return;
             }
-            if (!primitiveDir.mkdirs()) {
+            if (!primitiveDir.exists() && !primitiveDir.mkdirs()) {
                 System.err.println("Failed to freate primitive output directory");
                 return;
             }
-            if (!complexDir.mkdirs()) {
+            if (!complexDir.exists() && !complexDir.mkdirs()) {
                 System.err.println("Failed to create complex output directory");
                 return;
             }

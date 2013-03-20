@@ -178,8 +178,11 @@
 			<title xml:lang="en">Assessment</title>
 			<class name="Assessment"></class>
 		</entity>
-		<!-- AssessmentFamily is not supported in SLI -->
-		<entity>
+	    <entity>
+	        <title xml:lang="en">AssessmentFamily</title>
+	        <class name="AssessmentFamily"></class>
+	    </entity>
+	    <entity>
 			<title xml:lang="en">Assessment Item</title>
 			<class name="AssessmentItem"></class>
 		</entity>

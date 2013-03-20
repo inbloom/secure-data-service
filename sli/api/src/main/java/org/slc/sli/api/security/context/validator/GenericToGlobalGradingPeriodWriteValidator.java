@@ -20,8 +20,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
