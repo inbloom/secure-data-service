@@ -661,14 +661,9 @@ task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
   end
 end
 
-desc "Run Reset and Change Password Selenium Tests"
-task :resetAndChangePasswordTests => [:realmInit] do
-  runTests("test/features/admintools/reset_change_password.feature")
-end
-
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:provisionIntegrationTests, :preloadResourceTests, :realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
-                          :resetAndChangePasswordTests, :sandboxUserAdminTests, :samtEmailNotificationTests, :adminWebTests] do
+                          :sandboxUserAdminTests, :samtEmailNotificationTests, :adminWebTests] do
   Rake::Task["importSandboxData"].execute
   Rake::Task["realmInit"].execute
   displayFailureReport()
