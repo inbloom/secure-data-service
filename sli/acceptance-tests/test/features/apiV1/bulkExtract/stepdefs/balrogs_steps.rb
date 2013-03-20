@@ -51,7 +51,7 @@ Then /^I check the http response headers$/ do
     raise "Could not find #{coll} collection" if src_coll.count == 0
 
     src_coll.find().each do |row|
-      if row['body']['tenantId'] == "Midgar"
+      if row['_id'] == "Midgar"
         date = row['body']['date'].to_datetime.to_s
         if date != nil
       printf("\n%s vs %s\n",date,@last_modified);
@@ -65,9 +65,6 @@ Then /^I check the http response headers$/ do
         end
       end
     end
-
-
-#    src_id = @ref_doc[coll]
   end
 end
 
