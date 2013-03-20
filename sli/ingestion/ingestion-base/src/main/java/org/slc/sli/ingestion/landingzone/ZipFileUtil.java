@@ -19,16 +19,16 @@ package org.slc.sli.ingestion.landingzone;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.util.Enumeration;
 
-import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -50,22 +50,19 @@ public final class ZipFileUtil {
      * @param zipFile ZIP archive
      * @param targetDir Directory to extract files to
      * @param mkdirs Allow creating missing directories on the file paths
-     * @throws IOException
+     * @throws IOException IO Exception
      * @throws FileNotFoundException
      */
     public static void extract(File zipFile, File targetDir, boolean mkdirs) throws IOException {
-        FileInputStream fis = null;
-        ZipArchiveInputStream zis = null;
+        ZipFile zf = null;
 
         try {
-            // Create input stream
-            fis = new FileInputStream(zipFile);
-            zis = new ZipArchiveInputStream(new BufferedInputStream(fis));
+            zf = new ZipFile(zipFile);
 
-            ArchiveEntry entry;
+            Enumeration<ZipArchiveEntry> zes = zf.getEntries();
 
-            // Extract files
-            while ((entry = zis.getNextEntry()) != null) {
+            while (zes.hasMoreElements()) {
+                ZipArchiveEntry entry = zes.nextElement();
 
                 if (!entry.isDirectory()) {
                     File targetFile = new File(targetDir, entry.getName());
@@ -74,12 +71,17 @@ public final class ZipFileUtil {
                         targetFile.getParentFile().mkdirs();
                     }
 
-                    copyInputStreamToFile(zis, targetFile);
+                    InputStream is = null;
+                    try {
+                        is = zf.getInputStream(entry);
+                        copyInputStreamToFile(is, targetFile);
+                    } finally {
+                        IOUtils.closeQuietly(is);
+                    }
                 }
             }
         } finally {
-            IOUtils.closeQuietly(zis);
-            IOUtils.closeQuietly(fis);
+            ZipFile.closeQuietly(zf);
         }
     }
 
@@ -88,34 +90,36 @@ public final class ZipFileUtil {
      *
      * @param zipFile ZIP archive
      * @param fileName Name of the file to get stream for
+     * @return Input Stream for the requested file entry
+     * @throws IOException IO Exception
      * @throws FileNotFoundException
-     * @throws IOException
      */
     public static InputStream getInputStreamForFile(File zipFile, String fileName) throws IOException {
-        ZipArchiveInputStream zis = null;
+        ZipFile zf = null;
         InputStream fileInputStream = null;
 
         try {
-            // Create input stream
-            zis = new ZipArchiveInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
+            zf = new ZipFile(zipFile);
 
-            ArchiveEntry entry;
+            ZipArchiveEntry entry = zf.getEntry(fileName);
 
-            while ((entry = zis.getNextEntry()) != null) {
-                if (!entry.isDirectory() && entry.getName().equals(fileName)) {
-                    fileInputStream = zis;
-                    break;
-                }
+            if (entry == null || entry.isDirectory()) {
+                String msg = MessageFormat.format("No file entry is found for {0} withing the {0} archive", fileName, zipFile);
+                throw new FileNotFoundException(msg);
             }
+
+            final ZipFile fzf = zf;
+            fileInputStream = new BufferedInputStream(zf.getInputStream(entry)) {
+                @Override
+                public void close() throws IOException {
+                    super.close();
+                    ZipFile.closeQuietly(fzf);
+                }
+            };
         } finally {
             if (fileInputStream == null) {
-                IOUtils.closeQuietly(zis);
+                ZipFile.closeQuietly(zf);
             }
-        }
-
-        if (fileInputStream == null) {
-            String msg = MessageFormat.format("No file entry is found for {0} withing the {0} archive", fileName, zipFile);
-            throw new FileNotFoundException(msg);
         }
 
         return fileInputStream;
@@ -125,23 +129,26 @@ public final class ZipFileUtil {
      * Retrieves a name of the first .ctl file found in the zip archive.
      *
      * @param zipFile ZIP file to scan
+     * @return A filename representing the control file.
+     * @throws IOException IO Exception
      */
     public static String getControlFileName(File zipFile) throws IOException {
-        ZipArchiveInputStream zis = null;
+        ZipFile zf = null;
 
         try {
-            // Create input stream
-            zis = new ZipArchiveInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
+            zf = new ZipFile(zipFile);
 
-            ArchiveEntry entry;
+            Enumeration<ZipArchiveEntry> zes = zf.getEntries();
 
-            while ((entry = zis.getNextEntry()) != null) {
+            while (zes.hasMoreElements()) {
+                ZipArchiveEntry entry = zes.nextElement();
+
                 if (!entry.isDirectory() && entry.getName().endsWith(".ctl")) {
                     return entry.getName();
                 }
             }
         } finally {
-            IOUtils.closeQuietly(zis);
+            ZipFile.closeQuietly(zf);
         }
 
         return null;

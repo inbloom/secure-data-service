@@ -35,7 +35,7 @@ activemq_host: "localhost"
 
 #Bulk Extract Configuration
 bulk_extract_script: "../bulk-extract/scripts/local_bulk_extract.sh"
-bulk_extract_output_directory: "../bulk-extract/scripts/extract/"
+bulk_extract_output_directory: "extract/"
 bulk_extract_db: "localhost"
 bulk_extract_port: 27017
 
