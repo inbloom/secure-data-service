@@ -271,6 +271,7 @@ Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
 end
 
 Then /^the offset response field "([^"]*)" should be "([^"]*)"$/ do |field, value|
+  #puts "\n\nDEBUG: response body is #{@result[0]}"
   result = fieldExtract(field, @result[0]) 
   assert(result == value, "Unexpected response: expected #{value}, found #{result}")  
 end
@@ -457,8 +458,10 @@ def fieldExtract(field, body)
     part[i] = part[i].to_i if is_num?(part[i])
   end
 
+  # Preserve the original response body
   result = body
-  (1..(part.length)).each {|x| result = result[part[x-1]]}
+  # Recursively loop through a response body to dig our fields
+  (1..(part.length)).each { |x| result = result[part[x-1]] }
   return result
 end
 
