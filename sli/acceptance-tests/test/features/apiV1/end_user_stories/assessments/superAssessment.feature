@@ -97,7 +97,7 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     And the response field "assessmentPeriodDescriptor.description" should be "<assessment period descriptor>"
     And the response field "assessmentPeriodDescriptor.codeValue" should be "<APD.codeValue>"
     And the response field "entityType" should be "assessment"
-    And the response field "gradeLevelAssessed" should be "Eleventh grade"
+    And the response field "gradeLevelAssessed" should be "Twelfth grade"
     And the response field "assessmentTitle" should be "<assessment 1>"
     And I extract all the "assessment" links
 
@@ -105,7 +105,7 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     Then I should validate the "objectiveAssessment.0.learningObjectives" from "assessment" links map to learningObjectives
 
   When I navigate to GET "/v1/search/assessments?q=Sixth"
-    Then I should have a list of 6 "assessment" entities
+    Then I should have a list of 4 "assessment" entities
     And the offset response field "assessmentTitle" should be "2012-Sixth grade Assessment 2"
     And the offset response field "gradeLevelAssessed" should be "Sixth grade"
     And the offset response field "<AIC.ID>" should be "2012-Sixth grade Assessment 2"
@@ -118,15 +118,15 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     Then I should have a list of 50 "assessment" entities
 
   When I navigate to GET "/v1/search/assessments?q=2014-ninth%20grade%20assessment%201&limit=100"
-    Then I should have a list of 78 "assessment" entities
+    Then I should have a list of 52 "assessment" entities
 
-  When I navigate to GET "/v1/search/assessments?q=2014-ninth&offset=5&limit=100&q=grade"
+  When I navigate to GET "/v1/search/assessments?q=2012-sixth&offset=3&limit=100&q=grade"
     Then I should have a list of 1 "assessment" entities
-    And the offset response field "assessmentTitle" should be "2014-Ninth grade Assessment 1"
-    And the offset response field "<search.assessment.ID>" should be "2014-Ninth grade Assessment 1"
+    And the offset response field "assessmentTitle" should be "2013-Sixth grade Assessment 1"
+    And the offset response field "<search.assessment.ID>" should be "2013-Sixth grade Assessment 1"
     And the offset response field "<search.assessment.ID.system>" should be "State"
-    And the offset response field "assessmentPeriodDescriptor.description" should be "Beginning of Year 2014-2015 for Ninth grade"
-    And the offset response field "assessmentPeriodDescriptor.codeValue" should be "BOY-9-2014"
+    And the offset response field "assessmentPeriodDescriptor.description" should be "Beginning of Year 2013-2014 for Sixth grade"
+    And the offset response field "assessmentPeriodDescriptor.codeValue" should be "BOY-6-2013"
     #And the response field "<search.assessment.ID.system>" should be "State"
     # assessmentPeriodDescriptorId = ac743445484ab8745f3921fea80bad59bf484593_id
     #And the response field "<search.APD.id>" should be valid   
@@ -134,23 +134,24 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     # And the offset response field "assessmentFamilyHierarchyName" should be "2014 Standard.2014 Ninth grade Standard"
     # assessmentFamilyHierarchyName = 2014 Standard.2014 Ninth grade Standard
 
-  When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=Beginning%20of%20Year%202014-2015%20for%20Ninth%20grade"
+  When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=Beginning%20of%20Year%202013-2014%20for%20Sixth%20grade"
     Then I should have a list of 2 "assessment" entities
-    And the offset response field "assessmentTitle" should be "2014-Ninth grade Assessment 2"
-    And the offset response field "gradeLevelAssessed" should be "Ninth grade"
-    And the offset response field "assessmentFamilyHierarchyName" should be "2014 Standard.2014 Ninth grade Standard"
-    And the offset response field "assessmentPeriodDescriptor.description" should be "Beginning of Year 2014-2015 for Ninth grade"
-    And the offset response field "assessmentPeriodDescriptor.codeValue" should be "BOY-9-2014"
+    And the offset response field "assessmentTitle" should be "2013-Sixth grade Assessment 1"
+    And the offset response field "gradeLevelAssessed" should be "Sixth grade"
+    And the offset response field "assessmentFamilyHierarchyName" should be "2013 Standard.2013 Sixth grade Standard"
+    And the offset response field "assessmentPeriodDescriptor.description" should be "Beginning of Year 2013-2014 for Sixth grade"
+    And the offset response field "assessmentPeriodDescriptor.codeValue" should be "BOY-6-2013"
 
-  When I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2014%20Standard.2014%20Ninth%20grade%20Standard"
+  When I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Sixth%20grade%20Standard"
     Then I should have a list of 2 "assessment" entities
-    And the offset response field "assessmentTitle" should be "2014-Ninth grade Assessment 2"
-    And the offset response field "gradeLevelAssessed" should be "Ninth grade"
-    And the offset response field "assessmentFamilyHierarchyName" should be "2014 Standard.2014 Ninth grade Standard"
-    And the offset response field "<search.assessment.ID>" should be "2014-Ninth grade Assessment 2"
-    And the offset response field "assessmentPeriodDescriptor.description" should be "Beginning of Year 2014-2015 for Ninth grade"
-    And the offset response field "<OA.identificationCode>" should be "2014-Ninth grade Assessment 2.OA-0"
-    And the offset response field "<OA.OAS.AI.identificationCode>" should be "2014-Ninth grade Assessment 2#1"
+    And the offset response field "assessmentTitle" should be "2013-Sixth grade Assessment 1"
+    And the offset response field "gradeLevelAssessed" should be "Sixth grade"
+    And the offset response field "assessmentFamilyHierarchyName" should be "2013 Standard.2013 Sixth grade Standard"
+    And the offset response field "<search.assessment.ID>" should be "2013-Sixth grade Assessment 1"
+    And the offset response field "assessmentPeriodDescriptor.description" should be "Beginning of Year 2013-2014 for Sixth grade"
+    And the offset response field "assessmentPeriodDescriptor.codeValue" should be "BOY-6-2013"
+    And the offset response field "<OA.identificationCode>" should be "2013-Sixth grade Assessment 1.OA-1"
+    And the offset response field "<OA.OAS.AI.identificationCode>" should be "2013-Sixth grade Assessment 1#2"
 
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
