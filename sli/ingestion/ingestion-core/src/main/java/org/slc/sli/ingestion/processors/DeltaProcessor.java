@@ -34,6 +34,7 @@ import org.slc.sli.ingestion.delta.SliDeltaManager;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.RecordHash;
+import org.slc.sli.ingestion.parser.ActionVerb;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 
@@ -122,7 +123,9 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Re
      * @return True if the record is support
      */
     private boolean isDeltafiable(NeutralRecord neutralRecord) {
-        return recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType());
+        boolean needDelta = ( neutralRecord.getActionVerb() == ActionVerb.CASCADE_DELETE ||
+                    neutralRecord.getActionVerb() == ActionVerb.DELETE ) ? false : true;
+        return recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType()) && needDelta;
     }
 
     private boolean isDeltaDisabled() {

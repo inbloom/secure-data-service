@@ -37,7 +37,8 @@
 				<xs:element name="Course" type="SLC-Course"/>
 				<xs:element name="Diploma" type="Diploma"/>
 				<xs:element name="StudentAssessment" type="StudentAssessment"/>
-				<xs:element name="School" type="SLC-School"/>
+				<xs:element name="School" type="SLC-School"/>				
+				<xs:element name="Action" type="SLC-ActionType"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

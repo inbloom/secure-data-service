@@ -278,6 +278,11 @@ task :ingestionPropagatedTest do
   runTests("test/features/ingestion/features/ingestion_PropagatedDataSet.feature")
 end
 
+desc "Run Cascading Deletion Tests"
+task :ingestionCascadingDeletionTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

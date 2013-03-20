@@ -39,13 +39,13 @@ public interface TypeProvider {
     /**
      * Given an element's parent's type, provide the type of the element with given name.
      *
-     * @param parentType
-     *            String value of element's parent's EdFi type.
+     * @param parentMeta
+     *            RecordMeta data of the parent's element
      * @param elementName
      *            String value of the name of an EdFi element.
      * @return EdfiType for this element.
      */
-    public RecordMeta getTypeFromParentType(String parentType, String elementName);
+    public RecordMeta getTypeFromParentType(RecordMeta parentMeta, String elementName);
 
     /**
      * Process / convert the value for a given type.
@@ -70,4 +70,14 @@ public interface TypeProvider {
      * @return Converted object.
      */
     public Object convertAttributeType(String elementType, String attributeName, String value);
+
+    /**
+     * Determines if particular type represents Action Verb.
+     *
+     * @param type
+     *            String value of an EdFi type.
+     *
+     * @return true/false
+     */
+    public boolean isActionType(String type );
 }
