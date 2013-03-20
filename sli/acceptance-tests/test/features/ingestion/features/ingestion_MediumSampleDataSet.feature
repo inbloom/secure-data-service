@@ -113,7 +113,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                            | 7500 |
      | teacherSchoolAssociation                    | 50 |
      | teacherSectionAssociation                   | 300 |
-	And I should see "Processed 45416 records." in the resulting batch job file
+    And correct number of records should be ingested for "MediumSampleDataSet.zip"
 	And I should not see an error log file created
 	And I should not see a warning log file created
 	And there are no mismatches when executing "MediumSampleDataSet/expectedCounts.js" on tenant "Midgar"
