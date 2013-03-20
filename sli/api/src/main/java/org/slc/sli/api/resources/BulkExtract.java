@@ -58,7 +58,7 @@ public class BulkExtract {
 
     private static final Logger LOG = LoggerFactory.getLogger(BulkExtract.class);
 
-    private static final String FILE_NAME = "NY-WALTON-2013-03-08.zip";
+    private static final String SAMPLED_FILE_NAME = "NY-WALTON-2013-03-08.zip";
 
     public static final String BULK_EXTRACT_FILES = "bulkExtractFiles";
     public static final String BULK_EXTRACT_FILE_PATH = "path";
@@ -84,17 +84,19 @@ public class BulkExtract {
     public Response get() throws FileNotFoundException {
         LOG.info("Received request to stream bulk extract...");
 
+        String fileName = SAMPLED_FILE_NAME;
         File bulkExtractFile = null;
         Entity bulkExtractFileEntity = bulkExtractFileEntity();
         String lastModified = "Not Specified";
         if (bulkExtractFileEntity != null) {
             bulkExtractFile = getbulkExtractFile(bulkExtractFileEntity);
             lastModified = ((Date) bulkExtractFileEntity.getBody().get(BULK_EXTRACT_DATE)).toString();
+            fileName = bulkExtractFile.getName();
             LOG.info("Requested stream bulk extract file: {}", bulkExtractFile);
         }
 
         final InputStream is = bulkExtractFile==null || !bulkExtractFile.exists() ?
-                this.getClass().getResourceAsStream("/bulkExtractSampleData/" + FILE_NAME) :
+                this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME) :
                 new FileInputStream(bulkExtractFile);
 
         StreamingOutput out = new StreamingOutput() {
@@ -109,7 +111,7 @@ public class BulkExtract {
         };
 
         ResponseBuilder builder = Response.ok(out);
-        builder.header("content-disposition", "attachment; filename = " + FILE_NAME);
+        builder.header("content-disposition", "attachment; filename = " + fileName);
         builder.header("last-modified", lastModified);
         return builder.build();
     }
