@@ -169,3 +169,10 @@ Then /^I will delete the applications "([^\"]*)" from the collection$/ do |apps|
     assert(sli_db['application'].find("body.name" => name).count == 0, "The application '#{name}' is not deleted.")
   end
 end
+
+
+Then /^I close all open Mongo connections$/ do
+  @conn.close if @conn != nil
+  @conn2.close if @conn2 != nil
+  @conn3.close if @conn3 != nil
+end

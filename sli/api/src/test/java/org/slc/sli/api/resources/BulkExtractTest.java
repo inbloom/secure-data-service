@@ -65,6 +65,7 @@ public class BulkExtractTest {
         MultivaluedMap<String, Object> headers = res.getMetadata();
         assertNotNull(headers);
         assertTrue(headers.containsKey("content-disposition"));
+        assertTrue(headers.containsKey("last-modified"));
         String header = (String) headers.getFirst("content-disposition");
         assertNotNull(header);
         assertTrue(header.startsWith("attachment"));
