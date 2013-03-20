@@ -17,6 +17,8 @@ package org.slc.sli.ingestion.parser;
 
 import javax.xml.stream.Location;
 
+import org.slc.sli.ingestion.ActionVerb;
+
 /**
  * Describes an XML record.
  *

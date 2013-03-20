@@ -26,6 +26,7 @@ import org.apache.camel.Exchange;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
@@ -34,7 +35,6 @@ import org.slc.sli.ingestion.delta.SliDeltaManager;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.RecordHash;
-import org.slc.sli.ingestion.parser.ActionVerb;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 

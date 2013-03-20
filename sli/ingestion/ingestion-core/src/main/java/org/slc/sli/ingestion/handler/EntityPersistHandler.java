@@ -37,9 +37,12 @@ import org.springframework.dao.DuplicateKeyException;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
@@ -80,6 +83,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     @Value("${sli.ingestion.referenceSchema.referenceCheckEnabled}")
     private String referenceCheckEnabled;
+
+    @Value("${sli.ingestion.maxObjects:0}")
+    private int maxObjects;
 
     @Value("${sli.ingestion.totalRetries}")
     private int totalRetries;
@@ -122,7 +128,21 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             }
         }
 
-        if (entity.getEntityId() != null) {
+        ActionVerb action = ActionVerb.NONE;
+
+        if( entity.getMetaData() != null &&
+                        entity.getMetaData().containsKey( NeutralRecord.KEY_ACTION ) ) {
+            action = (ActionVerb) entity.getMetaData().get( NeutralRecord.KEY_ACTION );
+        }
+
+        if( action.doDelete() ) {
+// find out about dryrun
+            Boolean dryrun = Boolean.FALSE;
+            CascadeResult cascade = entityRepository.safeDelete(collectionName, entity.getEntityId(),
+                                            action.doCascade(), dryrun, maxObjects, null);
+            return null;
+
+        } else if (entity.getEntityId() != null) {
 
             if (!entityRepository.updateWithRetries(collectionName, entity, totalRetries)) {
                 // TODO: exception should be replace with some logic.

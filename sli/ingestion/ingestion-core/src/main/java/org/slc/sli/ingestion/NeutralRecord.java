@@ -40,7 +40,6 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import org.slc.sli.ingestion.parser.ActionVerb;
 import org.slc.sli.ingestion.reporting.ElementSource;
 
 /**
