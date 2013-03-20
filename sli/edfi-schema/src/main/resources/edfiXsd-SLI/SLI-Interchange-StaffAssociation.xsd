@@ -15,8 +15,7 @@
 				<xs:element name="Teacher" type="SLC-Teacher"/>
 				<xs:element name="TeacherSchoolAssociation" type="SLC-TeacherSchoolAssociation"/>
 				<xs:element name="TeacherSectionAssociation" type="SLC-TeacherSectionAssociation"/>
-				<xs:element name="StaffProgramAssociation" type="SLC-StaffProgramAssociation"/>
-				
+				<xs:element name="StaffProgramAssociation" type="SLC-StaffProgramAssociation"/>				
 				<xs:element name="Action" type="SLC-ActionType"/>
 			</xs:choice>
 		</xs:complexType>
