@@ -5,4 +5,5 @@ Scenario: Verify a student was correctly extracted
    And a "student" extract file exists
    And a the correct number of "student" was extracted from the database
    And a "student" was extracted with all the correct fields
-   #And a "student" was extracted in the same format as the api
+   And I used the long lived session token generator script to create a token for user "jstevenson" with role "IT Administrator" in tenant "Midgar"  for realm "IL-Daybreak" that will expire in "300" seconds with client_id "K2e7Dwhq5J"
+   Then a "student" was extracted in the same format as the api
