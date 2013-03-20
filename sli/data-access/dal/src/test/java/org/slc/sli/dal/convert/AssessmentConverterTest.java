@@ -38,7 +38,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.dal.template.MongoEntityTemplate;
 import org.slc.sli.domain.Entity;

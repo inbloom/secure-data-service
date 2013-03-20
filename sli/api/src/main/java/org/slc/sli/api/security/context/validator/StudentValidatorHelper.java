@@ -16,8 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.slc.sli.api.constants.ParameterConstants.STUDENT_RECORD_ACCESS;
+import static org.slc.sli.common.constants.ParameterConstants.STUDENT_RECORD_ACCESS;
 
 @Component
 public class StudentValidatorHelper {
