@@ -3,6 +3,9 @@ require_relative '../../../ingestion/features/step_definitions/clean_database.rb
 
 TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
 OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
+PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
+KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
+JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 DATABASE_NAME = PropLoader.getProps['sli_database_name']
 DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
@@ -15,9 +18,21 @@ require 'zip/zip'
 # Given
 ############################################################
 Given /^I trigger a bulk extract$/ do
-
-puts "Running: sh #{TRIGGER_SCRIPT}"
-puts runShellCommand("sh #{TRIGGER_SCRIPT}")
+command  = "sh #{TRIGGER_SCRIPT}"
+if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
+  command = command + " -Dsli.conf=#{PROPERTIES_FILE}" 
+  puts "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
+end
+if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
+  command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}" 
+  puts "Using extra property: -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
+end
+if (JAR_FILE !=nil && JAR_FILE != "")
+  command = command + " -f#{JAR_FILE}" 
+  puts "Using extra property:  -f#{JAR_FILE}"
+end
+puts "Running: #{command} "
+puts runShellCommand(command)
 
 end
 
