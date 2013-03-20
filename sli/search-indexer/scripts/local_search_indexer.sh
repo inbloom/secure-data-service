@@ -61,6 +61,7 @@ function readOption {
          CHECK_KEYSTORE=${FILE_LOCATION}
       else
          SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} ${1}"
+         echo "SEARCH_INDEX_OPT is: ${SEARCH_INDEXER_OPT}"
       fi
    elif [ ${1:0:2} == "-X" ]; then
       PROPERTY=${1:2:2}
@@ -70,6 +71,7 @@ function readOption {
          DEFAULT_MIN_MEMORY=${1:4}
       else
          SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} ${1}"
+         echo "2 SEARCH_INDEX_OPT is: ${SEARCH_INDEXER_OPT}"
       fi
    else
       FILEEXT=${1#*.}

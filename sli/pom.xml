@@ -978,7 +978,8 @@
                         </dependency>
                     </dependencies>
                     <configuration>
-                        <showWeaveInfo>true</showWeaveInfo>
+                        <showWeaveInfo>false</showWeaveInfo>
+                        <verbose>false</verbose>
                         <source>1.6</source>
                         <XnoInline>true</XnoInline>
                         <complianceLevel>1.6</complianceLevel>

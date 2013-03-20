@@ -831,15 +831,23 @@
   </AssessmentFamily>
 
   <AssessmentFamily>
+    <AssessmentFamilyTitle>State Math</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode
+            IdentificationSystem="Test Contractor">
+      <ID>State Math</ID>
+    </AssessmentFamilyIdentificationCode>
+  </AssessmentFamily>
+
+  <AssessmentFamily>
     <AssessmentFamilyTitle>State Math Assessments</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
-        IdentificationSystem="Test Contractor">
-        <ID>State Math</ID>
+            IdentificationSystem="Test Contractor">
+      <ID>State Math Assessments</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
-        <AssessmentFamilyIdentity>
-          <AssessmentFamilyTitle>State Math Assessments</AssessmentFamilyTitle>
-        </AssessmentFamilyIdentity>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>State Math</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
   <AssessmentFamily>

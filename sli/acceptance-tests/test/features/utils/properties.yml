@@ -82,6 +82,7 @@ jmeter_bin: "jmeter"
 jmeter_properties: "ci.properties"
 jmeter_regression_threshold: 0.25
 
+app_bootstrap_server: "local"
 
 emaiL_smtp_host: mon.slidev.org
 email_smtp_port: 3000

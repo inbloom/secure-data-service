@@ -5,6 +5,9 @@
         <options/>
     </meta>
     <projectTree name="sli-edfi-oxygen.xpr">
+        <folder path="../../../../../domain/src/main/resources/sliModel/"/>
+        <folder path="../../../../../domain/src/main/resources/sliXsd/"/>
+        <folder path="../edfiXsd-1-1-0/"/>
         <folder path="."/>
         <folder path="../edfiXsd/"/>
     </projectTree>

@@ -40,20 +40,26 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='assessmentFamilyHierarchyName'
-				type='xs:string'>
-				<xs:annotation>
-					<xs:documentation>
-						A hierarchical name for the assessment
-						using '.'
-						separators.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamilyHierarchyName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Hierarchical name for the assessment using '.' separators</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamilyReference" type="reference">
+                <xs:annotation>
+                    <xs:documentation>Reference to the assessment family associated with this
+                        assessment.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 			<xs:element maxOccurs='unbounded' name='assessmentIdentificationCode'
 				type='assessmentIdentificationCode'>
 				<xs:annotation>
@@ -272,7 +278,20 @@
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
-			</xs:element>
+                              </xs:element>
+                              <!--  this is a 'virtual' element that only exists for superdoc processing -->
+            <xs:element minOccurs="0" name="assessmentPeriodDescriptorId" type="reference">
+                <xs:annotation>
+                    <xs:documentation>Reference to the assessment period descriptor </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessmentPeriodDescriptor</sli:ReferenceType>
+                        <sli:hidden>true</sli:hidden>
+                        <sli:associationKey>true</sli:associationKey>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+
 			<xs:element minOccurs='0' name='assessmentPeriodDescriptor'
 				type='assessmentPeriodDescriptor'>
 				<xs:annotation>
@@ -285,6 +304,8 @@
 						and "End of Year."
 					</xs:documentation>
 					<xs:appinfo>
+                        <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+                        <sli:CollectionType>assessmentPeriodDescriptor</sli:CollectionType>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
@@ -325,7 +346,156 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+    <xs:complexType name="assessmentFamily">
+        <xs:annotation>
+            <xs:documentation>This entity represents a logical grouping or association of
+                assessments that share a common purpose, heritage, or content standard. There may be
+                hierarchies of Assessment Families. Characteristics (e.g., Academic Subject)
+                specified for AssessmentFamilies, by convention, are inherited by the Assessments
+                associated with the AssessmentFamily. </xs:documentation>
+            <xs:appinfo>
+                <sli:CollectionType>assessmentFamily</sli:CollectionType>
+                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="assessmentFamilyTitle" type="assessmentTitle">
+                <xs:annotation>
+                    <xs:documentation>The title or name of the assessment family. </xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="assessmentFamilyIdentificationCode"
+                type="assessmentIdentificationCode" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>A unique number or alphanumeric code assigned to an assessment
+                        by a school, school system, a state, or other agency or
+                        entity.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="assessmentCategory" type="assessmentCategoryType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The category of an assessment based on format and content. For
+                        example: Achievement test, Advanced placement test, Alternate
+                        assessment/grade-level standards, Attitudinal test, Cognitive and perceptual
+                        skills test, etc. </xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="academicSubject" type="academicSubjectType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The description of the content or subject area (e.g., arts,
+                        mathematics, reading, stenography, or a foreign language) of an assessment
+                        family.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="gradeLevelAssessed" type="gradeLevelType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The typical grade level for which an assessment family is
+                        designed. If the assessment spans a range of grades, then this attribute
+                        holds the highest grade assessed. If only one grade level is assessed then
+                        only this attribute is used. For example: Adult, Prekindergarten, First
+                        grade, Second grade, etc.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lowestGradeLevelAssessed" type="gradeLevelType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>If the assessment spans a range of grades, then this attribute
+                        holds the lowest grade assessed. If only one grade level is assessed, then
+                        this attribute is omitted.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="contentStandard" type="contentStandardType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>An indication as to whether an assessment conforms to a
+                        standard. For example: Local standard, Statewide standard, Regional standard
+                        Association standard, etc.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="version" type="version" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The version identifier for the assessment family. </xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="revisionDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The month, day, and year that the conceptual design for the
+                        assessment family was most recently revised substantially. </xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="nomenclature" type="nomenclature" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Reflects the specific nomenclature used for this level of
+                        AssessmentFamily.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="assessmentPeriods" type="reference" minOccurs="0"
+                maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The periods or windows defined in which an assessment is
+                        supposed to be administered.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessmentPeriodDescriptor</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="assessmentFamilyReference" type="reference"
+                minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>References the higher level AssessmentFamily this one belongs
+                        to.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 	<xs:complexType name='assessmentIdentificationCode'>
 		<xs:annotation>
 			<xs:documentation>A unique number or alphanumeric code assigned to an
@@ -8403,6 +8573,11 @@
 				an assessment is supposed to be administered (e.g., Beginning of
 				Year, Middle of Year, End of Year).
 			</xs:documentation>
+            <xs:appinfo>
+                <sli:CollectionType>assessmentPeriodDescriptor</sli:CollectionType>
+                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name='codeValue' type='codeValue'>
@@ -8411,6 +8586,7 @@
 						an Assessment Period.
 					</xs:documentation>
 					<xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>

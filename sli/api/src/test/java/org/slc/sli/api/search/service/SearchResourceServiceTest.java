@@ -55,7 +55,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.web.client.HttpClientErrorException;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
