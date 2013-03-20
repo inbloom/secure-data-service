@@ -1,5 +1,8 @@
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
+require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../utils/selenium_common.rb'
+require_relative '../../../apiV1/long_lived_session/step_definitions/token_generator_steps.rb'
 
 TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
 OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
@@ -106,6 +109,19 @@ When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
 end
 
 ############################################################
+# Then
+############################################################
+
+Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
+  extracts = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
+  collFile = JSON.parse(extracts.read(collection + ".json"))
+  assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
+  
+  compareToApi(collection, collFile)
+  
+end
+
+############################################################
 # Functions
 ############################################################
 
@@ -165,4 +181,29 @@ def get_nested_keys(hash, keys=Array.new)
    keys.sort
 end
 
+def compareToApi(collection, collFile)
+  case collection
+  when "student"
+    
+    collFile.each do |extractRecord|
+    
+      id = extractRecord["id"]
+
+      #Make API call and get JSON for a student
+      @format = "application/vnd.slc+json"
+      restHttpGet("/v1/students/#{id}")
+      assert(@res != nil, "Response from rest-client GET is nil")
+      assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
+      apiRecord = JSON.parse(@res.body)
+      assert(apiRecord != nil, "Result of JSON parsing is nil")    
+      apiRecord.delete("links")
+    
+      #Compare to Extract
+      assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
+    
+    end
+  else
+    nil
+  end
+end
 
