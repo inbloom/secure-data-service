@@ -250,6 +250,13 @@ def cleanTenants()
   enable_NOTABLESCAN()
 end
 
+def getCorrectCountForDataset(dataSet)
+  case dataSet
+    when "SmallSampleDataSet.zip" then 10135
+    when "MediumSampleDataSet.zip" then 45416
+  end
+end
+
 ############################################################
 # REMOTE INGESTION FUNCTIONS
 ############################################################
@@ -355,6 +362,7 @@ def createRemoteDirectory(dirPath)
     end
   end
 end
+
 
 ############################################################
 # STEPS: GIVEN
@@ -3129,6 +3137,11 @@ Then /^all attendance entities should should have the expected structure./ do
     end
   end
 
+end
+
+Then /^correct number of records should be ingested for "(.*?)"$/ do |dataSet|
+    correct_count = getCorrectCountForDataset(dataSet)
+    step "I should see \"Processed #{correct_count} records.\" in the resulting batch job file"
 end
 
 ############################################################
