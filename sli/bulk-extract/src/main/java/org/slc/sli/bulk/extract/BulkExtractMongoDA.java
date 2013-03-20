@@ -20,12 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Update;
 
 /**
  * Mongo access to bulk extract data.
@@ -50,23 +47,16 @@ public class BulkExtractMongoDA {
      * @param data: the date when the bulk extract was created
      */
     public void updateDBRecord(String tenantId, String path, Date date) {
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(TENANT_ID, "=", tenantId));
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(TENANT_ID, tenantId);
+        body.put(FILE_PATH, path);
+        body.put(DATE, date);
 
-        if (entityRepository.findOne(BULK_EXTRACT_COLLECTION ,query) == null) {
-            Map<String, Object> body = new HashMap<String, Object>();
-            body.put(TENANT_ID, tenantId);
-            body.put(FILE_PATH, path);
-            body.put(DATE, date);
-            entityRepository.create(BULK_EXTRACT_COLLECTION, body);
-            LOG.info("Finished creating bulk extract record");
-        }
-        else {
-            Update update = new Update();
-            update.set("body." + FILE_PATH, path);
-            update.set("body." + DATE, date);
-            entityRepository.doUpdate(BULK_EXTRACT_COLLECTION, query, update);
-            LOG.info("Finished updating bulk extract record");
-        }
+        BulkExtractEntity bulkExtractEntity = new BulkExtractEntity(body, tenantId);
+
+        entityRepository.update(BULK_EXTRACT_COLLECTION, bulkExtractEntity, false);
+
+        LOG.info("Finished creating bulk extract record");
 
     }
 

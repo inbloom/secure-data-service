@@ -78,6 +78,7 @@ When /^I do elastic search for assessment in Midgar tenant$/ do
 end
 
 Then /^I should see below records in response$/ do |table|
+    sleep 5
     @table = table
     verifyIndexerEntities(@index_entities,@table)
 end
@@ -139,7 +140,7 @@ When /^I update some assessment records in mongo$/ do
   
   
   updateAPDBody = {
-     "codeValue"=>"assessment_2012", 
+     "codeValue"=>"assessment_2013", 
      "description"=>"updated_assessment", 
      "beginDate"=>"2013-01-01", 
      "endDate"=>"2013-02-01"}
@@ -248,7 +249,7 @@ end
 
 When /^I send a command to start the extractor to update "(.*?)" tenant now$/ do |tenant|
   sendCommand("reconcile #{tenant}")
-  sleep 10
+  sleep 5
 end
 
 

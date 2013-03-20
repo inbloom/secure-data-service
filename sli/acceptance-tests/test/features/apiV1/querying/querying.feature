@@ -205,26 +205,26 @@ Scenario: Search Indexer should reindex when I update the Assessment Period Desc
   Then I should receive a collection with 0 elements
   When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=assessment"
   Then I should receive a return code of 200
-  Then I should receive a collection with 5 elements
+  Then I should receive a collection with 6 elements
   Then I update the "assessmentPeriodDescriptor" with ID "486b2868f8556c81e7d2094845bf3a40a0abef02_id" field "body.description" to "hello world"
   When I send an update event to the search indexer for collection "assessmentPeriodDescriptor" and ID "486b2868f8556c81e7d2094845bf3a40a0abef02_id"
-    Then I will EVENTUALLY GET "/v1/assessments?assessmentPeriodDescriptor.description=hello%20world" with 1 elements
+    Then I will EVENTUALLY GET "/v1/assessments?assessmentPeriodDescriptor.description=hello%20world" with 2 elements
   When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=hello%20world"
   Then I should receive a return code of 200
-  Then I should receive a collection with 1 elements
+  Then I should receive a collection with 2 elements
   When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=assessment"
   Then I should receive a return code of 200
   Then I should receive a collection with 4 elements
   Then I update the "assessmentPeriodDescriptor" with ID "486b2868f8556c81e7d2094845bf3a40a0abef02_id" field "body.description" to "assessment"
   When I send an update event to the search indexer for collection "assessmentPeriodDescriptor" and ID "486b2868f8556c81e7d2094845bf3a40a0abef02_id"
   Then I will EVENTUALLY GET "/v1/assessments?assessmentPeriodDescriptor.description=hello%20world" with 0 elements
-  Then I will EVENTUALLY GET "/v1/assessments?assessmentPeriodDescriptor.description=assessment" with 5 elements
+  Then I will EVENTUALLY GET "/v1/assessments?assessmentPeriodDescriptor.description=assessment" with 6 elements
   When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=hello%20world"
   Then I should receive a return code of 200
   Then I should receive a collection with 0 elements
   When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=assessment"
   Then I should receive a return code of 200
-  Then I should receive a collection with 5 elements
+  Then I should receive a collection with 6 elements
 
 Scenario Outline: Filter by collections routed to Elastic Search
   Given I am logged in using <username> <password> to realm "IL"
