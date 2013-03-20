@@ -30,6 +30,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 	<util:list id="entities" value-type="java.lang.String">
         <value>assessment</value>
         <value>attendance</value>
+        <value>calendarDate</value>
         <value>cohort</value>
         <value>competencyLevelDescriptor</value>
         <value>course</value>

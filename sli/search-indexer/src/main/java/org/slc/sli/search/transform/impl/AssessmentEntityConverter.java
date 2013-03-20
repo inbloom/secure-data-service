@@ -23,17 +23,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-
 import org.apache.commons.lang3.StringUtils;
-
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.connector.SourceDatastoreConnector;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.transform.EntityConverter;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 public class AssessmentEntityConverter implements EntityConverter {
     
@@ -44,7 +43,7 @@ public class AssessmentEntityConverter implements EntityConverter {
     public static final String ASSESSMENT_FAMILY_REFERENCE = "assessmentFamilyReference";
     public static final String ASSESSMENT_FAMILY_HIERARCHY = "assessmentFamilyHierarchyName";
     public static final String ASSESSMENT_FAMILY_TITLE = "assessmentFamilyTitle";
-    public static final List<String> FAMILY_FIELDS = Arrays.asList("body.assessmentFamilyReferece",
+    public static final List<String> FAMILY_FIELDS = Arrays.asList("body.assessmentFamilyReference",
             "body.assessmentFamilyTitle");
     
     private SourceDatastoreConnector sourceDatastoreConnector;
