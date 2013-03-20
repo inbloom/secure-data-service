@@ -15,15 +15,19 @@
  */
 package org.slc.sli.bulk.extract;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
@@ -36,7 +40,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.mongodb.util.JSON;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 /**
  * Test bulk extraction into zip files.
@@ -62,6 +67,8 @@ public class EntityExtractorTest {
     private MongoEntityRepository mongoEntityRepository;
 
     private OutstreamZipFile zipFile;
+    
+    private BulkExtractMongoDA bulkExtractMongoDA;
 
     @Before
     public void init() throws IOException {
@@ -71,9 +78,14 @@ public class EntityExtractorTest {
         collections.add("staff");
         collections.add("staffEducationOrganizationAssociation");
 
-//        extractor.setCollections(collections);
         mongoEntityRepository = Mockito.mock(MongoEntityRepository.class);
         zipFile = Mockito.mock(OutstreamZipFile.class);
+        File file = Mockito.mock(File.class);
+        Mockito.when(zipFile.getZipFile()).thenReturn(file);
+        Mockito.when(file.getAbsolutePath()).thenReturn(extractDir+"/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a");
+        
+        bulkExtractMongoDA = Mockito.mock(BulkExtractMongoDA.class);
+        extractor.setBulkExtractMongoDA(bulkExtractMongoDA);
         extractor.setEntityRepository(mongoEntityRepository);
         extractor.setTenants(tenants);
         extractor.setBaseDirectory(extractDir);
@@ -85,24 +97,40 @@ public class EntityExtractorTest {
         extractor.destroy();
     }
 
-    @SuppressWarnings("deprecation")
-    //@Test
+    @Test
     public void testExtractEntity() throws IOException{
         String testTenant = "Midgar";
         String testEntity = "student";
 
-        List<Entity> students = TestUtils.createStudents();
-        Mockito.when(mongoEntityRepository.findByQuery(Matchers.eq(testEntity), Matchers.any(Query.class), Matchers.anyInt(), Matchers.anyInt())).thenReturn(students);
+        Iterator<Entity> cursor = Mockito.mock(Iterator.class);
 
+        List<Entity> students = TestUtils.createStudents();
+
+        Mockito.when(cursor.hasNext()).thenReturn(true, true, true, true, false, false);
+        Mockito.when(cursor.next()).thenReturn(students.get(0), students.get(1));
+        
+        Mockito.when(mongoEntityRepository.findEach(Matchers.eq(testEntity), Matchers.any(Query.class))).thenReturn(cursor);
+        
         extractor.extractEntity(testTenant, zipFile, testEntity);
 
         Mockito.verify(zipFile, Mockito.atLeast(1)).writeData(Matchers.eq(TestUtils.toJSON(students.get(0))));
         Mockito.verify(zipFile, Mockito.atLeast(1)).writeData(Matchers.eq(TestUtils.toJSON(students.get(1))));
 
     }
+    
+    @Test
+    public void testinitiateExtractForEntites() {
 
-    private String toJSON(Entity record) {
-        return JSON.serialize(record.getBody());
+        extractor.setEntities(collections);
+        EntityExtractor ex = Mockito.spy(extractor);
+        Mockito.doNothing().when(ex).extractEntity(Mockito.anyString(), Mockito.any(OutstreamZipFile.class), Mockito.anyString());
+        
+        ex.initiateExtractForEntites("Midgar", zipFile, new Date());
+        
+        for(String collection : collections) {
+            Mockito.verify(ex, Mockito.times(1)).extractEntity("Midgar", zipFile, collection);
+        }
+        Mockito.verify(bulkExtractMongoDA, Mockito.times(1)).updateDBRecord(Mockito.anyString(), Mockito.anyString(), Mockito.any(Date.class));
     }
 
     List<Entity> createStudents(){
@@ -123,7 +151,7 @@ public class EntityExtractorTest {
 
         return res;
     }
-
+    
     public static Entity makeDummyEntity(final String type, final String id, final Map<String, Object> body) {
         return new Entity() {
 

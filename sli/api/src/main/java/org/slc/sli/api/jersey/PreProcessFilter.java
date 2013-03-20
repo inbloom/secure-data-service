@@ -27,8 +27,15 @@ import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
 import javax.xml.bind.DatatypeConverter;
 
-import org.slc.sli.api.cache.SessionCache;
-import org.slc.sli.api.constants.EntityNames;
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
@@ -49,208 +56,189 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerRequestFilter;
 
 /**
  * Pre-request processing filter. Adds security information for the user Records
  * start time of the request
- * 
+ *
  * @author dkornishev
  */
 @Component
 public class PreProcessFilter implements ContainerRequestFilter {
 
-	private static final List<String> WRITE_OPERATIONS = Arrays.asList(
-			ResourceMethod.PUT.toString(), ResourceMethod.PATCH.toString(),
-			ResourceMethod.DELETE.toString());
-	private static final List<String> CONTEXTERS = Arrays.asList(
-			PathConstants.STUDENT_SCHOOL_ASSOCIATIONS,
-			PathConstants.STUDENT_SECTION_ASSOCIATIONS,
-			PathConstants.STUDENT_COHORT_ASSOCIATIONS,
-			PathConstants.STUDENT_PROGRAM_ASSOCIATIONS);
+    private static final List<String> WRITE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(),
+            ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString());
+    private static final List<String> CONTEXTERS = Arrays.asList(PathConstants.STUDENT_SCHOOL_ASSOCIATIONS,
+            PathConstants.STUDENT_SECTION_ASSOCIATIONS, PathConstants.STUDENT_COHORT_ASSOCIATIONS,
+            PathConstants.STUDENT_PROGRAM_ASSOCIATIONS);
 
-	@Resource(name = "urlValidators")
-	private List<URLValidator> urlValidators;
+    @Resource(name = "urlValidators")
+    private List<URLValidator> urlValidators;
 
-	@Autowired
-	private OauthSessionManager manager;
+    @Autowired
+    private OauthSessionManager manager;
 
-	@Autowired
-	private MongoStat mongoStat;
+    @Autowired
+    private MongoStat mongoStat;
 
-	@Resource
-	private EndpointMutator mutator;
+    @Resource
+    private EndpointMutator mutator;
 
-	@Autowired
-	private ContextValidator contextValidator;
+    @Autowired
+    private ContextValidator contextValidator;
 
-	@Autowired
-	private URITranslator translator;
+    @Autowired
+    private URITranslator translator;
 
-	@Autowired
-	private EdOrgHelper edOrgHelper;
+    @Autowired
+    private EdOrgHelper edOrgHelper;
 
-	@Autowired
-	private DateFilterCriteriaGenerator criteriaGenerator;
+    @Autowired
+    private DateFilterCriteriaGenerator criteriaGenerator;
 
-	@Autowired
-	private ResourceEndPoint resourceEndPoint;
+    @Autowired
+    private ResourceEndPoint resourceEndPoint;
 
-	private final Pattern ID_REPLACEMENT_PATTERN = Pattern
-			.compile("([^/]+/[^/]+/)[^/]+(/.*)");
+    private final Pattern ID_REPLACEMENT_PATTERN = Pattern.compile("([^/]+/[^/]+/)[^/]+(/.*)");
 
-	@Resource
-	private SessionCache sessions;
+    @Override
+    public ContainerRequest filter(ContainerRequest request) {
+        recordStartTime(request);
+        validate(request);
+        populateSecurityContext(request);
+        // mongoStat.clear();
+        mongoStat.startRequest();
 
-	@Override
-	public ContainerRequest filter(ContainerRequest request) {
-		recordStartTime(request);
-		validate(request);
-		populateSecurityContext(request);
-		// mongoStat.clear();
-		mongoStat.startRequest();
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
 
-		SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder
-				.getContext().getAuthentication().getPrincipal();
-		principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
+        info("uri: {} -> {}", request.getMethod(), request.getRequestUri().getPath());
+        request.getProperties().put("original-request", request.getPath());
+        mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
+        injectObligations(request);
+        validateNotBlockGetRequest(request);
+        if (isWrite(request.getMethod())) {
+            contextValidator.validateContextToUri(request, principal);
+        }
+        translator.translate(request);
+        criteriaGenerator.generate(request);
+        return request;
+    }
 
-		info("uri: {} -> {}", request.getBaseUri().getPath(), request
-				.getRequestUri().getPath());
-		request.getProperties().put("original-request", request.getPath());
-		mutator.mutateURI(SecurityContextHolder.getContext()
-				.getAuthentication(), request);
-		injectObligations(request);
-		validateNotBlockGetRequest(request);
-		if (isWrite(request.getMethod())) {
-			contextValidator.validateContextToUri(request, principal);
-		}
-		translator.translate(request);
-		criteriaGenerator.generate(request);
-		return request;
-	}
+    private void injectObligations(ContainerRequest request) {
+        // Create obligations
+        SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
 
-	private void injectObligations(ContainerRequest request) {
-		// Create obligations
-		SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
+        if (request.getPathSegments().size() > 3) {	// not applied on two parters
+            
+            String base = request.getPathSegments().get(1).getPath();
+            String assoc = request.getPathSegments().get(3).getPath();
+            
+            if(base.equals(ResourceNames.PROGRAMS) || base.equals(ResourceNames.COHORTS)) {
+                if(assoc.equals(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS) || assoc.equals(ResourceNames.STAFF_COHORT_ASSOCIATIONS)) {
+                    prince.setStudentAccessFlag(false);
+                }
+            }
+            
+            for (PathSegment seg : request.getPathSegments()) {
+                String resourceName = seg.getPath();
+                if (ResourceNames.STUDENTS.equals(resourceName)) {	// once student is encountered,
+                                                                   // no more obligations
+                    break;
+                }
 
-		if (request.getPathSegments().size() > 3) {	// not applied on two parters
-			for (PathSegment seg : request.getPathSegments()) {
-				String resourceName = seg.getPath();
-				if (ResourceNames.STUDENTS.equals(resourceName)) {	// once student is encountered, no more obligations
-					break;
-				}
+                if (CONTEXTERS.contains(resourceName)) {
+                    if (ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS.equals(resourceName)) {
+                        prince.addObligation(resourceName.replaceAll("s$", ""), construct("exitWithdrawDate"));
+                    } else {
+                        prince.addObligation(resourceName.replaceAll("s$", ""), construct("endDate"));
+                    }
 
-				if (CONTEXTERS.contains(resourceName)) {
-					if (ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS
-							.equals(resourceName)) {
-						prince.addObligation(resourceName.replaceAll("s$", ""),
-								construct("exitWithdrawDate"));
-					} else {
-						prince.addObligation(resourceName.replaceAll("s$", ""),
-								construct("endDate"));
-					}
+                    info("Injected a date-based obligation on association: {}", resourceName);
+                }
+            }
+        }
+    }
 
-					info("Injected a date-based obligation on association: {}",
-							resourceName);
-				}
-			}
-		}
-	}
+    private void populateSecurityContext(ContainerRequest request) {
+        OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal()).getTenantId());
+    }
 
-	private void populateSecurityContext(ContainerRequest request) {
-		OAuth2Authentication auth = manager.getAuthentication(request
-				.getHeaderValue("Authorization"));
-		SecurityContextHolder.getContext().setAuthentication(auth);
-		TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal())
-				.getTenantId());
-	}
+    /**
+     * Creates a list of criteria which will be OR'ed when queries that are
+     * relevant are being executed
+     *
+     * @param fieldName
+     * @return
+     */
+    private List<NeutralQuery> construct(String fieldName) {
+        String now = DatatypeConverter.printDate(Calendar.getInstance());
 
-	/**
-	 * Creates a list of criteria which will be OR'ed when queries that are
-	 * relevant are being executed
-	 * 
-	 * @param fieldName
-	 * @return
-	 */
-	private List<NeutralQuery> construct(String fieldName) {
-		String now = DatatypeConverter.printDate(Calendar.getInstance());
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_GT, now));
+        NeutralQuery nq2 = new NeutralQuery(new NeutralCriteria(fieldName, NeutralCriteria.CRITERIA_EXISTS, false));
 
-		NeutralQuery nq = new NeutralQuery(new NeutralCriteria(fieldName,
-				NeutralCriteria.CRITERIA_GT, now));
-		NeutralQuery nq2 = new NeutralQuery(new NeutralCriteria(fieldName,
-				NeutralCriteria.CRITERIA_EXISTS, false));
+        return Arrays.asList(nq, nq2);
 
-		return Arrays.asList(nq, nq2);
+    }
 
-	}
+    /**
+     * Returns true if the request is a write operation.
+     *
+     * @param request
+     *            Request to be checked.
+     * @return True if the request method is a PUT, PATCH, or DELETE, false
+     *         otherwise.
+     */
+    private boolean isWrite(String operation) {
+        return WRITE_OPERATIONS.contains(operation);
+    }
 
-	/**
-	 * Returns true if the request is a write operation.
-	 * 
-	 * @param request
-	 *            Request to be checked.
-	 * @return True if the request method is a PUT, PATCH, or DELETE, false
-	 *         otherwise.
-	 */
-	private boolean isWrite(String operation) {
-		return WRITE_OPERATIONS.contains(operation);
-	}
+    private void recordStartTime(ContainerRequest request) {
+        request.getProperties().put("startTime", System.currentTimeMillis());
+    }
 
-	private void recordStartTime(ContainerRequest request) {
-		request.getProperties().put("startTime", System.currentTimeMillis());
-	}
+    /**
+     * Validate the request url
+     *
+     * @param request
+     */
+    private void validate(ContainerRequest request) {
+        request.getProperties().put("logIntoDb", true);
 
-	/**
-	 * Validate the request url
-	 * 
-	 * @param request
-	 */
-	private void validate(ContainerRequest request) {
-		request.getProperties().put("logIntoDb", true);
+        for (URLValidator validator : urlValidators) {
+            if (!validator.validate(request.getRequestUri())) {
+                request.getProperties().put("logIntoDb", false);
+                List<ValidationError> errors = new ArrayList<ValidationError>();
+                errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request
+                        .getRequestUri().toString(), null));
+                throw new EntityValidationException("", "", errors);
+            }
+        }
+    }
 
-		for (URLValidator validator : urlValidators) {
-			if (!validator.validate(request.getRequestUri())) {
-				request.getProperties().put("logIntoDb", false);
-				List<ValidationError> errors = new ArrayList<ValidationError>();
-				errors.add(0, new ValidationError(
-						ValidationError.ErrorType.INVALID_VALUE, "URL", request
-								.getRequestUri().toString(), null));
-				throw new EntityValidationException("", "", errors);
-			}
-		}
-	}
+    /**
+     * Validate the request URL is not blocked
+     *
+     * @param request
+     */
+    private void validateNotBlockGetRequest(ContainerRequest request) {
+        if (!request.getMethod().equals(RequestMethod.GET.name())) {
+            return;
+        }
 
-	/**
-	 * Validate the request URL is not blocked
-	 * 
-	 * @param request
-	 */
-	private void validateNotBlockGetRequest(ContainerRequest request) {
-		if (!request.getMethod().equals(RequestMethod.GET.name())) {
-			return;
-		}
+        String requestPath = request.getPath();
+        Matcher m = ID_REPLACEMENT_PATTERN.matcher(requestPath);
 
-		String requestPath = request.getPath();
-		Matcher m = ID_REPLACEMENT_PATTERN.matcher(requestPath);
+        if (m.matches()) {
+            // transform requestPath from "v1.x/foo/2344,3453,5345/bar" to
+            // "v1.x/foo/{id}/bar"
+            requestPath = m.group(1) + PathConstants.ID_PLACEHOLDER + m.group(2);
+        }
 
-		if (m.matches()) {
-			// transform requestPath from "v1.x/foo/2344,3453,5345/bar" to
-			// "v1.x/foo/{id}/bar"
-			requestPath = m.group(1) + PathConstants.ID_PLACEHOLDER
-					+ m.group(2);
-		}
-
-		if (this.resourceEndPoint.getBlockGetRequestEndPoints().contains(
-				requestPath)) {
-			throw new EntityNotFoundException(request.getPath());
-		}
-	}
-
+        if (this.resourceEndPoint.getBlockGetRequestEndPoints().contains(requestPath)) {
+            throw new EntityNotFoundException(request.getPath());
+        }
+    }
 }

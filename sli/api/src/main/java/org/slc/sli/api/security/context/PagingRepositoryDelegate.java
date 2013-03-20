@@ -18,12 +18,12 @@ package org.slc.sli.api.security.context;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -373,7 +373,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     }
 
     @Override
-    public DBCursor getDBCursor(String collectionName, Query query) {
+    public Iterator<T> findEach(String collectionName, Query query) {
         return null;
     }
 }

@@ -35,7 +35,6 @@ public class OutstreamZipFile {
 
     private static final String TMP_SUFFIX = "_tmp";
     private ZipArchiveOutputStream zipArchiveStream;
-    private File tempZipFile;
     private ArchiveEntry zipEntry = null;
     private File zipFile;
 
@@ -60,12 +59,11 @@ public class OutstreamZipFile {
     public OutstreamZipFile(String parentDirName, String zipFileName) throws IOException {
         File parentDir = new File(parentDirName + "/");
         if (parentDir.isDirectory()) {
-            tempZipFile = new File(parentDir, zipFileName + TMP_SUFFIX + ".zip");
-            tempZipFile.createNewFile();
-            if (tempZipFile.canWrite()) {
+            zipFile = new File(parentDir, zipFileName + ".zip");
+            zipFile.createNewFile();
+            if (zipFile.canWrite()) {
                 zipArchiveStream = new ZipArchiveOutputStream(new BufferedOutputStream(new FileOutputStream(
-                        tempZipFile)));
-                zipFile = new File(parentDir, zipFileName + ".zip");
+                        zipFile)));
             }
         }
     }
@@ -82,7 +80,7 @@ public class OutstreamZipFile {
         if (zipEntry != null) {
             zipArchiveStream.closeArchiveEntry();
         }
-        zipEntry = zipArchiveStream.createArchiveEntry(tempZipFile, fileEntryName);
+        zipEntry = zipArchiveStream.createArchiveEntry(zipFile, fileEntryName);
         zipArchiveStream.putArchiveEntry(zipEntry);
     }
 
@@ -100,25 +98,27 @@ public class OutstreamZipFile {
         int length = data.length();
 
         // Write data to output stream.
-        zipArchiveStream.write(data.getBytes(), 0, length);
         zipArchiveStream.write('\n');
+        zipArchiveStream.write(data.getBytes(), 0, length);
 
         return length;
     }
+    
+    public void writeJsonDelimiter(String delim) throws IOException {
+        zipArchiveStream.write(delim.getBytes(), 0, delim.length());
+    }
 
     /**
-     * Rename the temp zip file to its permanent name.
+     * 
      *
      * @throws IOException
      */
-    public boolean renameTempZipFile() throws IOException {
+    public void closeZipFile() throws IOException {
         if (zipEntry != null) {
             zipArchiveStream.closeArchiveEntry();
         }
         zipArchiveStream.finish();
         IOUtils.closeQuietly(zipArchiveStream);
-        boolean renamed = tempZipFile.renameTo(zipFile);
-        return renamed;
     }
 
     public File getZipFile() {
