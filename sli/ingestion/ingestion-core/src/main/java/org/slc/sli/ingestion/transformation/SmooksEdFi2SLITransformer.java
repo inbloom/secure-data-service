@@ -77,7 +77,7 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             if (externalId != null) {
                 entity.getMetaData().put("externalId", externalId);
             }
-            entity.getMetaData().put( NeutralRecord.KEY_ACTION, item.getActionVerb() );
+            entity.setAction( item.getActionVerb());
 
             return Arrays.asList(entity);
         }
@@ -99,7 +99,7 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
                     entity.setMetaData(new HashMap<String, Object>());
                 }
 
-                entity.getMetaData().put( NeutralRecord.KEY_ACTION, item.getActionVerb() );
+                entity.setAction( item.getActionVerb());
             }
         } catch (java.io.IOException e) {
             sliEntities = Collections.emptyList();

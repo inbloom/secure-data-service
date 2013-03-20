@@ -32,6 +32,7 @@ import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.BatchJobStage;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -168,7 +169,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             // Entity exists in data store.
             Entity matched = match.iterator().next();
             entity.setEntityId(matched.getEntityId());
+            ActionVerb save = entity.getAction();
             entity.getMetaData().putAll(matched.getMetaData());
+            entity.setAction( save );
         }
     }
 

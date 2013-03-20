@@ -42,7 +42,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
@@ -130,17 +129,19 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         ActionVerb action = ActionVerb.NONE;
 
-        if( entity.getMetaData() != null &&
-                        entity.getMetaData().containsKey( NeutralRecord.KEY_ACTION ) ) {
-            action = (ActionVerb) entity.getMetaData().get( NeutralRecord.KEY_ACTION );
+        if( entity.getMetaData() != null ) {
+            action = entity.getAction();
         }
+
 
         if( action.doDelete() ) {
 // find out about dryrun
             Boolean dryrun = Boolean.FALSE;
+            Integer max = ( maxObjects == 0 ) ? null : maxObjects;
             CascadeResult cascade = entityRepository.safeDelete(collectionName, entity.getEntityId(),
-                                            action.doCascade(), dryrun, maxObjects, null);
-            return null;
+                                            action.doCascade(), dryrun, max, null);
+   //Check the return from safeDelete
+            return entity;
 
         } else if (entity.getEntityId() != null) {
 
@@ -185,7 +186,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         for (SimpleEntity entity : entities) {
 
-            if (entity.getEntityId() != null) {
+            if( entity.getAction().doDelete()) {
+                persist( entity );
+            } else if (entity.getEntityId() != null) {
                 update(collectionName, entity, failed, report, reportStats, new ElementSourceImpl(entity));
             } else {
                 preMatchEntity(memory, entityConfig, report, entity, reportStats);
