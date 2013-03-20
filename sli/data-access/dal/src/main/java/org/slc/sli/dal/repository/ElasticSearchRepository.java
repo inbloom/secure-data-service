@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,7 +31,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.io.NullOutputStream;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.codec.binary.Base64;
@@ -391,7 +391,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
     }
 
     @Override
-    public DBCursor getDBCursor(String collectionName, Query query) {
+    public Iterator<Entity> findEach(String collectionName, Query query) {
         throw new UnsupportedOperationException("ElasticSearchRepository.getDBCursor not implemented");
     }
 

@@ -17,11 +17,11 @@
 package org.slc.sli.validation;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 
 import org.slc.sli.domain.AccessibilityCheck;
@@ -249,7 +249,7 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public DBCursor getDBCursor(String collectionName, Query query) {
+    public Iterator<Entity> findEach(String collectionName, Query query) {
         // TODO Auto-generated method stub
         return null;
     }

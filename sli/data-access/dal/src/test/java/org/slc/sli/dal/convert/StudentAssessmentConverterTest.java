@@ -34,36 +34,37 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.dal.repository.MongoEntityRepository;
+import org.slc.sli.dal.template.MongoEntityTemplate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 public class StudentAssessmentConverterTest {
-    
+
     @InjectMocks
     StudentAssessmentConverter saConverter = new StudentAssessmentConverter();
 
     @Mock
     INaturalKeyExtractor naturalKeyExtractor;
-    
+
     @Mock
     MongoEntityRepository repo;
-    
+
     @Mock
-    MongoTemplate template;
+    MongoEntityTemplate template;
 
     @Before
     public void setup() {
         naturalKeyExtractor = Mockito.mock(NaturalKeyExtractor.class);
         repo = Mockito.mock(MongoEntityRepository.class);
-        template = Mockito.mock(MongoTemplate.class);
+        template = Mockito.mock(MongoEntityTemplate.class);
         MockitoAnnotations.initMocks(this);
     }
-    
+
     /*
      * subdocs in embedded data
      */
@@ -84,7 +85,7 @@ public class StudentAssessmentConverterTest {
 
         return new MongoEntity(entityType, entityId, body, metaData, null, null, embeddedData, null);
     }
-    
+
     private Entity createAssessment() {
         String entityType = "assessment";
         String entityId = "assessmentId";
@@ -115,7 +116,7 @@ public class StudentAssessmentConverterTest {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("assessmentId", "assessmentId");
         Map<String, Object> metaData = new HashMap<String, Object>();
-        
+
         List<Map<String, Object>> inBodydocs = new ArrayList<Map<String, Object>>();
         Map<String, Object> inBodydoc = new HashMap<String, Object>();
         inBodydoc.put("studentAssessmentId", "ID");
@@ -125,7 +126,7 @@ public class StudentAssessmentConverterTest {
         inBodydoc.put("abc", "somevalue");
         inBodydocs.add(inBodydoc);
         body.put("studentAssessmentItems", inBodydocs);
-        
+
         return new MongoEntity(entityType, entityId, body, null);
     }
 
@@ -136,7 +137,7 @@ public class StudentAssessmentConverterTest {
         saConverter.subdocToBodyField(entity);
         assertNull(entity.get(0).getEmbeddedData().get("studentAssessmentItem"));
     }
-    
+
     @Test
     public void testBodyFieldToSubdoc() {
         List<Entity> entities = Arrays.asList(createDownConvertEntity());
@@ -150,7 +151,7 @@ public class StudentAssessmentConverterTest {
         assertNotNull("studentAssessmentItem should be moved outside body",
                 entities.get(0).getEmbeddedData().get("studentAssessmentItem"));
     }
-    
+
     // verify the subdoc Did is generated during down conversion(body field to subdoc)
     @SuppressWarnings("unchecked")
     @Test
@@ -165,7 +166,7 @@ public class StudentAssessmentConverterTest {
                 .get(0).getEntityId().isEmpty());
 
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testUpConvertShouldCollapseAssessmentItem() {
@@ -193,6 +194,6 @@ public class StudentAssessmentConverterTest {
                 assessmentItemBody.get("identificationCode"));
         assertEquals("collapsed assessmentItem should have itemCategory is Matching", "Matching",
                 assessmentItemBody.get("itemCategory"));
-        
+
     }
 }
