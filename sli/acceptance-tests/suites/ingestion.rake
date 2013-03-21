@@ -281,7 +281,9 @@ end
 desc "Run Cascading Deletion Tests"
   task :ingestionDeletionTests => [
         :ingestionCascadingDeletionStudentTest,
-        :ingestionLeafStudentDelete
+        :ingestionCascadingDeletionSchoolTest,
+        :ingestionCascadingDeletionSectionTest,
+        :ingestionLeafStudentDelete,
   ] do
 
   displayFailureReport()
@@ -295,9 +297,18 @@ end
 desc "Run Leaf Student Deletion Test"
 task :ingestionLeafStudentDelete do
   runTests("test/features/ingestion/features/ingestion_leaf_student_delete.feature")
+end
 
 task :ingestionCascadingDeletionStudentTest do
   runTests("test/features/ingestion/features/ingestion_cascadingDelete_student.feature")
+end
+
+task :ingestionCascadingDeletionSectionTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_section.feature")
+end
+
+task :ingestionCascadingDeletionSchoolTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_school.feature")
 end
 
 ############################################################

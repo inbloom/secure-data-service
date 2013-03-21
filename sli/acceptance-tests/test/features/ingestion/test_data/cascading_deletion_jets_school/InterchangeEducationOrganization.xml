@@ -3,7 +3,7 @@
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
   
   <!-- Illustrative use of DELETE -->
-  <Action ActionType="DELETE" Cascade="true"> <StateEducationAgency>
+  <Action ActionType="DELETE" Cascade="true">
   
   <School>
     <StateOrganizationId>Jets School</StateOrganizationId>

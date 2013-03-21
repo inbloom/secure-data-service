@@ -107,7 +107,6 @@ Then I should see following map of entry counts in the corresponding collections
     And I should not see an error log file created
 	And I should not see a warning log file created
 
-
 Scenario: delete "Jets School", AssignmentSchoolReference is wiped out in the DisciplineAction, ResponsibilitySchoolReference still points to "Sharks School"; delete "Sharks School", DisciplineAction is deleted.
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I post "prep_cascading_deletion_school.zip" file as the payload of the ingestion job
@@ -130,8 +129,8 @@ Then I should see following map of entry counts in the corresponding collections
      | disciplineIncident                        |					1|
     And I check to find if record is in collection:
        | collectionName                        | expectedRecordCount | searchParameter                  | searchValue                                  | searchType   |
-       | disciplineAction                      | 1                   | body.responsibilitySchoolId      | 0d430e252dd56a6a3e9c855d336601d4eaa09842_id  | string       |
-       | disciplineAction                      | 1                   | body.assignmentSchoolId          | 0a7994b6ca3cb7bf46c9015373a9d29d003999db_id  | string       |    
+       | disciplineAction                      | 1                   | body.responsibilitySchoolId      | 0a7994b6ca3cb7bf46c9015373a9d29d003999db_id  | string       |
+       | disciplineAction                      | 1                   | body.assignmentSchoolId          | 0d430e252dd56a6a3e9c855d336601d4eaa09842_id  | string       |    
        | disciplineAction                      | 1                   | body.studentId                   | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string       |         
        | disciplineAction                      | 1                   | body.staffId                     | b9bad00837eeea5bdbfe2475cf6011a3e4330c5c_id  | string       |         
        | disciplineAction                      | 1                   | body.disciplineIncidentId        | f96dbcb9c71d4b738c3f5d5200f199c45b00bf8c_id  | string       |          
@@ -151,8 +150,8 @@ Then I should see following map of entry counts in the corresponding collections
      | disciplineIncident                        |					1|  
     And I check to find if record is in collection:
      | collectionName                       | expectedRecordCount | searchParameter                   | searchValue                                  | searchType   |
-     | disciplineAction                      | 0                   | body.responsibilitySchoolId      | 0d430e252dd56a6a3e9c855d336601d4eaa09842_id  | string       |
-     | disciplineAction                      | 1                   | body.assignmentSchoolId          | 0a7994b6ca3cb7bf46c9015373a9d29d003999db_id  | string       |         
+     | disciplineAction                      | 0                   | body.responsibilitySchoolId      | 0a7994b6ca3cb7bf46c9015373a9d29d003999db_id  | string       |
+     | disciplineAction                      | 1                   | body.assignmentSchoolId          | 0d430e252dd56a6a3e9c855d336601d4eaa09842_id  | string       |         
      | disciplineAction                      | 1                   | body.studentId                   | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string       |         
      | disciplineAction                      | 1                   | body.staffId                     | b9bad00837eeea5bdbfe2475cf6011a3e4330c5c_id  | string       |         
      | disciplineAction                      | 1                   | body.disciplineIncidentId        | f96dbcb9c71d4b738c3f5d5200f199c45b00bf8c_id  | string       |         
