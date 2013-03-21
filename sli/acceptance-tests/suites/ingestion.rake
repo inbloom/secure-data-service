@@ -317,6 +317,10 @@ task :ingestionCascadingDeletionSchoolTest do
   runTests("test/features/ingestion/features/ingestion_cascadingDelete_school.feature")
 end
 
+task :ingestionCascadingDeletionProgramTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_program.feature")
+end
+
 task :ingestionCascadingDeletionSEATest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_SEA_delete.feature")
 end
@@ -325,7 +329,7 @@ task :ingestionCascadingDeletionLEATest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_LEA_delete.feature")
 end
 
-task :ingestionCascadingDeletionProgramTest do
+task :ingestionCascadingDeletionBroadProgramTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_Program_delete.feature")
 end
 
