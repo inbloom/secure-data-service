@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-MasterSchedule.xsd">
-  
-  <!-- Illustrative use of DELETE -->
+<?xml version="1.0" ?>
+<InterchangeMasterSchedule xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-MasterSchedule.xsd">
+<!-- Illustrative use of DELETE -->
   <Action ActionType="DELETE" Cascade="true">
     <Section>
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
@@ -51,5 +49,5 @@
             </ProgramIdentity>
         </ProgramReference>
     </Section>
+   </Action>
 </InterchangeMasterSchedule>
-</Action>
