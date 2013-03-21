@@ -138,3 +138,4 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
+	#And I should not see "c6fcb4deb579ad0131c2664393d40b4319d8e215_id" in the "Midgar" database
