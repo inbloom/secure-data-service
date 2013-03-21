@@ -17,7 +17,8 @@ end
 desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSetup do
   Rake::Task["ingestionSmokeTests"].execute
-  @tags = ["~@wip", "~@smoke", "~@sandbox"]
+  @tags = ["~@wip", "~@sandbox"]
+
 end
 
 desc "Trigger ingestion and extract of the ingestion"
