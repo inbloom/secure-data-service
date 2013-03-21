@@ -182,6 +182,9 @@ Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
 end
 
 Then /^the response should contain the appropriate fields and values$/ do
+  puts("Fields #{@fields.inspect}\n\n\n")
+  puts("Result #{@result.inspect}\n\n\n")
+  
   EntityProvider.verify_entities_match(@fields, @result)
 end
 
