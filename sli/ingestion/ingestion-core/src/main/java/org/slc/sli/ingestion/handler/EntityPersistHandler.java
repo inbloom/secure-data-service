@@ -37,8 +37,10 @@ import org.springframework.dao.DuplicateKeyException;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -81,6 +83,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Value("${sli.ingestion.referenceSchema.referenceCheckEnabled}")
     private String referenceCheckEnabled;
 
+    @Value("${sli.ingestion.maxObjects:0}")
+    private int maxObjects;
+
     @Value("${sli.ingestion.totalRetries}")
     private int totalRetries;
 
@@ -122,7 +127,23 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             }
         }
 
-        if (entity.getEntityId() != null) {
+        ActionVerb action = ActionVerb.NONE;
+
+        if( entity.getMetaData() != null ) {
+            action = entity.getAction();
+        }
+
+
+        if( action.doDelete() ) {
+// find out about dryrun
+            Boolean dryrun = Boolean.FALSE;
+            Integer max = ( maxObjects == 0 ) ? null : maxObjects;
+            CascadeResult cascade = entityRepository.safeDelete(collectionName, entity.getEntityId(),
+                                            action.doCascade(), dryrun, max, null);
+   //Check the return from safeDelete
+            return entity;
+
+        } else if (entity.getEntityId() != null) {
 
             if (!entityRepository.updateWithRetries(collectionName, entity, totalRetries)) {
                 // TODO: exception should be replace with some logic.
@@ -165,7 +186,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         for (SimpleEntity entity : entities) {
 
-            if (entity.getEntityId() != null) {
+            if( entity.getAction().doDelete()) {
+                persist( entity );
+            } else if (entity.getEntityId() != null) {
                 update(collectionName, entity, failed, report, reportStats, new ElementSourceImpl(entity));
             } else {
                 preMatchEntity(memory, entityConfig, report, entity, reportStats);

@@ -18,7 +18,7 @@ package org.slc.sli.ingestion.parser.impl;
 import javax.xml.stream.Location;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.ingestion.parser.ActionVerb;
+import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.parser.RecordMeta;
 
 /**

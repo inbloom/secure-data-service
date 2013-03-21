@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.ingestion.parser;
+package org.slc.sli.ingestion;
+
+import java.io.Serializable;
 
 /**
  * Various Action Types that will be allowed in the schema
@@ -21,7 +23,7 @@ package org.slc.sli.ingestion.parser;
  * @author
  *
  */
-public enum ActionVerb {
+public enum ActionVerb implements Serializable {
     POST("POST"), PUT("PUT"), DELETE("DELETE"), CASCADE_DELETE("CASCADE_DELETE", true), MOVE("MOVE"), PATCH("PATCH"),
     UNKNOWN("UNKNOWN"), NONE( "NONE");
 
@@ -46,5 +48,8 @@ public enum ActionVerb {
         return text;
     }
 
+    public boolean doDelete() {
+        return ( this == DELETE || this == CASCADE_DELETE ) ? true : false ;
+    }
 
 }

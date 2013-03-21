@@ -42,6 +42,7 @@ import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -498,6 +499,20 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     /*
+     *
+     * @param rh
+     *         The RecordHash object to be removed from the database
+     *
+     */
+    @Override
+    public void removeRecordHash( RecordHash rh) throws DataAccessResourceFailureException {
+
+        // Detect tenant collision - should never occur since tenantId is in the hash
+        TenantContext.setIsSystemCall(false);
+        this.sliMongo.getCollection(RECORD_HASH).remove(recordHashQuery(rh.getId()).getQueryObject());
+
+    }
+    /*
      * @param tenantId
      *         The tenant Id
      * @param rh
@@ -640,4 +655,11 @@ public class BatchJobMongoDA implements BatchJobDAO {
         NewBatchJob job = batchJobMongoTemplate.findOne(query, NewBatchJob.class);
         return job.getBatchProperties();
     }
+
+    public void audit(SecurityEvent event) {
+        // TODO Auto-generated method stub
+
+    }
+
+
 }

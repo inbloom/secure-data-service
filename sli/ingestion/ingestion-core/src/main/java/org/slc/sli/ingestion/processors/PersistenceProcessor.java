@@ -665,7 +665,11 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
             } else {
                 RecordHash rh = new RecordHash();
                 rh.importFromSerializableMap(rhCurrentHash);
-                batchJobDAO.updateRecordHash(rh, newHashValue);
+                if( nr.getActionVerb().doDelete()) {
+                    batchJobDAO.removeRecordHash(rh);
+                } else {
+                    batchJobDAO.updateRecordHash(rh, newHashValue);
+                }
             }
         }
 

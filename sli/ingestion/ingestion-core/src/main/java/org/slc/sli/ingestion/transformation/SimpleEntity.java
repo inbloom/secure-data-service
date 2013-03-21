@@ -22,6 +22,8 @@ import java.util.Map;
 
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.ActionVerb;
+import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.reporting.ElementSource;
 
@@ -131,6 +133,21 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
 
     public void setSourceFile(String sourceFile) {
         this.sourceFile = sourceFile;
+    }
+
+    public ActionVerb getAction( ) {
+        ActionVerb result = ActionVerb.NONE;
+        if ( metaData != null && metaData.containsKey( NeutralRecord.KEY_ACTION) ) {
+            result = ActionVerb.valueOf( (String) metaData.get(NeutralRecord.KEY_ACTION));
+        }
+     return ( result) ;
+    }
+
+    public void setAction( ActionVerb action) {
+        if( metaData == null ) {
+            metaData = new HashMap< String, Object>();
+        }
+        metaData.put( NeutralRecord.KEY_ACTION, action.toString());
     }
 
     @Override
