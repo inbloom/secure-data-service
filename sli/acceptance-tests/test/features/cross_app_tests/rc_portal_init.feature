@@ -6,6 +6,7 @@ Note: If the portal was re-written in Rails, this would not be a problem and you
 
 Scenario: Hit every portal page to compile its assests
 
+    Given I have an open web browser
     When I hit the Portal home page
     When I see the realm selector I authenticate to "inBloom"
     And I was redirected to the "Simple" IDP Login page
