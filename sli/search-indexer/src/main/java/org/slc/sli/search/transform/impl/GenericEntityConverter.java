@@ -13,22 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.search.transform;
+package org.slc.sli.search.transform.impl;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.search.config.IndexConfig;
+import org.slc.sli.search.entity.IndexEntity.Action;
+import org.slc.sli.search.transform.EntityConverter;
 
-/**
- * Custom transformer to index json
- *
- */
-public interface CustomTransformer {
+public class GenericEntityConverter implements EntityConverter {
+
     /**
-     * Mutates the original entity according to specified.
-     * @param config - index config
-     * @param entity - entity to transform
+     * No op converter
      */
-    public void transform(IndexConfig config, Map<String, Object> entity);
-    
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
+        return Arrays.asList(entityMap);
+    }
+
+    /**
+     * No op converter
+     */
+    @Override
+    public Action convertAction(Action action) {
+        return action;
+    }
+
 }

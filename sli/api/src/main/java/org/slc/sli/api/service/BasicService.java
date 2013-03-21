@@ -40,8 +40,8 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
@@ -562,7 +562,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
             debug("Field {} is referencing {}", fieldName, entityType);
             @SuppressWarnings("unchecked")
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
+            
             EntityDefinition def = definitionStore.lookupByEntityType(entityType);
+            if (def == null) {
+                debug("Invalid reference field: {} does not have an entity definition registered", fieldName);
+                ValidationError error = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, fieldName, value, null);
+                throw new EntityValidationException(null, null, Arrays.asList(error));
+            }
+            
             try {
                 contextValidator.validateContextToEntities(def, ids, true);
             } catch (AccessDeniedException e) {

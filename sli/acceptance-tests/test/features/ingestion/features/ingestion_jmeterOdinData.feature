@@ -10,6 +10,8 @@ Feature: Odin Data Set Ingestion Correctness and Fidelity
     And the following collections are empty in datastore:
       | collectionName                            |
       | assessment                                |
+      | assessmentFamily                          |
+      | assessmentPeriodDescriptor                |
       | attendance                                |
       | calendarDate                              |
       | cohort                                    |

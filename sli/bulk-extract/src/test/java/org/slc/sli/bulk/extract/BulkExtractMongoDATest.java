@@ -17,17 +17,12 @@ package org.slc.sli.bulk.extract;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.springframework.data.mongodb.core.query.Update;
 
 /**
  * @author tke
@@ -43,7 +38,7 @@ public class BulkExtractMongoDATest {
     }
 
     @Test
-    public void testNewTenant() {
+    public void testTenant() {
         String existingTenant = "Midgar";
 
         BulkExtractMongoDA bulkExtractMongoDA = new BulkExtractMongoDA();
@@ -53,32 +48,11 @@ public class BulkExtractMongoDATest {
         final String path = "/test/bulkExtract";
 
 
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(tenantId, "=", existingTenant));
-
-        Mockito.when(mongoEntityRepository.findOne(Matchers.eq(tenantId), Matchers.eq(query))).thenReturn(null);
         bulkExtractMongoDA.updateDBRecord(tenantId, path, new Date());
 
-        Mockito.verify(mongoEntityRepository, Mockito.atLeastOnce()).create(Matchers.eq(BulkExtractMongoDA.BULK_EXTRACT_COLLECTION), Matchers.anyMap());
+        Mockito.verify(mongoEntityRepository, Mockito.times(1)).update(Matchers.eq(BulkExtractMongoDA.BULK_EXTRACT_COLLECTION), Matchers.any(BulkExtractEntity.class), Matchers.eq(false));
 
     }
 
-    @Test
-    public void testExistingTenant() {
-
-        BulkExtractMongoDA bulkExtractMongoDA = new BulkExtractMongoDA();
-        bulkExtractMongoDA.setEntityRepository(mongoEntityRepository);
-
-        final String tenantId = "tenantID";
-        final String path = "/test/bulkExtract";
-
-
-        List<Entity> students = TestUtils.createStudents();
-
-        Mockito.when(mongoEntityRepository.findOne(Matchers.eq(BulkExtractMongoDA.BULK_EXTRACT_COLLECTION), Matchers.any(NeutralQuery.class))).thenReturn(students.get(0));
-        bulkExtractMongoDA.updateDBRecord(tenantId, path, new Date());
-
-        Mockito.verify(mongoEntityRepository, Mockito.atLeastOnce()).doUpdate(Matchers.eq(BulkExtractMongoDA.BULK_EXTRACT_COLLECTION), Matchers.any(NeutralQuery.class), Matchers.any(Update.class));
-
-    }
 
 }

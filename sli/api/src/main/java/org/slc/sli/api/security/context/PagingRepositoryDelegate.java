@@ -37,6 +37,7 @@ import org.slc.sli.api.constants.ParameterConstants;
 
 import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
