@@ -22,11 +22,7 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../entities/common.rb'
 require_relative '../../utils/api_utils.rb'
 require_relative '../../selectors/step_definitions/selectors.rb'
-require_relative '../../../search/step_definitions/search_indexer_steps.rb'
 require 'test/unit'
-require 'mongo'
-require 'stomp'
-require 'json'
 
 Before do
   extend Test::Unit::Assertions
@@ -89,63 +85,3 @@ Then /^each entity's response body I should see the following fields only:$/ do 
     check_contains_fields(res, table)
   end
 end
-
-When /^I update the "(.*?)" with ID "(.*?)" field "(.*?)" to "(.*?)"$/ do |collection, id, field, value|
-  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
-  midgar = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"
-  mdb = conn.db(midgar)
-
-  coll = mdb[collection]
-  entity = coll.find_one({"_id" => id})
-  assert(entity, "cant find #{collection} with id #{id}")
-  entry = entity
-  subfields = field.split(".")
-  last = subfields.pop
-  subfields.each { |subfield|
-    entry = entry[subfield]
-  }
-  entry[last] = value
-  puts "saving entity: #{entity}"
-  coll.save(entity)
-end
-
-When /^I send an update event to the search indexer for collection "(.*?)" and ID "(.*?)"$/ do |collection, id|
-  midgar = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"
-  message = [{"ns" => "#{midgar}.#{collection}",
-              "o" => { "$set" => { "type" => collection } },
-              "o2" => { "_id" => id },
-              "op" => "u"
-             }]
-  client = Stomp::Client.new
-  client.publish("search", message.to_json)
-end
-
-Then /^I will EVENTUALLY GET "(.*?)" with (\d+) elements$/ do |query, count|
-  success = false
-  10.times {
-    step "I navigate to GET \"#{query}\""
-    if count.to_i == @result.size
-      success = true
-      break
-    end
-    sleep 1
-  }
-  assert(success, "expected #{count} elements but got back #{@result.size}")
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
