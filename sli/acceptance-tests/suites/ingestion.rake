@@ -278,9 +278,71 @@ task :ingestionPropagatedTest do
   runTests("test/features/ingestion/features/ingestion_PropagatedDataSet.feature")
 end
 
-desc "Run Cascading Deletion Tests"
-task :ingestionCascadingDeletionTest do
-  runTests("test/features/ingestion/features/ingestion_cascadingDelete.feature")
+desc "Run Ingestion Deletion Tests"
+  task :ingestionDeletionTests => [
+        :ingestionCascadingDeletionStudentTest,
+        :ingestionCascadingDeletionSchoolTest,
+        :ingestionCascadingDeletionSectionTest,
+        :ingestionCascadingDeletionSEATest,
+        :ingestionCascadingDeletionTeacherTest,
+        :ingestionCascadingDeletionLEATest,
+        :ingestionCascadingDeletionProgramTest,
+        :ingestionCascadingDeletionBroadStudentTest,
+        :ingestionCascadingDeletionBroadSectionTest,
+        :ingestionLeafStudentDelete,
+  ] do
+
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Leaf Student Deletion Test"
+task :ingestionLeafStudentDelete do
+  runTests("test/features/ingestion/features/ingestion_leaf_student_delete.feature")
+end
+
+task :ingestionCascadingDeletionStudentTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_student.feature")
+end
+
+task :ingestionCascadingDeletionSectionTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_section.feature")
+end
+
+task :ingestionCascadingDeletionSchoolTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_school.feature")
+end
+
+task :ingestionCascadingDeletionProgramTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_program.feature")
+end
+
+task :ingestionCascadingDeletionSEATest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_SEA_delete.feature")
+end
+
+task :ingestionCascadingDeletionLEATest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_LEA_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadProgramTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_Program_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_student_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadSectionTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_section_delete.feature")
+end
+
+task :ingestionCascadingDeletionTeacherTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_teacher.feature")
 end
 
 ############################################################

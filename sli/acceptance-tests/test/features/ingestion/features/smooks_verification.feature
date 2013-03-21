@@ -10,7 +10,8 @@ Scenario: Assessment and StudentAssessment Verification
         | collectionName              |
         | student                     |
         | assessment                  |
-        | studentAssessment|
+        | assessmentFamily            |
+        | studentAssessment           |
     When zip file is scp to ingestion landing zone
     And I am willing to wait upto 45 seconds for ingestion to complete
     And a batch job for file "smooksVer_Assess_Student_Assess.zip" is completed in database
@@ -19,7 +20,8 @@ Scenario: Assessment and StudentAssessment Verification
         | collectionName              | count |
         | student                     | 1     |
         | assessment                  | 1     |
-        | studentAssessment| 1     |
+        | assessmentFamily            | 3     |
+        | studentAssessment           | 1     |
     And I find a(n) "assessment" record where "body.assessmentTitle" is equal to "Grade 8 2011 StateTest Writing"
     And verify the following data in that document:
        | searchParameter                                                          | searchValue                           | searchType           |
@@ -51,27 +53,11 @@ Scenario: Assessment and StudentAssessment Verification
        | body.version                                                             | 1                                         | integer               |
        | body.revisionDate                                                        | 2011-03-12                                | string               |
        | body.maxRawScore                                                         | 450                                       | integer               |
-       | body.assessmentFamilyHierarchyName                                       | StateTest.StateTest Writing for Grades 3-8.StateTest Writing for Grade 8 | string               |
-
-
-    And I should see "Processed 3 records." in the resulting batch job file
-    And I should not see an error log file created
-    And I should see "student.xml records considered for processing: 1" in the resulting batch job file
-    And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
-    And I should see "student.xml records failed processing: 0" in the resulting batch job file
-    And I should see "assess.xml records considered for processing: 1" in the resulting batch job file
-    And I should see "assess.xml records ingested successfully: 1" in the resulting batch job file
-    And I should see "assess.xml records failed processing: 0" in the resulting batch job file
-    And I should see "stu_assess.xml records considered for processing: 1" in the resulting batch job file
-    And I should see "stu_assess.xml records ingested successfully: 1" in the resulting batch job file
-    And I should see "stu_assess.xml records failed processing: 0" in the resulting batch job file
-    And I should not see a warning log file created
-
     And I should see following map of entry counts in the corresponding collections:
-        | collectionName                 | count |
-        | studentAssessment   | 1     |
+       | collectionName                 | count |
+       | studentAssessment   | 1     |
     And verify the following data in that document:
-       | searchParameter                                                          | searchValue                           | searchType           |
+       | searchParameter                                                                              | searchValue                           | searchType           |
        | studentAssessment.0.body.administrationDate                                                  | 2011-05-01                            | string               |
        | studentAssessment.0.body.administrationEndDate                                               | 2011-05-01                            | string               |
        | studentAssessment.0.body.serialNumber                                                        | 0                                     | string               |
@@ -84,11 +70,29 @@ Scenario: Assessment and StudentAssessment Verification
        | studentAssessment.0.body.retestIndicator                                                     | Primary Administration                | string               |
        | studentAssessment.0.body.reasonNotTested                                                     | Medical waiver                        | string               |
        | studentAssessment.0.body.scoreResults.0.assessmentReportingMethod                            | Scale score                           | string               |
-       | studentAssessment.0.body.scoreResults.0.result                                               | 320                                   | string               |
+       |  studentAssessment.0.body.scoreResults.0.result                                              | 320                                   | string               |
        | studentAssessment.0.body.scoreResults.1.assessmentReportingMethod                            | Percentile                            | string               |
        | studentAssessment.0.body.scoreResults.1.result                                               | 94.45                                 | string               |
        | studentAssessment.0.body.scoreResults.2.assessmentReportingMethod                            | Other                                 | string               |
        | studentAssessment.0.body.scoreResults.2.result                                               | 1233L                                 | string               |
        | studentAssessment.0.body.gradeLevelWhenAssessed                                              | Eighth grade                          | string               |
-       | studentAssessment.0.body.performanceLevelDescriptors.0.0.description                           | Above Benchmark                       | string               |
-       | studentAssessment.0.body.performanceLevelDescriptors.0.1.codeValue                             | 1                                     | string               |
+       | studentAssessment.0.body.performanceLevelDescriptors.0.0.description                         | Above Benchmark                       | string               |
+       | studentAssessment.0.body.performanceLevelDescriptors.0.1.codeValue                           | 1                                     | string               |
+    And I find a(n) "assessmentFamily" record where "body.assessmentFamilyTitle" is equal to "StateTest"
+    And I find a(n) "assessmentFamily" record where "body.assessmentFamilyTitle" is equal to "StateTest Writing for Grades 3-8"
+    And I find a(n) "assessmentFamily" record where "body.assessmentFamilyTitle" is equal to "StateTest Writing for Grade 8"
+
+
+    And I should see "Processed 6 records." in the resulting batch job file
+    And I should not see an error log file created
+    And I should see "student.xml records considered for processing: 1" in the resulting batch job file
+    And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
+    And I should see "student.xml records failed processing: 0" in the resulting batch job file
+    And I should see "assess.xml records considered for processing: 1" in the resulting batch job file
+    And I should see "assess.xml records ingested successfully: 1" in the resulting batch job file
+    And I should see "assess.xml records failed processing: 0" in the resulting batch job file
+    And I should see "stu_assess.xml records considered for processing: 1" in the resulting batch job file
+    And I should see "stu_assess.xml records ingested successfully: 1" in the resulting batch job file
+    And I should see "stu_assess.xml records failed processing: 0" in the resulting batch job file
+    And I should not see a warning log file created
+

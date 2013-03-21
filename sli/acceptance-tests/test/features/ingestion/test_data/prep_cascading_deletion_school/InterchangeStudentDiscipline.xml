@@ -56,12 +56,12 @@
 		</StaffReference>
 		<ResponsibilitySchoolReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>Sharks School</StateOrganizationId>
+				<StateOrganizationId>Jets School</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</ResponsibilitySchoolReference>
 		<AssignmentSchoolReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>Jets School</StateOrganizationId>
+				<StateOrganizationId>Sharks School</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</AssignmentSchoolReference>
 	</DisciplineAction>

@@ -36,14 +36,12 @@ import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 
 
@@ -145,18 +143,18 @@ public class EntityExtractor implements Extractor {
         // running at a time
         OutstreamZipFile zipFile = null;
         Date startTime = new Date();
-        
-        
+
+
         try {
-            zipFile = createExtractArchiveFile(tenant, startTime); 
+            zipFile = createExtractArchiveFile(tenant, startTime);
         } catch (IOException e) {
             LOG.error("Error while extracting data for tenant " + tenant, e);
         }
-        
+
         TenantContext.setTenantId(tenant);
         initiateExtractForEntites(tenant, zipFile, startTime);
     }
-    
+
     public void initiateExtractForEntites(String tenant, OutstreamZipFile zipFile, Date startTime) {
         for (String entity : entities) {
             extractEntity(tenant, zipFile, entity);
@@ -164,7 +162,7 @@ public class EntityExtractor implements Extractor {
 
         try {
             metaData.writeToZip(zipFile, getTimeStamp(startTime));
-            
+
             zipFile.closeZipFile();
             bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getZipFile().getAbsolutePath(), startTime);
         } catch (IOException e) {
@@ -196,7 +194,7 @@ public class EntityExtractor implements Extractor {
                     // write each record to file
                     addAPIFields(entityName, record);
                     zipFile.writeData(JSON.serialize(record.getBody()));
-                    
+
                     if (cursor.hasNext()) {
                         zipFile.writeJsonDelimiter(",");
                     }
@@ -248,14 +246,14 @@ public class EntityExtractor implements Extractor {
         tenantDirectory.mkdirs();
         return tenantDirectory.getPath();
     }
-    
+
     private OutstreamZipFile createExtractArchiveFile(String tenant, Date startTime) throws IOException {
-        
+
         return new OutstreamZipFile(getTenantDirectory(tenant), tenant + "-" + getTimeStamp(startTime));
     }
-    
+
     private String getTimeStamp(Date date) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss");
         String timeStamp = df.format(date);
         return timeStamp;
     }
@@ -266,7 +264,7 @@ public class EntityExtractor implements Extractor {
                 + ", active count:" + tpe.getActiveCount() + ", completed count:"
                 + tpe.getCompletedTaskCount() + "}";
     }
-    
+
     protected void processFuture(Future<String> future) {
         try {
             future.get();

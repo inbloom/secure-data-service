@@ -70,6 +70,9 @@ class SectionWorkOrderFactory
             sections_with_teachers.each{ |offering, sections|
               @world[ed_org_type][ed_org_index]['sections'][year][grade][offering['id']] = [] 
               session = find_matching_session_for_school(school_id, offering)
+              interval = session['interval']
+              begin_date = interval.get_begin_date unless interval.nil?
+              end_date   = interval.get_end_date unless interval.nil?
               sections.each{ |section|
                 teacher_id = 0
                 isFirstTeacherForSection = true
@@ -103,7 +106,7 @@ class SectionWorkOrderFactory
                   end
                   # A section can have multiple teachers, assign the first teacher to the section
                   if isFirstTeacherForSection
-                    yielder << {:type=>TeacherSectionAssociation, :teacher=>teacher_id, :section=>section[:id], :school=>school_id, :position=>:TEACHER_OF_RECORD}
+                    yielder << {:type=>TeacherSectionAssociation, :teacher=>teacher_id, :section=>section[:id], :school=>school_id, :position=>:TEACHER_OF_RECORD, :start_date=>begin_date, :end_date=>end_date}
                     isFirstTeacherForSection = false
                   end
                 }
@@ -298,10 +301,10 @@ class SectionWorkOrderFactory
   def create_staff_program_associations_for_teacher(session, teacher_id, programs)
     associations = []
     if !session.nil?
-      staff_program_associations_per_teacher = DataUtility.rand_float_to_int(@prng, @scenario["HACK_STAFF_PROGRAM_ASSOCIATIONS_FOR_TEACHER"] || 1)
+      staff_program_associations_per_teacher = DataUtility.rand_float_to_int(@prng, (@scenario["HACK_STAFF_PROGRAM_ASSOCIATIONS_FOR_TEACHER"] or 1))
       for a in 1..staff_program_associations_per_teacher
-        min          = @scenario["MINIMUM_NUM_PROGRAMS_PER_TEACHER"]
-        max          = @scenario["MAXIMUM_NUM_PROGRAMS_PER_TEACHER"]
+        min          = (@scenario["MINIMUM_NUM_PROGRAMS_PER_TEACHER"] or 1)
+        max          = (@scenario["MAXIMUM_NUM_PROGRAMS_PER_TEACHER"] or 5)
         interval     = session["interval"]
         begin_date   = interval.get_begin_date
         end_date     = interval.get_end_date

@@ -36,7 +36,12 @@
 		<graph>assessmentIdentificationCodes</graph>
 		<singular>assessmentIdentificationCode</singular>
 	</document>
-	<document name="AssessmentItem">
+    <document name="AssessmentFamily">
+        <class name="AssessmentFamily"></class>
+        <graph>assessmentFamily</graph>
+        <singular>assessmentFamily</singular>
+    </document>
+    <document name="AssessmentItem">
 		<class name="AssessmentItem"></class>
 		<graph>assessmentItems</graph>
 		<singular>assessmentItem</singular>

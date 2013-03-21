@@ -79,14 +79,16 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         List<Map<String, Object>> opLogs = mapper.readValue(OplogConverter.preProcess(opLogString),
                 new TypeReference<List<Map<String, Object>>>() {
                 });
-        IndexEntity ie;
+        List<IndexEntity> indexEntities;
         // check action type and convert to an index entity
         for (Map<String, Object> opLog : opLogs) {
             try {
-                ie = convertToEntity(opLog);
-                if (ie != null) {
-                    entities.add(ie);
-                    index(ie);
+                indexEntities = convertToEntity(opLog);
+                if (indexEntities!= null) {
+                	for (IndexEntity ie : indexEntities) {
+                		entities.add(ie);
+                		index(ie);
+                	}
                 }
             } catch (Exception e) {
                 LOG.info("Unable to process an oplog entry, skipping");
@@ -95,7 +97,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         return entities;
     }
 
-    private IndexEntity convertToEntity(Map<String, Object> opLogMap) throws Exception {
+    private List<IndexEntity> convertToEntity(Map<String, Object> opLogMap) throws Exception {
         Action action = OplogConverter.getAction(opLogMap);
         Meta meta = OplogConverter.getMeta(opLogMap);
         Map<String, Object> entity = OplogConverter.getEntity(action, opLogMap);

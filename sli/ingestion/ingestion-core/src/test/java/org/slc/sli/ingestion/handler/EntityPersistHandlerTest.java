@@ -34,7 +34,6 @@ import java.util.UUID;
 import junit.framework.Assert;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
@@ -129,6 +128,7 @@ public class EntityPersistHandlerTest {
                 studentSchoolAssociationFound);
 
     }
+
 
     /**
      * @author tshewchuk 2/6/2010 (PI3 US811)
@@ -357,7 +357,7 @@ public class EntityPersistHandlerTest {
         Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());
     }
 
-    @Ignore //Commenting out for now
+
     @Test
     public void testHandleFailedValidation() {
         /*
@@ -379,6 +379,7 @@ public class EntityPersistHandlerTest {
         expectedMetaData.put(REGION_ID_FIELD, REGION_ID);
         expectedMetaData.put(EXTERNAL_ID_FIELD, STUDENT_ID);
         when(mockedEntity.getMetaData()).thenReturn(expectedMetaData);
+        when(mockedEntity.getAction()).thenReturn(ActionVerb.NONE);
 
         entityPersistHandler.handle(mockedEntity, report, reportStats);
 

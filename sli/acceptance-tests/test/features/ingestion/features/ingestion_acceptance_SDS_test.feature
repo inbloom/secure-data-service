@@ -41,6 +41,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | collectionName                        |
         | recordHash                            |
         | assessment                            |
+        | assessmentPeriodDescriptor            |
+        | assessmentFamily                      |
         | attendance                            |
         | calendarDate                          |
         | cohort                                |
@@ -89,6 +91,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 19    |
+        | assessmentPeriodDescriptor  | 2     |
+        | assessmentFamily            | 38    |
         | attendance                  | 75    |
         | calendarDate                | 556   |
         | cohort                      | 3     |
@@ -165,7 +169,7 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessment | 24                 | studentAssessmentItem.body.assessmentResponse                | True                | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 10107 records." in the resulting batch job file
+    And I should see "Processed 10147 records." in the resulting batch job file
     And I should not see an error log file created
     And I should not see a warning log file created
     And I should see "InterchangeStudent.xml records considered for processing: 78" in the resulting batch job file
@@ -189,17 +193,17 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentGrade.xml records considered for processing: 710" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 710" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records failed processing: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-READ2.xml records considered for processing: 2" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-READ2.xml records ingested successfully: 2" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-READ2.xml records considered for processing: 6" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-READ2.xml records ingested successfully: 6" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-READ2.xml records failed processing: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-StateTest.xml records considered for processing: 2" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-StateTest.xml records ingested successfully: 2" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateTest.xml records considered for processing: 7" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateTest.xml records ingested successfully: 7" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records failed processing: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ACT.xml records considered for processing: 17" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 17" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records considered for processing: 18" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 18" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records failed processing: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records considered for processing: 12" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records ingested successfully: 12" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records considered for processing: 38" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records ingested successfully: 38" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records failed processing: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-English.xml records considered for processing: 1024" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-English.xml records ingested successfully: 1024" in the resulting batch job file
@@ -249,7 +253,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml records considered for processing: 99" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml records ingested successfully: 99" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml records failed processing: 0" in the resulting batch job file
-
+@wip
 @smoke
 Scenario: Check the collections: Clean Database
  And I check to find if record is in collection:
@@ -350,14 +354,16 @@ And I check to find if record is in collection:
      | attendance                  | 0                   | body.attendanceEvent.date  | 2011-09-01    | string               |
      | attendance                  | 75                  | body.attendanceEvent.date  | 2011-11-10    | string               |
  And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                                  | searchValue                                      |searchType           |
-     | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature                  |string               |
-     | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Lang-and-Literature                 |string               |
-     | studentAssessment| 0                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified                         |string               |
+     | collectionName               | expectedRecordCount | searchParameter                                  | searchValue                                      |searchType           |
+     | assessmentFamily             | 1                   | body.assessmentFamilyTitle                       | AP                                               |string               |
+     | assessmentFamily             | 1                   | body.assessmentFamilyTitle                       | AP Eng                                           |string               |
+     | assessmentFamily             | 1                   | body.assessmentFamilyTitle                       | AP-Eng-and-Literature                            |string               |
+     | assessmentFamily             | 1                   | body.assessmentFamilyTitle                       | AP-Lang-and-Literature                           |string               |
+     | studentAssessment            | 0                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified                         |string               |
 #    | studentSchoolAssociation     | 7                   | body.classOf                                     | 2011-2012    |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                                     | searchValue                                      |searchType           |
-     | assessment                  | 1                   | body.assessmentFamilyHierarchyName                                  | ACT                                              |string               |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle                                          | ACT                                              |string               |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode                         | ACT-English                                      |string               |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-English-Usage                                |string               |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-English-Rhetorical                           |string               |
@@ -392,7 +398,7 @@ And I check to find if record is in collection:
      | staffEducationOrganizationAssociation |          9          | body.beginDate                | 1967-08-13      | string              |
      | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
 
-
+@wip
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database
   And I check that ids were generated properly:
@@ -497,7 +503,7 @@ Scenario: Verify deterministic ids generated: Clean Database
 And I check that multiple educationOrganization ids were generated properly:
      | collectionName                      | deterministicId                             | field                                                  | value                                       |
      | courseTranscript                    | 774599b82398ed463809785b565aec75a64f6359_id | body.educationOrganizationReference                    | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id,352e8570bd1116d11a72755b987902440045d346_id,a13489364c2eb015c219172d561c62350f0453f3_id |
-
+@wip
 @smoke
 Scenario: Verify references were resolved correctly
   And I check that references were resolved correctly:
@@ -603,7 +609,7 @@ Scenario: Verify references were resolved correctly
 	| studentGradebookEntry           | 56751666983beeaa65cf74c1178f1f824fe02659_id 											| body.studentSectionAssociationId  			| studentSectionAssociation				  |
 	| grade                           | 0f3a7dbe3e7404583c126f3869c8d413ae1e88e0_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id 										  | body.studentSectionAssociationId  			| studentSectionAssociation				  |
 	| studentCompetency               | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											| body.studentSectionAssociationId  			| studentSectionAssociation  			  |
-	
+@wip	
 @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Sunset"
@@ -674,7 +680,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 210" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed processing: 0" in the resulting batch job file
 
-
+@wip
 @integration @NY-NYC
 Scenario: Post a zip file containing all data for New York as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
@@ -789,7 +795,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 7" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed processing: 0" in the resulting batch job file
 
-
+@wip
 Scenario: Post an append zip file containing append data for Illinois Daybreak as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And the following collections are empty in datastore:
@@ -819,9 +825,11 @@ Then I should see following map of entry counts in the corresponding collections
      | studentProgramAssociation            | 9     |
      | courseTranscript                     | 200   |
   And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature      |string                  |
-     | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Lang-and-Literature     |string                  |
+     | collectionName              | expectedRecordCount | searchParameter                          | searchValue                          | searchType           |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle               | AP                                   | string               |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle               | AP Eng                               | string               |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle               | AP-Eng-and-Literature                | string               |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle               | AP-Lang-and-Literature               | string               |
      | assessment                  | 1                   | assessmentItem.body.correctResponse            | False            | string |
      | assessment                  | 1                   | assessmentItem.body.correctResponse            | False            | string |
      | assessment                  | 1                   | assessmentItem.body.correctResponse            | True             | string |
@@ -841,9 +849,6 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | assessmentItem.body.maxRawScore                | 5                | integer |
      | assessment                  | 1                   | assessmentItem.body.maxRawScore                | 5                | integer |
      | assessment                  | 1                   | assessmentItem.body.maxRawScore                | 5                | integer |
-     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | BOY                                              | string |
-     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | EOY                                              | string |
-     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | MOY                                              | string |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-English          | string |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Mathematics      | string |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Reading          | string |
@@ -855,7 +860,12 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Algebra            | string |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Arithmetic         | string |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Geometry           | string |
-     | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten                 | string |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle                     | READ2                       | string |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle                     | READ 2.0                    | string |
+     | assessmentFamily            | 1                   | body.assessmentFamilyTitle                     | READ 2.0 Kindergarten       | string |
+     | assessmentPeriodDescriptor  | 1                   | body.codeValue                                 | BOY              | string |
+     | assessmentPeriodDescriptor  | 1                   | body.codeValue                                 | EOY              | string |
+     | assessmentPeriodDescriptor  | 1                   | body.codeValue                                 | MOY              | string |
      | attendance                  | 75                  | body.attendanceEvent.date | 2011-09-06      |string               |
      | cohort                      | 1                   | body.academicSubject        | English                 | string               |
      | cohort                      | 1                   | body.academicSubject        | Mathematics             | string               |
@@ -962,7 +972,7 @@ Then I should see following map of entry counts in the corresponding collections
   And the field "body.maxRawScore" has value "5"
   When I find a record in "studentAssessment" under "studentAssessmentItem" where "body.assessmentItemId" is "d50118aaad960b54a8b2afc7268d01d13842cb58_idbc774073db0cbd89322970083ee065c02c6a034d_id"
   Then "body.assessmentItemId" contains a reference to a "assessmentItem" where "body.identificationCode" is "AssessmentItem-3"
-  And I should see "Processed 145 records." in the resulting batch job file
+  And I should see "Processed 161 records." in the resulting batch job file
   And I should see "Program2.xml records considered for processing: 4" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 4" in the resulting batch job file
   And I should see "Program2.xml records failed processing: 0" in the resulting batch job file
@@ -999,8 +1009,8 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "CourseOffering.xml records considered for processing: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records ingested successfully: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records failed processing: 0" in the resulting batch job file
-  And I should see "actAssessment_CCSMapping.xml records considered for processing: 17" in the resulting batch job file
-  And I should see "actAssessment_CCSMapping.xml records ingested successfully: 17" in the resulting batch job file
+  And I should see "actAssessment_CCSMapping.xml records considered for processing: 18" in the resulting batch job file
+  And I should see "actAssessment_CCSMapping.xml records ingested successfully: 18" in the resulting batch job file
   And I should see "actAssessment_CCSMapping.xml records failed processing: 0" in the resulting batch job file
   And I should see "Grade_12_Math_CCS_G_SRT.xml records considered for processing: 12" in the resulting batch job file
   And I should see "Grade_12_Math_CCS_G_SRT.xml records ingested successfully: 12" in the resulting batch job file
@@ -1011,8 +1021,8 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Grade_12_English_CCS_RI_11_12.xml records considered for processing: 17" in the resulting batch job file
   And I should see "Grade_12_English_CCS_RI_11_12.xml records ingested successfully: 17" in the resulting batch job file
   And I should see "Grade_12_English_CCS_RI_11_12.xml records failed processing: 0" in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records considered for processing: 12" in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records ingested successfully: 12" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records considered for processing: 27" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records ingested successfully: 27" in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records failed processing: 0" in the resulting batch job file
   And I should see "InterchangeStudentAssessment-CgrayAP-English.xml records considered for processing: 11" in the resulting batch job file
   And I should see "InterchangeStudentAssessment-CgrayAP-English.xml records ingested successfully: 11" in the resulting batch job file
@@ -1030,7 +1040,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records failed processing: 0" in the resulting batch job file
   And I should not see a warning log file created
-  
+ @wip 
 Scenario: Concurrent job processing
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the following collections are empty in datastore:
@@ -1048,7 +1058,9 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | teacherSectionAssociation   |
         | session                     |
         | assessment                  |
-        | studentAssessment|
+        | studentAssessment           |
+        | assessmentPeriodDescriptor  |
+        | assessmentFamily            |
         | gradebookEntry              |
         | courseTranscript            |
         | studentGradebookEntry       |
@@ -1079,6 +1091,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | collectionName              |
         | recordHash                  |
         | assessment                  |
+        | assessmentFamily            |
+        | assessmentPeriodDescriptor  |
         | attendance                  |
         | calendarDate                |
         | cohort                      |
@@ -1128,6 +1142,8 @@ When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 0     |
+        | assessmentFamily            | 0     |
+        | assessmentPeriodDescriptor  | 0     |
         | attendance                  | 0     |
         | calendarDate                | 556   |
         | cohort                      | 0     |
@@ -1166,7 +1182,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 16    |
         | teacherSectionAssociation   | 16    |
 
-
+@wip
 @IL-Daybreak
 Scenario: Post a zip file containing new entities and deltas for existing entities. Validate updates and inserts.
     Given I should see following map of entry counts in the corresponding collections:

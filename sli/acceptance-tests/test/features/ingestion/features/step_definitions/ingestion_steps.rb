@@ -250,6 +250,13 @@ def cleanTenants()
   enable_NOTABLESCAN()
 end
 
+def getCorrectCountForDataset(dataSet)
+  case dataSet
+    when "SmallSampleDataSet.zip" then 10135
+    when "MediumSampleDataSet.zip" then 45416
+  end
+end
+
 ############################################################
 # REMOTE INGESTION FUNCTIONS
 ############################################################
@@ -355,6 +362,7 @@ def createRemoteDirectory(dirPath)
     end
   end
 end
+
 
 ############################################################
 # STEPS: GIVEN
@@ -1146,7 +1154,7 @@ When /^a batch job has completed successfully in the database$/ do
    @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
    @entity_collection = @db.collection("newBatchJob")
    intervalTime = 1
-   @maxTimeout ? @maxTimeout : @maxTimeout = 600
+   @maxTimeout ? @maxTimeout : @maxTimeout = 900
    iters = (1.0*@maxTimeout/intervalTime).ceil
    found = false
      if (INGESTION_MODE == 'remote')
@@ -1201,7 +1209,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
 
   intervalTime = 1 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 600
+  @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
@@ -1290,7 +1298,7 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
   puts "checkForBatchJobLog"
   intervalTime = 3 #seconds
                    #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 600
+  @maxTimeout ? @maxTimeout : @maxTimeout = 900
   sleep(intervalTime)
   iters = (1.0*@maxTimeout/intervalTime).ceil
     found = false
@@ -1978,11 +1986,7 @@ Then /^the document references "(.*?)" "(.*?)" with "(.*?)"$/ do |coll, src_fiel
   # if doc is an array, we need to iterate over doc
   # special thanks to the idiot mongo BSON::OrderedHash
   if src_value.kind_of?(Array)
-    i = 0
-    for value in src_value
-      result = true if value[value.keys[i]] == ref_value
-      i += 1
-    end
+    src_value.each{|value| value.each{|key, val| result = true if val == ref_value}}
   else
     result = true if src_value == ref_value
   end
@@ -3114,6 +3118,13 @@ Then /^I check the number of records in collection:/ do |table|
   enable_NOTABLESCAN()   
 end
 
+Then /^I should not see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+  `rm -rf temp/*`
+  `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
+  output = `grep #{id} ./temp/*`
+  assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
+  `rm -rf temp/*`
+end
 
 Then /^all attendance entities should should have the expected structure./ do
   @db = @conn[@ingestion_db_name]
@@ -3133,6 +3144,11 @@ Then /^all attendance entities should should have the expected structure./ do
     end
   end
 
+end
+
+Then /^correct number of records should be ingested for "(.*?)"$/ do |dataSet|
+    correct_count = getCorrectCountForDataset(dataSet)
+    step "I should see \"Processed #{correct_count} records.\" in the resulting batch job file"
 end
 
 ############################################################
