@@ -25,7 +25,76 @@ include REXML
 require_relative '../../../../utils/sli_utils.rb'
 require_relative '../../../utils/api_utils.rb'
 
-Transform /^<([^"]*)>$/ do |human_readable_id|
+Transform /^<(.*?)>$/ do |human_readable_id|
+  # teacher hash transforms
+  id = @teacher["id"]                                            if human_readable_id == "teacher id"
+  id = @teacher["getSchools"]                                    if human_readable_id == "getSchools"
+  id = @teacher["getSections"]                                   if human_readable_id == "getSections"
+  id = @teacher["getEducationOrganizations"]                     if human_readable_id == "getEducationOrganizations"
+  id = @teacher["getTeacherSchoolAssociations"]                  if human_readable_id == "getTeacherSchoolAssociations"
+  id = @teacher["getTeacherSectionAssociations"]                 if human_readable_id == "getTeacherSectionAssociations"
+  id = @teacher["getStaffEducationOrgAssignmentAssociations"]    if human_readable_id == "getStaffEducationOrgAssignmentAssociations"
+  id = @teacher["sectionId"]                                     if human_readable_id == "teacher section list"
+  id = @teacher["sectionId"][0]                                  if human_readable_id == "teacher section"
+  id = @teacher["studentAssessments"]                            if human_readable_id == "student assessment list"
+  id = @teacher["studentAssessments"][0]                         if human_readable_id == "student assessment"
+  id = @teacher["assessment"]                                    if human_readable_id == "assessment"
+  id = @teacher["student"]                                       if human_readable_id == "student"
+
+  # Ugly response body field transforms
+  # The dot-delimited structure is used for nested hashes like: body.name.lastSurname
+  # The zeroes mean that field is an array, and we are taking the first element in it
+  # These dot-delmited strings are passed to fieldExtract, which recursively
+  # walks the response body and ultimately returns the field we desire
+  id = "true"                                                  if human_readable_id == "correct response"
+  id = "code1"                                                 if human_readable_id == "code value"
+  id = "True-False"                                            if human_readable_id == "item category"
+  id = "Number score"                                          if human_readable_id == "reporting method"
+  id = "BOY-12-2012"                                           if human_readable_id == "APD.codeValue"
+  id = "2012-Twelfth grade Assessment 2"                       if human_readable_id == "assessment 1"
+  id = "2012-Twelfth grade Assessment 2#1"                     if human_readable_id == "assessment item 1"
+  id = "2012-Twelfth grade Assessment 2.OA-0"                  if human_readable_id == "objective assessment"
+  id = "2012-Twelfth grade Assessment 2.OA-0 Sub"              if human_readable_id == "sub objective assessment"
+  id = "objectiveAssessment.0.maxRawScore"                     if human_readable_id == "OA.maxRawScore"
+  id = "objectiveAssessment.0.nomenclature"                    if human_readable_id == "OA.nomenclature"
+  id = "objectiveAssessment.0.identificationCode"              if human_readable_id == "OA.identificationCode"
+  id = "objectiveAssessment.0.learningObjectives"              if human_readable_id == "OA.learningObjectives"
+  id = "objectiveAssessment.0.percentOfAssessment"             if human_readable_id == "OA.percentOfAssessment"
+  id = "assessmentIdentificationCode.0.ID"                     if human_readable_id == "AIC.ID"
+  id = "assessmentIdentificationCode.0.identificationSystem"   if human_readable_id == "AIC.identificationSystem"
+  
+  # Assessment Family Hierarchy
+  id = "2012 Standard.2012 Twelfth grade Standard"             if human_readable_id == "assessment family hierarchy"
+  # Assessment Period Descriptor
+  id = "Beginning of Year 2012-2013 for Twelfth grade"         if human_readable_id == "assessment period descriptor"
+
+  # Search endpoints
+  id = "assessmentIdentificationCode.0.ID"                     if human_readable_id == "search.assessment.ID"
+  id = "assessmentIdentificationCode.0.identificationSystem"   if human_readable_id == "search.assessment.ID.system"
+
+  # REALLY REALLY Ugly Transforms
+  # Assessment Performance Level
+  # The zeroes mean that field is an array, and we are taking the first element in it
+  id = "objectiveAssessment.0.assessmentPerformanceLevel.0.performanceLevelDescriptor.0.codeValue" if human_readable_id == "OA.APL.PLD.codeValue"
+  id = "objectiveAssessment.0.assessmentPerformanceLevel.0.assessmentReportingMethod" if human_readable_id == "OA.APL.assessmentReportingMethod"
+  id = "objectiveAssessment.0.assessmentPerformanceLevel.0.minimumScore" if human_readable_id == "OA.AP.minimumScore"
+  id = "objectiveAssessment.0.assessmentPerformanceLevel.0.maximumScore" if human_readable_id == "OA.AP.maximumScore"
+  # Sub-Objective Assessments
+  id = "objectiveAssessment.0.objectiveAssessments.0.nomenclature" if human_readable_id == "OA.OAS.nomenclature"
+  id = "objectiveAssessment.0.objectiveAssessments.0.identificationCode" if human_readable_id == "OA.OAS.identificationCode"
+  id = "objectiveAssessment.0.objectiveAssessments.0.percentOfAssessment" if human_readable_id == "OA.OAS.percentOfAssessment"
+  id = "objectiveAssessment.0.objectiveAssessments.0.assessmentPerformanceLevel.0.performanceLevelDescriptor.0.codeValue" if human_readable_id == "OA.OAS.APL.PLD.codeValue"
+  id = "objectiveAssessment.0.objectiveAssessments.0.assessmentPerformanceLevel.0.assessmentReportingMethod" if human_readable_id == "OA.OAS.APL.assessmentReportingMethod"
+  id = "objectiveAssessment.0.objectiveAssessments.0.assessmentPerformanceLevel.0.minimumScore" if human_readable_id == "OA.OAS.APL.minimumScore"
+  id = "objectiveAssessment.0.objectiveAssessments.0.assessmentPerformanceLevel.0.maximumScore" if human_readable_id == "OA.OAS.APL.maximumScore"
+  id = "objectiveAssessment.0.objectiveAssessments.0.learningObjectives" if human_readable_id == "OA.OAS.learningObjectives"
+  id = "objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.identificationCode" if human_readable_id == "OA.OAS.AI.identificationCode"
+  id = "objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.correctResponse" if human_readable_id == "OA.OAS.AI.correctResponse"
+  id = "objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.itemCategory" if human_readable_id == "OA.OAS.AI.itemCategory"
+  id = "objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.maxRawScore" if human_readable_id == "OA.OAS.AI.maxRawScore"
+      
+
+  # URI transforms  
   id = "assessments"                                if human_readable_id == "ASSESSMENT URI"
   id = "teachers"                                   if human_readable_id == "TEACHER URI"
   id = "students"                                   if human_readable_id == "STUDENT URI"
@@ -34,7 +103,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "custom"                                     if human_readable_id == "CUSTOM URI"
   id = "sectionAssessmentAssociations"              if human_readable_id == "SECTION ASSESSMENT ASSOC URI"
   id = "studentSectionAssociations"                 if human_readable_id == "STUDENT SECTION ASSOC URI"
-  id = "studentAssessments"                                if human_readable_id == "STUDENT ASSESSMENT ASSOC URI"
+  id = "studentAssessments"                         if human_readable_id == "STUDENT ASSESSMENT ASSOC URI"
   id = "teacherSectionAssociations"                 if human_readable_id == "TEACHER SECTION ASSOC URI"
   id = "learningStandards"                          if human_readable_id == "LEARNING STANDARDS ASSOC URI"
   id = "learningObjectives"                         if human_readable_id == "LEARNING OBJECTIVES ASSOC URI"
@@ -44,9 +113,9 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "ec2e4218-6483-4e9c-8954-0aecccfd4731"       if human_readable_id == "STUDENT SCHOOL URI"
   
   #sections
-  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" if human_readable_id == "'8th Grade English - Sec 6' ID"
+  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id"    if human_readable_id == "'8th Grade English - Sec 6' ID"
   id = "58c9ef19-c172-4798-8e6e-c73e68ffb5a3_id"    if human_readable_id == "'Algebra II' ID"
-  id = "baffb6f7-6d30-4341-b29e-0e1cd73ea2bf_id" if human_readable_id == "'Track and Field - Sec 6s10' ID"
+  id = "baffb6f7-6d30-4341-b29e-0e1cd73ea2bf_id"    if human_readable_id == "'Track and Field - Sec 6s10' ID"
   
   #students
   id = "0636ffd6-ad7d-4401-8de9-40538cf696c8_id" if human_readable_id == "'Preston Muchow' ID"
@@ -101,6 +170,20 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id
 end
 
+###############################################################################
+# GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
+###############################################################################
+
+Given /^I am a valid teacher "([^"]*)" with password "([^"]*)"$/ do |user, pass|
+  @user = user
+  @passwd = pass
+end
+
+Given /^I am a valid IT Administrator "([^"]*)" with password "([^"]*)"$/ do |user, pass|
+  @user = user
+  @passwd = pass
+end
+
 Given /^I am a valid SEA\/LEA end user "([^"]*)" with password "([^"]*)"$/ do |user, pass|
   @user = user
   @passwd = pass
@@ -119,6 +202,14 @@ Given /^I am authenticated on "([^"]*)"$/ do |arg1|
   assert(@sessionId != nil, "Session returned was nil")
 end
 
+###############################################################################
+# WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
+###############################################################################
+When /^I make a GET request to URI "(.*?)"$/ do |request|  
+  uri = request.gsub("@id", @teacher["sectionId"][0])
+  step "I navigate to GET \"/v1/#{uri}\""
+end
+
 When /^I navigate to URI "([^"]*)" with filter sorting and pagination$/ do |href|
   @filterSortPaginationHref=href
 end
@@ -135,6 +226,145 @@ When /^I submit the sorting and pagination request$/ do
   puts "\nAPI Call is: #{@filterSortPaginationHref}"
   step "I navigate to GET \"#{@filterSortPaginationHref}\""
   assert(@result != nil, "Response contains no data")
+end
+
+When /^I follow the links for assessment$/ do
+  raise "That entity has no response body" if @teacher["assessment"].nil?
+  step "I navigate to GET \"/v1/assessments/#{@teacher['assessment']}\""
+  raise "That entity has no links" if @result["links"].nil?
+  @links = @result["links"]
+end
+
+###############################################################################
+# THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
+###############################################################################
+Then /^I should get and store the link named "(.*?)"$/ do |mylink|
+  @result = JSON.parse(@res.body)
+  assert(@result != nil, "Response contains no data")
+  found = false
+  if !@result.nil? && !@result.empty?
+    @result["links"].each do |link|
+      if link["rel"] == mylink
+        found = true
+        teacherHashPush(mylink, link["href"])
+      end
+    end
+  end
+  assert(found, "Could not find the link #{mylink} in the URI Response: #{@result}")
+end
+
+Then /^I should get and store the "(.*?)" from the response body$/ do |field|
+  assert(@result != nil, "Response contains no data")
+end
+
+Then /^the response body "(.*?)" should match my teacher "(.*?)"$/ do |resKey, teacherKey|
+  assert(@result[resKey] == @teacher[teacherKey], "Expected response not found")
+end
+
+Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
+  #puts "\n\nDEBUG: @result[#{field}]=#{@result[field]}\n"
+  # dig the value for that field out of a potentially
+  # dot-delimited response-body structure
+  # ex: field=body.name.firstName, @result=[json response body]
+  result = fieldExtract(field, @result) 
+  assert(result == value, "Unexpected response: expected #{value}, found #{result}")  
+end
+
+Then /^the offset response field "([^"]*)" should be "([^"]*)"$/ do |field, value|
+  #puts "\n\nDEBUG: response body is #{@result[0]}"
+  result = fieldExtract(field, @result[0]) 
+  assert(result == value, "Unexpected response: expected #{value}, found #{result}")  
+end
+
+Then /^the response field "(.*?)" should be the number "(.*?)"$/ do |field, value|
+  result = fieldExtract(field, @result)
+  assert(result == value.to_i, "Unexpected response: expected #{value}, found #{result}")  
+end
+
+Then /^I should extract the "(.*?)" id from the "(.*?)" URI$/ do |resource, link|
+  value = @teacher[link].match(/#{resource}\/(.*?_id)/)
+  teacherHashPush("id", $1)
+end
+
+Then /^I should extract the "(.*?)" from the response body to a list$/ do |resource|
+  values = Array.new
+  @result.each do |response|
+    values << fieldExtract(resource, response)
+  end
+  teacherHashPush(resource, values)
+end
+
+Then /^I should extract the "(.*?)" from the response body to a list and save to "(.*?)"$/ do |resource, entity|
+  #value = @teacher[link].match(/#{resource}\/(.*?_id)/)
+  values = Array.new
+  @result.each do |response|
+    values << fieldExtract(resource, response)
+  end
+  teacherHashPush(entity, values)
+end
+
+Then /^I should extract the learningObjectives from "(.*?)"$/ do |resource|
+  values = fieldExtract(resource, @result)
+  lo_hash = {resource => values}
+  teacherHashPush("learningObjectives", lo_hash)
+end
+
+Then /^I store the studentAssessments$/ do
+  #puts "\n\nDEBUG: Storing #{@result.length} studentAssessments"
+  ids = Array.new
+
+  @result.each do |studentAssessment|
+    ids << studentAssessment["id"]
+    teacherHashPush(studentAssessment["id"], studentAssessment)
+  end
+  # Push the list of studentAsessment hash keys to a list in @teacher
+  teacherHashPush("studentAssessments", ids)
+end
+
+Then /^I make sure "(.*?)" match "(.*?)"$/ do |elem1, elem2|
+  # section for array comparison
+  if elem1.is_a?(Array)
+    for i in 0..elem.length
+      assert(@teacher[elem1[i]] == @teacher[elem2[i]], "When comparing references, #{elem1} does not equal #{elem2} but should.")
+    end
+  end
+  # section for simple string field comparison
+end
+
+
+Then /^I should extract the assessment reference from studentAssessment$/ do
+  assessment = @result["assessmentId"]
+  teacherHashPush("assessment", assessment)
+end
+
+Then /^I should extract the student reference from studentAssessment$/ do
+  student = @result["studentId"]
+  teacherHashPush("student", student)
+end
+
+Then /^I extract all the "(.*?)" links$/ do |entity|
+  assert(entity == @result["entityType"], "Type mismatch, your current response is not from the #{entity} entity")
+  @teacher["links"] = Hash.new if @teacher["links"].nil?
+  @teacher["links"][entity] = @result["links"]
+end
+
+
+  #I should validate the "objectiveAssessment.0.learningObjectives" from "assessment" links map to learningObjectives
+Then /^I should validate the "(.*?)" from "(.*?)" links map to learningObjectives$/ do |loKey, entity|
+  learningObjectives = @teacher["learningObjectives"][loKey]
+  @links.each do |link|
+    next unless link["rel"].match(/learningObjectives/)
+    step "I follow the HATEOS link named \"#{link["href"]}\""
+    # Verify each id returned in the array of learning objectives
+    @result.each do |lo|
+      step "I navigate to GET \"/v1/learningObjectives/#{lo["id"]}\""
+      puts "\nSearching for learning objective"
+      raise "NOT FOUND!" unless lo["entityType"] == "learningObjective"
+      puts "found"
+      # Follow the link to verify the child learning objective
+      # Not implemented because Odin does not generate these yet
+    end
+  end
 end
 
 Then /^I should have a list of "([^"]*)" entities$/ do |entityType|
@@ -156,7 +386,8 @@ Then /^I should have a list of (\d+) "([^"]*)" entities$/ do |size, entityType|
   @result = JSON.parse(@res.body)
   assert(@result != nil, "Response contains no data")
   if @result.is_a?(Hash)
-    assert(@result["entityType"] == entityType)
+    assert(@result["entityType"] == entityType, "Entity is not the right type, expected '#{entityType}', found '#{@result["entityType"]}'")
+    assert(@result.length == size.to_i, "Entity count mismatch, found #{@result.length}, expected #{size}")
   else
     assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
     @ids = Array.new
@@ -217,4 +448,70 @@ rescue ArgumentError
 else
   true
 end
+
+def fieldExtract(field, body)
+  # Split the field string into URI segments
+  part = field.split(".")
+  # Parse the response field value based on how deep that field is embedded
+  # Grab the first array element if an array is encountered
+  for i in 0..(part.length-1)
+    part[i] = part[i].to_i if is_num?(part[i])
+  end
+
+  # Preserve the original response body
+  result = body
+  # Recursively loop through a response body to dig our fields
+  (1..(part.length)).each { |x| result = result[part[x-1]] }
+  return result
+end
+
+# This proc takes a hash of arrays/hashes, and if
+# it encounters an array of hashes, takes the first
+# element in that array
+def get_first_array_elements(body, parts)
+  part_count = 0
+  parts.each do |part|
+    part_count += 1
+    body[full_part] = body[full_part][0] if body[full_part].is_a?(Array)
+  end
+  return body
+end
+
+# Build the teacher hash
+def teacherHashPush(key, value)
+  @teacher = Hash.new unless defined? @teacher
+  @teacher[key] = value
+end
+
+def getTeacherSchools()
+
+end
+
+def pushStudentAssessment(studentAssessment)
+  @teacher[studentAssessment["id"]] = studentAssessment
+end
+
+
+# Build the section array
+def sectionArray(value)
+  @sections = Array.new unless defined? @sections  
+  if value.is_a?(Array)
+    value.each{|section| @sections << section}
+  else
+    @sections << value
+  end
+end
+
+# Build the student array
+def studentArray(value)
+  @students = Array.new unless defined? @students
+  # 
+  if value.is_a?(Array)
+    value.each{|student| @students << student}
+  else
+    @students << value
+  end
+end
+
+
 

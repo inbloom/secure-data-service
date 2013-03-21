@@ -215,7 +215,7 @@ Examples:
 
 Examples:
 | Entity Type             | Entity Resource URI       | Count | Rewrite URI|
-| "assessment"            | "assessments"             | 17    |/search/assessments|                                                                            
+| "assessment"            | "assessments"             | 18    |/search/assessments|                                                                            
 | "attendance"            | "attendances"             | 3     |/sections/@ids/studentSectionAssociations/students/attendances|
 | "cohort"                | "cohorts"                 | 4     |/staff/@ids/staffCohortAssociations/cohorts|
 | "course"                | "courses"                 | 92    |/search/courses|
@@ -284,16 +284,23 @@ Examples:
       Then I should receive a return code of 201
         And I should receive a new entity URI
         And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
+        And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeGreen" in mongo
       When I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
         Then I should receive a return code of 200
-        And I verify "objectiveAssessment" and "assessmentItem" is collapsed in response body 
-        And "objectiveAssessment" is hierachical with childrens at "objectiveAssessments"
+        And I verify "objectiveAssessment, assessmentPeriodDescriptor" and "assessmentItem" is collapsed in response body 
+        And "objectiveAssessment" is hierachical with children at "objectiveAssessments"
       When I set the "lowestGradeLevelAssessed" to "Sixth grade"
+        And I set the "codeValue" to "codeRed" in "assessmentPeriodDescriptor"
         And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
         Then I should receive a return code of 204
-         And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
+        And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
+         #assessmentPeriodDecriptor is read 
+         And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeRed" in mongo
+         And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeGreen" in mongo
          And I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
          And "lowestGradeLevelAssessed" should be "Sixth grade"
+         And I verify "objectiveAssessment, assessmentPeriodDescriptor" and "assessmentItem" is collapsed in response body 
+         And I verify "codeValue" is "codeRed" inside "assessmentPeriodDescriptor"
      # the corresponding studentAssessment 
      Given entity URI "/v1/studentAssessments"
        And a valid entity json document for a "studentAssessment"

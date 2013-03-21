@@ -35,14 +35,13 @@ function configure {
 
         CHECK_SLI_CONF=0
         CHECK_KEYSTORE=0
+        CHECK_SEARCH_INDEXER_TAR=0
 
         RUN_EXTRACT=1
         RUN_HELP=0
 
         SLI_CONF="sli.conf"
         SLI_ENCRYPTION_KEYSTORE="sli.encryption.keyStore"
-        BULK_EXTRACT_OPT="-D${SLI_CONF}=${DEFAULT_CHECK_SLI_CONF}"
-        SLI_ENCRYPTION_OPT="-D${SLI_ENCRYPTION_KEYSTORE}=${DEFAULT_CHECK_KEYSTORE}"
 
         BULK_EXTRACTER_LOG="bulk-extracter.log"
     fi
@@ -53,9 +52,9 @@ function readOption {
       PROPERTY=`echo ${1:2} |cut -d'=' -f1`
       FILE_LOCATION=`echo ${1:2} |cut -d'=' -f2`
       if [ ${PROPERTY} == ${SLI_CONF} ]; then
-         CHECK_SLI_CONF=${FILE_LOCATION}
+         DEFAULT_CHECK_SLI_CONF=${FILE_LOCATION}
       elif [ ${PROPERTY} == ${SLI_ENCRYPTION_KEYSTORE} ]; then
-         CHECK_KEYSTORE=${FILE_LOCATION}
+         DEFAULT_CHECK_KEYSTORE=${FILE_LOCATION}
       else
          JAVA_OPT="${JAVA_OPT} ${1}"
       fi
@@ -68,6 +67,13 @@ function readOption {
       else
          JAVA_OPT="${JAVA_OPT} ${1}"
       fi
+   elif [ ${1:0:2} == "-f" ]; then
+      DEFAULT_BULK_EXTRACTOR_JAR=${1:2}
+      FILEEXT=${1#*.}
+      if [ "${FILEEXT}" == "tar.gz" -o "{$FILEEXT}" == "tgz" ]; then
+        CHECK_SEARCH_INDEXER_TAR=1
+      fi
+      echo Setting bulk extract to use file at: ${DEFAULT_BULK_EXTRACTOR_JAR}
    elif [ ${1:0:2} == "-t" ]; then
       DEFAULT_TENANT=${1:2}
    elif [ ${1} == "help" ]; then
@@ -76,6 +82,12 @@ function readOption {
    else
       RUN_EXTRACT=0
       RUN_HELP=1
+   fi
+}
+
+function prepareJava {
+   if [ ${CHECK_SEARCH_INDEXER_TAR} != 0 ]; then
+    tar -C `dirname ${DEFAULT_BULK_EXTRACTOR_JAR}` -zxf ${DEFAULT_BULK_EXTRACTOR_JAR}
    fi
 }
 
@@ -94,7 +106,10 @@ function show_help {
    echo 
    echo "# run bulk-extract with specifying tenant"
    echo "./local_bulk_extract.sh -t<tenant>"
-   echo 
+   echo
+   echo "# run bulk-extract with specifying path to a jar or tar file"
+   echo "./local_bulk_extract.sh -f<filepath>"
+   echo
 }
 
 function run {
@@ -107,7 +122,13 @@ function run {
         show_help
         return $stat
     fi
+   prepareJava
+   if [ ${CHECK_SEARCH_INDEXER_TAR} != 0 ]; then
+      DEFAULT_BULK_EXTRACTOR_JAR="`dirname ${DEFAULT_BULK_EXTRACTOR_JAR}`/bulk-extract-1.0-SNAPSHOT.jar"
+   fi
 
+    BULK_EXTRACT_OPT="-D${SLI_CONF}=${DEFAULT_CHECK_SLI_CONF}"
+    SLI_ENCRYPTION_OPT="-D${SLI_ENCRYPTION_KEYSTORE}=${DEFAULT_CHECK_KEYSTORE}"
     T="$(date +%s)"
     echo "$(date): bulk-extracter Starting with $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT"
     java -Xms$DEFAULT_MIN_MEMORY -Xmx$DEFAULT_MAX_MEMORY $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT -jar $DEFAULT_BULK_EXTRACTOR_JAR $DEFAULT_TENANT

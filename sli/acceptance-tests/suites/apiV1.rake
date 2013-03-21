@@ -289,6 +289,23 @@ task :apiJMeterTests do
   runTests("test/features/apiV1/jmeter/jmeterPerformance.feature")
 end
 
+desc "Run Odin API Generation Task"
+task :apiOdinGenerate do
+  runTests("test/features/odin/generate_api_data.feature")
+end
+
+desc "Run API Odin Ingestion Tests"
+task :apiOdinIngestion do
+  runTests("test/features/ingestion/features/ingestion_OdinAPIData.feature")
+end
+
+desc "Run API Odin Super Assessment Tests"
+task :apiOdinSuperAssessment do
+# This is to extract assessment, learningStandard, etc. into Elastic Search  
+  Rake::Task["runSearchBulkExtract"].execute
+  runTests("test/features/apiV1/end_user_stories/assessments/superAssessment.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################

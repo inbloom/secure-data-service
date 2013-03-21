@@ -224,8 +224,8 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
   urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
+  puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
   @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
-
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 

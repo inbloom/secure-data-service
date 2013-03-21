@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriTemplate;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;

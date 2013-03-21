@@ -48,7 +48,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.cache.SessionCache;
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
