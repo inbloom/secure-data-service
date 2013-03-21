@@ -1090,6 +1090,7 @@
                 <version>${maven.surefire.version}</version>
                 <configuration>
                     <runOrder>alphabetical</runOrder>
+		    <argLine>-Xms2G -Xmx6G -XX:PermSize=512m -XX:MaxPermSize=1024m -XX:NewRatio=1 -XX:+UseParallelGC -XX:+UseParallelOldGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps</argLine>
                     <threadCount>${test.threadcount}</threadCount>
                     <systemPropertyVariables>
                         <emma.rt.control>false</emma.rt.control>
