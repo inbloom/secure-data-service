@@ -68,11 +68,11 @@ Scenario: Delete Program with cascade
     And a batch job log has been created
     And I should not see an error log file created
 	And I should not see a warning log file created
-    And I post "BroadStudentDelete.zip" file as the payload of the ingestion job
+    And I post "BroadSchoolDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
-    And a batch job for file "BroadStudentDelete.zip" is completed in database
+    And a batch job for file "BroadSchoolDelete.zip" is completed in database
     And a batch job log has been created
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	#And I should not see "908404e876dd56458385667fa383509035cd4312_id" in the "Midgar" database
+	#And I should not see "352e8570bd1116d11a72755b987902440045d346_id" in the "Midgar" database
