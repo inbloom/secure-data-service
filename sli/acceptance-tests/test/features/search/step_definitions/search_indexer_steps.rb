@@ -85,9 +85,6 @@ end
 
 When /^I update some assessment records in mongo$/ do
   updateAssmtEntityId = "e33ce38ad4136e409b426b1ffe7781d09aed2aec_id"
-  updateAPDId = "486b2868f8556c81e7d2094845bf3a40a0abef02_id"
-  updateAFId = "1f3dfc4ddafb1360d971c78c71263cbc07081736_id"
-  
   updateAssmtEntityBody =   
   { 
         "assessmentTitle"=>"READ2-MOY 2", 
@@ -138,114 +135,129 @@ When /^I update some assessment records in mongo$/ do
                      "assessmentPeriodDescriptorId"=>"486b2868f8556c81e7d2094845bf3a40a0abef02_id"
   }
   
-  
-  updateAPDBody = {
-     "codeValue"=>"assessment_2013", 
-     "description"=>"updated_assessment", 
-     "beginDate"=>"2013-01-01", 
-     "endDate"=>"2013-02-01"}
-     
-  updateOA = [
-    {
-      "type" => "objectiveAssessment",
-      "_id" => "49da176bc1b8025d5a6c2855cebfec421a418541_idfe14cc91fa32a668208a1ea2b9fac0df193fdb26_id",
-      "body" => {
-        "nomenclature" => "updated-Nomenclature",
-        "identificationCode" => "2004-First grade Assessment 2.OA-0 Sub",
-        "percentOfAssessment" => 60,
-        "assessmentItemRefs" => [
-          "49da176bc1b8025d5a6c2855cebfec421a418541_id7b95f8ecea0d09751d711509609be46ed8d81758_id",
-          "49da176bc1b8025d5a6c2855cebfec421a418541_id734e6f72fcd15f68b580aec31c6bf918ee6df278_id"
-        ],
-        "assessmentId" => "49da176bc1b8025d5a6c2855cebfec421a418541_id",
-        "assessmentPerformanceLevel" => [
-          {
-            "performanceLevelDescriptor" => [
-              {
-                "codeValue" => "code1"
-              }
-            ],
-            "assessmentReportingMethod" => "Number score",
-            "minimumScore" => 10,
-            "maximumScore" => 60
-          }
-        ],
-        "learningObjectives" => [
-          "18f258460004b33fa9c1249b8c9ed3bd33c41645_id",
-          "c19a0f38f598ba8d6d8b7968efd1861f754dcc04_id",
-          "43ebe40d85cb70c4dc00ed94ee9f68cfae0c5d1a_id",
-          "ff84d3d1c6594847234ab13f8cc8bcd2a45bb75d_id",
-          "8f8b1ff4fd3459d3ab1bc54c9deb3581820e0bac_id"
-        ],
-        "maxRawScore" => 60
-      }
-    }  
-  ]
-  
-  updateAI =  [
-  {
-    "type" => "assessmentItem",
-    "_id" => "49da176bc1b8025d5a6c2855cebfec421a418541_id29dffcc6126fc40afd39abe470e80f56e0ce9225_id",
-    "body" => {
-      "identificationCode" => "2004-First grade Assessment 2#4",
-      "assessmentId" => "49da176bc1b8025d5a6c2855cebfec421a418541_id",
-      "correctResponse" => "A",
-      "itemCategory" => "Multiple Choice",
-      "maxRawScore" => 20
-    }
-  }
-  ]
-  
-  updateAFBody = {
-    "assessmentFamilyTitle" => "2003 First grade Standard",
-    "assessmentPeriods" => [
-      "2eb2c7b35c165a1ba14fb391fce3520a7a9aa564_id"
-    ],
-    "assessmentFamilyIdentificationCode" => [
-      {
-        "identificationSystem" => "State",
-        "ID" => "2003 First grade Standard"
-      }
-    ],
-    "version" => 1
-  }
-
-
 
   conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
-  mdb = conn.db(MIDGAR_DB_NAME)
+  @mdb = conn.db(MIDGAR_DB_NAME)
   
   # update the assessment entity with id is e33ce38ad4136e409b426b1ffe7781d09aed2aec_id
-  assmt_coll = mdb["assessment"]
-  assmtEntity=assmt_coll.find_one({"_id"=>updateAssmtEntityId})
+  @assmt_coll = @mdb["assessment"]
+  assmtEntity=@assmt_coll.find_one({"_id"=>updateAssmtEntityId})
   assert(assmtEntity, "cant find assmt entity with id: #{updateAssmtEntityId}")
   assmtEntity["body"] = updateAssmtEntityBody
-  assmt_coll.save(assmtEntity)
-  
-  #update APD with id is 486b2868f8556c81e7d2094845bf3a40a0abef02_id
-  apd_coll = mdb["assessmentPeriodDescriptor"]
-  apdEntity = apd_coll.find_one({"_id"=> updateAPDId})
-  apdEntity["body"] = updateAPDBody
-  apd_coll.save(apdEntity)
-  
-  #update OA and AI in assessment with id is 49da176bc1b8025d5a6c2855cebfec421a418541_id
-  
-  updateAssmtEntityId = "49da176bc1b8025d5a6c2855cebfec421a418541_id"
-  assmtEntity = assmt_coll.find_one({"_id"=>updateAssmtEntityId})
-  assert(assmtEntity, "cant find assmt entity with id: #{updateAssmtEntityId}")
-  assmtEntity["objectiveAssessment"]= updateOA
-  assmtEntity["assessmentItem"] = updateAI
-  assmt_coll.save(assmtEntity)
-  
-  #update AF with id is 1f3dfc4ddafb1360d971c78c71263cbc07081736_id
-  #remove its reference to parent assessmentFamily
-  af_coll = mdb["assessmentFamily"]
-  afEntity = af_coll.find_one({"_id"=> updateAFId})
-  afEntity["body"] = updateAFBody
-  af_coll.save(afEntity)
-  
+  @assmt_coll.save(assmtEntity)
   
 end
+
+When /^I update some objectiveAssessment records in mongo$/ do
+  updateOA = [
+      {
+        "type" => "objectiveAssessment",
+        "_id" => "49da176bc1b8025d5a6c2855cebfec421a418541_idfe14cc91fa32a668208a1ea2b9fac0df193fdb26_id",
+        "body" => {
+          "nomenclature" => "updated-Nomenclature",
+          "identificationCode" => "2004-First grade Assessment 2.OA-0 Sub",
+          "percentOfAssessment" => 60,
+          "assessmentItemRefs" => [
+            "49da176bc1b8025d5a6c2855cebfec421a418541_id7b95f8ecea0d09751d711509609be46ed8d81758_id",
+            "49da176bc1b8025d5a6c2855cebfec421a418541_id734e6f72fcd15f68b580aec31c6bf918ee6df278_id"
+          ],
+          "assessmentId" => "49da176bc1b8025d5a6c2855cebfec421a418541_id",
+          "assessmentPerformanceLevel" => [
+            {
+              "performanceLevelDescriptor" => [
+                {
+                  "codeValue" => "code1"
+                }
+              ],
+              "assessmentReportingMethod" => "Number score",
+              "minimumScore" => 10,
+              "maximumScore" => 60
+            }
+          ],
+          "learningObjectives" => [
+            "18f258460004b33fa9c1249b8c9ed3bd33c41645_id",
+            "c19a0f38f598ba8d6d8b7968efd1861f754dcc04_id",
+            "43ebe40d85cb70c4dc00ed94ee9f68cfae0c5d1a_id",
+            "ff84d3d1c6594847234ab13f8cc8bcd2a45bb75d_id",
+            "8f8b1ff4fd3459d3ab1bc54c9deb3581820e0bac_id"
+          ],
+          "maxRawScore" => 60
+        }
+      }  
+    ]
+    
+  #update OA in assessment with id is 49da176bc1b8025d5a6c2855cebfec421a418541_id
+   
+   updateAssmtEntityId = "49da176bc1b8025d5a6c2855cebfec421a418541_id"
+   assmtEntity = @assmt_coll.find_one({"_id"=>updateAssmtEntityId})
+   assert(assmtEntity, "cant find assmt entity with id: #{updateAssmtEntityId}")
+   assmtEntity["objectiveAssessment"]= updateOA
+   @assmt_coll.save(assmtEntity)
+end
+
+When /^I update some assessmentItem records in mongo$/ do
+  updateAI =  [
+   {
+     "type" => "assessmentItem",
+     "_id" => "49da176bc1b8025d5a6c2855cebfec421a418541_id29dffcc6126fc40afd39abe470e80f56e0ce9225_id",
+     "body" => {
+       "identificationCode" => "2004-First grade Assessment 2#4",
+       "assessmentId" => "49da176bc1b8025d5a6c2855cebfec421a418541_id",
+       "correctResponse" => "A",
+       "itemCategory" => "Multiple Choice",
+       "maxRawScore" => 20
+     }
+   }
+   ]
+   
+  #update AI in assessment with id is 49da176bc1b8025d5a6c2855cebfec421a418541_id
+    
+    updateAssmtEntityId = "49da176bc1b8025d5a6c2855cebfec421a418541_id"
+    assmtEntity = @assmt_coll.find_one({"_id"=>updateAssmtEntityId})
+    assert(assmtEntity, "cant find assmt entity with id: #{updateAssmtEntityId}")
+    assmtEntity["assessmentItem"] = updateAI
+    @assmt_coll.save(assmtEntity)
+end
+
+When /^I update some assessmentPeriodDescriptor records in mongo$/ do
+  updateAPDId = "486b2868f8556c81e7d2094845bf3a40a0abef02_id"
+  updateAPDBody = {
+      "codeValue"=>"assessment_2013", 
+      "description"=>"updated_assessment", 
+      "beginDate"=>"2013-01-01", 
+      "endDate"=>"2013-02-01"}
+      
+  #update APD with id is 486b2868f8556c81e7d2094845bf3a40a0abef02_id
+   apd_coll = @mdb["assessmentPeriodDescriptor"]
+   apdEntity = apd_coll.find_one({"_id"=> updateAPDId})
+   apdEntity["body"] = updateAPDBody
+   apd_coll.save(apdEntity)
+end
+
+When /^I update some assessmentFamily records in mongo$/ do
+  updateAFId = "1f3dfc4ddafb1360d971c78c71263cbc07081736_id"
+  updateAFBody = {
+     "assessmentFamilyTitle" => "2003 First grade Standard",
+     "assessmentPeriods" => [
+       "2eb2c7b35c165a1ba14fb391fce3520a7a9aa564_id"
+     ],
+     "assessmentFamilyIdentificationCode" => [
+       {
+         "identificationSystem" => "State",
+         "ID" => "2003 First grade Standard"
+       }
+     ],
+     "version" => 1
+   }
+   
+  #update AF with id is 1f3dfc4ddafb1360d971c78c71263cbc07081736_id
+    #remove its reference to parent assessmentFamily
+    af_coll = @mdb["assessmentFamily"]
+    afEntity = af_coll.find_one({"_id"=> updateAFId})
+    afEntity["body"] = updateAFBody
+    af_coll.save(afEntity)
+end
+
 
 When /^I send a command to start the extractor to update "(.*?)" tenant now$/ do |tenant|
   sendCommand("reconcile #{tenant}")

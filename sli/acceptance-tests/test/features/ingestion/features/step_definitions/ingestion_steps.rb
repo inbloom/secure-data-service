@@ -3118,6 +3118,13 @@ Then /^I check the number of records in collection:/ do |table|
   enable_NOTABLESCAN()   
 end
 
+Then /^I should not see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+  `rm -rf temp/*`
+  `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
+  output = `grep #{id} ./temp/*`
+  assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
+  `rm -rf temp/*`
+end
 
 Then /^all attendance entities should should have the expected structure./ do
   @db = @conn[@ingestion_db_name]

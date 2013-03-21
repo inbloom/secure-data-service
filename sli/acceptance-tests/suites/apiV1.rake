@@ -306,6 +306,12 @@ task :apiOdinSuperAssessment do
   runTests("test/features/apiV1/end_user_stories/assessments/superAssessment.feature")
 end
 
+desc "Run API Odin Assessment Search Tests"
+task :apiOdinSearchAssessment do
+  Rake::Task["runSearchBulkExtract"].execute
+  runTests("test/features/apiV1/end_user_stories/assessments/searchAssessment.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
