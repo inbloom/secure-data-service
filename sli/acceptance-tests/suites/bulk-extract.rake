@@ -17,6 +17,8 @@ end
 desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSetup do
   Rake::Task["ingestionSmokeTests"].execute
+  @tags = ["~@wip", "~@sandbox"]
+
 end
 
 desc "Trigger ingestion and extract of the ingestion"
@@ -43,7 +45,6 @@ task :bulkExtractTests => [:realmInit] do
   TRIGGER_NEW_EXTRACT = false
 
   Rake::Task["bulkExtractSetup"].execute
-  @tags = ["~@wip", "~@sandbox"]
   Rake::Task["addBootstrapAppAuths"].execute
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractStudentTest"].execute
