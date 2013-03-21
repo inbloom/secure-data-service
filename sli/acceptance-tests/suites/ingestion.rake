@@ -300,7 +300,7 @@ task :ingestionLeafStudentDelete do
 end
 
 task :ingestionCascadingDeletionStudentTest do
-  runTests("test/features/ingestion/features/ingestion_cascadingDelete_student.feature")
+  runTests("test/features/ingestion/features/ingestion_cascading_student_delete.feature")
 end
 
 task :ingestionCascadingDeletionSectionTest do

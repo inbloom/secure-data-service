@@ -6,7 +6,7 @@ Given I am using local data store
 
 Scenario: delete student with cascade
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-  And I post "prep_cascading_deletion.zip" file as the payload of the ingestion job
+  And I post "prep_cascading_deletion_student.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName                            |
      | student                                   |
@@ -35,7 +35,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | studentDisciplineIncidentAssociation      |
      | studentCompetency                         |
 When zip file is scp to ingestion landing zone
-  And a batch job for file "prep_cascading_deletion.zip" is completed in database
+  And a batch job for file "prep_cascading_deletion_student.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                            |              count|
