@@ -279,8 +279,27 @@ task :ingestionPropagatedTest do
 end
 
 desc "Run Cascading Deletion Tests"
-task :ingestionCascadingDeletionTest do
-  runTests("test/features/ingestion/features/ingestion_cascadingDelete.feature")
+  task :ingestionDeletionTests => [
+        :ingestionCascadingStudentDelete,
+        :ingestionLeafStudentDelete
+  ] do
+
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Cascading Deletion Student Test"
+task :ingestionCascadingStudentDelete do
+  runTests("test/features/ingestion/features/ingestion_cascading_student_delete.feature")
+end
+
+desc "Run Leaf Student Deletion Test"
+task :ingestionLeafStudentDelete do
+  runTests("test/features/ingestion/features/ingestion_leaf_student_delete.feature")
 end
 
 ############################################################
