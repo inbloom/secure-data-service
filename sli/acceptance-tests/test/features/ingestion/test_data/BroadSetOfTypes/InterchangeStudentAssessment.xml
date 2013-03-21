@@ -1,0 +1,3884 @@
+<?xml version="1.0"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd">
+<StudentAssessment>
+  <AdministrationDate>2001-09-04</AdministrationDate>
+    <AdministrationEndDate>2010-07-22</AdministrationEndDate>
+    
+    <SerialNumber>1 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Timing and Scheduling</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Oral Translation - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>25</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Grade 13</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>1 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Ninth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-05</AdministrationDate>
+    <AdministrationEndDate>2010-07-22</AdministrationEndDate>
+    
+    <SerialNumber>1 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Timing and Scheduling</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Oral Translation - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>98</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Grade 13</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>1 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Ninth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-10</AdministrationDate>
+    <AdministrationEndDate>2010-07-22</AdministrationEndDate>
+    
+    <SerialNumber>1 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Timing and Scheduling</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Oral Translation - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>80</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Grade 13</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>1 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Tenth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-11</AdministrationDate>
+    <AdministrationEndDate>2010-07-22</AdministrationEndDate>
+    
+    <SerialNumber>1 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Timing and Scheduling</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Oral Translation - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>27</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Grade 13</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>1 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Tenth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-04</AdministrationDate>
+    <AdministrationEndDate>2000-08-24</AdministrationEndDate>
+    
+    <SerialNumber>2 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Accommodations allowed but not used</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>73</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Eleventh grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>2 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Sixth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-05</AdministrationDate>
+    <AdministrationEndDate>2000-08-24</AdministrationEndDate>
+    
+    <SerialNumber>2 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Accommodations allowed but not used</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>57</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Eleventh grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>2 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Sixth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-10</AdministrationDate>
+    <AdministrationEndDate>2000-08-24</AdministrationEndDate>
+    
+    <SerialNumber>2 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Accommodations allowed but not used</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>99</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Eleventh grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>2 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-11</AdministrationDate>
+    <AdministrationEndDate>2000-08-24</AdministrationEndDate>
+    
+    <SerialNumber>2 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Accommodations allowed but not used</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>46</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Eleventh grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>2 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-04</AdministrationDate>
+    <AdministrationEndDate>2006-11-23</AdministrationEndDate>
+    
+    <SerialNumber>3 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Reading Aloud - Entire Test Item</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>90</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>3 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Seventh grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-05</AdministrationDate>
+    <AdministrationEndDate>2006-11-23</AdministrationEndDate>
+    
+    <SerialNumber>3 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Reading Aloud - Entire Test Item</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>69</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>3 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Seventh grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-10</AdministrationDate>
+    <AdministrationEndDate>2006-11-23</AdministrationEndDate>
+    
+    <SerialNumber>3 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Reading Aloud - Entire Test Item</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>94</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>3 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Eighth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-11</AdministrationDate>
+    <AdministrationEndDate>2006-11-23</AdministrationEndDate>
+    
+    <SerialNumber>3 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Reading Aloud - Entire Test Item</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>41</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>3 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Eighth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-04</AdministrationDate>
+    <AdministrationEndDate>2007-01-28</AdministrationEndDate>
+    
+    <SerialNumber>4 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Timing and Scheduling</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Oral Translation - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>50</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Eleventh grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>4 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Eighth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-05</AdministrationDate>
+    <AdministrationEndDate>2007-01-28</AdministrationEndDate>
+    
+    <SerialNumber>4 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Timing and Scheduling</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Oral Translation - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>9</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Eleventh grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>4 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Eighth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-10</AdministrationDate>
+    <AdministrationEndDate>2007-01-28</AdministrationEndDate>
+    
+    <SerialNumber>4 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Timing and Scheduling</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Oral Translation - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>30</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Eleventh grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>4 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Ninth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-11</AdministrationDate>
+    <AdministrationEndDate>2007-01-28</AdministrationEndDate>
+    
+    <SerialNumber>4 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Timing and Scheduling</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Oral Translation - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>65</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Eleventh grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>4 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Ninth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-04</AdministrationDate>
+    <AdministrationEndDate>2011-05-21</AdministrationEndDate>
+    
+    <SerialNumber>5 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Clarification - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>53</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>5 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Kindergarten Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-05</AdministrationDate>
+    <AdministrationEndDate>2011-05-21</AdministrationEndDate>
+    
+    <SerialNumber>5 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Clarification - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>80</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>5 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Kindergarten Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-10</AdministrationDate>
+    <AdministrationEndDate>2011-05-21</AdministrationEndDate>
+    
+    <SerialNumber>5 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Clarification - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>8</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>5 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-First grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>First grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-11</AdministrationDate>
+    <AdministrationEndDate>2011-05-21</AdministrationEndDate>
+    
+    <SerialNumber>5 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Clarification - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>14</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>5 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-First grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>First grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-04</AdministrationDate>
+    <AdministrationEndDate>2008-08-11</AdministrationEndDate>
+    
+    <SerialNumber>6 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Adjustable swivel arm</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>99</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>First grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>6 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>First grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-05</AdministrationDate>
+    <AdministrationEndDate>2008-08-11</AdministrationEndDate>
+    
+    <SerialNumber>6 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Adjustable swivel arm</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>84</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>First grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>6 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>First grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-10</AdministrationDate>
+    <AdministrationEndDate>2008-08-11</AdministrationEndDate>
+    
+    <SerialNumber>6 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Adjustable swivel arm</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>91</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>First grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>6 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Second grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-11</AdministrationDate>
+    <AdministrationEndDate>2008-08-11</AdministrationEndDate>
+    
+    <SerialNumber>6 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Adjustable swivel arm</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>86</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>First grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>6 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Second grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-04</AdministrationDate>
+    <AdministrationEndDate>2006-12-09</AdministrationEndDate>
+    
+    <SerialNumber>7 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Parental waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>48</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>7 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>7</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Second grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-05</AdministrationDate>
+    <AdministrationEndDate>2006-12-09</AdministrationEndDate>
+    
+    <SerialNumber>7 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Parental waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>7</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>7 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>7</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Second grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-10</AdministrationDate>
+    <AdministrationEndDate>2006-12-09</AdministrationEndDate>
+    
+    <SerialNumber>7 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Parental waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>33</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>7 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>7</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Third grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-11</AdministrationDate>
+    <AdministrationEndDate>2006-12-09</AdministrationEndDate>
+    
+    <SerialNumber>7 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Parental waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>85</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>7 code</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>7</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Third grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-04</AdministrationDate>
+    <AdministrationEndDate>2001-04-06</AdministrationEndDate>
+    
+    <SerialNumber>8 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Presentation</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Accommodations allowed but not used</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>5</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>8 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Third grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-05</AdministrationDate>
+    <AdministrationEndDate>2001-04-06</AdministrationEndDate>
+    
+    <SerialNumber>8 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Presentation</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Accommodations allowed but not used</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>90</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>8 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Third grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-10</AdministrationDate>
+    <AdministrationEndDate>2001-04-06</AdministrationEndDate>
+    
+    <SerialNumber>8 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Presentation</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Accommodations allowed but not used</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>27</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>8 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Fourth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-11</AdministrationDate>
+    <AdministrationEndDate>2001-04-06</AdministrationEndDate>
+    
+    <SerialNumber>8 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Presentation</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Accommodations allowed but not used</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Foreign exchange student waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>81</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>8 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Fourth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-04</AdministrationDate>
+    <AdministrationEndDate>2009-07-26</AdministrationEndDate>
+    
+    <SerialNumber>9 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Presentation</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Simplification</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Refusal by parent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>56</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>9 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Fourth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-05</AdministrationDate>
+    <AdministrationEndDate>2009-07-26</AdministrationEndDate>
+    
+    <SerialNumber>9 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Presentation</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Simplification</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Refusal by parent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>1</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>9 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Fourth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-10</AdministrationDate>
+    <AdministrationEndDate>2009-07-26</AdministrationEndDate>
+    
+    <SerialNumber>9 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Presentation</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Simplification</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Refusal by parent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>74</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>9 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Fifth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-11</AdministrationDate>
+    <AdministrationEndDate>2009-07-26</AdministrationEndDate>
+    
+    <SerialNumber>9 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Presentation</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Simplification</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Refusal by parent</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>46</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Early Education</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>9 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Fifth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-04</AdministrationDate>
+    <AdministrationEndDate>2008-12-08</AdministrationEndDate>
+    
+    <SerialNumber>10 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Setting</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Simplification</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Parental waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>15</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>10 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Fifth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-09-05</AdministrationDate>
+    <AdministrationEndDate>2008-12-08</AdministrationEndDate>
+    
+    <SerialNumber>10 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Setting</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Simplification</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Parental waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>64</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>10 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Fifth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-10</AdministrationDate>
+    <AdministrationEndDate>2008-12-08</AdministrationEndDate>
+    
+    <SerialNumber>10 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Setting</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Simplification</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Parental waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>88</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>10 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Sixth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-11</AdministrationDate>
+    <AdministrationEndDate>2008-12-08</AdministrationEndDate>
+    
+    <SerialNumber>10 code</SerialNumber>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Setting</SpecialAccommodation>
+    </SpecialAccommodations>
+    
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Linguistic Simplification</LinguisticAccommodation>
+    </LinguisticAccommodations>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Parental waiver</ReasonNotTested>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>15</Result>
+  </ScoreResults>
+    <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+    <PerformanceLevels>
+      <CodeValue>10 code</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevels>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Sixth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Nonscorable response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>68</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-04</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Ninth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Ninth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>51</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-05</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Ninth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Ninth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Partial response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>31</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-10</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Tenth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Tenth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Ineffective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>76</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-11</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Tenth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Tenth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Partial response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>4</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-04</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>2</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Sixth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Sixth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Nonscorable response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>37</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-05</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>2</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Sixth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Sixth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>64</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-10</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>2</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Seventh grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Partial response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>83</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-11</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>2</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Seventh grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Nonscorable response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>6</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-04</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>3</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Seventh grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Seventh grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>63</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-05</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>3</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Seventh grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Seventh grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>92</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-10</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>3</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Eighth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Eighth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>52</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-11</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>3</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Eighth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Eighth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>39</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-04</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Eighth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Eighth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Nonscorable response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>16</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-05</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Eighth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Eighth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Partial response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>52</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-10</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Ninth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Ninth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Nonscorable response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>68</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-11</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Ninth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Ninth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Ineffective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>3</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-04</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>5</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Kindergarten Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Kindergarten Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Partial response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>52</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-05</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>5</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Kindergarten Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Kindergarten Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>14</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-10</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>5</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-First grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-First grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Partial response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>29</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-11</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>5</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-First grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-First grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>24</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-04</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>6</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-First grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Ineffective response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>70</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-05</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>6</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-First grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Nonscorable response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>35</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-10</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>6</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Second grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Second grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Partial response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>82</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-11</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>6</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Second grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Second grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Nonscorable response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>61</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-04</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>7</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Second grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Second grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Partial response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>53</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-05</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>7</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Second grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Second grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Ineffective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>28</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-10</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>7</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Third grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Third grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>68</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-11</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>7</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Third grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Third grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Ineffective response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>79</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-04</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Third grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Third grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Nonscorable response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>42</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-05</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Third grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Third grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>83</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-10</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Fourth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Fourth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>67</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-11</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Fourth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Fourth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Nonscorable response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>67</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-04</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>9</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Fourth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Fourth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>86</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-05</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>9</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Fourth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Fourth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Ineffective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>40</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-10</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>9</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Fifth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Fifth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Nonscorable response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>62</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-11</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>9</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Fifth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Fifth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>99</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-04</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>10</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Fifth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Fifth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Partial response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>22</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-05</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>10</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Fifth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Fifth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Nonscorable response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>70</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-10</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>10</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Sixth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Sixth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Incorrect</AssessmentItemResult>
+    
+    <RawScoreResult>8</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-11</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>10</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Sixth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Sixth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>25</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-04</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Ninth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>98</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-05</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Ninth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>80</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-10</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Tenth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>27</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-11</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Tenth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>73</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-04</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>2</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Sixth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>57</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-05</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>2</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Sixth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>99</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-10</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>2</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>46</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-11</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>2</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>90</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-04</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>3</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Seventh grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>69</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-05</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>3</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Seventh grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>94</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-10</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>3</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Eighth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>41</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-11</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>3</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Eighth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>50</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-04</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Eighth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>9</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-05</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Eighth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>30</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-10</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Ninth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>65</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-11</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Ninth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>53</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-04</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>5</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Kindergarten Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>80</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-05</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>5</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Kindergarten Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>8</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-10</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>5</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-First grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>First grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>14</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-11</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>5</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-First grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>First grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>99</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-04</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>6</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>First grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>84</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-05</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>6</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>First grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>91</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-10</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>6</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Second grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>86</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-11</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>6</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Second grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>48</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-04</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>7</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Second grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>7</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-05</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>7</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Second grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>33</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-10</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>7</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Third grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>85</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-11</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>7</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Third grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>5</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-04</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Third grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>90</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-05</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Third grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>27</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-10</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Fourth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>81</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-11</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Fourth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>56</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-04</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>9</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Fourth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>1</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-05</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>9</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Fourth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>74</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-10</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>9</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Fifth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>46</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-11</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>9</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Fifth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>15</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-04</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>10</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Fifth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>64</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-05</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>10</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Fifth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>88</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-10</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>10</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Sixth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>15</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2002-09-11</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>10</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2002-Sixth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+</InterchangeStudentAssessment>
