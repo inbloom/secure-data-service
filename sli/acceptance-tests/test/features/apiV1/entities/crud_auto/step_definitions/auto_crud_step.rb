@@ -99,7 +99,7 @@ end
 
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   resource_config = File.expand_path(File.dirname(__FILE__))+ "/resource_config.json"
-@entityData = JSON.parse(File.read(resource_config))
+  @entityData = JSON.parse(File.read(resource_config))
   @fields = @entityData[arg1]["POST"]
   @updates = @entityData[arg1]["UPDATE"]
   @naturalKey = @entityData[arg1]["naturalKey"]
@@ -112,12 +112,8 @@ Then /^I perform CRUD for each resource available$/ do
 
   resources.each do |resource|
     puts("auto_crud test for resource #{resource}")
-    #TODO - THESE NEED TO BE FIXED
-    if(resource == "/gradingPeriods" or resource == "/yearlyAttendances")
-      next
-    end
-    #TODO - Temporarily turned off this test due to DE2748
-    if(resource == "/studentAcademicRecords")
+    #We don't need to do CRUD for these resources
+    if (resource == "/system/support" or resource == "/system/session" or resource == "/search") 
       next
     end
     #post is not allowed for associations
@@ -182,6 +178,10 @@ def post_resource resource
 end
 def get_resource resource
   resource_type = get_resource_type resource
+  #HACK - 
+  if resource_type == "yearlyAttendance"
+    resource_type = "attendance"
+  end
   steps %Q{
           When I navigate to GET \"/v1#{resource}/#{@newId}\"
           Then I should receive a return code of 200

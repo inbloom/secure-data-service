@@ -998,5 +998,22 @@
     "context" : {
       "sectionId": "sections"
     }
+  },
+  "yearlyAttendance" : {
+    "POST" :{
+        "studentId" : "5738d251-dd0b-4734-9ea6-417ac9320a15_id",
+        "schoolId" : "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+        "schoolYear" : "2012-2013",
+        "attendanceEvent" : [
+        {
+            "date" : "2010-09-16",
+            "event" : "Tardy"
+        }
+        ]
+   },
+   "UPDATE" : {
+    "field": "studentId",
+    "value": "5738d251-dd0b-4734-9ea6-417ac9320a15_id"
+   }
   }
 }
