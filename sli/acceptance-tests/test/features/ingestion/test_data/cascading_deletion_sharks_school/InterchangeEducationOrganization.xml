@@ -3,14 +3,14 @@
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
   
   <!-- Illustrative use of DELETE -->
-  <Action ActionType="DELETE" Cascade="true"> <StateEducationAgency>
+  <Action ActionType="DELETE" Cascade="true">
   
   <School>
-    <StateOrganizationId>Jets School</StateOrganizationId>
+    <StateOrganizationId>Sharks School</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
-      <ID>Jets School</ID>
+      <ID>Sharks School</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>Jets School</NameOfInstitution>
+    <NameOfInstitution>Sharks School</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
@@ -37,7 +37,7 @@
     </SchoolCategories>
     <LocalEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>IL-SUNSEt</StateOrganizationId>
+        <StateOrganizationId>IL-SUNSET</StateOrganizationId>
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>
