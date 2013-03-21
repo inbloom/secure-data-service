@@ -283,6 +283,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionStudentTest,
         :ingestionCascadingDeletionSchoolTest,
         :ingestionCascadingDeletionSectionTest,
+        :ingestionCascadingDeletionTeacherTest,
         :ingestionLeafStudentDelete,
   ] do
 
@@ -309,6 +310,10 @@ end
 
 task :ingestionCascadingDeletionSchoolTest do
   runTests("test/features/ingestion/features/ingestion_cascadingDelete_school.feature")
+end
+
+task :ingestionCascadingDeletionTeacherTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_teacher.feature")
 end
 
 ############################################################
