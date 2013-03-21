@@ -44,7 +44,7 @@ $(document).ready(function() {
 	  $("#" + dataset).prop("disabled", false);
   }
   function showSampleUsers(){
-	  if ($('#sampleUserBtn').hasClass('active')) {
+	  if ($('#manualUserBtn').hasClass('active')) {
 		  $("#manualUserDiv").hide();
 		  $("#manualUserBtn").toggleClass("active");
 		  $("#sampleUserDiv").show();
@@ -52,11 +52,11 @@ $(document).ready(function() {
 	  }
   }  
   function showManualConfig(){
-	  if ($('#manualUserBtn').hasClass('active')) {
-		  $("#manualUserDiv").show();
-		  $("#manualUserBtn").toggleClass("active");
+	  if ($('#sampleUserBtn').hasClass('active')) {
 		  $("#sampleUserDiv").hide();
 		  $("#sampleUserBtn").toggleClass("active");
+		  $("#manualUserDiv").show();
+		  $("#manualUserBtn").toggleClass("active");
 	  }
 	  return false;
   }
