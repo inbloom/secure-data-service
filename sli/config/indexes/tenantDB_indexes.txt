@@ -177,6 +177,14 @@ session,false,body.gradingPeriodReference:1
 # US4388
 assessment,false,body.assessmentTitle:1,body.academicSubject:1,body.gradeLevelAssessed:1
 
+# US5430
+assessment,false,body.assessmentPeriodDescriptorId:1
+
+# US5423
+assessment,false,body.assessmentFamilyReference:1
+
+# US5423
+assessmentFamily,false,body.assessmentFamilyReference:1
 
 # US4365
 student,false,cohort._id:1

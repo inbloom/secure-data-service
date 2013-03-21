@@ -28,7 +28,7 @@ describe 'EnrollmentGenerator' do
     @generator = EnrollmentGenerator.new(get_spec_scenario(), interchange)
     @generator.start
     @generator << StudentSchoolAssociation.new(42, "elem-0000000064", Date.new(2004, 9, 3), :FIRST_GRADE)
-    @generator << StudentSectionAssociation.new(43, "sctn-0025600128", "elem-0000000065", Date.new(2005, 9, 6), :SECOND_GRADE)
+    @generator << StudentSectionAssociation.new(43, "sctn-0025600128", "elem-0000000065", Date.new(2005, 9, 6), Date.new(2006, 6, 6), :SECOND_GRADE)
     @generator << GraduationPlan.new("Standard", "elem-0000000064", {"English" => 9, "Science" => 12, "Math" => 15})
     @generator.finalize
     @student_enrollment = File.open("#{File.dirname(__FILE__)}/../generated/InterchangeStudentEnrollment.xml", "r") { |file| file.read }

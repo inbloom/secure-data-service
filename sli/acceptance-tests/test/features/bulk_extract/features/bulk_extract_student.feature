@@ -5,4 +5,5 @@ Scenario: Verify a student was correctly extracted
    And a "student" extract file exists
    And a the correct number of "student" was extracted from the database
    And a "student" was extracted with all the correct fields
-   #And a "student" was extracted in the same format as the api
+   And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   Then a "student" was extracted in the same format as the api

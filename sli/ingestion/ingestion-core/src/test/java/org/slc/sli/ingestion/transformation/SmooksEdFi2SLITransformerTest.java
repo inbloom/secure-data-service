@@ -69,6 +69,7 @@ public class SmooksEdFi2SLITransformerTest {
     private static final String TENANT_ID_FIELD = "tenantId";
     private static final String EXTERNAL_ID_FIELD = "externalId";
     private static final String ASSESSMENT_TITLE = "assessmentTitle";
+    private static final String ASSESSMENT_FAMILY_ID = "AF-1";
 
     @Test
     public void testDirectMapping() {
@@ -99,8 +100,8 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals(1, result.size());
 
         Assert.assertEquals("assessmentTitle", result.get(0).getBody().get("assessmentTitle"));
-        Assert.assertEquals("assessmentFamilyHierarchyName",
-                result.get(0).getBody().get("assessmentFamilyHierarchyName"));
+        Assert.assertEquals(ASSESSMENT_FAMILY_ID,
+                result.get(0).getBody().get("assessmentFamilyReference"));
 
         List<Map<String, Object>> assessmentIDCodeList = (List<Map<String, Object>>) result.get(0)
                 .getBody().get("assessmentIdentificationCode");
@@ -227,8 +228,6 @@ public class SmooksEdFi2SLITransformerTest {
         Map<String, Object> assessmentTitle = new HashMap<String, Object>();
         assessmentTitle.put("_value", "assessmentTitle");
         assessment.setAttributeField("AssessmentTitle", assessmentTitle);
-        assessment.setAttributeField("assessmentFamilyHierarchyName",
-                "assessmentFamilyHierarchyName");
 
         List<Map<String, Object>> assessmentIdentificationCodeList = new ArrayList<Map<String, Object>>();
         Map<String, Object> assessmentIdentificationCode1 = new HashMap<String, Object>();
@@ -253,6 +252,8 @@ public class SmooksEdFi2SLITransformerTest {
         Map<String, Object> assessmentCategory = new HashMap<String, Object>();
         assessmentCategory.put("_value", "Achievement test");
         assessment.setAttributeField("AssessmentCategory", assessmentCategory);
+        assessment.setAttributeField("AssessmentFamilyReference", "AF-1");
+
         Map<String, Object> academicSubject = new HashMap<String, Object>();
         academicSubject.put("_value", "English");
         assessment.setAttributeField("AcademicSubject", academicSubject);
@@ -340,6 +341,7 @@ public class SmooksEdFi2SLITransformerTest {
         field.put("studentUniqueStateId", STUDENT_ID);
         field.put("Sex", "Male");
         field.put("assessmentTitle", ASSESSMENT_TITLE);
+        field.put("assessmentFamilyReference", ASSESSMENT_FAMILY_ID);
 
         entity.setBody(field);
         entity.setMetaData(new HashMap<String, Object>());

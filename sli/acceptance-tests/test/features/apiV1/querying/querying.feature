@@ -200,10 +200,10 @@ Scenario Outline: Filter by collections routed to Elastic Search
     And format "application/json"
     When I navigate to GET "/v1/assessments"
     Then I should receive a return code of 200
-    Then I should receive a collection with 17 elements
+    Then I should receive a collection with 18 elements
    When I navigate to GET "/v1/assessments?academicSubject=Mathematics"
     Then I should receive a return code of 200
-    Then I should receive a collection with 8 elements
+    Then I should receive a collection with 9 elements
     Then each entity's "academicSubject" should be "Mathematics" 
 When I navigate to GET "/v1/assessments?academicSubject!=Mathematics"
  Then I should receive a return code of 200
@@ -211,11 +211,14 @@ When I navigate to GET "/v1/assessments?academicSubject!=Mathematics"
 Then each entity's "academicSubject" should not be "Mathematics" 
 When I navigate to GET "/v1/assessments?academicSubject=~Mat"
  Then I should receive a return code of 200
-  Then I should receive a collection with 8 elements
+  Then I should receive a collection with 9 elements
 Then each entity's "academicSubject" should be "Mathematics" 
 When I navigate to GET "/v1/assessments?minRawScore%3C20"
  Then I should receive a return code of 200
   Then I should receive a collection with 3 elements
+When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.codeValue=assessment_2011"
+ Then I should receive a return code of 200
+  Then I should receive a collection with 4 elements
 When I navigate to GET "/v1/learningObjectives"
  Then I should receive a return code of 200
   Then I should receive a collection with 5 elements
@@ -244,7 +247,7 @@ When I navigate to GET "/v1/search/students?q=Mat"
 Then I should receive a collection with 1 elements
 Then each entity's "id" should be "5738d251-dd0b-4734-9ea6-417ac9320a15_id"
 When I navigate to GET "/v1/search?q=Mat"
-Then I should receive a collection with 40 elements
+Then I should receive a collection with 41 elements
     Examples:
       | username           | password              |
       | "rrogers"          | "rrogers1234"         |

@@ -21,7 +21,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 
 /**
  * Validates the context of a user to see the requested set of education organizations. Returns

@@ -256,7 +256,7 @@ class StudentWorkOrder
             for sps in 1..sections_per_student
               section    = available_sections[@id % available_sections.count]
               section_id = DataUtility.get_unique_section_id(section[:id])
-              student_section_association = StudentSectionAssociation.new(@id, section_id, school_id, begin_date, grade)
+              student_section_association = StudentSectionAssociation.new(@id, section_id, school_id, begin_date, end_date, grade)
               @student_section_association[@id] << student_section_association
               rval       << student_section_association
               unless @gradebook_factory.nil? or section[:gbe].nil?
