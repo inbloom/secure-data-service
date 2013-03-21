@@ -278,7 +278,7 @@ task :ingestionPropagatedTest do
   runTests("test/features/ingestion/features/ingestion_PropagatedDataSet.feature")
 end
 
-desc "Run Cascading Deletion Tests"
+desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
         :ingestionCascadingDeletionStudentTest,
         :ingestionLeafStudentDelete
