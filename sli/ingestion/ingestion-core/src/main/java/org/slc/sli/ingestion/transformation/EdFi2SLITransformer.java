@@ -109,7 +109,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 }
 
                 try {
-                    matchEntity(entity, report, reportStats);
+                    if(!entity.getType().equals("assessmentItem") && !entity.getType().equals("studentAssessmentItem")){
+                        matchEntity(entity, report, reportStats);
+                    }
                 } catch (DataAccessResourceFailureException darfe) {
                     LOG.error("Exception in matchEntity", darfe);
                     report.error(reportStats, new ElementSourceImpl(item), CoreMessageCode.CORE_0046, darfe);
