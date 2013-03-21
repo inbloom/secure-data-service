@@ -23,14 +23,15 @@ class StudentSectionAssociation < BaseEntity
   attr_accessor :student, :section, :ed_org_id, :begin_date,
                 :endDate, :homeroomIndicator, :repeatIdentifier
 
-  def initialize(student, section, ed_org_id, begin_date, grade)
+  def initialize(student, section, ed_org_id, begin_date, endDate = nil, grade)
     @rand = Random.new(student.hash + section.hash)
     @student    = student
     @section    = section
     @ed_org_id  = DataUtility.get_school_id(ed_org_id, GradeLevelType.school_type(grade))
     @begin_date = begin_date
 
-    optional {@endDate = Date.new(2000+@rand.rand(15), 1+@rand.rand(12), 1+@rand.rand(28))}
+    #optional {@endDate = Date.new(2000+@rand.rand(15), 1+@rand.rand(12), 1+@rand.rand(28))}
+    optional {@endDate = endDate}
 
     optional {@homeroomIndicator = {:b => choose([false, true])}}
 

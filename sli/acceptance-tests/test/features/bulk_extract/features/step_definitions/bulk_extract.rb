@@ -1,8 +1,14 @@
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
+require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../utils/selenium_common.rb'
+require_relative '../../../apiV1/long_lived_session/step_definitions/token_generator_steps.rb'
 
 TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
 OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
+PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
+KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
+JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 DATABASE_NAME = PropLoader.getProps['sli_database_name']
 DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
@@ -15,9 +21,21 @@ require 'zip/zip'
 # Given
 ############################################################
 Given /^I trigger a bulk extract$/ do
-
-puts "Running: sh #{TRIGGER_SCRIPT}"
-puts runShellCommand("sh #{TRIGGER_SCRIPT}")
+command  = "sh #{TRIGGER_SCRIPT}"
+if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
+  command = command + " -Dsli.conf=#{PROPERTIES_FILE}" 
+  puts "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
+end
+if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
+  command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}" 
+  puts "Using extra property: -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
+end
+if (JAR_FILE !=nil && JAR_FILE != "")
+  command = command + " -f#{JAR_FILE}" 
+  puts "Using extra property:  -f#{JAR_FILE}"
+end
+puts "Running: #{command} "
+puts runShellCommand(command)
 
 end
 
@@ -105,6 +123,36 @@ When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
 	end
 end
 
+When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tenant "(.*?)", that lasts for "(.*?)" seconds/ do |client_appName, user, role, realm, tenant, expiration_in_seconds|
+
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  db = conn[DATABASE_NAME]
+  appColl = db.collection("application")
+  client_id = appColl.find_one({"body.name" => client_appName})["body"]["client_id"]
+  conn.close
+  enable_NOTABLESCAN()
+
+  script_loc = File.dirname(__FILE__) + "/../../../../../../opstools/token-generator/generator.rb"
+  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\"")
+  match = /token is (.*)/.match(out)
+  @sessionId = match[1]
+  puts("The generated token is #{@sessionId}") if $SLI_DEBUG
+end
+
+############################################################
+# Then
+############################################################
+
+Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
+  extracts = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
+  collFile = JSON.parse(extracts.read(collection + ".json"))
+  assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
+  
+  compareToApi(collection, collFile)
+  
+end
+
 ############################################################
 # Functions
 ############################################################
@@ -140,16 +188,15 @@ def	compareRecords(mongoRecord, jsonRecord)
 end
 
 def compareEncryptedRecords(mongoRecord, jsonRecord)
-    assert(get_nested_keys(mongoRecord['body']).eql?(get_nested_keys(jsonRecord)), "Record fields do not match for records \nMONGORecord:\n" + get_nested_keys(mongoRecord['body']).to_s + "\nJSONRecord:\n" + get_nested_keys(mongoRecord['body']).to_s)
+    assert(get_nested_keys(mongoRecord['body']).eql?(get_nested_keys(jsonRecord)), 
+      "Record fields do not match for records \nMONGORecord:\n" + get_nested_keys(mongoRecord['body']).to_s + "\nJSONRecord:\n" + get_nested_keys(jsonRecord).to_s)
 
-    removeEncryptedFields(mongoRecord['body'])
-    removeEncryptedFields(jsonRecord)
-
-    assert(mongoRecord['body'].eql?(jsonRecord), "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
+    assert(removeEncryptedFields(mongoRecord['body']).eql?(removeEncryptedFields(jsonRecord)), 
+      "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
 end
 
 def removeEncryptedFields(record)
-    record.reject!{ |key,value| !ENCRYPTED_FIELDS.include?(key)}
+    record.delete_if{ |key,value| ENCRYPTED_FIELDS.include?(key)}
 end
 
 
@@ -158,12 +205,37 @@ def get_nested_keys(hash, keys=Array.new)
    keys << k
    case v
     when Array
-      v.each {|vv| (Hash.try_convert(vv)!=nil)?get_nested_keys(vv, keys): keys }
+      v.each {|vv| (Hash.try_convert(vv)!=nil)?get_nested_keys(vv, keys): keys.sort }
     when Hash
       get_nested_keys(v,keys)
     end
    end
-   keys
+   keys.sort
 end
 
+def compareToApi(collection, collFile)
+  case collection
+  when "student"
+    
+    collFile.each do |extractRecord|
+    
+      id = extractRecord["id"]
+
+      #Make API call and get JSON for a student
+      @format = "application/vnd.slc+json"
+      restHttpGet("/v1/students/#{id}")
+      assert(@res != nil, "Response from rest-client GET is nil")
+      assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
+      apiRecord = JSON.parse(@res.body)
+      assert(apiRecord != nil, "Result of JSON parsing is nil")    
+      apiRecord.delete("links")
+    
+      #Compare to Extract
+      assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
+    
+    end
+  else
+    nil
+  end
+end
 

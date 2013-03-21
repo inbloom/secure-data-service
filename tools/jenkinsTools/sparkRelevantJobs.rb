@@ -28,7 +28,7 @@ require 'rest-client'
 @token = ""
 
 @pathToTestMap = {
-  "sli/acceptance-tests/test/features/api" => ["api"],
+  "sli/acceptance-tests/test/features/api" => ["api", "odin-api"],
   "sli/acceptance-tests/test/features/simple_idp" => ["admin" , "databrowser"],
   "sli/acceptance-tests/test/features/ingestion" => ["ingestion"],
   "sli/acceptance-tests/test/features/admintools" => ["admin"],
@@ -39,17 +39,17 @@ require 'rest-client'
   "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_IL_Daybreak" => ["ingestion", "dashboard"],
   "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_IL_Sunset" => ["ingestion", "dashboard"],
   "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_NY" => ["ingestion", "dashboard"],
-  "sli/acceptance-tests/test/data/Midgar_data" => ["api", "databrowser", "sdk"],
-  "sli/acceptance-tests/test/data/Hyrule_data" => ["api", "sdk"],
+  "sli/acceptance-tests/test/data/Midgar_data" => ["api", "odin-api" , "databrowser", "sdk"],
+  "sli/acceptance-tests/test/data/Hyrule_data" => ["api", "odin-api" , "sdk"],
   "sli/acceptance-tests/test/data/unified_data" => ["dashboard", "sdk"],
-  "sli/acceptance-tests/test/data/application_fixture.json" => ["api" , "admin", "sdk"],
-  "sli/acceptance-tests/test/data/realm_fixture.json" => ["api" , "admin", "dashboard", "sdk"],
-  "sli/acceptance-tests/test/data/oauth_authentication_tokens.json" => ["api"],
-  "sli/api/" => ["api", "search-indexer", "jmeter", "admin", "sdk"],
-  "sli/simple-idp" => ["api", "admin", "sdk"],
+  "sli/acceptance-tests/test/data/application_fixture.json" => ["api", "odin-api", "admin", "sdk"],
+  "sli/acceptance-tests/test/data/realm_fixture.json" => ["api", "odin-api", "admin", "dashboard", "sdk"],
+  "sli/acceptance-tests/test/data/oauth_authentication_tokens.json" => ["api", "odin-api"],
+  "sli/api/" => ["api", "odin-api", "search-indexer", "jmeter", "admin", "sdk"],
+  "sli/simple-idp" => ["api", "odin-api", "admin", "sdk"],
   "sli/SDK" => ["admin", "dashboard", "sdk"],
-  "sli/data-access" => ["api", "ingestion"],
-  "sli/domain" => ["api", "ingestion"],
+  "sli/data-access" => ["api", "odin-api", "ingestion"],
+  "sli/domain" => ["api", "odin-api", "ingestion"],
   "sli/ingestion/ingestion-core" => ["ingestion", "odin"],
   "sli/ingestion/ingestion-base" => ["ingestion", "odin"],
   "sli/ingestion/ingestion-validation" => ["ingestion"],
@@ -70,7 +70,8 @@ require 'rest-client'
   "sdk" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20SDK%20Tests/buildWithParameters",
   "search-indexer" => "#{@jenkinsHostname}:8080/view/Components/job/Search-Indexer%20Tests/buildWithParameters",
   "odin" => "#{@jenkinsHostname}:8080/view/Components/job/Odin-DataGeneration-Tests/buildWithParameters",
-  "jmeter" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20JMeter%20API%20Performance/buildWithParameters"
+  "jmeter" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20JMeter%20API%20Performance/buildWithParameters",
+  "odin-api" => "#{@jenkinsHostname}:8080/view/Components/job/API_Odin_Tests/buildWithParameters"
 
 }
 

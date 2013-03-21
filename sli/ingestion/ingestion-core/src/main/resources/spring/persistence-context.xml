@@ -22,8 +22,12 @@
 
   <!-- collections that should be persisted using the new pipeline but no transformation has been performed -->
   <util:set id="passthroughEntities" set-class="java.util.HashSet" value-type="java.lang.String">
+    <value>assessment</value>
     <value>assessmentItem</value>
+    <value>assessmentFamily</value>
+    <value>attendance</value>
     <value>attendanceEvent</value>
+    <value>assessmentPeriodDescriptor</value>
     <value>calendarDate</value>
     <value>cohort</value>
     <value>competencyLevelDescriptor</value>
@@ -68,21 +72,17 @@
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
-    <value>attendance</value>
   </util:set>
 
   <!-- collections that should be persisted using the new pipeline and a transformation has been performed. the collection
     to use will be <name>_transformed -->
   <util:set id="transformedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
-    <value>assessment</value>
     <value>courseTranscript</value>
   </util:set>
 
   <!-- collections that only exist in the staging database because they are combined into a _transformed collection for another
     entity -->
   <util:set id="stagedOnlyEntities" set-class="java.util.HashSet" value-type="java.lang.String">
-    <value>assessmentFamily</value>
-    <value>assessmentPeriodDescriptor</value>
   </util:set>
 
   <util:map id="entityPersistTypeMap" key-type="java.lang.String" value-type="java.util.Set">

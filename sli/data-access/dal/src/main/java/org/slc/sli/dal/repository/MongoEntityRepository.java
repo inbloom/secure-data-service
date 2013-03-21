@@ -16,7 +16,29 @@
 
 package org.slc.sli.dal.repository;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import com.mongodb.DBObject;
+
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
@@ -38,25 +60,6 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -403,6 +406,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Map<String, Object> entityMetaData = entity.getMetaData();
         Update update = new Update();
         update.set("body", entityBody).set("metaData", entityMetaData);
+        
+        //update should also set type in case of upsert
+        String entityType = entity.getType();
+        if(entityType != null && !entityType.isEmpty()) {
+            update.set("type", entityType);
+        }
         // superdoc need to update subdoc fields outside body
         if (isSuperdoc && entity.getEmbeddedData() != null) {
             Set<String> subdocFields = FullSuperDoc.FULL_ENTITIES.get(entity.getType());
@@ -658,5 +667,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         fields.addAll(embededFields);
         query.setEmbeddedFields(fields);
         return query;
+    }
+
+    @Override
+    public Iterator<Entity> findEach(String collectionName, Query query) {
+        guideIfTenantAgnostic(collectionName);
+
+        return template.findEach(query, Entity.class, collectionName);
     }
 }

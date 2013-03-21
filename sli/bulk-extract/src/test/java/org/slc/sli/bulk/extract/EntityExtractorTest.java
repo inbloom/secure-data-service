@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -101,22 +102,14 @@ public class EntityExtractorTest {
         String testTenant = "Midgar";
         String testEntity = "student";
 
-        DBCursor cursor = Mockito.mock(DBCursor.class);
-        DBObject student1 = Mockito.mock(DBObject.class);
-        DBObject student2 = Mockito.mock(DBObject.class);
-        
-        Mockito.when(cursor.hasNext()).thenReturn(true, true, true, true, false, false);
-        Mockito.when(cursor.next()).thenReturn(student1, student2);
-        
+        Iterator<Entity> cursor = Mockito.mock(Iterator.class);
+
         List<Entity> students = TestUtils.createStudents();
-        Mockito.when(mongoEntityRepository.getDBCursor(Matchers.eq(testEntity), Matchers.any(Query.class))).thenReturn(cursor);
-        Mockito.when(student1.get("_id")).thenReturn(students.get(0).getEntityId());
-        Mockito.when(student1.get("type")).thenReturn(students.get(0).getType());
-        Mockito.when(student1.get("body")).thenReturn(students.get(0).getBody());
+
+        Mockito.when(cursor.hasNext()).thenReturn(true, true, true, true, false, false);
+        Mockito.when(cursor.next()).thenReturn(students.get(0), students.get(1));
         
-        Mockito.when(student2.get("_id")).thenReturn(students.get(1).getEntityId());
-        Mockito.when(student2.get("type")).thenReturn(students.get(1).getType());
-        Mockito.when(student2.get("body")).thenReturn(students.get(1).getBody());
+        Mockito.when(mongoEntityRepository.findEach(Matchers.eq(testEntity), Matchers.any(Query.class))).thenReturn(cursor);
         
         extractor.extractEntity(testTenant, zipFile, testEntity);
 

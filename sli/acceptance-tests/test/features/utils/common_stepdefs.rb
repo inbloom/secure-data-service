@@ -72,11 +72,12 @@ When /^I navigate to GET "([^\"]*)"$/ do |uri|
   if jsonTypes.include? contentType
     @result = JSON.parse(@res.body)
     assert(@result != nil, "Result of JSON parsing is nil")
+    #puts "\n\nDEBUG: common stepdef result from API call is: #{@result}"
   elsif /application\/xml/.match contentType
     doc = Document.new @res.body
     @result = doc.root
-    #puts @result
   else
+    puts "Common stepdefs setting result to null"
     @result = {}
   end
 end
@@ -286,4 +287,20 @@ When /^I navigate to GET the link named "([^"]*)"$/ do |arg1|
     @result = JSON.parse(@res.body)
     break if @result.length > 0
   }
+end
+
+When /^I follow the HATEOS link named "([^"]*)"$/ do |link|
+  #Try to make test more deterministic by using ordered search
+  #puts "\n\nDEBUG: Link is #{link}"
+  restHttpGetAbs(link)
+  @result = JSON.parse(@res.body)
+end
+
+Then /^I should see a count of (\d+)$/ do |arg1|
+  data = JSON.parse(@res.body)
+  if (@res.code == 403)
+    assert(arg1.to_i == 0, "Received 403 HTML code but expected non-zero count")
+  else
+    assert(data.count == arg1.to_i, "Count should match (#{arg1} != #{data.count})")
+  end
 end

@@ -34,29 +34,30 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.MongoException;
+import com.mongodb.WriteResult;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.MongoException;
-import com.mongodb.WriteResult;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.template.MongoEntityTemplate;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * JUnits for testing the NeutralRecordRepository class.
@@ -71,7 +72,7 @@ public class NeutralRecordRepositoryTest {
     @Autowired
     private NeutralRecordRepository repository;
 
-    private MongoTemplate mockedMongoTemplate;
+    private MongoEntityTemplate mockedMongoTemplate;
 
     private int recordId = 1000000;
 
@@ -79,7 +80,7 @@ public class NeutralRecordRepositoryTest {
     public void setup() {
 
         // Setup the mocked Mongo Template.
-        mockedMongoTemplate = mock(MongoTemplate.class);
+        mockedMongoTemplate = mock(MongoEntityTemplate.class);
         repository.setTemplate(mockedMongoTemplate);
     }
 

@@ -246,6 +246,7 @@
             "body.academicSubject", 
             "body.assessmentCategory", 
             "body.assessmentFamilyHierarchyName", 
+            "body.assessmentFamilyReference", 
             "body.assessmentForm", 
             "body.assessmentIdentificationCode.assigningOrganizationCode", 
             "body.assessmentIdentificationCode.ID", 
@@ -268,8 +269,9 @@
             "body.maxRawScore", 
             "body.minRawScore", 
             "body.nomenclature", 
+            "body.assessmentPeriodDescriptorId", 
             "objectiveAssessment.body.identificationCode", 
-            "objectiveAssessment.body.maxRowScore", 
+            "objectiveAssessment.body.maxRawScore", 
             "objectiveAssessment.body.assessmentPerformanceLevel.performanceLevel.codeValue", 
             "objectiveAssessment.body.assessmentPerformanceLevel.performanceLevel.performanceLevelMet", 
             "objectiveAssessment.body.assessmentPerformanceLevel.assessmentReportiongMethod", 
@@ -278,7 +280,12 @@
             "objectiveAssessment.body.percentOfAssessment", 
             "objectiveAssessment.body.nomenclature", 
             "objectiveAssessment.body.learningStandardReference.learningStandardIdentity.learningStandardId.identificationCode", 
-            "assessmentItem", 
+            "assessmentItem.body.identificationCode",
+            "assessmentItem.body.correctResponse",
+            "assessmentItem.body.itemCategory",
+            "assessmentItem.body.maxRawScore",
+            "assessmentItem.body.nomenclature",
+            "assessmentItem.body.learningStandards",
             "body.revisionDate", 
             "body.version"
         ],
@@ -325,21 +332,21 @@
                         }
                     },
                     "assessmentPeriodDescriptor": {
-                                            "properties": {
-                                                "beginDate": {
-                                                    "type": "string",
-                                                    "index": "not_analyzed"
-                                                },
-                                                "endDate": {
-                                                    "type": "string",
-                                                    "index": "not_analyzed"
-                                                },
-                                                "codeValue": {
-                                                    "type" : "string",
-                                                    "index" : "not_analyzed"
-                                                }
-                                            }
-                                        },
+                         "properties": {
+                             "beginDate": {
+                                 "type": "string",
+                                 "index": "not_analyzed"
+                             },
+                             "endDate": {
+                                 "type": "string",
+                                 "index": "not_analyzed"
+                             },
+                             "codeValue": {
+                                 "type": "string",
+                                 "index": "not_analyzed"
+                             }
+                          }
+                    },
                     "assessmentItem": {
                         "properties": {
                             "identificationCode": {
@@ -448,7 +455,22 @@
             }
         }
     },
-         "gradingPeriod": {
+    "assessmentFamily": {
+      "fields": [
+        "body.assessmentFamilyTitle",
+        "body.assessmentFamilyReference"
+      ]
+    },
+    "assessmentPeriodDescriptor": {
+        "fields": [
+            "body.codeValue",
+            "body.description",
+            "body.shortDescription",
+            "body.beginDate",
+            "body.endDate"
+        ]
+    },
+    "gradingPeriod": {
         "fields": [
             "body.gradingPeriodIdentity.gradingPeriod",
             "body.gradingPeriodIdentity.schoolYear",

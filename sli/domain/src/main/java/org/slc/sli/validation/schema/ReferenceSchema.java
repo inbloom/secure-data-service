@@ -106,7 +106,7 @@ public class ReferenceSchema extends NeutralSchema {
         } catch (Exception e) {
             // repo.find is currently throwing multiple kinds of exceptions so we will catch all for
             // now, as we sort out what is thrown and why
-            LOG.debug("Exception when looking up reference in repository. ", e);
+            LOG.error("Exception when looking up reference in repository. ", e);
         }
 
         // if not found add the appropriate error

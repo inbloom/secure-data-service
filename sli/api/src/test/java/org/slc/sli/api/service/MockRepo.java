@@ -29,7 +29,6 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 
 import org.bson.BasicBSONObject;
@@ -38,7 +37,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -663,7 +662,7 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
-    public DBCursor getDBCursor(String collectionName, Query query) {
+    public Iterator<Entity> findEach(String collectionName, Query query) {
         return null;
     }
 }
