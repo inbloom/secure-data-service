@@ -137,6 +137,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | disciplineAction                          |
      | studentDisciplineIncidentAssociation      |
      | studentCompetency                         |
+     | studentCohortAssociation                  |
 When zip file is scp to ingestion landing zone
   And a batch job for file "prep_cascading_deletion_student.zip" is completed in database
   And a batch job log has been created
@@ -167,6 +168,7 @@ Then I should see following map of entry counts in the corresponding collections
      | disciplineAction                          |					1|
      | studentDisciplineIncidentAssociation      |					1|
      | studentCompetency                         |                  1|
+     | studentCohortAssociation                  |                  1|  
     And I check to find if record is in collection:
        | collectionName                        | expectedRecordCount | searchParameter     | searchValue                                  | searchType           |
        | studentSchoolAssociation              | 1                   | body.studentId      | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string     |
@@ -183,6 +185,7 @@ Then I should see following map of entry counts in the corresponding collections
        | reportCard                            | 1                   | body.studentId      | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string     |   
        | studentCompetency                     | 1                   | body.studentSectionAssociationId      | 6df6309cd7609257f454ac8b7456e3943f4d6190_id11d22f998a39f5db6ccfa55264a3629637733195_id  | string     |   
        | grade                                 | 1                   | body.studentId      | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string     |      
+       | studentCohortAssociation              | 1                   | body.studentId      | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string     |            
     And I should see "Processed 51 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
@@ -217,6 +220,7 @@ Then I should see following map of entry counts in the corresponding collections
      | disciplineAction                          |					0|
      | studentDisciplineIncidentAssociation      |					0|
      | studentCompetency                         |                  0|
+     | studentCohortAssociation                  |                  0|   
     And I check to find if record is in collection:
        | collectionName                        | expectedRecordCount | searchParameter     | searchValue                                  | searchType |
        | studentSchoolAssociation              | 0                   | body.studentId      | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string     |
@@ -232,7 +236,8 @@ Then I should see following map of entry counts in the corresponding collections
        | attendance                            | 0                   | body.studentId      | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string     |
        | reportCard                            | 0                   | body.studentId      | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string     |   
        | studentCompetency                     | 0                   | body.studentSectionAssociationId      | 6df6309cd7609257f454ac8b7456e3943f4d6190_id11d22f998a39f5db6ccfa55264a3629637733195_id  | string     |   
-       | grade                                 | 0                   | body.studentId      | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string     |      
+       | grade                                 | 0                   | body.studentId      | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string     |   
+       | studentCohortAssociation              | 0                   | body.studentId      | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string     |               
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
