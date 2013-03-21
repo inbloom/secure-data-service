@@ -44,16 +44,20 @@ $(document).ready(function() {
 	  $("#" + dataset).prop("disabled", false);
   }
   function showSampleUsers(){
-	  $("#manualUserDiv").hide();
-	  $("#manualUserBtn").toggleClass("active");
-	  $("#sampleUserDiv").show();
-	  $("#sampleUserBtn").toggleClass("active");
+	  if ($('#sampleUserBtn').hasClass('active')) {
+		  $("#manualUserDiv").hide();
+		  $("#manualUserBtn").toggleClass("active");
+		  $("#sampleUserDiv").show();
+		  $("#sampleUserBtn").toggleClass("active");
+	  }
   }  
   function showManualConfig(){
-	  $("#manualUserDiv").show();
-	  $("#manualUserBtn").toggleClass("active");
-	  $("#sampleUserDiv").hide();
-	  $("#sampleUserBtn").toggleClass("active");
+	  if ($('#manualUserBtn').hasClass('active')) {
+		  $("#manualUserDiv").show();
+		  $("#manualUserBtn").toggleClass("active");
+		  $("#sampleUserDiv").hide();
+		  $("#sampleUserBtn").toggleClass("active");
+	  }
 	  return false;
   }
 </script>
