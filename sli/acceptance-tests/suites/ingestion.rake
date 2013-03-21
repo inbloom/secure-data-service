@@ -280,7 +280,7 @@ end
 
 desc "Run Cascading Deletion Tests"
   task :ingestionDeletionTests => [
-        :ingestionCascadingStudentDelete,
+        :ingestionCascadingDeletionStudentTest,
         :ingestionLeafStudentDelete
   ] do
 
@@ -292,14 +292,12 @@ desc "Run Cascading Deletion Tests"
   end
 end
 
-desc "Run Cascading Deletion Student Test"
-task :ingestionCascadingStudentDelete do
-  runTests("test/features/ingestion/features/ingestion_cascading_student_delete.feature")
-end
-
 desc "Run Leaf Student Deletion Test"
 task :ingestionLeafStudentDelete do
   runTests("test/features/ingestion/features/ingestion_leaf_student_delete.feature")
+
+task :ingestionCascadingDeletionStudentTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_student.feature")
 end
 
 ############################################################
