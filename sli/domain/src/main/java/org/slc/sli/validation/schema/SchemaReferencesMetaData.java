@@ -71,6 +71,7 @@ public class SchemaReferencesMetaData {
             collectReferences(schema, stack, refNodeLists);
         }
 
+        //Below code block can be enabled for debugging!
         /*
         NeutralSchema schema = schemaRepo.getSchema("session");
         String schemaType = schema.getType();
@@ -82,6 +83,14 @@ public class SchemaReferencesMetaData {
         */
     }
 
+    /**
+     * A tree walker implementation that searches for leaf nodes of type ReferenceSchema within a NeutralSchema tree.
+     *
+     * @param schema
+     * @param current nesting level e.g. studentCompetency.objectiveId.studentCompetencyObjectiveId
+     * @param refMap  A map from entityType to a List of SchemaReferenceNode, each of which represents
+     *                a path like studentCompetency.objectiveId.studentCompetencyObjectiveId
+     */
     public void collectReferences(NeutralSchema schema, final Stack<SchemaReferenceNode> currentPath, ListMultimap refMap) {
         if(schema instanceof ReferenceSchema) {
             ReferenceSchema reference = (ReferenceSchema)schema;
