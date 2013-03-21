@@ -77,3 +77,116 @@ Then I should see following map of entry counts in the corresponding collections
     And I should not see an error log file created
 	And I should not see a warning log file created
 
+@wip
+Scenario: delete  school, associated entities should be deleted, non-associated entities should not be deleted
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+  And I post "prep_cascading_deletion.zip" file as the payload of the ingestion job
+    And the following collections are empty in datastore:
+     | collectionName                     |
+     | educationOrganization              |
+     | attendance                         |
+     | courseOffering                     |
+     | disciplineAction                   |
+     | disciplineIncident                 |
+     | section                            |
+     | studentSchoolAssociation           |
+     | teacherSchoolAssociation           |
+     | studentDisplineIncidentAssociation |
+     | grade                              |
+     | reportCard                         |
+     | gradebookEntry                     |
+     | studentGradeBookEntry              |
+     | studentSectionAssociation          |
+     | teacherSectionAssociation          |
+     | studentCompetency                  |
+     | student                            |
+     | staff                              |
+   When zip file is scp to ingestion landing zone
+  And a batch job for file "prep_cascading_deletion.zip" is completed in database
+  And a batch job log has been created
+  Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                     |              count|
+     | student                            |					1|
+     | educationOrganization              |					3|
+     | attendance                         |					1|
+     | courseOffering                     |					1|
+     | disciplineAction                   |					1|
+     | disciplineIncident                 |					1|
+     | section                            |					1|
+     | studentSchoolAssociation           |					1|
+     | teacherSchoolAssociation           |					1|
+     | studentDisciplineIncidentAssociation |				1|
+     | grade                              |					1|
+     | reportCard                         |					1|
+     | gradebookEntry                     |					1|
+     | studentGradebookEntry              |					1|
+     | studentSectionAssociation          |					1|
+     | teacherSectionAssociation          |					1|
+     | studentCompetency                  |					1|
+     | student                            |					1|
+     | staff                              |					2|
+   And I check to find if record is in collection:
+       | collectionName                     | expectedRecordCount | searchParameter     | searchValue                                  | searchType           |
+       | attendance                         | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | courseOffering                     | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | disciplineAction                   | 1                   | body.responsibilitySchoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | disciplineIncident                 | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | section                            | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | studentSchoolAssociation           | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | teacherSchoolAssociation           | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | studentDisciplineIncidentAssociation| 1                  | body.disciplineIncidentId       | f96dbcb9c71d4b738c3f5d5200f199c45b00bf8c_id | string     |
+       #| grade                              | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       #| reportCard                         | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | gradebookEntry                     | 1                   | body.sectionId	       | 6df6309cd7609257f454ac8b7456e3943f4d6190_id  | string     |
+       | studentGradebookEntry              | 1                   | body.sectionId       | 6df6309cd7609257f454ac8b7456e3943f4d6190_id  | string     |
+       | studentSectionAssociation          | 1                   | body.sectionId       | 6df6309cd7609257f454ac8b7456e3943f4d6190_id  | string     |
+       | teacherSectionAssociation          | 1                   | body.sectionId       | 6df6309cd7609257f454ac8b7456e3943f4d6190_id  | string     |
+       | studentCompetency                  | 1                   | body.studentSectionAssociationId       | 6df6309cd7609257f454ac8b7456e3943f4d6190_id11d22f998a39f5db6ccfa55264a3629637733195_id  | string     |
+    And I should see "Processed 51 records." in the resulting batch job file
+    And I should not see an error log file created
+	And I should not see a warning log file created
+	And I post "cascading_deletion_school_2.zip" file as the payload of the ingestion job
+	When zip file is scp to ingestion landing zone
+    And a batch job for file "cascading_deletion_school_2.zip" is completed in database
+    And a batch job log has been created
+      Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                     |              count|
+     | student                            |					1|
+     | educationOrganization              |					2|
+     | attendance                         |					1|
+     | courseOffering                     |					1|
+     | disciplineAction                   |					1|
+     | disciplineIncident                 |					1|
+     | section                            |					1|
+     | studentSchoolAssociation           |					1|
+     | teacherSchoolAssociation           |					1|
+     | studentDisciplineIncidentAssociation |				1|
+     | grade                              |					1|
+     | reportCard                         |					1|
+     | gradebookEntry                     |					1|
+     | studentGradebookEntry              |					1|
+     | studentSectionAssociation          |					1|
+     | teacherSectionAssociation          |					1|
+     | studentCompetency                  |					1|
+     | student                            |					1|
+     | staff                              |					2|
+     And I check to find if record is in collection:
+       | collectionName                     | expectedRecordCount | searchParameter     | searchValue                                  | searchType           |
+       | attendance                         | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | courseOffering                     | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | disciplineAction                   | 1                   | body.assignmentSchoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | disciplineIncident                 | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | section                            | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | studentSchoolAssociation           | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | teacherSchoolAssociation           | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | studentDisciplineIncidentAssociation| 1                  | body.disciplineIncidentId       | f96dbcb9c71d4b738c3f5d5200f199c45b00bf8c_id | string     |
+       #| grade                              | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       #| reportCard                         | 1                   | body.schoolId       | 1b69b7a3139078e4438dd930e554293b1030d319_id  | string     |
+       | gradebookEntry                     | 1                   | body.sectionId	       | 6df6309cd7609257f454ac8b7456e3943f4d6190_id  | string     |
+       | studentGradebookEntry              | 1                   | body.sectionId       | 6df6309cd7609257f454ac8b7456e3943f4d6190_id  | string     |
+       | studentSectionAssociation          | 1                   | body.sectionId       | 6df6309cd7609257f454ac8b7456e3943f4d6190_id  | string     |
+       | teacherSectionAssociation          | 1                   | body.sectionId       | 6df6309cd7609257f454ac8b7456e3943f4d6190_id  | string     |
+       | studentCompetency                  | 1                   | body.studentSectionAssociationId       | 6df6309cd7609257f454ac8b7456e3943f4d6190_id11d22f998a39f5db6ccfa55264a3629637733195_id  | string     |
+    And I should see "Processed 1 records." in the resulting batch job file
+    And I should not see an error log file created
+	And I should not see a warning log file created
