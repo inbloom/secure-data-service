@@ -1,5 +1,6 @@
 Feature: A bulk extract is triggered
 
+@smoke
 Scenario: Trigger a bulk extract on ingested data
    Given I trigger a bulk extract
    When I retrieve the path to the extract file for the tenant "Midgar"
@@ -11,6 +12,7 @@ Scenario: Trigger a bulk extract on ingested data
    |  attendance                            |
    |  calendarDate                          |
    |  cohort                                |
+   |  competencyLevelDescriptor             |
    |  course                                |
    |  courseOffering                        |
    |  courseTranscript                      |
@@ -20,6 +22,7 @@ Scenario: Trigger a bulk extract on ingested data
    #|  grade                                 |
    #|  gradebookEntry                        |
    |  gradingPeriod                         |
+   |  graduationPlan                        |
    |  learningObjective                     |
    |  learningStandard                      |
    #|  objectiveAssessment                   |

@@ -50,11 +50,11 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "code1"                                                 if human_readable_id == "code value"
   id = "True-False"                                            if human_readable_id == "item category"
   id = "Number score"                                          if human_readable_id == "reporting method"
-  id = "BOY-11-2014"                                           if human_readable_id == "APD.codeValue"
-  id = "2014-Eleventh grade Assessment 1"                      if human_readable_id == "assessment 1"
-  id = "2014-Eleventh grade Assessment 1#1"                    if human_readable_id == "assessment item 1"
-  id = "2014-Eleventh grade Assessment 1.OA-0"                 if human_readable_id == "objective assessment"
-  id = "2014-Eleventh grade Assessment 1.OA-0 Sub"             if human_readable_id == "sub objective assessment"
+  id = "BOY-12-2012"                                           if human_readable_id == "APD.codeValue"
+  id = "2012-Twelfth grade Assessment 2"                       if human_readable_id == "assessment 1"
+  id = "2012-Twelfth grade Assessment 2#1"                     if human_readable_id == "assessment item 1"
+  id = "2012-Twelfth grade Assessment 2.OA-0"                  if human_readable_id == "objective assessment"
+  id = "2012-Twelfth grade Assessment 2.OA-0 Sub"              if human_readable_id == "sub objective assessment"
   id = "objectiveAssessment.0.maxRawScore"                     if human_readable_id == "OA.maxRawScore"
   id = "objectiveAssessment.0.nomenclature"                    if human_readable_id == "OA.nomenclature"
   id = "objectiveAssessment.0.identificationCode"              if human_readable_id == "OA.identificationCode"
@@ -64,9 +64,9 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "assessmentIdentificationCode.0.identificationSystem"   if human_readable_id == "AIC.identificationSystem"
   
   # Assessment Family Hierarchy
-  id = "2014 Standard.2014 Eleventh grade Standard"            if human_readable_id == "assessment family hierarchy"
+  id = "2012 Standard.2012 Twelfth grade Standard"             if human_readable_id == "assessment family hierarchy"
   # Assessment Period Descriptor
-  id = "Beginning of Year 2014-2015 for Eleventh grade"        if human_readable_id == "assessment period descriptor"
+  id = "Beginning of Year 2012-2013 for Twelfth grade"         if human_readable_id == "assessment period descriptor"
 
   # Search endpoints
   id = "assessmentIdentificationCode.0.ID"                     if human_readable_id == "search.assessment.ID"
@@ -271,6 +271,7 @@ Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
 end
 
 Then /^the offset response field "([^"]*)" should be "([^"]*)"$/ do |field, value|
+  #puts "\n\nDEBUG: response body is #{@result[0]}"
   result = fieldExtract(field, @result[0]) 
   assert(result == value, "Unexpected response: expected #{value}, found #{result}")  
 end
@@ -457,8 +458,10 @@ def fieldExtract(field, body)
     part[i] = part[i].to_i if is_num?(part[i])
   end
 
+  # Preserve the original response body
   result = body
-  (1..(part.length)).each {|x| result = result[part[x-1]]}
+  # Recursively loop through a response body to dig our fields
+  (1..(part.length)).each { |x| result = result[part[x-1]] }
   return result
 end
 
