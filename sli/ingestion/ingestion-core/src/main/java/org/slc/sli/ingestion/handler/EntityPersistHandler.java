@@ -83,8 +83,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Value("${sli.ingestion.referenceSchema.referenceCheckEnabled}")
     private String referenceCheckEnabled;
 
-    @Value("${sli.ingestion.maxObjects:0}")
-    private int maxObjects;
+    @Value("${sli.ingestion.maxDeleteObjects:0}")
+    private int maxDeleteObjects;
 
     @Value("${sli.ingestion.totalRetries}")
     private int totalRetries;
@@ -129,31 +129,34 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         ActionVerb action = ActionVerb.NONE;
 
-        if( entity.getMetaData() != null ) {
+        if (entity.getMetaData() != null) {
             action = entity.getAction();
         }
 
-
-        if( action.doDelete() ) {
-// find out about dryrun
+        if (action.doDelete()) {
+            // find out about dryrun
             Boolean dryrun = Boolean.FALSE;
-            Integer max = ( maxObjects == 0 ) ? null : maxObjects;
+            Integer max = (maxDeleteObjects == 0) ? null : maxDeleteObjects;
             CascadeResult cascade = entityRepository.safeDelete(collectionName, entity.getEntityId(),
-                                            action.doCascade(), dryrun, max, null);
-   //Check the return from safeDelete
+                    action.doCascade(), dryrun, max, null);
+            // Check the return from safeDelete
             return entity;
 
-        } else if (entity.getEntityId() != null) {
-
-            if (!entityRepository.updateWithRetries(collectionName, entity, totalRetries)) {
-                // TODO: exception should be replace with some logic.
-                throw new RuntimeException("Record was not updated properly.");
-            }
-
-            return entity;
         } else {
-            return entityRepository.createWithRetries(entity.getType(), null, entity.getBody(), entity.getMetaData(),
-                    collectionName, totalRetries);
+            entity.removeAction();
+            if (entity.getEntityId() != null) {
+
+                if (!entityRepository.updateWithRetries(collectionName, entity, totalRetries)) {
+                    // TODO: exception should be replace with some logic.
+                    throw new RuntimeException("Record was not updated properly.");
+                }
+
+                return entity;
+
+            } else {
+                return entityRepository.createWithRetries(entity.getType(), null, entity.getBody(),
+                        entity.getMetaData(), collectionName, totalRetries);
+            }
         }
     }
 
@@ -186,12 +189,15 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         for (SimpleEntity entity : entities) {
 
-            if( entity.getAction().doDelete()) {
-                persist( entity );
-            } else if (entity.getEntityId() != null) {
-                update(collectionName, entity, failed, report, reportStats, new ElementSourceImpl(entity));
+            if (entity.getAction().doDelete()) {
+                persist(entity);
             } else {
-                preMatchEntity(memory, entityConfig, report, entity, reportStats);
+                entity.removeAction();
+                if (entity.getEntityId() != null) {
+                    update(collectionName, entity, failed, report, reportStats, new ElementSourceImpl(entity));
+                } else {
+                    preMatchEntity(memory, entityConfig, report, entity, reportStats);
+                }
             }
         }
 
@@ -240,8 +246,10 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
 
         if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
-            LOG.error("Unable to find natural keys fields for Entity {}, at line {} column {}",
-                    new Object[] { entity.getType(), entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber() });
+            LOG.error(
+                    "Unable to find natural keys fields for Entity {}, at line {} column {}",
+                    new Object[] { entity.getType(), entity.getVisitBeforeLineNumber(),
+                            entity.getVisitBeforeColumnNumber() });
 
             preMatchEntityWithNaturalKeys(memory, entityConfig, report, entity, reportStats);
         } else {
@@ -315,8 +323,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             ReportStats reportStats, Source source) {
         for (ValidationError err : errors) {
             report.error(reportStats, source, CoreMessageCode.CORE_0006, err.getType().name(), entity.getType(),
-                    err.getFieldName(), err.getFieldValue(),
-                    Arrays.toString(err.getExpectedTypes()));
+                    err.getFieldName(), err.getFieldValue(), Arrays.toString(err.getExpectedTypes()));
         }
     }
 

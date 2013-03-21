@@ -43,6 +43,7 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
     private int visitAfterLineNumber;
     private int visitAfterColumnNumber;
 
+
     @Override
     public String getType() {
         return type;
@@ -150,6 +151,15 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
         metaData.put( NeutralRecord.KEY_ACTION, action.toString());
     }
 
+    public void removeAction( ) {
+        if( metaData != null ) {
+
+            if( this.getMetaData().containsKey( NeutralRecord.KEY_ACTION ) ) {
+                this.getMetaData().remove(NeutralRecord.KEY_ACTION );
+            }
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder entity = new StringBuilder();
@@ -187,4 +197,6 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
     public String getResourceId() {
         return getSourceFile();
     }
+
+
 }

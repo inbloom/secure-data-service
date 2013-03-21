@@ -291,7 +291,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                         SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, job,
                                 reportStatsForCollection);
 
-                        if (xformedEntity != null) {
+                        if( dbConfirmed( xformedEntity)) {
 
                             recordStore.add(neutralRecord);
 
@@ -339,6 +339,23 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                 stage.getMetrics().add(m);
             }
         }
+    }
+
+    /**
+     *
+     * If record was successfully matched against db and if we should proceed with operation
+     */
+    private boolean dbConfirmed( SimpleEntity e) {
+
+        if( e == null ) {
+            return false;
+        }
+
+        if( e.getAction().doDelete() && e.getEntityId() == null) {
+            return false;
+        }
+
+        return true;
     }
 
     /*
