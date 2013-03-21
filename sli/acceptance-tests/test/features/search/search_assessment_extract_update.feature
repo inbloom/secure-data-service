@@ -52,23 +52,47 @@ Then I should see below records in response
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | e33ce38ad4136e409b426b1ffe7781d09aed2aec_id  | assessmentPerformanceLevel.minimumScore            | 100                                           |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | e33ce38ad4136e409b426b1ffe7781d09aed2aec_id  | assessmentPerformanceLevel.maximumScore            | 200                                           |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | e33ce38ad4136e409b426b1ffe7781d09aed2aec_id  | contentStandard                                    | School Standard                               |
-       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | e33ce38ad4136e409b426b1ffe7781d09aed2aec_id  | assessmentPeriodDescriptor.beginDate               | 2013-01-01                                    |
-       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | e33ce38ad4136e409b426b1ffe7781d09aed2aec_id  | assessmentPeriodDescriptor.endDate                 | 2013-02-01                                    |
-       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | e33ce38ad4136e409b426b1ffe7781d09aed2aec_id  | assessmentPeriodDescriptor.description             | updated_assessment                            |
-       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | e33ce38ad4136e409b426b1ffe7781d09aed2aec_id  | assessmentPeriodDescriptor.codeValue               | assessment_2013                               |
+
+When I update some objectiveAssessment records in mongo
+And I send a command to start the extractor to update "Midgar" tenant now
+And I do elastic search for assessment in Midgar tenant
+Then I should see below records in response
+       | _index                                       | _type        | _id                                          | Field                                              | Value                                         |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | objectiveAssessment.identificationCode             | 2004-First grade Assessment 2.OA-0 Sub        |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | objectiveAssessment.maxRawScore                    | 60                                            |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | objectiveAssessment.percentOfAssessment            | 60                                            |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | objectiveAssessment.nomenclature                   | updated-Nomenclature                          |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | objectiveAssessment.assessmentPerformanceLevel.minimumScore| 10                                    |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | objectiveAssessment.assessmentPerformanceLevel.maximumScore| 60                                    |
+
+When I update some assessmentItem records in mongo
+And I send a command to start the extractor to update "Midgar" tenant now
+And I do elastic search for assessment in Midgar tenant
+Then I should see below records in response
+       | _index                                       | _type        | _id                                          | Field                                              | Value                                         |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentItem.identificationCode                  | 2004-First grade Assessment 2#4               |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentItem.maxRawScore                         | 20                                            |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentItem.itemCategory                        | Multiple Choice                               |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentItem.correctResponse                     | A                                             |
-       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentFamilyHierarchyName                      | 2003 First grade Standard                     |
+
+When I update some assessmentPeriodDescriptor records in mongo
+And I send a command to start the extractor to update "Midgar" tenant now
+And I do elastic search for assessment in Midgar tenant
+Then I should see below records in response
+       | _index                                       | _type        | _id                                          | Field                                              | Value                                         |
+       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | e33ce38ad4136e409b426b1ffe7781d09aed2aec_id  | assessmentPeriodDescriptor.beginDate               | 2013-01-01                                    |
+       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | e33ce38ad4136e409b426b1ffe7781d09aed2aec_id  | assessmentPeriodDescriptor.endDate                 | 2013-02-01                                    |
+       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | e33ce38ad4136e409b426b1ffe7781d09aed2aec_id  | assessmentPeriodDescriptor.description             | updated_assessment                            |
+       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | e33ce38ad4136e409b426b1ffe7781d09aed2aec_id  | assessmentPeriodDescriptor.codeValue               | assessment_2013                               |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentPeriodDescriptor.beginDate               | 2013-01-01                                    |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentPeriodDescriptor.endDate                 | 2013-02-01                                    |
        | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentPeriodDescriptor.description             | updated_assessment                            |
-       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentPeriodDescriptor.codeValue               | assessment_2013                               |
-      
+       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentPeriodDescriptor.codeValue               | assessment_2013                               | 
+
+When I update some assessmentFamily records in mongo
+And I send a command to start the extractor to update "Midgar" tenant now
+And I do elastic search for assessment in Midgar tenant
+Then I should see below records in response
+       | _index                                       | _type        | _id                                          | Field                                              | Value                                         |
+       | 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a     | assessment   | 49da176bc1b8025d5a6c2855cebfec421a418541_id  | assessmentFamilyHierarchyName                      | 2003 First grade Standard                     |
+               

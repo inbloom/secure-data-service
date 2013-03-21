@@ -34,6 +34,9 @@ Then /^I get expected zip downloaded$/ do
   @is_sampled_file = @zip_file_name=="NY-WALTON-2013-03-08.zip"
   @last_modified = @res.headers[:last_modified]
 
+  puts "content-disposition: #{@content_disposition}"
+  puts "last-modified: #{@last_modified}"
+
   assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
 end
 
@@ -52,7 +55,9 @@ Then /^I check the http response headers$/ do
 
     ref_doc = src_coll.find({"_id" => "Midgar"}).to_a
     raise "Could not find #{coll} document with _id #{"Midgar"}" if ref_doc.count == 0
-    
+
+    puts "bulkExtractFiles record: #{ref_doc}"
+
     ref_doc.each do |row|
       raise "#{coll} document with wrong tenantId" if row['body']['tenantId'] != "Midgar"
 
