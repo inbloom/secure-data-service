@@ -1,10 +1,11 @@
 @RALLY_US4835
 @rc
-Feature:  RC Portal Startup Scripts
+@sandbox
+Feature:  RC Portal Sandbox Startup Scripts
 As someone who needs to test the portal, I wish I didn't have to hit every page of the portal for it to compile its own assests after it's already been deployed.
 Note: If the portal was re-written in Rails, this would not be a problem and you could delete this test 
 
-Scenario: Hit every portal page to compile its assests
+Scenario: Hit every portal page to compile its assests in sandbox mode
 
     Given I have an open web browser
     When I hit the Portal home page
