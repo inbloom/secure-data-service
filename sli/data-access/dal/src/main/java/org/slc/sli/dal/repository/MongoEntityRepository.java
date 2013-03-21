@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,9 +60,12 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.FullSuperDoc;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.slc.sli.validation.schema.SchemaReferencePath;
+import org.slc.sli.validation.schema.SchemaReferencesMetaData;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -94,6 +98,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Autowired
     @Qualifier("entityKeyEncoder")
     private EntityKeyEncoder keyEncoder;
+
+    @Autowired
+    private SchemaReferencesMetaData schemaRefMetaData;
+
+    @Value("${sli.maxCascadeDeleteDepth:200}")
+    private Integer maxCascadeDeleteDepth;
+
 
     @Value("${sli.default.mongotemplate.writeConcern}")
     private String writeConcern;
@@ -378,9 +389,203 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             denormalizer.denormalization(collectionName).safeDelete(null, id, cascade, dryrun, maxObjects, access);
         }
 
-        return super.safeDelete(collectionName, id, cascade, dryrun, maxObjects, access);
+        CascadeResult result = null;
+        Set<String> deletedIds = new HashSet<String>();
+
+        // Always do a cascading dryrun first since even in non-cascade cases we detect whether the id is a leaf
+        // by checking the number of objects that would be deleted by a cascade
+        result = safeDeleteHelper(collectionName, id, Boolean.TRUE, Boolean.TRUE, maxObjects, access, 1, deletedIds);
+
+        if (!dryrun && result.getStatus() == CascadeResult.Status.SUCCESS) {
+            if (!cascade && result.getnObjects() > 1) {
+                // Error if a non-cascade delete of a non-leaf node is attempted
+                result.setStatus(CascadeResult.Status.CHILD_DATA_EXISTS);
+            } else {
+                // do the actual deletes with some confidence
+                deletedIds.clear();
+                result = safeDeleteHelper(collectionName, id, cascade, Boolean.FALSE, maxObjects, access, 1,  deletedIds);
+            }
+        }
+
+        return result;
     }
 
+    /**
+     *  Recursive helper used to cascade deletes to referencing entities
+     *
+     * @param collectionName    collection from which to delete the id
+     * @param id                id of the entity to delete
+     * @param cascade           delete related entities if true
+     * @param dryrun            only delete if true
+     * @param maxObjects        if the number of entities that will be deleted is > maxObjects, no deletes will be done
+     * @param access            callback used to determine whether we have rights to delete an entity
+     * @param depth             the depth of cascading the current entity is at - used to determine result.depth
+     * @param deletedIds        Used to store deleted (or would be deleted if dryrun == true) for number objects
+     * @return
+     */
+    private CascadeResult safeDeleteHelper(String collectionName, String id, Boolean cascade, Boolean dryrun,
+                                           Integer maxObjects, AccessibilityCheck access, int depth, Set<String> deletedIds) {
+        CascadeResult result = new CascadeResult();
+        result.setDepth(depth);
+
+       // Sanity check for maximum depth
+        if (depth > maxCascadeDeleteDepth) {
+            String message = "Maximum delete cascade depth exceeded at object in collection " + collectionName + " having id " + id + " at depth " + depth;
+            LOG.debug(message);
+            return result.setFields(deletedIds.size(), depth, CascadeResult.Status.MAX_DEPTH_EXCEEDED, message, id, collectionName);
+        }
+
+        // Delete the id only if it hasn't already been deleted - needed for correct dryrun counts
+        if (deletedIds.contains(id)) {
+            return result;
+        }
+
+        // Check accessibility to this entity
+        // TODO this looks like it will need to take collection as an argument
+        if ((access != null) && !access.accessibilityCheck(id)) {
+            String message = "Access denied for entity type in collection " + collectionName + " having id " + id + " at depth " + depth;
+            LOG.debug(message);
+            return result.setFields(deletedIds.size(), depth, CascadeResult.Status.ACCESS_DENIED, message, id, collectionName);
+        }
+
+        // Do the cascade part of the delete - clean up the referencers first
+        // Simulate deleting references for dryruns so we can determine if the non-cascade delete is a leaf
+        // based on the number of objects reported by the dryrun
+        if (cascade) {
+
+            List<SchemaReferencePath> ref_entities = schemaRefMetaData.getReferencesTo(collectionName);
+
+            // Process each referencing entity field that COULD reference the deleted ID
+            for (SchemaReferencePath referencingFieldSchemaInfo : ref_entities) {
+                String referenceEntityName = referencingFieldSchemaInfo.getEntityName();
+                String referenceField = referencingFieldSchemaInfo.getFieldPath();
+
+                // Form the query to access the referencing entity's field values
+                List<String> includeFields = new ArrayList<String>();
+                includeFields.add(referenceField);
+                NeutralQuery neutralQuery = new NeutralQuery();
+                neutralQuery.addCriteria(new NeutralCriteria(referenceField + "=" + id));
+                neutralQuery.setIncludeFields(includeFields);
+
+                // List all entities that have the deleted entity's ID in one or more
+                // referencing fields
+                for (Entity entity : this.findAll(referenceEntityName, neutralQuery)) {
+                    // Note we are examining entities one level below our initial depth now
+                    String referencerId = entity.getEntityId();
+
+                    // Check accessibility to this entity
+                    // TODO this looks like it will need to take collection as an argument
+                    if ((access != null) && !access.accessibilityCheck(referencerId)) {
+                        String message = "Access denied for entity type in collection " + referenceEntityName + " having id " + referencerId + " at depth " + depth;
+                        LOG.debug(message);
+                        result.setFields(result.getnObjects(), depth+1, CascadeResult.Status.ACCESS_DENIED, message, referencerId, referenceEntityName);
+                        continue;  // skip to the next referencing entity
+                    }
+
+                    boolean isLastValueInReferenceList = false;
+                    Map<String, Object> body = entity.getBody();
+                    List<?> basicDBList = null;
+
+                    if (referencingFieldSchemaInfo.isArray()) {
+                        basicDBList = (List<?>) body.get(referenceField);
+                        isLastValueInReferenceList = basicDBList.size() == 1;
+                    }
+
+                    if ( referencingFieldSchemaInfo.isRequired() &&
+                            (!referencingFieldSchemaInfo.isArray() || isLastValueInReferenceList)) {
+                        // Recursively delete the referencing entity if:
+                        // 1. it is a required field and is a non-list reference
+                        // 2. it is a required field and it is the last reference in a list of references
+                        CascadeResult recursiveResult = safeDeleteHelper(referenceEntityName, referencerId,
+                                cascade, dryrun, maxObjects, access, depth+1, deletedIds);
+
+                        // Update the overall result depth if necessary
+                        if (result.getDepth() < recursiveResult.getDepth()) {
+                            // report the deepest depth
+                            result.setDepth(recursiveResult.getDepth());
+                        }
+
+                        // Update the overall status to be the latest non-SUCCESS
+                        if (recursiveResult.getStatus() != CascadeResult.Status.SUCCESS) {
+                            result.setStatus(recursiveResult.getStatus());
+                            continue;  // go to the next referencing entity
+                        }
+                    } else if ( referencingFieldSchemaInfo.isOptional() &&
+                            (!referencingFieldSchemaInfo.isArray() || isLastValueInReferenceList)) {
+                        // Remove the field from the entity if:
+                        // 1. it is an optional field and is a non-list reference
+                        // 2. it is an optional field and it is the last reference in a list of references
+                        if (!dryrun) {
+                            entity.getBody().remove(referenceField);
+                            if (!this.update(referenceEntityName, entity, FullSuperDoc.isFullSuperdoc(entity))) {
+                                String message = "Unable to update collection: " + referenceEntityName +
+                                        ", document id: " + referencerId + ", field name: " + referenceField + " at depth " + depth;
+                                LOG.debug(message);
+                                result.setFields(result.getnObjects(), depth+1, CascadeResult.Status.DATABASE_ERROR, message, referencerId, referenceEntityName);
+                                continue;  // skip to the next referencing entity
+                            }
+                        }
+                    } else if ( referencingFieldSchemaInfo.isArray() && !isLastValueInReferenceList) {
+                        // Remove the matching reference from the list of references:
+                        // 1. it is NOT the last reference in a list of references
+                        if (!dryrun) {
+                            basicDBList.remove(id);
+                            Map<String, Object> patchEntityBody = new HashMap<String, Object>();
+                            patchEntityBody.put(referenceField, basicDBList);
+
+                            if (!this.patch(null, referenceEntityName, referencerId,
+                                    patchEntityBody)) {
+                                String message = "Database error while patching collection: " + referenceEntityName +
+                                        ", document id: " + referencerId + ", field name: " + referenceField + " at depth " +  depth;
+                                LOG.debug(message);
+                                result.setFields(result.getnObjects(), depth+1, CascadeResult.Status.DATABASE_ERROR, message, referencerId, referenceEntityName);
+                                continue;  // skip to the next referencing entity
+                            }
+                        }
+                    }
+                } // per entity processing loop
+            }
+        } // cascade
+
+        // Base case : delete the current entity
+        if (!dryrun) {
+            if (!delete(collectionName, id)) {
+                String message = "Failed to delete a document with id " + id + " from collection " + collectionName;
+                LOG.debug(message);
+                return result.setFields(deletedIds.size(), depth, CascadeResult.Status.DATABASE_ERROR, message, id, collectionName);
+            }
+        }
+
+        // Track deleted ids
+        deletedIds.add(id);
+
+        // Delete custom entities attached to this entity
+        // custom entities inherit the access of the referenced entity
+        deleteAttachedCustomEntities(id, dryrun, deletedIds);
+
+        if (maxObjects != null && deletedIds.size() > maxObjects) {
+            result.setStatus(CascadeResult.Status.MAX_OBJECTS_EXCEEDED);
+        }
+
+        result.setnObjects(deletedIds.size());
+        return result;
+
+    }
+
+    private Integer deleteAttachedCustomEntities(String sourceId, boolean dryrun, Set<String> deletedIds) {
+        Integer count = 0;
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", sourceId, false));
+        Iterable<String> ids = this.findAllIds(CUSTOM_ENTITY_COLLECTION, query);
+        for (String id : ids) {
+            count++;
+            if (!dryrun) {
+                this.delete(CUSTOM_ENTITY_COLLECTION, id);
+            }
+            deletedIds.add(id);
+        }
+        return count;
+    }
 
     @Override
     public boolean delete(String collectionName, String id) {

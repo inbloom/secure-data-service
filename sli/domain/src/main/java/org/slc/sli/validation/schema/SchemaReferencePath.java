@@ -168,6 +168,12 @@ public class SchemaReferencePath {
         if (path != null ? !path.equals(that.path) : that.path != null) {
             return false;
         }
+        if (entityName != null ? !entityName.equals(that.entityName) : that.entityName != null) {
+            return false;
+        }
+        if (fieldPath != null ? !fieldPath.equals(that.path) : that.fieldPath != null) {
+            return false;
+        }
         if (referent != null ? !referent.equals(that.referent) : that.referent != null) {
             return false;
         }

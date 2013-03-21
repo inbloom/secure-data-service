@@ -37,19 +37,41 @@ public class CascadeResult {
     private int	   depth;			// Furthest depth examined
     private Status status;			// Current/overall status of the operation
 
-    private String message;          // Status message e.g. error text
+    private String message;          // Status message e.g. error text - null on SUCCESS
 
     // Used to identify the error object for ACCESS_DENIED and CHILD_DATA_EXISTS status
     private String objectType;
     private String objectId;
 
-	public CascadeResult() {
-		nObjects = 0;
-		depth = 0;
-		status = Status.SUCCESS; // Until further notice
-	}
+    public CascadeResult() {
+        nObjects = 0;
+        depth = 0;
+        status = Status.SUCCESS; // Until further notice
+        message = null;
+        objectType = null;
+        objectId = null;
+    }
 
-	// Return true if the operation is a success
+    public CascadeResult(int nObjects, int depth, Status status, String message, String objectId, String objectType) {
+        this.nObjects = nObjects;
+        this.depth = depth;
+        this.status = status;
+        this.message = message;
+        this.objectId = objectId;
+        this.objectType = objectType;
+    }
+
+    public CascadeResult setFields(int nObjects, int depth, Status status, String message, String objectId, String objectType) {
+        this.nObjects = nObjects;
+        this.depth = depth;
+        this.status = status;
+        this.message = message;
+        this.objectId = objectId;
+        this.objectType = objectType;
+        return this;
+    }
+
+    // Return true if the operation is a success
 	public boolean success() {
 		return status == Status.SUCCESS;
 	}
