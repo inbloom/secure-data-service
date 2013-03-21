@@ -259,7 +259,7 @@ Scenario: Sorting Collections routed to Elastic Search
    And the link at index 2 should have "academicSubject" equal to "English Language and Literature"
    And the link at index 3 should have "academicSubject" equal to "English Language and Literature"
    And the link at index 4 should have "academicSubject" equal to "Mathematics"
-   And the link at index 12 should have "academicSubject" equal to "Reading"
+   And the link at index 13 should have "academicSubject" equal to "Reading"
   And the link at index 13 should have "academicSubject" equal to "Reading"
   And the link at index 14 should have "academicSubject" equal to "Reading"
   And the link at index 15 should have "academicSubject" equal to "Reading"

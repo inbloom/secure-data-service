@@ -63,8 +63,6 @@ class Odin
 
     clean
 
-    Dir["#{File.dirname(__FILE__)}/Shared/interchangeGenerators/*.rb"].each { |f| load(f) }
-
     output = scenarioYAML['DATA_OUTPUT']
     @log.info "-------------------------------------------------------"
     @log.info " ODIN: Offline Data Interchange Nexus"

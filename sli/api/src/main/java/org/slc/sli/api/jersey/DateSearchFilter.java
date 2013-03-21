@@ -18,7 +18,7 @@ package org.slc.sli.api.jersey;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 import org.slc.sli.domain.QueryParseException;

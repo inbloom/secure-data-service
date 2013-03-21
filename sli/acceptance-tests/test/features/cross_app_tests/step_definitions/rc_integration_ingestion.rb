@@ -211,6 +211,11 @@ Given /^I check for the file "(.*?)" every "(.*?)" seconds for "(.*?)" seconds$/
   assert (waited < total)
 end
 
+Then /^the "(.*?)" should be ingested with the correct number of records$/ do |dataSet|
+   correct_count = getCorrectCountForDataset(dataSet)
+   step "the landing zone should contain a file with the message \"Processed #{correct_count} records\""
+end
+
 Then /^the landing zone should contain a file with the message "(.*?)"$/ do |arg1|
   assert fileContainsMessage("job", arg1, @landing_zone_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
 end

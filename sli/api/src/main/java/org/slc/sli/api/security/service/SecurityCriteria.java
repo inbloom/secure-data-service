@@ -18,7 +18,7 @@ package org.slc.sli.api.security.service;
 
 import java.util.List;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.domain.NeutralCriteria;

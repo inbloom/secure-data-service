@@ -217,7 +217,7 @@ end
 
 Then /^the application is denied to use data of "([^"]*)"$/ do |arg1|
   row = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
-  assert(row != nil)
+  assertWithWait("wait added to ensure appropriate time in CI for update to occur") {row != nil}
 end
 
 Then /^the Approve button next to it is enabled$/ do

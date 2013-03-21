@@ -33,14 +33,12 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.reflections.Reflections;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.CollectionOptions;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -49,8 +47,8 @@ import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.LoggerCarrier;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.dal.repository.MongoRepository;
+import org.slc.sli.dal.template.MongoEntityTemplate;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 
 /**
  * Unit tests for the LoggerCarrierAspect.
@@ -70,10 +68,10 @@ public class LoggerCarrierAspectTest {
          SecurityEvent event = createSecurityEvent();
          LoggerCarrierAspect.aspectOf().setEntityRepository(mockedEntityRepository);
          LoggerCarrierAspect.aspectOf().setCapSize(new String("100"));
-         
-         MongoTemplate mockedMongoTemplate = mock(MongoTemplate.class);
+
+         MongoEntityTemplate mockedMongoTemplate = mock(MongoEntityTemplate.class);
          when(mockedEntityRepository.getTemplate()).thenReturn(mockedMongoTemplate);
-         
+
          when(mockedMongoTemplate.collectionExists("securityEvent")).thenReturn(false);
          audit(event);
          Mockito.verify(mockedMongoTemplate, times(1)).createCollection(any(String.class), any(CollectionOptions.class));
@@ -91,7 +89,7 @@ public class LoggerCarrierAspectTest {
          when(mockedCollection.isCapped()).thenReturn(false);
          audit(event);
          Mockito.verify(mockedDB, times(1)).command(any(DBObject.class));
-         
+
          Mockito.verify(mockedEntityRepository, times(3)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
      }
 

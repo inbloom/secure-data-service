@@ -26,16 +26,16 @@ class TeacherSectionAssociation < BaseEntity
   attr_accessor :teacher_id, :section, :position,
                 :beginDate, :endDate, :highlyQualifiedTeacher
 
-  def initialize(teacher_id, section_id, school_id, position)
+  def initialize(teacher_id, section_id, school_id, position, beginDate = nil, endDate = nil)
     @rand = Random.new(teacher_id.hash + section_id.hash)
     @teacher_id = teacher_id
     @section = {'unique_section_code'=>DataUtility.get_unique_section_id(section_id), 'school_id'=>school_id}
     @position = ClassroomPositionType.to_string(position)
     
-    optional {@beginDate = Date.new(2013+@rand.rand(1), 1+@rand.rand(12), 1+@rand.rand(28))}
-    
-    optional {@endDate = Date.new(2013+@rand.rand(2), 1+@rand.rand(12), 1+@rand.rand(28))}
-
+    #optional {@beginDate = Date.new(2013+@rand.rand(1), 1+@rand.rand(12), 1+@rand.rand(28))}
+    optional {@beginDate = beginDate}
+    #optional {@endDate = Date.new(2013+@rand.rand(2), 1+@rand.rand(12), 1+@rand.rand(28))}
+    optional {@endDate = endDate}
     optional {@highlyQualifiedTeacher = {:b => choose([false, true])}}
 
   end

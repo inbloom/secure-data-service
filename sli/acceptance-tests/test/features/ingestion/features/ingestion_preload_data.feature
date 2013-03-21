@@ -7,6 +7,8 @@ Scenario: Preload Small Sample Data Set
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | assessmentFamily                          |
+     | assessmentPeriodDescriptor                |
      | attendance                                |
      | calendarDate                              |
      | cohort                                    |
@@ -61,6 +63,8 @@ Scenario: Preload Small Sample Data Set
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 19|
+     | assessmentFamily                         |                 38|
+     | assessmentPeriodDescriptor               |                  2|
      | attendance                               |                 75|
      | calendarDate                             |                556|
      | cohort                                   |                  3|
