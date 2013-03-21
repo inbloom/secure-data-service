@@ -123,6 +123,23 @@ When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
 	end
 end
 
+When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tenant "(.*?)", that lasts for "(.*?)" seconds/ do |client_appName, user, role, realm, tenant, expiration_in_seconds|
+
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  db = conn[DATABASE_NAME]
+  appColl = db.collection("application")
+  client_id = appColl.find_one({"body.name" => client_appName})["body"]["client_id"]
+  conn.close
+  enable_NOTABLESCAN()
+
+  script_loc = File.dirname(__FILE__) + "/../../../../../../opstools/token-generator/generator.rb"
+  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\"")
+  match = /token is (.*)/.match(out)
+  @sessionId = match[1]
+  puts("The generated token is #{@sessionId}") if $SLI_DEBUG
+end
+
 ############################################################
 # Then
 ############################################################

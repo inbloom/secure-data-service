@@ -9,6 +9,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | assessmentFamily                          |
+     | assessmentPeriodDescriptor                |
      | attendance                                |
      | calendarDate                              |
      | cohort                                    |
@@ -63,7 +65,7 @@ When zip file is scp to ingestion landing zone
   
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
-     | student                                  |               1000|
+     | student                                  |                100|
     And I should not see an error log file created
 	And I should not see a warning log file created
 
@@ -100,4 +102,4 @@ Scenario: Verify teacherSchoolAssociation references ingested correctly: Populat
 Scenario: Verify the sli verification script confirms everything ingested correctly
     Given the edfi manifest that was generated in the 'generated' directory
     And the tenant is 'Midgar'
-    #Then the sli-verify script completes successfully
+    Then the sli-verify script completes successfully

@@ -33,9 +33,16 @@ CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 TENANT_COLLECTION = [convertTenantIdToDbName("Midgar"), convertTenantIdToDbName("Hyrule"), convertTenantIdToDbName("Security"), convertTenantIdToDbName("Other"), convertTenantIdToDbName("Zork"), convertTenantIdToDbName("SLI"), convertTenantIdToDbName("T1"), convertTenantIdToDbName("T2"), convertTenantIdToDbName("T3"), convertTenantIdToDbName("mreynolds"), convertTenantIdToDbName("chaos_mokey_org"), convertTenantIdToDbName("fakedev_zork_net")]
 
 IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
-
+  
 #######################################################
 
+if ENV['HEADLESS'] 
+  puts "Headless environment"
+  require 'headless'
+  headless = Headless.new
+  headless.start
+end  
+  
 $SUCCESS=true
 $failures = Hash.new
 
@@ -641,7 +648,7 @@ task :apiV1EntitySecurityTests do
 end
 
 desc "Run API Tests using Odin ingested data"
-task :apiOdinTests => [:apiOdinGenerate, :apiOdinIngestion, :apiOdinSuperAssessment] do
+task :apiOdinTests => [:apiOdinGenerate, :apiOdinIngestion, :apiOdinSuperAssessment, :apiOdinSearchAssessment] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
