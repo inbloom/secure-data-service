@@ -296,6 +296,7 @@ desc "Run Ingestion Deletion Tests"
         #:ingestionCascadingDeletionBroadLEATest,
         :ingestionCascadingDeletionBroadProgramTest,
         :ingestionCascadingDeletionBroadStudentTest,
+        :ingestionCascadingDeletionBroadSchoolTest,
         :ingestionLeafStudentDelete,
         :ingestionCascadingDeletionBroadAssessmentTest,
         :ingestionCascadingDeletionBroadAssessmentItemTest,
