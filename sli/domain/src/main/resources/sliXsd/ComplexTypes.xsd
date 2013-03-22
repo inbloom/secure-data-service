@@ -551,7 +551,7 @@
 		</xs:annotation>
 		<xs:sequence>
             <!--  this is a 'virtual' element that only exists for superdoc processing -->
-            <xs:element minOccurs='0' name='assessmentId' type='reference'>
+            <xs:element minOccurs='1' name='assessmentId' type='reference'>
                 <xs:annotation>
                     <xs:documentation>Reference to the assessment taken by the
                         student.
@@ -987,7 +987,7 @@
 		</xs:annotation>
 		<xs:sequence>
             <!--  this is a 'virtual' element that only exists for superdoc processing -->
-            <xs:element minOccurs='0' name='assessmentId' type='reference'>
+            <xs:element minOccurs='1' name='assessmentId' type='reference'>
                 <xs:annotation>
                     <xs:documentation>Reference to the assessment
                     </xs:documentation>
