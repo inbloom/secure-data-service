@@ -372,8 +372,29 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return entity;
     }
 
+    /**
+     * Get the references that need to be queried for an entityType including baseType if defined
+     *
+     * @param entityType    the entity type that is referenced
+     * @return
+     */
+    List<SchemaReferencePath> getAllReferencesTo(String entityType, String baseType) {
+        Set<SchemaReferencePath> set = new HashSet<SchemaReferencePath>();
+
+        // No inheriting relations from other types
+        if (baseType == null || entityType.equals(baseType)) {
+            return schemaRefMetaData.getReferencesTo(entityType);
+        }
+
+        // Inherits relations from other types
+        set.addAll(schemaRefMetaData.getReferencesTo(entityType));
+        set.addAll(schemaRefMetaData.getReferencesTo(baseType));
+
+        return new ArrayList<SchemaReferencePath>(set);
+    }
+
     @Override
-    public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
 
     	// LOG.info("*** DELETING object '" + id + "' of type '" + collectionName + "'");
 
@@ -382,7 +403,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         // Always do a cascading dryrun first since even in non-cascade cases we detect whether the id is a leaf
         // by checking the number of objects that would be deleted by a cascade
-        result = safeDeleteHelper(collectionName, id, Boolean.TRUE, Boolean.TRUE, maxObjects, access, 1, deletedIds);
+        result = safeDeleteHelper(entityType, collectionName, id, Boolean.TRUE, Boolean.TRUE, maxObjects, access, 1, deletedIds);
 
         if (!dryrun && result.getStatus() == CascadeResult.Status.SUCCESS) {
             if (!cascade && result.getnObjects() > 1) {
@@ -391,7 +412,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             } else {
                 // do the actual deletes with some confidence
                 deletedIds.clear();
-                result = safeDeleteHelper(collectionName, id, cascade, Boolean.FALSE, maxObjects, access, 1,  deletedIds);
+                result = safeDeleteHelper(entityType, collectionName, id, cascade, Boolean.FALSE, maxObjects, access, 1,  deletedIds);
             }
         }
 
@@ -401,7 +422,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     /**
      *  Recursive helper used to cascade deletes to referencing entities
      *
-     * @param collectionName    collection from which to delete the id
+     * @param entityType        type of the entity to delete
+     * @param collectionName    the collection name from which to delete, entityType if null
      * @param id                id of the entity to delete
      * @param cascade           delete related entities if true
      * @param dryrun            only delete if true
@@ -411,16 +433,25 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
      * @param deletedIds        Used to store deleted (or would be deleted if dryrun == true) for number objects
      * @return
      */
-    private CascadeResult safeDeleteHelper(String collectionName, String id, Boolean cascade, Boolean dryrun,
+    private CascadeResult safeDeleteHelper(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun,
                                            Integer maxObjects, AccessibilityCheck access, int depth, Set<String> deletedIds) {
         CascadeResult result = new CascadeResult();
+        String repositoryEntityType;
+
+        // TODO we should only need entityType once the DAL interface is made consistent
+        if (collectionName == null) {
+            repositoryEntityType = entityType;
+        } else {
+            repositoryEntityType = collectionName;
+        }
+
         result.setDepth(depth);
 
        // Sanity check for maximum depth
         if (depth > maxCascadeDeleteDepth) {
-            String message = "Maximum delete cascade depth exceeded at object in collection " + collectionName + " having id " + id + " at depth " + depth;
+            String message = "Maximum delete cascade depth exceeded for entity type " + entityType + " with id " + id + " at depth " + depth;
             LOG.debug(message);
-            return result.setFields(deletedIds.size(), depth, CascadeResult.Status.MAX_DEPTH_EXCEEDED, message, id, collectionName);
+            return result.setFields(deletedIds.size(), depth, CascadeResult.Status.MAX_DEPTH_EXCEEDED, message, id, entityType);
         }
 
         // Delete the id only if it hasn't already been deleted - needed for correct dryrun counts
@@ -431,9 +462,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         // Check accessibility to this entity
         // TODO this looks like it will need to take collection as an argument
         if ((access != null) && !access.accessibilityCheck(id)) {
-            String message = "Access denied for entity type in collection " + collectionName + " having id " + id + " at depth " + depth;
+            String message = "Access denied for entity type " + entityType + " with id " + id + " at depth " + depth;
             LOG.debug(message);
-            return result.setFields(deletedIds.size(), depth, CascadeResult.Status.ACCESS_DENIED, message, id, collectionName);
+            return result.setFields(deletedIds.size(), depth, CascadeResult.Status.ACCESS_DENIED, message, id, entityType);
         }
 
         // Do the cascade part of the delete - clean up the referencers first
@@ -441,11 +472,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         // based on the number of objects reported by the dryrun
         if (cascade) {
 
-            List<SchemaReferencePath> ref_entities = schemaRefMetaData.getReferencesTo(collectionName);
+            List<SchemaReferencePath> ref_entities = getAllReferencesTo(entityType, repositoryEntityType);
 
             // Process each referencing entity field that COULD reference the deleted ID
             for (SchemaReferencePath referencingFieldSchemaInfo : ref_entities) {
-                String referenceEntityName = referencingFieldSchemaInfo.getEntityName();
+                String referenceEntityType = referencingFieldSchemaInfo.getEntityName();
                 String referenceField = referencingFieldSchemaInfo.getFieldPath();
 
                 // Form the query to access the referencing entity's field values
@@ -457,16 +488,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
                 // List all entities that have the deleted entity's ID in one or more
                 // referencing fields
-                for (Entity entity : this.findAll(referenceEntityName, neutralQuery)) {
+                for (Entity entity : this.findAll(referenceEntityType, neutralQuery)) {
                     // Note we are examining entities one level below our initial depth now
                     String referencerId = entity.getEntityId();
 
                     // Check accessibility to this entity
                     // TODO this looks like it will need to take collection as an argument
                     if ((access != null) && !access.accessibilityCheck(referencerId)) {
-                        String message = "Access denied for entity type in collection " + referenceEntityName + " having id " + referencerId + " at depth " + depth;
+                        String message = "Access denied for entity type " + referenceEntityType + " with id " + referencerId + " at depth " + depth;
                         LOG.debug(message);
-                        result.setFields(result.getnObjects(), depth+1, CascadeResult.Status.ACCESS_DENIED, message, referencerId, referenceEntityName);
+                        result.setFields(result.getnObjects(), depth+1, CascadeResult.Status.ACCESS_DENIED, message, referencerId, referenceEntityType);
                         continue;  // skip to the next referencing entity
                     }
 
@@ -484,7 +515,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         // Recursively delete the referencing entity if:
                         // 1. it is a required field and is a non-list reference
                         // 2. it is a required field and it is the last reference in a list of references
-                        CascadeResult recursiveResult = safeDeleteHelper(referenceEntityName, referencerId,
+                        CascadeResult recursiveResult = safeDeleteHelper(referenceEntityType, null, referencerId,
                                 cascade, dryrun, maxObjects, access, depth+1, deletedIds);
 
                         // Update the overall result depth if necessary
@@ -505,11 +536,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         // 2. it is an optional field and it is the last reference in a list of references
                         if (!dryrun) {
                             entity.getBody().remove(referenceField);
-                            if (!this.update(referenceEntityName, entity, FullSuperDoc.isFullSuperdoc(entity))) {
-                                String message = "Unable to update collection: " + referenceEntityName +
-                                        ", document id: " + referencerId + ", field name: " + referenceField + " at depth " + depth;
+                            if (!this.update(referenceEntityType, entity, FullSuperDoc.isFullSuperdoc(entity))) {
+                                String message = "Unable to update entity type: " + referenceEntityType +
+                                        ", entity id: " + referencerId + ", field name: " + referenceField + " at depth " + depth;
                                 LOG.debug(message);
-                                result.setFields(result.getnObjects(), depth+1, CascadeResult.Status.DATABASE_ERROR, message, referencerId, referenceEntityName);
+                                result.setFields(result.getnObjects(), depth+1, CascadeResult.Status.DATABASE_ERROR, message, referencerId, referenceEntityType);
                                 continue;  // skip to the next referencing entity
                             }
                         }
@@ -521,12 +552,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                             Map<String, Object> patchEntityBody = new HashMap<String, Object>();
                             patchEntityBody.put(referenceField, basicDBList);
 
-                            if (!this.patch(null, referenceEntityName, referencerId,
+                            if (!this.patch(null, referenceEntityType, referencerId,
                                     patchEntityBody)) {
-                                String message = "Database error while patching collection: " + referenceEntityName +
-                                        ", document id: " + referencerId + ", field name: " + referenceField + " at depth " +  depth;
+                                String message = "Database error while patching entity type: " + referenceEntityType +
+                                        ", entity id: " + referencerId + ", field name: " + referenceField + " at depth " +  depth;
                                 LOG.debug(message);
-                                result.setFields(result.getnObjects(), depth+1, CascadeResult.Status.DATABASE_ERROR, message, referencerId, referenceEntityName);
+                                result.setFields(result.getnObjects(), depth + 1, CascadeResult.Status.DATABASE_ERROR, message, referencerId, referenceEntityType);
                                 continue;  // skip to the next referencing entity
                             }
                         }
@@ -537,10 +568,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         // Base case : delete the current entity
         if (!dryrun) {
-            if (!delete(collectionName, id)) {
-                String message = "Failed to delete a document with id " + id + " from collection " + collectionName;
+            if (!delete(repositoryEntityType, id)) {
+                String message = "Failed to delete entity with id " + id + " and type " + entityType;
                 LOG.debug(message);
-                return result.setFields(deletedIds.size(), depth, CascadeResult.Status.DATABASE_ERROR, message, id, collectionName);
+                return result.setFields(deletedIds.size(), depth, CascadeResult.Status.DATABASE_ERROR, message, id, entityType);
             }
         }
 
