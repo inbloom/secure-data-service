@@ -1,16 +1,10 @@
 @RALLY_US5180
 Feature: Safe Deletion and Cascading Deletion
 
-# NOTE: This test is incomplete in that the input data set does not
-# have data for child references from the following fields:
-#
-#   gradebookEntry.learningObjectives
-#   learningObjective.parentLearningObjective
-
 Background: I have a landing zone route configured
 Given I am using local data store
 
-Scenario: Delete Assessment with cascade
+Scenario: Delete Attendance Event with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "BroadSetOfTypes.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
@@ -73,12 +67,12 @@ Scenario: Delete Assessment with cascade
     Then a batch job for file "BroadSetOfTypes.zip" is completed in database
     And a batch job log has been created
     And I should not see an error log file created
-	And I should not see a warning log file created
-    And I post "BroadLearningObjectiveDelete.zip" file as the payload of the ingestion job
-  	When zip file is scp to ingestion landing zone
-    And a batch job for file "BroadLearningObjectiveDelete.zip" is completed in database
+    And a query on attendance of for studentId "908404e876dd56458385667fa383509035cd4312_id", schoolYear "2001-2002" and date "2001-09-13" on the "Midgar" tenant has a count of "1"
+    And I post "BroadAttendanceEventDelete.zip" file as the payload of the ingestion job
+	When zip file is scp to ingestion landing zone
+    And a batch job for file "BroadAttendanceEventDelete.zip" is completed in database
     And a batch job log has been created
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	And I should not see "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id" in the "Midgar" database
+	And a query on attendance of for studentId "908404e876dd56458385667fa383509035cd4312_id", schoolYear "2001-2002" and date "2001-09-13" on the "Midgar" tenant has a count of "0"
