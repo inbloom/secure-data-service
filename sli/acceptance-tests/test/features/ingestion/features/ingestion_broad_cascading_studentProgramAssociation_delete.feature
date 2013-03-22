@@ -75,4 +75,4 @@ Scenario: Delete Student Program Association with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	#And I should not see "???" in the "Midgar" database
+	#And I should not see "50dc8b12ef9184d88d8c304e635cf5a80d38bf79_id8f495c4527ad19c78a501a5646a2402d57cb6795_id" in the "Midgar" database
