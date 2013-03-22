@@ -43,3 +43,30 @@ Scenario: Search Indexer should reindex when I update the Assessment Period Desc
   When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=Beginning%20of%20Year%202013-2014%20for%20First%20grade"
   Then I should receive a return code of 200
   Then I should receive a collection with 2 elements
+
+  Given format "application/json"
+  When I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard"
+  Then I should receive a return code of 200
+  Then I should receive a collection with 2 elements
+  When I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.Hello%20World"
+  Then I should receive a return code of 200
+  Then I should receive a collection with 0 elements
+  Then I update the "assessmentFamily" with ID "7a5d0827649621e700028e0c574a4cbb73de1404_id" field "body.assessmentFamilyTitle" to "Hello World"
+  When I send an update event to the search indexer for collection "assessmentFamily" and ID "7a5d0827649621e700028e0c574a4cbb73de1404_id"
+  Then I will EVENTUALLY GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.Hello%20World" with 2 elements
+  When I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.Hello%20World"
+  Then I should receive a return code of 200
+  Then I should receive a collection with 2 elements
+  When I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard"
+  Then I should receive a return code of 200
+  Then I should receive a collection with 0 elements
+  Then I update the "assessmentFamily" with ID "7a5d0827649621e700028e0c574a4cbb73de1404_id" field "body.assessmentFamilyTitle" to "2013 Tenth grade Standard"
+  When I send an update event to the search indexer for collection "assessmentFamily" and ID "7a5d0827649621e700028e0c574a4cbb73de1404_id"
+  Then I will EVENTUALLY GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.Hello%20World" with 0 elements
+  Then I will EVENTUALLY GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard" with 2 elements
+  When I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.Hello%20World"
+  Then I should receive a return code of 200
+  Then I should receive a collection with 0 elements
+  When I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard"
+  Then I should receive a return code of 200
+  Then I should receive a collection with 2 elements
