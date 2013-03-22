@@ -261,8 +261,8 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      * @see org.slc.sli.domain.Repository#safeDelete(...)
      */
     @Override
-    public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
-        return repo.safeDelete(collectionName, id, cascade, dryrun, maxObjects, access);
+    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        return repo.safeDelete(collectionName, null, id, cascade, dryrun, maxObjects, access);
     }
 
     /*
