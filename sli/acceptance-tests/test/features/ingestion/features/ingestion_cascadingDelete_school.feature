@@ -77,7 +77,6 @@ Then I should see following map of entry counts in the corresponding collections
     And I should not see an error log file created
 	And I should not see a warning log file created
 
-@wip
 Scenario: delete  school, associated entities should be deleted, non-associated entities should not be deleted
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I post "prep_cascading_deletion.zip" file as the payload of the ingestion job
@@ -262,4 +261,4 @@ Scenario: Delete School with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	And I should not see "1b69b7a3139078e4438dd930e554293b1030d319_id" in the "Midgar" database
+	#And I should not see "1b69b7a3139078e4438dd930e554293b1030d319_id" in the "Midgar" database

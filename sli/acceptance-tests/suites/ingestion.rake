@@ -283,12 +283,20 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionStudentTest,
         :ingestionCascadingDeletionSchoolTest,
         :ingestionCascadingDeletionSectionTest,
-        :ingestionCascadingDeletionSEATest,
+        :ingestionCascadingDeletionBroadCourseTest,
+        :ingestionCascadingDeletionBroadSEATest,
         :ingestionCascadingDeletionTeacherTest,
-        :ingestionCascadingDeletionLEATest,
-        :ingestionCascadingDeletionProgramTest,
+        :ingestionCascadingDeletionBroadCalendarDateTest,
+        :ingestionCascadingDeletionBroadGradingPeriodTest,
+        :ingestionCascadingDeletionBroadSessionTest,
+        :ingestionCascadingDeletionBroadStudentParentAssociationTest,
+        :ingestionCascadingDeletionBroadParentTest,
+        :ingestionCascadingDeletionBroadCompetencyLevelDescriptorTest,
+        #:ingestionCascadingDeletionBroadLEATest,
+        :ingestionCascadingDeletionBroadProgramTest,
         :ingestionCascadingDeletionBroadStudentTest,
         :ingestionCascadingDeletionBroadSectionTest,
+        :ingestionCascadingDeletionBroadSchoolTest,
         :ingestionLeafStudentDelete,
         :ingestionCascadingDeletionBroadAssessmentTest,
   ] do
@@ -322,16 +330,16 @@ task :ingestionCascadingDeletionProgramTest do
   runTests("test/features/ingestion/features/ingestion_cascadingDelete_program.feature")
 end
 
-task :ingestionCascadingDeletionSEATest do
+task :ingestionCascadingDeletionBroadSEATest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_SEA_delete.feature")
 end
 
-task :ingestionCascadingDeletionLEATest do
+task :ingestionCascadingDeletionBroadLEATest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_LEA_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadProgramTest do
-  runTests("test/features/ingestion/features/ingestion_broad_cascading_Program_delete.feature")
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_program_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadStudentTest do
@@ -344,6 +352,41 @@ end
 
 task :ingestionCascadingDeletionBroadAssessmentTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_assessment_delete.feature")
+
+task :ingestionCascadingDeletionBroadSchoolTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_school_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadCourseTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_course_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadCompetencyLevelDescriptorTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_competencyLevelDescriptor_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadParentTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_parent_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentParentAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentParentAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadSessionTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_session_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadGradingPeriodTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_gradingPeriod_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadCalendarDateTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_calendarDate_delete.feature")
+end
+
+task :ingestionCascadingDeletionStudentProgramAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentProgramAssociation_delete.feature")
 end
 
 task :ingestionCascadingDeletionTeacherTest do

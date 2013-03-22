@@ -131,19 +131,19 @@ public class EntityRepositoryTest {
         testSafeDeleteHelper("session", null, false, false, null, access, true, 1, 1, CascadeResult.Status.SUCCESS);
 
         // Test leaf node delete failure : cascade=false and dryrun=false
-        testSafeDeleteHelper("session", null, false, false, null, access, false, 5, 2, CascadeResult.Status.CHILD_DATA_EXISTS);
+        testSafeDeleteHelper("session", null, false, false, null, access, false, 4, 2, CascadeResult.Status.CHILD_DATA_EXISTS);
 
         // Test cascade=false and dryrun=true
-        testSafeDeleteHelper("session", null, false, true, null, access, false, 5, 2, CascadeResult.Status.SUCCESS);
+        testSafeDeleteHelper("session", null, false, true, null, access, false, 4, 2, CascadeResult.Status.SUCCESS);
 
         // Test cascade=true and dryrun=true
-        testSafeDeleteHelper("session", null, true, true, null, access, false, 5, 2, CascadeResult.Status.SUCCESS);
+        testSafeDeleteHelper("session", null, true, true, null, access, false, 4, 2, CascadeResult.Status.SUCCESS);
 
         // Test cascade=true and dryrun=false
-        testSafeDeleteHelper("session", null, true, false, null, access, false, 5, 2, CascadeResult.Status.SUCCESS);
+        testSafeDeleteHelper("session", null, true, false, null, access, false, 4, 2, CascadeResult.Status.SUCCESS);
 
         // Test maxobjects
-        testSafeDeleteHelper("session", null, true, false, 2, access, false, 5, 2, CascadeResult.Status.MAX_OBJECTS_EXCEEDED);
+        testSafeDeleteHelper("session", null, true, false, 2, access, false, 4, 2, CascadeResult.Status.MAX_OBJECTS_EXCEEDED);
 
         // Test access denied
         testSafeDeleteHelper("session", null, true, false, null, accessDenied, false, 2, 2, CascadeResult.Status.ACCESS_DENIED);
