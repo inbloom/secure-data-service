@@ -8,7 +8,7 @@ You may obtain a copy of the License at
 
 http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
+, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
@@ -33,8 +33,11 @@ require_relative '../../../utils/api_utils.rb'
 
 When /^I navigate to GET with invalid id for each resource available$/ do
   resources.each do |resource|
+    if skip_resource(resource)
+      next
+    end
     badId = "bad1111111111111111111111111111111111111_id"
-    uri = "/v1#{resource}/#{badId}"
+    uri = "/v1.2#{resource}/#{badId}"
     puts "GET " + uri
     steps %Q{
       When I navigate to GET \"#{uri}\"
@@ -47,12 +50,12 @@ When /^I navigate to PUT with invalid id for each resource available$/ do
   resources.each do |resource|
 
     #PUT is not allowed for /home
-    if (resource.include? "home") 
+    if (resource.include? "home" or skip_resource(resource)) 
       next
     end
 
     badId = "bad1111111111111111111111111111111111111_id"
-    uri = "/v1#{resource}/#{badId}"
+    uri = "/v1.2#{resource}/#{badId}"
 
     # strip leading "/"
     resource_type = get_resource_type resource
@@ -75,6 +78,9 @@ end
 
 When /^I navigate to DELETE with invalid id for each resource available$/ do
   resources.each do |resource|
+    if skip_resource(resource)
+      next
+    end
     badId = "bad1111111111111111111111111111111111111_id"
     uri = "/v1#{resource}/#{badId}"
     puts "DELETE " + uri
@@ -112,8 +118,7 @@ Then /^I perform CRUD for each resource available$/ do
 
   resources.each do |resource|
     puts("auto_crud test for resource #{resource}")
-    #We don't need to do CRUD for these resources
-    if (resource == "/system/support" or resource == "/system/session" or resource == "/search") 
+    if skip_resource(resource)
       next
     end
     #post is not allowed for associations
@@ -133,6 +138,12 @@ Then /^I perform CRUD for each resource available$/ do
       break
     end
   end
+end
+
+def skip_resource(resource)
+  #We don't need to do CRUD for these resources
+  return (resource == "/system/support" or resource == "/system/session" or resource == "/search") 
+
 end
 
 def resources
@@ -246,14 +257,14 @@ Given /^the staff queries and rewrite rules work$/ do
 
   puts "Given entity URI \"<resource>\""
   puts "Given parameter \"limit\" is \"0\""
-  puts "When I navigate to GET \"/v1</Resource URI>\""
+  puts "When I navigate to GET \"/v1.2</Resource URI>\""
   puts "Then I should receive a return code of 200"  
   puts "And each entity's \"entityType\" should be \"<Resource Type>\""
   puts "And I should receive a collection of \"<Count>\" entities"
   puts "And uri was rewritten to \"#<Rewrite URI>\""
 
   resources.each do |resource_as_uri|
-    if (resource_as_uri.include? "home") 
+    if (resource_as_uri.include? "home" or resource_as_uri == "/yearlyAttendances" or skip_resource(resource_as_uri)) 
       next
     end
 
@@ -268,7 +279,7 @@ Given /^the staff queries and rewrite rules work$/ do
     
     step "entity URI \"#{resource}\""
     step "parameter \"limit\" is \"0\""
-    step "I navigate to GET \"/v1#{resource_as_uri}\""
+    step "I navigate to GET \"/v1.2#{resource_as_uri}\""
     step "I should receive a return code of 200"  
     step "each entity's \"entityType\" should be \"#{resource_type}\""
   
@@ -286,20 +297,20 @@ Given /^entity URI "([^"]*)"$/ do |arg1|
 end
 
 Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
-  version = "v1"
+  version = "v1.2"
   root = expectedUri.match(/\/(.+?)\/|$/)[1]
   expected = version+expectedUri
   actual = @headers["x-executedpath"][0]
 
   #First, make sure the paths of the URIs are the same
   expectedPath = expected.gsub("@ids", "[^/]+")
-
+  puts("The first thing is #{actual.inspect} and the second is #{expectedPath.inspect}")
   assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
 
   #Then, validate the list of ids are the same
   ids = []
   if @ctx.has_key? root
-    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\/?/)[1]
+    idsString = actual.match(/v1\.2\/[^\/]*\/([^\/]*)\/?/)[1]
     actualIds = idsString.split(",")
     expectedIds = @ctx[root].split(",")
     
@@ -341,7 +352,7 @@ Then /^I perform POST for each resource available in the order defined by table:
       @fields["gradingPeriodReference"].push(@context_hash["gradingPeriods"]["id"])
     end
     steps %Q{
-          When I navigate to POST \"/v1#{resource}\"
+          When I navigate to POST \"/v1.2#{resource}\"
           Then I should receive a return code of 201
           And I should receive an ID for the newly created entity
     }
@@ -357,7 +368,7 @@ Then /^I perform POST for each resource available in the order defined by table:
       @fields["schoolId"] = @context_hash["schools"]["id"]
       @fields["teacherId"] = @newId
      steps %Q{
-          When I navigate to POST \"/v1/teacherSchoolAssociations\"
+          When I navigate to POST \"/v1.2/teacherSchoolAssociations\"
     }
     elsif resource.include? "/staff"
      steps %Q{
@@ -366,7 +377,7 @@ Then /^I perform POST for each resource available in the order defined by table:
       @fields["educationOrganizationReference"] = @context_hash["schools"]["id"]
       @fields["staffReference"] = @newId
      steps %Q{
-          When I navigate to POST \"/v1/staffEducationOrgAssignmentAssociations\"
+          When I navigate to POST \"/v1.2/staffEducationOrgAssignmentAssociations\"
     }
     end
   end
@@ -388,7 +399,7 @@ Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do
     get_resource resource
     @fields[@updates['field']] = @updates['value']
     steps %Q{
-        When I navigate to PUT \"/v1#{resource}/#{@newId}\"
+        When I navigate to PUT \"/v1.2#{resource}/#{@newId}\"
         Then I should receive a return code of 204
     }
     @fields = @context_hash[resource[1..-1]]["BODY"]
