@@ -309,6 +309,12 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadAssessmentFamilyTest,
         :ingestionCascadingDeletionBroadAssessmentPeriodDescriptorTest,
         :ingestionCascadingDeletionBroadCourseOfferingTest,
+        :ingestionCascadingDeletionBroadStaffTest,
+        :ingestionCascadingDeletionBroadStaffEducationOrgAssignmentAssociationTest,
+        :ingestionCascadingDeletionBroadTeacherTest,
+        :ingestionCascadingDeletionBroadTeacherSchoolAssociationTest,
+        :ingestionCascadingDeletionBroadTeacherSectionAssociationTest,
+        :ingestionCascadingDeletionBroadStaffProgramAssociationTest,
   ] do
 
   displayFailureReport()
@@ -400,6 +406,30 @@ task :ingestionCascadingDeletionBroadCourseTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_course_delete.feature")
 end
 
+task :ingestionCascadingDeletionBroadStaffTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_staff_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStaffEducationOrgAssignmentAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_StaffEducationOrgAssignmentAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadTeacherTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_teacher_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStaffProgramAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_StaffProgramAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadTeacherSchoolAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_TeacherSchoolAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadTeacherSectionAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_TeacherSectionAssociation_delete.feature")
+end
+
 task :ingestionCascadingDeletionBroadCourseOfferingTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_CourseOffering_delete.feature")
 end
@@ -431,6 +461,7 @@ end
 task :ingestionCascadingDeletionBroadStudentProgramAssociationTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_studentProgramAssociation_delete.feature")
 end
+
 task :ingestionCascadingDeletionBroadAttendanceEventTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_attendanceEvent_delete.feature")
 end
