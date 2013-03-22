@@ -4,7 +4,7 @@ Feature: Safe Deletion and Cascading Deletion
 Background: I have a landing zone route configured
 Given I am using local data store
 
-Scenario: Delete Program with cascade
+Scenario: Delete Assessment with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "BroadSetOfTypes.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
