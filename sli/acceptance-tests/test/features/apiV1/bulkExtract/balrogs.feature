@@ -1,4 +1,5 @@
 @US5481
+@US5519
 Feature: Bulk Extraction Works
     
     Scenario: Authorized long-lived session token can use bulk extract

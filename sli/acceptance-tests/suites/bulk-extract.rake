@@ -5,6 +5,14 @@
 CLEAN_EXTRACT_LOC = true
 TRIGGER_NEW_EXTRACT = true
 
+############################################################
+# Bulk Extract Scheduler
+############################################################
+desc "Test the Bulk Extract Scheduler"
+task :bulkExtractSchedulerTest do
+  runTests("test/features/bulk_extract/features/bulk_extract_scheduler.feature")
+end
+
 
 ############################################################
 # Bulk Extract
