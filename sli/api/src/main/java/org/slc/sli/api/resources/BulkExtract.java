@@ -39,12 +39,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Path("/bulk")
-@Produces({ "application/zip" })
+@Produces({ "application/x-tar" })
 public class BulkExtract {
 
     private static final Logger LOG = Logger.getLogger(BulkExtract.class);
 
-    private static final String FILE_NAME = "NY-WALTON-2013-03-08.zip";
+    private static final String FILE_NAME = "NY-WALTON-2013-03-19T13-02-02.tar";
 
     /**
      * Creates a streaming response for a sample data file

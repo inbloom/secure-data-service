@@ -26,10 +26,10 @@ When /^I make bulk extract API call$/ do
   restHttpGet("/bulk/extract")
 end
 
-Then /^I get expected zip downloaded$/ do  
+Then /^I get expected tar downloaded$/ do  
   
-  EXPECTED_BYTE_COUNT = 901
-  EXPECTED_CONTENT_TYPE = 'application/zip'
+  EXPECTED_BYTE_COUNT = 5632
+  EXPECTED_CONTENT_TYPE = 'application/x-tar'
   
   assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
   assert(@res.headers[:content_length].to_i==EXPECTED_BYTE_COUNT, "File Size is wrong! Actual: #{@res.headers[:content_length]} Expected: #{EXPECTED_BYTE_COUNT}" )
