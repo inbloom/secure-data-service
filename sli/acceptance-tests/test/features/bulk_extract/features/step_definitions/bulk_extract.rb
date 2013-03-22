@@ -213,6 +213,22 @@ def get_nested_keys(hash, keys=Array.new)
    keys.sort
 end
 
+def entityToUri(entity)
+  
+  uri = String.new(entity)
+
+  case entity
+  when "staff"
+    uri
+  when "gradebookEntry", "studentGradebookEntry", "studentCompetency"
+    uri[-1] = "ies" 
+    uri
+  else
+    uri + "s"
+  end
+
+end
+
 def compareToApi(collection, collFile)
   case collection
   when "student"
@@ -220,10 +236,11 @@ def compareToApi(collection, collFile)
     collFile.each do |extractRecord|
     
       id = extractRecord["id"]
-
-      #Make API call and get JSON for a student
+      
+      #Make API call and get JSON for the collection
       @format = "application/vnd.slc+json"
-      restHttpGet("/v1/students/#{id}")
+      uri = entityToUri(collection)
+      restHttpGet("/v1/#{uri}/#{id}")
       assert(@res != nil, "Response from rest-client GET is nil")
       assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
       apiRecord = JSON.parse(@res.body)
