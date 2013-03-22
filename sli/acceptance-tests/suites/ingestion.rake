@@ -307,6 +307,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionLearningObjectiveTest,
         :ingestionCascadingDeletionLearningStandardTest,
         :ingestionCascadingDeletionBroadAssessmentFamilyTest,
+        :ingestionCascadingDeletionBroadAssessmentPeriodDescriptorTest,
   ] do
 
   displayFailureReport()
@@ -376,6 +377,10 @@ end
 
 task :ingestionCascadingDeletionBroadObjectiveAssessmentTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_objectiveAssessment_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadAssessmentPeriodDescriptorTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_AssessmentPeriodDescriptor_delete.feature")
 end
 
 task :ingestionCascadingDeletionLearningObjectiveTest do
