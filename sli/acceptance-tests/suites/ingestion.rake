@@ -309,6 +309,12 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadAssessmentFamilyTest,
         :ingestionCascadingDeletionBroadAssessmentPeriodDescriptorTest,
         :ingestionCascadingDeletionBroadCourseOfferingTest,
+        :ingestionCascadingDeletionBroadStaffTest,
+        :ingestionCascadingDeletionBroadStaffEducationOrgAssignmentAssociationTest,
+        :ingestionCascadingDeletionBroadTeacherTest,
+        :ingestionCascadingDeletionBroadTeacherSchoolAssociationTest,
+        :ingestionCascadingDeletionBroadTeacherSectionAssociationTest,
+        :ingestionCascadingDeletionBroadStaffProgramAssociationTest,
   ] do
 
   displayFailureReport()
@@ -406,6 +412,30 @@ end
 
 task :ingestionCascadingDeletionBroadCourseTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_course_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStaffTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_staff_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStaffEducationOrgAssignmentAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_StaffEducationOrgAssignmentAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadTeacherTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_teacher_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStaffProgramAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_StaffProgramAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadTeacherSchoolAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_TeacherSchoolAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadTeacherSectionAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_TeacherSectionAssociation_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadCourseOfferingTest do
