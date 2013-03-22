@@ -87,12 +87,11 @@ public class AssessmentEntityConverter implements EntityConverter {
         
         // from sarge update event, body is null
         if (body == null) {
-            DBObject assessmentQuery = new BasicDBObject("_id", entityMap.get("_id"));
-            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, type, fields,
-                    assessmentQuery);
+            DBObject query = new BasicDBObject("_id", entityMap.get("_id"));
+            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, type, fields, query);
             if (cursor.hasNext()) {
-                Map<String, Object> newAssessmentEntityMap = cursor.next().toMap();
-                body = (Map<String, Object>) newAssessmentEntityMap.get("body");
+                Map<String, Object> entity = cursor.next().toMap();
+                body = (Map<String, Object>) entity.get("body");
             }
         }
         return body;
