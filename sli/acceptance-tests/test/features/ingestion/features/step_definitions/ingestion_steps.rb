@@ -3146,6 +3146,15 @@ Then /^all attendance entities should should have the expected structure./ do
 
 end
 
+Then /^a query on attendance of for studentId "(.*?)", schoolYear "(.*?)" and date "(.*?)" on the "(.*?)" tenant has a count of "(.*?)"$/ do |student, year, date, tenant, count|
+    disable_NOTABLESCAN()
+    @db = @conn[convertTenantIdToDbName(tenant)]
+    @coll = @db['attendance']
+    entity_count = @coll.find({"body.studentId" => student, "body.schoolYear" => year, "body.attendanceEvent.date" => date}).count()
+    assert(entity_count.to_i==count.to_i, "Count mismatch. Actual count is #{entity_count}")
+    enable_NOTABLESCAN()
+end
+
 Then /^correct number of records should be ingested for "(.*?)"$/ do |dataSet|
     correct_count = getCorrectCountForDataset(dataSet)
     step "I should see \"Processed #{correct_count} records.\" in the resulting batch job file"
