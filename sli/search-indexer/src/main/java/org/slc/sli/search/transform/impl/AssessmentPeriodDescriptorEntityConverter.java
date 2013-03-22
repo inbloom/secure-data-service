@@ -15,6 +15,10 @@
  */
 package org.slc.sli.search.transform.impl;
 
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT;
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_PERIOD_DESCRIPTOR_ID;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +32,6 @@ import org.slc.sli.search.entity.IndexEntity.Action;
 
 public class AssessmentPeriodDescriptorEntityConverter extends AssessmentEntityConverter {
     
-    public final static String ASSESSMENT = "assessment";
-    public final static String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
-    public final static String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
-
     @SuppressWarnings("unchecked")
     public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
         List<Map<String, Object>> entities = new ArrayList<Map<String, Object>>();

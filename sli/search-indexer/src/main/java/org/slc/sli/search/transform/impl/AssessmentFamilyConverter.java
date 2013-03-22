@@ -15,6 +15,11 @@
  */
 package org.slc.sli.search.transform.impl;
 
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT;
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT_FAMILY;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_HIERARCHY;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_REFERENCE;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +71,7 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
             assessment.put("body", body);
             results.add(assessment);
         }
-        DBCursor familyCursor = getSourceDatastoreConnector().getDBCursor(dbname, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS, referenceQuery);
+        DBCursor familyCursor = getSourceDatastoreConnector().getDBCursor(dbname, ASSESSMENT_FAMILY, FAMILY_FIELDS, referenceQuery);
         while (familyCursor.hasNext()) {
             DBObject subFamily = familyCursor.next();
             String subId = (String) subFamily.get("_id");
@@ -78,11 +83,11 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     
     @SuppressWarnings("unchecked")
     private StringBuilder getName(String index, Map<String, Object> entityMap) {
-        Map<String, Object> body = getBody(index, entityMap, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS);
+        Map<String, Object> body = getBody(index, entityMap, ASSESSMENT_FAMILY, FAMILY_FIELDS);
         String parentRef = (String) body.get(ASSESSMENT_FAMILY_REFERENCE);
         StringBuilder builder = new StringBuilder();
         if (parentRef != null && !parentRef.equals("")) {
-            DBCursor cursor = getSourceDatastoreConnector().getDBCursor(index, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS,
+            DBCursor cursor = getSourceDatastoreConnector().getDBCursor(index, ASSESSMENT_FAMILY, FAMILY_FIELDS,
                     BasicDBObjectBuilder.start().add("_id", parentRef).get());
             if (cursor.hasNext()) {
                 builder = getName(index, cursor.next().toMap());
