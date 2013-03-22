@@ -46,8 +46,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.AccessibilityCheck;
-import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
@@ -312,11 +310,6 @@ public class SubDocAccessor {
             subEntities.add(entity);
             return doUpdate(parentQuery, subEntities);
         }
-
-		public CascadeResult safeDelete(Entity entity, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
-			CascadeResult result = new CascadeResult();
-			return result;
-		}
 
         public boolean delete(Entity entity) {
 

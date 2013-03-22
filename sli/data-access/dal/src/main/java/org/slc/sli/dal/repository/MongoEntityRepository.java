@@ -375,19 +375,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
 
-        if (subDocs.isSubDoc(collectionName)) {
-            Entity entity = subDocs.subDoc(collectionName).findById(id);
-
-            if (denormalizer.isDenormalizedDoc(collectionName)) {
-                denormalizer.denormalization(collectionName).safeDelete(entity, id, cascade, dryrun, maxObjects, access);
-            }
-
-            return subDocs.subDoc(collectionName).safeDelete(entity, id, cascade, dryrun, maxObjects, access);
-        }
-
-        if (denormalizer.isDenormalizedDoc(collectionName)) {
-            denormalizer.denormalization(collectionName).safeDelete(null, id, cascade, dryrun, maxObjects, access);
-        }
+    	// LOG.info("*** DELETING object '" + id + "' of type '" + collectionName + "'");
 
         CascadeResult result = null;
         Set<String> deletedIds = new HashSet<String>();
@@ -634,7 +622,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Map<String, Object> entityMetaData = entity.getMetaData();
         Update update = new Update();
         update.set("body", entityBody).set("metaData", entityMetaData);
-        
+
         //update should also set type in case of upsert
         String entityType = entity.getType();
         if(entityType != null && !entityType.isEmpty()) {
