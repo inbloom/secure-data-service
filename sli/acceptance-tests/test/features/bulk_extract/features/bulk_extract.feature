@@ -32,7 +32,7 @@ Scenario: Trigger a bulk extract on ingested data
    |  school                                |
    |  section                               |
    |  session                               |
-   |  staff                                 |
+   #|  staff                                 |
    |  staffCohortAssociation                |
    |  staffEducationOrganizationAssociation |
    |  staffProgramAssociation               |
@@ -49,6 +49,6 @@ Scenario: Trigger a bulk extract on ingested data
    |  studentSchoolAssociation              |
    #|  studentSectionAssociation             |
    #|  studentParentAssociation              |
-   |  teacher                               |
+   #|  teacher                               |
    |  teacherSchoolAssociation              |
    #|  teacherSectionAssociation             |
