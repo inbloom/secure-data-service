@@ -286,6 +286,9 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadCourseTest,
         :ingestionCascadingDeletionBroadSEATest,
         :ingestionCascadingDeletionTeacherTest,
+        :ingestionCascadingDeletionBroadCalendarDateTest,
+        :ingestionCascadingDeletionBroadGradingPeriodTest,
+        :ingestionCascadingDeletionBroadSessionTest,
         :ingestionCascadingDeletionBroadStudentParentAssociationTest,
         :ingestionCascadingDeletionBroadParentTest,
         :ingestionCascadingDeletionBroadCompetencyLevelDescriptorTest,
@@ -364,6 +367,18 @@ end
 
 task :ingestionCascadingDeletionBroadStudentParentAssociationTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_studentParentAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadSessionTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_session_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadGradingPeriodTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_gradingPeriod_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadCalendarDateTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_calendarDate_delete.feature")
 end
 
 task :ingestionCascadingDeletionTeacherTest do
