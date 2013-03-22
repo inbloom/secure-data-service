@@ -381,6 +381,10 @@ task :ingestionCascadingDeletionBroadCalendarDateTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_calendarDate_delete.feature")
 end
 
+task :ingestionCascadingDeletionStudentProgramAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentProgramAssociation_delete.feature")
+end
+
 task :ingestionCascadingDeletionTeacherTest do
   runTests("test/features/ingestion/features/ingestion_cascadingDelete_teacher.feature")
 end
