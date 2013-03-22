@@ -24,6 +24,10 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT;
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT_FAMILY;
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_PERIOD_DESCRIPTOR_ID;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -86,14 +90,14 @@ public class AssessmentEntityConverterTest {
         
         when(
                 sourceDatastoreConnector
-                        .getDBCursor(anyString(), eq(AssessmentEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR),
+                        .getDBCursor(anyString(), eq(ASSESSMENT_PERIOD_DESCRIPTOR),
                                 anyList(), any(BasicDBObject.class))).thenReturn(apdCursor);
         when(
-                sourceDatastoreConnector.getDBCursor(anyString(), eq(AssessmentEntityConverter.ASSESSMENT), anyList(),
+                sourceDatastoreConnector.getDBCursor(anyString(), eq(ASSESSMENT), anyList(),
                         any(BasicDBObject.class))).thenReturn(assessmentCursor);
-        when(indexConfigStore.getConfig(AssessmentEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR)).thenReturn(
+        when(indexConfigStore.getConfig(ASSESSMENT_PERIOD_DESCRIPTOR)).thenReturn(
                 assessmentPeriodDescriptorConfig);
-        when(indexConfigStore.getConfig(AssessmentEntityConverter.ASSESSMENT)).thenReturn(new IndexConfig());
+        when(indexConfigStore.getConfig(ASSESSMENT)).thenReturn(new IndexConfig());
     }
     
     @Test
@@ -111,7 +115,7 @@ public class AssessmentEntityConverterTest {
         assertNotNull(entities.get(0).get("body"));
         @SuppressWarnings("unchecked")
         Map<String, Object> body = (Map<String, Object>) entities.get(0).get("body");
-        assertNull(body.get(AssessmentEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR_ID));
+        assertNull(body.get(ASSESSMENT_PERIOD_DESCRIPTOR_ID));
     }
     
     @SuppressWarnings("unchecked")
@@ -123,9 +127,9 @@ public class AssessmentEntityConverterTest {
         List<Map<String, Object>> entities = assessmentConverter.treatment(INDEX, Action.INDEX, assessment);
         assertNotNull(entities.get(0).get("body"));
         Map<String, Object> body = (Map<String, Object>) entities.get(0).get("body");
-        assertNotNull(body.get(AssessmentEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR));
+        assertNotNull(body.get(ASSESSMENT_PERIOD_DESCRIPTOR));
         Map<String, Object> assessmentPeriodDescriptor = (Map<String, Object>) body
-                .get(AssessmentEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR);
+                .get(ASSESSMENT_PERIOD_DESCRIPTOR);
         assertEquals(assessmentPeriodDescriptor.get("codeValue"), "red");
     }
     
@@ -155,7 +159,7 @@ public class AssessmentEntityConverterTest {
     
     private Map<String, Object> buildAssessmentMap() {
         Map<String, Object> body = new HashMap<String, Object>();
-        body.put(AssessmentEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR_ID, "apd_id");
+        body.put(ASSESSMENT_PERIOD_DESCRIPTOR_ID, "apd_id");
         body.put("assessmentFamilyReference", "family1");
         body.put("assessmentTitle", "SAT");
         Map<String, Object> assessment = new HashMap<String, Object>();
@@ -171,11 +175,11 @@ public class AssessmentEntityConverterTest {
             NoSuchMethodException {
         DBCursor family1Cursor = TestUtils.buildMockCursor(buildFamily("family1", "ChildFamily", "family2"));
         when(
-                sourceDatastoreConnector.getDBCursor(anyString(), eq(AssessmentEntityConverter.ASSESSMENT_FAMILY_COLLECTION), anyList(),
+                sourceDatastoreConnector.getDBCursor(anyString(), eq(ASSESSMENT_FAMILY), anyList(),
                         argThat(TestUtils.buildIdMatcher("family1")))).thenReturn(family1Cursor);
         DBCursor family2Cursor = TestUtils.buildMockCursor(buildFamily("family2", "ParentFamily", null));
         when(
-                sourceDatastoreConnector.getDBCursor(anyString(), eq(AssessmentEntityConverter.ASSESSMENT_FAMILY_COLLECTION), anyList(),
+                sourceDatastoreConnector.getDBCursor(anyString(), eq(ASSESSMENT_FAMILY), anyList(),
                         argThat(TestUtils.buildIdMatcher("family2")))).thenReturn(family2Cursor);
         List<Map<String, Object>> entities = assessmentConverter.treatment(INDEX, Action.INDEX, assessment);
         assertEquals(null, PropertyUtils.getProperty(entities, "[0].body.assessmentFamilyReference"));
