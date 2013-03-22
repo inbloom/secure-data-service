@@ -352,6 +352,7 @@ end
 
 task :ingestionCascadingDeletionBroadAssessmentTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_assessment_delete.feature")
+end
 
 task :ingestionCascadingDeletionBroadSchoolTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_school_delete.feature")
