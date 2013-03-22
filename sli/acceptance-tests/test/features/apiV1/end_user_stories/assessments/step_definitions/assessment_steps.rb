@@ -207,6 +207,7 @@ end
 ###############################################################################
 When /^I make a GET request to URI "(.*?)"$/ do |request|  
   uri = request.gsub("@id", @teacher["sectionId"][0])
+ # puts uri
   step "I navigate to GET \"/v1/#{uri}\""
 end
 
@@ -291,6 +292,8 @@ Then /^I should extract the "(.*?)" from the response body to a list$/ do |resou
   @result.each do |response|
     values << fieldExtract(resource, response)
   end
+  values.sort! 
+ # puts values
   teacherHashPush(resource, values)
 end
 

@@ -41,14 +41,11 @@ When /^I update the "(.*?)" with ID "(.*?)" field "(.*?)" to "(.*?)"$/ do |colle
 end
 
 When /^I send an update event to the search indexer for collection "(.*?)" and ID "(.*?)"$/ do |collection, id|
-  midgar = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"
-  message = [{"ns" => "#{midgar}.#{collection}",
-              "o" => { "$set" => { "type" => collection } },
-              "o2" => { "_id" => id },
-              "op" => "u"
-             }]
-  client = Stomp::Client.new
-  client.publish("search", message.to_json)
+  publish_oplog_message(build_oplog_message(collection, id, "u"))
+end
+
+When /^I send a delete event to the search indexer for collection "(.*?)" and ID "(.*?)"$/ do |collection, id|
+  publish_oplog_message(build_oplog_message(collection, id, "d"))
 end
 
 Then /^I will EVENTUALLY GET "(.*?)" with (\d+) elements$/ do |query, count|
@@ -62,4 +59,18 @@ Then /^I will EVENTUALLY GET "(.*?)" with (\d+) elements$/ do |query, count|
     sleep 1
   }
   assert(success, "expected #{count} elements but got back #{@result.size}")
+end
+
+def publish_oplog_message(message)
+  client = Stomp::Client.new
+  client.publish("search", [message].to_json)
+end
+
+def build_oplog_message(collection, id, operation)
+  midgar = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"
+  {"ns" => "#{midgar}.#{collection}",
+   "o" => { "$set" => { "type" => collection } },
+   "o2" => { "_id" => id },
+   "op" => operation
+  }
 end
