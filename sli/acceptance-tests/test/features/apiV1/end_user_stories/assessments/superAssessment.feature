@@ -45,7 +45,7 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     Then I should have a list of 12 "section" entities
 
   When I make a GET request to URI "/sections/@id/studentSectionAssociations/students/studentAssessments"
-    Then I should have a list of 50 "studentAssessment" entities
+    Then I should have a list of 42 "studentAssessment" entities
     And I should extract the "id" from the response body to a list and save to "studentAssessments"
 
   When I navigate to GET "/v1/studentAssessments"
