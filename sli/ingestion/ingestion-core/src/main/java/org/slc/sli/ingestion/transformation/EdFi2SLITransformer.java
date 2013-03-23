@@ -24,7 +24,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -108,12 +107,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     entity.setMetaData(new HashMap<String, Object>());
                 }
 
-                try {
-                    matchEntity(entity, report, reportStats);
-                } catch (DataAccessResourceFailureException darfe) {
-                    LOG.error("Exception in matchEntity", darfe);
-                    report.error(reportStats, new ElementSourceImpl(item), CoreMessageCode.CORE_0046, darfe);
-                }
+//                try {
+//                    matchEntity(entity, report, reportStats);
+//                } catch (DataAccessResourceFailureException darfe) {
+//                    LOG.error("Exception in matchEntity", darfe);
+//                    report.error(reportStats, new ElementSourceImpl(item), CoreMessageCode.CORE_0046, darfe);
+//                }
 
                 if (reportStats.hasErrors()) {
                     return Collections.emptyList();

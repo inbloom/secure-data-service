@@ -18,7 +18,6 @@ package org.slc.sli.ingestion.transformation;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -195,13 +194,8 @@ public class SmooksEdFi2SLITransformerTest {
 
         List<SimpleEntity> res = transformer.handle(assessmentRC, errorReport, reportStats);
 
-        verify(mockedEntityRepository).findByQuery(eq("assessment"), Mockito.any(Query.class),
-                eq(0), eq(0));
-
         Assert.assertNotNull(res);
         Assert.assertEquals(ASSESSMENT_TITLE, res.get(0).getBody().get("assessmentTitle"));
-        Assert.assertEquals(TENANT_ID, res.get(0).getMetaData().get(TENANT_ID_FIELD));
-        Assert.assertEquals(STUDENT_ID, res.get(0).getMetaData().get(EXTERNAL_ID_FIELD));
 
     }
 
