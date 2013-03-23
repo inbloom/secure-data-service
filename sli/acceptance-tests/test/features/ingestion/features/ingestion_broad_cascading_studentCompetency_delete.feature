@@ -75,4 +75,4 @@ Scenario: Delete Student Competency with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	#And I should not see "SCO-K-1" in the "Midgar" database
+	#And I should not see "315511d70c3e5e231aae544dd1c9b2dd980e8d8b_id" in the "Midgar" database
