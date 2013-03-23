@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<InterchangeStudentCohort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                          xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentCohort.xsd">
+    <Action ActionType="DELETE" Cascade="true">
+
+        <StaffCohortAssociation>
+            <StaffReference>
+                <StaffIdentity>
+                    <StaffUniqueStateId>mgonzales</StaffUniqueStateId>
+                </StaffIdentity>
+            </StaffReference>
+            <CohortReference>
+                <CohortIdentity>
+                    <CohortIdentifier>1</CohortIdentifier>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                </CohortIdentity>
+            </CohortReference>
+            <BeginDate>2001-09-03</BeginDate>
+            <EndDate>2002-09-03</EndDate>
+            <StudentRecordAccess>true</StudentRecordAccess>
+        </StaffCohortAssociation>
+
+    </Action>
+
+</InterchangeStudentCohort>
