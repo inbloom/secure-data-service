@@ -111,7 +111,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
          <property name="entityRepository" ref="mongoEntityRepository" />
     </bean>
     
-     <bean id="applicator" class="org.slc.sli.bulk.extract.treatment.EntityTreatmentApplicator">
+     <bean id="applicator" class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
          <property name="treatments" ref="treatments" />
     </bean>
     

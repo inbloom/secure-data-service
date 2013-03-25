@@ -18,7 +18,7 @@ package org.slc.sli.bulk.extract.extractor;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.slc.sli.bulk.extract.treatment.EntityTreatmentApplicator;
+import org.slc.sli.bulk.extract.treatment.TreatmentApplicator;
 import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -45,7 +45,7 @@ public class EntityExtractor{
 
     private Repository<Entity> entityRepository;
 
-    private EntityTreatmentApplicator applicator;
+    private TreatmentApplicator applicator;
 
     public void extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
 
@@ -68,7 +68,7 @@ public class EntityExtractor{
                     Entity record = cursor.next();
                     noOfRecords++;
 
-                    record = applicator.applyAll(record);
+                    record = applicator.apply(record);
                     zipFile.writeData(record.getBody());
                 }
                 zipFile.writeEndArray();
@@ -117,11 +117,11 @@ public class EntityExtractor{
         this.entityRepository = entityRepository;
     }
 
-    public EntityTreatmentApplicator getApplicator() {
+    public TreatmentApplicator getApplicator() {
         return applicator;
     }
 
-    public void setApplicator(EntityTreatmentApplicator applicator) {
+    public void setApplicator(TreatmentApplicator applicator) {
         this.applicator = applicator;
     }
 }
