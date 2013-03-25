@@ -121,7 +121,7 @@ Given I am a valid teacher "cgray" with password "cgray1234"
   When I navigate to GET "/v1/search/assessments?q=2014-ninth%20grade%20assessment%201&limit=100"
     Then I should have a list of 52 "assessment" entities
 
-  When I navigate to GET "/v1/search/assessments?q=2012-sixth&offset=3&limit=100&q=grade"
+  When I navigate to GET "/v1/search/assessments?assessmentTitle=2013-Sixth%20grade%20Assessment%201"
     Then I should have a list of 1 "assessment" entities
     And the offset response field "assessmentTitle" should be "2013-Sixth grade Assessment 1"
     And the offset response field "<search.assessment.ID>" should be "2013-Sixth grade Assessment 1"
