@@ -105,6 +105,8 @@ Given I am a valid teacher "cgray" with password "cgray1234"
 
   When I navigate to GET "/v1/search/assessments?q=Sixth"
     Then I should have a list of 4 "assessment" entities
+    When I navigate to GET "/v1/search/assessments?assessmentTitle=2012-Sixth%20grade%20Assessment%202"
+    Then I should have a list of 1 "assessment" entities
     And the offset response field "assessmentTitle" should be "2012-Sixth grade Assessment 2"
     And the offset response field "gradeLevelAssessed" should be "Sixth grade"
     And the offset response field "<AIC.ID>" should be "2012-Sixth grade Assessment 2"

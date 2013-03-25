@@ -19,6 +19,7 @@ import static org.slc.sli.common.constants.EntityNames.ASSESSMENT;
 import static org.slc.sli.common.constants.EntityNames.ASSESSMENT_FAMILY;
 import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_HIERARCHY;
 import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_REFERENCE;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_TITLE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     @SuppressWarnings("unchecked")
     protected List<Map<String, Object>> addAssessmentsForFamilyId(String dbname, String id, String familyName) {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
-        DBObject referenceQuery = BasicDBObjectBuilder.start().add("body.assessmentFamilyReference", id).get();
+        DBObject referenceQuery = BasicDBObjectBuilder.start().add("body." + ASSESSMENT_FAMILY_REFERENCE, id).get();
         DBCursor assessmentCursor = getSourceDatastoreConnector().getDBCursor(dbname, ASSESSMENT,
                 getIndexConfigStore().getConfig(ASSESSMENT).getFields(), referenceQuery);
         while (assessmentCursor.hasNext()) {
@@ -75,7 +76,7 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
         while (familyCursor.hasNext()) {
             DBObject subFamily = familyCursor.next();
             String subId = (String) subFamily.get("_id");
-            String subName = (String) ((Map<String, Object>) subFamily.get("body")).get("assessmentFamilyTitle");
+            String subName = (String) ((Map<String, Object>) subFamily.get("body")).get(ASSESSMENT_FAMILY_TITLE);
             results.addAll(addAssessmentsForFamilyId(dbname, subId, familyName + "." + subName));
         }
         return results;
@@ -94,7 +95,7 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
                 builder.append(".");
             }
         }
-        return builder.append(body.get("assessmentFamilyTitle").toString());
+        return builder.append(body.get(ASSESSMENT_FAMILY_TITLE).toString());
     }
     
     @Override
