@@ -329,6 +329,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadStudentAcademicRecordTest,
         :ingestionCascadingDeletionBroadGradeTest,
         :ingestionCascadingDeletionBroadCourseTranscriptTest,
+        :ingestionCascadingDeletionBroadReportCardTest,
   ] do
 
   displayFailureReport()
@@ -546,6 +547,10 @@ end
 
 task :ingestionCascadingDeletionBroadCourseTranscriptTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_courseTranscript_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadReportCardTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_reportCard_delete.feature")
 end
 
 ############################################################
