@@ -530,7 +530,7 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
         if( name != null ) {
             verb = ActionVerb.valueOf( name );
         }
-        return (verb );
+        return verb;
     }
 
     public void setActionVerb(ActionVerb action) {
