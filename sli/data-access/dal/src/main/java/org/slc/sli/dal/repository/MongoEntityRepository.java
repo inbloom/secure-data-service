@@ -276,14 +276,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Map<String, Object> metaData = origMetaData == null ? new HashMap<String, Object>() : origMetaData;
 
         MongoEntity entity = new MongoEntity(type, id, body, metaData);
-        validator.validateNaturalKeys(entity, true);
-        validator.validate(entity);
         keyEncoder.encodeEntityKey(entity);
 
         this.addTimestamps(entity);
         this.schemaVersionValidatorProvider.getSliSchemaVersionValidator().insertVersionInformation(entity);
 
         if (subDocs.isSubDoc(collectionName)) {
+            validator.validate(entity);
+            validator.validateNaturalKeys(entity, true);
             subDocs.subDoc(collectionName).create(entity);
 
             if (denormalizer.isDenormalizedDoc(collectionName)) {
@@ -292,6 +292,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
             return entity;
         } else if (containerDocumentAccessor.isContainerDocument(entity.getType())) {
+            validator.validate(entity);
+            validator.validateNaturalKeys(entity, true);
             final String createdId = containerDocumentAccessor.insert(entity);
             if (!createdId.isEmpty()) {
                 return new MongoEntity(type, createdId, entity.getBody(), metaData);
@@ -303,6 +305,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             if (converter != null) {
                 converter.bodyFieldToSubdoc(entity);
             }
+            validator.validate(entity);
+            validator.validateNaturalKeys(entity, true);
             Entity result = super.insert(entity, collectionName);
 
             if (denormalizer.isDenormalizedDoc(collectionName)) {
@@ -379,17 +383,29 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return entity;
     }
 
+    // TODO derive this from the SLI.xsd
+    private static final Map<String, String> ENTITY_BASE_TYPE_MAP;
+    static
+    {
+        ENTITY_BASE_TYPE_MAP = new HashMap<String, String>();
+        ENTITY_BASE_TYPE_MAP.put("school", "educationOrganization");
+        ENTITY_BASE_TYPE_MAP.put("localEducationAgency", "educationOrganization");
+        ENTITY_BASE_TYPE_MAP.put("stateEducationAgency", "educationOrganization");
+        ENTITY_BASE_TYPE_MAP.put("teacher", "staff");
+    }
+
     /**
-     * Get the references that need to be queried for an entityType including baseType if defined
+     * Get the union of references that need to be queried if a an entity of the specified type is to be deleted
      *
      * @param entityType    the entity type that is referenced
      * @return
      */
-    List<SchemaReferencePath> getAllReferencesTo(String entityType, String baseType) {
+    List<SchemaReferencePath> getAllReferencesTo(String entityType) {
         Set<SchemaReferencePath> set = new HashSet<SchemaReferencePath>();
+        String baseType = ENTITY_BASE_TYPE_MAP.get(entityType);
 
         // No inheriting relations from other types
-        if (baseType == null || entityType.equals(baseType)) {
+        if (baseType == null) {
             return schemaRefMetaData.getReferencesTo(entityType);
         }
 
@@ -398,6 +414,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         set.addAll(schemaRefMetaData.getReferencesTo(baseType));
 
         return new ArrayList<SchemaReferencePath>(set);
+    }
+
+    // HACK to explicitly map from specific to base types
+    // once the DAL interface data model is well defined, this should not be needed
+    String getEntityRepositoryType(String entityType) {
+        String baseType = ENTITY_BASE_TYPE_MAP.get(entityType);
+        if (baseType == null) {
+            return entityType;
+        }
+        return baseType;
     }
 
     @Override
@@ -430,7 +456,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
      *  Recursive helper used to cascade deletes to referencing entities
      *
      * @param entityType        type of the entity to delete
-     * @param collectionName    the collection name from which to delete, entityType if null
+     * @param collectionName    DEPRECATED - the collection name from which to delete, entityType if null
      * @param id                id of the entity to delete
      * @param cascade           delete related entities if true
      * @param dryrun            only delete if true
@@ -443,18 +469,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     private CascadeResult safeDeleteHelper(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun,
                                            Integer maxObjects, AccessibilityCheck access, int depth, Set<String> deletedIds) {
         CascadeResult result = new CascadeResult();
-        String repositoryEntityType;
-
-        // TODO we should only need entityType once the DAL interface is made consistent
-        if (collectionName == null) {
-            repositoryEntityType = entityType;
-        } else {
-            repositoryEntityType = collectionName;
-        }
+        String repositoryEntityType = getEntityRepositoryType(entityType);
 
         result.setDepth(depth);
 
-       // Sanity check for maximum depth
+        // Sanity check for maximum depth
         if (depth > maxCascadeDeleteDepth) {
             String message = "Maximum delete cascade depth exceeded for entity type " + entityType + " with id " + id + " at depth " + depth;
             LOG.debug(message);
@@ -479,7 +498,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         // based on the number of objects reported by the dryrun
         if (cascade) {
 
-            List<SchemaReferencePath> refFields = getAllReferencesTo(entityType, repositoryEntityType);
+            List<SchemaReferencePath> refFields = getAllReferencesTo(entityType);
 
             // Process each referencing entity field that COULD reference the deleted ID
             for (SchemaReferencePath referencingFieldSchemaInfo : refFields) {
@@ -493,7 +512,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
                 // List all entities that have the deleted entity's ID in one or more
                 // referencing fields
-                for (Entity entity : this.findAll(referenceEntityType, neutralQuery)) {
+                for (Entity entity : this.findAll(getEntityRepositoryType(referenceEntityType), neutralQuery)) {
                     // Note we are examining entities one level below our initial depth now
                     String referencerId = entity.getEntityId();
                     String referent = referenceEntityType  + "." + referencerId;
@@ -746,21 +765,22 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (validateNaturalKeys) {
             validator.validateNaturalKeys(entity, true);
         }
-        validator.validate(entity);
 
         this.updateTimestamp(entity);
 
+        // convert subdoc from superdoc body to outside body
+        SuperdocConverter converter = converterReg.getConverter(entity.getType());
+        if (converter != null && isSuperdoc) {
+            converter.bodyFieldToSubdoc(entity);
+        }
+        validator.validate(entity);
         if (denormalizer.isDenormalizedDoc(collection)) {
             denormalizer.denormalization(collection).create(entity);
         }
         if (subDocs.isSubDoc(collection)) {
             return subDocs.subDoc(collection).create(entity);
         }
-        // convert subdoc from superdoc body to outside body
-        SuperdocConverter converter = converterReg.getConverter(entity.getType());
-        if (converter != null && isSuperdoc) {
-            converter.bodyFieldToSubdoc(entity);
-        }
+
         if (containerDocumentAccessor.isContainerDocument(collection)) {
             return !containerDocumentAccessor.update(entity).isEmpty();
         }
