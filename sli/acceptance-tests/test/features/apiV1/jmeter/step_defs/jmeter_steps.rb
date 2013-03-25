@@ -172,6 +172,8 @@ def checkForRegression(testName)
   if previousJtl.nil?
     puts "No previous jtl for #{testName}"
     return {}
+  else
+    puts "Found previous jtl for #{testName} at #{previousJtl}"
   end
 
   currentDoc = loadXML(currentJtl)
