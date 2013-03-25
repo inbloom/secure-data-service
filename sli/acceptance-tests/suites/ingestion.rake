@@ -280,60 +280,61 @@ end
 
 desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
-        :ingestionCascadingDeletionStudentTest,
-        :ingestionCascadingDeletionSchoolTest,
-        :ingestionCascadingDeletionSectionTest,
-        :ingestionCascadingDeletionBroadCourseTest,
-        :ingestionCascadingDeletionBroadSEATest,
-        :ingestionCascadingDeletionTeacherTest,
+        :ingestionCascadingDeletionBroadAssessmentFamilyTest,
+        :ingestionCascadingDeletionBroadAssessmentItemFromAssessmentMetadataTest,
+        :ingestionCascadingDeletionBroadAssessmentItemFromStudentAssessmentTest,
+        :ingestionCascadingDeletionBroadAssessmentPeriodDescriptorTest,
+        :ingestionCascadingDeletionBroadAssessmentTest,
         :ingestionCascadingDeletionBroadAttendanceEventTest,
         :ingestionCascadingDeletionBroadCalendarDateTest,
-        :ingestionCascadingDeletionBroadGradingPeriodTest,
-        :ingestionCascadingDeletionBroadSessionTest,
-        :ingestionCascadingDeletionBroadStudentParentAssociationTest,
-        :ingestionCascadingDeletionBroadParentTest,
+        :ingestionCascadingDeletionBroadCohortTest,
+        :ingestionCascadingDeletionBroadCompetencyLevelDescriptorInStudentGradesTest,
         :ingestionCascadingDeletionBroadCompetencyLevelDescriptorTest,
-        #:ingestionCascadingDeletionBroadLEATest,
+        :ingestionCascadingDeletionBroadCourseOfferingTest,
+        :ingestionCascadingDeletionBroadCourseTest,
+        :ingestionCascadingDeletionBroadCourseTranscriptTest,
+        :ingestionCascadingDeletionBroadDisciplineActionTest,
+        :ingestionCascadingDeletionBroadDisciplineIncidentTest,
+        :ingestionCascadingDeletionBroadGradebookEntryTest,
+        :ingestionCascadingDeletionBroadGradeTest,
+        :ingestionCascadingDeletionBroadGradingPeriodTest,
+        :ingestionCascadingDeletionBroadGraduationPlanTest,
+        :ingestionCascadingDeletionBroadLearningObjectiveFromStudentGradesTest,
+        :ingestionCascadingDeletionBroadLearningObjectiveTest,
+        :ingestionCascadingDeletionBroadLearningStandardTest,
+        :ingestionCascadingDeletionBroadLEATest,
+        :ingestionCascadingDeletionBroadObjectiveAssessmentFromAssessmentMetadataTest,
+        :ingestionCascadingDeletionBroadParentTest,
         :ingestionCascadingDeletionBroadProgramTest,
-        :ingestionCascadingDeletionBroadStudentFromInterchangeStudentParentTest,
-        :ingestionCascadingDeletionBroadSectionTest,
+        :ingestionCascadingDeletionBroadReportCardTest,
         :ingestionCascadingDeletionBroadSchoolTest,
+        :ingestionCascadingDeletionBroadSEATest,
+        :ingestionCascadingDeletionBroadSectionTest,
+        :ingestionCascadingDeletionBroadSessionTest,
+        :ingestionCascadingDeletionBroadStaffCohortAssociationTest,
+        :ingestionCascadingDeletionBroadStaffEducationOrgAssignmentAssociationTest,
+        :ingestionCascadingDeletionBroadStaffProgramAssociationTest,
+        :ingestionCascadingDeletionBroadStaffTest,
+        :ingestionCascadingDeletionBroadStudentAcademicRecordTest,
+        :ingestionCascadingDeletionBroadStudentAssessmentTest,
+        :ingestionCascadingDeletionBroadStudentCohortAssociationTest,
+        :ingestionCascadingDeletionBroadStudentCompetencyObjectiveTest,
+        :ingestionCascadingDeletionBroadStudentCompetencyTest,
+        :ingestionCascadingDeletionBroadStudentDisciplineIncidentAssociationTest,
+        :ingestionCascadingDeletionBroadStudentFromInterchangeStudentParentTest,
+        :ingestionCascadingDeletionBroadStudentGradebookEntryTest,
+        :ingestionCascadingDeletionBroadStudentParentAssociationTest,
         :ingestionCascadingDeletionBroadStudentProgramAssociationTest,
         :ingestionCascadingDeletionBroadStudentSchoolAssociationTest,
         :ingestionCascadingDeletionBroadStudentSectionAssociationTest,
-        :ingestionCascadingDeletionBroadGraduationPlanTest,
-        :ingestionCascadingDeletionBroadDisciplineIncidentTest,
-        :ingestionCascadingDeletionBroadDisciplineActionTest,
-        :ingestionCascadingDeletionBroadStudentDisciplineIncidentAssociationTest,
-        :ingestionCascadingDeletionBroadCohortTest,
-        :ingestionCascadingDeletionBroadStudentCohortAssociationTest,
-        :ingestionCascadingDeletionBroadStaffCohortAssociationTest,
-        :ingestionLeafStudentDelete,
-        :ingestionCascadingDeletionBroadAssessmentTest,
-        :ingestionCascadingDeletionBroadAssessmentItemTest,
-        :ingestionCascadingDeletionBroadStudentAssessmentTest,
-        :ingestionCascadingDeletionBroadObjectiveAssessmentTest,
-        :ingestionCascadingDeletionBroadLearningObjectiveTest,
-        :ingestionCascadingDeletionBroadLearningStandardTest,
-        :ingestionCascadingDeletionBroadAssessmentFamilyTest,
-        :ingestionCascadingDeletionBroadAssessmentPeriodDescriptorTest,
-        :ingestionCascadingDeletionBroadCourseOfferingTest,
-        :ingestionCascadingDeletionBroadStaffTest,
-        :ingestionCascadingDeletionBroadStaffEducationOrgAssignmentAssociationTest,
-        :ingestionCascadingDeletionBroadTeacherTest,
         :ingestionCascadingDeletionBroadTeacherSchoolAssociationTest,
         :ingestionCascadingDeletionBroadTeacherSectionAssociationTest,
-        :ingestionCascadingDeletionBroadStaffProgramAssociationTest,
-        :ingestionCascadingDeletionBroadStudentCompetencyObjectiveTest,
-        :ingestionCascadingDeletionBroadStudentCompetencyTest,
-        :ingestionCascadingDeletionBroadStudentAcademicRecordTest,
-        :ingestionCascadingDeletionBroadGradeTest,
-        :ingestionCascadingDeletionBroadCourseTranscriptTest,
-        :ingestionCascadingDeletionBroadReportCardTest,
-        :ingestionCascadingDeletionBroadGradebookEntryTest,
-        :ingestionCascadingDeletionBroadStudentGradebookEntryTest,
-        :ingestionCascadingDeletionBroadCompetencyLevelDescriptorInStudentGradesTest,
-        :ingestionCascadingDeletionBroadLearningObjectiveFromStudentGradesTest,
+        :ingestionCascadingDeletionBroadTeacherTest,
+        :ingestionCascadingDeletionSchoolTest,
+        :ingestionCascadingDeletionSectionTest,
+        :ingestionCascadingDeletionStudentTest,
+        :ingestionCascadingDeletionTeacherTest,
+        :ingestionLeafStudentDelete,
   ] do
 
   displayFailureReport()
@@ -390,8 +391,12 @@ task :ingestionCascadingDeletionBroadAssessmentTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_assessment_delete.feature")
 end
 
-task :ingestionCascadingDeletionBroadAssessmentItemTest do
-  runTests("test/features/ingestion/features/ingestion_broad_cascading_assessmentItem_delete.feature")
+task :ingestionCascadingDeletionBroadAssessmentItemFromAssessmentMetadataTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_assessmentItemFromAssessmentMetadata_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadAssessmentItemFromStudentAssessmentTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_assessmentItemFromStudentAssessment_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadAssessmentFamilyTest do
@@ -402,8 +407,8 @@ task :ingestionCascadingDeletionBroadStudentAssessmentTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_studentAssessment_delete.feature")
 end
 
-task :ingestionCascadingDeletionBroadObjectiveAssessmentTest do
-  runTests("test/features/ingestion/features/ingestion_broad_cascading_objectiveAssessment_delete.feature")
+task :ingestionCascadingDeletionBroadObjectiveAssessmentFromAssessmentMetadataTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_objectiveAssessmentFromAssessmentMetadata_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadAssessmentPeriodDescriptorTest do
@@ -416,10 +421,6 @@ end
 
 task :ingestionCascadingDeletionBroadLearningStandardTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_LearningStandard_delete.feature")
-end
-
-task :ingestionCascadingDeletionBroadSchoolTest do
-  runTests("test/features/ingestion/features/ingestion_broad_cascading_school_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadCourseTest do
