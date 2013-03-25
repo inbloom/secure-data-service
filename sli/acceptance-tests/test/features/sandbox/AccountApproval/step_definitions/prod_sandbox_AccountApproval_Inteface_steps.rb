@@ -223,21 +223,3 @@ def assertText(text)
     assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
   end
 end
-
-def retryOnFailure(naptime = 2, retries = 5, &block)
-  attempts = 1
-  while attempts < retries
-    if attempts > 1
-      puts "Previous attempt failed. Attempt #{attempts}/#{retries}"
-      sleep(naptime)
-    end
-    begin
-      yield
-    rescue SystemExit, Interrupt
-      raise
-    rescue Exception => e
-        raise e if attempts < retries
-    end
-    attempts += 1
-  end
-end
