@@ -32,6 +32,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
 
@@ -255,7 +256,6 @@ public class SubDocAccessor {
                 }
                 return false;
             }
-
         }
 
         private DBObject buildPullObject(List<Entity> subEntities) {
@@ -321,9 +321,56 @@ public class SubDocAccessor {
             subEntities.add(entity);
             TenantContext.setIsSystemCall(false);
 
-            return template.getCollection(collection)
-                    .update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError()
+            boolean updateResult = template.getCollection(collection)
+            		.update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError()
                     .ok();
+            if (!updateResult) {
+            	return updateResult;
+            }
+
+            // Now retrieve the full doc and if it has gone completely empty, remove it from the data store.
+            // This is useful to clean out data consisting solely of IDs that appear in the "lookup" fields:
+            // the subdoc data may be getting deleted as part of a larger, cascading delete that also deletes
+            // the parent objects these IDs refer to.  In these cases it is necessary to remove the entire superdoc
+            // to avoid having dangling IDs anywhere in the data store.
+            DBCursor subDocs = template.getCollection(collection).find(parentQuery);
+            if( null == subDocs ) {
+            	LOG.warn("Failed to retreive superdoc after item deletion using criteria: " + parentQuery.toString());
+            	return updateResult;
+            }
+            // Should really only have one object in this cursor.  However the empty-check is highly conservative
+            // so that the effect on multiple matches would be to clean them all, which would be desirable.
+            while( subDocs.hasNext() ) {
+                DBObject subDoc = subDocs.next();
+                Map<String, Object> map = subDoc.toMap();
+                map.remove("_id");
+                map.remove("type");
+                // Remove "lookup" keys present in body
+                Map<String, Object> body = (Map<String, Object>) map.get("body");
+                if ( body != null ) {
+                	// Remove keys from body that match exactly keys in "lookup" of the form { "foo": "body.foo" }
+                	for ( String lkey : lookup.keySet() ) {
+                		String lval = lookup.get(lkey);
+                		if (!lval.startsWith("body.")) {
+                			continue;
+                		}
+                		lval = lval.substring(5); // Remove leading "body."
+                		if (null != body.get(lval)) {
+                			body.remove(lval);
+                		}
+                	}
+                }
+                // Remove entire document if it is empty (net of any extra "lookup" fields added for performance)
+                if ( isEffectivelyEmpty(map) ) {
+                    boolean deleteResult = template.getCollection(collection)
+                    		.remove(parentQuery, WriteConcern.SAFE).getLastError()
+                            .ok();
+                    if (!deleteResult) {
+                    	return deleteResult;
+                    }
+                }
+            }
+            return updateResult;
         }
 
         public boolean insert(List<Entity> entities) {
@@ -734,6 +781,31 @@ public class SubDocAccessor {
 
     public Location subDoc(String docType) {
         return locations.get(docType);
+    }
+
+    /*
+     * Check if a map of data is "effectively" empty - has only values that are null,
+     * empty string, or empty lists.  This allows us to get rid of
+     * "garbage" super-docs after the last subdoc item is deleted, so as not to leave
+     * potentially invalid indexing information in the data store.
+     *
+     * This method is used as criteria for total deletion of a document, and therefore
+     * should be "conservative," only returning true if it is certain all content
+     * is of known (and empty) type.
+     */
+    private static boolean isEffectivelyEmpty(Map<String, Object> map) {
+    	for ( String key : map.keySet()) {
+    		Object val = map.get(key);
+    		if (    ( null == val )
+    			 || ( (val instanceof String) && ((String) val).length() == 0 )
+    			 || ( (val instanceof Map)  && isEffectivelyEmpty((Map<String, Object>) val) )
+    			 || ( (val instanceof List<?>) && ((List<?>) val).isEmpty() )
+    			 ) {
+				continue;
+			}
+    		return false;
+    	}
+    	return true;
     }
 
     public static void main(String[] args) {
