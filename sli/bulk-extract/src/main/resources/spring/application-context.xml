@@ -52,7 +52,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <value>school</value>
         <value>section</value>
         <value>session</value>
-        <value>staff</value>
+        <!--  <value>staff</value> -->
         <value>staffCohortAssociation</value>
         <value>staffEducationOrganizationAssociation</value>
         <value>staffProgramAssociation</value>
@@ -69,7 +69,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <value>studentSchoolAssociation</value>
         <value>studentSectionAssociation</value>
         <value>studentParentAssociation</value>
-        <value>teacher</value>
+        <!-- <value>teacher</value> -->
         <value>teacherSchoolAssociation</value>
         <value>teacherSectionAssociation</value>
     </util:list>

@@ -36,13 +36,13 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -229,7 +229,7 @@ public class ContextValidator implements ApplicationContextAware {
                         && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
                     debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
                 } else {
-                    if (ownership.canAccess(ent)) {
+                    if (ownership.canAccess(ent, isTransitive)) {
                         idsToValidate.add(ent.getEntityId());
                     } else {
                         throw new AccessDeniedException("Access to " + ent.getEntityId() + " is not authorized");

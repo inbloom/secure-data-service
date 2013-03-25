@@ -4,6 +4,9 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 require_relative '../../../apiV1/long_lived_session/step_definitions/token_generator_steps.rb'
 
+SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_script'])
+TRIGGER_SCRIPT_DIRECTORY = File.expand_path(PropLoader.getProps['bulk_extract_script_directory'])
+CRON_OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_cron_output_directory']
 TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
 OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
 PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
@@ -16,6 +19,86 @@ ENCRYPTED_ENTITIES = ['student', 'parent']
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 
 require 'zip/zip'
+
+############################################################
+# Scheduler
+############################################################
+Given /^the current crontab is empty$/ do
+    command = "crontab -l"
+    result = runShellCommand(command)
+    puts "Running: #{command} #{result}"
+    command = "crontab -r"
+    result = runShellCommand(command)
+    puts "Running: #{command} #{result}"
+    assert(result.length==0, "current crontab is not empty but #{result}")
+end
+
+Given /^the local bulk extract script path and the scheduling config path$/ do
+    assert(Dir.exists?(TRIGGER_SCRIPT_DIRECTORY), "Bulk Extract script directory #{TRIGGER_SCRIPT_DIRECTORY} does not exist")
+    @trigger_script_path = TRIGGER_SCRIPT_DIRECTORY
+    @scheduling_config_path = File.dirname(__FILE__) + '/../../test_data/config/'
+    assert(Dir.exists?(@scheduling_config_path), "Bulk Extract scheduling config directory #{@scheduling_config_path} does not exist")
+
+    puts "bulk extract script path: #{@trigger_script_path}"
+    puts "bulk extract scheduling config path: #{@scheduling_config_path}"
+end
+
+And /^I clean up the cron extraction zone$/ do
+    @current_dir = Dir.pwd
+    puts "pwd: #{@current_dir}"
+    Dir.chdir
+    puts "pwd: #{Dir.pwd}"
+    if (Dir.exists?(CRON_OUTPUT_DIRECTORY))
+        FileUtils.rm_rf CRON_OUTPUT_DIRECTORY
+    end
+    assert(!Dir.exists?(CRON_OUTPUT_DIRECTORY), "cron output directory #{CRON_OUTPUT_DIRECTORY} does exist")
+    puts "CRON_OUTPUT_DIRECTORY: #{CRON_OUTPUT_DIRECTORY}"
+    Dir.chdir(@current_dir)
+end
+
+Then /^I run the bulk extract scheduler script$/ do
+    command  = "echo 'y' | sh #{SCHEDULER_SCRIPT} #{@trigger_script_path} #{@scheduling_config_path}"
+    result = runShellCommand(command)
+    puts "Running: #{command} #{result}"
+    raise "Result of bulk extract scheduler script should include Installed new crontab but was #{result}" if !result.include?"Installed new crontab"
+    command = "crontab -l"
+    result = runShellCommand(command)
+    Dir.chdir
+    puts "pwd: #{Dir.pwd}"
+end
+
+When /^I am willing to wait upto (\d+) seconds for the bulk extract scheduler cron job to start and complete$/ do |limit|
+    @maxTimeout = limit.to_i
+    puts "Waited timeout for #{limit.to_i} seconds"
+    intervalTime = 1
+    @maxTimeout ? @maxTimeout : @maxTimeout = 900
+    iters = (1.0*@maxTimeout/intervalTime).ceil
+    iters.times do |i|
+       if Dir.exists?(CRON_OUTPUT_DIRECTORY)
+          puts "Bulk extract scheduler cron job took approx. #{(i+1)*intervalTime} seconds to start and complete"
+          found = true
+          break
+       else
+          sleep(intervalTime)
+       end
+    end
+
+    assert(Dir.exists?(CRON_OUTPUT_DIRECTORY), "Timeout: cron job output directory #{CRON_OUTPUT_DIRECTORY} does not exist")
+
+    outdir = Dir.new(CRON_OUTPUT_DIRECTORY)
+    outdir.each do |filename|
+       puts "Bulk extracted file by cron job: #{filename}" if filename!="." && filename!=".."
+    end
+    Dir.chdir(@current_dir)
+end
+
+And /^I clear crontab$/ do
+    command = "crontab -r"
+    result = runShellCommand(command)
+    puts "Running: #{command} #{result}"
+    assert(result.length==0, "current crontab is not empty but #{result}")
+end
+
 
 ############################################################
 # Given
@@ -213,6 +296,22 @@ def get_nested_keys(hash, keys=Array.new)
    keys.sort
 end
 
+def entityToUri(entity)
+  
+  uri = String.new(entity)
+
+  case entity
+  when "staff"
+    uri
+  when "gradebookEntry", "studentGradebookEntry", "studentCompetency"
+    uri[-1] = "ies" 
+    uri
+  else
+    uri + "s"
+  end
+
+end
+
 def compareToApi(collection, collFile)
   case collection
   when "student"
@@ -220,10 +319,11 @@ def compareToApi(collection, collFile)
     collFile.each do |extractRecord|
     
       id = extractRecord["id"]
-
-      #Make API call and get JSON for a student
+      
+      #Make API call and get JSON for the collection
       @format = "application/vnd.slc+json"
-      restHttpGet("/v1/students/#{id}")
+      uri = entityToUri(collection)
+      restHttpGet("/v1/#{uri}/#{id}")
       assert(@res != nil, "Response from rest-client GET is nil")
       assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
       apiRecord = JSON.parse(@res.body)

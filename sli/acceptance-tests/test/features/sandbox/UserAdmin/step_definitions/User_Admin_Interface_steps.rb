@@ -258,16 +258,16 @@ Then /^that user is removed from LDAP$/ do
   sessionId = @sessionId
   format = "application/json"
   found = false
-  30.times do
+  30.times do |i|
     restHttpGet("/users",format,sessionId)
     found = false
     result = JSON.parse(@res.body)
     result.each do |user|
       if user["fullName"] == @userFullName
+        puts "Found #{user["fullName"]} on try #{i}\n"
         found = true
         break
       end
-      puts user["fullName"]
     end
     if !found
       break
