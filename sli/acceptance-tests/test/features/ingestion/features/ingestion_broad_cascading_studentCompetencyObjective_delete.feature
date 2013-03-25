@@ -75,4 +75,4 @@ Scenario: Delete Student Competency Objective with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	And I should not see "studentCompetencyObjective" in the "Midgar" database
+	And I should not see "028d7f8e25584d3353c9691e6aab89156029dde8_id" in the "Midgar" database
