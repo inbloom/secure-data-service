@@ -40,15 +40,8 @@ public class AssessmentPeriodDescriptorEntityConverter extends AssessmentEntityC
         if (action != Action.DELETE) {
             IndexConfig apdConfig = getIndexConfigStore().getConfig(ASSESSMENT_PERIOD_DESCRIPTOR);
             body = getBody(index, entityMap, ASSESSMENT_PERIOD_DESCRIPTOR, apdConfig.getFields());
-            
-            // if body is still empty, and this is not a delete action, there is no assessment
-            // that needs to be updated with this empty body assessmentPeriodDescriptor
-            if (body == null) {
-                return entities;
-            }
         }
 
-       
         DBObject query = new BasicDBObject("body." + ASSESSMENT_PERIOD_DESCRIPTOR_ID, entityMap.get("_id"));
         IndexConfig config = getIndexConfigStore().getConfig(ASSESSMENT);
         
@@ -60,7 +53,7 @@ public class AssessmentPeriodDescriptorEntityConverter extends AssessmentEntityC
                 ((Map<String, Object>) assessmentMap.get("body")).put(ASSESSMENT_PERIOD_DESCRIPTOR, body);
             }
             ((Map<String, Object>) assessmentMap.get("body")).remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID);
-            entities.addAll(super.treatment(index, action, assessmentMap));
+            entities.addAll(super.treatment(index, convertAction(action), assessmentMap));
         }
 
         return entities;
@@ -70,7 +63,7 @@ public class AssessmentPeriodDescriptorEntityConverter extends AssessmentEntityC
     @Override
     public Action convertAction(Action action) {
         // delete action will need to changed into an update action on assessments
-        return action == Action.DELETE ? Action.UPDATE : action;
+        return action == Action.DELETE ? Action.INDEX: action;
     }
 
 }
