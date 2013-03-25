@@ -4,6 +4,7 @@ Feature: Search Indexer reindexes accordingly when we update/delete/create Asses
 Scenario: Search Indexer should reindex when I update, delete, and create
   the Assessment Period Descriptor and Assessment Family
 
+  # oauth
   Given I am a valid teacher "rrogers" with password "rrogers1234"
   And the testing device app key has been created
   And I have an open web browser
@@ -18,6 +19,7 @@ Scenario: Search Indexer should reindex when I update, delete, and create
   Then I should receive a json response containing my authorization token
   And I should be able to use the token to make valid API calls
 
+  # update assessment period descriptor
   Given format "application/json"
   When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=Beginning%20of%20Year%202013-2014%20for%20First%20grade"
   Then I should receive a return code of 200
@@ -27,7 +29,7 @@ Scenario: Search Indexer should reindex when I update, delete, and create
   Then I should receive a collection with 0 elements
   Then I update the "assessmentPeriodDescriptor" with ID "7bcb5c6cb1b13bf11406676f4397d6dec4659561_id" field "body.description" to "Hello World"
 
-  # Note, this is commented out because it's not valid if oplog agent is running.
+#  Note, this is commented out because it's not valid if oplog agent is running.
 #  When I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=Hello%20World"
 #  Then I should receive a return code of 200
 #  Then I should receive a collection with 0 elements
@@ -51,6 +53,7 @@ Scenario: Search Indexer should reindex when I update, delete, and create
   Then I should receive a return code of 200
   Then I should receive a collection with 2 elements
 
+  # update assessment family
   Given format "application/json"
   When I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard"
   Then I should receive a return code of 200
@@ -77,8 +80,6 @@ Scenario: Search Indexer should reindex when I update, delete, and create
   When I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard"
   Then I should receive a return code of 200
   Then I should receive a collection with 2 elements
-
-
 
   # Note: Delete does NOT work for search indexer.
   Given format "application/json"

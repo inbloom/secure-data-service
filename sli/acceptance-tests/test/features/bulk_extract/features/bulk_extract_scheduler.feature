@@ -6,5 +6,7 @@ Scenario: Cleanup the existing crontab
 
 Scenario: Configure bulk extract scheduler
    Given the local bulk extract script path and the scheduling config path
+   And I clean up the cron extraction zone
    Then I run the bulk extract scheduler script
-   Then I clear crontab
+   When I am willing to wait upto 90 seconds for the bulk extract scheduler cron job to start and complete
+   And I clear crontab
