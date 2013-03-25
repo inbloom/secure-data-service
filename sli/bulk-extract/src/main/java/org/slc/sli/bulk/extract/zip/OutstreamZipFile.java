@@ -107,7 +107,8 @@ public class OutstreamZipFile{
         int length = data.length();
 
         // Write data to output stream.
-        jGenerator.writeString(data);
+        archiveStream.write('\n');
+        archiveStream.write(data.getBytes(), 0, length);
 
         return length;
     }
