@@ -171,6 +171,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 preMatchEntity(memory, entityConfig, report, entity, reportStats);
             }
         }
+        LOG.info("done preprocessing and updates for pre-existing entities");
 
         for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
             SimpleEntity entity = entry.getValue();

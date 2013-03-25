@@ -261,6 +261,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                         + " NeutralRecords from staging db", me);
                 throw (me);
             }
+            LOG.info("added source to records");
 
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
 
@@ -273,6 +274,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                 recordHashStore.add(neutralRecord);
             }
 
+            LOG.info("added to record hash store");
             // TODO: make this generic for all self-referencing entities
             if (SELF_REF_ENTITY_CONFIG.containsKey(collectionNameAsStaged)) {
 
@@ -308,6 +310,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                     }
                     perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
                 }
+                LOG.info("Did transformations on records");
 
                 try {
                     if (persist.size() > 0) {
