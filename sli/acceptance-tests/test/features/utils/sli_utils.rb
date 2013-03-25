@@ -631,3 +631,28 @@ def assertWithPolling(msg, total_wait_sec, &blk)
 
   assert(yield, msg) unless passed
 end
+
+
+### Retries the passed code block if any exception is thrown.
+def retryOnFailure(naptime = 2, retries = 5, &block)
+  attempts = 1
+  while attempts < retries
+    if attempts > 1
+      puts "Previous attempt failed. Attempt #{attempts}/#{retries}"
+      sleep(naptime)
+    end
+    begin
+      yield
+    rescue SystemExit, Interrupt
+      raise
+    rescue Exception => e
+      if attempts < retries
+        raise e
+      else
+        puts e
+        puts e.backtrace.join("\n")
+      end
+    end
+    attempts += 1
+  end
+end

@@ -27,7 +27,7 @@ fi
 
 if [ -n "`hostname | grep slirp`" ] ; then
   # SLIRP
-  PRIMARIES="slirpmongo03.slidev.org slirpmongo05.slidev.org slirpmongo09.slidev.org slirpmongo11.slidev.org"
+  PRIMARIES="slirpmongo01.slidev.org slirpmongo02.slidev.org slirpmongo03.slidev.org slirpmongo04.slidev.org"
   STAGING="slirpmongo99.slidev.org"
   ING_SERVERS="ingest01 ingest02 ingest03"
 else

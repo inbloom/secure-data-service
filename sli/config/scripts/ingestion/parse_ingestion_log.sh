@@ -106,35 +106,9 @@ for (( INGESTION_NUM=1; $INGESTION_NUM<=$NUM_INGESTIONS; INGESTION_NUM++ )) ; do
   #
   # Staging
   #
-  echo >> out.tmp
-  printf "%-40s %8s %8s %8s %10s\n" "Staging" "Start" "Finish" "Elapsed" "Count" >> out.tmp
-  printf "%-40s %8s %8s %8s %10s\n" "-------" "-----" "------" "-------" "-----" >> out.tmp
-
-  STAGING_MIN_START=999999999
-  STAGING_MAX_FINISH=0
-  STAGING_TOTAL=0
-  rm -f parse.tmp
-  for ENTITY in $ENTITIES ; do
-    START=`SecondsFromGrep "Persisted [0-9]* records of type $ENTITY *$" 1 $INGESTION_NUM`
-    if [ $START -gt 0 ] ; then
-      FINISH=`SecondsFromLastGrep "Persisted [0-9]* records of type $ENTITY *$" $INGESTION_NUM`
-      let "ELAPSED = $FINISH - $START"
-      let "STAGING_MIN_START = $START < $STAGING_MIN_START ? $START : $STAGING_MIN_START"
-      let "STAGING_MAX_FINISH = $FINISH > $STAGING_MAX_FINISH ? $FINISH : $STAGING_MAX_FINISH"
-      echo "0" > sed.tmp
-      grep ${TENANTS[$INGESTION_NUM]} $FILE | grep "Persisted [0-9]* records of type $ENTITY *$" | sed -e "s/^.*Persisted \([0-9]*\) records of type $ENTITY *$/\1 +/" >> sed.tmp
-      echo "p" >> sed.tmp
-      NUM=`dc < sed.tmp`
-      let "STAGING_TOTAL = $STAGING_TOTAL + $NUM"
-      rm sed.tmp
-      printf "%-40s %8d %8d %8d %10d\n" $ENTITY $START $FINISH $ELAPSED $NUM >> parse.tmp
-    fi
-  done
-  sort -k 2 -n parse.tmp >> out.tmp
-  rm parse.tmp
-
-  let "STAGING_ELAPSED = $STAGING_MAX_FINISH - $STAGING_MIN_START"
-  printf "%-40s %8s %8s %8s %10d\n" "TOTAL" $STAGING_MIN_START $STAGING_MAX_FINISH $STAGING_ELAPSED $STAGING_TOTAL >> out.tmp
+  STAGING_START=`SecondsFromGrep "Batch of [0-9]* is recieved to stage" 1 $INGESTION_NUM`
+  STAGING_FINISH=`SecondsFromLastGrep "Batch of [0-9]* is recieved to stage" $INGESTION_NUM`
+  let "STAGING_ELAPSED = $STAGING_FINISH - $STAGING_START"
 
   #
   # Persistence
@@ -188,7 +162,7 @@ for (( INGESTION_NUM=1; $INGESTION_NUM<=$NUM_INGESTIONS; INGESTION_NUM++ )) ; do
   echo
   printf "%-15s %8s %8s %8s %15s %10s\n" "Stage" "Start" "Finish" "Elapsed" "Elapsed (min)" "Percent"
   printf "%-15s %8s %8s %8s %15s %10s\n" "-----" "-----" "------" "-------" "-------------" "-------"
-  printf "%-15s %8d %8d %8d %15d %9d%%\n" "Staging" $STAGING_MIN_START $STAGING_MAX_FINISH $STAGING_ELAPSED $STAGING_ELAPSED_MIN $STAGING_ELAPSED_PERCENT
+  printf "%-15s %8d %8d %8d %15d %9d%%\n" "Staging" $STAGING_START $STAGING_FINISH $STAGING_ELAPSED $STAGING_ELAPSED_MIN $STAGING_ELAPSED_PERCENT
   printf "%-15s %8d %8d %8d %15d %9d%%\n" "Persistence" $PERSIST_MIN_START $PERSIST_MAX_FINISH $PERSIST_ELAPSED $PERSIST_ELAPSED_MIN $PERSIST_ELAPSED_PERCENT
   printf "%-15s %8s %8s %8d %15d %9d%%\n" "(other)" " " " " $OTHER_ELAPSED $OTHER_ELAPSED_MIN $OTHER_ELAPSED_PERCENT
 
