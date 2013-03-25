@@ -30,6 +30,9 @@ import java.util.Set;
 
 import com.mongodb.DBObject;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -77,6 +80,10 @@ import org.slc.sli.validation.schema.SchemaReferencesMetaData;
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean,
         ValidationWithoutNaturalKeys {
+
+    private static  final int DEL_LOG_IDENT  = 4;
+
+    private static final Logger DELETION_LOG = LoggerFactory.getLogger("CascadingDeletionLog");
 
     @Autowired
     private EntityValidator validator;
@@ -397,7 +404,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
 
     	// LOG.info("*** DELETING object '" + id + "' of type '" + collectionName + "'");
-
+        DELETION_LOG.info("Delete request for entity:" + entityType + " collection: " + collectionName + " _id:" + id);
         CascadeResult result = null;
         Set<String> deletedIds = new HashSet<String>();
 
@@ -485,12 +492,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria(referenceField + "=" + id));
                 neutralQuery.setIncludeFields(includeFields);
+                DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Handling all references of type " + referenceEntityType + "." + referenceField + " = " + id );
 
                 // List all entities that have the deleted entity's ID in one or more
                 // referencing fields
                 for (Entity entity : this.findAll(referenceEntityType, neutralQuery)) {
                     // Note we are examining entities one level below our initial depth now
                     String referencerId = entity.getEntityId();
+                    String referent = referenceEntityType  + "." + referencerId;
+                    String referentPath =  referent + "." + referenceField;
+                    DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Handling reference " + referentPath);
 
                     // Check accessibility to this entity
                     // TODO this looks like it will need to take collection as an argument
@@ -507,7 +518,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
                     if (referencingFieldSchemaInfo.isArray()) {
                         basicDBList = (List<?>) body.get(referenceField);
-                        isLastValueInReferenceList = basicDBList.size() == 1;
+                        if(basicDBList != null) {
+                            isLastValueInReferenceList = basicDBList.size() == 1;
+                        }
                     }
 
                     if ( referencingFieldSchemaInfo.isRequired() &&
@@ -515,8 +528,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         // Recursively delete the referencing entity if:
                         // 1. it is a required field and is a non-list reference
                         // 2. it is a required field and it is the last reference in a list of references
+                        DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Required" + referentPath + "Invoking cascading deletion of " + referent);
                         CascadeResult recursiveResult = safeDeleteHelper(referenceEntityType, null, referencerId,
                                 cascade, dryrun, maxObjects, access, depth+1, deletedIds);
+                        DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + recursiveResult.getStatus().name() + " Cascading deletion of " + referent);
 
                         // Update the overall result depth if necessary
                         if (result.getDepth() < recursiveResult.getDepth()) {
@@ -534,6 +549,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         // Remove the field from the entity if:
                         // 1. it is an optional field and is a non-list reference
                         // 2. it is an optional field and it is the last reference in a list of references
+                        DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Removing field " + referentPath);
                         if (!dryrun) {
                             entity.getBody().remove(referenceField);
                             if (!this.update(referenceEntityType, entity, FullSuperDoc.isFullSuperdoc(entity))) {
@@ -541,12 +557,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                                         ", entity id: " + referencerId + ", field name: " + referenceField + " at depth " + depth;
                                 LOG.debug(message);
                                 result.setFields(result.getnObjects(), depth+1, CascadeResult.Status.DATABASE_ERROR, message, referencerId, referenceEntityType);
+                                DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Failed removing field " + referentPath);
                                 continue;  // skip to the next referencing entity
+                            } else {
+                                DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Removed field " + referentPath);
                             }
                         }
                     } else if ( referencingFieldSchemaInfo.isArray() && !isLastValueInReferenceList) {
                         // Remove the matching reference from the list of references:
                         // 1. it is NOT the last reference in a list of references
+                        DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Adjusting field " + referentPath);
                         if (!dryrun) {
                             basicDBList.remove(id);
                             Map<String, Object> patchEntityBody = new HashMap<String, Object>();
@@ -558,7 +578,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                                         ", entity id: " + referencerId + ", field name: " + referenceField + " at depth " +  depth;
                                 LOG.debug(message);
                                 result.setFields(result.getnObjects(), depth + 1, CascadeResult.Status.DATABASE_ERROR, message, referencerId, referenceEntityType);
+                                // 1. it is NOT the last reference in a list of references
+                                DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Failed adjusting field " + referentPath);
                                 continue;  // skip to the next referencing entity
+                            } else {
+                                DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Adjusted field " + referentPath);
                             }
                         }
                     }
@@ -568,10 +592,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         // Base case : delete the current entity
         if (!dryrun) {
+            DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Finally deleting " + repositoryEntityType + "." + id);
             if (!delete(repositoryEntityType, id)) {
                 String message = "Failed to delete entity with id " + id + " and type " + entityType;
                 LOG.debug(message);
+                DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Failed finally deleting " + repositoryEntityType + "." + id);
                 return result.setFields(deletedIds.size(), depth, CascadeResult.Status.DATABASE_ERROR, message, id, entityType);
+            } else {
+                DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Finally deleted " + repositoryEntityType + "." + id);
             }
         }
 
