@@ -372,6 +372,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         try {
             return persist(item);
         } catch (EntityValidationException ex) {
+            LOG.error("Exception persisting record with entityPersistentHandler", ex);
             reportErrors(ex.getValidationErrors(), item, report, reportStats, new ElementSourceImpl(item));
         } catch (DuplicateKeyException ex) {
             reportWarnings(ex.getMostSpecificCause().getMessage(), item.getType(), item.getSourceFile(), report,
