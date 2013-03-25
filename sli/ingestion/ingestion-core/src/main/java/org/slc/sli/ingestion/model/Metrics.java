@@ -18,6 +18,8 @@ package org.slc.sli.ingestion.model;
 
 import java.util.Map;
 
+import org.slc.sli.ingestion.ActionVerb;
+
 /**
  * Model for metrics of an ingestion job
  *
@@ -31,12 +33,14 @@ public class Metrics {
     private long errorCount;
     private Map<String, Long> duplicateCounts;
     private long validationErrorCount;
+    private long deletedCount;
 
     public static Metrics newInstance(String resourceId) {
         Metrics metrics = new Metrics(resourceId);
         metrics.setRecordCount(0);
         metrics.setErrorCount(0);
         metrics.setValidationErrorCount(0);
+        metrics.setDeletedCount(0);
         return metrics;
     }
 
@@ -52,6 +56,15 @@ public class Metrics {
         this.resourceId = resourceId;
         this.recordCount = recordCount;
         this.errorCount = errorCount;
+        this.deletedCount = 0;
+    }
+
+    public Metrics( String resourceId, long recordCount, long errorCount, long deletedCount) {
+        this.resourceId = resourceId;
+        this.recordCount = recordCount;
+        this.errorCount = errorCount;
+        this.deletedCount = deletedCount;
+
     }
 
     public String getResourceId() {
@@ -68,6 +81,13 @@ public class Metrics {
 
     public void setRecordCount(long recordCount) {
         this.recordCount = recordCount;
+    }
+
+    public void setRecordCount(long recordCount, ActionVerb action) {
+        this.recordCount = recordCount;
+        if( action.doDelete() ) {
+            this.deletedCount = recordCount;
+        }
     }
 
     public long getErrorCount() {
@@ -105,5 +125,13 @@ public class Metrics {
 
     public void setValidationErrorCount(long validationErrorCount) {
         this.validationErrorCount = validationErrorCount;
+    }
+
+    public long getDeletedCount() {
+        return deletedCount;
+    }
+
+    public void setDeletedCount(long deletedCount) {
+        this.deletedCount = deletedCount;
     }
 }

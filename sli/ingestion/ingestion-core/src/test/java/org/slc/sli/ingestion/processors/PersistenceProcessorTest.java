@@ -17,7 +17,6 @@
 package org.slc.sli.ingestion.processors;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -38,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
@@ -135,6 +135,22 @@ public class PersistenceProcessorTest {
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> rhData = (List<Map<String, Object>>) originalRecord.getMetaDataByName("rhData");
         testRecordHashIngested(originalRecord, rhData.size());
+    }
+
+    @Test
+    public void testRecordHashDeletedforTransformedEntity() {
+        NeutralRecord originalRecord = createBaseNeutralRecord("transformed");
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> rhData = (List<Map<String, Object>>) originalRecord.getMetaDataByName("rhData");
+        testRecordHashIngested(originalRecord, rhData.size());
+        originalRecord.setActionVerb( ActionVerb.CASCADE_DELETE);
+        testRecordHashDeleted( originalRecord, rhData.size());
+    }
+
+    private void testRecordHashDeleted( NeutralRecord originalRecord, int count) {
+        processor.upsertRecordHash(originalRecord);
+        verify(processor.getBatchJobDAO(), times(count)).removeRecordHash(any(RecordHash.class));
+
     }
 
     private void testRecordHashIngested(NeutralRecord originalRecord, int count) {

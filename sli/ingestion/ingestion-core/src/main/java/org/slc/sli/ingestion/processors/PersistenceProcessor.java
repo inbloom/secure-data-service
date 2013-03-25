@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.processors;
 import static org.slc.sli.ingestion.util.NeutralRecordUtils.getByPath;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -123,9 +124,9 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         String idPath;              // path to the id field
         // Exactly one of the following fields can be non-null:
         String parentAttributePath; // if parent reference is stored in attribute, path to
-                                            // the parent reference field,
+                                    // the parent reference field,
         String localParentIdKey;    // if parent reference is stored in localParentId map, key
-                                         // to the parent reference field
+                                 // to the parent reference field
 
         SelfRefEntityConfig(String i, String p, String k) {
             idPath = i;
@@ -291,7 +292,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                         SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, job,
                                 reportStatsForCollection);
 
-                        if( dbConfirmed( xformedEntity)) {
+                        if (dbConfirmed(xformedEntity)) {
 
                             recordStore.add(neutralRecord);
 
@@ -319,11 +320,21 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                                 recordHashStore.remove(record);
                             }
                         }
+
+                        for (SimpleEntity entity : subtract(persist, failed)) {
+                            if( !entity.getAction().doDelete() ) {
+                                continue;
+                            }
+                            NeutralRecord record = recordStore.get(persist.indexOf(entity));
+                            Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
+                            currentMetric.setDeletedCount(currentMetric.getDeletedCount() + 1);
+                        }
                     }
                     for (NeutralRecord neutralRecord2 : recordHashStore) {
                         upsertRecordHash(neutralRecord2);
 
                     }
+
                 } catch (DataAccessResourceFailureException darfe) {
                     LOG.error("Exception processing record with entityPersistentHandler", darfe);
                 }
@@ -345,13 +356,13 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      *
      * If record was successfully matched against db and if we should proceed with operation
      */
-    private boolean dbConfirmed( SimpleEntity e) {
+    private boolean dbConfirmed(SimpleEntity e) {
 
-        if( e == null ) {
+        if (e == null) {
             return false;
         }
 
-        if( e.getAction().doDelete() && e.getEntityId() == null) {
+        if (e.getAction().doDelete() && e.getEntityId() == null) {
             return false;
         }
 
@@ -367,9 +378,9 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      * insertion in queue.
      */
     // FIXME: remove once deterministic ids are in place.
-    private ReportStats persistSelfReferencingEntity(RangedWorkNote workNote, NewBatchJob job, Map<String, Metrics> perFileMetrics,
-            String stageName, ReportStats reportStatsForCollection, ReportStats reportStatsForNrEntity,
-            Iterable<NeutralRecord> records) {
+    private ReportStats persistSelfReferencingEntity(RangedWorkNote workNote, NewBatchJob job,
+            Map<String, Metrics> perFileMetrics, String stageName, ReportStats reportStatsForCollection,
+            ReportStats reportStatsForNrEntity, Iterable<NeutralRecord> records) {
 
         List<NeutralRecord> sortedNrList = iterableToList(records);
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
@@ -405,7 +416,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
             } else {
                 currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
             }
-            currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
+            currentMetric.setRecordCount(currentMetric.getRecordCount() + 1, xformedEntity.getAction());
             perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
         }
         return returnValue;
@@ -501,7 +512,8 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         List<SimpleEntity> transformed = transformer.handle(record, databaseMessageReport, reportStats);
 
         if (transformed == null || transformed.isEmpty()) {
-            databaseMessageReport.error(reportStats, new ElementSourceImpl(record), CoreMessageCode.CORE_0004, record.getRecordType());
+            databaseMessageReport.error(reportStats, new ElementSourceImpl(record), CoreMessageCode.CORE_0004,
+                    record.getRecordType());
             return null;
         }
         transformed.get(0).setSourceFile(record.getSourceFile());
@@ -548,7 +560,8 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         return new SimpleReportStats();
     }
 
-    private static String getCollectionToPersistFrom(String collectionNameAsStaged, EntityPipelineType entityPipelineType) {
+    private static String getCollectionToPersistFrom(String collectionNameAsStaged,
+            EntityPipelineType entityPipelineType) {
         String collectionToPersistFrom = collectionNameAsStaged;
         if (entityPipelineType == EntityPipelineType.TRANSFORMED) {
             collectionToPersistFrom = collectionNameAsStaged + "_transformed";
@@ -639,6 +652,12 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         PASSTHROUGH, TRANSFORMED, NONE;
     }
 
+    private static Collection<SimpleEntity> subtract(Collection<SimpleEntity> a, List<Entity> failed) {
+        Collection<SimpleEntity> result = new ArrayList<SimpleEntity>(a);
+        result.removeAll(failed);
+        return result;
+    }
+
     @SuppressWarnings({ "unchecked" })
     void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
 
@@ -682,7 +701,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
             } else {
                 RecordHash rh = new RecordHash();
                 rh.importFromSerializableMap(rhCurrentHash);
-                if( nr.getActionVerb().doDelete()) {
+                if (nr.getActionVerb().doDelete()) {
                     batchJobDAO.removeRecordHash(rh);
                 } else {
                     batchJobDAO.updateRecordHash(rh, newHashValue);

@@ -140,7 +140,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             CascadeResult cascade = entityRepository.safeDelete(entity.getType(), collectionName, entity.getEntityId(),
                     action.doCascade(), dryrun, max, null);
             // Check the return from safeDelete
-            return entity;
+
+            return ( cascade != null && cascade.getStatus() == CascadeResult.Status.SUCCESS) ? entity : null;
+
 
         } else {
             entity.removeAction();
@@ -190,7 +192,10 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         for (SimpleEntity entity : entities) {
 
             if (entity.getAction().doDelete()) {
-                persist(entity);
+                if( persist(entity) == null ) {
+                    LOG.error("Delete failed for entity: {}", entity.getType());
+                    failed.add(entity);
+                }
             } else {
                 entity.removeAction();
                 if (entity.getEntityId() != null) {
