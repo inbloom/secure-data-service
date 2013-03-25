@@ -154,8 +154,10 @@ public interface Repository<T> {
     public boolean doUpdate(String collection, NeutralQuery query, Update update);
 
     /**
+     * @param entityType
+     *            the type of the entity being deleted
      * @param collectionName
-     *            the name of the collection to delete from
+     *            the name of the collection to delete from, assumed to be entityType if null
      * @param id
      *            the global unique id of the object
      * @param cascade
@@ -167,7 +169,7 @@ public interface Repository<T> {
      * @param access
      *            if non-null, an implementer of AccessibiltyCheck whose check methods (accessibilityCheck) will be called on all objects in the cascade.
      */
-    public CascadeResult safeDelete(String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access);
+    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access);
 
     /**
      * @param collectionName

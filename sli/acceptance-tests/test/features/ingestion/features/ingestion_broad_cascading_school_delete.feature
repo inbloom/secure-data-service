@@ -75,4 +75,4 @@ Scenario: Delete School with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	#And I should not see "352e8570bd1116d11a72755b987902440045d346_id" in the "Midgar" database
+	And I should not see "352e8570bd1116d11a72755b987902440045d346_id" in the "Midgar" database

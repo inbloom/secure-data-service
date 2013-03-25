@@ -134,6 +134,9 @@ public class ParameterConstants {
      * Entity/Association IDs
      */
     public static final String ASSESSMENT_ID = "assessmentId";
+    public static final String ASSESSMENT_ITEM = "assessmentItem";
+    public static final String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
+    public static final String ASSESSMENT_FAMILY_REFERENCE = "assessmentFamilyReference";
     public static final String COURSE_ID = "courseId";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_ID = "competencyLevelDescriptorId";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPE_ID = "competencyLevelDescriptorTypeId";
@@ -152,6 +155,7 @@ public class ParameterConstants {
     public static final String STAFF_ID = "staffId";
     public static final String STAFF_REFERENCE = "staffReference";
     public static final String STUDENT_ID = "studentId";
+    public static final String STUDENT_ASSESSMENT_ITEM = "studentAssessmentItem";
     public static final String STUDENT_COMPETENCY_ID = "studentCompetencyId";
     public static final String STUDENT_COMPETENCY_OBJECTIVE_ID = "studentCompetencyObjectiveId";
     public static final String TEACHER_ID = "teacherId";
@@ -195,4 +199,10 @@ public class ParameterConstants {
     public static final String STATE_ORGANIZATION_ID = "stateOrganizationId";
 
     public static final String TEACHER_REFERENCE = "teacherReference";
+    
+    /**
+     * Entity field names
+     */
+    public static final String ASSESSMENT_FAMILY_HIERARCHY = "assessmentFamilyHierarchyName";
+    public static final String ASSESSMENT_FAMILY_TITLE = "assessmentFamilyTitle";
 }

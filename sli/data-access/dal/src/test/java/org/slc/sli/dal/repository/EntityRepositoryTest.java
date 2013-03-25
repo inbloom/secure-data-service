@@ -168,7 +168,7 @@ public class EntityRepositoryTest {
             idToDelete = overridingId;
         }
 
-        result = repository.safeDelete(collectionName, idToDelete, cascade, dryrun, maxObjects, access);
+        result = repository.safeDelete(collectionName, null, idToDelete, cascade, dryrun, maxObjects, access);
 
         //   verify expected results
         assertEquals(expectedNObjects, result.getnObjects());

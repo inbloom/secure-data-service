@@ -32,7 +32,7 @@
 
 		<!-- All top level entity types from the Interchange schemas -->
 		<xs:element name="Assessment" type="SLC-Assessment"/>
-		<xs:element name="AssessmentFamily" type="AssessmentFamily"/>
+		<xs:element name="AssessmentFamily" type="SLC-AssessmentFamily"/>
 		<xs:element name="AssessmentItem" type="SLC-AssessmentItem"/>
 		<xs:element name="AssessmentPeriodDescriptor" type="AssessmentPeriodDescriptor"/>
 		<xs:element name="AttendanceEvent" type="SLC-AttendanceEvent"/>
