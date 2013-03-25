@@ -79,6 +79,7 @@ end
 
 When /^I navigate to POST "([^"]*)"$/ do |post_uri|
   data = prepareData(@format, @fields)
+  puts("POSTing: #{data.inspect}") if $SLI_DEBUG
   restHttpPost(post_uri, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 end

@@ -304,7 +304,6 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
 
   #First, make sure the paths of the URIs are the same
   expectedPath = expected.gsub("@ids", "[^/]+")
-  puts("The first thing is #{actual.inspect} and the second is #{expectedPath.inspect}")
   assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
 
   #Then, validate the list of ids are the same
