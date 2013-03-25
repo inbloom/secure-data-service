@@ -276,14 +276,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Map<String, Object> metaData = origMetaData == null ? new HashMap<String, Object>() : origMetaData;
 
         MongoEntity entity = new MongoEntity(type, id, body, metaData);
-        validator.validateNaturalKeys(entity, true);
-        validator.validate(entity);
         keyEncoder.encodeEntityKey(entity);
 
         this.addTimestamps(entity);
         this.schemaVersionValidatorProvider.getSliSchemaVersionValidator().insertVersionInformation(entity);
 
         if (subDocs.isSubDoc(collectionName)) {
+            validator.validate(entity);
+            validator.validateNaturalKeys(entity, true);
             subDocs.subDoc(collectionName).create(entity);
 
             if (denormalizer.isDenormalizedDoc(collectionName)) {
@@ -292,6 +292,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
             return entity;
         } else if (containerDocumentAccessor.isContainerDocument(entity.getType())) {
+            validator.validate(entity);
+            validator.validateNaturalKeys(entity, true);
             final String createdId = containerDocumentAccessor.insert(entity);
             if (!createdId.isEmpty()) {
                 return new MongoEntity(type, createdId, entity.getBody(), metaData);
@@ -303,6 +305,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             if (converter != null) {
                 converter.bodyFieldToSubdoc(entity);
             }
+            validator.validate(entity);
+            validator.validateNaturalKeys(entity, true);
             Entity result = super.insert(entity, collectionName);
 
             if (denormalizer.isDenormalizedDoc(collectionName)) {
@@ -761,21 +765,22 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (validateNaturalKeys) {
             validator.validateNaturalKeys(entity, true);
         }
-        validator.validate(entity);
 
         this.updateTimestamp(entity);
 
+        // convert subdoc from superdoc body to outside body
+        SuperdocConverter converter = converterReg.getConverter(entity.getType());
+        if (converter != null && isSuperdoc) {
+            converter.bodyFieldToSubdoc(entity);
+        }
+        validator.validate(entity);
         if (denormalizer.isDenormalizedDoc(collection)) {
             denormalizer.denormalization(collection).create(entity);
         }
         if (subDocs.isSubDoc(collection)) {
             return subDocs.subDoc(collection).create(entity);
         }
-        // convert subdoc from superdoc body to outside body
-        SuperdocConverter converter = converterReg.getConverter(entity.getType());
-        if (converter != null && isSuperdoc) {
-            converter.bodyFieldToSubdoc(entity);
-        }
+
         if (containerDocumentAccessor.isContainerDocument(collection)) {
             return !containerDocumentAccessor.update(entity).isEmpty();
         }

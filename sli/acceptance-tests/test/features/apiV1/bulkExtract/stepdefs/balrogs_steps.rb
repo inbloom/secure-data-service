@@ -31,7 +31,7 @@ Then /^I get expected tar downloaded$/ do
   EXPECTED_CONTENT_TYPE = 'application/x-tar'
   @content_disposition = @res.headers[:content_disposition]
   @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
-  @is_sampled_file = @zip_file_name=="NY-WALTON-2013-03-08.zip"
+  @is_sampled_file = @zip_file_name=="NY-WALTON-2013-03-19T13-02-02.tar"
   @last_modified = @res.headers[:last_modified]
 
   puts "content-disposition: #{@content_disposition}"

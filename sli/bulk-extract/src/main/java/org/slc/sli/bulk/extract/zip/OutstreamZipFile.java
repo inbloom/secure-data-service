@@ -20,10 +20,16 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * Zip File writing class.
@@ -31,12 +37,13 @@ import org.apache.commons.io.IOUtils;
  * @author tshewchuk
  *
  */
-public class OutstreamZipFile {
+public class OutstreamZipFile{
 
-    private static final String TMP_SUFFIX = "_tmp";
-    private ZipArchiveOutputStream zipArchiveStream;
-    private ArchiveEntry zipEntry = null;
-    private File zipFile;
+    private ArchiveOutputStream archiveStream;
+    private ArchiveEntry archiveEntry;
+    private File outputFile;
+    private JsonFactory jsonFactory;
+    private JsonGenerator jGenerator;
 
     /**
      * Don't allow construction without a zip file.
@@ -59,12 +66,13 @@ public class OutstreamZipFile {
     public OutstreamZipFile(String parentDirName, String zipFileName) throws IOException {
         File parentDir = new File(parentDirName + "/");
         if (parentDir.isDirectory()) {
-            zipFile = new File(parentDir, zipFileName + ".zip");
-            zipFile.createNewFile();
-            if (zipFile.canWrite()) {
-                zipArchiveStream = new ZipArchiveOutputStream(new BufferedOutputStream(new FileOutputStream(
-                        zipFile)));
+            outputFile = new File(parentDir, zipFileName + ".zip");
+            outputFile.createNewFile();
+            if (outputFile.canWrite()) {
+                archiveStream = new ZipArchiveOutputStream(new BufferedOutputStream(new FileOutputStream(
+                        outputFile)));
             }
+            jsonFactory = new JsonFactory();
         }
     }
 
@@ -77,11 +85,12 @@ public class OutstreamZipFile {
      * @throws IOException
      */
     public void createArchiveEntry(String fileEntryName) throws IOException {
-        if (zipEntry != null) {
-            zipArchiveStream.closeArchiveEntry();
+        if (archiveEntry != null) {
+            archiveStream.closeArchiveEntry();
         }
-        zipEntry = zipArchiveStream.createArchiveEntry(zipFile, fileEntryName);
-        zipArchiveStream.putArchiveEntry(zipEntry);
+        archiveEntry =archiveStream.createArchiveEntry(outputFile, fileEntryName);
+        archiveStream.putArchiveEntry(archiveEntry);
+        jGenerator = jsonFactory.createJsonGenerator(archiveStream);
     }
 
     /**
@@ -98,31 +107,44 @@ public class OutstreamZipFile {
         int length = data.length();
 
         // Write data to output stream.
-        zipArchiveStream.write('\n');
-        zipArchiveStream.write(data.getBytes(), 0, length);
+        archiveStream.write('\n');
+        archiveStream.write(data.getBytes(), 0, length);
 
         return length;
     }
-    
-    public void writeJsonDelimiter(String delim) throws IOException {
-        zipArchiveStream.write(delim.getBytes(), 0, delim.length());
+
+    public void writeData(Map<String, Object> value) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Write data to output stream.
+        mapper.writeValue(jGenerator, value);
+
+    }
+
+    public void writeEndArray() throws JsonGenerationException, IOException, InterruptedException {
+        jGenerator.writeEndArray();
+        jGenerator.flush();
+    }
+
+    public void writeStartArray() throws JsonGenerationException, IOException {
+        jGenerator.writeStartArray();
     }
 
     /**
-     * 
+     *
      *
      * @throws IOException
      */
     public void closeZipFile() throws IOException {
-        if (zipEntry != null) {
-            zipArchiveStream.closeArchiveEntry();
+        if (archiveEntry != null) {
+            archiveStream.closeArchiveEntry();
         }
-        zipArchiveStream.finish();
-        IOUtils.closeQuietly(zipArchiveStream);
+        archiveStream.finish();
+        IOUtils.closeQuietly(archiveStream);
     }
 
-    public File getZipFile() {
-        return zipFile;
+    public File getOutputFile() {
+        return outputFile;
     }
 
 }
