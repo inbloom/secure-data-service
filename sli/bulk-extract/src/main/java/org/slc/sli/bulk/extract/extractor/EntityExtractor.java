@@ -18,7 +18,7 @@ package org.slc.sli.bulk.extract.extractor;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.slc.sli.bulk.extract.treatment.Treatment;
+import org.slc.sli.bulk.extract.treatment.EntityTreatmentApplicator;
 import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -45,8 +45,7 @@ public class EntityExtractor{
 
     private Repository<Entity> entityRepository;
 
-    private Treatment typeTreatment;
-    private Treatment idTreatment;
+    private EntityTreatmentApplicator applicator;
 
     public void extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
 
@@ -69,9 +68,7 @@ public class EntityExtractor{
                     Entity record = cursor.next();
                     noOfRecords++;
 
-                    record = idTreatment.apply(record);
-                    record = typeTreatment.apply(record);
-
+                    record = applicator.applyAll(record);
                     zipFile.writeData(record.getBody());
                 }
                 zipFile.writeEndArray();
@@ -120,19 +117,11 @@ public class EntityExtractor{
         this.entityRepository = entityRepository;
     }
 
-   public Treatment getTypeTreatment() {
-       return typeTreatment;
-   }
+    public EntityTreatmentApplicator getApplicator() {
+        return applicator;
+    }
 
-   public void setTypeTreatment(Treatment typeTreatment) {
-       this.typeTreatment = typeTreatment;
-   }
-
-   public Treatment getIdTreatment() {
-       return idTreatment;
-   }
-
-   public void setIdTreatment(Treatment idTreatment) {
-       this.idTreatment = idTreatment;
-   }
+    public void setApplicator(EntityTreatmentApplicator applicator) {
+        this.applicator = applicator;
+    }
 }
