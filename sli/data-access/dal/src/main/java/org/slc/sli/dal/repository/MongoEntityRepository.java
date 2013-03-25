@@ -31,8 +31,8 @@ import java.util.Set;
 import com.mongodb.DBObject;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -479,10 +479,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         // based on the number of objects reported by the dryrun
         if (cascade) {
 
-            List<SchemaReferencePath> ref_entities = getAllReferencesTo(entityType, repositoryEntityType);
+            List<SchemaReferencePath> refFields = getAllReferencesTo(entityType, repositoryEntityType);
 
             // Process each referencing entity field that COULD reference the deleted ID
-            for (SchemaReferencePath referencingFieldSchemaInfo : ref_entities) {
+            for (SchemaReferencePath referencingFieldSchemaInfo : refFields) {
                 String referenceEntityType = referencingFieldSchemaInfo.getEntityName();
                 String referenceField = referencingFieldSchemaInfo.getFieldPath();
 
@@ -514,12 +514,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
                     boolean isLastValueInReferenceList = false;
                     Map<String, Object> body = entity.getBody();
-                    List<?> basicDBList = null;
+                    List<?> childRefList = null;
 
                     if (referencingFieldSchemaInfo.isArray()) {
-                        basicDBList = (List<?>) body.get(referenceField);
-                        if(basicDBList != null) {
-                            isLastValueInReferenceList = basicDBList.size() == 1;
+                        childRefList = (List<?>) body.get(referenceField);
+                        if(childRefList != null) {
+                            isLastValueInReferenceList = childRefList.size() == 1;
+                        }
+                        else {
+                        	continue;
                         }
                     }
 
@@ -568,9 +571,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         // 1. it is NOT the last reference in a list of references
                         DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Adjusting field " + referentPath);
                         if (!dryrun) {
-                            basicDBList.remove(id);
+                            childRefList.remove(id);
                             Map<String, Object> patchEntityBody = new HashMap<String, Object>();
-                            patchEntityBody.put(referenceField, basicDBList);
+                            patchEntityBody.put(referenceField, childRefList);
 
                             if (!this.patch(null, referenceEntityType, referencerId,
                                     patchEntityBody)) {
