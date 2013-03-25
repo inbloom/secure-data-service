@@ -127,6 +127,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2001-09-28</DateAssigned>
     <Description>Gradebook Entry of type: Homework, assigned on: 2001-09-28</Description>
+            <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
         <Objective>Reading Objective 1</Objective>

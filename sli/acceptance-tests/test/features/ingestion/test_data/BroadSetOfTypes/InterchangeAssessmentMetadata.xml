@@ -1456,6 +1456,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <ItemCategory>True-False</ItemCategory>
     <MaxRawScore>10</MaxRawScore>
     <CorrectResponse>true</CorrectResponse>
+            <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
 </AssessmentItem>
 <AssessmentItem>
     <AssessmentReference>
@@ -12110,6 +12115,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <Description>Generic Learning Objective 5 for grade: Twelfth grade in subject: English</Description>
     <AcademicSubject>English</AcademicSubject>
     <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-1</IdentificationCode>
+            </LearningStandardIdentity>
+    </LearningStandardReference>
   </LearningObjective>
   <LearningObjective>
     <Objective>Generic Learning Objective 1</Objective>
@@ -12471,4 +12481,105 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AcademicSubject>Social Sciences and History</AcademicSubject>
     <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
   </LearningObjective>
+      <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-G3-1</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for reading</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Reading</SubjectArea>
+        <CourseTitle>Reading</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-G3-2</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for writing</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Writing</SubjectArea>
+        <CourseTitle>Writing</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-G3-3</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for math</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+        <CourseTitle>Math</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-G3-4</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for Social Studies</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Social Studies</SubjectArea>
+        <CourseTitle>Social Studies</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-G3-5</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for science</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Science</SubjectArea>
+        <CourseTitle>Science</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-G3-6</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for phys-ed</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+        <CourseTitle>Phys-Ed</CourseTitle>
+    </LearningStandard>
+    <!-- LearningStandards for kindergartners -->
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-GK-1</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for reading</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <SubjectArea>Reading</SubjectArea>
+        <CourseTitle>Reading</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-GK-2</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for writing</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <SubjectArea>Writing</SubjectArea>
+        <CourseTitle>Writing</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-GK-3</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for math</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+        <CourseTitle>Math</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-GK-4</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for science</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <SubjectArea>Science</SubjectArea>
+        <CourseTitle>Science</CourseTitle>
+    </LearningStandard>
 </InterchangeAssessmentMetadata>

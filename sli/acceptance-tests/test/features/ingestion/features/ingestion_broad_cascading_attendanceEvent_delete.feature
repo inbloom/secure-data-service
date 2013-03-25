@@ -75,4 +75,5 @@ Scenario: Delete Attendance Event with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
+	And I should not see "4de66549a6b58f96463ff0d59b34817aa1fead6_id" in the "Midgar" database
 	And a query on attendance of for studentId "908404e876dd56458385667fa383509035cd4312_id", schoolYear "2001-2002" and date "2001-09-13" on the "Midgar" tenant has a count of "0"
