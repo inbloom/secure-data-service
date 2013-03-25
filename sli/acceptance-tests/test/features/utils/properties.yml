@@ -89,6 +89,7 @@ jmeter_failed_jtl_archive: "/storage/logs/jmeter/failed"
 jmeter_bin: "jmeter"
 jmeter_properties: "ci.properties"
 jmeter_regression_threshold: 0.25
+jmeter_reset_regression: false
 
 app_bootstrap_server: "local"
 

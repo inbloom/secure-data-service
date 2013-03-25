@@ -136,6 +136,7 @@ end
 
 Then /^no performance regressions should be found/ do
   puts "REGRESSION_THRESHOLD is #{REGRESSION_THRESHOLD}"
+  puts "RESET_REGRESSIONS is #{RESET_REGRESSIONS}"
   superRegressionMap = {}
   @testsRun.each do |testName|
     regressionsFound = checkForRegression(testName)
