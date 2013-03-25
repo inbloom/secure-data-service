@@ -34,6 +34,7 @@ JMETER_BIN = PropLoader.getProps['jmeter_bin']
 JMETER_JTL_ARCHIVE = PropLoader.getProps['jmeter_jtl_archive']
 JMETER_FAILED_JTL_ARCHIVE = PropLoader.getProps['jmeter_failed_jtl_archive']
 REGRESSION_THRESHOLD = PropLoader.getProps['jmeter_regression_threshold'].to_f
+RESET_REGRESSIONS = PropLoader.getProps['jmeter_reset_regression']
 puts "pre-float REGRESSION_THRESHOLD is #{PropLoader.getProps['jmeter_regression_threshold']}"
 puts "REGRESSION_THRESHOLD is #{REGRESSION_THRESHOLD}"
 
@@ -138,7 +139,7 @@ Then /^no performance regressions should be found/ do
   superRegressionMap = {}
   @testsRun.each do |testName|
     regressionsFound = checkForRegression(testName)
-    if regressionsFound.empty?
+    if regressionsFound.empty? || RESET_REGRESSIONS == "true"
           archiveJtlFile("#{testName}.jtl")
     else
         archiveFailedJtlFile("#{testName}.jtl")
@@ -146,7 +147,7 @@ Then /^no performance regressions should be found/ do
     end
   end
 
-  assert(superRegressionMap.size == 0, "Regressions over #{REGRESSION_THRESHOLD} found: #{superRegressionMap.to_s}")
+  assert(superRegressionMap.size == 0, "Regressions over #{REGRESSION_THRESHOLD} found: #{superRegressionMap.to_s}") unless RESET_REGRESSIONS == "true"
 end
 
 Then /^I only check "(.*?)" for performance regression$/ do |lbNames|
@@ -198,7 +199,9 @@ end
 def findPreviousJtl(testName)
   pattern = "^#{testName}\\.jtl\\..*$"
   previousJtl = nil
-  Dir.foreach(JMETER_JTL_ARCHIVE) do |archivedFile|
+  STDERR.puts("JMETER_JTL_ARCHIVE:  #{JMETER_JTL_ARCHIVE}")
+  Dir.entries(JMETER_JTL_ARCHIVE).sort {|x,y| y <=> x}.each do |archivedFile|
+    STDERR.puts("FILE:  #{archivedFile}")
     archivedFile.match(pattern) do |matchedFile|
       previousJtl = File.join(JMETER_JTL_ARCHIVE, matchedFile.to_s)
     end
