@@ -22,11 +22,16 @@ import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.hamcrest.BaseMatcher;
@@ -36,14 +41,11 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.connector.SourceDatastoreConnector;
 import org.slc.sli.search.entity.IndexEntity.Action;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 public class AssessmentFamilyConverterTest {
     @InjectMocks
@@ -61,7 +63,7 @@ public class AssessmentFamilyConverterTest {
     public void setup() {
         sourceDatastoreConnector = mock(SourceDatastoreConnector.class);
         indexConfigStore = Mockito.mock(IndexConfigStore.class);
-        when(indexConfigStore.getConfig(AssessmentEntityConverter.ASSESSMENT)).thenReturn(new IndexConfig());
+        when(indexConfigStore.getConfig(ASSESSMENT)).thenReturn(new IndexConfig());
         converter.setIndexConfigStore(indexConfigStore);
         converter.setSourceDatastoreConnector(sourceDatastoreConnector);
         DBCursor assessmentCursor = TestUtils.buildMockCursor(buildAssessment());

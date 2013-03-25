@@ -19,10 +19,8 @@ package org.slc.sli.ingestion;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -193,7 +191,7 @@ public enum EdfiEntity {
     STUDENT_GRADEBOOK_ENTRY("studentGradebookEntry", Arrays.asList(GRADEBOOK_ENTRY, STUDENT_SECTION_ASSOCIATION,
             STUDENT, SECTION, STUDENT_SCHOOL_ASSOCIATION)),
 
-    STUDENT_ASSESSMENT_ITEM("studentAssessmentItem", Arrays.asList(STUDENT_OBJECTIVE_ASSESSMENT, SELF)),
+    STUDENT_ASSESSMENT_ITEM("studentAssessmentItem", Arrays.asList(STUDENT_ASSESSMENT)),
 
     STUDENT_CTE_PROGRAM_ASSOCIATION("studentCTEProgramAssociation", Arrays.asList(STUDENT, PROGRAM,
             STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL)),
