@@ -11,7 +11,7 @@ import org.slc.sli.domain.Entity;
 
 
 public class EntityTreatmentApplicatorTest {
-    
+
     EntityTreatmentApplicator applicator = new EntityTreatmentApplicator();
     Treatment treatment1 = Mockito.mock(Treatment.class);
     Treatment treatment2 = Mockito.mock(Treatment.class);
@@ -27,12 +27,12 @@ public class EntityTreatmentApplicatorTest {
         treatments.add(treatment2);
         applicator.setTreatments(treatments);
     }
-    
+
     @Test
     public void testApplyAll() {
         Entity student = Mockito.mock(Entity.class);
         applicator.applyAll(student);
-        
+
         Mockito.verify(treatment1,Mockito.atLeast(1)).apply(Mockito.any(Entity.class));
         Mockito.verify(treatment2,Mockito.atLeast(1)).apply(Mockito.any(Entity.class));
     }

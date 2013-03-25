@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.slc.sli.bulk.extract.treatment.EntityTreatmentApplicator;
-import org.slc.sli.bulk.extract.treatment.Treatment;
 import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;

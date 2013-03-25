@@ -21,5 +21,5 @@ public class EntityTreatmentApplicator {
     public void setTreatments(List<Treatment> treatments) {
         this.treatments = treatments;
     }
-    
+
 }
