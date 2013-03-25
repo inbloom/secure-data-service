@@ -75,4 +75,4 @@ Scenario: Delete Grading Period with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	#And I should not see "6325f7dc6f0ade1a7f44c0f4b695f921eb861baa_id" in the "Midgar" database
+	And I should not see "0d88d7123ffea30a9bb12d557152518e560a65d5_id" in the "Midgar" database
