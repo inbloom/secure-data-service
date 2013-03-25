@@ -148,7 +148,14 @@ Then /^no performance regressions should be found/ do
     end
   end
 
-  assert(superRegressionMap.size == 0, "Regressions over #{REGRESSION_THRESHOLD} found: #{superRegressionMap.to_s}") unless RESET_REGRESSIONS == "true"
+  if RESET_REGRESSIONS == "true"
+    if superRegressionMap.size > 0
+      puts "Regressions over #{REGRESSION_THRESHOLD} found: #{superRegressionMap.to_s}"
+      puts "Regressions will be ignored and this run will reset the baseline."
+    end
+  else
+    assert(superRegressionMap.size == 0, "Regressions over #{REGRESSION_THRESHOLD} found: #{superRegressionMap.to_s}")
+  end
 end
 
 Then /^I only check "(.*?)" for performance regression$/ do |lbNames|
