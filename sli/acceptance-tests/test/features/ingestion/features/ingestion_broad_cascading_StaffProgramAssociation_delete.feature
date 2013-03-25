@@ -75,4 +75,4 @@ Scenario: Delete Assessment with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	And I should not see "b968978b829eb02e385bcd7fc586597de8bf1701_id" in the "Midgar" database
+	And I should not see "5f650f8a65dcfee035b74787ca47a6738239c614_id" in the "Midgar" database
