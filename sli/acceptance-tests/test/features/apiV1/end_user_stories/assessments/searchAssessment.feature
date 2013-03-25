@@ -119,3 +119,40 @@ Scenario: Search Indexer should reindex when I update, delete, and create
   Then I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=Beginning%20of%20Year%202013-2014%20for%20First%20grade"
   Then I should receive a return code of 200
   Then I should receive a collection with 2 elements
+
+   # delete assessment family, check assessmentFamilyHierarchyName get updated accordingly
+    Given format "application/json"
+    When I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard"
+    Then I should receive a return code of 200
+    Then I should receive a collection with 2 elements
+
+    # Search Indexer does not update its index until an oplog event is received
+    When I delete the "assessmentFamily" with ID "c461a52b5257e2784a25ee44d0fa888decf86d32_id"
+    Then I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard"
+    Then I should receive a return code of 200
+    Then I should receive a collection with 2 elements
+
+    # Sending the delete message to search indexer should update its index asynchronously
+    Then I send a delete event to the search indexer for collection "assessmentFamily" and ID "c461a52b5257e2784a25ee44d0fa888decf86d32_id"
+    Then I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard"
+    Then I should receive a return code of 200
+
+    # existing assessmentFamilyHierarchyName search should return 0 entity
+    Then I will EVENTUALLY GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard" with 0 elements
+
+    # updated assessmentFamilyHierarchyName search should return 2 assessment entities
+    Then I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Tenth%20grade%20Standard"
+    Then I should receive a return code of 200
+    Then I will EVENTUALLY GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Tenth%20grade%20Standard" with 2 elements
+
+    # insert the deleted assessmentFamily entity back, check assessmentFamilyHierarchyName get updated accordingly
+    Then I create the previously deleted entity
+    Then I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard"
+    Then I should receive a return code of 200
+    Then I should receive a collection with 0 elements
+    Then I send an insert event to the search indexer from last created entity
+    Then I navigate to GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard"
+    Then I should receive a return code of 200
+    Then I will EVENTUALLY GET "/v1/assessments?assessmentFamilyHierarchyName=2013%20Standard.2013%20Tenth%20grade%20Standard" with 2 elements
+
+
