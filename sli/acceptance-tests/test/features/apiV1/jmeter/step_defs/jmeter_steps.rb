@@ -200,9 +200,7 @@ end
 def findPreviousJtl(testName)
   pattern = "^#{testName}\\.jtl\\..*$"
   previousJtl = nil
-  STDERR.puts("JMETER_JTL_ARCHIVE:  #{JMETER_JTL_ARCHIVE}")
   Dir.entries(JMETER_JTL_ARCHIVE).sort {|x,y| y <=> x}.each do |archivedFile|
-    STDERR.puts("FILE:  #{archivedFile}")
     archivedFile.match(pattern) do |matchedFile|
       previousJtl = File.join(JMETER_JTL_ARCHIVE, matchedFile.to_s)
     end
