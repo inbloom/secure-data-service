@@ -42,6 +42,10 @@ bulk_extract_keystore_file: ""
 bulk_extract_db: "localhost"
 bulk_extract_port: 27017
 
+#Bulk Extract Scheduler Configuration
+bulk_extract_scheduler_script: "../bulk-extract/scripts/schedule_bulk_extracts.sh"
+bulk_extract_script_directory: "../bulk-extract/scripts/"
+
 sif_db: "localhost"
 sif_port: 27017
 sif_database_name: "sli"

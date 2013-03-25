@@ -39,6 +39,7 @@ require 'rest-client'
   "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_IL_Daybreak" => ["ingestion", "dashboard"],
   "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_IL_Sunset" => ["ingestion", "dashboard"],
   "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_NY" => ["ingestion", "dashboard"],
+  "sli/acceptance-tests/test/features/bulk_extract" => ["bulk-extract"],
   "sli/acceptance-tests/test/data/Midgar_data" => ["api", "odin-api" , "databrowser", "sdk"],
   "sli/acceptance-tests/test/data/Hyrule_data" => ["api", "odin-api" , "sdk"],
   "sli/acceptance-tests/test/data/unified_data" => ["dashboard", "sdk"],
@@ -48,8 +49,9 @@ require 'rest-client'
   "sli/api/" => ["api", "odin-api", "search-indexer", "jmeter", "admin", "sdk"],
   "sli/simple-idp" => ["api", "odin-api", "admin", "sdk"],
   "sli/SDK" => ["admin", "dashboard", "sdk"],
-  "sli/data-access" => ["api", "odin-api", "ingestion"],
-  "sli/domain" => ["api", "odin-api", "ingestion"],
+  "sli/data-access" => ["api", "odin-api", "ingestion", "bulk-extract"],
+  "sli/domain" => ["api", "odin-api", "ingestion", "bulk-extract"],
+  "sli/bulk-extract" => ["bulk-extract"],
   "sli/ingestion/ingestion-core" => ["ingestion", "odin"],
   "sli/ingestion/ingestion-base" => ["ingestion", "odin"],
   "sli/ingestion/ingestion-validation" => ["ingestion"],
@@ -71,8 +73,8 @@ require 'rest-client'
   "search-indexer" => "#{@jenkinsHostname}:8080/view/Components/job/Search-Indexer%20Tests/buildWithParameters",
   "odin" => "#{@jenkinsHostname}:8080/view/Components/job/Odin-DataGeneration-Tests/buildWithParameters",
   "jmeter" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20JMeter%20API%20Performance/buildWithParameters",
-  "odin-api" => "#{@jenkinsHostname}:8080/view/Components/job/API_Odin_Tests/buildWithParameters"
-
+  "odin-api" => "#{@jenkinsHostname}:8080/view/Components/job/API_Odin_Tests/buildWithParameters",
+  "bulk-extract" => "#{@jenkinsHostname}:8080/view/Components/job/Bulk-Extract%20Tests/buildWithParameters"
 }
 
 ################## Helpers and Input Parsing ###########################
