@@ -487,11 +487,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 String referenceField = referencingFieldSchemaInfo.getFieldPath();
 
                 // Form the query to access the referencing entity's field values
-                List<String> includeFields = new ArrayList<String>();
-                includeFields.add(referenceField);
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria(referenceField + "=" + id));
-                neutralQuery.setIncludeFields(includeFields);
                 DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Handling all references of type " + referenceEntityType + "." + referenceField + " = " + id );
 
                 // List all entities that have the deleted entity's ID in one or more
