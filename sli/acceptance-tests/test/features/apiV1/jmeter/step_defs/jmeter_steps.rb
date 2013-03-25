@@ -172,6 +172,8 @@ def checkForRegression(testName)
   if previousJtl.nil?
     puts "No previous jtl for #{testName}"
     return {}
+  else
+    puts "Found previous jtl for #{testName} at #{previousJtl}"
   end
 
   currentDoc = loadXML(currentJtl)
@@ -207,7 +209,7 @@ end
 def findPreviousJtl(testName)
   pattern = "^#{testName}\\.jtl\\..*$"
   previousJtl = nil
-  Dir.entries(JMETER_JTL_ARCHIVE).sort {|x,y| y <=> x}.each do |archivedFile|
+  Dir.entries(JMETER_JTL_ARCHIVE).sort.each do |archivedFile|
     archivedFile.match(pattern) do |matchedFile|
       previousJtl = File.join(JMETER_JTL_ARCHIVE, matchedFile.to_s)
     end
