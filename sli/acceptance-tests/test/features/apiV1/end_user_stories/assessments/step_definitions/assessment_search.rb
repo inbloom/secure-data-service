@@ -21,6 +21,7 @@ require 'stomp'
 require 'json'
 require_relative '../../../../search/step_definitions/search_indexer_steps.rb'
 
+# TODO: figure out a clean way to remove deterministic IDs from stepdef
 When /^I update the "(.*?)" with ID "(.*?)" field "(.*?)" to "(.*?)"$/ do |collection, id, field, value|
   conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
   mdb = conn.db(MIDGAR_DB_NAME)

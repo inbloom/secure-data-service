@@ -68,11 +68,11 @@ Scenario: Delete Assessment with cascade
     And a batch job log has been created
     And I should not see an error log file created
 	And I should not see a warning log file created
-    #And I post "BroadTeacherSectionAssociationDelete.zip" file as the payload of the ingestion job
-  	#When zip file is scp to ingestion landing zone
-    #And a batch job for file "BroadTeacherSectionAssociationDelete.zip" is completed in database
-    #And a batch job log has been created
-	#And I should see "Processed 1 records." in the resulting batch job file
-    #And I should not see an error log file created
-	#And I should not see a warning log file created
-	#And I should not see "5f650f8a65dcfee035b74787ca47a6738239c614_id" in the "Midgar" database
+    And I post "BroadTeacherSectionAssociationDelete.zip" file as the payload of the ingestion job
+  	When zip file is scp to ingestion landing zone
+    And a batch job for file "BroadTeacherSectionAssociationDelete.zip" is completed in database
+    And a batch job log has been created
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should not see an error log file created
+	And I should not see a warning log file created
+	And I should not see "e003fc1479112d3e953a0220a2d0ddd31077d6d9_id26556e7c6a6f7ef10fa46850c9c68d5cfc0c2d4d_id" in the "Midgar" database

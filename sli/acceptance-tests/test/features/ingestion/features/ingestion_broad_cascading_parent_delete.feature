@@ -75,4 +75,4 @@ Scenario: Delete Parent with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	#And I should not see "1b4aa93f01d11ad51072f3992583861ed080f15c_id" in the "Midgar" database
+	And I should not see "1b4aa93f01d11ad51072f3992583861ed080f15c_id" in the "Midgar" database

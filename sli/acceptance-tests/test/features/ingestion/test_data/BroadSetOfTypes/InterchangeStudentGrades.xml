@@ -127,6 +127,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2001-09-28</DateAssigned>
     <Description>Gradebook Entry of type: Homework, assigned on: 2001-09-28</Description>
+            <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
     <LearningObjectiveReference>
       <LearningObjectiveIdentity>
         <Objective>Reading Objective 1</Objective>
@@ -70844,4 +70849,24 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ReportCardReference>
     <SchoolYear>2002-2003</SchoolYear>
   </StudentAcademicRecord>
+    <Diploma>
+      <DiplomaAwardDate>2011-05-30</DiplomaAwardDate>
+      <DiplomaLevel>Cum laude</DiplomaLevel>
+      <DiplomaType>Regular diploma</DiplomaType>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+    </Diploma>
+        <StudentCompetencyObjective>
+      <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
+      <Objective>Phonemic Awareness</Objective>
+      <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+    </StudentCompetencyObjective>
 </InterchangeStudentGrade>

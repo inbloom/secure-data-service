@@ -21,4 +21,4 @@ Feature: Admininstrating role-based access to bulking
         When I navigate to GET "/v1/sections"
         And I should receive a return code of 403
         When I navigate to GET "/bulk/extract"
-        Then I get expected zip downloaded
+        Then I get expected tar downloaded

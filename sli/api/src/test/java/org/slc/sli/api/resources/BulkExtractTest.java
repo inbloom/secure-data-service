@@ -49,7 +49,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class BulkExtractTest {
 
-    private static final String FILE_NAME = "NY-WALTON-2013-03-08.zip";
+    private static final String FILE_NAME = "NY-WALTON-2013-03-19T13-02-02.tar";
 
     @Autowired
     private BulkExtract bulkExtract;
@@ -80,7 +80,7 @@ public class BulkExtractTest {
         os.flush();
         assertTrue(file.exists());
 
-        assertEquals(915931318L, FileUtils.checksumCRC32(file));
+        assertEquals(2586331403L, FileUtils.checksumCRC32(file));
         FileUtils.deleteQuietly(file);
     }
 
