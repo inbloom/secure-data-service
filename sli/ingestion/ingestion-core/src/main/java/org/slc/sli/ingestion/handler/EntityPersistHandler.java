@@ -137,7 +137,11 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             // find out about dryrun
             Boolean dryrun = Boolean.FALSE;
             Integer max = (maxDeleteObjects == 0) ? null : maxDeleteObjects;
-            CascadeResult cascade = entityRepository.safeDelete(entity.getType(), collectionName, entity.getEntityId(),
+            String id = entity.getEntityId();
+            if( id == null ) {
+                id = entity.getUUID();
+            }
+            CascadeResult cascade = entityRepository.safeDelete(entity.getType(), collectionName, id,
                     action.doCascade(), dryrun, max, null);
             // Check the return from safeDelete
 

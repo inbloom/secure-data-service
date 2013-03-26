@@ -35,6 +35,15 @@ public class SchemaReferencesMetaData {
      */
     private ListMultimap<String, SchemaReferencePath> refPaths;
 
+    /**
+     * Some virtual fields in the schema are derived from other fields.
+     * Deleting a virtual field requires deletion of underlying fields.
+     */
+    private BiMap<String, String> fieldMapping =
+    ImmutableBiMap.of(
+            "assessment.assessmentPeriodDescriptorId", "assessment.assessmentPeriodDescriptor"
+            );
+
     @Autowired
     private SchemaRepository schemaRepo;
 
@@ -46,7 +55,13 @@ public class SchemaReferencesMetaData {
         Multimaps.transformValues(refNodeLists, new Function<List<SchemaReferenceNode>, SchemaReferencePath>() {
             @Override
             public SchemaReferencePath apply(@Nullable List<SchemaReferenceNode> schemaReferenceNodes) {
-                return new SchemaReferencePath(schemaReferenceNodes);
+                SchemaReferencePath path = new SchemaReferencePath(schemaReferenceNodes);
+                String fullPath = path.getPath();
+                String mappedPath = fieldMapping.get(fullPath);
+                if(mappedPath != null) {
+                    path.setMappedPath(mappedPath);
+                }
+                return path;
             }
         });
     }

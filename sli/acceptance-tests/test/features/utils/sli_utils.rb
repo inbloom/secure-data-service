@@ -592,6 +592,12 @@ module EntityProvider
       assert( expected.size == response.size )
       expected.zip(response).each { |ex, res| verify_entities_match(ex, res) }
     else
+      if (expected == "true" or expected == "false")
+        expected = (expected == "true")
+      end
+      if (response == "true" or response == "false")
+        response = (response == "true")
+      end
       assert( expected == response )
     end
   end

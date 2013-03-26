@@ -16,27 +16,31 @@
 package org.slc.sli.bulk.extract.extractor;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.slc.sli.bulk.extract.TestUtils;
-import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
-import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.domain.CalculatedData;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.bulk.extract.TestUtils;
+import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.files.DataExtractFile;
+import org.slc.sli.dal.repository.MongoEntityRepository;
+import org.slc.sli.domain.Entity;
 
 /**
  * Test bulk extraction into zip files.
@@ -53,106 +57,64 @@ public class EntityExtractorTest {
 
     private MongoEntityRepository mongoEntityRepository;
 
-    private OutstreamZipFile zipFile;
+    private ArchivedExtractFile archiveFile;
 
+    /**
+     * Runs before JUnit test and does the initiation work.
+     * @throws IOException
+     *          if an I/O error occurred
+     */
     @Before
     public void init() throws IOException {
-
         mongoEntityRepository = Mockito.mock(MongoEntityRepository.class);
-        zipFile = Mockito.mock(OutstreamZipFile.class);
-        File file = Mockito.mock(File.class);
-        Mockito.when(zipFile.getOutputFile()).thenReturn(file);
+        archiveFile = Mockito.mock(ArchivedExtractFile.class);
         extractor.setEntityRepository(mongoEntityRepository);
     }
 
+    /**
+     *JUnit test to test the extract entity method.
+     * @throws IOException
+     *          if an I/O error occurred
+     */
+    @SuppressWarnings("unchecked")
     @Test
     public void testExtractEntity() throws IOException{
         String testTenant = "Midgar";
         String testEntity = "student";
 
+        File studentExtractFile = TestUtils.createTempFile("student", ".json");
+        OutputStream outputStream = new FileOutputStream(studentExtractFile);
+
+        DataExtractFile student = Mockito.mock(DataExtractFile.class);
+        Mockito.when(student.getOutputStream()).thenReturn(outputStream);
+
+        Mockito.when(archiveFile.getDataFileEntry(Matchers.anyString())).thenReturn(student);
+
         Iterator<Entity> cursor = Mockito.mock(Iterator.class);
-
         List<Entity> students = TestUtils.createStudents();
-
         Mockito.when(cursor.hasNext()).thenReturn(true, true, true, true, false, false);
         Mockito.when(cursor.next()).thenReturn(students.get(0), students.get(1));
-
         Mockito.when(mongoEntityRepository.findEach(Matchers.eq(testEntity), Matchers.any(Query.class))).thenReturn(cursor);
 
-        extractor.extractEntity(testTenant, zipFile, testEntity);
+        extractor.extractEntity(testTenant, archiveFile, testEntity);
 
-        Mockito.verify(zipFile, Mockito.atLeast(1)).writeData(Matchers.eq(students.get(0).getBody()));
-        Mockito.verify(zipFile, Mockito.atLeast(1)).writeData(Matchers.eq(students.get(1).getBody()));
+        IOUtils.closeQuietly(outputStream);
 
-    }
+        String fileContent = FileUtils.readFileToString(studentExtractFile);
 
-    List<Entity> createStudents(){
-        List<Entity> res = new ArrayList<Entity>();
+        ObjectMapper mapper = new ObjectMapper();
 
-        Map<String, Object> student1Body = new HashMap<String, Object>();
-        student1Body.put("UniqueStudentId", "1");
+        Entity studentEntity1 = students.get(0);
+        studentEntity1.getBody().put("entityType", "student");
+        String student1 = mapper.writeValueAsString(studentEntity1.getBody());
 
-        Entity student1 = makeDummyEntity("student", "1", student1Body);
+        Entity studentEntity2 = students.get(0);
+        studentEntity2.getBody().put("entityType", "student");
+        String student2 = mapper.writeValueAsString(studentEntity2.getBody());
 
-        Map<String, Object> student2Body = new HashMap<String, Object>();
-        student1Body.put("UniqueStudentId", "2");
+        Assert.assertTrue("Failed to find contents of first student", fileContent.contains(student1));
+        Assert.assertTrue("Failed to find contents of second student", fileContent.contains(student2));
 
-        Entity student2 = makeDummyEntity("student", "2", student2Body);
-
-        res.add(student1);
-        res.add(student2);
-
-        return res;
-    }
-
-    public static Entity makeDummyEntity(final String type, final String id, final Map<String, Object> body) {
-        return new Entity() {
-
-            @Override
-            public String getType() {
-                return type;
-            }
-
-            @Override
-            public Map<String, Object> getMetaData() {
-                return new HashMap<String, Object>();
-            }
-
-            @Override
-            public String getEntityId() {
-                return id;
-            }
-
-            @Override
-            public Map<String, Object> getBody() {
-                return body;
-            }
-
-            @Override
-            public CalculatedData<String> getCalculatedValues() {
-                return null;
-            }
-
-            @Override
-            public CalculatedData<Map<String, Integer>> getAggregates() {
-                return null;
-            }
-
-            @Override
-            public Map<String, List<Entity>> getEmbeddedData() {
-                return null;
-            }
-
-            @Override
-            public Map<String, List<Map<String, Object>>> getDenormalizedData() {
-                return null;
-            }
-
-            @Override
-            public String getStagedEntityId() {
-                return null;
-            }
-       };
     }
 
 }

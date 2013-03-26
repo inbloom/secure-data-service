@@ -66,6 +66,7 @@ Scenario: Delete Student Competency with cascade
     When zip file is scp to ingestion landing zone
     Then a batch job for file "BroadSetOfTypes.zip" is completed in database
     And a batch job log has been created
+    And I should see "315511d70c3e5e231aae544dd1c9b2dd980e8d8b_id" in the "Midgar" database
     And I should not see an error log file created
 	And I should not see a warning log file created
     And I post "BroadStudentCompetencyDelete.zip" file as the payload of the ingestion job
@@ -75,4 +76,4 @@ Scenario: Delete Student Competency with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	#And I should not see "315511d70c3e5e231aae544dd1c9b2dd980e8d8b_id" in the "Midgar" database
+	And I should not see "315511d70c3e5e231aae544dd1c9b2dd980e8d8b_id" in the "Midgar" database

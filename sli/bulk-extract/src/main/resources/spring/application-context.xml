@@ -89,18 +89,13 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
          <property name="entityRepository" ref="mongoEntityRepository" />
          <property name="queriedEntities" ref="queriedEntities" />
          <property name="combinedEntities" ref="combinedEntities" />
-         <property name="idTreatment" ref="idTreatment" />
-         <property name="typeTreatment" ref="typeTreatment" />
+         <property name="applicator" ref="applicator" />
     </bean>
 
     <bean id="tenantExtractor" class="org.slc.sli.bulk.extract.extractor.TenantExtractor">
          <property name="entities" ref="entities" />
          <property name="bulkExtractMongoDA" ref="bulkExtractMongoDA" />
-         <property name="metaData" ref="metaData"/>
          <property name="entityExtractor" ref="entityExtractor" />
-    </bean>
-
-    <bean id="metaData" class="org.slc.sli.bulk.extract.metadata.DataFile">
     </bean>
 
     <bean id="launcher" class="org.slc.sli.bulk.extract.Launcher">
@@ -108,15 +103,23 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <property name="tenantExtractor" ref="tenantExtractor" />
     </bean>
 
-    <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment">
+    <bean id="bulkExtractMongoDA" class="org.slc.sli.bulk.extract.BulkExtractMongoDA">
+         <property name="entityRepository" ref="mongoEntityRepository" />
+    </bean>
+    
+     <bean id="applicator" class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
+         <property name="treatments" ref="treatments" />
+    </bean>
+    
+    <util:list id="treatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
+        <ref local="idTreatment"/>
+        <ref local="typeTreatment"/>
+    </util:list>
+    
+        <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment">
     </bean>
 
     <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment">
         <property name="combinedEntities" ref="combinedEntities" />
     </bean>
-
-    <bean id="bulkExtractMongoDA" class="org.slc.sli.bulk.extract.BulkExtractMongoDA">
-         <property name="entityRepository" ref="mongoEntityRepository" />
-    </bean>
-
 </beans>
