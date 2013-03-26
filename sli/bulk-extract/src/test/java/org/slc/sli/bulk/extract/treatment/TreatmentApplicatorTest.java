@@ -26,13 +26,22 @@ import org.mockito.Mockito;
 
 import org.slc.sli.domain.Entity;
 
-
+/**
+ *JUnit test class for TreatmentApplicator class.
+ * @author ablum
+ *
+ */
 public class TreatmentApplicatorTest {
 
     TreatmentApplicator applicator = new TreatmentApplicator();
     Treatment treatment1 = Mockito.mock(Treatment.class);
     Treatment treatment2 = Mockito.mock(Treatment.class);
 
+    /**
+     * Runs before JUnit test and does the initiation work.
+     * @throws IOException
+     *          if an I/O error occurred
+     */
     @Before
     public void init() throws IOException {
 
@@ -45,6 +54,9 @@ public class TreatmentApplicatorTest {
         applicator.setTreatments(treatments);
     }
 
+    /**
+     * Junit test case to test treatement application to a student entity.
+     */
     @Test
     public void testApplyAll() {
         Entity student = Mockito.mock(Entity.class);
