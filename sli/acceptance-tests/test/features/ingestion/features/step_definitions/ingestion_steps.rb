@@ -293,6 +293,10 @@ $CASCADE_DELETE_REFERENCE_MAP = {
                 "telephone_teacher" => "updated",
 }
 
+updated = Set.new
+deleted = Set.new
+checked = Set.new
+
 
 ############################################################
 # STEPS: BEFORE
@@ -3346,42 +3350,57 @@ Then /^I check the number of records in collection:/ do |table|
   enable_NOTABLESCAN()   
 end
 
+@origin_count
+@after_count
+
 Then /^I should not see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+       `rm -rf temp/*|wc -l`
+       `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
+
+       output = `grep #{id} ./temp/*`
+       assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
+       `rm -rf temp/*`
+end
+
+Then /^I should not see any entity mandatorily referring to "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+
   `rm -rf temp/*`
   `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
-  output = `grep #{id} ./temp/*`
-  assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
+
+      if(deleted.length()>0)
+          deleted.each do |id|
+              puts id
+              output = `grep #{id} ./temp/*`
+              assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
+          end
+      end
   `rm -rf temp/*`
 end
 
-
 Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the "(.*?)" database$/ do |entityType, id, tenant|
     #Step 1: pass in the entity type to be searched
-    #print entityType
-    #print id
-    #print tenant
 
     dbName = convertTenantIdToDbName(tenant)
     `sh exportMongoDb.sh #{dbName} temp 2>&1 /dev/null`
+
     export_data = './temp/*'
-    output = `grep #{id} ./temp/* `
-    output_lines = output.split('"version" : 1 } }')
+    output = `grep #{id} ./temp/* |awk -F: '{print ""; f=$1; print $0;}'`
+    #puts "output = " + output
+    output_lines = output.split(/[\r\n]+/)
 
-    updated = Set.new
-    deleted = Set.new
-    for i in 0..output_lines.length-2
-        entry =  output_lines.at(i)
-
+    for i in 1..output_lines.length-1
+        entry =  output_lines[i]
+        #puts "entry = " + entry
         #Step 2: get the child type
-        filename = entry[0, entry.rindex('.json')]
-        child_type = filename[filename.rindex('_')+1,filename.length-1]
+        filename = entry.split(':')[0]
+        puts "filename = "+filename
+        child_type = filename.split('_')[2].split('.')[0]
         puts "child_type =" +  child_type
 
         #Step 3: get child id
-        puts "entry = "+entry
+        puts "entry = " + entry
 
-        child_id = entry[0, entry.rindex('",')]
-        child_id = child_id[child_id.length-43, child_id.length-1]
+        child_id = entry.split(',')[0].split(':')[2]
         puts "child_id = " +  child_id
 
         if(child_type == entityType)
@@ -3398,6 +3417,7 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
                   when 'deleted'
                      deleted.add(child_id)
                   when 'checked'
+                     checked.add(child_id)
                      if(entry[entry.rindex(id)+44]==']')
                         deleted.add(child_id)
                      else
@@ -3407,7 +3427,23 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
          end
     end
     puts deleted.length()
+    if(deleted.length()>0)
+        deleted.each do |d1|
+            puts d1
+        end
+    end
     puts updated.length()
+    if(updated.length()>0)
+        updated.each do |d1|
+            puts d1
+        end
+    end
+    puts checked.length()
+    if(checked.length()>0)
+        checked.each do |d1|
+            puts d1
+        end
+    end
 end
 
 Then /^all attendance entities should should have the expected structure./ do
