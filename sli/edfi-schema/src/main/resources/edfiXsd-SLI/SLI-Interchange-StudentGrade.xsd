@@ -15,7 +15,6 @@
 				<xs:element name="ReportCard" type="SLC-ReportCard"/>
 				<xs:element name="Grade" type="SLC-Grade"/>
 				<xs:element name="StudentCompetency" type="SLC-StudentCompetency"/>
-				<xs:element name="Diploma" type="Diploma"/>
 				<xs:element name="GradebookEntry" type="SLC-GradebookEntry"/>
 				<xs:element name="StudentGradebookEntry" type="SLC-StudentGradebookEntry"/>
 				<xs:element name="CompetencyLevelDescriptor" type="CompetencyLevelDescriptor"/>
