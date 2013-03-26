@@ -134,22 +134,42 @@ public class EntityExtractor{
         return query;
     }
 
+    /**
+     * get queried entities.
+     * @param queriedEntities entities
+     */
     public void setQueriedEntities(Map<String, String> queriedEntities) {
         this.queriedEntities = queriedEntities;
     }
 
+    /**
+     * set combined entities.
+     * @param combinedEntities combined entities
+     */
     public void setCombinedEntities(Map<String, String> combinedEntities) {
         this.combinedEntities = combinedEntities;
     }
 
+    /**
+     * set entity repository.
+     * @param entityRepository entity repository
+     */
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
 
+    /**
+     * get applicator.
+     * @return treatment applicator
+     */
     public TreatmentApplicator getApplicator() {
         return applicator;
     }
 
+    /**
+     * set applicator.
+     * @param applicator applicator
+     */
     public void setApplicator(TreatmentApplicator applicator) {
         this.applicator = applicator;
     }

@@ -65,7 +65,7 @@ public class ManifestFileTest {
 
         assertTrue("Correct metadata version not found in metadata file", fileContent.contains("metadata_version=1.0"));
         assertTrue("Correct api version not found in metadata file", fileContent.contains("api_version=v1.4"));
-        assertTrue("Correct time stamp entry not found in metadata file", fileContent.contains("timeStamp=" + startTime));
+        assertTrue("Correct time stamp entry not found in metadata file", fileContent.contains("timeStamp=" + ManifestFile.getTimeStamp(startTime)));
     }
 
 }
