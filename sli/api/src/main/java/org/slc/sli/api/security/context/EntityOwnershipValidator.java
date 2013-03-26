@@ -189,7 +189,8 @@ public class EntityOwnershipValidator {
         }
 
         if (entity.getType().equals(EntityNames.PROGRAM)) {
-            // explicitly check for requested program and return true --> programs don't fit model for entity ownership
+            // explicitly check for requested program and return true --> programs don't fit model
+            // for entity ownership
             return true;
         }
 
@@ -224,7 +225,7 @@ public class EntityOwnershipValidator {
         Set<String> edorgs = new HashSet<String>();
         debug("checking ownership for entities of type: {}", entityType);
 
-        if (entityType.equals(EntityNames.SCHOOL) || entityType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
+        if (isEducationOrganization(entityType)) {
             // No need to do an actual mongo lookup since we have the IDs we need
             for (Entity entity : entities) {
                 edorgs.add(entity.getEntityId());
@@ -262,5 +263,17 @@ public class EntityOwnershipValidator {
         }
 
         return edorgs;
+    }
+
+    /**
+     * Determines if the specified entity type represents an education organization.
+     *
+     * @param type
+     *            Type of Entity to be checked.
+     * @return True if the specified entity type is an education organization, false otherwise.
+     */
+    private boolean isEducationOrganization(String type) {
+        return type.equals(EntityNames.EDUCATION_ORGANIZATION) || type.equals(EntityNames.SCHOOL)
+                || type.equals("localEducationAgency") || type.equals("stateEducationAgency");
     }
 }
