@@ -1,4 +1,5 @@
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
+require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
@@ -308,6 +309,10 @@ def entityToUri(entity)
   when "gradebookEntry", "studentGradebookEntry", "studentCompetency"
     uri[-1] = "ies" 
     uri
+  when "staffEducationOrganizationAssociation"
+    "staffEducationOrgAssignmentAssociations"
+  when "competencyLevelDescriptor"
+    uri
   else
     uri + "s"
   end
@@ -316,7 +321,9 @@ end
 
 def compareToApi(collection, collFile)
   case collection
-  when "student"
+  when "student", "competencyLevelDescriptor", "course", "courseOffering", 
+    "gradingPeriod", "graduationPlan", "learningObjective", "learningStandard","parent", "session",
+    "studentCompetencyObjective"
     
     collFile.each do |extractRecord|
     
@@ -327,7 +334,7 @@ def compareToApi(collection, collFile)
       uri = entityToUri(collection)
       restHttpGet("/v1/#{uri}/#{id}")
       assert(@res != nil, "Response from rest-client GET is nil")
-      assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
+      assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s + "\n" + @res.to_s)
       apiRecord = JSON.parse(@res.body)
       assert(apiRecord != nil, "Result of JSON parsing is nil")    
       apiRecord.delete("links")
@@ -337,7 +344,7 @@ def compareToApi(collection, collFile)
     
     end
   else
-    nil
+    assert(false,"API URI for #{collection} not configured")
   end
 end
 
