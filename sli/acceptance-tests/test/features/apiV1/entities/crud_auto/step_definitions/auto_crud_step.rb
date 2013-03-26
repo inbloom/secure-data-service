@@ -325,6 +325,7 @@ Then /^I perform POST for each resource available in the order defined by table:
   @context_table = table.clone
   table.hashes.each do |hash|
     resource = "/"+ hash["Entity Resource"]
+    puts("\n\nWorking on resource #{resource}")
 #    assert(resource_list.delete(resource).nil? == false ,"Invalid entity")
     if resource_list.delete(resource).nil?
       $stderr.puts "RESOURCE NOT FOUND : #{resource}"
@@ -338,7 +339,7 @@ Then /^I perform POST for each resource available in the order defined by table:
         if val.include? "teacherId"
           @fields[key] = "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"
         else
-          @fields[key] = @context_hash[val]["id"]
+          # @fields[key] = @context_hash[val]["id"]
         end
       end
     end
@@ -348,7 +349,8 @@ Then /^I perform POST for each resource available in the order defined by table:
     if resource.include? "gradingPeriod"
       @fields["gradingPeriodIdentity"]["schoolId"]=@context_hash["schools"]["id"]
     elsif resource.include? "session"
-      @fields["gradingPeriodReference"].push(@context_hash["gradingPeriods"]["id"])
+      # @fields["gradingPeriodReference"].push(@context_hash["gradingPeriods"]["id"])
+      # @fields["gradingPeriodReference"] = (@context_hash["gradingPeriods"]["id"])
     end
     steps %Q{
           When I navigate to POST \"/v1.2#{resource}\"
@@ -360,39 +362,45 @@ Then /^I perform POST for each resource available in the order defined by table:
     new_entity["id"] = @newId
     @context_hash[hash["Entity Resource"]] = new_entity
 
-    if resource.include? "/teachers"
-     steps %Q{
-          Given a valid entity json document for a \"teacherSchoolAssociation\"
-    }
-      @fields["schoolId"] = @context_hash["schools"]["id"]
-      @fields["teacherId"] = @newId
-     steps %Q{
-          When I navigate to POST \"/v1.2/teacherSchoolAssociations\"
-    }
-    elsif resource.include? "/staff"
-     steps %Q{
-          Given a valid entity json document for a \"staffEducationOrganizationAssociation\"
-    }
-      @fields["educationOrganizationReference"] = @context_hash["schools"]["id"]
-      @fields["staffReference"] = @newId
-     steps %Q{
-          When I navigate to POST \"/v1.2/staffEducationOrgAssignmentAssociations\"
-    }
-    end
+    # if resource.include? "/teachers"
+     # steps %Q{
+          # Given a valid entity json document for a \"teacherSchoolAssociation\"
+    # }
+      # @fields["schoolId"] = @context_hash["schools"]["id"]
+      # @fields["teacherId"] = @newId
+     # steps %Q{
+          # When I navigate to POST \"/v1.2/teacherSchoolAssociations\"
+    # }
+    # elsif resource.include? "/staff"
+     # steps %Q{
+          # Given a valid entity json document for a \"staffEducationOrganizationAssociation\"
+    # }
+      # @fields["educationOrganizationReference"] = @context_hash["schools"]["id"]
+      # @fields["staffReference"] = @newId
+     # steps %Q{
+          # When I navigate to POST \"/v1.2/staffEducationOrgAssignmentAssociations\"
+    # }
+    # end
   end
 end
 Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do
   resources.each do |resource|
+    puts("Performing PUT, GET and Natural Key Update for #{resource}") if $SLI_DEBUG
     if @context_hash.has_key? resource[1..-1] == false
       next
     end
-    if resource == "/competencyLevelDescriptor"
+    if skip_resource(resource) or resource == "/competencyLevelDescriptor" or resource == "/teacherSectionAssociations" or resource == "/staffProgramAssociations" or resource == "/yearlyAttendances"
+      next
+    end
+    #TODO - temporary.  Stop doing this
+    if resource == "/studentGradebookEntries" or resource == "/courseTranscripts" or resource == "/studentCompetencyObjectives"
       next
     end
     resource_type = get_resource_type resource
     steps %Q{
         Given a valid entity json document for a \"#{resource_type}\"
     }
+    puts("The context hash has #{@context_hash[resource[1..-1]].inspect}")
     @newId = @context_hash[resource[1..-1]]["id"]
     @fields = @context_hash[resource[1..-1]]["BODY"]
     get_resource resource

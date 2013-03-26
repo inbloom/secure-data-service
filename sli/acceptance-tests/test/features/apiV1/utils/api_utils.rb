@@ -186,7 +186,7 @@ Then /^the response should contain the appropriate fields and values$/ do
   puts("Fields #{@fields.inspect}\n\n\n")
   puts("Result #{@result.inspect}\n\n\n")
   
-  EntityProvider.verify_entities_match(@fields, @result)
+  EntityProvider.verify_entities_match(@fields.to_hash, @result.to_hash)
 end
 
 Then /^the error message should indicate "([^"]*)"$/ do |error_message|

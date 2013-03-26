@@ -100,40 +100,35 @@ Background: Nothing yet
       | parents                                  |
       | studentProgramAssociations               |
       | studentCohortAssociations                |
-      | teacherSectionAssociations               |
       | studentSchoolAssociations                |
       | teacherSchoolAssociations                |
       | studentSectionAssociations               |
       | staffCohortAssociations                  |
       | studentAssessments                       |
       | competencyLevelDescriptor               |
-      | staffProgramAssociations                 |
       | studentDisciplineIncidentAssociations    |
       | studentParentAssociations                |
       | graduationPlans                          |
       | studentAcademicRecords                   |
-      | studentGradebookEntries                   |
-      | courseTranscripts                        |
+#      | studentGradebookEntries                   |
+#      | courseTranscripts                        |
       | grades                                   |
       | studentCompetencies                       |
       | reportCards                              |
-      | studentCompetencyObjectives              |
-
-
+#      | studentCompetencyObjectives              |
       And I perform PUT,GET and Natural Key Update for each resource available
       And I perform DELETE for each resource availabel in the order defined by table:
         | Entity Resource                         |
-        | studentCompetencyObjectives              |
+#        | studentCompetencyObjectives              |
         | reportCards                              |
         | studentCompetencies                       |
         | grades                                   |
         | gradingPeriods                           |
-        | courseTranscripts                        |
-        | studentGradebookEntries                   |
+#        | courseTranscripts                        |
+#        | studentGradebookEntries                   |
         | studentAcademicRecords                   |
         | graduationPlans                          |
         | parents                                  |
-        #  | studentParentAssociations                |
         | competencyLevelDescriptor               |
         | studentAssessments                       |
         | learningStandards                        |
@@ -141,28 +136,18 @@ Background: Nothing yet
         | gradebookEntries                          |
         | disciplineActions                        |
         | disciplineIncidents                      |
-        # | studentDisciplineIncidentAssociations    |
         | cohorts                                  |
-        # | staffCohortAssociations                  |
         | attendances                              |
         | assessments                              |
         | teachers                                |
         | programs                                |
-        # | staffProgramAssociations                 |
-        # | teacherSectionAssociations               |
         | studentSchoolAssociations                |
         | students                                |
         | courses                                  |
-        # | courseOfferings                          |
-        # | studentCohortAssociations                |
-        # | studentProgramAssociations               |
-        # | studentSectionAssociations               |
-        # | sessions                                |
         | staffEducationOrgAssignmentAssociations |
         | staff                                   |
         | teacherSchoolAssociations                |
         | schools                                 |
-        # | sections                                |
         | educationOrganizations                 |
 
     Scenario: Get All Entities as School Teacher
