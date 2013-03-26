@@ -268,6 +268,12 @@ Then /^the response body "(.*?)" should match my teacher "(.*?)"$/ do |resKey, t
   assert(@result[resKey] == @teacher[teacherKey], "Expected response not found")
 end
 
+Then /^I sort the studentAssessmentItems according to score$/ do
+    studentAssessmentItems = @result["studentAssessmentItems"]
+    studentAssessmentItems.sort! {|a, b| a["rawScoreResult"] <=> b["rawScoreResult"]}
+    @result["studentAssessmentItems"] = studentAssessmentItems
+end
+
 Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
   #puts "\n\nDEBUG: @result[#{field}]=#{@result[field]}\n"
   # dig the value for that field out of a potentially
