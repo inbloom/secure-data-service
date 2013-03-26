@@ -37,6 +37,17 @@ public class DataExtractFile implements Closeable{
 
     private static final String FILE_EXTENSION = ".json.gz";
 
+    /**
+     * Parameterized constructor.
+     * @param parentDirName
+     *          Name of the parent directory of the extract files
+     * @param fileName
+     *          Name of the data file
+     * @throws FileNotFoundException
+     *          if data file is not found
+     * @throws IOException
+     *          if an I/O error occurred
+     */
     public DataExtractFile(String parentDirName, String fileName)
             throws FileNotFoundException, IOException {
 
@@ -50,6 +61,11 @@ public class DataExtractFile implements Closeable{
         }
     }
 
+    /**
+     * Getter for the output stream.
+     * @return
+     *      returns an Outputstream object
+     */
     public OutputStream getOutputStream() {
         return outputStream;
     }
@@ -60,6 +76,11 @@ public class DataExtractFile implements Closeable{
 
     }
 
+    /**
+     * Getter for data file's File object.
+     * @return
+     *      returns the File object
+     */
     public File getFile() {
         return file;
     }

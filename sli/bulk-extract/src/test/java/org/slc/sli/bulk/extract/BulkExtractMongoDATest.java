@@ -33,14 +33,21 @@ public class BulkExtractMongoDATest {
 
     private MongoEntityRepository mongoEntityRepository;
 
+    /**
+     * Runs before JUnit test and does the initiation work.
+     * @throws IOException
+     *          if an I/O error occurred
+     */
     @Before
     public void init() throws IOException {
         mongoEntityRepository = Mockito.mock(MongoEntityRepository.class);
     }
 
+    /**
+     * Test that the bulk extract collection is updated.
+     */
     @Test
     public void testTenant() {
-        String existingTenant = "Midgar";
 
         BulkExtractMongoDA bulkExtractMongoDA = new BulkExtractMongoDA();
         bulkExtractMongoDA.setEntityRepository(mongoEntityRepository);

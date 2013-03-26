@@ -56,6 +56,11 @@ public class TenantExtractorTest {
 
     private List<String> collections;
 
+    /**
+     * Runs before JUnit test and does the initiation work.
+     * @throws IOException
+     *          if an I/O error occurred
+     */
     @Before
     public void init() throws IOException {
         collections = new ArrayList<String>();
@@ -78,6 +83,9 @@ public class TenantExtractorTest {
         tenantExtractor.setBulkExtractMongoDA(bulkExtractMongoDA);
     }
 
+    /**
+     * JUnit test to test initiation and completion of the entity extraction.
+     */
     @Test
     public void testinitiateExtractForEntites() {
 
