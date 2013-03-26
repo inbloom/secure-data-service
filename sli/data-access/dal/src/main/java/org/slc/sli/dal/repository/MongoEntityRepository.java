@@ -419,11 +419,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     // HACK to explicitly map from specific to base types
     // once the DAL interface data model is well defined, this should not be needed
     String getEntityRepositoryType(String entityType) {
+        String repositoryType = entityType;  // default to the entityType
+
         String baseType = ENTITY_BASE_TYPE_MAP.get(entityType);
-        if (baseType == null) {
-            return entityType;
+        if (baseType != null) {
+            // check for base class differences that change the entity we reference
+            repositoryType = baseType;
         }
-        return baseType;
+
+        return repositoryType;
     }
 
     @Override
@@ -593,7 +597,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                             Map<String, Object> patchEntityBody = new HashMap<String, Object>();
                             patchEntityBody.put(referenceField, childRefList);
 
-                            if (!this.patch(null, referenceEntityType, referencerId,
+                            if (!this.patch(referenceEntityType, getEntityRepositoryType(referenceEntityType), referencerId,
                                     patchEntityBody)) {
                                 String message = "Database error while patching entity type: " + referenceEntityType +
                                         ", entity id: " + referencerId + ", field name: " + referenceField + " at depth " +  depth;
