@@ -23,8 +23,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
-import org.slc.sli.bulk.extract.metadata.ManifestFile;
+import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
 /**
  * Bulk extractor to extract data for a tenant.

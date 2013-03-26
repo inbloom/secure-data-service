@@ -27,8 +27,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
-import org.slc.sli.bulk.extract.File.DataExtractFile;
+import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.files.DataExtractFile;
 import org.slc.sli.bulk.extract.treatment.TreatmentApplicator;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;

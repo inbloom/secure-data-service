@@ -27,6 +27,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+
 /**
  * JUnit tests for ManifestFile class.
  * @author tke
