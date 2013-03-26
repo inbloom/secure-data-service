@@ -96,11 +96,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     <bean id="tenantExtractor" class="org.slc.sli.bulk.extract.extractor.TenantExtractor">
          <property name="entities" ref="entities" />
          <property name="bulkExtractMongoDA" ref="bulkExtractMongoDA" />
-         <property name="metaData" ref="metaData"/>
          <property name="entityExtractor" ref="entityExtractor" />
-    </bean>
-    
-    <bean id="metaData" class="org.slc.sli.bulk.extract.metadata.DataFile">
     </bean>
     
     <bean id="launcher" class="org.slc.sli.bulk.extract.Launcher">

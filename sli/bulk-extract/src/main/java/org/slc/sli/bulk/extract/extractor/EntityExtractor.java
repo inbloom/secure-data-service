@@ -15,11 +15,17 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.File.DataExtractFile;
 import org.slc.sli.bulk.extract.treatment.Treatment;
-import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -48,22 +54,28 @@ public class EntityExtractor{
     private Treatment typeTreatment;
     private Treatment idTreatment;
 
-    public void extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
+    public void extractEntity(String tenant, ArchivedExtractFile archiveFile, String entityName) {
 
         LOG.info("Extracting " + entityName);
-
+        DataExtractFile dataFile = null;
         String collectionName = getCollectionName(entityName);
         Query query = getQuery(entityName);
         long noOfRecords = 0;
+        JsonFactory jsonFactory = new JsonFactory();
 
         try {
             TenantContext.setTenantId(tenant);
-            Iterator<Entity> cursor = entityRepository.findEach(collectionName, query);
+            Iterator<Entity> cursor = entityRepository.findEach(collectionName,
+                    query);
 
             if (cursor.hasNext()) {
-                zipFile.createArchiveEntry(entityName + ".json");
-                //zipFile.writeJsonDelimiter("[");
-                zipFile.writeStartArray();
+                dataFile = archiveFile.getDataFileEntry(entityName);
+
+                OutputStream os = dataFile.getOutputStream();
+                JsonGenerator jsonGenerator = jsonFactory
+                        .createJsonGenerator(os);
+                jsonGenerator.writeStartArray();
+                jsonGenerator.flush();
 
                 while (cursor.hasNext()) {
                     Entity record = cursor.next();
@@ -72,17 +84,23 @@ public class EntityExtractor{
                     record = idTreatment.apply(record);
                     record = typeTreatment.apply(record);
 
-                    zipFile.writeData(record.getBody());
+                    ObjectMapper mapper = new ObjectMapper();
+                    mapper.writeValue(jsonGenerator, record.getBody());
                 }
-                zipFile.writeEndArray();
+                jsonGenerator.writeEndArray();
+                jsonGenerator.flush();
             }
 
-            LOG.info("Finished extracting {} records for " + entityName, noOfRecords);
+            LOG.info("Finished extracting {} records for " + entityName,
+                    noOfRecords);
 
         } catch (Exception e) {
             LOG.error("Error while extracting " + entityName, e);
         } finally {
             TenantContext.setTenantId(null);
+            if (dataFile != null) {
+                dataFile.close();
+            }
         }
     }
 

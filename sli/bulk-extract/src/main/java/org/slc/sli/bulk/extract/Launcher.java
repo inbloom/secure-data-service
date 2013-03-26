@@ -6,8 +6,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
-import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,22 +25,23 @@ public class Launcher {
     public void execute(String tenant){
 
         Date startTime = new Date();
-        OutstreamZipFile outputStream = null;
+        ArchivedExtractFile extractFile = null;
         try {
-            outputStream = createExtractArchiveFile(tenant, startTime);
-            tenantExtractor.execute(tenant, outputStream, startTime);
+            extractFile = new ArchivedExtractFile(getTenantDirectory(tenant),
+                    getArchiveName(tenant, startTime));
+
+            tenantExtractor.execute(tenant, extractFile, startTime);
         } catch (IOException e) {
-            LOG.error("Error while extracting data for tenant " + tenant, e);
+            LOG.error("Error writing extract file");
         }
+        
     }
 
-    private OutstreamZipFile createExtractArchiveFile(String tenant, Date startTime) throws IOException {
-
-        return new OutstreamZipFile(getTenantDirectory(tenant), tenant + "-" + getTimeStamp(startTime));
+    private String getArchiveName(String tenant, Date startTime) {
+        return tenant + "" + getTimeStamp(startTime);
     }
-
+    
     private String getTenantDirectory(String tenant) {
-
         File tenantDirectory = new File(baseDirectory, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
         tenantDirectory.mkdirs();
         return tenantDirectory.getPath();

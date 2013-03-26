@@ -20,9 +20,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.Launcher;
-import org.slc.sli.bulk.extract.metadata.DataFile;
-import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
+import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.metadata.ManifestFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,21 +41,27 @@ public class TenantExtractor{
 
     private EntityExtractor entityExtractor;
 
-    private DataFile metaData;
+    private ManifestFile metaDataFile;
 
-    public void execute(String tenant, OutstreamZipFile zipFile, Date startTime) {
+    public void execute(String tenant, ArchivedExtractFile extractFile, Date startTime) {
 
         for (String entity : entities) {
-            entityExtractor.extractEntity(tenant, zipFile, entity);
+            entityExtractor.extractEntity(tenant, extractFile, entity);
         }
-
+        
         try {
-            metaData.writeToZip(zipFile, Launcher.getTimeStamp(startTime));
+            metaDataFile = extractFile.getManifestFile();
+            metaDataFile.generateMetaFile(startTime);
 
-            zipFile.closeZipFile();
-            bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getOutputFile().getAbsolutePath(), startTime);
+            bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime);
         } catch (IOException e) {
-            LOG.error("Error attempting to close zipfile " + zipFile.getOutputFile().getPath(), e);
+            LOG.error("Error creating metadata file");
+        }
+        
+        try {
+            extractFile.generateArchive();
+        } catch (IOException e) {
+            LOG.error("Error generating archive file");
         }
     }
 
@@ -69,14 +74,6 @@ public class TenantExtractor{
     }
     public void setEntities(List<String> entities) {
         this.entities = entities;
-    }
-
-    public DataFile getMetaData() {
-        return metaData;
-    }
-
-    public void setMetaData(DataFile metaData) {
-        this.metaData = metaData;
     }
 
     public EntityExtractor getEntityExtractor() {
