@@ -22,5 +22,11 @@ import org.slc.sli.domain.Entity;
  *
  */
 public interface Treatment {
-    public Entity apply(Entity body);
+
+    /**
+     * Applies a function to modify an Entity
+     * @param entity An Entity to modify
+     * @return A modified Entity
+     */
+    public Entity apply(Entity entity);
 }

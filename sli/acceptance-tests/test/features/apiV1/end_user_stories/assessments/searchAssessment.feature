@@ -81,7 +81,6 @@ Scenario: Search Indexer should reindex when I update, delete, and create
   Then I should receive a return code of 200
   Then I should receive a collection with 2 elements
 
-  # Note: Delete does NOT work for search indexer.
   Given format "application/json"
   Then I navigate to GET "/v1/assessments?assessmentPeriodDescriptor.description=Beginning%20of%20Year%202013-2014%20for%20First%20grade"
   Then I should receive a return code of 200

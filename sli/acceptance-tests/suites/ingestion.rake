@@ -400,7 +400,7 @@ task :ingestionCascadingDeletionBroadAssessmentItemFromStudentAssessmentTest do
 end
 
 task :ingestionCascadingDeletionBroadAssessmentFamilyTest do
-  runTests("test/features/ingestion/features/ingestion_broad_cascading_assessmentFamily_delete.feature")
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_AssessmentFamily_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadStudentAssessmentTest do

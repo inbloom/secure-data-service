@@ -50,11 +50,11 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "code1"                                                 if human_readable_id == "code value"
   id = "True-False"                                            if human_readable_id == "item category"
   id = "Number score"                                          if human_readable_id == "reporting method"
-  id = "BOY-12-2012"                                           if human_readable_id == "APD.codeValue"
-  id = "2012-Twelfth grade Assessment 2"                       if human_readable_id == "assessment 1"
-  id = "2012-Twelfth grade Assessment 2#1"                     if human_readable_id == "assessment item 1"
-  id = "2012-Twelfth grade Assessment 2.OA-0"                  if human_readable_id == "objective assessment"
-  id = "2012-Twelfth grade Assessment 2.OA-0 Sub"              if human_readable_id == "sub objective assessment"
+  id = "BOY-11-2012"                                           if human_readable_id == "APD.codeValue"
+  id = "2012-Eleventh grade Assessment 2"                       if human_readable_id == "assessment 1"
+  id = "2012-Eleventh grade Assessment 2#1"                     if human_readable_id == "assessment item 1"
+  id = "2012-Eleventh grade Assessment 2.OA-0"                  if human_readable_id == "objective assessment"
+  id = "2012-Eleventh grade Assessment 2.OA-0 Sub"              if human_readable_id == "sub objective assessment"
   id = "objectiveAssessment.0.maxRawScore"                     if human_readable_id == "OA.maxRawScore"
   id = "objectiveAssessment.0.nomenclature"                    if human_readable_id == "OA.nomenclature"
   id = "objectiveAssessment.0.identificationCode"              if human_readable_id == "OA.identificationCode"
@@ -64,9 +64,9 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "assessmentIdentificationCode.0.identificationSystem"   if human_readable_id == "AIC.identificationSystem"
   
   # Assessment Family Hierarchy
-  id = "2012 Standard.2012 Twelfth grade Standard"             if human_readable_id == "assessment family hierarchy"
+  id = "2012 Standard.2012 Eleventh grade Standard"             if human_readable_id == "assessment family hierarchy"
   # Assessment Period Descriptor
-  id = "Beginning of Year 2012-2013 for Twelfth grade"         if human_readable_id == "assessment period descriptor"
+  id = "Beginning of Year 2012-2013 for Eleventh grade"         if human_readable_id == "assessment period descriptor"
 
   # Search endpoints
   id = "assessmentIdentificationCode.0.ID"                     if human_readable_id == "search.assessment.ID"
@@ -207,7 +207,7 @@ end
 ###############################################################################
 When /^I make a GET request to URI "(.*?)"$/ do |request|  
   uri = request.gsub("@id", @teacher["sectionId"][0])
- # puts uri
+  #puts uri
   step "I navigate to GET \"/v1/#{uri}\""
 end
 
@@ -293,7 +293,7 @@ Then /^I should extract the "(.*?)" from the response body to a list$/ do |resou
     values << fieldExtract(resource, response)
   end
   values.sort! 
- # puts values
+  #puts values
   teacherHashPush(resource, values)
 end
 
@@ -303,6 +303,8 @@ Then /^I should extract the "(.*?)" from the response body to a list and save to
   @result.each do |response|
     values << fieldExtract(resource, response)
   end
+  values.sort!
+  #puts values
   teacherHashPush(entity, values)
 end
 
@@ -321,6 +323,7 @@ Then /^I store the studentAssessments$/ do
     teacherHashPush(studentAssessment["id"], studentAssessment)
   end
   # Push the list of studentAsessment hash keys to a list in @teacher
+  ids.sort!
   teacherHashPush("studentAssessments", ids)
 end
 
@@ -337,6 +340,7 @@ end
 
 Then /^I should extract the assessment reference from studentAssessment$/ do
   assessment = @result["assessmentId"]
+  #puts "assessment id is: #{assessment}"
   teacherHashPush("assessment", assessment)
 end
 
