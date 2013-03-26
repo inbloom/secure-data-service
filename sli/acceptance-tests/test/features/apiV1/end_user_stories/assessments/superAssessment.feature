@@ -60,9 +60,8 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     And the response field "retestIndicator" should be "Primary Administration"
     And the response field "<SOA.scoreResults.result>" should be "68"
     And the response field "<SOA.OA.identificationCode>" should be "2012-Eleventh grade Assessment 2.OA-0"
-    #And the response field "<SAI.rawScoreResult>" should be "83"
-    #And the response field "<SAI.assessmentItemResult>" should be "Correct"
-    #And the response field "<SAI.AI.identificationCode>" should be "2012-Eleventh grade Assessment 2#1"
+    And I sort the studentAssessmentItems
+    And the response field "<SAI.AI.identificationCode>" should be "2012-Eleventh grade Assessment 2#1"
     And I should extract the student reference from studentAssessment
     And I should extract the assessment reference from studentAssessment
 
