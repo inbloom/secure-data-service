@@ -28,6 +28,7 @@ end
 
 When /^I save the extracted file$/ do
   @filePath = "extract/extract.tar"
+  @unpackDir = File.dirname(@filePath) + '/unpack'
   if (!File.exists?("extract"))
       FileUtils.mkdir("extract")
   end

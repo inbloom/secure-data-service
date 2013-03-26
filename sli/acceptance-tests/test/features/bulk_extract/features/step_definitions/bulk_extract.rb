@@ -20,6 +20,9 @@ ENCRYPTED_ENTITIES = ['student', 'parent']
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 
 require 'zip/zip'
+require 'archive/tar/minitar'
+require 'zlib'
+include Archive::Tar
 
 ############################################################
 # Scheduler
@@ -143,11 +146,12 @@ When /^I retrieve the path to the extract file for the tenant "(.*?)"$/ do |tena
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
   @filePath = match['body']['path']
+  @unpackDir = File.dirname(@filePath) + '/unpack'
   @tenant = tenant
 
 end
 
-When /^I verify that an extract zip file was created for the tenant "(.*?)"$/ do |tenant|
+When /^I verify that an extract tar file was created for the tenant "(.*?)"$/ do |tenant|
 
 	puts "Extract FilePath: #{@filePath}"
 
@@ -155,47 +159,42 @@ When /^I verify that an extract zip file was created for the tenant "(.*?)"$/ do
 end
 
 When /^there is a metadata file in the extract$/ do
-  puts @filePath
-    extractFile = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
-    metadataFile = extractFile.find_entry("metadata.txt")
-	assert(metadataFile!=nil, "Cannot find metadata file in extract")
-	extractFile.close()
+  Minitar.unpack(@filePath, @unpackDir)
+	assert(File.exists?(@unpackDir + "/metadata.txt"), "Cannot find metadata file in extract")
 end
 
 When /^the extract contains a file for each of the following entities:$/ do |table|
-    extractFile = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
-
+  Minitar.unpack(@filePath, @unpackDir)
+  
 	table.hashes.map do |entity|
-	 collFile = extractFile.find_entry(entity['entityType'] + ".json")
-     puts entity
-	 assert(collFile!=nil, "Cannot find #{entity['entityType']}.json file in extracts")
+  exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
+  assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
 	end
 
-	assert((extractFile.size-1)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (extractFile.size-1).to_s)
-    extractFile.close()
+  fileList = Dir.entries(@unpackDir)
+	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
 end
 
 When /^a "(.*?)" extract file exists$/ do |collection|
-    extractFile = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
-	collFile = extractFile.find_entry(collection + ".json")
-	assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
-    extractFile.close()
+  exists = File.exists?(@unpackDir + "/" + collection + ".json.gz")
+	assert(exists, "Cannot find #{collection}.json file in extracts")
+
 end
 
 When /^a the correct number of "(.*?)" was extracted from the database$/ do |collection|
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant)) 
 	count = @tenantDb.collection(collection).count()
 
-	extractFile = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
-	records = JSON.parse(extractFile.read(collection + ".json"))
-
-	puts "Counts Expected: " + count.to_s + " Actual: " + records.size.to_s
-	assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
+	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
+    records = JSON.parse(extractFile.read)
+    puts "Counts Expected: " + count.to_s + " Actual: " + records.size.to_s
+    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
+  }	
 end
 
 When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
-	extractFile = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
-	records = JSON.parse(extractFile.read(collection + ".json"))
+	Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extractFile|
+	records = JSON.parse(extractFile.read)
 	uniqueRecords = Hash.new
 	records.each do |jsonRecord|
 		assert(uniqueRecords[jsonRecord['id']] == nil, "Record was extracted twice \nJSONRecord:\n" + jsonRecord.to_s)
@@ -206,6 +205,7 @@ When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
 
 		compareRecords(mongoRecord, jsonRecord)
 	end
+}
 end
 
 When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tenant "(.*?)", that lasts for "(.*?)" seconds/ do |client_appName, user, role, realm, tenant, expiration_in_seconds|
@@ -230,11 +230,12 @@ end
 ############################################################
 
 Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
-  extracts = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
-  collFile = JSON.parse(extracts.read(collection + ".json"))
+  Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extracts|
+  collFile = JSON.parse(extracts.read)
   assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
   
   compareToApi(collection, collFile)
+}
   
 end
 
