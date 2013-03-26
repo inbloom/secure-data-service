@@ -219,6 +219,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             query = new Query();
             String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
             query.addCriteria(Criteria.where(ID).is(entityId));
+            if( entity.getAction().doDelete()) {
+                entity.setUUID( entityId );
+            }
         }
 
         return query;

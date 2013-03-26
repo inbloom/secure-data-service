@@ -43,6 +43,7 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
     private int visitAfterLineNumber;
     private int visitAfterColumnNumber;
 
+    public static final String FIELD_UUID = "UUID";
 
     @Override
     public String getType() {
@@ -142,6 +143,20 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
             result = ActionVerb.valueOf( (String) metaData.get(NeutralRecord.KEY_ACTION));
         }
      return ( result) ;
+    }
+
+    public String getUUID( ) {
+        String result = null;
+        if ( metaData != null && metaData.containsKey( FIELD_UUID ) ) {
+            result = (String) metaData.get( FIELD_UUID);
+        }
+        return( result );
+    }
+    public void setUUID( String id ) {
+        if( metaData == null ) {
+            metaData = new HashMap< String, Object>();
+        }
+        metaData.put( FIELD_UUID, id);
     }
 
     public void setAction( ActionVerb action) {
