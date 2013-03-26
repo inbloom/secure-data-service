@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.bulk.extract.file;
+package org.slc.sli.bulk.extract.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,7 +26,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.util.IOUtils;
 
-import org.slc.sli.bulk.extract.file.metadata.ManifestFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
 /**
  * Extract's archive file class.
