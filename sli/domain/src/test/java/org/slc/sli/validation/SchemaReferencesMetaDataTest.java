@@ -110,15 +110,6 @@ public class SchemaReferencesMetaDataTest {
         );
 
         Assert.assertEquals(
-                "Unexpected references found to calendarDate!",
-                0,
-                Sets.symmetricDifference(
-                        Sets.newHashSet(
-                                new SchemaReferencePath("gradingPeriod.calendarDateReference", "calendarDate", 1L, 9223372036854775807L,true,false, true) ),
-                        Sets.newHashSet(schemaRefMetaData.getReferencesTo("calendarDate"))).size()
-        );
-
-        Assert.assertEquals(
                 "Unexpected references found to cohort!",
                 0,
                 Sets.symmetricDifference(
