@@ -705,7 +705,7 @@
       "objectiveGradeLevel": "Kindergarten",
       "objective": "Phonemic Awareness",
       "studentCompetencyObjectiveId": "SCO-K-1",
-      "educationOrganizationId": "ec2e4218-6483-4e9c-8954-0aecccfd4731"
+      "educationOrganizationId": "92d6d5a0-852c-45f4-907a-912752831772"
     },
     "UPDATE": {
       "field": "objectiveGradeLevel",
@@ -984,7 +984,7 @@
   "teacherSectionAssociation": {
     "POST": {
       "teacherId": "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
-      "sectionId": "15ab6363-5509-470c-8b59-4f289c224107_id",
+      "sectionId": "392d1835-f372-4690-b221-7065db1aed33_id",
       "classroomPosition": "Teacher of Record"
     },
     "UPDATE": {

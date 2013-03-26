@@ -389,18 +389,13 @@ Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do
     if @context_hash.has_key? resource[1..-1] == false
       next
     end
-    if skip_resource(resource) or resource == "/competencyLevelDescriptor" or resource == "/teacherSectionAssociations" or resource == "/staffProgramAssociations" or resource == "/yearlyAttendances"
-      next
-    end
-    #TODO - temporary.  Stop doing this
-    if resource == "/studentGradebookEntries" or resource == "/studentCompetencyObjectives"
+    if skip_resource(resource) or resource == "/competencyLevelDescriptor" or resource == "/teacherSectionAssociations" or resource == "/studentGradebookEntries" or resource == "/staffProgramAssociations" or resource == "/yearlyAttendances"
       next
     end
     resource_type = get_resource_type resource
     steps %Q{
         Given a valid entity json document for a \"#{resource_type}\"
     }
-    puts("The context hash has #{@context_hash[resource[1..-1]].inspect}")
     @newId = @context_hash[resource[1..-1]]["id"]
     @fields = @context_hash[resource[1..-1]]["BODY"]
     get_resource resource

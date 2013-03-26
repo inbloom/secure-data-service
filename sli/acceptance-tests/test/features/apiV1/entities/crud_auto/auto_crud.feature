@@ -115,11 +115,11 @@ Background: Nothing yet
       | grades                                   |
       | studentCompetencies                       |
       | reportCards                              |
-#      | studentCompetencyObjectives              |
+      | studentCompetencyObjectives              |
       And I perform PUT,GET and Natural Key Update for each resource available
       And I perform DELETE for each resource availabel in the order defined by table:
         | Entity Resource                         |
-#        | studentCompetencyObjectives              |
+        | studentCompetencyObjectives              |
         | reportCards                              |
         | studentCompetencies                       |
         | grades                                   |
