@@ -18,15 +18,16 @@ package org.slc.sli.bulk.extract.extractor;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.bulk.extract.treatment.TreatmentApplicator;
 import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 
 /**
@@ -47,6 +48,13 @@ public class EntityExtractor{
 
     private TreatmentApplicator applicator;
 
+    /**
+     * extract all the records of entity.
+     *
+     * @param tenant
+     * @param zipFile
+     * @param entityName
+     */
     public void extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
 
         LOG.info("Extracting " + entityName);
