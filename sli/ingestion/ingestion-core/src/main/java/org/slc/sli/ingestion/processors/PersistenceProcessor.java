@@ -362,7 +362,9 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
             return false;
         }
 
-        if (e.getAction().doDelete() && e.getEntityId() == null) {
+
+        if (e.getAction().doDelete() && e.getEntityId() == null &&
+                e.getUUID() == null) {
             return false;
         }
 
