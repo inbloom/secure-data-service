@@ -26,6 +26,15 @@ When /^I make bulk extract API call$/ do
   restHttpGet("/bulk/extract")
 end
 
+When /^I save the extracted file$/ do
+  @filePath = "extract/extract.tar"
+  @unpackDir = File.dirname(@filePath) + '/unpack'
+  if (!File.exists?("extract"))
+      FileUtils.mkdir("extract")
+  end
+  File.open(@filePath, 'w') {|f| f.write(@res.body) }
+end
+
 Then /^I get expected tar downloaded$/ do  
 
   EXPECTED_CONTENT_TYPE = 'application/x-tar'
