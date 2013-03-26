@@ -75,4 +75,4 @@ Scenario: Delete Report Card with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	#And I should not see "861efe5627b2c10ac01441b9afd26903398585bc_idadeaef1c4ba5e9d53ba31b990d929ef2859daf41_id" in the "Midgar" database
+	And I should not see "861efe5627b2c10ac01441b9afd26903398585bc_idadeaef1c4ba5e9d53ba31b990d929ef2859daf41_id" in the "Midgar" database
