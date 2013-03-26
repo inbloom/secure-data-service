@@ -31,8 +31,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
-import org.slc.sli.bulk.extract.metadata.ManifestFile;
+import org.slc.sli.bulk.extract.file.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.file.metadata.ManifestFile;
 
 
 /**
