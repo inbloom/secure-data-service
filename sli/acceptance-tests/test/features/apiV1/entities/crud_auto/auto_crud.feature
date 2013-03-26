@@ -1,4 +1,4 @@
-@wip @smoke @RALLY_US209 @RALLY_DE87
+@RALLY_US209 @RALLY_DE87
 Feature: As an SLI application, I want to be able to perform CRUD operations on various resources
 This means I want to be able to perform CRUD on all entities.
 and verify that the correct links are made available.
@@ -7,10 +7,8 @@ Background: Nothing yet
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And format "application/vnd.slc+json"
 
-
         Scenario: CRUD operations on an entity
         Then I perform CRUD for each resource available
-
 
 
 
@@ -22,7 +20,6 @@ Background: Nothing yet
         #Delete Invalid
         Then I navigate to DELETE with invalid id for each resource available
 
-
     Scenario: Get All Entities as State Staff
     Given my contextual access is defined by table:
     |Context                | Ids                                |
@@ -31,37 +28,37 @@ Background: Nothing yet
     |staff                  |85585b27-5368-4f10-a331-3abcaf3a3f4c|
     Given the expected rewrite results are defined by table:
     | Entity Type                              | Entity Resource URI                      | Count | Rewrite URI|
-    | assessment                              | assessments                              | 17    |/assessments|
+    | assessment                              | assessments                              | 18    |/search/assessments|
     | attendance                              | attendances                              | 0     |/schools/@ids/studentSchoolAssociations/students/attendances|
     | cohort                                  | cohorts                                  | 2     |/staff/@ids/staffCohortAssociations/cohorts|
-    | course                                  | courses                                  | 0     |/schools/@ids/courses|
+    | course                                  | courses                                  | 92    |/search/courses| 
     | disciplineAction                        | disciplineActions                        | 2     |/staff/@ids/disciplineActions|
     | disciplineIncident                      | disciplineIncidents                      | 0     |/staff/@ids/disciplineIncidents|
     | educationOrganization                   | educationOrganizations                   | 1     |/staff/@ids/staffEducationOrgAssignmentAssociations/educationOrganizations|
     | gradebookEntry                          | gradebookEntries                         | 0     |/schools/@ids/sections/gradebookEntries|
-    | learningObjective                       | learningObjectives                       | 5     |/learningObjectives|
-    | learningStandard                        | learningStandards                        | 14    |/learningStandards|
+    | learningObjective                       | learningObjectives                       | 5     |/search/learningObjectives|
+    | learningStandard                        | learningStandards                        | 14    |/search/learningStandards|
     | parent                                  | parents                                  | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations/parents|
     | program                                 | programs                                 | 2     |/staff/@ids/staffProgramAssociations/programs|
-    | studentProgramAssociation               | studentProgramAssociations               | 10    |/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations|
-    | courseTranscript                        | courseTranscripts                        | 0     |/schools/@ids/studentSchoolAssociations/students/courseTranscripts|
+    | studentProgramAssociation               | studentProgramAssociations               | 6    |/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations|
+    | courseTranscript                        | courseTranscripts                        | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts|
     | staffEducationOrganizationAssociation   | staffEducationOrgAssignmentAssociations  | 1     |/staff/@ids/staffEducationOrgAssignmentAssociations|
-    | studentCohortAssociation                | studentCohortAssociations                | 6     |/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations|
+    | studentCohortAssociation                | studentCohortAssociations                | 4     |/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations|
     | teacherSectionAssociation               | teacherSectionAssociations               | 0     |/schools/@ids/teacherSchoolAssociations/teachers/teacherSectionAssociations|
     | studentSchoolAssociation                | studentSchoolAssociations                | 0     |/schools/@ids/studentSchoolAssociations|
     | teacherSchoolAssociation                | teacherSchoolAssociations                | 0     |/schools/@ids/teacherSchoolAssociations|
     | studentSectionAssociation               | studentSectionAssociations               | 0     |/schools/@ids/sections/studentSectionAssociations|
     | staffCohortAssociation                  | staffCohortAssociations                  | 2     |/staff/@ids/staffCohortAssociations|
     | studentAssessment                       | studentAssessments                       | 0     |/schools/@ids/studentSchoolAssociations/students/studentAssessments|
-    | competencyLevelDescriptor               | competencyLevelDescriptor                | 0     |/competencyLevelDescriptor|
+    | competencyLevelDescriptor               | competencyLevelDescriptor                | 2     |/search/competencyLevelDescriptor|
     | staffProgramAssociation                 | staffProgramAssociations                 | 3     |/staff/@ids/staffProgramAssociations|
     | studentDisciplineIncidentAssociation    | studentDisciplineIncidentAssociations    | 0     |/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations|
     | studentParentAssociation                | studentParentAssociations                | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations|
-    | courseOffering                          | courseOfferings                          | 0     |/schools/@ids/courseOfferings|
+    | courseOffering                          | courseOfferings                          | 138    |/search/courseOfferings|
     | graduationPlan                          | graduationPlans                          | 5     |/graduationPlans|
     | school                                  | schools                                  | 0     |/staff/@ids/staffEducationOrgAssignmentAssociations/schools|
     | section                                 | sections                                 | 0     |/schools/@ids/sections|
-    | session                                 | sessions                                 | 0     |/educationOrganizations/@ids/sessions|
+    | session                                 | sessions                                 | 29    |/search/sessions|
     | staff                                   | staff                                    | 4     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
     | student                                 | students                                 | 0     |/schools/@ids/studentSchoolAssociations/students|
     | studentAcademicRecord                   | studentAcademicRecords                   | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords|
@@ -69,9 +66,9 @@ Background: Nothing yet
     | teacher                                 | teachers                                 | 0     |/schools/@ids/teacherSchoolAssociations/teachers|
     | grade                                   | grades                                   | 0     |/schools/@ids/sections/studentSectionAssociations/grades|
     | studentCompetencie                      | studentCompetencies                      | 0     |/schools/@ids/sections/studentSectionAssociations/studentCompetencies|
-    | gradingPeriod                           | gradingPeriods                           | 0     |/schools/@ids/sessions/gradingPeriods|
+    | gradingPeriod                           | gradingPeriods                           | 3     |/search/gradingPeriods|
     | reportCard                              | reportCards                              | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
-    | studentCompetencyObjective              | studentCompetencyObjectives              | 0     |/educationOrganizations/@ids/studentCompetencyObjectives    |    
+    | studentCompetencyObjective              | studentCompetencyObjectives              | 1     |/search/studentCompetencyObjectives    |    
     Then the staff queries and rewrite rules work
 
  @Teacher_crud
@@ -103,26 +100,22 @@ Background: Nothing yet
       | parents                                  |
       | studentProgramAssociations               |
       | studentCohortAssociations                |
-      | teacherSectionAssociations               |
       | studentSchoolAssociations                |
       | teacherSchoolAssociations                |
       | studentSectionAssociations               |
       | staffCohortAssociations                  |
       | studentAssessments                       |
       | competencyLevelDescriptor               |
-      | staffProgramAssociations                 |
       | studentDisciplineIncidentAssociations    |
       | studentParentAssociations                |
       | graduationPlans                          |
       | studentAcademicRecords                   |
-      | studentGradebookEntries                   |
+#      | studentGradebookEntries                   |
       | courseTranscripts                        |
       | grades                                   |
       | studentCompetencies                       |
       | reportCards                              |
       | studentCompetencyObjectives              |
-
-
       And I perform PUT,GET and Natural Key Update for each resource available
       And I perform DELETE for each resource availabel in the order defined by table:
         | Entity Resource                         |
@@ -132,11 +125,10 @@ Background: Nothing yet
         | grades                                   |
         | gradingPeriods                           |
         | courseTranscripts                        |
-        | studentGradebookEntries                   |
+#        | studentGradebookEntries                   |
         | studentAcademicRecords                   |
         | graduationPlans                          |
         | parents                                  |
-        #  | studentParentAssociations                |
         | competencyLevelDescriptor               |
         | studentAssessments                       |
         | learningStandards                        |
@@ -144,28 +136,18 @@ Background: Nothing yet
         | gradebookEntries                          |
         | disciplineActions                        |
         | disciplineIncidents                      |
-        # | studentDisciplineIncidentAssociations    |
         | cohorts                                  |
-        # | staffCohortAssociations                  |
         | attendances                              |
         | assessments                              |
         | teachers                                |
         | programs                                |
-        # | staffProgramAssociations                 |
-        # | teacherSectionAssociations               |
         | studentSchoolAssociations                |
         | students                                |
         | courses                                  |
-        # | courseOfferings                          |
-        # | studentCohortAssociations                |
-        # | studentProgramAssociations               |
-        # | studentSectionAssociations               |
-        # | sessions                                |
         | staffEducationOrgAssignmentAssociations |
         | staff                                   |
         | teacherSchoolAssociations                |
         | schools                                 |
-        # | sections                                |
         | educationOrganizations                 |
 
     Scenario: Get All Entities as School Teacher
