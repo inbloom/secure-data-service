@@ -1,20 +1,22 @@
 /*
-* Copyright 2012 Shared Learning Collaborative, LLC
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.bulk.extract;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,18 +25,18 @@ import java.util.Map;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 
-import com.mongodb.util.JSON;
-
 /**
+ * Util class for tests.
  * @author tke
  *
  */
 public class TestUtils {
 
-    public static String toJSON(Entity record) {
-        return JSON.serialize(record.getBody());
-    }
-
+    /**
+     * Create dummy student entities.
+     * @return
+     *      returns a list of entities
+     */
     public static List<Entity> createStudents(){
         List<Entity> res = new ArrayList<Entity>();
 
@@ -54,6 +56,17 @@ public class TestUtils {
         return res;
     }
 
+    /**
+     * Generates a dummy entity.
+     * @param type
+     *          type of the entity
+     * @param id
+     *          id of the entity
+     * @param body
+     *          body of the entity
+     * @return
+     *      returns the genereated entity
+     */
     public static Entity makeDummyEntity(final String type, final String id, final Map<String, Object> body) {
         return new Entity() {
 
@@ -102,6 +115,23 @@ public class TestUtils {
                 return null;
             }
        };
+    }
+
+    /**
+     * Create a temporaray file for tests.
+     * @param prefix
+     *          Used in generating file name. Must be atleast three characters lon.
+     * @param suffix
+     *          Used in generating file name. Maybe null. Defaults to .tmp
+     * @return
+     *      File object of the newly created file
+     * @throws IOException
+     *          if an I/O error occurred
+     */
+    public static File createTempFile(String prefix, String suffix) throws IOException {
+        File file = File.createTempFile(prefix, suffix);
+        file.deleteOnExit();
+        return file;
     }
 
 }

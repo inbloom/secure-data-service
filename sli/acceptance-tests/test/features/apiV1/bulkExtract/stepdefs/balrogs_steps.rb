@@ -26,12 +26,21 @@ When /^I make bulk extract API call$/ do
   restHttpGet("/bulk/extract")
 end
 
-Then /^I get expected zip downloaded$/ do  
+When /^I save the extracted file$/ do
+  @filePath = "extract/extract.tar"
+  @unpackDir = File.dirname(@filePath) + '/unpack'
+  if (!File.exists?("extract"))
+      FileUtils.mkdir("extract")
+  end
+  File.open(@filePath, 'w') {|f| f.write(@res.body) }
+end
 
-  EXPECTED_CONTENT_TYPE = 'application/zip'
+Then /^I get expected tar downloaded$/ do  
+
+  EXPECTED_CONTENT_TYPE = 'application/x-tar'
   @content_disposition = @res.headers[:content_disposition]
   @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
-  @is_sampled_file = @zip_file_name=="NY-WALTON-2013-03-08.zip"
+  @is_sampled_file = @zip_file_name=="NY-WALTON-2013-03-19T13-02-02.tar"
   @last_modified = @res.headers[:last_modified]
 
   puts "content-disposition: #{@content_disposition}"
@@ -43,7 +52,7 @@ end
 
 Then /^I check the http response headers$/ do  
   
-  EXPECTED_BYTE_COUNT = 901
+  EXPECTED_BYTE_COUNT = 5632
 
   if @is_sampled_file
     assert(@res.headers[:content_length].to_i==EXPECTED_BYTE_COUNT, "File Size is wrong! Actual: #{@res.headers[:content_length]} Expected: #{EXPECTED_BYTE_COUNT}" )

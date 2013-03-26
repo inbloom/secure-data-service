@@ -15,6 +15,14 @@
  */
 package org.slc.sli.search.transform.impl;
 
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT;
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT_FAMILY;
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_HIERARCHY;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_REFERENCE;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_TITLE;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_PERIOD_DESCRIPTOR_ID;
+
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashSet;
@@ -23,28 +31,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+
 import org.apache.commons.lang3.StringUtils;
+
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.connector.SourceDatastoreConnector;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.transform.EntityConverter;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 public class AssessmentEntityConverter implements EntityConverter {
     
-    public static final String ASSESSMENT = "assessment";
-    public static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
-    public static final String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
-    public static final String ASSESSMENT_FAMILY_COLLECTION = "assessmentFamily";
-    public static final String ASSESSMENT_FAMILY_REFERENCE = "assessmentFamilyReference";
-    public static final String ASSESSMENT_FAMILY_HIERARCHY = "assessmentFamilyHierarchyName";
-    public static final String ASSESSMENT_FAMILY_TITLE = "assessmentFamilyTitle";
-    public static final List<String> FAMILY_FIELDS = Arrays.asList("body.assessmentFamilyReference",
-            "body.assessmentFamilyTitle");
+    public static final List<String> FAMILY_FIELDS = Arrays.asList("body." + ASSESSMENT_FAMILY_REFERENCE,
+            "body." + ASSESSMENT_FAMILY_TITLE);
     
     private SourceDatastoreConnector sourceDatastoreConnector;
     private IndexConfigStore indexConfigStore;
@@ -84,12 +87,11 @@ public class AssessmentEntityConverter implements EntityConverter {
         
         // from sarge update event, body is null
         if (body == null) {
-            DBObject assessmentQuery = new BasicDBObject("_id", entityMap.get("_id"));
-            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, type, fields,
-                    assessmentQuery);
+            DBObject query = new BasicDBObject("_id", entityMap.get("_id"));
+            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, type, fields, query);
             if (cursor.hasNext()) {
-                Map<String, Object> newAssessmentEntityMap = cursor.next().toMap();
-                body = (Map<String, Object>) newAssessmentEntityMap.get("body");
+                Map<String, Object> entity = cursor.next().toMap();
+                body = (Map<String, Object>) entity.get("body");
             }
         }
         return body;
@@ -129,7 +131,7 @@ public class AssessmentEntityConverter implements EntityConverter {
         Set<String> checkedReferences = new HashSet<String>();
         while (assessmentFamilyReference != null && !checkedReferences.contains(assessmentFamilyReference)) {
             checkedReferences.add(assessmentFamilyReference);
-            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS, new BasicDBObject("_id",
+            DBCursor cursor = sourceDatastoreConnector.getDBCursor(index, ASSESSMENT_FAMILY, FAMILY_FIELDS, new BasicDBObject("_id",
                     assessmentFamilyReference));
             if (cursor != null && cursor.hasNext()) {
                 DBObject family = cursor.next();

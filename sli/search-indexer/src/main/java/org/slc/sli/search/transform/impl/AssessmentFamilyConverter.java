@@ -15,6 +15,12 @@
  */
 package org.slc.sli.search.transform.impl;
 
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT;
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT_FAMILY;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_HIERARCHY;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_REFERENCE;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_TITLE;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +40,7 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
         String familyName = action == Action.DELETE ? "" : getName(index, entityMap).toString();
         List<Map<String, Object>> assessments = addAssessmentsForFamilyId(index, id, familyName);
         for (Map<String, Object> assessment : assessments) {
-            result.addAll(super.treatment(index, action, assessment));
+            result.addAll(super.treatment(index, convertAction(action), assessment));
         }
         
         return result;
@@ -54,7 +60,7 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     @SuppressWarnings("unchecked")
     protected List<Map<String, Object>> addAssessmentsForFamilyId(String dbname, String id, String familyName) {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
-        DBObject referenceQuery = BasicDBObjectBuilder.start().add("body.assessmentFamilyReference", id).get();
+        DBObject referenceQuery = BasicDBObjectBuilder.start().add("body." + ASSESSMENT_FAMILY_REFERENCE, id).get();
         DBCursor assessmentCursor = getSourceDatastoreConnector().getDBCursor(dbname, ASSESSMENT,
                 getIndexConfigStore().getConfig(ASSESSMENT).getFields(), referenceQuery);
         while (assessmentCursor.hasNext()) {
@@ -66,11 +72,11 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
             assessment.put("body", body);
             results.add(assessment);
         }
-        DBCursor familyCursor = getSourceDatastoreConnector().getDBCursor(dbname, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS, referenceQuery);
+        DBCursor familyCursor = getSourceDatastoreConnector().getDBCursor(dbname, ASSESSMENT_FAMILY, FAMILY_FIELDS, referenceQuery);
         while (familyCursor.hasNext()) {
             DBObject subFamily = familyCursor.next();
             String subId = (String) subFamily.get("_id");
-            String subName = (String) ((Map<String, Object>) subFamily.get("body")).get("assessmentFamilyTitle");
+            String subName = (String) ((Map<String, Object>) subFamily.get("body")).get(ASSESSMENT_FAMILY_TITLE);
             results.addAll(addAssessmentsForFamilyId(dbname, subId, familyName + "." + subName));
         }
         return results;
@@ -78,23 +84,28 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     
     @SuppressWarnings("unchecked")
     private StringBuilder getName(String index, Map<String, Object> entityMap) {
-        Map<String, Object> body = getBody(index, entityMap, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS);
-        String parentRef = (String) body.get(ASSESSMENT_FAMILY_REFERENCE);
+        Map<String, Object> body = getBody(index, entityMap, ASSESSMENT_FAMILY, FAMILY_FIELDS);
         StringBuilder builder = new StringBuilder();
+
+        if (body == null) {
+            return builder;
+        }
+
+        String parentRef = (String) body.get(ASSESSMENT_FAMILY_REFERENCE);
         if (parentRef != null && !parentRef.equals("")) {
-            DBCursor cursor = getSourceDatastoreConnector().getDBCursor(index, ASSESSMENT_FAMILY_COLLECTION, FAMILY_FIELDS,
+            DBCursor cursor = getSourceDatastoreConnector().getDBCursor(index, ASSESSMENT_FAMILY, FAMILY_FIELDS,
                     BasicDBObjectBuilder.start().add("_id", parentRef).get());
             if (cursor.hasNext()) {
                 builder = getName(index, cursor.next().toMap());
                 builder.append(".");
             }
         }
-        return builder.append(body.get("assessmentFamilyTitle").toString());
+        return builder.append(body.get(ASSESSMENT_FAMILY_TITLE).toString());
     }
     
     @Override
     public Action convertAction(Action action) {
-        return action == Action.DELETE ? Action.UPDATE : action;
+        return action == Action.DELETE ? Action.INDEX : action;
     }
     
 }

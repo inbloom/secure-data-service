@@ -1,9 +1,13 @@
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
+require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 require_relative '../../../apiV1/long_lived_session/step_definitions/token_generator_steps.rb'
 
+SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_script'])
+TRIGGER_SCRIPT_DIRECTORY = File.expand_path(PropLoader.getProps['bulk_extract_script_directory'])
+CRON_OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_cron_output_directory']
 TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
 OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
 PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
@@ -16,6 +20,89 @@ ENCRYPTED_ENTITIES = ['student', 'parent']
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 
 require 'zip/zip'
+require 'archive/tar/minitar'
+require 'zlib'
+include Archive::Tar
+
+############################################################
+# Scheduler
+############################################################
+Given /^the current crontab is empty$/ do
+    command = "crontab -l"
+    result = runShellCommand(command)
+    puts "Running: #{command} #{result}"
+    command = "crontab -r"
+    result = runShellCommand(command)
+    puts "Running: #{command} #{result}"
+    assert(result.length==0, "current crontab is not empty but #{result}")
+end
+
+Given /^the local bulk extract script path and the scheduling config path$/ do
+    assert(Dir.exists?(TRIGGER_SCRIPT_DIRECTORY), "Bulk Extract script directory #{TRIGGER_SCRIPT_DIRECTORY} does not exist")
+    @trigger_script_path = TRIGGER_SCRIPT_DIRECTORY
+    @scheduling_config_path = File.dirname(__FILE__) + '/../../test_data/config/'
+    assert(Dir.exists?(@scheduling_config_path), "Bulk Extract scheduling config directory #{@scheduling_config_path} does not exist")
+
+    puts "bulk extract script path: #{@trigger_script_path}"
+    puts "bulk extract scheduling config path: #{@scheduling_config_path}"
+end
+
+And /^I clean up the cron extraction zone$/ do
+    @current_dir = Dir.pwd
+    puts "pwd: #{@current_dir}"
+    Dir.chdir
+    puts "pwd: #{Dir.pwd}"
+    if (Dir.exists?(CRON_OUTPUT_DIRECTORY))
+        FileUtils.rm_rf CRON_OUTPUT_DIRECTORY
+    end
+    assert(!Dir.exists?(CRON_OUTPUT_DIRECTORY), "cron output directory #{CRON_OUTPUT_DIRECTORY} does exist")
+    puts "CRON_OUTPUT_DIRECTORY: #{CRON_OUTPUT_DIRECTORY}"
+    Dir.chdir(@current_dir)
+end
+
+Then /^I run the bulk extract scheduler script$/ do
+    command  = "echo 'y' | sh #{SCHEDULER_SCRIPT} #{@trigger_script_path} #{@scheduling_config_path}"
+    result = runShellCommand(command)
+    puts "Running: #{command} #{result}"
+    raise "Result of bulk extract scheduler script should include Installed new crontab but was #{result}" if !result.include?"Installed new crontab"
+    command = "crontab -l"
+    result = runShellCommand(command)
+    Dir.chdir
+    puts "pwd: #{Dir.pwd}"
+end
+
+When /^I am willing to wait upto (\d+) seconds for the bulk extract scheduler cron job to start and complete$/ do |limit|
+    @maxTimeout = limit.to_i
+    puts "Waited timeout for #{limit.to_i} seconds"
+    intervalTime = 1
+    @maxTimeout ? @maxTimeout : @maxTimeout = 900
+    iters = (1.0*@maxTimeout/intervalTime).ceil
+    iters.times do |i|
+       if Dir.exists?(CRON_OUTPUT_DIRECTORY)
+          puts "Bulk extract scheduler cron job took approx. #{(i+1)*intervalTime} seconds to start and complete"
+          found = true
+          break
+       else
+          sleep(intervalTime)
+       end
+    end
+
+    assert(Dir.exists?(CRON_OUTPUT_DIRECTORY), "Timeout: cron job output directory #{CRON_OUTPUT_DIRECTORY} does not exist")
+
+    outdir = Dir.new(CRON_OUTPUT_DIRECTORY)
+    outdir.each do |filename|
+       puts "Bulk extracted file by cron job: #{filename}" if filename!="." && filename!=".."
+    end
+    Dir.chdir(@current_dir)
+end
+
+And /^I clear crontab$/ do
+    command = "crontab -r"
+    result = runShellCommand(command)
+    puts "Running: #{command} #{result}"
+    assert(result.length==0, "current crontab is not empty but #{result}")
+end
+
 
 ############################################################
 # Given
@@ -59,11 +146,12 @@ When /^I retrieve the path to the extract file for the tenant "(.*?)"$/ do |tena
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
   @filePath = match['body']['path']
+  @unpackDir = File.dirname(@filePath) + '/unpack'
   @tenant = tenant
 
 end
 
-When /^I verify that an extract zip file was created for the tenant "(.*?)"$/ do |tenant|
+When /^I verify that an extract tar file was created for the tenant "(.*?)"$/ do |tenant|
 
 	puts "Extract FilePath: #{@filePath}"
 
@@ -71,46 +159,42 @@ When /^I verify that an extract zip file was created for the tenant "(.*?)"$/ do
 end
 
 When /^there is a metadata file in the extract$/ do
-    extractFile = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
-    metadataFile = extractFile.find_entry("metadata.txt")
-	assert(metadataFile!=nil, "Cannot find metadata file in extract")
-	extractFile.close()
+  Minitar.unpack(@filePath, @unpackDir)
+	assert(File.exists?(@unpackDir + "/metadata.txt"), "Cannot find metadata file in extract")
 end
 
 When /^the extract contains a file for each of the following entities:$/ do |table|
-    extractFile = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
-
+  Minitar.unpack(@filePath, @unpackDir)
+  
 	table.hashes.map do |entity|
-	 collFile = extractFile.find_entry(entity['entityType'] + ".json")
-     puts entity
-	 assert(collFile!=nil, "Cannot find #{entity['entityType']}.json file in extracts")
+  exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
+  assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
 	end
 
-	assert((extractFile.size-1)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (extractFile.size-1).to_s)
-    extractFile.close()
+  fileList = Dir.entries(@unpackDir)
+	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
 end
 
 When /^a "(.*?)" extract file exists$/ do |collection|
-    extractFile = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
-	collFile = extractFile.find_entry(collection + ".json")
-	assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
-    extractFile.close()
+  exists = File.exists?(@unpackDir + "/" + collection + ".json.gz")
+	assert(exists, "Cannot find #{collection}.json file in extracts")
+
 end
 
 When /^a the correct number of "(.*?)" was extracted from the database$/ do |collection|
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant)) 
 	count = @tenantDb.collection(collection).count()
 
-	extractFile = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
-	records = JSON.parse(extractFile.read(collection + ".json"))
-
-	puts "Counts Expected: " + count.to_s + " Actual: " + records.size.to_s
-	assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
+	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
+    records = JSON.parse(extractFile.read)
+    puts "Counts Expected: " + count.to_s + " Actual: " + records.size.to_s
+    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
+  }	
 end
 
 When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
-	extractFile = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
-	records = JSON.parse(extractFile.read(collection + ".json"))
+	Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extractFile|
+	records = JSON.parse(extractFile.read)
 	uniqueRecords = Hash.new
 	records.each do |jsonRecord|
 		assert(uniqueRecords[jsonRecord['id']] == nil, "Record was extracted twice \nJSONRecord:\n" + jsonRecord.to_s)
@@ -121,6 +205,7 @@ When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
 
 		compareRecords(mongoRecord, jsonRecord)
 	end
+}
 end
 
 When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tenant "(.*?)", that lasts for "(.*?)" seconds/ do |client_appName, user, role, realm, tenant, expiration_in_seconds|
@@ -145,11 +230,12 @@ end
 ############################################################
 
 Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
-  extracts = Zip::ZipFile.open(@filePath, Zip::ZipFile::CREATE)
-  collFile = JSON.parse(extracts.read(collection + ".json"))
+  Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extracts|
+  collFile = JSON.parse(extracts.read)
   assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
   
   compareToApi(collection, collFile)
+}
   
 end
 
@@ -213,19 +299,42 @@ def get_nested_keys(hash, keys=Array.new)
    keys.sort
 end
 
+def entityToUri(entity)
+  
+  uri = String.new(entity)
+
+  case entity
+  when "staff"
+    uri
+  when "gradebookEntry", "studentGradebookEntry", "studentCompetency"
+    uri[-1] = "ies" 
+    uri
+  when "staffEducationOrganizationAssociation"
+    "staffEducationOrgAssignmentAssociations"
+  when "competencyLevelDescriptor"
+    uri
+  else
+    uri + "s"
+  end
+
+end
+
 def compareToApi(collection, collFile)
   case collection
-  when "student"
+  when "student", "competencyLevelDescriptor", "course", "courseOffering", 
+    "gradingPeriod", "graduationPlan", "learningObjective", "learningStandard","parent", "session",
+    "studentCompetencyObjective"
     
     collFile.each do |extractRecord|
     
       id = extractRecord["id"]
-
-      #Make API call and get JSON for a student
+      
+      #Make API call and get JSON for the collection
       @format = "application/vnd.slc+json"
-      restHttpGet("/v1/students/#{id}")
+      uri = entityToUri(collection)
+      restHttpGet("/v1/#{uri}/#{id}")
       assert(@res != nil, "Response from rest-client GET is nil")
-      assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
+      assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s + "\n" + @res.to_s)
       apiRecord = JSON.parse(@res.body)
       assert(apiRecord != nil, "Result of JSON parsing is nil")    
       apiRecord.delete("links")
@@ -235,7 +344,7 @@ def compareToApi(collection, collFile)
     
     end
   else
-    nil
+    assert(false,"API URI for #{collection} not configured")
   end
 end
 

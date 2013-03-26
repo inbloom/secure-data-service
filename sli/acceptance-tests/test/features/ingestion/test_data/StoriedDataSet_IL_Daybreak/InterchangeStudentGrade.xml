@@ -26270,6 +26270,7 @@
       </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
   </StudentCompetency>
+  <!-- Diploma not yet supported 
   <Diploma>
     <DiplomaAwardDate>2011-05-30</DiplomaAwardDate>
     <DiplomaLevel>Cum laude</DiplomaLevel>
@@ -26280,6 +26281,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
   </Diploma>
+  -->
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
     <GradeType>Mid-Term Grade</GradeType>
@@ -28453,6 +28455,7 @@
         <SchoolYear>2010-2011</SchoolYear>
       </ReportCardIdentity>
     </ReportCardReference>
+    <!-- Diploma not yet supported
     <DiplomaReference>
       <DiplomaIdentity>
         <EducationalOrgReference>
@@ -28464,6 +28467,7 @@
         <DiplomaType>Regular diploma</DiplomaType>
       </DiplomaIdentity>
     </DiplomaReference>
+    -->
     <SchoolYear>2010-2011</SchoolYear>
   </StudentAcademicRecord>
 </InterchangeStudentGrade>

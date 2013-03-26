@@ -23,8 +23,9 @@ import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
-import static org.slc.sli.search.transform.impl.AssessmentPeriodDescriptorEntityConverter.ASSESSMENT;
-import static org.slc.sli.search.transform.impl.AssessmentPeriodDescriptorEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR;
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT;
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_PERIOD_DESCRIPTOR_ID;
 
 import java.util.HashMap;
 import java.util.List;
@@ -159,7 +160,7 @@ public class AssessmentPeriodDescriptorEntityConverterTest {
     public void actionShouldRemainSameExceptDelete() {
         Action origAction = Action.DELETE;
         Action newAction = converter.convertAction(origAction);
-        assertEquals(Action.UPDATE, newAction);
+        assertEquals(Action.INDEX, newAction);
         origAction = Action.INDEX;
         newAction = converter.convertAction(origAction);
         assertEquals(origAction, newAction);
@@ -184,7 +185,7 @@ public class AssessmentPeriodDescriptorEntityConverterTest {
     private DBObject buildAssessmentMap() {
         DBObject assessment = new BasicDBObject();
         Map<String, Object> body = new HashMap<String, Object>();
-        body.put(AssessmentEntityConverter.ASSESSMENT_PERIOD_DESCRIPTOR_ID, "apd_id");
+        body.put(ASSESSMENT_PERIOD_DESCRIPTOR_ID, "apd_id");
         body.put("title", "my title");
         assessment.put("type", "assessment");
         assessment.put("_id", "assessment_id");
