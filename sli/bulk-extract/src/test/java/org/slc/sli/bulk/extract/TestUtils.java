@@ -15,6 +15,8 @@
  */
 package org.slc.sli.bulk.extract;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -102,6 +104,12 @@ public class TestUtils {
                 return null;
             }
        };
+    }
+    
+    public static File createTempFile(String prefix, String suffix) throws IOException {
+        File file = File.createTempFile(prefix, suffix);
+        file.deleteOnExit();
+        return file;
     }
 
 }
