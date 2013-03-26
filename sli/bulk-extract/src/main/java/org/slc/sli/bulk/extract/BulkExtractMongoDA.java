@@ -33,6 +33,9 @@ import org.slc.sli.domain.Repository;
 public class BulkExtractMongoDA {
     private static final Logger LOG = LoggerFactory.getLogger(BulkExtractMongoDA.class);
 
+    /**
+     * name of bulkExtract collection.
+     */
     public static final String BULK_EXTRACT_COLLECTION = "bulkExtractFiles";
     private static final String FILES = "files";
     private static final String FILE_PATH = "path";
@@ -43,7 +46,7 @@ public class BulkExtractMongoDA {
 
 
     /** Insert a new record is the tenant doesn't exist. Update if existed
-     * @param tenantId
+     * @param tenantId tenant id
      * @param path  path to the extracted file.
      * @param date  the date when the bulk extract was created
      */
@@ -61,11 +64,16 @@ public class BulkExtractMongoDA {
 
     }
 
+    /**
+     * get entity repository.
+     * @return repository
+     */
     public Repository<Entity> getEntityRepository() {
         return entityRepository;
     }
 
     /**
+     * set entity repository.
      * @param entityRepository the entityRepository to set
      */
     public void setEntityRepository(Repository<Entity> entityRepository) {

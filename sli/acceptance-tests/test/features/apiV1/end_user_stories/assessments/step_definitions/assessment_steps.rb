@@ -92,7 +92,13 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.correctResponse" if human_readable_id == "OA.OAS.AI.correctResponse"
   id = "objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.itemCategory" if human_readable_id == "OA.OAS.AI.itemCategory"
   id = "objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.maxRawScore" if human_readable_id == "OA.OAS.AI.maxRawScore"
-      
+  # StudentObjectiveAssessments
+  id = "studentObjectiveAssessments.0.scoreResults.0.result" if human_readable_id == "SOA.scoreResults.result"
+  id = "studentObjectiveAssessments.0.objectiveAssessment.identificationCode" if human_readable_id == "SOA.OA.identificationCode"
+  # StudentAssessmentItem    
+  id = "studentAssessmentItems.0.rawScoreResult" if human_readable_id == "SAI.rawScoreResult"
+  id = "studentAssessmentItems.0.assessmentItemResult" if human_readable_id == "SAI.assessmentItemResult"
+  id = "studentAssessmentItems.0.assessmentItem.identificationCode" if human_readable_id == "SAI.AI.identificationCode"
 
   # URI transforms  
   id = "assessments"                                if human_readable_id == "ASSESSMENT URI"
@@ -267,8 +273,9 @@ Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
   # dig the value for that field out of a potentially
   # dot-delimited response-body structure
   # ex: field=body.name.firstName, @result=[json response body]
+  puts @result
   result = fieldExtract(field, @result) 
-  assert(result == value, "Unexpected response: expected #{value}, found #{result}")  
+  assert(result.to_s == value, "Unexpected response: expected #{value}, found #{result}")  
 end
 
 Then /^the offset response field "([^"]*)" should be "([^"]*)"$/ do |field, value|
@@ -365,9 +372,9 @@ Then /^I should validate the "(.*?)" from "(.*?)" links map to learningObjective
     # Verify each id returned in the array of learning objectives
     @result.each do |lo|
       step "I navigate to GET \"/v1/learningObjectives/#{lo["id"]}\""
-      puts "\nSearching for learning objective"
+      #puts "\nSearching for learning objective"
       raise "NOT FOUND!" unless lo["entityType"] == "learningObjective"
-      puts "found"
+      #puts "found"
       # Follow the link to verify the child learning objective
       # Not implemented because Odin does not generate these yet
     end

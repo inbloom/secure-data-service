@@ -10,6 +10,7 @@ GEM
       activesupport (= 3.0.0)
     activesupport (3.0.0)
     addressable (2.3.2)
+    archive-tar-minitar (0.5.2)
     bson (1.8.2)
     bson_ext (1.8.2)
       bson (~> 1.8.2)
@@ -141,6 +142,7 @@ PLATFORMS
 DEPENDENCIES
   active_support
   approval!
+  archive-tar-minitar
   bson_ext
   builder
   cucumber

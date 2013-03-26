@@ -27,8 +27,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
-import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 /**
  * Bulk extract launcher.
@@ -45,38 +45,42 @@ public class Launcher {
     private TenantExtractor tenantExtractor;
 
     /**
-     * actually execute the extraction
+     * Actually execute the extraction.
      *
      * @param tenant
+     *          Tenant for which extract has been initiated
      */
     public void execute(String tenant){
 
         Date startTime = new Date();
-        OutstreamZipFile outputStream = null;
+        ArchivedExtractFile extractFile = null;
         try {
-            outputStream = createExtractArchiveFile(tenant, startTime);
-            tenantExtractor.execute(tenant, outputStream, startTime);
+            extractFile = new ArchivedExtractFile(getTenantDirectory(tenant),
+                    getArchiveName(tenant, startTime));
+
+            tenantExtractor.execute(tenant, extractFile, startTime);
         } catch (IOException e) {
-            LOG.error("Error while extracting data for tenant " + tenant, e);
+            LOG.error("Error writing extract file");
         }
+
     }
 
-    private OutstreamZipFile createExtractArchiveFile(String tenant, Date startTime) throws IOException {
-
-        return new OutstreamZipFile(getTenantDirectory(tenant), tenant + "-" + getTimeStamp(startTime));
+    private String getArchiveName(String tenant, Date startTime) {
+        return tenant + "" + getTimeStamp(startTime);
     }
 
     private String getTenantDirectory(String tenant) {
-
         File tenantDirectory = new File(baseDirectory, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
         tenantDirectory.mkdirs();
         return tenantDirectory.getPath();
     }
 
     /**
-     * change the timestamp into our own format
+     * Change the timestamp into our own format.
      * @param date
+     *      Timestamp
      * @return
+     *      returns the formatted timestamp
      */
     public static String getTimeStamp(Date date) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss");
@@ -85,24 +89,27 @@ public class Launcher {
     }
 
     /**
-     * set base dir
+     * Set base dir.
      * @param baseDirectory
+     *          Base directory of all bulk extract processes
      */
     public void setBaseDirectory(String baseDirectory) {
         this.baseDirectory = baseDirectory;
     }
 
     /**
-     * set tenant extractor
+     * Set tenant extractor.
      * @param tenantExtractor
+     *          TenantExtractor object
      */
     public void setTenantExtractor(TenantExtractor tenantExtractor){
         this.tenantExtractor = tenantExtractor;
     }
 
     /**
-     * main entry
+     * Main entry point.
      * @param args
+     *      input arguments
      */
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/application-context.xml");

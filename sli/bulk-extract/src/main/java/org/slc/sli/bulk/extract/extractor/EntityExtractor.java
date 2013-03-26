@@ -15,16 +15,21 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.File.DataExtractFile;
 import org.slc.sli.bulk.extract.treatment.TreatmentApplicator;
-import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -52,42 +57,58 @@ public class EntityExtractor{
      * extract all the records of entity.
      *
      * @param tenant
-     * @param zipFile
+     *          TenantId
+     * @param archiveFile
+     *          Archive File
      * @param entityName
+     *          Name of the entity to be extracted
      */
-    public void extractEntity(String tenant, OutstreamZipFile zipFile, String entityName) {
+    public void extractEntity(String tenant, ArchivedExtractFile archiveFile, String entityName) {
 
         LOG.info("Extracting " + entityName);
-
+        DataExtractFile dataFile = null;
         String collectionName = getCollectionName(entityName);
         Query query = getQuery(entityName);
         long noOfRecords = 0;
+        JsonFactory jsonFactory = new JsonFactory();
 
         try {
             TenantContext.setTenantId(tenant);
-            Iterator<Entity> cursor = entityRepository.findEach(collectionName, query);
+            Iterator<Entity> cursor = entityRepository.findEach(collectionName,
+                    query);
 
             if (cursor.hasNext()) {
-                zipFile.createArchiveEntry(entityName + ".json");
-                //zipFile.writeJsonDelimiter("[");
-                zipFile.writeStartArray();
+                dataFile = archiveFile.getDataFileEntry(entityName);
+
+                OutputStream os = dataFile.getOutputStream();
+                JsonGenerator jsonGenerator = jsonFactory
+                        .createJsonGenerator(os);
+                jsonGenerator.writeStartArray();
+                jsonGenerator.flush();
 
                 while (cursor.hasNext()) {
                     Entity record = cursor.next();
                     noOfRecords++;
 
                     record = applicator.apply(record);
-                    zipFile.writeData(record.getBody());
+
+                    ObjectMapper mapper = new ObjectMapper();
+                    mapper.writeValue(jsonGenerator, record.getBody());
                 }
-                zipFile.writeEndArray();
+                jsonGenerator.writeEndArray();
+                jsonGenerator.flush();
             }
 
-            LOG.info("Finished extracting {} records for " + entityName, noOfRecords);
+            LOG.info("Finished extracting {} records for " + entityName,
+                    noOfRecords);
 
         } catch (Exception e) {
             LOG.error("Error while extracting " + entityName, e);
         } finally {
             TenantContext.setTenantId(null);
+            if (dataFile != null) {
+                dataFile.close();
+            }
         }
     }
 
@@ -113,22 +134,42 @@ public class EntityExtractor{
         return query;
     }
 
+    /**
+     * get queried entities.
+     * @param queriedEntities entities
+     */
     public void setQueriedEntities(Map<String, String> queriedEntities) {
         this.queriedEntities = queriedEntities;
     }
 
+    /**
+     * set combined entities.
+     * @param combinedEntities combined entities
+     */
     public void setCombinedEntities(Map<String, String> combinedEntities) {
         this.combinedEntities = combinedEntities;
     }
 
+    /**
+     * set entity repository.
+     * @param entityRepository entity repository
+     */
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
 
+    /**
+     * get applicator.
+     * @return treatment applicator
+     */
     public TreatmentApplicator getApplicator() {
         return applicator;
     }
 
+    /**
+     * set applicator.
+     * @param applicator applicator
+     */
     public void setApplicator(TreatmentApplicator applicator) {
         this.applicator = applicator;
     }

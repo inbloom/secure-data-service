@@ -45,13 +45,14 @@ public class TypeTreatment implements Treatment {
     }
 
     /**
+     * get combined entities.
      * @return the combinedEntities
      */
     public Map<String, String> getCombinedEntities() {
         return combinedEntities;
     }
 
-    /**
+    /**set combined entities.
      * @param combinedEntities the combinedEntities to set
      */
     public void setCombinedEntities(Map<String, String> combinedEntities) {

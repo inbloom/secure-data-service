@@ -104,6 +104,7 @@ studentCompetency,false,body.objectiveId.learningObjectiveId:1
 # Look up studentCompetency by studentSectionAssoc: /studentSectionAssociations/{id}/studentCompetencies
 studentCompetency,false,body.studentSectionAssociationId:1
 # Look up studentCompetencyObjective by edorg: /educationOrganizations/{id}/studentCompetencyObjectives
+studentCompetencyObjective,false,body.studentCompetencyObjectiveId:1
 studentCompetencyObjective,false,body.educationOrganizationId:1
 # Used in cacade delete
 student,false,studentDisciplineIncidentAssociation.body.disciplineIncidentId:1

@@ -99,7 +99,6 @@
 
     <bean id="tenantExtractor" class="org.slc.sli.bulk.extract.extractor.TenantExtractor">
          <property name="entities" ref="entities" />
-         <property name="metaData" ref="metaData"/>
          <property name="entityExtractor" ref="entityExtractor" />
     </bean>
 
@@ -108,9 +107,6 @@
         <property name="tenantExtractor" ref="tenantExtractor" />
     </bean>
 
-    <bean id="metaData" class="org.slc.sli.bulk.extract.metadata.DataFile">
-    </bean>
-    
     <bean id="applicator" class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
          <property name="treatments" ref="treatments" />
     </bean>
@@ -125,7 +121,7 @@
 
     <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment">
         <property name="combinedEntities" ref="combinedEntities" />
-    </bean>
+    </bean>  
 
 	<context:component-scan base-package="org.slc">
 		<context:exclude-filter type="regex"
