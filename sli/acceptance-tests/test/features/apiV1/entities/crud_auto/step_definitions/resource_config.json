@@ -729,7 +729,7 @@
       },
       "gradeType": "Final",
       "finalLetterGradeEarned": "A",
-      "educationOrganizationReference" : ["a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"]
+      "educationOrganizationReference" : ["92d6d5a0-852c-45f4-907a-912752831772"]
     },
     "UPDATE": {
       "field": "finalLetterGradeEarned",

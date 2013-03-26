@@ -111,7 +111,7 @@ Background: Nothing yet
       | graduationPlans                          |
       | studentAcademicRecords                   |
 #      | studentGradebookEntries                   |
-#      | courseTranscripts                        |
+      | courseTranscripts                        |
       | grades                                   |
       | studentCompetencies                       |
       | reportCards                              |
@@ -124,7 +124,7 @@ Background: Nothing yet
         | studentCompetencies                       |
         | grades                                   |
         | gradingPeriods                           |
-#        | courseTranscripts                        |
+        | courseTranscripts                        |
 #        | studentGradebookEntries                   |
         | studentAcademicRecords                   |
         | graduationPlans                          |

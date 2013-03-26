@@ -393,7 +393,7 @@ Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do
       next
     end
     #TODO - temporary.  Stop doing this
-    if resource == "/studentGradebookEntries" or resource == "/courseTranscripts" or resource == "/studentCompetencyObjectives"
+    if resource == "/studentGradebookEntries" or resource == "/studentCompetencyObjectives"
       next
     end
     resource_type = get_resource_type resource
