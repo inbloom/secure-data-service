@@ -79,6 +79,7 @@ end
 
 When /^I navigate to POST "([^"]*)"$/ do |post_uri|
   data = prepareData(@format, @fields)
+  puts("POSTing: #{data.inspect}") if $SLI_DEBUG
   restHttpPost(post_uri, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 end
@@ -182,7 +183,7 @@ Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
 end
 
 Then /^the response should contain the appropriate fields and values$/ do
-  EntityProvider.verify_entities_match(@fields, @result)
+  EntityProvider.verify_entities_match(@fields.to_hash, @result.to_hash)
 end
 
 Then /^the error message should indicate "([^"]*)"$/ do |error_message|

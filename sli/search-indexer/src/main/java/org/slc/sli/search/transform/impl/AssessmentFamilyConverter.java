@@ -40,7 +40,7 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
         String familyName = action == Action.DELETE ? "" : getName(index, entityMap).toString();
         List<Map<String, Object>> assessments = addAssessmentsForFamilyId(index, id, familyName);
         for (Map<String, Object> assessment : assessments) {
-            result.addAll(super.treatment(index, action, assessment));
+            result.addAll(super.treatment(index, convertAction(action), assessment));
         }
         
         return result;
@@ -85,8 +85,13 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     @SuppressWarnings("unchecked")
     private StringBuilder getName(String index, Map<String, Object> entityMap) {
         Map<String, Object> body = getBody(index, entityMap, ASSESSMENT_FAMILY, FAMILY_FIELDS);
-        String parentRef = (String) body.get(ASSESSMENT_FAMILY_REFERENCE);
         StringBuilder builder = new StringBuilder();
+
+        if (body == null) {
+            return builder;
+        }
+
+        String parentRef = (String) body.get(ASSESSMENT_FAMILY_REFERENCE);
         if (parentRef != null && !parentRef.equals("")) {
             DBCursor cursor = getSourceDatastoreConnector().getDBCursor(index, ASSESSMENT_FAMILY, FAMILY_FIELDS,
                     BasicDBObjectBuilder.start().add("_id", parentRef).get());
@@ -100,7 +105,7 @@ public class AssessmentFamilyConverter extends AssessmentEntityConverter {
     
     @Override
     public Action convertAction(Action action) {
-        return action == Action.DELETE ? Action.UPDATE : action;
+        return action == Action.DELETE ? Action.INDEX : action;
     }
     
 }

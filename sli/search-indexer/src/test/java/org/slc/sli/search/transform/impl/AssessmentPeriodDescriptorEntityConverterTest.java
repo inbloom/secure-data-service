@@ -160,7 +160,7 @@ public class AssessmentPeriodDescriptorEntityConverterTest {
     public void actionShouldRemainSameExceptDelete() {
         Action origAction = Action.DELETE;
         Action newAction = converter.convertAction(origAction);
-        assertEquals(Action.UPDATE, newAction);
+        assertEquals(Action.INDEX, newAction);
         origAction = Action.INDEX;
         newAction = converter.convertAction(origAction);
         assertEquals(origAction, newAction);

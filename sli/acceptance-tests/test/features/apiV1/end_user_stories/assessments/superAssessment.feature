@@ -4,7 +4,7 @@ Feature: As a teacher or staff I want to investigate my student assessments
 
 Background: None
 
-Scenario Outline: As a teacher, for my section, I want to get the most recent Math assessment
+Scenario: As a teacher, for my section, I want to get the most recent Math assessment
 
 # Log in via simple-idp and authenticate teacher credentials   
 Given I am a valid teacher "cgray" with password "cgray1234"
@@ -58,6 +58,11 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     And the response field "administrationLanguage" should be "English"
     And the response field "administrationEnvironment" should be "Classroom"
     And the response field "retestIndicator" should be "Primary Administration"
+    And the response field "<SOA.scoreResults.result>" should be "68"
+    And the response field "<SOA.OA.identificationCode>" should be "2012-Eleventh grade Assessment 2.OA-0"
+    And the response field "<SAI.rawScoreResult>" should be "83"
+    And the response field "<SAI.assessmentItemResult>" should be "Correct"
+    And the response field "<SAI.AI.identificationCode>" should be "2012-Eleventh grade Assessment 2#1"
     And I should extract the student reference from studentAssessment
     And I should extract the assessment reference from studentAssessment
 
@@ -96,7 +101,7 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     And the response field "assessmentPeriodDescriptor.description" should be "<assessment period descriptor>"
     And the response field "assessmentPeriodDescriptor.codeValue" should be "<APD.codeValue>"
     And the response field "entityType" should be "assessment"
-    And the response field "gradeLevelAssessed" should be "Twelfth grade"
+    And the response field "gradeLevelAssessed" should be "Eleventh grade"
     And the response field "assessmentTitle" should be "<assessment 1>"
     And I extract all the "assessment" links
 
@@ -153,8 +158,3 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     And the offset response field "assessmentPeriodDescriptor.codeValue" should be "BOY-6-2013"
     And the offset response field "<OA.identificationCode>" should be "2013-Sixth grade Assessment 1.OA-1"
     And the offset response field "<OA.OAS.AI.identificationCode>" should be "2013-Sixth grade Assessment 1#2"
-
-Examples:
-| Username        | Password            | AnyDefaultSLIRole  |
-| "cgray"         | "cgray1234"         | "Educator"         |
-

@@ -15,7 +15,6 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.Map;
@@ -23,16 +22,17 @@ import java.util.Map;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
-import org.slc.sli.bulk.extract.File.DataExtractFile;
-import org.slc.sli.bulk.extract.treatment.Treatment;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+
+import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.File.DataExtractFile;
+import org.slc.sli.bulk.extract.treatment.TreatmentApplicator;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 
 /**
@@ -51,9 +51,18 @@ public class EntityExtractor{
 
     private Repository<Entity> entityRepository;
 
-    private Treatment typeTreatment;
-    private Treatment idTreatment;
+    private TreatmentApplicator applicator;
 
+    /**
+     * extract all the records of entity.
+     *
+     * @param tenant
+     *          TenantId
+     * @param archiveFile
+     *          Archive File
+     * @param entityName
+     *          Name of the entity to be extracted
+     */
     public void extractEntity(String tenant, ArchivedExtractFile archiveFile, String entityName) {
 
         LOG.info("Extracting " + entityName);
@@ -81,8 +90,7 @@ public class EntityExtractor{
                     Entity record = cursor.next();
                     noOfRecords++;
 
-                    record = idTreatment.apply(record);
-                    record = typeTreatment.apply(record);
+                    record = applicator.apply(record);
 
                     ObjectMapper mapper = new ObjectMapper();
                     mapper.writeValue(jsonGenerator, record.getBody());
@@ -138,19 +146,11 @@ public class EntityExtractor{
         this.entityRepository = entityRepository;
     }
 
-   public Treatment getTypeTreatment() {
-       return typeTreatment;
-   }
+    public TreatmentApplicator getApplicator() {
+        return applicator;
+    }
 
-   public void setTypeTreatment(Treatment typeTreatment) {
-       this.typeTreatment = typeTreatment;
-   }
-
-   public Treatment getIdTreatment() {
-       return idTreatment;
-   }
-
-   public void setIdTreatment(Treatment idTreatment) {
-       this.idTreatment = idTreatment;
-   }
+    public void setApplicator(TreatmentApplicator applicator) {
+        this.applicator = applicator;
+    }
 }

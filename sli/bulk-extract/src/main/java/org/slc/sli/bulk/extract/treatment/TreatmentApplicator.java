@@ -13,21 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.slc.sli.bulk.extract.treatment;
+
+import java.util.List;
 
 import org.slc.sli.domain.Entity;
 
 /**
- * Treatments are strategies that used to transform enities.
- * @author tke
+ * treatment applicator that applies all available treatments.
+ * @author ablum
  *
  */
-public interface Treatment {
+public class TreatmentApplicator implements Treatment {
+    List<Treatment> treatments;
 
-    /**
-     * Applies a function to modify an Entity.
-     * @param entity An Entity to modify
-     * @return A modified Entity
-     */
-    public Entity apply(Entity entity);
+    @Override
+    public Entity apply(Entity entity) {
+        Entity treated = entity;
+        for (Treatment treatment : treatments) {
+            treated = treatment.apply(treated);
+        }
+        return treated;
+    }
+
+    public List<Treatment> getTreatments() {
+        return treatments;
+    }
+
+    public void setTreatments(List<Treatment> treatments) {
+        this.treatments = treatments;
+    }
+
 }
