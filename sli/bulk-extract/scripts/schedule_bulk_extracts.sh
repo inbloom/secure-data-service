@@ -20,8 +20,8 @@ is_in_list() {
 is_non_comment_non_blank_line() {
     # Check for non-comment/non-blank file line.
     local line="$1"
-    NCNB_LINE=`echo "${line[@]}" | grep '^[ \t]*[^#]'`
-    if [ -n "${NCNB_LINE}" ]
+    ncnb_line=`echo "${line[@]}" | grep '^[ \t]*[^#]'`
+    if [ -n "${ncnb_line}" ]
     then
       return 0
     fi
@@ -40,11 +40,27 @@ is_in_range() {
   return 1
 }
 
-is_valid_line() {
-  # Check for valid config file line.
+is_options_line() {
+  # Check for config file bulk extract script options line.
+  local line="$1"
+  options=`echo "${line[@]}" | grep '^[ \t]*-'`
+  if [ -n "${options}" ]
+  then
+    return 0
+  fi
+  return 1
+}
+
+is_cron_line() {
+  # Check for config file cron job line.
   RETURN=0
   local line_number="$1"
   shift
+  local line="$@"
+  if ( is_options_line "${line[@]}" )
+  then
+    return 1
+  fi
 
   # Check for valid minute value.
   local minute="$1"
@@ -109,107 +125,10 @@ is_valid_line() {
   return ${RETURN}
 }
 
-is_absolute_path() {
-  local pathname="$1"
-  [[ "${pathname}" = /* ]] && return 0 || return 1
-}
-
 process_config_file() {
-  # Verify parameters.
-  SCHEDULING_SCRIPT=`basename $0`
-  if [ $# -lt 1 ] || [ $# -gt 2 ]
-  then
-    echo "Usage: ${SCHEDULING_SCRIPT} bulk_extract_script_dir [ config_file_dir ]"
-    exit 1
-  fi
-
-  # Make sure bulk extract script directory is absolute and exists.
-  BULK_EXTRACT_SCRIPT_DIR="$1"
-  if (! is_absolute_path "${BULK_EXTRACT_SCRIPT_DIR}" )
-  then
-    echo "Error: Bulk extract script directory ${BULK_EXTRACT_SCRIPT_DIR} is not an absolute path."
-    echo "Exiting.  No crontab changes will be made."
-    exit 1
-  fi
-  if [ ! -d ${BULK_EXTRACT_SCRIPT_DIR} ]
-  then
-    echo "Error: Bulk extract script directory ${BULK_EXTRACT_SCRIPT_DIR} does not exist."
-    echo "Exiting.  No crontab changes will be made."
-    exit 1
-  fi
-
-  # Make sure bulk extract script exists, is readable, and non-zero length.
-  BULK_EXTRACT_SCRIPT="${BULK_EXTRACT_SCRIPT_DIR}/local_bulk_extract.sh"
-  if [ ! -f ${BULK_EXTRACT_SCRIPT} ]
-  then
-    echo "Error: Bulk extract script ${BULK_EXTRACT_SCRIPT} does not exist."
-    echo "Exiting.  No crontab changes will be made."
-    exit 1
-  fi
-  if [ ! -s ${BULK_EXTRACT_SCRIPT} ]
-  then
-    echo "Error: Bulk extract script ${BULK_EXTRACT_SCRIPT} is zero-length."
-    echo "Exiting.  No crontab changes will be made."
-    exit 1
-  fi
-  if [ ! -r ${BULK_EXTRACT_SCRIPT} ]
-  then
-    echo "Error: Bulk extract script ${BULK_EXTRACT_SCRIPT} is not readable."
-    echo "Exiting.  No crontab changes will be made."
-    exit 1
-  fi
-  if [ ! -x ${BULK_EXTRACT_SCRIPT} ]
-  then
-    echo "Error: Bulk extract script ${BULK_EXTRACT_SCRIPT} is not executable."
-    echo "Exiting.  No crontab changes will be made."
-    exit 1
-  fi
-
-  # Make sure config file directory exists.
-  CONFIG_FILE_DIR=`dirname "$0"`
-  if [ $# -eq 2 ]
-  then
-    CONFIG_FILE_DIR="$2"
-  fi
-  if [ ! -d ${CONFIG_FILE_DIR} ]
-  then
-    echo "Error: Config file directory ${CONFIG_FILE_DIR} does not exist."
-    echo "Exiting.  No crontab changes will be made."
-    exit 1
-  fi
-
-  # Make sure config file exists, is readable, and non-zero length.
-  SCHEDULER_CONFIGFILE="${CONFIG_FILE_DIR}/bulk_extract_scheduling.conf"
-  if [ ! -f ${SCHEDULER_CONFIGFILE} ]
-  then
-    echo "Error: Config file ${SCHEDULER_CONFIGFILE} does not exist."
-    echo "Exiting.  No crontab changes will be made."
-    exit 1
-  fi
-  if [ ! -s ${SCHEDULER_CONFIGFILE} ]
-  then
-    echo "Error: Config file ${SCHEDULER_CONFIGFILE} is zero-length."
-    echo "Exiting.  No crontab changes will be made."
-    exit 1
-  fi
-  if [ ! -r ${SCHEDULER_CONFIGFILE} ]
-  then
-    echo "Error: Config file ${SCHEDULER_CONFIGFILE} is not readable."
-    echo "Exiting.  No crontab changes will be made."
-    exit 1
-  fi
-
-  # Ensure the user really wants to do this!
-  USER=`whoami`
-  read -p "You are about to update the crontab for user ${USER}.  Do you want to proceed (y/n)? " RESP
-  if [ "$RESP" != "y" ]
-  then
-    echo "Exiting.  No crontab changes will be made."
-    exit 0
-  fi
-
-  # Read config file line by line.
+  # Read config file line by line.  Extract cron job entries.
   echo "Reading config file ${SCHEDULER_CONFIGFILE}."
+  OPTIONS=""
   NEW_BE_CRONTAB_FILE="/tmp/bulk_extract_crontab"
   CONF_FILE_IS_VALID="true"
   LINE_NO=0
@@ -218,12 +137,15 @@ process_config_file() {
     (( LINE_NO++ ))
     if ( is_non_comment_non_blank_line "${LINE[@]}" )
     then
-      if ( is_valid_line ${LINE_NO} "${LINE[@]}" )
+      if ( is_cron_line ${LINE_NO} "${LINE[@]}" )
       then
         CRON_SCHED=`echo "${LINE[@]}" | awk '{print $1, $2, $3, $4, $5}'`
         TENANT_ID="${LINE[5]}"
-        CRON_LINE="${CRON_SCHED} ${BULK_EXTRACT_SCRIPT} -t${TENANT_ID}"
+        CRON_LINE="${CRON_SCHED} ${BULK_EXTRACT_SCRIPT} ${OPTIONS} -t${TENANT_ID}"
         echo "${CRON_LINE}" >> ${NEW_BE_CRONTAB_FILE}
+      elif ( is_options_line "${LINE[@]}" )
+      then
+        OPTIONS="${LINE[@]}"
       else
         CONF_FILE_IS_VALID="false"
       fi
@@ -261,11 +183,110 @@ process_config_file() {
     fi
   else
     echo "Exiting.  No crontab changes will be made."
+    exit 1
   fi
   exit 0
+}
+
+check_if_absolute_path() {
+  local pathdesc="$1"
+  local pathname="$2"
+  if [[ "${pathname}" != /* ]]
+  then
+    echo "Error: ${pathdesc} ${pathname} is not an absolute path."
+    echo "Exiting.  No crontab changes will be made."
+    exit 1
+  fi
+}
+
+check_if_valid_dir() {
+  local dirdesc="$1"
+  local dirname="$2"
+  if [ ! -d ${BULK_EXTRACT_SCRIPT_DIR} ]
+  then
+    echo "Error: ${dirdesc} ${dirname} does not exist."
+    echo "Exiting.  No crontab changes will be made."
+    exit 1
+  fi
+}
+
+check_if_valid_file() {
+  local filedesc="$1"
+  local filename="$2"
+  if [ ! -f ${filename} ]
+  then
+    echo "Error: ${filedesc} ${filename} does not exist."
+    echo "Exiting.  No crontab changes will be made."
+    exit 1
+  fi
+  if [ ! -s ${filename} ]
+  then
+    echo "Error: ${filedesc} ${filename} is zero-length."
+    echo "Exiting.  No crontab changes will be made."
+    exit 1
+  fi
+  if [ ! -r ${filename} ]
+  then
+    echo "Error: ${filedesc} ${filename} is not readable."
+    echo "Exiting.  No crontab changes will be made."
+    exit 1
+  fi
+}
+
+check_if_executable() {
+  local filedesc="$1"
+  local filename="$2"
+  if [ ! -x ${filename} ]
+  then
+    echo "Error: ${filedesc} ${filename} is not executable."
+    echo "Exiting.  No crontab changes will be made."
+    exit 1
+  fi
+}
+
+process_arguments() {
+  # Verify parameters.
+  if [ $# -lt 1 ] || [ $# -gt 2 ]
+  then
+    echo "Usage: ${SCHEDULING_SCRIPT} bulk_extract_script_dir [config_file_dir]"
+    exit 1
+  fi
+
+  CONFIG_FILE_DIR=`dirname "$0"`
+  if [ $# -eq 2 ]
+  then
+    CONFIG_FILE_DIR="$2"
+  fi
+
+  # Make sure bulk extract script directory is absolute and exists.
+  BULK_EXTRACT_SCRIPT_DIR="$1"
+  check_if_absolute_path "Bulk extract script directory" "${BULK_EXTRACT_SCRIPT_DIR}"
+  check_if_valid_dir "Bulk extract script directory" "${BULK_EXTRACT_SCRIPT_DIR}"
+
+  # Make sure bulk extract script exists, is readable, and non-zero length.
+  BULK_EXTRACT_SCRIPT="${BULK_EXTRACT_SCRIPT_DIR}/local_bulk_extract.sh"
+  check_if_valid_file "Bulk extract script" "${BULK_EXTRACT_SCRIPT}"
+  check_if_executable "Bulk extract script" "${BULK_EXTRACT_SCRIPT}"
+
+  # Make sure config file directory exists.
+  check_if_valid_dir "Config file directory" "${CONFIG_FILE_DIR}"
+
+  # Make sure config file exists, is readable, and non-zero length.
+  SCHEDULER_CONFIGFILE="${CONFIG_FILE_DIR}/bulk_extract_scheduling.conf"
+  check_if_valid_file "Config file" "${SCHEDULER_CONFIGFILE}"
+
+  # Ensure the user really wants to do this!
+  USER=`whoami`
+  read -p "You are about to update the crontab for user ${USER}.  Do you want to proceed (y/n)? " RESP
+  if [ "$RESP" != "y" ]
+  then
+    echo "Exiting.  No crontab changes will be made."
+    exit 0
+  fi
 }
 
 #############
 # MAIN
 #############
+process_arguments "$@"
 process_config_file "$@"
