@@ -202,13 +202,7 @@ Then /^I can log in with my username "(.*?)" and password "(.*?)"$/ do |username
 end
 
 Then /^I am redirected to the "(.*?)" page$/ do |pageTitle|
-  #assertWithWait("Failed to navigate to the #{pageTitle} page")  {@driver.page_source.index("#{pageTitle}") != nil}
-  sleep(6)
-  begin
-    assertText(pageTitle)
-  rescue Exception => e
-    raise e
-  end
+  assertText(pageTitle)
 end
 
 Then /^I can select "(.*?)" from a choice of "(.*?)" Role$/ do |role, choices|

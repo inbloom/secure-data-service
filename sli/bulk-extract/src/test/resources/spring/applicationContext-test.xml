@@ -94,8 +94,7 @@
          <property name="entityRepository" ref="mongoEntityRepository" />
          <property name="queriedEntities" ref="queriedEntities" />
          <property name="combinedEntities" ref="combinedEntities" />
-         <property name="idTreatment" ref="idTreatment" />
-         <property name="typeTreatment" ref="typeTreatment" />
+         <property name="applicator" ref="applicator" />
     </bean>
 
     <bean id="tenantExtractor" class="org.slc.sli.bulk.extract.extractor.TenantExtractor">
@@ -109,14 +108,23 @@
         <property name="tenantExtractor" ref="tenantExtractor" />
     </bean>
 
-    <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment">
+    <bean id="metaData" class="org.slc.sli.bulk.extract.metadata.DataFile">
+    </bean>
+    
+    <bean id="applicator" class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
+         <property name="treatments" ref="treatments" />
+    </bean>
+    
+    <util:list id="treatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
+        <ref local="idTreatment"/>
+        <ref local="typeTreatment"/>
+    </util:list>
+    
+        <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment">
     </bean>
 
     <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment">
         <property name="combinedEntities" ref="combinedEntities" />
-    </bean>  
-
-    <bean id="metaData" class="org.slc.sli.bulk.extract.metadata.DataFile">
     </bean>
 
 	<context:component-scan base-package="org.slc">

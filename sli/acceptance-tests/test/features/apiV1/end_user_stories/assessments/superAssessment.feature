@@ -96,7 +96,7 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     And the response field "assessmentPeriodDescriptor.description" should be "<assessment period descriptor>"
     And the response field "assessmentPeriodDescriptor.codeValue" should be "<APD.codeValue>"
     And the response field "entityType" should be "assessment"
-    And the response field "gradeLevelAssessed" should be "Twelfth grade"
+    And the response field "gradeLevelAssessed" should be "Eleventh grade"
     And the response field "assessmentTitle" should be "<assessment 1>"
     And I extract all the "assessment" links
 
