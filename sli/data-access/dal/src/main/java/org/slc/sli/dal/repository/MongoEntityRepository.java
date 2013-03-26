@@ -572,7 +572,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         // 2. it is an optional field and it is the last reference in a list of references
                         DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Removing field " + referentPath);
                         if (!dryrun) {
-                            entity.getBody().remove(referenceField);
+                            entity.getBody().remove(referencingFieldSchemaInfo.getMappedPath());
                             if (!this.update(referenceEntityType, entity, FullSuperDoc.isFullSuperdoc(entity))) {
                                 String message = "Unable to update entity type: " + referenceEntityType +
                                         ", entity id: " + referencerId + ", field name: " + referenceField + " at depth " + depth;

@@ -31,6 +31,8 @@ public class SchemaReferencePath {
 
     private String typePath;
 
+    private String mappedPath;
+
     public SchemaReferencePath(String path, String referent, Long min, Long max, boolean array, boolean isOptional, boolean isRequired) {
 
         this.path = path;
@@ -128,6 +130,14 @@ public class SchemaReferencePath {
 
     public String getTypePath() {
         return typePath;
+    }
+
+    public String getMappedPath() {
+        return mappedPath != null? mappedPath:fieldPath;
+    }
+
+    public void setMappedPath(String path) {
+        mappedPath = path.substring(path.indexOf(".") + 1);
     }
 
     @Override
