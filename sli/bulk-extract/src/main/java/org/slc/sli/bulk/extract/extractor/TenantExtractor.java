@@ -1,33 +1,33 @@
 /*
-* Copyright 2012 Shared Learning Collaborative, LLC
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.bulk.extract.extractor;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.Launcher;
-import org.slc.sli.bulk.extract.metadata.DataFile;
-import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.metadata.DataFile;
+import org.slc.sli.bulk.extract.zip.OutstreamZipFile;
+
 /**
- * Bulk extractor to extract data for a tenant
+ * Bulk extractor to extract data for a tenant.
  *
  * @author tke
  *
@@ -44,6 +44,12 @@ public class TenantExtractor{
 
     private DataFile metaData;
 
+    /**
+     * Extract all the entities from a tenant.
+     * @param tenant
+     * @param zipFile
+     * @param startTime
+     */
     public void execute(String tenant, OutstreamZipFile zipFile, Date startTime) {
 
         for (String entity : entities) {
@@ -51,7 +57,7 @@ public class TenantExtractor{
         }
 
         try {
-            metaData.writeToZip(zipFile, Launcher.getTimeStamp(startTime));
+            metaData.writeToZip(zipFile, startTime);
 
             zipFile.closeZipFile();
             bulkExtractMongoDA.updateDBRecord(tenant, zipFile.getOutputFile().getAbsolutePath(), startTime);
