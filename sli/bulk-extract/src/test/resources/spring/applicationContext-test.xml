@@ -107,9 +107,6 @@
         <property name="tenantExtractor" ref="tenantExtractor" />
     </bean>
 
-    <bean id="metaData" class="org.slc.sli.bulk.extract.metadata.DataFile">
-    </bean>
-    
     <bean id="applicator" class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
          <property name="treatments" ref="treatments" />
     </bean>
