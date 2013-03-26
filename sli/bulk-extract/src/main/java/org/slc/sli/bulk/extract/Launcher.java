@@ -27,8 +27,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
+import org.slc.sli.bulk.extract.file.ArchivedExtractFile;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 /**
  * Bulk extract launcher.
