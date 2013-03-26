@@ -7852,7 +7852,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element minOccurs='0' name='calendarDateReference'
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='calendarDateReference'
                                type='reference'>
                 <xs:annotation>
                     <xs:documentation>Days associated with the grading period.</xs:documentation>
