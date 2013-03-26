@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.bulk.extract.File;
+package org.slc.sli.bulk.extract.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,7 +26,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.util.IOUtils;
 
-import org.slc.sli.bulk.extract.metadata.ManifestFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
 /**
  * Extract's archive file class.
@@ -50,6 +50,7 @@ public class ArchivedExtractFile {
      * @param archiveName
      *          name of the archive file
      * @throws IOException
+     *          if an I/O error occurred
      */
     public ArchivedExtractFile(String parentDirName, String archiveName) throws IOException {
         this.parentDirName = parentDirName;
@@ -65,7 +66,9 @@ public class ArchivedExtractFile {
      * @return
      *          DataExtractFile object
      * @throws FileNotFoundException
+     *          if the data file is not found
      * @throws IOException
+     *          if an I/O error occurred
      */
     public DataExtractFile getDataFileEntry(String fileName) throws FileNotFoundException, IOException {
         DataExtractFile compressedFile = new DataExtractFile(parentDirName, fileName);
@@ -79,6 +82,7 @@ public class ArchivedExtractFile {
      * @return
      *      ManifestFile object
      * @throws IOException
+     *          if an I/O error occurred
      */
     public ManifestFile getManifestFile() throws IOException {
         ManifestFile manifestFile = new ManifestFile(parentDirName);
@@ -90,6 +94,7 @@ public class ArchivedExtractFile {
      * Generates the archive file for the extract.
      *
      * @throws IOException
+     *      if an I/O error occurred
      */
     public void generateArchive() throws IOException {
         TarArchiveOutputStream tarArchiveOutputStream = null;

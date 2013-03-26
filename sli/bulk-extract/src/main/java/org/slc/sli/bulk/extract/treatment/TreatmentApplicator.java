@@ -37,10 +37,18 @@ public class TreatmentApplicator implements Treatment {
         return treated;
     }
 
+    /**
+     * get treatments.
+     * @return list<Treatment>
+     */
     public List<Treatment> getTreatments() {
         return treatments;
     }
 
+    /**
+     * set treatments.
+     * @param treatments treatments
+     */
     public void setTreatments(List<Treatment> treatments) {
         this.treatments = treatments;
     }

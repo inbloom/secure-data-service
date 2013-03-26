@@ -22,21 +22,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.util.JSON;
-
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 
 /**
+ * Util class for tests.
  * @author tke
  *
  */
 public class TestUtils {
 
-    public static String toJSON(Entity record) {
-        return JSON.serialize(record.getBody());
-    }
-
+    /**
+     * Create dummy student entities.
+     * @return
+     *      returns a list of entities
+     */
     public static List<Entity> createStudents(){
         List<Entity> res = new ArrayList<Entity>();
 
@@ -56,6 +56,17 @@ public class TestUtils {
         return res;
     }
 
+    /**
+     * Generates a dummy entity.
+     * @param type
+     *          type of the entity
+     * @param id
+     *          id of the entity
+     * @param body
+     *          body of the entity
+     * @return
+     *      returns the genereated entity
+     */
     public static Entity makeDummyEntity(final String type, final String id, final Map<String, Object> body) {
         return new Entity() {
 
@@ -105,7 +116,18 @@ public class TestUtils {
             }
        };
     }
-    
+
+    /**
+     * Create a temporaray file for tests.
+     * @param prefix
+     *          Used in generating file name. Must be atleast three characters lon.
+     * @param suffix
+     *          Used in generating file name. Maybe null. Defaults to .tmp
+     * @return
+     *      File object of the newly created file
+     * @throws IOException
+     *          if an I/O error occurred
+     */
     public static File createTempFile(String prefix, String suffix) throws IOException {
         File file = File.createTempFile(prefix, suffix);
         file.deleteOnExit();

@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.bulk.extract.metadata;
+package org.slc.sli.bulk.extract.files.metadata;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.io.IOUtils;
@@ -43,6 +45,8 @@ public class ManifestFile{
     private static final String API_VERSION = "api_version=";
     private static  final String TIME_STAMP = "timeStamp=";
     private static  final String METADATA_FILE = "metadata.txt";
+
+    private static final String TIME_FORMAT = "yyyy-MM-dd'T'HH-mm-ss";
 
     private String apiVersion = null;
 
@@ -104,7 +108,7 @@ public class ManifestFile{
     public void generateMetaFile(Date startTime) throws IOException {
 
         String metaVersionEntry = METADATA_VERSION + VERSION;
-        String timestampEntry = TIME_STAMP + startTime;
+        String timestampEntry = TIME_STAMP + getTimeStamp(startTime);
         if (apiVersion == null) {
             apiVersion = getApiVersion();
         }
@@ -122,6 +126,19 @@ public class ManifestFile{
         } finally {
             IOUtils.closeQuietly(outputStream);
         }
+    }
+
+    /**
+     * Change the timestamp into our own format.
+     * @param date
+     *      Timestamp
+     * @return
+     *      returns the formatted timestamp
+     */
+    public static String getTimeStamp(Date date) {
+        DateFormat df = new SimpleDateFormat(TIME_FORMAT);
+        String timeStamp = df.format(date);
+        return timeStamp;
     }
 
     /**

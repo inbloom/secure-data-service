@@ -31,15 +31,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.slc.sli.bulk.extract.TestUtils;
-import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
-import org.slc.sli.bulk.extract.File.DataExtractFile;
-import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.bulk.extract.TestUtils;
+import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.files.DataExtractFile;
+import org.slc.sli.dal.repository.MongoEntityRepository;
+import org.slc.sli.domain.Entity;
 
 /**
  * Test bulk extraction into zip files.
@@ -57,7 +58,12 @@ public class EntityExtractorTest {
     private MongoEntityRepository mongoEntityRepository;
 
     private ArchivedExtractFile archiveFile;
-    
+
+    /**
+     * Runs before JUnit test and does the initiation work.
+     * @throws IOException
+     *          if an I/O error occurred
+     */
     @Before
     public void init() throws IOException {
         mongoEntityRepository = Mockito.mock(MongoEntityRepository.class);
@@ -65,6 +71,12 @@ public class EntityExtractorTest {
         extractor.setEntityRepository(mongoEntityRepository);
     }
 
+    /**
+     *JUnit test to test the extract entity method.
+     * @throws IOException
+     *          if an I/O error occurred
+     */
+    @SuppressWarnings("unchecked")
     @Test
     public void testExtractEntity() throws IOException{
         String testTenant = "Midgar";
@@ -72,10 +84,10 @@ public class EntityExtractorTest {
 
         File studentExtractFile = TestUtils.createTempFile("student", ".json");
         OutputStream outputStream = new FileOutputStream(studentExtractFile);
-        
+
         DataExtractFile student = Mockito.mock(DataExtractFile.class);
         Mockito.when(student.getOutputStream()).thenReturn(outputStream);
-        
+
         Mockito.when(archiveFile.getDataFileEntry(Matchers.anyString())).thenReturn(student);
 
         Iterator<Entity> cursor = Mockito.mock(Iterator.class);
@@ -87,19 +99,19 @@ public class EntityExtractorTest {
         extractor.extractEntity(testTenant, archiveFile, testEntity);
 
         IOUtils.closeQuietly(outputStream);
-        
+
         String fileContent = FileUtils.readFileToString(studentExtractFile);
-        
+
         ObjectMapper mapper = new ObjectMapper();
-        
+
         Entity studentEntity1 = students.get(0);
         studentEntity1.getBody().put("entityType", "student");
         String student1 = mapper.writeValueAsString(studentEntity1.getBody());
-        
+
         Entity studentEntity2 = students.get(0);
         studentEntity2.getBody().put("entityType", "student");
         String student2 = mapper.writeValueAsString(studentEntity2.getBody());
-        
+
         Assert.assertTrue("Failed to find contents of first student", fileContent.contains(student1));
         Assert.assertTrue("Failed to find contents of second student", fileContent.contains(student2));
 

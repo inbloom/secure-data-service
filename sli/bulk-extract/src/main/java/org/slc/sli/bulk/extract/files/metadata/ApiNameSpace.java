@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.bulk.extract.metadata;
+package org.slc.sli.bulk.extract.files.metadata;
 
 import java.util.List;
 
@@ -26,6 +26,10 @@ public class ApiNameSpace {
     private String[] nameSpace;
     private List<ResourceEndPointTemplate> resources;
 
+    /**
+     * get name space.
+     * @return all the name spaces
+     */
     public String[] getNameSpace() {
         String[] copy = new String[nameSpace.length];
         System.arraycopy(nameSpace, 0, copy, 0, nameSpace.length);
@@ -33,6 +37,10 @@ public class ApiNameSpace {
         return copy;
     }
 
+    /**
+     * set namespace.
+     * @param nameSpace namespace to be set
+     */
     public void setNameSpace(String[] nameSpace) {
         String[] copy = new String[nameSpace.length];
         System.arraycopy(nameSpace, 0, copy, 0, nameSpace.length);
@@ -40,10 +48,18 @@ public class ApiNameSpace {
         this.nameSpace = copy;
     }
 
+    /**
+     * get resources.
+     * @return a list of all resources
+     */
     public List<ResourceEndPointTemplate> getResources() {
         return resources;
     }
 
+    /**
+     * set resources.
+     * @param resources resources to be set.
+     */
     public void setResources(List<ResourceEndPointTemplate> resources) {
         this.resources = resources;
     }

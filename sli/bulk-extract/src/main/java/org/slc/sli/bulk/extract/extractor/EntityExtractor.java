@@ -27,8 +27,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
-import org.slc.sli.bulk.extract.File.DataExtractFile;
+import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.files.DataExtractFile;
 import org.slc.sli.bulk.extract.treatment.TreatmentApplicator;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -134,22 +134,42 @@ public class EntityExtractor{
         return query;
     }
 
+    /**
+     * get queried entities.
+     * @param queriedEntities entities
+     */
     public void setQueriedEntities(Map<String, String> queriedEntities) {
         this.queriedEntities = queriedEntities;
     }
 
+    /**
+     * set combined entities.
+     * @param combinedEntities combined entities
+     */
     public void setCombinedEntities(Map<String, String> combinedEntities) {
         this.combinedEntities = combinedEntities;
     }
 
+    /**
+     * set entity repository.
+     * @param entityRepository entity repository
+     */
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
 
+    /**
+     * get applicator.
+     * @return treatment applicator
+     */
     public TreatmentApplicator getApplicator() {
         return applicator;
     }
 
+    /**
+     * set applicator.
+     * @param applicator applicator
+     */
     public void setApplicator(TreatmentApplicator applicator) {
         this.applicator = applicator;
     }

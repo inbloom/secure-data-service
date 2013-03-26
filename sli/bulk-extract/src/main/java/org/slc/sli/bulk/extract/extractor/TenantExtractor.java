@@ -23,8 +23,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
-import org.slc.sli.bulk.extract.metadata.ManifestFile;
+import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
 /**
  * Bulk extractor to extract data for a tenant.
@@ -75,21 +75,42 @@ public class TenantExtractor{
         }
     }
 
+    /**
+     * get bulkExtractMongoDA.
+     * @return bulkExtractMongoDA
+     */
     public BulkExtractMongoDA getBulkExtractMongoDA() {
         return bulkExtractMongoDA;
     }
 
+    /**
+     * set bulkExtractMongoDA.
+     * @param bulkExtractMongoDA bulk extractMongoDA
+     */
     public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
         this.bulkExtractMongoDA = bulkExtractMongoDA;
     }
+
+    /**
+     * set entities.
+     * @param entities entities
+     */
     public void setEntities(List<String> entities) {
         this.entities = entities;
     }
 
+    /**
+     * get entity extractor.
+     * @return entity extractor
+     */
     public EntityExtractor getEntityExtractor() {
         return entityExtractor;
     }
 
+    /**
+     * set entity extractor.
+     * @param entityExtractor entity extractor
+     */
     public void setEntityExtractor(EntityExtractor entityExtractor) {
         this.entityExtractor = entityExtractor;
     }

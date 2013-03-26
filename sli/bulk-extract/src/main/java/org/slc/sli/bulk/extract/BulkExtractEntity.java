@@ -39,8 +39,8 @@ public class BulkExtractEntity implements Entity{
 
     /**
      * Constructor.
-     * @param body
-     * @param id
+     * @param body body
+     * @param id entity id
      */
     public BulkExtractEntity(Map<String, Object> body, String id){
         this.body = body;
@@ -65,7 +65,7 @@ public class BulkExtractEntity implements Entity{
 
     /**
      * set entity Id.
-     * @param id
+     * @param id entity id
      */
     public void setEntityId(String id){
         this.entityId = id;

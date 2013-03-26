@@ -31,8 +31,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.File.ArchivedExtractFile;
-import org.slc.sli.bulk.extract.metadata.ManifestFile;
+import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
 
 /**
@@ -56,6 +56,11 @@ public class TenantExtractorTest {
 
     private List<String> collections;
 
+    /**
+     * Runs before JUnit test and does the initiation work.
+     * @throws IOException
+     *          if an I/O error occurred
+     */
     @Before
     public void init() throws IOException {
         collections = new ArrayList<String>();
@@ -78,6 +83,9 @@ public class TenantExtractorTest {
         tenantExtractor.setBulkExtractMongoDA(bulkExtractMongoDA);
     }
 
+    /**
+     * JUnit test to test initiation and completion of the entity extraction.
+     */
     @Test
     public void testinitiateExtractForEntites() {
 
