@@ -32,9 +32,17 @@ if ARGV.length > 0
     puts "Specified scenario (\"#{tmp}\") does not exist.\n"
     exit(1)
   end
+  unless ARGV.index("--normalgc").nil?
+    puts "disabling deffered garbage collection"
+    DeferredGarbageCollector.disable
+  end
 end
 
 o = Odin.new
 o.generate( scenario )
+
+# re-enable garbage collection if we disabled it elsewhere.
+GC.enable
+GC.start
 
 #PerfTools::CpuProfiler.stop
