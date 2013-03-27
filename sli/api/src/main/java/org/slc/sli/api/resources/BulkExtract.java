@@ -53,12 +53,12 @@ import org.slc.sli.domain.enums.Right;
  */
 @Component
 @Path("/bulk")
-@Produces({ "application/zip" })
+@Produces({ "application/x-tar" })
 public class BulkExtract {
 
     private static final Logger LOG = LoggerFactory.getLogger(BulkExtract.class);
 
-    private static final String SAMPLED_FILE_NAME = "NY-WALTON-2013-03-08.zip";
+    private static final String SAMPLED_FILE_NAME = "NY-WALTON-2013-03-19T13-02-02.tar";
 
     public static final String BULK_EXTRACT_FILES = "bulkExtractFiles";
     public static final String BULK_EXTRACT_FILE_PATH = "path";

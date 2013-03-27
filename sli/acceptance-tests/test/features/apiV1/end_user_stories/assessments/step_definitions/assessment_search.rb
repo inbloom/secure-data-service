@@ -21,10 +21,10 @@ require 'stomp'
 require 'json'
 require_relative '../../../../search/step_definitions/search_indexer_steps.rb'
 
+# TODO: figure out a clean way to remove deterministic IDs from stepdef
 When /^I update the "(.*?)" with ID "(.*?)" field "(.*?)" to "(.*?)"$/ do |collection, id, field, value|
   conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
-  midgar = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"
-  mdb = conn.db(midgar)
+  mdb = conn.db(MIDGAR_DB_NAME)
 
   coll = mdb[collection]
   entity = coll.find_one({"_id" => id})
@@ -40,15 +40,58 @@ When /^I update the "(.*?)" with ID "(.*?)" field "(.*?)" to "(.*?)"$/ do |colle
   coll.save(entity)
 end
 
+When /^I delete the "(.*?)" with ID "(.*?)"$/ do |collection, id|
+  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  mdb = conn.db(MIDGAR_DB_NAME)
+
+  coll = mdb[collection]
+  doc = coll.find_one({"_id" => id})
+  assert(doc, "cant find #{collection} with id #{id}")
+  puts "deleting entity: #{doc}"
+  coll.remove({"_id" => id})
+
+  # save it so that it can be restored later.
+  @last_deleted_doc = doc
+  @last_deleted_doc_collection = collection
+end
+
+When /^I create the previously deleted entity$/ do
+  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  mdb = conn.db(MIDGAR_DB_NAME)
+  coll = mdb[@last_deleted_doc_collection]
+  puts "inserting entity: #{@last_deleted_doc}"
+  coll.insert(@last_deleted_doc)
+  @last_created_doc = @last_deleted_doc
+  @last_created_doc_collection = @last_deleted_doc_collection
+end
+
 When /^I send an update event to the search indexer for collection "(.*?)" and ID "(.*?)"$/ do |collection, id|
-  midgar = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"
-  message = [{"ns" => "#{midgar}.#{collection}",
-              "o" => { "$set" => { "type" => collection } },
-              "o2" => { "_id" => id },
-              "op" => "u"
-             }]
-  client = Stomp::Client.new
-  client.publish("search", message.to_json)
+  update_message = {
+      "ns" => "#{MIDGAR_DB_NAME}.#{collection}",
+      "o" => { "$set" => { "type" => collection } },
+      "o2" => { "_id" => id },
+      "op" => "u"
+  }
+  publish_oplog_message(update_message)
+end
+
+When /^I send a delete event to the search indexer for collection "(.*?)" and ID "(.*?)"$/ do |collection, id|
+  delete_message = {
+      "ns" => "#{MIDGAR_DB_NAME}.#{collection}",
+      "b" => true,
+      "o" => { "_id" => id },
+      "op" => "d"
+  }
+  publish_oplog_message(delete_message)
+end
+
+When /^I send an insert event to the search indexer from last created entity$/ do
+  insert_message = {
+      "ns" => "#{MIDGAR_DB_NAME}.#@last_created_doc_collection",
+      "o" => @last_created_doc,
+      "op" => "i"
+  }
+  publish_oplog_message(insert_message)
 end
 
 Then /^I will EVENTUALLY GET "(.*?)" with (\d+) elements$/ do |query, count|
@@ -62,4 +105,9 @@ Then /^I will EVENTUALLY GET "(.*?)" with (\d+) elements$/ do |query, count|
     sleep 1
   }
   assert(success, "expected #{count} elements but got back #{@result.size}")
+end
+
+def publish_oplog_message(message)
+  client = Stomp::Client.new
+  client.publish("search", [message].to_json)
 end

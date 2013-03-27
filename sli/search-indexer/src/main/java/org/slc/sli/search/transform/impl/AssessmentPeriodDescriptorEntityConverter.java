@@ -15,6 +15,10 @@
  */
 package org.slc.sli.search.transform.impl;
 
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT;
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_PERIOD_DESCRIPTOR_ID;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,31 +32,16 @@ import org.slc.sli.search.entity.IndexEntity.Action;
 
 public class AssessmentPeriodDescriptorEntityConverter extends AssessmentEntityConverter {
     
-    public final static String ASSESSMENT = "assessment";
-    public final static String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
-    public final static String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
-
     @SuppressWarnings("unchecked")
     public List<Map<String, Object>> treatment(String index, Action action, Map<String, Object> entityMap) {
         List<Map<String, Object>> entities = new ArrayList<Map<String, Object>>();
+        Map<String, Object> body = null;
 
-        // this is from sarje update event, that body is null
-        if (entityMap.get("body") == null && action != Action.DELETE) {
-            DBObject apdQuery = new BasicDBObject("_id", entityMap.get("_id"));
+        if (action != Action.DELETE) {
             IndexConfig apdConfig = getIndexConfigStore().getConfig(ASSESSMENT_PERIOD_DESCRIPTOR);
-            DBCursor cursor = getSourceDatastoreConnector().getDBCursor(index, ASSESSMENT_PERIOD_DESCRIPTOR, apdConfig.getFields(), apdQuery);
-            if (cursor.hasNext()) {
-                Map<String, Object> apdEntity = cursor.next().toMap();
-                entityMap.put("body", apdEntity.get("body"));
-            }
+            body = getBody(index, entityMap, ASSESSMENT_PERIOD_DESCRIPTOR, apdConfig.getFields());
         }
-        
-        // if there is still no body field even after we look into mongo, there is nothing to index
-        // for for this assessmentPeriodDescriptor, return empty list
-        if (entityMap.get("body") == null && action != Action.DELETE) {
-            return entities;
-        }
-        
+
         DBObject query = new BasicDBObject("body." + ASSESSMENT_PERIOD_DESCRIPTOR_ID, entityMap.get("_id"));
         IndexConfig config = getIndexConfigStore().getConfig(ASSESSMENT);
         
@@ -61,10 +50,10 @@ public class AssessmentPeriodDescriptorEntityConverter extends AssessmentEntityC
             DBObject obj = cursor.next();
             Map<String, Object> assessmentMap = obj.toMap();
             if (action != Action.DELETE) {
-                ((Map<String, Object>) assessmentMap.get("body")).put(ASSESSMENT_PERIOD_DESCRIPTOR, entityMap.get("body"));
+                ((Map<String, Object>) assessmentMap.get("body")).put(ASSESSMENT_PERIOD_DESCRIPTOR, body);
             }
             ((Map<String, Object>) assessmentMap.get("body")).remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID);
-            entities.addAll(super.treatment(index, action, assessmentMap));
+            entities.addAll(super.treatment(index, convertAction(action), assessmentMap));
         }
 
         return entities;
@@ -74,7 +63,7 @@ public class AssessmentPeriodDescriptorEntityConverter extends AssessmentEntityC
     @Override
     public Action convertAction(Action action) {
         // delete action will need to changed into an update action on assessments
-        return action == Action.DELETE ? Action.UPDATE : action;
+        return action == Action.DELETE ? Action.INDEX: action;
     }
 
 }

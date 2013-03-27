@@ -93,13 +93,19 @@ Then /^I can see the on\-boarded states\/districts$/ do
 end
 
 Then /^I can see the on\-boarded states$/ do
+  attempts = 0
   found = false
-  for attempt in 1..5
-    if attempt > 1
+  options = nil
+  while attempts < 5 && found == false
+    if attempts > 1
+      puts "DEBUG: elements.to_s #{options}"
+      puts "DEBUG: select box:  #{@driver.find_elements(:css, 'div#state-menu select')}"
       puts "Did not find any states in select menu.  Retrying..."
       sleep(2)
     end
-    found = true if @driver.find_elements(:css, 'div#state-menu select option').count > 1
+    attempts += 1
+    options = @driver.find_elements(:css, 'div#state-menu select option')
+    found = true if options.count > 1
   end
   assert(found, "At least one state should exist")
 end

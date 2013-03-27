@@ -22,6 +22,8 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_HIERARCHY;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_FAMILY_REFERENCE;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -127,7 +129,7 @@ public class AssessmentConverterTest {
         String entityId = "ID";
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("assessmentPeriodDescriptorId", "mydescriptorid");
-        body.put(AssessmentConverter.ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE, assessmentFamilyC.getEntityId());
+        body.put(ASSESSMENT_FAMILY_REFERENCE, assessmentFamilyC.getEntityId());
         Map<String, Object> metaData = new HashMap<String, Object>();
         Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
 
@@ -157,7 +159,7 @@ public class AssessmentConverterTest {
         apdBody.put("codeValue", "green");
         apdBody.put("description", "something not really useful");
         body.put("assessmentPeriodDescriptor", apdBody);
-        body.put(AssessmentConverter.ASSESSMENT_FAMILY_HIERARCHY_STRING, "A.B.C");
+        body.put(ASSESSMENT_FAMILY_HIERARCHY, "A.B.C");
         return new MongoEntity(entityType, entityId, body, metaData);
     }
 
@@ -180,15 +182,15 @@ public class AssessmentConverterTest {
     public void upconvertShouldConstructAssessmentFamilyHierarchy() {
         Entity entity = createUpConvertEntity();
         assessmentConverter.subdocToBodyField(entity);
-        assertNull(entity.getBody().get(AssessmentConverter.ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE));
-        assertEquals("A.B.C", entity.getBody().get(AssessmentConverter.ASSESSMENT_FAMILY_HIERARCHY_STRING));
+        assertNull(entity.getBody().get(ASSESSMENT_FAMILY_REFERENCE));
+        assertEquals("A.B.C", entity.getBody().get(ASSESSMENT_FAMILY_HIERARCHY));
     }
 
     @Test
     public void downconvertShouldDeleteAssessmentFamilyHierarchy() {
         Entity entity = createDownConvertEntity();
         assessmentConverter.bodyFieldToSubdoc(entity);
-        assertNull(entity.getBody().get(AssessmentConverter.ASSESSMENT_FAMILY_HIERARCHY_STRING));
+        assertNull(entity.getBody().get(ASSESSMENT_FAMILY_HIERARCHY));
     }
 
     @Test
@@ -196,16 +198,16 @@ public class AssessmentConverterTest {
         // if an update of an existing assessment is performed, the assessmentFamilyReference
         // should remain part of the assessment after the update occurs.
         Entity existingAssessment = createDownConvertEntity();
-        existingAssessment.getBody().put(AssessmentConverter.ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE, assessmentFamilyA.getEntityId());
+        existingAssessment.getBody().put(ASSESSMENT_FAMILY_REFERENCE, assessmentFamilyA.getEntityId());
         when(template.findById(existingAssessment.getEntityId(), Entity.class, EntityNames.ASSESSMENT)).thenReturn(existingAssessment);
 
         Entity updatedAssessment = createDownConvertEntity();
         updatedAssessment.getBody().put("assessmentTitle", "A_new_title");
 
         assessmentConverter.bodyFieldToSubdoc(updatedAssessment);
-        assertNull(updatedAssessment.getBody().get(AssessmentConverter.ASSESSMENT_FAMILY_HIERARCHY_STRING));
-        assertEquals(existingAssessment.getBody().get(AssessmentConverter.ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE),
-                updatedAssessment.getBody().get(AssessmentConverter.ASSESSMENT_ASSESSMENT_FAMILY_REFERENCE));
+        assertNull(updatedAssessment.getBody().get(ASSESSMENT_FAMILY_HIERARCHY));
+        assertEquals(existingAssessment.getBody().get(ASSESSMENT_FAMILY_REFERENCE),
+                updatedAssessment.getBody().get(ASSESSMENT_FAMILY_REFERENCE));
         assertEquals("A_new_title", updatedAssessment.getBody().get("assessmentTitle"));
     }
 

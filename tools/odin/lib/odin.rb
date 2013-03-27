@@ -54,11 +54,7 @@ class Odin
   def generate( scenario )
 
     scenarioYAML, prng = getScenario(scenario)
-
-    demographics = scenarioYAML['demographics'] || File.join("#{File.dirname(__FILE__)}", '../scenarios/defaults/demographics.yml')
-    choices = scenarioYAML['choices'] || File.join("#{File.dirname(__FILE__)}", '../scenarios/defaults/choices.yml')
-
-    BaseEntity.initializeDemographics(demographics, choices)
+    BaseEntity.initializeDemographics(scenarioYAML['demographics'], scenarioYAML['choices'])
     BaseEntity.set_scenario(scenarioYAML)
 
     clean

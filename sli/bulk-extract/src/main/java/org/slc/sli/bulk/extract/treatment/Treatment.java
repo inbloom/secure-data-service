@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.bulk.extract;
+package org.slc.sli.bulk.extract.treatment;
+
+import org.slc.sli.domain.Entity;
 
 /**
- * Base for all process nodes.
- *
- * @author tshewchuk
+ * Treatments are strategies that used to transform enities.
+ * @author tke
  *
  */
-public interface Process {
+public interface Treatment {
+
     /**
-     * Get human readable health of the process node.
-     *
-     * @return String
-     *         Current process health
+     * Applies a function to modify an Entity.
+     * @param entity An Entity to modify
+     * @return A modified Entity
      */
-    public String getHealth();
+    public Entity apply(Entity entity);
 }

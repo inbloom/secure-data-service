@@ -82,6 +82,7 @@ Then /^I should receive a json response containing my authorization token$/ do
   assertWithWait("Could not find text 'authorization_token' on page") {@driver.page_source.include?("access_token")}
 
   @sessionId = @driver.page_source.match(/"access_token":"(?<Token>[^"]*)"/)[:Token]
+  puts "sessionId = #@sessionId"
 end
 
 Then /^I should be able to use the token to make valid API calls$/ do
