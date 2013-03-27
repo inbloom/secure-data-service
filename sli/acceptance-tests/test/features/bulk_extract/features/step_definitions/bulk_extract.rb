@@ -39,8 +39,16 @@ end
 
 Given /^the local bulk extract script path and the scheduling config path$/ do
     assert(Dir.exists?(TRIGGER_SCRIPT_DIRECTORY), "Bulk Extract script directory #{TRIGGER_SCRIPT_DIRECTORY} does not exist")
+    @current_dir = Dir.pwd
+    is_jenkins = @current_dir.include?"jenkins"
+    puts "pwd: #{@current_dir}"
     @trigger_script_path = TRIGGER_SCRIPT_DIRECTORY
     @scheduling_config_path = File.dirname(__FILE__) + '/../../test_data/config/'
+
+    if !is_jenkins
+        @scheduling_config_path = File.dirname(__FILE__) + '/../../test_data/local/'
+    end
+
     assert(Dir.exists?(@scheduling_config_path), "Bulk Extract scheduling config directory #{@scheduling_config_path} does not exist")
 
     puts "bulk extract script path: #{@trigger_script_path}"
@@ -48,8 +56,6 @@ Given /^the local bulk extract script path and the scheduling config path$/ do
 end
 
 And /^I clean up the cron extraction zone$/ do
-    @current_dir = Dir.pwd
-    puts "pwd: #{@current_dir}"
     Dir.chdir
     puts "pwd: #{Dir.pwd}"
     if (Dir.exists?(CRON_OUTPUT_DIRECTORY))
