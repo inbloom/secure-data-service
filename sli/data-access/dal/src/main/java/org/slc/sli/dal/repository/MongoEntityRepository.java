@@ -575,6 +575,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         // 1. it is an optional field and is a non-list reference
                         // 2. it is an optional field and it is the last reference in a list of references
                         DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Removing field " + referentPath);
+
+                        // Make sure child ref is actually in the body for deletion (shoud be, as it was used to find the child)
+                        if ( ! entity.getBody().containsKey(referencingFieldSchemaInfo.getMappedPath()) ) {
+                        	result.setStatus(CascadeResult.Status.DATABASE_ERROR);
+                        	result.setMessage("Child ref '" + referentPath + "' to entity type '" + entityType + "' ID '" + id + "' located child object, but not in child body");
+                        	return result;
+                        }
+
                         if (!dryrun) {
                             entity.getBody().remove(referencingFieldSchemaInfo.getMappedPath());
                             if (!this.update(referenceEntityType, entity, FullSuperDoc.isFullSuperdoc(entity))) {
