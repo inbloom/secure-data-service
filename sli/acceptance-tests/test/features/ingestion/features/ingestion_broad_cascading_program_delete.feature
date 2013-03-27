@@ -76,3 +76,4 @@ Scenario: Delete Program with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I should not see "0064dd5bb3bffd47e93b023585e6591c018ee697_id" in the "Midgar" database
+

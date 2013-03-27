@@ -66,6 +66,238 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 ERROR_REPORT_MISSING_STRING_PREFIX = "#?"
 ERROR_REPORT_MISSING_STRING_SUFFIX = "?#"
 
+$CASCADE_DELETE_REFERENCE_MAP = {
+                "academicHonor_diploma" => "updated",
+                "academicHonor_studentAcademicRecord" => "updated",
+                "accountabilityRating_educationOrganization" => "updated",
+                "accountabilityRating_localEducationAgency" => "updated",
+                "accountabilityRating_school" => "updated",
+                "accountabilityRating_stateEducationAgency" => "updated",
+                "additionalCredits_courseTranscript" => "updated",
+                "address_educationOrganization" => "checked",
+                "address_localEducationAgency" => "checked",
+                "address_parent" => "updated",
+                "address_school" => "checked",
+                "address_staff" => "updated",
+                "address_stateEducationAgency" => "checked",
+                "address_student" => "updated",
+                "address_teacher" => "updated",
+                "assessment_assessmentItem" => "updated",
+                "assessment_objectiveAssessment" => "updated",
+                "assessment_section" => "updated",
+                "assessment_studentAssessment" => "deleted",
+                "assessmentIdentificationCode_assessment" => "checked",
+                "assessmentItem_assessment" => "updated",
+                "assessmentItem_objectiveAssessment" => "updated",
+                "assessmentItem_objectiveAssessment" => "updated",
+                "assessmentItem_studentAssessmentItem" => "deleted",
+                "assessmentItem_subdoc_studentAssessmentItem" => "deleted",
+                "assessmentPerformanceLevel_assessment" => "updated",
+                "assessmentPerformanceLevel_objectiveAssessment" => "updated",
+                "assessmentPeriodDescriptor_assessment" => "deleted",
+                "attendanceEvent_attendance" => "updated",
+                "attendanceEvent_schoolYearAttendanceType" => "updated",
+                "behaviorDescriptorType_disciplineIncident" => "checked",
+                "behaviorDescriptorType_studentDisciplineIncidentAssociation" => "updated",
+                "birthData_student" => "deleted",
+                "calendarDate_gradingPeriod" => "checked",
+                "classRanking_studentAcademicRecord" => "updated",
+                "cohort_staffCohortAssociation" => "deleted",
+                "cohort_studentCohortAssociation" => "deleted",
+                "cohortYear_student" => "updated",
+                "competencyLevelDescriptorType_studentCompetency" => "deleted",
+                "course_courseOffering" => "deleted",
+                "course_courseTranscript" => "deleted",
+                "courseCode_course" => "checked",
+                "courseCode_creditsByCourse" => "checked",
+                "courseOffering_section" => "deleted",
+                "credential_staff" => "updated",
+                "credential_teacher" => "updated",
+                "credentialFieldDescriptor_credential" => "deleted",
+                "credits_course" => "updated",
+                "credits_course" => "updated",
+                "credits_courseTranscript" => "updated",
+                "credits_courseTranscript" => "deleted",
+                "credits_creditsByCourse" => "deleted",
+                "credits_creditsBySubject" => "deleted",
+                "credits_graduationPlan" => "deleted",
+                "credits_section" => "updated",
+                "credits_studentAcademicRecord" => "updated",
+                "credits_studentAcademicRecord" => "updated",
+                "creditsByCourse_graduationPlan" => "updated",
+                "creditsBySubject_graduationPlan" => "updated",
+                "CTEProgram_studentCTEProgramAssociation" => "checked",
+                "disability_student" => "updated",
+                "disciplineDescriptorType_disciplineAction" => "checked",
+                "disciplineIncident_disciplineAction" => "checked",
+                "disciplineIncident_studentDisciplineIncidentAssociation" => "deleted",
+                "educationOrganization_behaviorDescriptor" => "checked",
+                "educationOrganization_calendarDate" => "deleted",
+                "educationOrganization_cohort" => "deleted",
+                "educationOrganization_course" => "deleted",
+                "educationOrganization_courseTranscript" => "checked",
+                "educationOrganization_disciplineDescriptor" => "checked",
+                "educationOrganization_educationOrganization" => "updated",
+                "educationOrganization_gradingPeriodIdentityType" => "deleted",
+                "educationOrganization_graduationPlan" => "updated",
+                "educationOrganization_localEducationAgency" => "updated",
+                "educationOrganization_localEducationAgency" => "updated",
+                "educationOrganization_localEducationAgency" => "updated",
+                "educationOrganization_postSecondaryEvent" => "updated",
+                "educationOrganization_school" => "updated",
+                "educationOrganization_session" => "deleted",
+                "educationOrganization_staffEducationOrganizationAssociation" => "deleted",
+                "educationOrganization_stateEducationAgency" => "updated",
+                "educationOrganization_studentCompetencyObjective" => "deleted",
+                "educationOrganization_studentCTEProgramAssociation" => "deleted",
+                "educationOrganization_studentProgramAssociation" => "deleted",
+                "educationOrganization_studentSpecialEdProgramAssociation" => "deleted",
+                "educationOrgIdentificationCode_educationalOrgIdentityType" => "checked",
+                "educationOrgIdentificationCode_educationOrganization" => "updated",
+                "educationOrgIdentificationCode_localEducationAgency" => "updated",
+                "educationOrgIdentificationCode_school" => "updated",
+                "educationOrgIdentificationCode_stateEducationAgency" => "updated",
+                "electronicMail_parent" => "updated",
+                "electronicMail_staff" => "updated",
+                "electronicMail_student" => "updated",
+                "electronicMail_teacher" => "updated",
+                "grade_reportCard" => "updated",
+                "gradebookEntry_studentGradebookEntry" => "deleted",
+                "gradingPeriod_grade" => "updated",
+                "gradingPeriod_gradebookEntry" => "updated",
+                "gradingPeriod_reportCard" => "deleted",
+                "gradingPeriod_session" => "checked",
+                "gradingPeriodIdentityType_gradingPeriod" => "deleted",
+                "graduationPlan_studentSchoolAssociation" => "updated",
+                "institutionTelephone_educationOrganization" => "updated",
+                "institutionTelephone_localEducationAgency" => "updated",
+                "institutionTelephone_school" => "updated",
+                "institutionTelephone_stateEducationAgency" => "updated",
+                "learningObjective_gradebookEntry" => "updated",
+                "learningObjective_learningObjective" => "updated",
+                "learningObjective_objectiveAssessment" => "updated",
+                "learningObjective_studentCompetencyObjectiveReference" => "deleted",
+                "learningStandard_assessmentItem" => "updated",
+                "learningStandard_gradebookEntry" => "updated",
+                "learningStandard_learningObjective" => "updated",
+                "learningStandardId_learningObjective" => "updated",
+                "learningStandardId_learningObjectiveIdentityType" => "deleted",
+                "learningStandardId_learningStandard" => "deleted",
+                "learningStandardId_learningStandardIdentityType" => "updated",
+                "learningStyles_student" => "updated",
+                "links_home" => "updated",
+                "name_parent" => "deleted",
+                "name_staff" => "deleted",
+                "name_student" => "deleted",
+                "name_teacher" => "deleted",
+                "objectiveAssessment_assessment" => "updated",
+                "objectiveAssessment_objectiveAssessment" => "updated",
+                "objectiveAssessment_objectiveAssessment" => "updated",
+                "objectiveAssessment_studentObjectiveAssessment" => "deleted",
+                "objectiveAssessment_subdoc_studentObjectiveAssessment" => "deleted",
+                "otherName_parent" => "updated",
+                "otherName_staff" => "updated",
+                "otherName_student" => "updated",
+                "otherName_teacher" => "updated",
+                "parent_studentParentAssociation" => "deleted",
+                "performanceLevelDescriptor_assessmentPerformanceLevel" => "deleted",
+                "performanceLevelDescriptor_studentAssessment" => "updated",
+                "performanceLevelDescriptor_studentObjectiveAssessment" => "updated",
+                "performanceLevelDescriptor_subdoc_studentObjectiveAssessment" => "updated",
+                "program_cohort" => "updated",
+                "program_educationOrganization" => "updated",
+                "program_localEducationAgency" => "updated",
+                "program_restraintEvent" => "updated",
+                "program_school" => "updated",
+                "program_section" => "updated",
+                "program_staffProgramAssociation" => "deleted",
+                "program_stateEducationAgency" => "updated",
+                "program_studentCTEProgramAssociation" => "deleted",
+                "program_studentProgramAssociation" => "deleted",
+                "program_studentSpecialEdProgramAssociation" => "deleted",
+                "programParticipation_student" => "updated",
+                "recognition_diploma" => "updated",
+                "recognition_studentAcademicRecord" => "updated",
+                "reportCard_studentAcademicRecord" => "updated",
+                "restraintEventReasonsType_restraintEvent" => "deleted",
+                "school_attendance" => "deleted",
+                "school_courseOffering" => "deleted",
+                "school_disciplineAction" => "deleted",
+                "school_disciplineAction" => "updated",
+                "school_disciplineIncident" => "deleted",
+                "school_restraintEvent" => "deleted",
+                "school_section" => "deleted",
+                "school_studentSchoolAssociation" => "deleted",
+                "school_teacherSchoolAssociation" => "deleted",
+                "scoreResult_studentAssessment" => "updated",
+                "scoreResult_studentObjectiveAssessment" => "checked",
+                "scoreResult_subdoc_studentObjectiveAssessment" => "checked",
+                "secondaryBehavior_disciplineIncident" => "updated",
+                "secondaryBehavior_studentDisciplineIncidentAssociation" => "updated",
+                "section_grade" => "deleted",
+                "section_gradebookEntry" => "deleted",
+                "section_studentGradebookEntry" => "deleted",
+                "section_studentSectionAssociation" => "deleted",
+                "section_teacherSectionAssociation" => "deleted",
+                "serviceDescriptorType_program" => "updated",
+                "serviceDescriptorType_studentCTEProgramAssociation" => "updated",
+                "serviceDescriptorType_studentProgramAssociation" => "updated",
+                "serviceDescriptorType_studentSpecialEdProgramAssociation" => "updated",
+                "session_courseOffering" => "deleted",
+                "session_section" => "updated",
+                "session_studentAcademicRecord" => "deleted",
+                "staff_disciplineAction" => "updated",
+                "staff_disciplineIncident" => "updated",
+                "staff_staffCohortAssociation" => "deleted",
+                "staff_staffEducationOrganizationAssociation" => "deleted",
+                "staff_staffProgramAssociation" => "deleted",
+                "staffIdentificationCode_staff" => "updated",
+                "staffIdentificationCode_teacher" => "updated",
+                "student_attendance" => "deleted",
+                "student_courseTranscript" => "updated",
+                "student_disciplineAction" => "checked",
+                "student_grade" => "deleted",
+                "student_postSecondaryEvent" => "deleted",
+                "student_reportCard" => "deleted",
+                "student_restraintEvent" => "deleted",
+                "student_studentAcademicRecord" => "deleted",
+                "student_studentAssessment" => "deleted",
+                "student_studentCohortAssociation" => "deleted",
+                "student_studentCTEProgramAssociation" => "deleted",
+                "student_studentDisciplineIncidentAssociation" => "deleted",
+                "student_studentGradebookEntry" => "deleted",
+                "student_studentParentAssociation" => "deleted",
+                "student_studentProgramAssociation" => "deleted",
+                "student_studentSchoolAssociation" => "deleted",
+                "student_studentSectionAssociation" => "deleted",
+                "student_studentSpecialEdProgramAssociation" => "deleted",
+                "studentAcademicRecord_courseTranscript" => "deleted",
+                "studentAssessment_studentAssessmentItem" => "deleted",
+                "studentAssessment_studentObjectiveAssessment" => "deleted",
+                "studentCharacteristic_student" => "updated",
+                "studentCompetency_reportCard" => "updated",
+                "studentCompetencyObjective_studentCompetencyObjectiveReference" => "deleted",
+                "studentCompetencyObjectiveReference_studentCompetency" => "deleted",
+                "studentIdentificationCode_student" => "updated",
+                "studentIndicator_student" => "updated",
+                "studentSectionAssociation_grade" => "deleted",
+                "studentSectionAssociation_studentCompetency" => "deleted",
+                "studentSectionAssociation_studentGradebookEntry" => "deleted",
+                "subdoc_studentAssessmentItem_studentAssessment" => "updated",
+                "subdoc_studentObjectiveAssessment_studentAssessment" => "updated",
+                "teacher_teacherSchoolAssociation" => "deleted",
+                "teacher_teacherSectionAssociation" => "deleted",
+                "telephone_parent" => "updated",
+                "telephone_staff" => "updated",
+                "telephone_student" => "updated",
+                "telephone_teacher" => "updated",
+}
+
+updated = Set.new
+deleted = Set.new
+checked = Set.new
+
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -3118,13 +3350,103 @@ Then /^I check the number of records in collection:/ do |table|
   enable_NOTABLESCAN()   
 end
 
+@origin_count
+@after_count
+
 Then /^I should not see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+       `rm -rf temp/*|wc -l`
+       `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
+
+       output = `grep #{id} ./temp/*`
+       assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
+       `rm -rf temp/*`
+end
+
+Then /^I should not see any entity mandatorily referring to "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+
   `rm -rf temp/*`
   `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
-  output = `grep #{id} ./temp/*`
-  assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
+
+      if(deleted.length()>0)
+          deleted.each do |id|
+              puts id
+              output = `grep #{id} ./temp/*`
+              assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
+          end
+      end
   `rm -rf temp/*`
 end
+
+
+Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the "(.*?)" database$/ do |entityType, id, tenant|
+    #Step 1: pass in the entity type to be searched
+
+    dbName = convertTenantIdToDbName(tenant)
+    `sh exportMongoDb.sh #{dbName} temp 2>&1 /dev/null`
+
+    export_data = './temp/*'
+    output = `grep #{id} ./temp/* |awk -F: '{print ""; f=$1; print $0;}'`
+    #puts "output = " + output
+    output_lines = output.split(/[\r\n]+/)
+
+    for i in 1..output_lines.length-1
+        entry =  output_lines[i]
+        #puts "entry = " + entry
+        #Step 2: get the child type
+        filename = entry.split(':')[0]
+        puts "filename = "+filename
+        child_type = filename.split('_')[2].split('.')[0]
+        puts "child_type =" +  child_type
+
+        #Step 3: get child id
+        puts "entry = " + entry
+
+        child_id = entry.split(',')[0].split(':')[2]
+        puts "child_id = " +  child_id
+
+        if(child_type == entityType)
+              deleted.add(child_id)
+        end
+        #Step 3: search the table for type [deleted, updated, checked]
+         type = $CASCADE_DELETE_REFERENCE_MAP[entityType+"_"+child_type]
+        if(type != nil)
+              puts entityType+"_"+child_type
+              puts "type = "+type
+                  case type
+                  when 'updated'
+                     updated.add(child_id)
+                  when 'deleted'
+                     deleted.add(child_id)
+                  when 'checked'
+                     checked.add(child_id)
+                     if(entry[entry.rindex(id)+44]==']')
+                        deleted.add(child_id)
+                     else
+                        updated.add(child_id)
+                     end
+                  end
+         end
+    end
+    puts deleted.length()
+    if(deleted.length()>0)
+        deleted.each do |d1|
+            puts d1
+        end
+    end
+    puts updated.length()
+    if(updated.length()>0)
+        updated.each do |d1|
+            puts d1
+        end
+    end
+    puts checked.length()
+    if(checked.length()>0)
+        checked.each do |d1|
+            puts d1
+        end
+    end
+end
+
 
 Then /^I should see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
   `rm -rf temp/*`
@@ -3133,6 +3455,7 @@ Then /^I should see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
   assert($?.to_i==0, "ID: #{id} not found in tenant database: #{output}")
   `rm -rf temp/*`
 end
+
 
 
 Then /^all attendance entities should should have the expected structure./ do
