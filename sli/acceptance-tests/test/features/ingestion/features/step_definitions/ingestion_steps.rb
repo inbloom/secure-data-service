@@ -3382,10 +3382,10 @@ Then /^I should not see any entity mandatorily referring to "(.*?)" in the "(.*?
 
 end
 
-Then /^I should see entities optionally referring to "(.*?)" be updated in the in the "(.*?)" database$/ do |id, tenant|
+Then /^I should see entities optionally referring to "(.*?)" be updated in the "(.*?)" database$/ do |id, tenant|
         count = @after_count.to_i + deleted.length()
-        puts count
-        puts @original_count.to_i
+        #puts count
+        #puts @original_count.to_i
         assert(@original_count.to_i==count, "Some records which should not be deleted are deleted.")
 
         if(updated.length()>0)
