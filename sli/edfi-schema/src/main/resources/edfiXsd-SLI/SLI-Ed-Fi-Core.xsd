@@ -92,6 +92,9 @@
 	  <xs:attribute name="Cascade" type="xs:boolean" use="optional">
 	    <xs:annotation><xs:documentation>Whether to cascade update or delete operation.</xs:documentation></xs:annotation>
 	  </xs:attribute>
+	  <xs:attribute name="MaxObjects" type="xs:integer" use="optional">
+	    <xs:annotation><xs:documentation>Maximum number of total objects allowed to be affected by the operation.  If absent, use system default.  If zero, unbounded.</xs:documentation></xs:annotation>
+	  </xs:attribute>
 	  
 	</xs:complexType>
 	

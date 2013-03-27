@@ -175,16 +175,21 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
      */
     private void fixAssessmentFamilyReference(Entity entity) {
         //assessmentFamilyHierarchy is ignored on create/update
-        entity.getBody().remove(ASSESSMENT_FAMILY_HIERARCHY);
-        
-        MongoTemplate mongo = ((MongoEntityRepository) repo).getTemplate();
-        Entity existingAssessment = mongo.findById(entity.getEntityId(), Entity.class, ASSESSMENT);
-        if (existingAssessment == null) {
-            return;
-        }
-        if (existingAssessment.getBody().containsKey(ASSESSMENT_FAMILY_REFERENCE)) {
-            String assessmentFamilyRef = (String) existingAssessment.getBody().get(ASSESSMENT_FAMILY_REFERENCE);
-            entity.getBody().put(ASSESSMENT_FAMILY_REFERENCE, assessmentFamilyRef);
+        Object assessmentFamilyHierarchy = entity.getBody().remove(ASSESSMENT_FAMILY_HIERARCHY);
+
+        // if assessmentFamilyHierarchy was removed from the body representing
+        // deletion of the assessmentFamilyReference, do not re-add it so assessmentFamilyReference
+        // will be deleted on update
+        if (assessmentFamilyHierarchy != null && assessmentFamilyHierarchy instanceof String) {
+            MongoTemplate mongo = ((MongoEntityRepository) repo).getTemplate();
+            Entity existingAssessment = mongo.findById(entity.getEntityId(), Entity.class, ASSESSMENT);
+            if (existingAssessment == null) {
+                return;
+            }
+            if (existingAssessment.getBody().containsKey(ASSESSMENT_FAMILY_REFERENCE)) {
+                String assessmentFamilyRef = (String) existingAssessment.getBody().get(ASSESSMENT_FAMILY_REFERENCE);
+                entity.getBody().put(ASSESSMENT_FAMILY_REFERENCE, assessmentFamilyRef);
+            }
         }
     }
     

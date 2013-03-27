@@ -105,7 +105,7 @@ $CASCADE_DELETE_REFERENCE_MAP = {
                 "cohort_staffCohortAssociation" => "deleted",
                 "cohort_studentCohortAssociation" => "deleted",
                 "cohortYear_student" => "updated",
-                "competencyLevelDescriptorType_studentCompetency" => "deleted",
+                "competencyLevelDescriptor_studentCompetency" => "deleted",
                 "course_courseOffering" => "deleted",
                 "course_courseTranscript" => "deleted",
                 "courseCode_course" => "checked",
@@ -3350,23 +3350,28 @@ Then /^I check the number of records in collection:/ do |table|
   enable_NOTABLESCAN()   
 end
 
-@origin_count
+@original_count
 @after_count
 
-Then /^I should not see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
-       `rm -rf temp/*|wc -l`
-       `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
+def dumpDb(tenant)
+     `rm -rf temp/*|wc -l`
+     `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
+end
 
+def cleanUpDbDump
+     `rm -rf temp/*`
+end
+
+Then /^I should not see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+       dumpDb(tenant)
        output = `grep #{id} ./temp/*`
        assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
-       `rm -rf temp/*`
+
 end
 
 Then /^I should not see any entity mandatorily referring to "(.*?)" in the "(.*?)" database$/ do |id, tenant|
-
-  `rm -rf temp/*`
-  `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
-
+   @after_count = `grep id ./temp/*|wc -l`
+   puts "after_count = " + @after_count
       if(deleted.length()>0)
           deleted.each do |id|
               puts id
@@ -3374,16 +3379,31 @@ Then /^I should not see any entity mandatorily referring to "(.*?)" in the "(.*?
               assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
           end
       end
-  `rm -rf temp/*`
+
 end
 
+Then /^I should see entities optionally referring to "(.*?)" be updated in the "(.*?)" database$/ do |id, tenant|
+        count = @after_count.to_i + deleted.length()
+        #puts count
+        #puts @original_count.to_i
+        assert(@original_count.to_i==count, "Some records which should not be deleted are deleted.")
+
+        if(updated.length()>0)
+             updated.each do |id|
+                 puts id
+                 output = `grep #{id} ./temp/*`
+                 assert($?.to_i==0, "ID: #{id} not found in tenant database: #{output}")
+             end
+        end
+        cleanUpDbDump
+end
 
 Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the "(.*?)" database$/ do |entityType, id, tenant|
     #Step 1: pass in the entity type to be searched
 
-    dbName = convertTenantIdToDbName(tenant)
-    `sh exportMongoDb.sh #{dbName} temp 2>&1 /dev/null`
-
+    dumpDb(tenant)
+    @original_count = `grep id ./temp/*|wc -l`
+    puts "original_count = " + @original_count
     export_data = './temp/*'
     output = `grep #{id} ./temp/* |awk -F: '{print ""; f=$1; print $0;}'`
     #puts "output = " + output
@@ -3394,12 +3414,12 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
         #puts "entry = " + entry
         #Step 2: get the child type
         filename = entry.split(':')[0]
-        puts "filename = "+filename
+        #puts "filename = "+filename
         child_type = filename.split('_')[2].split('.')[0]
         puts "child_type =" +  child_type
 
         #Step 3: get child id
-        puts "entry = " + entry
+        #puts "entry = " + entry
 
         child_id = entry.split(',')[0].split(':')[2]
         puts "child_id = " +  child_id
@@ -3407,8 +3427,9 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
         if(child_type == entityType)
               deleted.add(child_id)
         end
-        #Step 3: search the table for type [deleted, updated, checked]
+        #Step 4: search the table for type [deleted, updated, checked]
          type = $CASCADE_DELETE_REFERENCE_MAP[entityType+"_"+child_type]
+         puts entityType+"_"+child_type
         if(type != nil)
               puts entityType+"_"+child_type
               puts "type = "+type
@@ -3445,6 +3466,7 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
             puts d1
         end
     end
+    cleanUpDbDump
 end
 
 
@@ -3475,7 +3497,6 @@ Then /^all attendance entities should should have the expected structure./ do
       end
     end
   end
-
 end
 
 Then /^a query on attendance of for studentId "(.*?)", schoolYear "(.*?)" and date "(.*?)" on the "(.*?)" tenant has a count of "(.*?)"$/ do |student, year, date, tenant, count|

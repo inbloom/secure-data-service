@@ -579,7 +579,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         // Make sure child ref is actually in the body for deletion (shoud be, as it was used to find the child)
                         if ( ! entity.getBody().containsKey(referencingFieldSchemaInfo.getMappedPath()) ) {
                         	result.setStatus(CascadeResult.Status.DATABASE_ERROR);
-                        	result.setMessage("Child ref '" + referentPath + "' to entity type '" + entityType + "' ID '" + id + "' located child object, but not in child body");
+                        	result.setMessage("Single-valued child ref '" + referentPath + "' to entity type '" + entityType + "' ID '" + id + "' located child object, but not in child body");
                         	return result;
                         }
 
@@ -600,6 +600,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         // Remove the matching reference from the list of references:
                         // 1. it is NOT the last reference in a list of references
                         DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Adjusting field " + referentPath);
+
+                        // Make sure child ref is actually in the body for deletion (should be, as it was used to find the child)
+                        if ( ! childRefList.contains(id) ) {
+                        	result.setStatus(CascadeResult.Status.DATABASE_ERROR);
+                        	result.setMessage("Array child ref '" + referentPath + "' to entity type '" + entityType + "' ID '" + id + "' located child object, but not in child body");
+                        	return result;
+                        }
+
                         if (!dryrun) {
                             childRefList.remove(id);
                             Map<String, Object> patchEntityBody = new HashMap<String, Object>();
