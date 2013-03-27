@@ -67,9 +67,9 @@ Scenario: Delete Report Card with cascade
     And a batch job for file "BroadReportCardDelete.zip" is completed in database
     And a batch job log has been created
 	And I should see "records considered for processing: 1" in the resulting batch job file
-	#And I should see "ingested successfully: 0" in the resulting batch job file
-	#And I should see "records deleted successfully: 1" in the resulting batch job file
-	And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "ingested successfully: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 0" in the resulting batch job file
+	And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "records not considered for processing: 0" in the resulting batch job file
 	And I should see "All records processed successfully." in the resulting batch job file
 	And I should see "Processed 1 records." in the resulting batch job file

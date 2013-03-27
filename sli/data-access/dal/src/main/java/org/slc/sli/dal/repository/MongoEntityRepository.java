@@ -682,6 +682,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
             Entity entity = containerDocumentAccessor.findById(collectionName, id);
+            if( entity == null ) {
+                LOG.warn( "Could not find entity {} in collection {}", id, collectionName );
+                return false;
+            }
             return containerDocumentAccessor.delete(entity);
         }
 
