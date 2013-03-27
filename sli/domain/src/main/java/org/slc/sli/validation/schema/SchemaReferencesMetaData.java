@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.*;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.validation.SchemaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,8 @@ public class SchemaReferencesMetaData {
      */
     private BiMap<String, String> fieldMapping =
     ImmutableBiMap.of(
-            "assessment.assessmentPeriodDescriptorId", "assessment.assessmentPeriodDescriptor"
+            "assessment.assessmentPeriodDescriptorId", "assessment.assessmentPeriodDescriptor",
+            "assessment.assessmentFamilyReference", "assessment." + ParameterConstants.ASSESSMENT_FAMILY_HIERARCHY
             );
 
     @Autowired
