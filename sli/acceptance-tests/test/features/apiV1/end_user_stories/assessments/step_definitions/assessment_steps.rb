@@ -268,9 +268,9 @@ Then /^the response body "(.*?)" should match my teacher "(.*?)"$/ do |resKey, t
   assert(@result[resKey] == @teacher[teacherKey], "Expected response not found")
 end
 
-Then /^I sort the studentAssessmentItems according to score$/ do
+Then /^I sort the studentAssessmentItems$/ do
     studentAssessmentItems = @result["studentAssessmentItems"]
-    studentAssessmentItems.sort! {|a, b| a["rawScoreResult"] <=> b["rawScoreResult"]}
+    studentAssessmentItems.sort! {|a, b| a["assessmentItem"]["identificationCode"]<=>b["assessmentItem"]["identificationCode"]}
     @result["studentAssessmentItems"] = studentAssessmentItems
 end
 

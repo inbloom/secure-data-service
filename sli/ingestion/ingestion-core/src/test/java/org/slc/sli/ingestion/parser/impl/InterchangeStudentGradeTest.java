@@ -77,16 +77,6 @@ public class InterchangeStudentGradeTest {
     }
 
     @Test
-    public void testDiploma() throws Throwable {
-
-        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd");
-        Resource inputXml = new ClassPathResource("parser/InterchangeStudentGrade/Diploma.xml");
-        Resource expectedJson = new ClassPathResource("parser/InterchangeStudentGrade/Diploma.json");
-
-        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
-    }
-
-    @Test
     public void testGradebookEntry() throws Throwable {
 
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd");
