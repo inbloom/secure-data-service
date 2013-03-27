@@ -78,4 +78,4 @@ Scenario: Delete Assessment with cascade
 	And I should not see a warning log file created
 	And I should not see "63d4be8a233db1fd14676f1535fa21fe4c5dd466_id" in the "Midgar" database
 	And I should not see any entity mandatorily referring to "63d4be8a233db1fd14676f1535fa21fe4c5dd466_id" in the "Midgar" database
-	#And I should see entities optionally referring to "63d4be8a233db1fd14676f1535fa21fe4c5dd466_id" be updated in the in the "Midgar" database
+	And I should see entities optionally referring to "63d4be8a233db1fd14676f1535fa21fe4c5dd466_id" be updated in the in the "Midgar" database
