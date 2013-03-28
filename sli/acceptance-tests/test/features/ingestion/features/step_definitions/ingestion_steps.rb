@@ -3417,15 +3417,14 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
 
         #Step 3: get child id
         child_id = entry.split(',')[0].split(':')[2]
-
-        if(child_type == entityType)
+        if(child_type == entityType&&child_id==id)
               deleted.add(child_id)
         end
         #Step 4: search the table for type [deleted, updated, checked]
          type = $CASCADE_DELETE_REFERENCE_MAP[entityType+"_"+child_type]
 
         if(type != nil)
-              puts entityType+"_"+child_type
+              #puts entityType+"_"+child_type
               puts "type = "+type
                   case type
                   when 'updated'
