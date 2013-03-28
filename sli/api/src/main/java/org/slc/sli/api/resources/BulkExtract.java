@@ -52,7 +52,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidKeyException;
-import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 
@@ -145,20 +144,20 @@ public class BulkExtract {
                     int n;
                     byte[] buffer = new byte[1024];
 
-                    byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
-                    byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
-                    PublicKey publicKey = null; //TODO get public key
-                    try {
-                        publicKey = KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
-                    } catch (NoSuchAlgorithmException e) {
-                        LOG.error("Exception: NoSuchAlgorithmException {}", e);
-                    }
-                    byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
-                    byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
-
-                    output.write(encryptedIV);
-                    output.write(encryptedSecret.length);
-                    output.write(encryptedSecret);
+//                    byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+//                    byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
+//                    PublicKey publicKey = null; //TODO get public key
+//                    try {
+//                        publicKey = KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
+//                    } catch (NoSuchAlgorithmException e) {
+//                        LOG.error("Exception: NoSuchAlgorithmException {}", e);
+//                    }
+//                    byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+//                    byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
+//
+//                    output.write(encryptedIV);
+//                    output.write(encryptedSecret.length);
+//                    output.write(encryptedSecret);
 
                     while ((n = is.read(buffer)) > -1) {
                         output.write(buffer, 0, n);
