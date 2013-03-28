@@ -3530,6 +3530,39 @@ Then /^correct number of records should be ingested for "(.*?)"$/ do |dataSet|
     step "I should see \"Processed #{correct_count} records.\" in the resulting batch job file"
 end
 
+$savedQueries = {}
+Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. And I save this query as "([^"]*)"/ do |count, collection, tenant, queryName, table|
+    @db         = @conn[convertTenantIdToDbName(tenant)]
+    @coll       = @db[collection]
+    condArray   = table.rows()
+    condHash    = Hash[*condArray.flatten]
+    condHash.each do |field, value|
+        if value =~ /float\((.*?)\)/
+	    condHash[field] = $1.to_f
+	elsif value =~ /int\((.*)\)/
+	    condHash[field] = $1.to_i
+	end
+    end
+    $savedQueries[queryName] = {"criteria"=>condHash, "collection"=>collection, "tenant"=>tenant};
+    recordCnt   = @coll.find(condHash).count()
+    assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{condHash}!");
+end
+
+Then /I reexecute saved query "([^"]*)" to get "([^"]*)" records/ do |queryName, count|
+    q             = $savedQueries[queryName]
+    criteria      = q["criteria"]
+    collection    = q["collection"]
+    tenant        = q["tenant"]
+
+    #puts "Reexecuting #{criteria} with #{collection}, #{tenant}"
+
+    @db         = @conn[convertTenantIdToDbName(tenant)]
+    @coll       = @db[collection]
+    recordCnt   = @coll.find(criteria).count()
+    assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{criteria}!");
+end
+
+
 ############################################################
 # STEPS: AFTER
 ############################################################
