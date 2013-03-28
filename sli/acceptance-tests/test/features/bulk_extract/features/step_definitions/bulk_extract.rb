@@ -2,8 +2,6 @@ require_relative '../../../ingestion/features/step_definitions/ingestion_steps.r
 require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
-require_relative '../../../utils/selenium_common.rb'
-require_relative '../../../apiV1/long_lived_session/step_definitions/token_generator_steps.rb'
 
 SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_script'])
 TRIGGER_SCRIPT_DIRECTORY = File.expand_path(PropLoader.getProps['bulk_extract_script_directory'])
@@ -22,6 +20,7 @@ ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','ad
 require 'zip/zip'
 require 'archive/tar/minitar'
 require 'zlib'
+require 'open3'
 include Archive::Tar
 
 ############################################################
@@ -39,8 +38,16 @@ end
 
 Given /^the local bulk extract script path and the scheduling config path$/ do
     assert(Dir.exists?(TRIGGER_SCRIPT_DIRECTORY), "Bulk Extract script directory #{TRIGGER_SCRIPT_DIRECTORY} does not exist")
+    @current_dir = Dir.pwd
+    is_jenkins = @current_dir.include?"jenkins"
+    puts "pwd: #{@current_dir}"
     @trigger_script_path = TRIGGER_SCRIPT_DIRECTORY
     @scheduling_config_path = File.dirname(__FILE__) + '/../../test_data/config/'
+
+    if !is_jenkins
+        @scheduling_config_path = File.dirname(__FILE__) + '/../../test_data/local/'
+    end
+
     assert(Dir.exists?(@scheduling_config_path), "Bulk Extract scheduling config directory #{@scheduling_config_path} does not exist")
 
     puts "bulk extract script path: #{@trigger_script_path}"
@@ -48,8 +55,6 @@ Given /^the local bulk extract script path and the scheduling config path$/ do
 end
 
 And /^I clean up the cron extraction zone$/ do
-    @current_dir = Dir.pwd
-    puts "pwd: #{@current_dir}"
     Dir.chdir
     puts "pwd: #{Dir.pwd}"
     if (Dir.exists?(CRON_OUTPUT_DIRECTORY))
@@ -304,26 +309,24 @@ def entityToUri(entity)
   uri = String.new(entity)
 
   case entity
-  when "staff"
-    uri
+  when "staff", "competencyLevelDescriptor"
   when "gradebookEntry", "studentGradebookEntry", "studentCompetency"
     uri[-1] = "ies" 
-    uri
   when "staffEducationOrganizationAssociation"
-    "staffEducationOrgAssignmentAssociations"
-  when "competencyLevelDescriptor"
-    uri
+    uri = "staffEducationOrgAssignmentAssociations"
   else
-    uri + "s"
+    uri += "s"
   end
 
+  uri
 end
 
 def compareToApi(collection, collFile)
-  case collection
-  when "student", "competencyLevelDescriptor", "course", "courseOffering", 
-    "gradingPeriod", "graduationPlan", "learningObjective", "learningStandard","parent", "session",
-    "studentCompetencyObjective"
+#  case collection
+#  when "student", "competencyLevelDescriptor", "course", "courseOffering", 
+#    "gradingPeriod", "graduationPlan", "learningObjective", "learningStandard","parent", "session",
+#    "studentCompetencyObjective"
+    
     
     collFile.each do |extractRecord|
     
@@ -334,17 +337,17 @@ def compareToApi(collection, collFile)
       uri = entityToUri(collection)
       restHttpGet("/v1/#{uri}/#{id}")
       assert(@res != nil, "Response from rest-client GET is nil")
-      assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s + "\n" + @res.to_s)
-      apiRecord = JSON.parse(@res.body)
-      assert(apiRecord != nil, "Result of JSON parsing is nil")    
-      apiRecord.delete("links")
-    
-      #Compare to Extract
-      assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
+      if @res.code == 200
+        apiRecord = JSON.parse(@res.body)
+        assert(apiRecord != nil, "Result of JSON parsing is nil")    
+        apiRecord.delete("links")     
+        assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
+        break
+      end
     
     end
-  else
-    assert(false,"API URI for #{collection} not configured")
-  end
+#  else
+#    assert(false,"API URI for #{collection} not configured")
+#  end
 end
 
