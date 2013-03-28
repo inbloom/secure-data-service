@@ -1,0 +1,4 @@
+{ "local": { "server":"local", "clientId":"01234567890", "secret":"ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu123456", "redirect_uri":"http://localhost:1337/oauth", "authUser":"testdeveloper", "password":"testdeveloper1234"},
+  "sulu" : { "server":"sulu", "clientId":"gr40miSVHA", "secret":"g9S8Kzonxk0Wrt88C1BwE2O9Tb7h4a7AM4el44EOKXSCpqwu", "redirect_uri":"http://localhost:1337/oauth", "authUser":"email@wgen.net", "password":"password"},
+  "sandbox": { "server":"sandbox", "clientId":"GLekshFT2W", "secret":"HSh49ilWMkHAawoW4NjZbyOG8TnORdOl5uupeCHkS6tpEDQD", "redirect_uri":"http://localhost:1337/oauth", "authUser":"email@wgen.net", "password":"password"}
+}

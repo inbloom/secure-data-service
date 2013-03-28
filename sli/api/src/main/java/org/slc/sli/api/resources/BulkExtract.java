@@ -22,12 +22,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.spec.KeySpec;
 import java.util.Date;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
@@ -134,6 +138,28 @@ public class BulkExtract {
         initializePrincipal();
         NeutralQuery tenantQuery = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId()));
         return mongoEntityRepository.findOne(BULK_EXTRACT_FILES, tenantQuery);
+    }
+
+    private byte[] encryptData(PublicKey publicKey, byte[] rawData) {
+        byte[] encryptedData = null;
+
+        try {
+            Cipher cipher = Cipher.getInstance("RSA");
+            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+            encryptedData = cipher.doFinal(rawData);
+        } catch (NoSuchAlgorithmException e) {
+            LOG.error("Exception: NoSuchAlgorithmException {}", e);
+        } catch (NoSuchPaddingException e) {
+            LOG.error("Exception: NoSuchPaddingException {}", e);
+        } catch (InvalidKeyException e) {
+            LOG.error("Exception: InvalidKeyException {}", e);
+        } catch (BadPaddingException e) {
+            LOG.error("Exception: BadPaddingException {}", e);
+        } catch (IllegalBlockSizeException e) {
+            LOG.error("Exception: IllegalBlockSizeException {}", e);
+        }
+
+        return encryptedData;
     }
 
     /**

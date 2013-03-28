@@ -118,7 +118,7 @@ public class TestUtils {
     }
 
     /**
-     * Create a temporaray file for tests.
+     * Create a temporary file for tests.
      * @param prefix
      *          Used in generating file name. Must be atleast three characters lon.
      * @param suffix
@@ -133,5 +133,52 @@ public class TestUtils {
         file.deleteOnExit();
         return file;
     }
+
+    /**
+     * Delete a file or directory.
+     * @param file
+     *          the directory or file to be deleted
+     * @throws IOException
+     *          if an I/O error occurred
+     */
+    public static void deleteDir(File file)
+            throws IOException{
+
+            if(file.isDirectory()){
+
+                //directory is empty, then delete it
+                if(file.list().length==0){
+
+                   file.delete();
+                   System.out.println("Directory is deleted : "
+                                                     + file.getAbsolutePath());
+
+                }else{
+
+                   //list all the directory contents
+                   String files[] = file.list();
+
+                   for (String temp : files) {
+                      //construct the file structure
+                      File fileDelete = new File(file, temp);
+
+                      //recursive delete
+                     deleteDir(fileDelete);
+                   }
+
+                   //check the directory again, if empty then delete it
+                   if(file.list().length==0){
+                     file.delete();
+                     System.out.println("Directory is deleted : "
+                                                      + file.getAbsolutePath());
+                   }
+                }
+
+            }else{
+                //if file, then delete it
+                file.delete();
+                System.out.println("File is deleted : " + file.getAbsolutePath());
+            }
+        }
 
 }

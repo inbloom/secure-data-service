@@ -326,7 +326,7 @@ def compareToApi(collection, collFile)
 #  when "student", "competencyLevelDescriptor", "course", "courseOffering", 
 #    "gradingPeriod", "graduationPlan", "learningObjective", "learningStandard","parent", "session",
 #    "studentCompetencyObjective"
-    
+    found = false
     
     collFile.each do |extractRecord|
     
@@ -342,10 +342,13 @@ def compareToApi(collection, collFile)
         assert(apiRecord != nil, "Result of JSON parsing is nil")    
         apiRecord.delete("links")     
         assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
+        found = true
         break
       end
     
     end
+    
+    assert(found, "No API records for #{collection} were fetched successfully.")
 #  else
 #    assert(false,"API URI for #{collection} not configured")
 #  end
