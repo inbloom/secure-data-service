@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
@@ -36,7 +37,7 @@ import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
  */
 public class ArchivedExtractFile {
 
-    private String parentDirName;
+    private File tempDir;
     private File archiveFile;
     private List<File> filesToArchive = new ArrayList<File>();
 
@@ -53,7 +54,8 @@ public class ArchivedExtractFile {
      *          if an I/O error occurred
      */
     public ArchivedExtractFile(String parentDirName, String archiveName) throws IOException {
-        this.parentDirName = parentDirName;
+        tempDir = new File(parentDirName + File.separator + new Date().toString());
+        tempDir.mkdir();
         archiveFile = new File(parentDirName, archiveName + FILE_EXT);
         archiveFile.createNewFile();
     }
@@ -71,7 +73,7 @@ public class ArchivedExtractFile {
      *          if an I/O error occurred
      */
     public DataExtractFile getDataFileEntry(String fileName) throws FileNotFoundException, IOException {
-        DataExtractFile compressedFile = new DataExtractFile(parentDirName, fileName);
+        DataExtractFile compressedFile = new DataExtractFile(tempDir.getAbsolutePath(), fileName);
        filesToArchive.add(compressedFile.getFile());
        return compressedFile;
     }
@@ -85,7 +87,7 @@ public class ArchivedExtractFile {
      *          if an I/O error occurred
      */
     public ManifestFile getManifestFile() throws IOException {
-        ManifestFile manifestFile = new ManifestFile(parentDirName);
+        ManifestFile manifestFile = new ManifestFile(tempDir.getAbsolutePath());
         filesToArchive.add(manifestFile.getFile());
         return manifestFile;
     }
@@ -111,6 +113,7 @@ public class ArchivedExtractFile {
             }
         } finally {
             IOUtils.close(tarArchiveOutputStream);
+            FileUtils.forceDeleteOnExit(tempDir);
         }
     }
 

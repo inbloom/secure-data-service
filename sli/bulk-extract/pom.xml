@@ -19,6 +19,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>junit-addons</groupId>
+            <artifactId>junit-addons</artifactId>
+            <version>1.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.slc.sli.dal</groupId>
             <artifactId>dal</artifactId>
         </dependency>
