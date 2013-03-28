@@ -1,0 +1,5 @@
+source 'http://rubygems.org'
+gem 'logger'
+gem 'json'
+gem 'httparty'
+gem 'curl'

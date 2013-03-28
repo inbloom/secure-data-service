@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources;
 
 import static junit.framework.Assert.assertEquals;
@@ -23,15 +22,19 @@ import static junit.framework.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.reflect.Method;
 
+import javax.crypto.Cipher;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.StreamingOutput;
 
-import com.sun.jersey.core.spi.factory.ResponseImpl;
-
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -39,7 +42,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.test.WebContextTestExecutionListener;
+import com.sun.jersey.core.spi.factory.ResponseImpl;
 
 /**
  * Test for support BulkExtract
@@ -51,11 +54,28 @@ public class BulkExtractTest {
 
     private static final String FILE_NAME = "NY-WALTON-2013-03-19T13-02-02.tar";
 
+    private static final String EXPECTED_STRING = "Crypto sux";
+
     @Autowired
     private BulkExtract bulkExtract;
 
     @Autowired
     private SecurityContextInjector injector;
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testCiphers() throws Exception {
+        Method m = BulkExtract.class.getDeclaredMethod("getCiphers", new Class<?>[] {});
+        m.setAccessible(true);
+        Pair<Cipher,Cipher> pair = (Pair<Cipher, Cipher>) m.invoke(this.bulkExtract, new Object[] {});        
+        Assert.assertNotNull(pair);
+        
+        Cipher enc = pair.getLeft();
+        byte[] bytes = enc.doFinal(EXPECTED_STRING.getBytes("UTF-8"));
+        
+        Cipher dec = pair.getRight();
+        Assert.assertEquals(EXPECTED_STRING, StringUtils.newStringUtf8(dec.doFinal(bytes)));
+    }
 
     @Test
     public void testGet() throws Exception {
