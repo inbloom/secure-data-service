@@ -108,11 +108,12 @@ def postSaml(api, samlResponse)
   @log.info "Posting SAML Assertion..."
   url = api + "/rest/saml/sso/post" 
   @log.info "Posting SAML to API: [#{url}]"
-  result = Curl::Easy.http_post(url, Curl::PostField.content('SAMLResponse', samlResponse)) do |curl|
-    curl.follow_location = false
-  end
-  @log.debug result.header_str
-  code = result.header_str.match("Location.*code=(.*)")[1]
+  response = HTTParty.post(url, 
+    :body => { :SAMLResponse => samlResponse }
+    )
+  checkHttpResponse(response)
+  json = JSON.parse(response.body)
+  code = json["authorization_code"]
   @log.info "auth code is: [#{code}]"
   enc_code = URI.escape(code.strip())
   return enc_code

@@ -118,7 +118,7 @@ public class TestUtils {
     }
 
     /**
-     * Create a temporaray file for tests.
+     * Create a temporary file for tests.
      * @param prefix
      *          Used in generating file name. Must be atleast three characters lon.
      * @param suffix
