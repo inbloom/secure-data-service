@@ -78,3 +78,5 @@ Scenario: Delete Course Transcript with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I should not see "8c0cdbad1e99681a017ecd2549d7ebd972649035_id" in the "Midgar" database
+	And I should not see any entity mandatorily referring to "8c0cdbad1e99681a017ecd2549d7ebd972649035_id" in the "Midgar" database
+	And I should see entities optionally referring to "8c0cdbad1e99681a017ecd2549d7ebd972649035_id" be updated in the "Midgar" database

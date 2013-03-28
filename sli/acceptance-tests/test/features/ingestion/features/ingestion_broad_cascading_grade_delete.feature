@@ -68,6 +68,7 @@ Scenario: Delete Grade with cascade
     And a batch job log has been created
     And I should not see an error log file created
 	And I should not see a warning log file created
+	And I should see child entities of entityType "grade" with id "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" in the "Midgar" database	
 
     And I post "BroadGradeDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
@@ -77,3 +78,5 @@ Scenario: Delete Grade with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I should not see "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" in the "Midgar" database
+	And I should not see any entity mandatorily referring to "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" in the "Midgar" database
+	And I should see entities optionally referring to "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" be updated in the "Midgar" database

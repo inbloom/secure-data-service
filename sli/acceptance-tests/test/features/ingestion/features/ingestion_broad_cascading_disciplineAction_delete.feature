@@ -78,3 +78,5 @@ Scenario: Delete Discipline Action with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I should not see "26f0088394f533ab3bf8d2fe0b830144f0774a61_id" in the "Midgar" database
+	And I should not see any entity mandatorily referring to "26f0088394f533ab3bf8d2fe0b830144f0774a61_id" in the "Midgar" database
+	And I should see entities optionally referring to "26f0088394f533ab3bf8d2fe0b830144f0774a61_id" be updated in the "Midgar" database

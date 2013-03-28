@@ -77,3 +77,5 @@ Scenario: Delete Competency Level Descriptor with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I should not see "d82250f49dbe4facb59af2f88fe746f70948405d_id" in the "Midgar" database
+	And I should not see any entity mandatorily referring to "d82250f49dbe4facb59af2f88fe746f70948405d_id" in the "Midgar" database
+	And I should see entities optionally referring to "d82250f49dbe4facb59af2f88fe746f70948405d_id" be updated in the "Midgar" database

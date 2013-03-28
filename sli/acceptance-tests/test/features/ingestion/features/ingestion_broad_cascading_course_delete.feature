@@ -77,3 +77,5 @@ Scenario: Delete Course with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I should not see "c818a2f609d4190166b96327d86086fe09f877ea_id" in the "Midgar" database
+    And I should not see any entity mandatorily referring to "c818a2f609d4190166b96327d86086fe09f877ea_id" in the "Midgar" database
+	And I should see entities optionally referring to "c818a2f609d4190166b96327d86086fe09f877ea_id" be updated in the "Midgar" database

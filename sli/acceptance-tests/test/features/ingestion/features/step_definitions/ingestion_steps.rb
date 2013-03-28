@@ -95,7 +95,7 @@ $CASCADE_DELETE_REFERENCE_MAP = {
                 "assessmentItem_subdoc_studentAssessmentItem" => "deleted",
                 "assessmentPerformanceLevel_assessment" => "updated",
                 "assessmentPerformanceLevel_objectiveAssessment" => "updated",
-                "assessmentPeriodDescriptor_assessment" => "deleted",
+                "assessmentPeriodDescriptor_assessment" => "updated",
                 "attendanceEvent_attendance" => "updated",
                 "attendanceEvent_schoolYearAttendanceType" => "updated",
                 "behaviorDescriptorType_disciplineIncident" => "checked",
@@ -200,7 +200,7 @@ $CASCADE_DELETE_REFERENCE_MAP = {
                 "otherName_staff" => "updated",
                 "otherName_student" => "updated",
                 "otherName_teacher" => "updated",
-                "parent_studentParentAssociation" => "deleted",
+                "parent_student" => "deleted",
                 "performanceLevelDescriptor_assessmentPerformanceLevel" => "deleted",
                 "performanceLevelDescriptor_studentAssessment" => "updated",
                 "performanceLevelDescriptor_studentObjectiveAssessment" => "updated",
@@ -220,6 +220,7 @@ $CASCADE_DELETE_REFERENCE_MAP = {
                 "recognition_diploma" => "updated",
                 "recognition_studentAcademicRecord" => "updated",
                 "reportCard_studentAcademicRecord" => "updated",
+                "reportCard_yearlyTranscript" => "updated",
                 "restraintEventReasonsType_restraintEvent" => "deleted",
                 "school_attendance" => "deleted",
                 "school_courseOffering" => "deleted",
@@ -3423,10 +3424,11 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
         puts child_id
         if(child_id.rindex(id))
               deleted.add(child_id)
+              puts "add self"
         else
             #Step 4: search the table for type [deleted, updated, checked]
              type = $CASCADE_DELETE_REFERENCE_MAP[entityType+"_"+child_type]
-
+             puts "add refering type"
             if(type != nil)
                 puts entityType+"_"+child_type
                 puts "type = "+type
@@ -3457,27 +3459,30 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
             end
         end
     end
-    puts "deleted = "
+    puts "deleted = {"
     puts deleted.length()
     if(deleted.length()>0)
         deleted.each do |d1|
             puts d1
         end
     end
-    puts "updated = "
+    puts "}"
+    puts "updated = {"
     puts updated.length()
     if(updated.length()>0)
         updated.each do |d1|
             puts d1
         end
     end
-    puts "checked = "
+    puts "}"
+    puts "checked = {"
     puts checked.length()
     if(checked.length()>0)
         checked.each do |d1|
             puts d1
         end
     end
+    puts "}"
     cleanUpDbDump
 end
 

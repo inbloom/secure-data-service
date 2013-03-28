@@ -68,6 +68,7 @@ Scenario: Delete Student Competency Objective with cascade
     And a batch job log has been created
     And I should not see an error log file created
 	And I should not see a warning log file created
+	And I should see child entities of entityType "studentCompetencyObjective" with id "028d7f8e25584d3353c9691e6aab89156029dde8_id" in the "Midgar" database
     And I post "BroadStudentCompetencyObjectiveDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "BroadStudentCompetencyObjectiveDelete.zip" is completed in database
@@ -76,3 +77,6 @@ Scenario: Delete Student Competency Objective with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I should not see "028d7f8e25584d3353c9691e6aab89156029dde8_id" in the "Midgar" database
+    And I should not see any entity mandatorily referring to "028d7f8e25584d3353c9691e6aab89156029dde8_id" in the "Midgar" database
+	And I should see entities optionally referring to "028d7f8e25584d3353c9691e6aab89156029dde8_id" be updated in the "Midgar" database	
+	

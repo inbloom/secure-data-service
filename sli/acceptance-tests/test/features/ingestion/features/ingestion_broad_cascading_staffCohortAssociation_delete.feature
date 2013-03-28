@@ -68,6 +68,7 @@ Scenario: Delete Staff Cohort Association with cascade
     And a batch job log has been created
     And I should not see an error log file created
 	And I should not see a warning log file created
+    And I should see child entities of entityType "staffCohortAssociation" with id "3907e65de99e45c52e7ef5ba313b01695e0387e0_id" in the "Midgar" database	
     And I post "BroadStaffCohortAssociationDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadStaffCohortAssociationDelete.zip" is completed in database
@@ -76,3 +77,5 @@ Scenario: Delete Staff Cohort Association with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I should not see "3907e65de99e45c52e7ef5ba313b01695e0387e0_id" in the "Midgar" database
+    And I should not see any entity mandatorily referring to "3907e65de99e45c52e7ef5ba313b01695e0387e0_id" in the "Midgar" database
+	And I should see entities optionally referring to "3907e65de99e45c52e7ef5ba313b01695e0387e0_id" be updated in the "Midgar" database
