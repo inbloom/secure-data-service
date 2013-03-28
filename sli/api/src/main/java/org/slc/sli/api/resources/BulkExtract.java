@@ -16,34 +16,6 @@
 
 package org.slc.sli.api.resources;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.util.Date;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.StreamingOutput;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -57,6 +29,31 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 
 /**
  * 
@@ -94,7 +91,7 @@ public class BulkExtract {
     @GET
     @Path("extract")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response get() throws FileNotFoundException {
+    public Response get() throws Exception {
         LOG.info("Received request to stream bulk extract...");
 
         return getExtractResponse(null);
@@ -109,7 +106,7 @@ public class BulkExtract {
     @GET
     @Path("deltas/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getDelta(@PathParam("date") String date) {
+    public Response getDelta(@PathParam("date") String date) throws Exception {
         LOG.info("Retrieving delta bulk extract");
         return getExtractResponse(date);
     }
@@ -120,7 +117,9 @@ public class BulkExtract {
      * @param deltaDate the date of the delta, or null to get the full extract
      * @return the jax-rs response to send back.
      */
-    private Response getExtractResponse(String deltaDate) {
+    private Response getExtractResponse(String deltaDate) throws Exception{
+        final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
+
         String fileName = SAMPLED_FILE_NAME;
         File bulkExtractFile = null;
         ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate);
@@ -132,15 +131,34 @@ public class BulkExtract {
             LOG.info("Requested stream bulk extract file: {}", bulkExtractFile);
         }
 
+
         try {
-            final InputStream is = bulkExtractFile == null || !bulkExtractFile.exists() ? this.getClass()
-                    .getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME) : new FileInputStream(
-                    bulkExtractFile);
+
+            final InputStream is = bulkExtractFile == null || !bulkExtractFile.exists() ?
+                    this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME) :
+                    new FileInputStream(bulkExtractFile);
+
             StreamingOutput out = new StreamingOutput() {
                 @Override
                 public void write(OutputStream output) throws IOException, WebApplicationException {
                     int n;
                     byte[] buffer = new byte[1024];
+
+//                    byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+//                    byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
+//                    PublicKey publicKey = null; //TODO get public key
+//                    try {
+//                        publicKey = KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
+//                    } catch (NoSuchAlgorithmException e) {
+//                        LOG.error("Exception: NoSuchAlgorithmException {}", e);
+//                    }
+//                    byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+//                    byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
+//
+//                    output.write(encryptedIV);
+//                    output.write(encryptedSecret.length);
+//                    output.write(encryptedSecret);
+
                     while ((n = is.read(buffer)) > -1) {
                         output.write(buffer, 0, n);
                     }
@@ -173,7 +191,7 @@ public class BulkExtract {
                 .get(BULK_EXTRACT_FILE_PATH).toString());
     }
 
-    private byte[] encryptData(PublicKey publicKey, byte[] rawData) {
+    private byte[] encryptDataWithRSAPublicKey(byte[] rawData, PublicKey publicKey) {
         byte[] encryptedData = null;
 
         try {
