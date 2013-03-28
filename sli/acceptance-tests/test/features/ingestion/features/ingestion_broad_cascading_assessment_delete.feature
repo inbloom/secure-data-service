@@ -68,6 +68,8 @@ Scenario: Delete Assessment with cascade
     And a batch job log has been created
     And I should not see an error log file created
 	And I should not see a warning log file created
+	And I should see child entities of entityType "assessment" with id "5f650f8a65dcfee035b74787ca47a6738239c614_id" in the "Midgar" database	
+	
     And I post "BroadAssessmentDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadAssessmentDelete.zip" is completed in database

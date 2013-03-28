@@ -68,6 +68,8 @@ Scenario: Delete Calendar Date with cascade
     And a batch job log has been created
     And I should not see an error log file created
 	And I should not see a warning log file created
+    And I should see child entities of entityType "calendarDate" with id "68afcad771ff07a4d988d8ff44434248a900fb5c_id" in the "Midgar" database	
+	
     And I post "BroadCalendarDateDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadCalendarDateDelete.zip" is completed in database
@@ -76,3 +78,5 @@ Scenario: Delete Calendar Date with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I should not see "68afcad771ff07a4d988d8ff44434248a900fb5c_id" in the "Midgar" database
+	And I should not see any entity mandatorily referring to "68afcad771ff07a4d988d8ff44434248a900fb5c_id" in the "Midgar" database
+	And I should see entities optionally referring to "68afcad771ff07a4d988d8ff44434248a900fb5c_id" be updated in the "Midgar" database

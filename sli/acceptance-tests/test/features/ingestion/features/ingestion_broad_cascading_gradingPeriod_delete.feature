@@ -68,6 +68,8 @@ Scenario: Delete Grading Period with cascade
     And a batch job log has been created
     And I should not see an error log file created
 	And I should not see a warning log file created
+	And I should see child entities of entityType "gradingPeriod" with id "0d88d7123ffea30a9bb12d557152518e560a65d5_id" in the "Midgar" database	
+
     And I post "BroadGradingPeriodDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadGradingPeriodDelete.zip" is completed in database
@@ -76,3 +78,7 @@ Scenario: Delete Grading Period with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I should not see "0d88d7123ffea30a9bb12d557152518e560a65d5_id" in the "Midgar" database
+	And I should not see any entity mandatorily referring to "0d88d7123ffea30a9bb12d557152518e560a65d5_id" in the "Midgar" database
+	And I should see entities optionally referring to "0d88d7123ffea30a9bb12d557152518e560a65d5_id" be updated in the "Midgar" database
+	
+	

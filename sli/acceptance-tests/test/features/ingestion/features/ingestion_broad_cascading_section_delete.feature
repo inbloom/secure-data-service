@@ -68,6 +68,8 @@ Scenario: Delete Program with cascade
     And a batch job log has been created
     And I should not see an error log file created
 	And I should not see a warning log file created
+	And I should see child entities of entityType "section" with id "8cb0ce934bd9156d49a10ae7201a099fb82982d7_id" in the "Midgar" database	
+
     And I post "BroadSectionDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadSectionDelete.zip" is completed in database

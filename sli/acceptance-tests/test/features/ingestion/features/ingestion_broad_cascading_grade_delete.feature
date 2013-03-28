@@ -68,6 +68,7 @@ Scenario: Delete Grade with cascade
     And a batch job log has been created
     And I should not see an error log file created
 	And I should not see a warning log file created
+
     And I post "BroadGradeDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "BroadGradeDelete.zip" is completed in database

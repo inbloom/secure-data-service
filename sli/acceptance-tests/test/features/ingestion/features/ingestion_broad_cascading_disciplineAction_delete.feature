@@ -68,6 +68,8 @@ Scenario: Delete Discipline Action with cascade
     And a batch job log has been created
     And I should not see an error log file created
 	And I should not see a warning log file created
+    And I should see child entities of entityType "disciplineAction" with id "26f0088394f533ab3bf8d2fe0b830144f0774a61_id" in the "Midgar" database	
+
     And I post "BroadDisciplineActionDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadDisciplineActionDelete.zip" is completed in database

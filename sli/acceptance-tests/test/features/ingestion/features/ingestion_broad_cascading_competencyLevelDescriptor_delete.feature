@@ -68,6 +68,7 @@ Scenario: Delete Competency Level Descriptor with cascade
     And a batch job log has been created
     And I should not see an error log file created
 	And I should not see a warning log file created
+    And I should see child entities of entityType "competencyLevelDescriptor" with id "d82250f49dbe4facb59af2f88fe746f70948405d_id" in the "Midgar" database	
     And I post "BroadCompetencyLevelDescriptorDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadCompetencyLevelDescriptorDelete.zip" is completed in database
