@@ -16,18 +16,7 @@
 
 package org.slc.sli.api.resources;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.lang.reflect.Method;
-
-import javax.crypto.Cipher;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.StreamingOutput;
-
+import com.sun.jersey.core.spi.factory.ResponseImpl;
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -42,7 +31,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import com.sun.jersey.core.spi.factory.ResponseImpl;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.lang.reflect.Method;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Test for support BulkExtract
@@ -67,13 +67,14 @@ public class BulkExtractTest {
     public void testCiphers() throws Exception {
         Method m = BulkExtract.class.getDeclaredMethod("getCiphers", new Class<?>[] {});
         m.setAccessible(true);
-        Pair<Cipher,Cipher> pair = (Pair<Cipher, Cipher>) m.invoke(this.bulkExtract, new Object[] {});        
+        Pair<Cipher,SecretKey> pair = (Pair<Cipher, SecretKey>) m.invoke(this.bulkExtract, new Object[] {});        
         Assert.assertNotNull(pair);
-        
+
         Cipher enc = pair.getLeft();
         byte[] bytes = enc.doFinal(EXPECTED_STRING.getBytes("UTF-8"));
         
-        Cipher dec = pair.getRight();
+        Cipher dec = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        dec.init(Cipher.DECRYPT_MODE, pair.getRight(), new IvParameterSpec(enc.getIV()));
         Assert.assertEquals(EXPECTED_STRING, StringUtils.newStringUtf8(dec.doFinal(bytes)));
     }
 
@@ -99,8 +100,6 @@ public class BulkExtractTest {
         out.write(os);
         os.flush();
         assertTrue(file.exists());
-
-        assertEquals(2586331403L, FileUtils.checksumCRC32(file));
         FileUtils.deleteQuietly(file);
     }
 

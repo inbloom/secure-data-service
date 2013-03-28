@@ -33,12 +33,9 @@ import org.springframework.stereotype.Component;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -53,9 +50,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidKeyException;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.spec.KeySpec;
 import java.util.Date;
 
 /**
@@ -97,7 +94,7 @@ public class BulkExtract {
     public Response get() throws Exception {
         LOG.info("Received request to stream bulk extract...");
 
-        final Pair<Cipher, AESDecryptKeys> cipherAESDecryptKeysPair = getCiphers();
+        final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
 
         String fileName = SAMPLED_FILE_NAME;
         File bulkExtractFile = null;
@@ -118,16 +115,20 @@ public class BulkExtract {
                 int n;
                 byte[] buffer = new byte[1024];
 
-                byte[] ivBytes = cipherAESDecryptKeysPair.getRight().getIvString().getBytes();
-                byte[] secretBytes = cipherAESDecryptKeysPair.getRight().getSecretKey().getEncoded();
-                PublicKey publicKey = null; //TODO
+                byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+                byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
+                PublicKey publicKey = null; //TODO get public key
+                try {
+                    publicKey = KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
+                } catch (NoSuchAlgorithmException e) {
+                    LOG.error("Exception: NoSuchAlgorithmException {}", e);
+                }
                 byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
                 byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
 
+                output.write(encryptedIV);
                 output.write(encryptedSecret.length);
                 output.write(encryptedSecret);
-                output.write(encryptedIV.length);
-                output.write(encryptedIV);
 
                 while ((n = is.read(buffer)) > -1) {
                     output.write(buffer, 0, n);
@@ -189,48 +190,13 @@ public class BulkExtract {
         this.mongoEntityRepository = mongoEntityRepository;
     }
 
-    private Pair<Cipher, AESDecryptKeys> getCiphers() throws Exception {
-
-        char[] password = String.valueOf(System.currentTimeMillis()).toCharArray();
-        byte[] salt = String.valueOf(System.currentTimeMillis()).getBytes();
-        KeySpec spec = new PBEKeySpec(password, salt, 65536, 128);
-
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        SecretKey tmp = factory.generateSecret(spec);
-        SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
-
-        String ivString="1c345678a0123456";
-        IvParameterSpec iv = new IvParameterSpec(ivString.getBytes());
-
+    private Pair<Cipher, SecretKey> getCiphers() throws Exception {
+        SecretKey secret = KeyGenerator.getInstance("AES").generateKey();
+        
         Cipher encrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        encrypt.init(Cipher.ENCRYPT_MODE, secret, iv);
+        encrypt.init(Cipher.ENCRYPT_MODE, secret);
 
-        AESDecryptKeys decryptKeys = new AESDecryptKeys();
-        decryptKeys.setIvString(ivString);
-        decryptKeys.setSecretKey(secret);
-
-        return Pair.of(encrypt, decryptKeys);
-    }
-
-    class AESDecryptKeys {
-        String ivString;
-        SecretKey secretKey;
-
-        public String getIvString() {
-            return ivString;
-        }
-
-        public void setIvString(String ivString) {
-            this.ivString = ivString;
-        }
-
-        public SecretKey getSecretKey() {
-            return secretKey;
-        }
-
-        public void setSecretKey(SecretKey secretKey) {
-            this.secretKey = secretKey;
-        }
+        return Pair.of(encrypt, secret);
     }
 
 }
