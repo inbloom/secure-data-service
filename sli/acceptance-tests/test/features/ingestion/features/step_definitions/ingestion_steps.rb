@@ -3411,25 +3411,19 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
 
     for i in 1..output_lines.length-1
         entry =  output_lines[i]
-        #puts "entry = " + entry
         #Step 2: get the child type
         filename = entry.split(':')[0]
-        #puts "filename = "+filename
         child_type = filename.split('_')[2].split('.')[0]
-        puts "child_type =" +  child_type
 
         #Step 3: get child id
-        #puts "entry = " + entry
-
         child_id = entry.split(',')[0].split(':')[2]
-        puts "child_id = " +  child_id
 
         if(child_type == entityType)
               deleted.add(child_id)
         end
         #Step 4: search the table for type [deleted, updated, checked]
          type = $CASCADE_DELETE_REFERENCE_MAP[entityType+"_"+child_type]
-         puts entityType+"_"+child_type
+
         if(type != nil)
               puts entityType+"_"+child_type
               puts "type = "+type
@@ -3440,7 +3434,11 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
                      deleted.add(child_id)
                   when 'checked'
                      checked.add(child_id)
-                     if(entry[entry.rindex(id)+44]==']')
+                     puts "entry = " + entry
+                     #puts /#{id}/.match(entry)
+                     #puts /\[[^\]].*#{id}[^\]].*\]/.match(entry)
+                     puts /\[ \{ [^\]|^\}].*#{id}[^\]|^\}].* \} \]/.match(entry)
+                     if /\[[^\]].*#{id}[^\]].*\]/.match(entry) || /\[ \{ [^\]|^\}].*#{id}[^\]|^\}].* \} \]/.match(entry)
                         deleted.add(child_id)
                      else
                         updated.add(child_id)
@@ -3448,18 +3446,21 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
                   end
          end
     end
+    puts "deleted = "
     puts deleted.length()
     if(deleted.length()>0)
         deleted.each do |d1|
             puts d1
         end
     end
+    puts "updated = "
     puts updated.length()
     if(updated.length()>0)
         updated.each do |d1|
             puts d1
         end
     end
+    puts "checked = "
     puts checked.length()
     if(checked.length()>0)
         checked.each do |d1|
