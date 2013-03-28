@@ -583,7 +583,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
                         if (!dryrun) {
                             entity.getBody().remove(referencingFieldSchemaInfo.getMappedPath());
-                            if (!this.update(referenceEntityType, entity, FullSuperDoc.isFullSuperdoc(entity))) {
+                            if (!this.update(getEntityRepositoryType(referenceEntityType), entity, FullSuperDoc.isFullSuperdoc(entity))) {
                                 String message = "Unable to update entity type: " + referenceEntityType +
                                         ", entity id: " + referencerId + ", field name: " + referenceField + " at depth " + depth;
                                 LOG.debug(message);
