@@ -25,6 +25,8 @@ import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 
 import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.StreamingOutput;
 
@@ -67,13 +69,14 @@ public class BulkExtractTest {
     public void testCiphers() throws Exception {
         Method m = BulkExtract.class.getDeclaredMethod("getCiphers", new Class<?>[] {});
         m.setAccessible(true);
-        Pair<Cipher,Cipher> pair = (Pair<Cipher, Cipher>) m.invoke(this.bulkExtract, new Object[] {});        
+        Pair<Cipher,SecretKey> pair = (Pair<Cipher, SecretKey>) m.invoke(this.bulkExtract, new Object[] {});        
         Assert.assertNotNull(pair);
-        
+
         Cipher enc = pair.getLeft();
         byte[] bytes = enc.doFinal(EXPECTED_STRING.getBytes("UTF-8"));
         
-        Cipher dec = pair.getRight();
+        Cipher dec = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        dec.init(Cipher.DECRYPT_MODE, pair.getRight(), new IvParameterSpec(enc.getIV()));
         Assert.assertEquals(EXPECTED_STRING, StringUtils.newStringUtf8(dec.doFinal(bytes)));
     }
 
