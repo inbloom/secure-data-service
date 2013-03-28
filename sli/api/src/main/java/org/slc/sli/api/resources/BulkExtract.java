@@ -38,10 +38,12 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,7 +55,6 @@ import java.security.InvalidKeyException;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.util.Date;
 
 /**
  * 
@@ -84,7 +85,7 @@ public class BulkExtract {
 
     /**
      * Creates a streaming response for a sample data file
-     * 
+     *
      * @return
      * @throws FileNotFoundException
      */
@@ -94,64 +95,101 @@ public class BulkExtract {
     public Response get() throws Exception {
         LOG.info("Received request to stream bulk extract...");
 
+        return getExtractResponse(null);
+    }
+
+    /**
+     * Stream a delta response
+     *
+     * @param date the date of the delta
+     * @return
+     */
+    @GET
+    @Path("deltas/{date}")
+    @RightsAllowed({ Right.BULK_EXTRACT })
+    public Response getDelta(@PathParam("date") String date) throws Exception {
+        LOG.info("Retrieving delta bulk extract");
+        return getExtractResponse(date);
+    }
+
+    /**
+     * Get the bulk extract response
+     *
+     * @param deltaDate the date of the delta, or null to get the full extract
+     * @return the jax-rs response to send back.
+     */
+    private Response getExtractResponse(String deltaDate) throws Exception{
         final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
 
         String fileName = SAMPLED_FILE_NAME;
         File bulkExtractFile = null;
-        Entity bulkExtractFileEntity = bulkExtractFileEntity();
+        ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate);
         String lastModified = "Not Specified";
         if (bulkExtractFileEntity != null) {
-            bulkExtractFile = getbulkExtractFile(bulkExtractFileEntity);
-            lastModified = ((Date) bulkExtractFileEntity.getBody().get(BULK_EXTRACT_DATE)).toString();
+            bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
+            lastModified = bulkExtractFileEntity.getLastModified();
             fileName = bulkExtractFile.getName();
             LOG.info("Requested stream bulk extract file: {}", bulkExtractFile);
         }
 
-        final InputStream is = bulkExtractFile == null || !bulkExtractFile.exists() ? this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME) : new FileInputStream(bulkExtractFile);
 
-        StreamingOutput out = new StreamingOutput() {
-            @Override
-            public void write(OutputStream output) throws IOException, WebApplicationException {
-                int n;
-                byte[] buffer = new byte[1024];
+        try {
 
-                byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
-                byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
-                PublicKey publicKey = null; //TODO get public key
-                try {
-                    publicKey = KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
-                } catch (NoSuchAlgorithmException e) {
-                    LOG.error("Exception: NoSuchAlgorithmException {}", e);
+            final InputStream is = bulkExtractFile == null || !bulkExtractFile.exists() ?
+                    this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME) :
+                    new FileInputStream(bulkExtractFile);
+
+            StreamingOutput out = new StreamingOutput() {
+                @Override
+                public void write(OutputStream output) throws IOException, WebApplicationException {
+                    int n;
+                    byte[] buffer = new byte[1024];
+
+                    byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+                    byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
+                    PublicKey publicKey = null; //TODO get public key
+                    try {
+                        publicKey = KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
+                    } catch (NoSuchAlgorithmException e) {
+                        LOG.error("Exception: NoSuchAlgorithmException {}", e);
+                    }
+                    byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+                    byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
+
+                    output.write(encryptedIV);
+                    output.write(encryptedSecret.length);
+                    output.write(encryptedSecret);
+
+                    while ((n = is.read(buffer)) > -1) {
+                        output.write(buffer, 0, n);
+                    }
                 }
-                byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
-                byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
-
-                output.write(encryptedIV);
-                output.write(encryptedSecret.length);
-                output.write(encryptedSecret);
-
-                while ((n = is.read(buffer)) > -1) {
-                    output.write(buffer, 0, n);
-                }
-            }
-        };
-
-        ResponseBuilder builder = Response.ok(out);
-        builder.header("content-disposition", "attachment; filename = " + fileName);
-        builder.header("last-modified", lastModified);
-        return builder.build();
+            };
+            ResponseBuilder builder = Response.ok(out);
+            builder.header("content-disposition", "attachment; filename = " + fileName);
+            builder.header("last-modified", lastModified);
+            return builder.build();
+        } catch (FileNotFoundException e) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
     }
 
-    private File getbulkExtractFile(Entity bulkExtractFileEntity) {
-        String fileName = (String) bulkExtractFileEntity.getBody().get(BULK_EXTRACT_FILE_PATH);
-        File bulkExtractFile = new File(fileName);
-        return bulkExtractFile;
-    }
-
-    private Entity bulkExtractFileEntity() {
+    /**
+     * Get the bulk extract file
+     *
+     * @param deltaDate the date of the delta, or null to retrieve a full extract
+     * @return
+     */
+    private ExtractFile getBulkExtractFile(String deltaDate) {
         initializePrincipal();
-        NeutralQuery tenantQuery = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId()));
-        return mongoEntityRepository.findOne(BULK_EXTRACT_FILES, tenantQuery);
+        NeutralQuery tenantQuery = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
+                principal.getTenantId()));
+        Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, tenantQuery);
+        if (entity == null) {
+            return null;
+        }
+        return new ExtractFile(entity.getBody().get(BULK_EXTRACT_DATE).toString(), entity.getBody()
+                .get(BULK_EXTRACT_FILE_PATH).toString());
     }
 
     private byte[] encryptDataWithRSAPublicKey(byte[] rawData, PublicKey publicKey) {
@@ -184,7 +222,8 @@ public class BulkExtract {
     }
 
     /**
-     * @param mongoEntityRepository the mongoEntityRepository to set
+     * @param mongoEntityRepository
+     *            the mongoEntityRepository to set
      */
     public void setMongoEntityRepository(Repository<Entity> mongoEntityRepository) {
         this.mongoEntityRepository = mongoEntityRepository;
@@ -197,6 +236,33 @@ public class BulkExtract {
         encrypt.init(Cipher.ENCRYPT_MODE, secret);
 
         return Pair.of(encrypt, secret);
+    }
+
+    /**
+     * Information about the file to extract
+     *
+     * @author nbrown
+     *
+     */
+    private class ExtractFile {
+        private final String lastModified;
+        private final String fileName;
+
+        public ExtractFile(String lastModified, String fileName) {
+            super();
+            this.lastModified = lastModified;
+            this.fileName = fileName;
+        }
+
+        public String getLastModified() {
+            return lastModified;
+        }
+
+        public File getBulkExtractFile(ExtractFile bulkExtractFileEntity) {
+            File bulkExtractFile = new File(fileName);
+            return bulkExtractFile;
+        }
+
     }
 
 }

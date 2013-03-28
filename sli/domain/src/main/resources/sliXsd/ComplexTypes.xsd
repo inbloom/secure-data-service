@@ -42,7 +42,7 @@
 			</xs:element>
             <xs:element minOccurs="0" maxOccurs="1" name="assessmentFamilyHierarchyName" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation>Hierarchical name for the assessment using '.' separators</xs:documentation>
+                    <xs:documentation>Hierarchical name for the assessment using '.' separators.  This field constructed from AssessmentFamily information and is read-only.</xs:documentation>
                     <xs:appinfo>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
