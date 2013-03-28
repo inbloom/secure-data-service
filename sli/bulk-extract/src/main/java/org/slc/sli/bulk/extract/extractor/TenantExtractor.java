@@ -63,7 +63,7 @@ public class TenantExtractor{
             metaDataFile = extractFile.getManifestFile();
             metaDataFile.generateMetaFile(startTime);
 
-            bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime);
+            bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime, false);
         } catch (IOException e) {
             LOG.error("Error creating metadata file");
         }
