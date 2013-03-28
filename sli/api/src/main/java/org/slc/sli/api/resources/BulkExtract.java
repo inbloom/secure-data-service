@@ -22,8 +22,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.spec.KeySpec;
 import java.util.Date;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -32,12 +41,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.StreamingOutput;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
+import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
@@ -45,11 +49,16 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
- *
+ * 
  * @author dkornishev
- *
+ * 
  */
 @Component
 @Path("/bulk")
@@ -75,6 +84,7 @@ public class BulkExtract {
 
     /**
      * Creates a streaming response for a sample data file
+     * 
      * @return
      * @throws FileNotFoundException
      */
@@ -95,9 +105,7 @@ public class BulkExtract {
             LOG.info("Requested stream bulk extract file: {}", bulkExtractFile);
         }
 
-        final InputStream is = bulkExtractFile==null || !bulkExtractFile.exists() ?
-                this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME) :
-                new FileInputStream(bulkExtractFile);
+        final InputStream is = bulkExtractFile == null || !bulkExtractFile.exists() ? this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME) : new FileInputStream(bulkExtractFile);
 
         StreamingOutput out = new StreamingOutput() {
             @Override
@@ -140,6 +148,27 @@ public class BulkExtract {
      */
     public void setMongoEntityRepository(Repository<Entity> mongoEntityRepository) {
         this.mongoEntityRepository = mongoEntityRepository;
+    }
+
+    private Pair<Cipher, Cipher> getCiphers() throws Exception {
+        char[] password = String.valueOf(System.currentTimeMillis()).toCharArray();
+        byte[] salt = String.valueOf(System.currentTimeMillis()).getBytes();
+        KeySpec spec = new PBEKeySpec(password, salt, 65536, 128);
+
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        SecretKey tmp = factory.generateSecret(spec);
+        SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
+
+        String ivString="1c345678a0123456";
+        IvParameterSpec iv = new IvParameterSpec(ivString.getBytes());
+
+        Cipher encrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        encrypt.init(Cipher.ENCRYPT_MODE, secret, iv);
+
+        Cipher decrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        decrypt.init(Cipher.DECRYPT_MODE, secret, iv);
+
+        return Pair.of(encrypt, decrypt);
     }
 
 }
