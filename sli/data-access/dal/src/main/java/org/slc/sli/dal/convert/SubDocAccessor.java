@@ -639,7 +639,7 @@ public class SubDocAccessor {
                 parentQuery.removeField("_id");
             } else {
                 for (String parentQueryKey : parentQueryKeys) {
-                    if (parentQueryKey.startsWith(subField + ".body.") && parentQueryKey.endsWith("Id")) {
+                    if (parentQueryKey.startsWith(subField + ".body.") && (parentQueryKey.endsWith("Id") || parentQueryKey.endsWith("learningObjectives"))) {
                         idQuery.put(parentQueryKey, parentQuery.get(parentQueryKey));
                     } else if (parentQueryKey.startsWith("body")) {
                         idQuery.put(parentQueryKey, parentQuery.get(parentQueryKey));
