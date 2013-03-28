@@ -140,7 +140,7 @@ process_config_file() {
   # Read config file line by line.  Extract cron job entries.
   echo "Reading config file ${SCHEDULER_CONFIGFILE}."
   OPTIONS=""
-  LOGDIR="${BULK_EXTRACT_SCRIPT_DIR}"/logs
+  LOGDIR="/tmp"
   LOGFILE="${LOGDIR}/local_bulk_extract.log"
   NEW_BE_CRONTAB_FILE="/tmp/bulk_extract_crontab"
   CONF_FILE_IS_VALID="true"
@@ -162,17 +162,13 @@ process_config_file() {
       elif ( is_logdir_line "${LINE[@]}" )
       then
         LOGDIR="${LINE[@]}"
-        if [[ "${LOGDIR}" != /* ]]
-        then
-          echo "Warning: Bulk extract script logging directory ${LOGDIR} is not an absolute path."
-          echo "Using default logfile ${LOGFILE}"
-        elif [ -n "`mkdir -p ${LOGDIR}`" ]
+        if [ -n "`mkdir -p ${LOGDIR}`" ]
         then
           echo "Warning: Bulk extract script logging directory ${LOGDIR} cannot be created."
           echo "Using default logfile ${LOGFILE}"
         else
           LOGFILE="${LOGDIR}/local_bulk_extract.log"
-          echo "Using logfile ${LOGFILE} for ${BULK_EXTRACT_SCRIPT} output."
+          echo "Using default logfile ${LOGFILE}."
         fi
       else
         CONF_FILE_IS_VALID="false"
@@ -230,7 +226,7 @@ check_if_absolute_path() {
 check_if_valid_dir() {
   local dirdesc="$1"
   local dirname="$2"
-  if [ ! -d ${dirname} ]
+  if [ ! -d ${BULK_EXTRACT_SCRIPT_DIR} ]
   then
     echo "Error: ${dirdesc} ${dirname} does not exist."
     echo "Exiting.  No crontab changes will be made."
