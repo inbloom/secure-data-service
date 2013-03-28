@@ -3533,9 +3533,9 @@ Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. A
     condHash    = Hash[*condArray.flatten]
     condHash.each do |field, value|
         if value =~ /float\((.*?)\)/
-	    condHash[field] = $1.to_i
-	elsif value =~ /int\((.*)\)/
 	    condHash[field] = $1.to_f
+	elsif value =~ /int\((.*)\)/
+	    condHash[field] = $1.to_i
 	end
     end
     $savedQueries[queryName] = {"criteria"=>condHash, "collection"=>collection, "tenant"=>tenant};
