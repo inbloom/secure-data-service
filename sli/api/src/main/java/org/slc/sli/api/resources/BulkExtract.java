@@ -16,17 +16,19 @@
 
 package org.slc.sli.api.resources;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.spec.KeySpec;
-import java.util.Date;
+import org.apache.commons.lang3.tuple.Pair;
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -44,20 +46,17 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.StreamingOutput;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.KeySpec;
+import java.util.Date;
 
 /**
  * 
@@ -95,8 +94,10 @@ public class BulkExtract {
     @GET
     @Path("extract")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response get() throws FileNotFoundException {
+    public Response get() throws Exception {
         LOG.info("Received request to stream bulk extract...");
+
+        final Pair<Cipher, AESDecryptKeys> cipherAESDecryptKeysPair = getCiphers();
 
         String fileName = SAMPLED_FILE_NAME;
         File bulkExtractFile = null;
@@ -116,6 +117,18 @@ public class BulkExtract {
             public void write(OutputStream output) throws IOException, WebApplicationException {
                 int n;
                 byte[] buffer = new byte[1024];
+
+                byte[] ivBytes = cipherAESDecryptKeysPair.getRight().getIvString().getBytes();
+                byte[] secretBytes = cipherAESDecryptKeysPair.getRight().getSecretKey().getEncoded();
+                PublicKey publicKey = null; //TODO
+                byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+                byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
+
+                output.write(encryptedSecret.length);
+                output.write(encryptedSecret);
+                output.write(encryptedIV.length);
+                output.write(encryptedIV);
+
                 while ((n = is.read(buffer)) > -1) {
                     output.write(buffer, 0, n);
                 }
@@ -140,7 +153,7 @@ public class BulkExtract {
         return mongoEntityRepository.findOne(BULK_EXTRACT_FILES, tenantQuery);
     }
 
-    private byte[] encryptData(PublicKey publicKey, byte[] rawData) {
+    private byte[] encryptDataWithRSAPublicKey(byte[] rawData, PublicKey publicKey) {
         byte[] encryptedData = null;
 
         try {
@@ -176,7 +189,8 @@ public class BulkExtract {
         this.mongoEntityRepository = mongoEntityRepository;
     }
 
-    private Pair<Cipher, Cipher> getCiphers() throws Exception {
+    private Pair<Cipher, AESDecryptKeys> getCiphers() throws Exception {
+
         char[] password = String.valueOf(System.currentTimeMillis()).toCharArray();
         byte[] salt = String.valueOf(System.currentTimeMillis()).getBytes();
         KeySpec spec = new PBEKeySpec(password, salt, 65536, 128);
@@ -191,10 +205,32 @@ public class BulkExtract {
         Cipher encrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
         encrypt.init(Cipher.ENCRYPT_MODE, secret, iv);
 
-        Cipher decrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        decrypt.init(Cipher.DECRYPT_MODE, secret, iv);
+        AESDecryptKeys decryptKeys = new AESDecryptKeys();
+        decryptKeys.setIvString(ivString);
+        decryptKeys.setSecretKey(secret);
 
-        return Pair.of(encrypt, decrypt);
+        return Pair.of(encrypt, decryptKeys);
+    }
+
+    class AESDecryptKeys {
+        String ivString;
+        SecretKey secretKey;
+
+        public String getIvString() {
+            return ivString;
+        }
+
+        public void setIvString(String ivString) {
+            this.ivString = ivString;
+        }
+
+        public SecretKey getSecretKey() {
+            return secretKey;
+        }
+
+        public void setSecretKey(SecretKey secretKey) {
+            this.secretKey = secretKey;
+        }
     }
 
 }
