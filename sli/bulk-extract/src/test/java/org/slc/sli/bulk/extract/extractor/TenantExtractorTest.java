@@ -102,7 +102,7 @@ public class TenantExtractorTest {
             Mockito.verify(ex, Mockito.times(1)).extractEntity("Midgar", archiveFile, collection);
         }
 
-        Mockito.verify(bulkExtractMongoDA, Mockito.times(1)).updateDBRecord(Matchers.anyString(), Matchers.anyString(), Matchers.any(Date.class), Mockito.eq(false));
+        Mockito.verify(bulkExtractMongoDA, Mockito.times(1)).updateDBRecord(Matchers.anyString(), Matchers.anyString(), Matchers.any(Date.class));
     }
 
 
