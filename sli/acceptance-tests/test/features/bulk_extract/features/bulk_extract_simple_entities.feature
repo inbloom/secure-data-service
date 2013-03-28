@@ -1,12 +1,12 @@
 Feature: A bulk extract is triggered and simple one-to-one entities are verified
 
 Scenario: Verify a cohort was correctly extracted
-   #When I retrieve the path to the extract file for the tenant "Midgar"
-   #And a "cohort" extract file exists
-   #And a the correct number of "cohort" was extracted from the database
-   #And a "cohort" was extracted with all the correct fields
-   #And I log into "inBloom Dashboards" with a token of "sbantu", a "Leader" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   #Then a "cohort" was extracted in the same format as the api
+   When I retrieve the path to the extract file for the tenant "Midgar"
+   And a "cohort" extract file exists
+   And a the correct number of "cohort" was extracted from the database
+   And a "cohort" was extracted with all the correct fields
+   And I log into "inBloom Dashboards" with a token of "sbantu", a "Leader" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   Then a "cohort" was extracted in the same format as the api
 
 Scenario: Verify a competencyLevelDescriptor was correctly extracted
    When I retrieve the path to the extract file for the tenant "Midgar"
@@ -33,20 +33,20 @@ Scenario: Verify a courseOffering was correctly extracted
    Then a "courseOffering" was extracted in the same format as the api
 
 Scenario: Verify a disciplineIncident was correctly extracted
-  # When I retrieve the path to the extract file for the tenant "Midgar"
-  # And a "disciplineIncident" extract file exists
-  # And a the correct number of "disciplineIncident" was extracted from the database
-  # And a "disciplineIncident" was extracted with all the correct fields
-  # And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  # Then a "disciplineIncident" was extracted in the same format as the api
+   When I retrieve the path to the extract file for the tenant "Midgar"
+   And a "disciplineIncident" extract file exists
+   And a the correct number of "disciplineIncident" was extracted from the database
+   And a "disciplineIncident" was extracted with all the correct fields
+   And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   Then a "disciplineIncident" was extracted in the same format as the api
 
 Scenario: Verify a disciplineAction was correctly extracted
-  # When I retrieve the path to the extract file for the tenant "Midgar"
-  # And a "disciplineAction" extract file exists
-  # And a the correct number of "disciplineAction" was extracted from the database
-  # And a "disciplineAction" was extracted with all the correct fields
-  # And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  # Then a "disciplineAction" was extracted in the same format as the api
+   When I retrieve the path to the extract file for the tenant "Midgar"
+   And a "disciplineAction" extract file exists
+   And a the correct number of "disciplineAction" was extracted from the database
+   And a "disciplineAction" was extracted with all the correct fields
+   And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   Then a "disciplineAction" was extracted in the same format as the api
 
 Scenario: Verify a gradingPeriod was correctly extracted
    When I retrieve the path to the extract file for the tenant "Midgar"
@@ -97,28 +97,28 @@ Scenario: Verify a session was correctly extracted
    Then a "session" was extracted in the same format as the api
 
 Scenario: Verify a staffEducationOrganizationAssociation was correctly extracted
-   #When I retrieve the path to the extract file for the tenant "Midgar"
-   #And a "staffEducationOrganizationAssociation" extract file exists
-   #And a the correct number of "staffEducationOrganizationAssociation" was extracted from the database
-   #And a "staffEducationOrganizationAssociation" was extracted with all the correct fields
-   #And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   #Then a "staffEducationOrganizationAssociation" was extracted in the same format as the api
+   When I retrieve the path to the extract file for the tenant "Midgar"
+   And a "staffEducationOrganizationAssociation" extract file exists
+   And a the correct number of "staffEducationOrganizationAssociation" was extracted from the database
+   And a "staffEducationOrganizationAssociation" was extracted with all the correct fields
+   And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   Then a "staffEducationOrganizationAssociation" was extracted in the same format as the api
 
 Scenario: Verify a staffProgramAssociation was correctly extracted
-   #When I retrieve the path to the extract file for the tenant "Midgar"
-   #And a "staffProgramAssociation" extract file exists
-   #And a the correct number of "staffProgramAssociation" was extracted from the database
-   #And a "staffProgramAssociation" was extracted with all the correct fields
-   #And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   #Then a "staffProgramAssociation" was extracted in the same format as the api
+   When I retrieve the path to the extract file for the tenant "Midgar"
+   And a "staffProgramAssociation" extract file exists
+   And a the correct number of "staffProgramAssociation" was extracted from the database
+   And a "staffProgramAssociation" was extracted with all the correct fields
+   And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   Then a "staffProgramAssociation" was extracted in the same format as the api
 
 Scenario: Verify a studentCompetency was correctly extracted
-   #When I retrieve the path to the extract file for the tenant "Midgar"
-   #And a "studentCompetency" extract file exists
-   #And a the correct number of "studentCompetency" was extracted from the database
-   #And a "studentCompetency" was extracted with all the correct fields
-   #And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   #Then a "studentCompetency" was extracted in the same format as the api
+   When I retrieve the path to the extract file for the tenant "Midgar"
+   And a "studentCompetency" extract file exists
+   And a the correct number of "studentCompetency" was extracted from the database
+   And a "studentCompetency" was extracted with all the correct fields
+   And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   Then a "studentCompetency" was extracted in the same format as the api
 
 Scenario: Verify a studentCompetencyObjective was correctly extracted
    When I retrieve the path to the extract file for the tenant "Midgar"
@@ -129,20 +129,20 @@ Scenario: Verify a studentCompetencyObjective was correctly extracted
    Then a "studentCompetencyObjective" was extracted in the same format as the api
 
 Scenario: Verify a studentSchoolAssociation was correctly extracted
-   #When I retrieve the path to the extract file for the tenant "Midgar"
-   #And a "studentSchoolAssociation" extract file exists
-   #And a the correct number of "studentSchoolAssociation" was extracted from the database
-   #And a "studentSchoolAssociation" was extracted with all the correct fields
-   #And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   #Then a "studentSchoolAssociation" was extracted in the same format as the api
+   When I retrieve the path to the extract file for the tenant "Midgar"
+   And a "studentSchoolAssociation" extract file exists
+   And a the correct number of "studentSchoolAssociation" was extracted from the database
+   And a "studentSchoolAssociation" was extracted with all the correct fields
+   And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   Then a "studentSchoolAssociation" was extracted in the same format as the api
 
 Scenario: Verify a teacherSchoolAssociation was correctly extracted
-   #When I retrieve the path to the extract file for the tenant "Midgar"
-   #And a "teacherSchoolAssociation" extract file exists
-   #And a the correct number of "teacherSchoolAssociation" was extracted from the database
-   #And a "teacherSchoolAssociation" was extracted with all the correct fields
-   #And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   #Then a "teacherSchoolAssociation" was extracted in the same format as the api
+   When I retrieve the path to the extract file for the tenant "Midgar"
+   And a "teacherSchoolAssociation" extract file exists
+   And a the correct number of "teacherSchoolAssociation" was extracted from the database
+   And a "teacherSchoolAssociation" was extracted with all the correct fields
+   And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   Then a "teacherSchoolAssociation" was extracted in the same format as the api
 
 
 
