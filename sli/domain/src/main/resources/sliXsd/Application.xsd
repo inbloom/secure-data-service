@@ -111,6 +111,7 @@
                         <xs:list itemType="xs:string"/>
                     </xs:simpleType>
                 </xs:element>
+                <xs:element name="public_key" minOccurs="0" maxOccurs="1" type="xs:string" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
