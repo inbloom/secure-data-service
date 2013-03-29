@@ -27,8 +27,13 @@ When /^I make bulk extract API call$/ do
 end
 
 When /^I make API call to retrieve today's delta file$/ do
-  today = Time.now.strftime("%Y%m%d")
-  restHttpGet("/bulk/deltas/#{today}")
+  today = Time.now
+  restHttpGet("/bulk/deltas/#{today.strftime("%Y%m%d")}")
+end
+
+When /^I make API call to retrieve tomorrow's non existing delta files$/ do
+  tomorrow = Time.now+24*3600
+  restHttpGet("/bulk/deltas/#{tomorrow.strftime("%Y%m%d")}")
 end
 
 When /^I save the extracted file$/ do

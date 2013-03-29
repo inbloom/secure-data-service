@@ -11,3 +11,6 @@ Scenario: Retrieve a generated bulk extract delta for today
 
       When I save the extracted file
       And I verify this tar file is the same as the pre-generated delta file
+
+      When I make API call to retrieve tomorrow's non existing delta files
+      Then I should receive a return code of 404
