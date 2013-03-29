@@ -6,7 +6,7 @@ Scenario: Trigger a bulk extract on ingested data
    And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
    And in my list of rights I have BULK_EXTRACT
    When I make bulk extract API call
-   Then I get expected tar downloaded
+   When the return code is 200 I get expected tar downloaded
    Then I check the http response headers
 
    When I save the extracted file
