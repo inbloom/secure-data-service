@@ -141,6 +141,11 @@ process_config_file() {
   echo "Reading config file ${SCHEDULER_CONFIGFILE}."
   OPTIONS=""
   LOGDIR="${BULK_EXTRACT_SCRIPT_DIR}"/logs
+  if [ -n "`mkdir -p ${LOGDIR} 2>&1`" ]
+  then
+    LOGDIR="/tmp/logs"
+    mkdir -p ${LOGDIR}
+  fi
   LOGFILE="${LOGDIR}/local_bulk_extract.log"
   NEW_BE_CRONTAB_FILE="/tmp/bulk_extract_crontab"
   CONF_FILE_IS_VALID="true"
@@ -161,16 +166,17 @@ process_config_file() {
         OPTIONS="${LINE[@]}"
       elif ( is_logdir_line "${LINE[@]}" )
       then
-        LOGDIR="${LINE[@]}"
-        if [[ "${LOGDIR}" != /* ]]
+        TMP_LOGDIR="${LINE[@]}"
+        if [[ "${TMP_LOGDIR}" != /* ]]
         then
-          echo "Warning: Bulk extract script logging directory ${LOGDIR} is not an absolute path."
-          echo "Using default logfile ${LOGFILE}"
-        elif [ -n "`mkdir -p ${LOGDIR}`" ]
+          echo "Warning: Bulk extract script logging directory ${TMP_LOGDIR} is not an absolute path."
+          echo "Using default logfile ${LOGFILE} for ${BULK_EXTRACT_SCRIPT} output."
+        elif [ -n "`mkdir -p ${TMP_LOGDIR} 2>&1`" ]
         then
-          echo "Warning: Bulk extract script logging directory ${LOGDIR} cannot be created."
-          echo "Using default logfile ${LOGFILE}"
+          echo "Warning: Bulk extract script logging directory ${TMP_LOGDIR} cannot be created."
+          echo "Using default logfile ${LOGFILE} for ${BULK_EXTRACT_SCRIPT} output."
         else
+          LOGDIR="${TMP_LOGDIR}"
           LOGFILE="${LOGDIR}/local_bulk_extract.log"
           echo "Using logfile ${LOGFILE} for ${BULK_EXTRACT_SCRIPT} output."
         fi
