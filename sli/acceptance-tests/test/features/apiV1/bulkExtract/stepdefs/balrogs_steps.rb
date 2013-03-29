@@ -53,7 +53,7 @@ When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Mi
     @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
     @coll = "bulkExtractFiles";
     @src_coll = @db[@coll]
-    
+
     if @res.code == 404
   		puts "@res.headers: #{@res.headers}"
   		puts "@res.code: #{@res.code}"
@@ -78,6 +78,8 @@ When /^the return code is 503 I ensure there is a bulkExtractFiles entry for Mid
 end
 
 When /^the return code is 200 I get expected tar downloaded$/ do
+	  puts "@res.headers: #{@res.headers}"
+	  puts "@res.code: #{@res.code}"
     if @res.code == 200
 	  puts "@res.headers: #{@res.headers}"
 	  puts "@res.code: #{@res.code}"
