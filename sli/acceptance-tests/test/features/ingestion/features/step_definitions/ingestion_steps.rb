@@ -246,7 +246,7 @@ $CASCADE_DELETE_REFERENCE_MAP = {
                 "serviceDescriptorType_studentProgramAssociation" => "updated",
                 "serviceDescriptorType_studentSpecialEdProgramAssociation" => "updated",
                 "session_courseOffering" => "deleted",
-                "session_section" => "updated",
+                "session_section" => "deleted",
                 "session_studentAcademicRecord" => "deleted",
                 "staff_disciplineAction" => "updated",
                 "staff_disciplineIncident" => "updated",
@@ -3453,7 +3453,6 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
                         else
                             updated.add(child_id)
                             puts child_id+" added to update"
-
                          end
                     end
             end
