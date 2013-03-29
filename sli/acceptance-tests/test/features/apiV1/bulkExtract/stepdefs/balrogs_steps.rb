@@ -26,12 +26,26 @@ When /^I make bulk extract API call$/ do
   restHttpGet("/bulk/extract")
 end
 
+When /^I make API call to retrieve today's delta file$/ do
+  today = Time.now.strftime("%Y%m%d")
+  restHttpGet("/bulk/deltas/#{today}")
+end
+
 When /^I save the extracted file$/ do
   @filePath = "extract/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
   if (!File.exists?("extract"))
       FileUtils.mkdir("extract")
   end
+  if (File.exists?(@filePath)) 
+      FileUtils.rm(@filePath)
+      puts "Removed existing #{@filePath}"
+  end
+  if (File.exists?(@unpackDir))
+      FileUtils.rm_r(@unpackDir)
+      puts "Removed existing #{@unpackDir}"
+  end
+
   File.open(@filePath, 'w') {|f| f.write(@res.body) }
 end
 

@@ -23,6 +23,7 @@ require 'zlib'
 require 'open3'
 include Archive::Tar
 
+
 ############################################################
 # Scheduler
 ############################################################
@@ -137,6 +138,27 @@ Given /^the extraction zone is empty$/ do
     FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
 end
 
+Given /^I have delta bulk extract files generated for today$/ do
+  bulk_delta_file_entry = {
+    _id: "Midgar_delta",
+    body: {
+      tenantId: "Midgar",
+      isDelta: "true",
+      path: "#{File.dirname(__FILE__)}/../../test_data/deltas/Midgar_delta_1.tar",
+      date: Time.now
+    },
+    metaData: {
+      updated: Time.now
+    },
+    type: "bulkExtractEntity"
+  }
+  @pre_generated = "#{File.dirname(__FILE__)}/../../test_data/deltas/Midgar_delta_1.tar"
+  @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb ||= @conn.db(DATABASE_NAME)
+  @coll ||= @sliDb.collection("bulkExtractFiles")
+  @coll.save(bulk_delta_file_entry)
+end
+
 ############################################################
 # When
 ############################################################
@@ -161,6 +183,12 @@ When /^I verify that an extract tar file was created for the tenant "(.*?)"$/ do
 	puts "Extract FilePath: #{@filePath}"
 
 	assert(File.exists?(@filePath), "Extract file was not created or Output Directory was not found")
+end
+
+When /^I verify this tar file is the same as the pre-generated delta file$/ do
+   puts "pre-generated file at: #{@pre_generated}"
+   puts "served file from API at: #{@filePath}"
+   assert(FileUtils.compare_file(@filePath, @pre_generated), "Delta file served from API is different from pre-generated file") 
 end
 
 When /^there is a metadata file in the extract$/ do
