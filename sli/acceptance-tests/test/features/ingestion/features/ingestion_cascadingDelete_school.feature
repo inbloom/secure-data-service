@@ -8,13 +8,7 @@ Given I am using local data store
 Scenario: delete "Jets School", AssignmentSchoolReference is wiped out in the DisciplineAction, ResponsibilitySchoolReference still points to "Sharks School"; delete "Sharks School", DisciplineAction is deleted.
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I post "prep_cascading_deletion_school.zip" file as the payload of the ingestion job
-  And the following collections are empty in datastore:
-     | collectionName                            |
-     | student                                   |
-     | staff                                     |
-     | educationOrganization                     |
-     | disciplineAction                          |
-     | disciplineIncident                        |
+  And the "Midgar" tenant db is empty
 When zip file is scp to ingestion landing zone
   And a batch job for file "prep_cascading_deletion_school.zip" is completed in database
   And a batch job log has been created

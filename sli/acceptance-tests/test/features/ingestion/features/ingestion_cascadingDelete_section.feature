@@ -7,21 +7,7 @@ Given I am using local data store
 Scenario: delete "section", entities referencing "section" should be deleted or remove "section" from its reference list; entities referenced by "section" should not be deleted
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I post "prep_cascading_deletion_section.zip" file as the payload of the ingestion job
-  And the following collections are empty in datastore:
-     | collectionName                            |
-     | student                                   |
-     | section                                   |
-     | staff                                     |
-     | attendance                                |
-     | assessment                                |
-     | gradebookEntry                            |
-     | program                                   |
-     | session                                   |
-     | courseOffering                            |
-     | course                                    |
-     | educationOrganization                     |
-     | studentSectionAssociation                 |    
-     | teacherSectionAssociation                 |
+  And the "Midgar" tenant db is empty
 When zip file is scp to ingestion landing zone
   And a batch job for file "prep_cascading_deletion_section.zip" is completed in database
   And a batch job log has been created

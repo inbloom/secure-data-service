@@ -6,64 +6,9 @@ Given I am using local data store
 
 Scenario: Delete Report Card with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And the following collections are empty in datastore:
-       | collectionName                            |
-       | assessment                                |
-       | assessmentFamily                          |
-       | assessmentPeriodDescriptor                |
-       | attendance                                |
-       | calendarDate                              |
-       | cohort                                    |
-       | competencyLevelDescriptor                 |
-       | course                                    |
-       | courseOffering                            |
-       | courseSectionAssociation                  |
-       | disciplineAction                          |
-       | disciplineIncident                        |
-       | educationOrganization                     |
-       | educationOrganizationAssociation          |
-       | educationOrganizationSchoolAssociation    |
-       | grade                                     |
-       | gradebookEntry                            |
-       | gradingPeriod                             |
-       | graduationPlan                            |
-       | learningObjective                         |
-       | learningStandard                          |
-       | parent                                    |
-       | program                                   |
-       | recordHash                                |
-       | reportCard                                |
-       | school                                    |
-       | schoolSessionAssociation                  |
-       | section                                   |
-       | sectionAssessmentAssociation              |
-       | sectionSchoolAssociation                  |
-       | session                                   |
-       | sessionCourseAssociation                  |
-       | staff                                     |
-       | staffCohortAssociation                    |
-       | staffEducationOrganizationAssociation     |
-       | staffProgramAssociation                   |
-       | student                                   |
-       | studentAcademicRecord                     |
-       | studentAssessment                         |
-       | studentCohortAssociation                  |
-       | studentCompetency                         |
-       | studentCompetencyObjective                |
-       | studentDisciplineIncidentAssociation      |
-       | studentObjectiveAssessment                |
-       | studentParentAssociation                  |
-       | studentProgramAssociation                 |
-       | studentSchoolAssociation                  |
-       | studentSectionAssociation                 |
-       | studentGradebookEntry                     |
-       | courseTranscript                          |
-       | teacher                                   |
-       | teacherSchoolAssociation                  |
-       | teacherSectionAssociation                 |
-       | yearlyTranscript                          |
-    And I post "BroadReportCardDelete.zip" file as the payload of the ingestion job
-    When zip file is scp to ingestion landing zone
+    And the "Midgar" tenant db is empty
+    When I post "BroadReportCardDelete.zip" file as the payload of the ingestion job
+    And zip file is scp to ingestion landing zone
     And a batch job for file "BroadReportCardDelete.zip" is completed in database
     And a batch job log has been created
 	And I should see "records considered for processing: 1" in the resulting batch job file

@@ -3548,13 +3548,13 @@ Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. A
     assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{condHash}!");
 end
 
-Then /I reexecute saved query "([^"]*)" to get "([^"]*)" records/ do |queryName, count|
+Then /I re-execute saved query "([^"]*)" to get "([^"]*)" records/ do |queryName, count|
     q             = $savedQueries[queryName]
     criteria      = q["criteria"]
     collection    = q["collection"]
     tenant        = q["tenant"]
 
-    #puts "Reexecuting #{criteria} with #{collection}, #{tenant}"
+    #puts "Re-executing #{criteria} with #{collection}, #{tenant}"
 
     @db         = @conn[convertTenantIdToDbName(tenant)]
     @coll       = @db[collection]
@@ -3562,6 +3562,40 @@ Then /I reexecute saved query "([^"]*)" to get "([^"]*)" records/ do |queryName,
     assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{criteria}!");
 end
 
+
+Then /^the data from "(.*?)" is imported$/ do |directory|
+    Dir.foreach(directory) {|x|
+        db=x.split("_")[1].to_s
+        coll=x.split("_")[2].to_s.split(".")[0].to_s
+        if x != "." && x != ".."
+            `mongoimport --db #{db} --collection #{coll} #{directory}/#{x}`
+        end
+    }
+end
+
+Given /^the "(.*?)" tenant db is empty$/ do |tenant|
+     tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+     coll_names = tenant_db.collection_names
+     coll_to_skip = ["system.indexes",
+                     "system.js",
+                     "system.profile",
+                     "system.namespaces",
+                     "system.users",
+                     "tenant",
+                     "securityEvent",
+                     "realm",
+                     "application",
+                     "roles",
+                     "customRole"]
+     disable_NOTABLESCAN
+     coll_names.each do |coll|
+        if !coll_to_skip.include?(coll)
+            tenant_db["#{coll}"].remove
+            assert(tenant_db["#{coll}"].count == 0, "#{coll} is not empty.")
+        end
+     end
+     enable_NOTABLESCAN
+end
 
 ############################################################
 # STEPS: AFTER
