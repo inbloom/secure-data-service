@@ -72,7 +72,7 @@ public class TenantExtractor{
             LOG.error("Error generating archive file: {}", e.getMessage());
         }
 
-        bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime);
+        bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime, false);
     }
 
     /**
