@@ -67,7 +67,7 @@ And /^I clean up the cron extraction zone$/ do
 end
 
 Then /^I run the bulk extract scheduler script$/ do
-    command  = "echo 'y' | sh #{SCHEDULER_SCRIPT} #{@trigger_script_path} #{@scheduling_config_path}"
+    command  = "echo 'y' | #{SCHEDULER_SCRIPT} #{@trigger_script_path} #{@scheduling_config_path}"
     result = runShellCommand(command)
     puts "Running: #{command} #{result}"
     raise "Result of bulk extract scheduler script should include Installed new crontab but was #{result}" if !result.include?"Installed new crontab"
