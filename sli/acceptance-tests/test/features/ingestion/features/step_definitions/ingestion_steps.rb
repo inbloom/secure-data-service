@@ -3623,10 +3623,76 @@ Given /^the "(.*?)" tenant db is empty$/ do |tenant|
      coll_names.each do |coll|
         if !coll_to_skip.include?(coll)
             tenant_db["#{coll}"].remove
-            assert(tenant_db["#{coll}"].count == 0, "#{coll} is not empty.")
+#            assert(tenant_db["#{coll}"].count == 0, "#{coll} is not empty.")
         end
      end
      enable_NOTABLESCAN
+end
+
+def getEntityCounts(tenant)
+    entityCounts = {}
+     tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+     coll_names = tenant_db.collection_names
+     coll_to_skip = ["system.indexes",
+                     "system.js",
+                     "system.profile",
+                     "system.namespaces",
+                     "system.users",
+                     "tenant",
+                     "securityEvent",
+                     "realm",
+                     "application",
+                     "roles",
+                     "customRole"]
+     disable_NOTABLESCAN
+     coll_names.each do |coll|
+        if !coll_to_skip.include?(coll)
+            parent = subDocParent coll
+            if parent
+              count = subDocCount(parent, coll)
+            else
+              count = tenant_db[coll].count().to_i
+            end
+
+            entityCounts[coll] = count
+#            puts "#{coll} #{count}"
+        end
+    end
+    enable_NOTABLESCAN
+    return entityCounts
+end
+
+And /I save the collection counts in "([^"]*)" tenant/ do |tenant|
+    @beforeEntityCounts = getEntityCounts(tenant)
+end
+
+And /I see that collections counts have changed as follows in tenant "([^"]*)"/ do |tenant, table|
+    @db         = @conn[convertTenantIdToDbName(tenant)]
+    condArray   = table.rows()
+    condHash    = Hash[*condArray.flatten]
+    afterEntityCounts = getEntityCounts(tenant)
+    entityCountDeltas = {}
+    unionOfEntities = @beforeEntityCounts.keys | afterEntityCounts.keys
+    unionOfEntities.each do |entityType|
+        # check for missing entity types
+        assert(@beforeEntityCounts.has_key?(entityType), "Collection #{entityType} has been created.")
+        assert(afterEntityCounts.has_key?(entityType), "Collection #{entityType} has been deleted.")
+
+        old   = @beforeEntityCounts[entityType].to_i;
+        new   = afterEntityCounts[entityType].to_i;
+
+        # build a map of delta values per entity
+        entityCountDeltas[entityType] = new - old
+
+        # check if a delta is expected and if so whether it is correct
+        if (condHash.has_key?(entityType))
+            condDelta = condHash[entityType]
+            operation = condDelta[0,1]   # + or -
+            actualDelta = new - old
+            expectedDelta = condHash[entityType].to_i
+            assert(actualDelta == expectedDelta, "Actual delta #{actualDelta} does NOT match #{expectedDelta}")
+        end
+    end
 end
 
 ############################################################
