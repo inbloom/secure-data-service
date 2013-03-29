@@ -7,7 +7,7 @@ Feature: Bulk Extraction Works
         And in my list of rights I have BULK_EXTRACT
         When I make bulk extract API call
         When the return code is 404 I ensure there is no bulkExtractFiles entry for Midgar
-        When the return code is 204 I ensure there is a bulkExtractFiles entry for Midgar
+        When the return code is 503 I ensure there is a bulkExtractFiles entry for Midgar
         When the return code is 200 I get expected tar downloaded
         Then I check the http response headers
     

@@ -41,6 +41,7 @@ public class BulkExtractMongoDA {
     private static final String FILE_PATH = "path";
     private static final String DATE = "date";
     private static final String TENANT_ID = "tenantId";
+    private static final String IS_DELTA = "isDelta";
 
     private Repository<Entity> entityRepository;
 
@@ -51,10 +52,21 @@ public class BulkExtractMongoDA {
      * @param date  the date when the bulk extract was created
      */
     public void updateDBRecord(String tenantId, String path, Date date) {
+        updateDBRecord(tenantId, path, date, false);
+    }
+
+    /** Insert a new record is the tenant doesn't exist. Update if existed
+     * @param tenantId tenant id
+     * @param path  path to the extracted file.
+     * @param date  the date when the bulk extract was created
+     * @param isDelta TODO
+     */
+    public void updateDBRecord(String tenantId, String path, Date date, boolean isDelta) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(TENANT_ID, tenantId);
         body.put(FILE_PATH, path);
         body.put(DATE, date);
+        body.put(IS_DELTA, isDelta);
 
         BulkExtractEntity bulkExtractEntity = new BulkExtractEntity(body, tenantId);
 

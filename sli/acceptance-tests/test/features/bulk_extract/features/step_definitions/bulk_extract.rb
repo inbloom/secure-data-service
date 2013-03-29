@@ -113,7 +113,7 @@ end
 # Given
 ############################################################
 Given /^I trigger a bulk extract$/ do
-command  = "sh #{TRIGGER_SCRIPT}"
+command  = "#{TRIGGER_SCRIPT}"
 if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
   command = command + " -Dsli.conf=#{PROPERTIES_FILE}" 
   puts "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
