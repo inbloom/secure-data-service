@@ -82,7 +82,7 @@ Then my current url is "http://www.google.com/"
 
 #Bulk Extract 
 #Add Bulk Extract role to IT Admin
-And I exit out of the iframe
+When I navigate to the Portal home page
 And I click on Admin
 And under System Tools, I click on "Create Custom Roles"
 And I edit the group "IT Administrator"
