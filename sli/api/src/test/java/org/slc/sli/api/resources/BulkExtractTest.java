@@ -99,13 +99,6 @@ public class BulkExtractTest {
     }
 
     @Test
-    public void testGetWithNoTenantSupport() throws Exception {
-        injector.setEducatorContext();
-        ResponseImpl res = (ResponseImpl) bulkExtract.get();
-        assertEquals(404, res.getStatus());
-    }
-
-    @Test
     public void testGetErrorFile() throws Exception {
         injector.setEducatorContext();
         bulkExtract.setMongoEntityRepository(mockMongoEntityRepository);
