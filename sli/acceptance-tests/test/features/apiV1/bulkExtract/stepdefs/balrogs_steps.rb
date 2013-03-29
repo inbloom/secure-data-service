@@ -26,12 +26,31 @@ When /^I make bulk extract API call$/ do
   restHttpGet("/bulk/extract")
 end
 
+When /^I make API call to retrieve today's delta file$/ do
+  today = Time.now
+  restHttpGet("/bulk/deltas/#{today.strftime("%Y%m%d")}")
+end
+
+When /^I make API call to retrieve tomorrow's non existing delta files$/ do
+  tomorrow = Time.now+24*3600
+  restHttpGet("/bulk/deltas/#{tomorrow.strftime("%Y%m%d")}")
+end
+
 When /^I save the extracted file$/ do
   @filePath = "extract/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
   if (!File.exists?("extract"))
       FileUtils.mkdir("extract")
   end
+  if (File.exists?(@filePath)) 
+      FileUtils.rm(@filePath)
+      puts "Removed existing #{@filePath}"
+  end
+  if (File.exists?(@unpackDir))
+      FileUtils.rm_r(@unpackDir)
+      puts "Removed existing #{@unpackDir}"
+  end
+
   File.open(@filePath, 'w') {|f| f.write(@res.body) }
 end
 
@@ -39,7 +58,7 @@ When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Mi
     @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
     @coll = "bulkExtractFiles";
     @src_coll = @db[@coll]
-    
+
     if @res.code == 404
   		puts "@res.headers: #{@res.headers}"
   		puts "@res.code: #{@res.code}"
@@ -64,6 +83,8 @@ When /^the return code is 503 I ensure there is a bulkExtractFiles entry for Mid
 end
 
 When /^the return code is 200 I get expected tar downloaded$/ do
+	  puts "@res.headers: #{@res.headers}"
+	  puts "@res.code: #{@res.code}"
     if @res.code == 200
 	  puts "@res.headers: #{@res.headers}"
 	  puts "@res.code: #{@res.code}"
