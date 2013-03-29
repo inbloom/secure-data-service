@@ -23,7 +23,7 @@ Scenario: Delete Assessment with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-	#And I should not see "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id" in the "Midgar" database
-    #And I should not see any entity mandatorily referring to "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id" in the "Midgar" database
-	#And I should see entities optionally referring to "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id" be updated in the "Midgar" database
+	And I should not see "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id" in the "Midgar" database
+    And I should not see any entity mandatorily referring to "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id" in the "Midgar" database
+	And I should see entities optionally referring to "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id" be updated in the "Midgar" database
 

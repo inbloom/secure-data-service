@@ -18,4 +18,4 @@ Scenario: Delete Session with cascade
 	And I should not see a warning log file created
 	And I should not see "fd5005534bf74e30de034c0e82662309f4df630f_id" in the "Midgar" database
     And I should not see any entity mandatorily referring to "fd5005534bf74e30de034c0e82662309f4df630f_id" in the "Midgar" database
-	#And I should see entities optionally referring to "fd5005534bf74e30de034c0e82662309f4df630f_id" be updated in the "Midgar" database
+	And I should see entities optionally referring to "fd5005534bf74e30de034c0e82662309f4df630f_id" be updated in the "Midgar" database

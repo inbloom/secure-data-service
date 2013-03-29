@@ -22,8 +22,8 @@ Scenario: Delete Grade with cascade
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
-    #And I should not see "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" in the "Midgar" database
-	#And I should not see any entity mandatorily referring to "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" in the "Midgar" database
-	#And I should see entities optionally referring to "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" be updated in the "Midgar" database
+    And I should not see "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" in the "Midgar" database
+	And I should not see any entity mandatorily referring to "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" in the "Midgar" database
+	And I should see entities optionally referring to "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" be updated in the "Midgar" database
     And I re-execute saved query "grade" to get "0" records
     And I re-execute saved query "reportCard" to get "0" records
