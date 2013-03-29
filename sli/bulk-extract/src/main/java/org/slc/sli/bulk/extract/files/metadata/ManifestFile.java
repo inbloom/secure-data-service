@@ -16,10 +16,9 @@
 package org.slc.sli.bulk.extract.files.metadata;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,6 +38,7 @@ public class ManifestFile{
 
     private static final Logger LOG = LoggerFactory.getLogger(ManifestFile.class);
     private File metaFile;
+    private String parentDirName;
 
     private static final  String VERSION = "1.0";
     private static final  String METADATA_VERSION = "metadata_version=";
@@ -55,15 +55,9 @@ public class ManifestFile{
      *
      * @param parentDirName
      *          Name of the parent directory
-     * @throws IOException
-     *          throws IOException
      */
-    public ManifestFile(String parentDirName) throws IOException{
-        File parentDir = new File(parentDirName + "/");
-        if (parentDir.isDirectory()) {
-            metaFile = new File(parentDir, METADATA_FILE);
-            metaFile.createNewFile();
-        }
+    public ManifestFile(String parentDirName) {
+        this.parentDirName = parentDirName;
     }
 
     /**
@@ -106,25 +100,27 @@ public class ManifestFile{
      *          throws IOException
      */
     public void generateMetaFile(Date startTime) throws IOException {
-
+        File parentDir = new File(parentDirName + "/");
+        metaFile = new File(parentDir, METADATA_FILE);
         String metaVersionEntry = METADATA_VERSION + VERSION;
-        String timestampEntry = TIME_STAMP + getTimeStamp(startTime);
+        String timeStampEntry = TIME_STAMP + getTimeStamp(startTime);
         if (apiVersion == null) {
             apiVersion = getApiVersion();
         }
         String apiVersionEntry = API_VERSION + apiVersion;
 
-        OutputStream outputStream = null;
+        FileWriter fw = null;
         try {
-            outputStream = new FileOutputStream(metaFile);
-            outputStream.write(metaVersionEntry.getBytes());
-            outputStream.write('\n');
-            outputStream.write(apiVersionEntry.getBytes());
-            outputStream.write('\n');
-            outputStream.write(timestampEntry.getBytes());
-            outputStream.write('\n');
+            fw = new FileWriter(metaFile);
+            fw.write(metaVersionEntry);
+            fw.write('\n');
+            fw.write(apiVersionEntry);
+            fw.write('\n');
+            fw.write(timeStampEntry);
+            fw.write('\n');
         } finally {
-            IOUtils.closeQuietly(outputStream);
+            fw.flush();
+            IOUtils.closeQuietly(fw);
         }
     }
 

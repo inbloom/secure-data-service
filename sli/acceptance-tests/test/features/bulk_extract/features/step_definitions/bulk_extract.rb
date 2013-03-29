@@ -170,7 +170,7 @@ end
 
 When /^the extract contains a file for each of the following entities:$/ do |table|
   Minitar.unpack(@filePath, @unpackDir)
-  
+
 	table.hashes.map do |entity|
   exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
   assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
@@ -187,14 +187,14 @@ When /^a "(.*?)" extract file exists$/ do |collection|
 end
 
 When /^a the correct number of "(.*?)" was extracted from the database$/ do |collection|
-	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant)) 
+	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
 	count = @tenantDb.collection(collection).count()
 
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     puts "Counts Expected: " + count.to_s + " Actual: " + records.size.to_s
     assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
-  }	
+  }
 end
 
 When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
@@ -238,10 +238,8 @@ Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
   Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extracts|
   collFile = JSON.parse(extracts.read)
   assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
-  
   compareToApi(collection, collFile)
 }
-  
 end
 
 ############################################################
