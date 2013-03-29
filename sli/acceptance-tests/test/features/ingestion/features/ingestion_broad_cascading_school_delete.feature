@@ -17,5 +17,5 @@ Scenario: Delete School with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I should not see "352e8570bd1116d11a72755b987902440045d346_id" in the "Midgar" database
-    And I should not see any entity mandatorily referring to "352e8570bd1116d11a72755b987902440045d346_id" in the "Midgar" database
-	And I should see entities optionally referring to "352e8570bd1116d11a72755b987902440045d346_id" be updated in the "Midgar" database
+    #And I should not see any entity mandatorily referring to "352e8570bd1116d11a72755b987902440045d346_id" in the "Midgar" database
+	#And I should see entities optionally referring to "352e8570bd1116d11a72755b987902440045d346_id" be updated in the "Midgar" database
