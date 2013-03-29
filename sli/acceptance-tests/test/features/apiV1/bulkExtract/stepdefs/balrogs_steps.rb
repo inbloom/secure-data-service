@@ -28,7 +28,7 @@ end
 
 Then /^I get expected tar downloaded$/ do  
   
-  EXPECTED_BYTE_COUNT = 351744
+  EXPECTED_BYTE_COUNT = 266240
   EXPECTED_CONTENT_TYPE = 'application/x-tar'
   
   assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
