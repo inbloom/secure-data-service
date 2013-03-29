@@ -37,7 +37,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.bulk.extract.TestUtils;
-import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.DataExtractFile;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
@@ -57,7 +57,7 @@ public class EntityExtractorTest {
 
     private MongoEntityRepository mongoEntityRepository;
 
-    private ArchivedExtractFile archiveFile;
+    private ExtractFile archiveFile;
 
     /**
      * Runs before JUnit test and does the initiation work.
@@ -67,7 +67,7 @@ public class EntityExtractorTest {
     @Before
     public void init() throws IOException {
         mongoEntityRepository = Mockito.mock(MongoEntityRepository.class);
-        archiveFile = Mockito.mock(ArchivedExtractFile.class);
+        archiveFile = Mockito.mock(ExtractFile.class);
         extractor.setEntityRepository(mongoEntityRepository);
     }
 

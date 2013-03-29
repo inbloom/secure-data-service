@@ -15,6 +15,7 @@
  */
 package org.slc.sli.bulk.extract.files;
 
+import java.io.BufferedOutputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,6 +35,8 @@ public class DataExtractFile implements Closeable{
 
     private GzipCompressorOutputStream outputStream;
     private File file;
+    private File parentDir;
+    private String fileName;
 
     private static final String FILE_EXTENSION = ".json.gz";
 
@@ -41,32 +44,28 @@ public class DataExtractFile implements Closeable{
      * Parameterized constructor.
      * @param parentDirName
      *          Name of the parent directory of the extract files
-     * @param fileName
-     *          Name of the data file
-     * @throws FileNotFoundException
-     *          if data file is not found
-     * @throws IOException
-     *          if an I/O error occurred
+     * @param filePrefix
+     *          the prefix string to be used in file name generationName of the data file
      */
-    public DataExtractFile(String parentDirName, String fileName)
-            throws FileNotFoundException, IOException {
-
-        File parentDir = new File(parentDirName + "/");
-        if (parentDir.isDirectory()) {
-            file = new File(parentDir, fileName + FILE_EXTENSION);
-            file.createNewFile();
-            if (file.canWrite()) {
-                outputStream = new GzipCompressorOutputStream(new FileOutputStream(file));
-            }
-        }
+    public DataExtractFile(String parentDirName, String filePrefix) {
+        this.parentDir = new File(parentDirName + "/");
+        this.fileName = filePrefix + FILE_EXTENSION;
     }
 
     /**
      * Getter for the output stream.
      * @return
-     *      returns an Outputstream object
+     *      returns an OutputStream object
+     * @throws IOException
+     *          if an I/O error occurred
+     * @throws FileNotFoundException
+     *          if data file is not found
      */
-    public OutputStream getOutputStream() {
+    public OutputStream getOutputStream() throws FileNotFoundException, IOException {
+        if(outputStream == null) {
+            file = new File(parentDir, fileName);
+            outputStream = new GzipCompressorOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
+        }
         return outputStream;
     }
 
@@ -81,8 +80,8 @@ public class DataExtractFile implements Closeable{
      * @return
      *      returns the File object
      */
-    public File getFile() {
-        return file;
+    public String getFileName() {
+        return fileName;
     }
 
 }

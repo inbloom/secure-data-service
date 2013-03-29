@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources;
 
 import static junit.framework.Assert.assertEquals;
@@ -23,15 +22,22 @@ import static junit.framework.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Map;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.StreamingOutput;
 
 import com.sun.jersey.core.spi.factory.ResponseImpl;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,6 +66,8 @@ public class BulkExtractTest {
 
     private static final String FILE_NAME = "mock.tar.gz";
 
+    private static final String EXPECTED_STRING = "Crypto sux";
+
     @Autowired
     private BulkExtract bulkExtract;
 
@@ -72,6 +80,22 @@ public class BulkExtractTest {
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testCiphers() throws Exception {
+        Method m = BulkExtract.class.getDeclaredMethod("getCiphers", new Class<?>[] {});
+        m.setAccessible(true);
+        Pair<Cipher,SecretKey> pair = (Pair<Cipher, SecretKey>) m.invoke(this.bulkExtract, new Object[] {});
+        Assert.assertNotNull(pair);
+
+        Cipher enc = pair.getLeft();
+        byte[] bytes = enc.doFinal(EXPECTED_STRING.getBytes("UTF-8"));
+
+        Cipher dec = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        dec.init(Cipher.DECRYPT_MODE, pair.getRight(), new IvParameterSpec(enc.getIV()));
+        Assert.assertEquals(EXPECTED_STRING, StringUtils.newStringUtf8(dec.doFinal(bytes)));
     }
 
     @Test
@@ -89,7 +113,8 @@ public class BulkExtractTest {
         Map<String, Object> mockBody = Mockito.mock(Map.class);
         Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
         Mockito.when(mockBody.get(Mockito.anyString())).thenReturn("");
-        Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(mockEntity);
+        Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
+            .thenReturn(mockEntity);
         ResponseImpl res = (ResponseImpl) bulkExtract.get();
         assertEquals(204, res.getStatus());
     }
@@ -108,7 +133,8 @@ public class BulkExtractTest {
       System.out.print(file.exists());
       Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(file.getAbsolutePath());
       Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
-      Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(mockEntity);
+      Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
+          .thenReturn(mockEntity);
 
       ResponseImpl res = (ResponseImpl) bulkExtract.get();
       assertEquals(200, res.getStatus());
