@@ -30,6 +30,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
 import org.slf4j.Logger;
@@ -84,26 +85,29 @@ public class BulkExtract {
     public Response get() throws FileNotFoundException {
         LOG.info("Received request to stream bulk extract...");
 
-        String fileName = SAMPLED_FILE_NAME;
-        File bulkExtractFile = null;
         Entity bulkExtractFileEntity = bulkExtractFileEntity();
-        String lastModified = "Not Specified";
-        if (bulkExtractFileEntity != null) {
-            bulkExtractFile = getbulkExtractFile(bulkExtractFileEntity);
-            lastModified = ((Date) bulkExtractFileEntity.getBody().get(BULK_EXTRACT_DATE)).toString();
-            fileName = bulkExtractFile.getName();
-            LOG.info("Requested stream bulk extract file: {}", bulkExtractFile);
+        if (bulkExtractFileEntity == null) {
+            // return 404 if no bulk extract support for that tenant
+            LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
+            return Response.status(Status.NOT_FOUND).build();
         }
 
-        final InputStream is = bulkExtractFile==null || !bulkExtractFile.exists() ?
-                this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME) :
-                new FileInputStream(bulkExtractFile);
+        final File bulkExtractFile = getbulkExtractFile(bulkExtractFileEntity);
+        if (bulkExtractFile==null || !bulkExtractFile.exists()) {
+            // return 204 if the bulk extract file is missing
+            LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
+            return Response.status(Status.NO_CONTENT).build();
+        }
+
+        String fileName = bulkExtractFile.getName();
+        String lastModified = ((Date) bulkExtractFileEntity.getBody().get(BULK_EXTRACT_DATE)).toString();
 
         StreamingOutput out = new StreamingOutput() {
             @Override
             public void write(OutputStream output) throws IOException, WebApplicationException {
                 int n;
                 byte[] buffer = new byte[1024];
+                InputStream is = new FileInputStream(bulkExtractFile);
                 while ((n = is.read(buffer)) > -1) {
                     output.write(buffer, 0, n);
                 }
@@ -113,6 +117,7 @@ public class BulkExtract {
         ResponseBuilder builder = Response.ok(out);
         builder.header("content-disposition", "attachment; filename = " + fileName);
         builder.header("last-modified", lastModified);
+        LOG.info("Requested stream bulk extract file: {} for tenant: {}", bulkExtractFile, principal.getTenantId());
         return builder.build();
     }
 
