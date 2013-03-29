@@ -3572,7 +3572,9 @@ Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. A
 	end
     end
     $savedQueries[queryName] = {"criteria"=>condHash, "collection"=>collection, "tenant"=>tenant};
+    disable_NOTABLESCAN()
     recordCnt   = @coll.find(condHash).count()
+    enable_NOTABLESCAN()
     assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{condHash}!");
 end
 
@@ -3586,7 +3588,9 @@ Then /I re-execute saved query "([^"]*)" to get "([^"]*)" records/ do |queryName
 
     @db         = @conn[convertTenantIdToDbName(tenant)]
     @coll       = @db[collection]
+    disable_NOTABLESCAN()
     recordCnt   = @coll.find(criteria).count()
+    enable_NOTABLESCAN()
     assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{criteria}!");
 end
 
