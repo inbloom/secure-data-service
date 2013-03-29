@@ -21,4 +21,7 @@ Feature: Admininstrating role-based access to bulking
         When I navigate to GET "/v1/sections"
         And I should receive a return code of 403
         When I navigate to GET "/bulk/extract"
-        Then I get expected tar downloaded
+        When the return code is 404 I ensure there is no bulkExtractFiles entry for Midgar
+        When the return code is 503 I ensure there is a bulkExtractFiles entry for Midgar
+        When the return code is 200 I get expected tar downloaded
+        Then I check the http response headers

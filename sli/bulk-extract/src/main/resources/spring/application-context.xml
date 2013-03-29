@@ -19,15 +19,15 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     <import resource="classpath:/spring/validation.xml" />
     <import resource="classpath:/spring/db.xml" />
     
-	<context:component-scan base-package="org.slc.sli.common.util.uuid" />
-	<context:component-scan base-package="org.slc.sli.common.domain" />
-	<context:component-scan base-package="org.slc.sli.validation" />
-	<context:annotation-config />
-	<tx:annotation-driven />
-	
-	<context:property-placeholder location="file:${sli.conf}" system-properties-mode="OVERRIDE" order="0"/>
-	
-	<util:list id="entities" value-type="java.lang.String">
+    <context:component-scan base-package="org.slc.sli.common.util.uuid" />
+    <context:component-scan base-package="org.slc.sli.common.domain" />
+    <context:component-scan base-package="org.slc.sli.validation" />
+    <context:annotation-config />
+    <tx:annotation-driven />
+
+    <context:property-placeholder location="file:${sli.conf}" system-properties-mode="OVERRIDE" order="0"/>
+
+    <util:list id="entities" value-type="java.lang.String">
         <value>assessment</value>
         <value>attendance</value>
         <value>calendarDate</value>
@@ -106,16 +106,16 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     <bean id="bulkExtractMongoDA" class="org.slc.sli.bulk.extract.BulkExtractMongoDA">
          <property name="entityRepository" ref="mongoEntityRepository" />
     </bean>
-    
+
      <bean id="applicator" class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
          <property name="treatments" ref="treatments" />
     </bean>
-    
+
     <util:list id="treatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
         <ref local="idTreatment"/>
         <ref local="typeTreatment"/>
     </util:list>
-    
+
         <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment">
     </bean>
 

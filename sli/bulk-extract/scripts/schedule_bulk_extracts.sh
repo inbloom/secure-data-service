@@ -178,7 +178,7 @@ process_config_file() {
         else
           LOGDIR="${TMP_LOGDIR}"
           LOGFILE="${LOGDIR}/local_bulk_extract.log"
-          echo "Using logfile ${LOGFILE} for ${BULK_EXTRACT_SCRIPT} output."
+          echo "Using default logfile ${LOGFILE}."
         fi
       else
         CONF_FILE_IS_VALID="false"
@@ -236,7 +236,7 @@ check_if_absolute_path() {
 check_if_valid_dir() {
   local dirdesc="$1"
   local dirname="$2"
-  if [ ! -d ${dirname} ]
+  if [ ! -d ${BULK_EXTRACT_SCRIPT_DIR} ]
   then
     echo "Error: ${dirdesc} ${dirname} does not exist."
     echo "Exiting.  No crontab changes will be made."

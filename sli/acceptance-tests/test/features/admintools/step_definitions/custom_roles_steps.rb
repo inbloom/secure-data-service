@@ -40,6 +40,7 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE"] if arg1 == "Read General Public and Aggregate"
   rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Read Restricted, Write Restricted and Write General"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Read General, Read Restricted, Write Restricted and Write General"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "BULK_EXTRACT"] if arg1 == "Bulk IT Administrator"
   rights = ["BULK_EXTRACT"] if arg1 == "BULK_EXTRACT"
   rights = [] if arg1 == "none"
   rights

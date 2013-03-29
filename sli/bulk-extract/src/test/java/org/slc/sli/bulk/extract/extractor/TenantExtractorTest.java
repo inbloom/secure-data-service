@@ -31,7 +31,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
 
@@ -52,7 +52,7 @@ public class TenantExtractorTest {
     @Autowired
     private TenantExtractor tenantExtractor;
 
-    private ArchivedExtractFile archiveFile;
+    private ExtractFile archiveFile;
 
     private List<String> collections;
 
@@ -73,7 +73,7 @@ public class TenantExtractorTest {
         ManifestFile metadataFile = Mockito.mock(ManifestFile.class);
         Mockito.doNothing().when(metadataFile).generateMetaFile(Mockito.any(Date.class));
 
-        archiveFile = Mockito.mock(ArchivedExtractFile.class);
+        archiveFile = Mockito.mock(ExtractFile.class);
         Mockito.doNothing().when(archiveFile).generateArchive();
         Mockito.when(archiveFile.getArchiveFile()).thenReturn(file);
         Mockito.when(archiveFile.getManifestFile()).thenReturn(metadataFile);
@@ -92,7 +92,7 @@ public class TenantExtractorTest {
         tenantExtractor.setEntities(collections);
 
         EntityExtractor ex = Mockito.mock(EntityExtractor.class);
-        Mockito.doNothing().when(ex).extractEntity(Matchers.anyString(), Matchers.any(ArchivedExtractFile.class), Matchers.anyString());
+        Mockito.doNothing().when(ex).extractEntity(Matchers.anyString(), Matchers.any(ExtractFile.class), Matchers.anyString());
 
         tenantExtractor.setEntityExtractor(ex);
 
@@ -102,7 +102,7 @@ public class TenantExtractorTest {
             Mockito.verify(ex, Mockito.times(1)).extractEntity("Midgar", archiveFile, collection);
         }
 
-        Mockito.verify(bulkExtractMongoDA, Mockito.times(1)).updateDBRecord(Matchers.anyString(), Matchers.anyString(), Matchers.any(Date.class));
+        Mockito.verify(bulkExtractMongoDA, Mockito.times(1)).updateDBRecord(Matchers.anyString(), Matchers.anyString(), Matchers.any(Date.class), Mockito.eq(false));
     }
 
 
