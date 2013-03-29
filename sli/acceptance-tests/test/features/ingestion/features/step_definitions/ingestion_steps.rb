@@ -200,7 +200,8 @@ $CASCADE_DELETE_REFERENCE_MAP = {
                 "otherName_staff" => "updated",
                 "otherName_student" => "updated",
                 "otherName_teacher" => "updated",
-                "parent_student" => "deleted",
+                "parent_studentParentAssociation" => "deleted",
+                "parent_student" => "updated",
                 "performanceLevelDescriptor_assessmentPerformanceLevel" => "deleted",
                 "performanceLevelDescriptor_studentAssessment" => "updated",
                 "performanceLevelDescriptor_studentObjectiveAssessment" => "updated",
@@ -224,8 +225,7 @@ $CASCADE_DELETE_REFERENCE_MAP = {
                 "restraintEventReasonsType_restraintEvent" => "deleted",
                 "school_attendance" => "deleted",
                 "school_courseOffering" => "deleted",
-                "school_disciplineAction" => "deleted",
-                "school_disciplineAction" => "updated",
+                "school_disciplineAction" => "confused",
                 "school_disciplineIncident" => "deleted",
                 "school_restraintEvent" => "deleted",
                 "school_section" => "deleted",
@@ -3384,6 +3384,25 @@ Then /^I should not see any entity mandatorily referring to "(.*?)" in the "(.*?
 
 end
 
+def check_record_in_collection(table,db_name,found)
+    @db   = @conn[db_name]
+    for i in 0..deleted.length-1
+        recordId = deleted[i]
+        subdoc_parent = subDocParent table
+        if subdoc_parent
+           @entity_count = runSubDocQuery(subdoc_parent, table, "string", "_id", recordId)
+        else
+           @entity_collection = @db.collection(table)
+           @entity_count = @entity_collection.find({"$and" => [{"_id" => recordId}]}).count().to_s
+           if found
+             assert(@entity_count!=0, "ID: #{recordId} not found in tenant database")
+           else
+             assert(@entity_count==0, "ID: #{recordId} found in tenant database")
+           end
+        end
+    end
+end
+
 Then /^I should see entities optionally referring to "(.*?)" be updated in the "(.*?)" database$/ do |id, tenant|
         count = @after_count.to_i + deleted.length()
         #puts count
@@ -3441,13 +3460,23 @@ Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the 
                         puts id
                         deleted.add(child_id)
                         puts child_id+" added to delete"
+                    when 'confused'
+                        if /\"responsibilitySchoolId\" \: \"#{id}\"/.match(entry)
+                              puts entry
+                              deleted.add(child_id)
+                              puts "add to deleted"
+                        elsif /\"assignmentSchoolId\" \: \"#{id}\"/.match(entry)
+                              puts entry
+                              updated.add(child_id)
+                              puts "add to udpated"
+                        else
+                        end
                     when 'checked'
                         checked.add(child_id)
                         puts "entry = " + entry
-                        #puts /#{id}/.match(entry)
-                        #puts /\[[^\]].*#{id}[^\]].*\]/.match(entry)
-                        puts /\[ \{ [^\]|^\}].*#{id}[^\]|^\}].* \} \]/.match(entry)
-                        if /\[[^\]].*#{id}[^\]].*\]/.match(entry) || /\[ \{ [^\]|^\}].*#{id}[^\]|^\}].* \} \]/.match(entry)
+                        puts /\[\s*\"#{id}\"\s*\]/.match(entry)
+                        puts /\s*\[\s*\{[^\}]*\"#{id}[^\}]*\"\}\s*\]\s*/.match(entry)
+                        if /\[\s*\"#{id}\"\s*\]/.match(entry) || /\s*\[\s*\{[^\}]*\"#{id}[^\}]*\"\}\s*\]\s*/.match(entry)
                             deleted.add(child_id)
                             puts child_id+" added to delete"
                         else
