@@ -43,6 +43,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +104,8 @@ public class BulkExtract {
     /**
      * Stream a delta response
      *
-     * @param date the date of the delta
+     * @param date
+     *            the date of the delta
      * @return
      */
     @GET
@@ -116,12 +119,13 @@ public class BulkExtract {
     /**
      * Get the bulk extract response
      *
-     * @param deltaDate the date of the delta, or null to get the full extract
+     * @param deltaDate
+     *            the date of the delta, or null to get the full extract
      * @return the jax-rs response to send back.
+     * @throws Exception
      */
-    private Response getExtractResponse(String deltaDate) throws Exception{
+    private Response getExtractResponse(String deltaDate) throws Exception {
         final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
-
         ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate);
         if (bulkExtractFileEntity == null) {
             // return 404 if no bulk extract support for that tenant
@@ -130,10 +134,10 @@ public class BulkExtract {
         }
 
         final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
-        if (bulkExtractFile==null || !bulkExtractFile.exists()) {
-            // return 503 if the bulk extract file is missing
+        if (bulkExtractFile == null || !bulkExtractFile.exists()) {
+            // return 404 if the bulk extract file is missing
             LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
-            return Response.status(Status.SERVICE_UNAVAILABLE).build();
+            return Response.status(Status.NOT_FOUND).build();
         }
 
         String fileName = bulkExtractFile.getName();
@@ -142,27 +146,27 @@ public class BulkExtract {
         try {
 
             final InputStream is = new FileInputStream(bulkExtractFile);
-
             StreamingOutput out = new StreamingOutput() {
                 @Override
                 public void write(OutputStream output) throws IOException, WebApplicationException {
                     int n;
                     byte[] buffer = new byte[1024];
 
-//                    byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
-//                    byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
-//                    PublicKey publicKey = null; //TODO get public key
-//                    try {
-//                        publicKey = KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
-//                    } catch (NoSuchAlgorithmException e) {
-//                        LOG.error("Exception: NoSuchAlgorithmException {}", e);
-//                    }
-//                    byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
-//                    byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
-//
-//                    output.write(encryptedIV);
-//                    output.write(encryptedSecret.length);
-//                    output.write(encryptedSecret);
+                    // byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+                    // byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
+                    // PublicKey publicKey = null; //TODO get public key
+                    // try {
+                    // publicKey =
+                    // KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
+                    // } catch (NoSuchAlgorithmException e) {
+                    // LOG.error("Exception: NoSuchAlgorithmException {}", e);
+                    // tq:q }
+                    // byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+                    // byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
+                    //
+                    // output.write(encryptedIV);
+                    // output.write(encryptedSecret.length);
+                    // output.write(encryptedSecret);
 
                     while ((n = is.read(buffer)) > -1) {
                         output.write(buffer, 0, n);
@@ -174,21 +178,29 @@ public class BulkExtract {
             builder.header("last-modified", lastModified);
             return builder.build();
         } catch (FileNotFoundException e) {
-            return Response.status(Status.SERVICE_UNAVAILABLE).build();
+            return Response.status(Status.NOT_FOUND).build();
         }
     }
 
     /**
      * Get the bulk extract file
      *
-     * @param deltaDate the date of the delta, or null to retrieve a full extract
+     * @param deltaDate
+     *            the date of the delta, or null to retrieve a full extract
      * @return
      */
     private ExtractFile getBulkExtractFile(String deltaDate) {
+        boolean isDelta = deltaDate != null;
         initializePrincipal();
-        NeutralQuery tenantQuery = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
-        Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, tenantQuery);
+        if (isDelta) {
+            query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
+            DateTime d = ISODateTimeFormat.basicDate().parseDateTime(deltaDate);
+            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.toDate()));
+            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d.plusDays(1).toDate()));
+        }
+        Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
         if (entity == null) {
             return null;
         }
