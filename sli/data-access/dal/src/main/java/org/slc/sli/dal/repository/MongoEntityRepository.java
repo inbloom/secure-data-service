@@ -454,6 +454,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
         }
 
+        // Delete denormalized stuff
+        denormalizer.deleteDenormalizedReferences(entityType, id);
         return result;
     }
 

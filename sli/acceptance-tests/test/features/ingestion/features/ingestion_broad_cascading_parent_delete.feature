@@ -18,6 +18,6 @@ Scenario: Delete Parent with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I should not see "1b4aa93f01d11ad51072f3992583861ed080f15c_id" in the "Midgar" database
-    #And I should not see any entity mandatorily referring to "1b4aa93f01d11ad51072f3992583861ed080f15c_id" in the "Midgar" database
-	#And I should see entities optionally referring to "1b4aa93f01d11ad51072f3992583861ed080f15c_id" be updated in the "Midgar" database
+    And I should not see any entity mandatorily referring to "1b4aa93f01d11ad51072f3992583861ed080f15c_id" in the "Midgar" database
+	And I should see entities optionally referring to "1b4aa93f01d11ad51072f3992583861ed080f15c_id" be updated in the "Midgar" database
 	
