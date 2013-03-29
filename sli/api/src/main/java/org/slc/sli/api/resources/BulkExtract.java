@@ -44,7 +44,7 @@ public class BulkExtract {
 
     private static final Logger LOG = Logger.getLogger(BulkExtract.class);
 
-    private static final String FILE_NAME = "NY-WALTON-2013-03-19T13-02-02.tar";
+    private static final String FILE_NAME = "sample-extract.tar";
 
     /**
      * Creates a streaming response for a sample data file
