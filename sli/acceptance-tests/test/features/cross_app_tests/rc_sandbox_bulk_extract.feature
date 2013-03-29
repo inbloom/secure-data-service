@@ -1,4 +1,5 @@
 @rc
+@sandbox
 Feature:  RC Integration Tests
 
 Scenario: Operator triggers a bulk extract
