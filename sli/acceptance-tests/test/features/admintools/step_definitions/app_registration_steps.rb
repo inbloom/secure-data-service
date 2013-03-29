@@ -429,6 +429,11 @@ And /^I can delete "(.*?)"$/ do |app_name|
     step "the application named \"#{app_name}\" is removed from the SLI"
 end
 
+Then /^I have enabled "(.*?)"$/ do |arg1|
+  client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[11]').text
+  assert(client_id == 'true', "Expected 'true', got #{client_id}")
+end
+
 private
 def build_edorg(name, tenant, parent = nil, stateId = "Waffles", isLea=true)
   @@mongoid ||= 0

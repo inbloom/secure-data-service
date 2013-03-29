@@ -1,5 +1,5 @@
     <tr>
-      <td><%= @apps_map[@app_auth.appId].name %></td>
+      <td><%= @apps_map[@app_auth.appId].name %><%= @apps_map[@app_auth.appId].isBulkExtract ? "<span class=\"alert\"> Bulk Extract</span>": "" %></td>
       <td><%= @apps_map[@app_auth.appId].version  %></td>
       <td><%= @apps_map[@app_auth.appId].vendor %></td>
       <%=

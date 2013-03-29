@@ -498,6 +498,7 @@ module DataProvider
       "description" => "Prints hello world.",
       "name" => "Hello World",
       "is_admin" => true,
+      "isBulkExtract" => false,
       "behavior" => "Full Window App",
       "administration_url" => "https://slidev.org/admin",
       "image_url" => "https://slidev.org/img",

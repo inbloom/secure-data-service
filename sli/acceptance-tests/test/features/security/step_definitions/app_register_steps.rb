@@ -149,6 +149,7 @@ end
 
 Then /^the "([^"]*)" bootstrap app should exist$/ do |appName|
   apps = JSON.parse(@res.body)
+  puts apps
   foundApp = false
   apps.each do |app|
     puts app["name"]
