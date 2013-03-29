@@ -61,10 +61,10 @@ public class Launcher {
         return tenant + "-" + getTimeStamp(startTime);
     }
 
-    private String getTenantDirectory(String tenant) {
+    private File getTenantDirectory(String tenant) {
         File tenantDirectory = new File(baseDirectory, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
         tenantDirectory.mkdirs();
-        return tenantDirectory.getPath();
+        return tenantDirectory;
     }
 
     /**

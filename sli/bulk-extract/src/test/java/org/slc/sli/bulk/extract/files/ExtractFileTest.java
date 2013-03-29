@@ -54,11 +54,11 @@ public class ExtractFileTest {
      */
     @Before
     public void init() throws IOException, NoSuchFieldException {
-        archiveFile = new ExtractFile("./", FILE_NAME);
+        archiveFile = new ExtractFile(new File("./"), FILE_NAME);
 
         File parentDir = (File) PrivateAccessor.getField(archiveFile, "tempDir");
 
-        ManifestFile metaFile = new ManifestFile(parentDir.getName());
+        ManifestFile metaFile = new ManifestFile(parentDir);
         metaFile.generateMetaFile(new Date());
         Assert.assertTrue(metaFile.getFile() != null);
         Assert.assertTrue(metaFile.getFile().getName() != null);
@@ -67,7 +67,7 @@ public class ExtractFileTest {
         List<DataExtractFile> files = new ArrayList<DataExtractFile>();
         File studentFile = File.createTempFile("student", ".json.gz", parentDir);
         String fileNamePrefix = studentFile.getName().substring(0, studentFile.getName().indexOf(".json.gz"));
-        DataExtractFile studentExtractFile = new DataExtractFile(parentDir.getName(), fileNamePrefix);
+        DataExtractFile studentExtractFile = new DataExtractFile(parentDir, fileNamePrefix);
         PrivateAccessor.setField(studentExtractFile, "file", studentFile);
 
 

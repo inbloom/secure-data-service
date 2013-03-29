@@ -38,7 +38,6 @@ public class ManifestFile{
 
     private static final Logger LOG = LoggerFactory.getLogger(ManifestFile.class);
     private File metaFile;
-    private String parentDirName;
 
     private static final  String VERSION = "1.0";
     private static final  String METADATA_VERSION = "metadata_version=";
@@ -53,11 +52,11 @@ public class ManifestFile{
     /**
      * Parameterized constructor.
      *
-     * @param parentDirName
+     * @param parentDir
      *          Name of the parent directory
      */
-    public ManifestFile(String parentDirName) {
-        this.parentDirName = parentDirName;
+    public ManifestFile(File parentDir) {
+        metaFile = new File(parentDir, METADATA_FILE);
     }
 
     /**
@@ -100,8 +99,6 @@ public class ManifestFile{
      *          throws IOException
      */
     public void generateMetaFile(Date startTime) throws IOException {
-        File parentDir = new File(parentDirName + "/");
-        metaFile = new File(parentDir, METADATA_FILE);
         String metaVersionEntry = METADATA_VERSION + VERSION;
         String timeStampEntry = TIME_STAMP + getTimeStamp(startTime);
         if (apiVersion == null) {
@@ -112,14 +109,16 @@ public class ManifestFile{
         FileWriter fw = null;
         try {
             fw = new FileWriter(metaFile);
+
             fw.write(metaVersionEntry);
             fw.write('\n');
             fw.write(apiVersionEntry);
             fw.write('\n');
             fw.write(timeStampEntry);
             fw.write('\n');
-        } finally {
+
             fw.flush();
+        } finally {
             IOUtils.closeQuietly(fw);
         }
     }

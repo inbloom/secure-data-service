@@ -44,7 +44,7 @@ public class ManifestFileTest {
      */
     @Before
     public void init() throws IOException {
-        meta = new ManifestFile("./");
+        meta = new ManifestFile(new File("./"));
     }
 
     /**
