@@ -38,6 +38,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 
+import com.sun.jersey.core.spi.factory.ResponseImpl;
+
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -52,12 +54,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -65,7 +61,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import com.sun.jersey.core.spi.factory.ResponseImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Test for support BulkExtract
@@ -105,7 +106,7 @@ public class BulkExtractTest {
 
         Cipher enc = pair.getLeft();
         byte[] bytes = enc.doFinal(EXPECTED_STRING.getBytes("UTF-8"));
-        
+
         SecretKeySpec key = new SecretKeySpec(pair.getRight().getEncoded(),"AES");
         Cipher dec2 = Cipher.getInstance("AES/CBC/PKCS5Padding");
         dec2.init(Cipher.DECRYPT_MODE, key,new IvParameterSpec(enc.getIV()));
@@ -176,10 +177,10 @@ public class BulkExtractTest {
                 public boolean matches(Object arg0) {
                     NeutralQuery query = (NeutralQuery) arg0;
                     return query.getCriteria().contains(
-                            new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, new DateTime(2013, 3, 31, 0, 0).getMillis()))
+                            new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, new DateTime(2013, 3, 31, 0, 0).toDate()))
                             && query.getCriteria().contains(
                                     new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, new DateTime(2013, 4, 1,
-                                            0, 0).getMillis()));
+                                            0, 0).toDate()));
 
                 }
 
