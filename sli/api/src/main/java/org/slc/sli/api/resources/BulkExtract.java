@@ -131,9 +131,9 @@ public class BulkExtract {
 
         final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
         if (bulkExtractFile==null || !bulkExtractFile.exists()) {
-            // return 204 if the bulk extract file is missing
+            // return 503 if the bulk extract file is missing
             LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
-            return Response.status(Status.NO_CONTENT).build();
+            return Response.status(Status.SERVICE_UNAVAILABLE).build();
         }
 
         String fileName = bulkExtractFile.getName();
@@ -174,7 +174,7 @@ public class BulkExtract {
             builder.header("last-modified", lastModified);
             return builder.build();
         } catch (FileNotFoundException e) {
-            return Response.status(Status.NO_CONTENT).build();
+            return Response.status(Status.SERVICE_UNAVAILABLE).build();
         }
     }
 

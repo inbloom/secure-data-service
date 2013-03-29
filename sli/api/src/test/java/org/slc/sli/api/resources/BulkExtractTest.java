@@ -99,7 +99,7 @@ public class BulkExtractTest {
     }
 
     @Test
-    public void testGetErrorFile() throws Exception {
+    public void testGetFileError() throws Exception {
         injector.setEducatorContext();
         bulkExtract.setMongoEntityRepository(mockMongoEntityRepository);
         Entity mockEntity = Mockito.mock(Entity.class);
@@ -109,7 +109,7 @@ public class BulkExtractTest {
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
         ResponseImpl res = (ResponseImpl) bulkExtract.get();
-        assertEquals(204, res.getStatus());
+        assertEquals(503, res.getStatus());
     }
 
   @Test
