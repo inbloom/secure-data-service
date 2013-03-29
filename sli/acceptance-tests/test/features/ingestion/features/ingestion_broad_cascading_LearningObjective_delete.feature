@@ -1,12 +1,6 @@
 @RALLY_US5180
 Feature: Safe Deletion and Cascading Deletion
 
-# NOTE: This test is incomplete in that the input data set does not
-# have data for child references from the following fields:
-#
-#   gradebookEntry.learningObjectives
-#   learningObjective.parentLearningObjective
-
 Background: I have a landing zone route configured
 Given I am using local data store
 
