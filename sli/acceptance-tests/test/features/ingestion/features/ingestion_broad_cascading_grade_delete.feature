@@ -8,7 +8,7 @@ Scenario: Delete Grade with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-	#And I should see child entities of entityType "grade" with id "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" in the "Midgar" database
+	And I should see child entities of entityType "grade" with id "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" in the "Midgar" database
     Then there exist "1" "yearlyTranscript" records like below in "Midgar" tenant. And I save this query as "grade"
         |field                                     |value                                                                                 |
         |grade._id                                 |861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id|
