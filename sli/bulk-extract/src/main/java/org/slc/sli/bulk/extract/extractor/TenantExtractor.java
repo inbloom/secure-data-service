@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
 /**
@@ -53,7 +53,7 @@ public class TenantExtractor{
  * @param startTime
  *          start time stamp
  */
-    public void execute(String tenant, ArchivedExtractFile extractFile, Date startTime) {
+    public void execute(String tenant, ExtractFile extractFile, Date startTime) {
 
         for (String entity : entities) {
             entityExtractor.extractEntity(tenant, extractFile, entity);
@@ -62,17 +62,17 @@ public class TenantExtractor{
         try {
             metaDataFile = extractFile.getManifestFile();
             metaDataFile.generateMetaFile(startTime);
-
-            bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime);
         } catch (IOException e) {
-            LOG.error("Error creating metadata file");
+            LOG.error("Error creating metadata file: {}", e.getMessage());
         }
 
         try {
             extractFile.generateArchive();
         } catch (IOException e) {
-            LOG.error("Error generating archive file");
+            LOG.error("Error generating archive file: {}", e.getMessage());
         }
+
+        bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime, false);
     }
 
     /**

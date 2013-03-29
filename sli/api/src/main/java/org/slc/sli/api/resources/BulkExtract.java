@@ -16,19 +16,15 @@
 
 package org.slc.sli.api.resources;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -45,21 +41,28 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.InvalidKeyException;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 @Path("/bulk")
@@ -101,7 +104,8 @@ public class BulkExtract {
     /**
      * Stream a delta response
      *
-     * @param date the date of the delta
+     * @param date
+     *            the date of the delta
      * @return
      */
     @GET
@@ -115,50 +119,54 @@ public class BulkExtract {
     /**
      * Get the bulk extract response
      *
-     * @param deltaDate the date of the delta, or null to get the full extract
+     * @param deltaDate
+     *            the date of the delta, or null to get the full extract
      * @return the jax-rs response to send back.
+     * @throws Exception
      */
-    private Response getExtractResponse(String deltaDate) throws Exception{
+    private Response getExtractResponse(String deltaDate) throws Exception {
         final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
-
-        String fileName = SAMPLED_FILE_NAME;
-        File bulkExtractFile = null;
         ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate);
-        String lastModified = "Not Specified";
-        if (bulkExtractFileEntity != null) {
-            bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
-            lastModified = bulkExtractFileEntity.getLastModified();
-            fileName = bulkExtractFile.getName();
-            LOG.info("Requested stream bulk extract file: {}", bulkExtractFile);
+        if (bulkExtractFileEntity == null) {
+            // return 404 if no bulk extract support for that tenant
+            LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
+            return Response.status(Status.NOT_FOUND).build();
         }
 
+        final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
+        if (bulkExtractFile == null || !bulkExtractFile.exists()) {
+            // return 404 if the bulk extract file is missing
+            LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
+            return Response.status(Status.NOT_FOUND).build();
+        }
+
+        String fileName = bulkExtractFile.getName();
+        String lastModified = bulkExtractFileEntity.getLastModified();
 
         try {
 
-            final InputStream is = bulkExtractFile == null || !bulkExtractFile.exists() ?
-                    this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME) :
-                    new FileInputStream(bulkExtractFile);
-
+            final InputStream is = new FileInputStream(bulkExtractFile);
             StreamingOutput out = new StreamingOutput() {
                 @Override
                 public void write(OutputStream output) throws IOException, WebApplicationException {
                     int n;
                     byte[] buffer = new byte[1024];
 
-                    byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
-                    byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
-                    PublicKey publicKey = null; //TODO get public key
-                    try {
-                        publicKey = KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
-                    } catch (NoSuchAlgorithmException e) {
-                        LOG.error("Exception: NoSuchAlgorithmException {}", e);
-                    }
-                    byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
-                    byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
-
-                    output.write(encryptedIV);
-                    output.write(encryptedSecret.length);
-                    output.write(encryptedSecret);
+                    // byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+                    // byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
+                    // PublicKey publicKey = null; //TODO get public key
+                    // try {
+                    // publicKey =
+                    // KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
+                    // } catch (NoSuchAlgorithmException e) {
+                    // LOG.error("Exception: NoSuchAlgorithmException {}", e);
+                    // tq:q }
+                    // byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+                    // byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
+                    //
+                    // output.write(encryptedIV);
+                    // output.write(encryptedSecret.length);
+                    // output.write(encryptedSecret);
 
                     while ((n = is.read(buffer)) > -1) {
                         output.write(buffer, 0, n);
@@ -177,14 +185,22 @@ public class BulkExtract {
     /**
      * Get the bulk extract file
      *
-     * @param deltaDate the date of the delta, or null to retrieve a full extract
+     * @param deltaDate
+     *            the date of the delta, or null to retrieve a full extract
      * @return
      */
     private ExtractFile getBulkExtractFile(String deltaDate) {
+        boolean isDelta = deltaDate != null;
         initializePrincipal();
-        NeutralQuery tenantQuery = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
-        Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, tenantQuery);
+        if (isDelta) {
+            query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
+            DateTime d = ISODateTimeFormat.basicDate().parseDateTime(deltaDate);
+            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.getMillis()));
+            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d.plusDays(1).getMillis()));
+        }
+        Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
         if (entity == null) {
             return null;
         }
@@ -231,7 +247,7 @@ public class BulkExtract {
 
     private Pair<Cipher, SecretKey> getCiphers() throws Exception {
         SecretKey secret = KeyGenerator.getInstance("AES").generateKey();
-        
+
         Cipher encrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
         encrypt.init(Cipher.ENCRYPT_MODE, secret);
 

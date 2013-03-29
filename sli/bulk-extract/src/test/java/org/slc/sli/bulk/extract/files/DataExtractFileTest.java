@@ -16,6 +16,7 @@
 package org.slc.sli.bulk.extract.files;
 
 import java.io.File;
+import java.io.OutputStream;
 
 import junit.framework.Assert;
 
@@ -45,9 +46,9 @@ public class DataExtractFileTest {
                 }
 
                 DataExtractFile testDEF = new DataExtractFile(tempDir.getAbsolutePath(), tempFileName);
-                File tempFile = testDEF.getFile();
+                OutputStream os = testDEF.getOutputStream();
 
-                if(!tempFile.exists()){
+                if(os == null){
                     Assert.fail("Failed to create the data file");
                 } else {
                     TestUtils.deleteDir(tempDir);
