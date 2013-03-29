@@ -51,8 +51,8 @@ When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Mi
     end
 end
 
-When /^the return code is 204 I ensure there is a bulkExtractFiles entry for Midgar$/ do
-    if @res.code == 204
+When /^the return code is 503 I ensure there is a bulkExtractFiles entry for Midgar$/ do
+    if @res.code == 503
   		puts "@res.headers: #{@res.headers}"
   		puts "@res.code: #{@res.code}"
 
