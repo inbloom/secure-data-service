@@ -450,6 +450,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 // do the actual deletes with some confidence
                 deletedIds.clear();
                 result = safeDeleteHelper(entityType, collectionName, id, cascade, Boolean.FALSE, maxObjects, access, 1,  deletedIds);
+                result.setDeletedIds(deletedIds);
             }
         }
 

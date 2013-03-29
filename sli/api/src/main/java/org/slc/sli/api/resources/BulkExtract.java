@@ -43,8 +43,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,15 +96,13 @@ public class BulkExtract {
     public Response get() throws Exception {
         LOG.info("Received request to stream bulk extract...");
 
-        return getExtractResponse(null,
-                this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME));
+        return getExtractResponse(null);
     }
 
     /**
      * Stream a delta response
      *
-     * @param date
-     *            the date of the delta
+     * @param date the date of the delta
      * @return
      */
     @GET
@@ -114,37 +110,39 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@PathParam("date") String date) throws Exception {
         LOG.info("Retrieving delta bulk extract");
-        return getExtractResponse(date, null);
+        return getExtractResponse(date);
     }
 
     /**
      * Get the bulk extract response
      *
-     * @param deltaDate
-     *            the date of the delta, or null to get the full extract
+     * @param deltaDate the date of the delta, or null to get the full extract
      * @return the jax-rs response to send back.
-     * @throws Exception
      */
-    private Response getExtractResponse(String deltaDate, InputStream defaultStream) throws Exception {
+    private Response getExtractResponse(String deltaDate) throws Exception{
         final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
-        String fileName = SAMPLED_FILE_NAME;
-        File bulkExtractFile = null;
+
         ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate);
-        String lastModified = "Not Specified";
-        if (bulkExtractFileEntity != null) {
-            bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
-            lastModified = bulkExtractFileEntity.getLastModified();
-            fileName = bulkExtractFile.getName();
-            LOG.info("Requested stream bulk extract file: {}", bulkExtractFile);
+        if (bulkExtractFileEntity == null) {
+            // return 404 if no bulk extract support for that tenant
+            LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
+            return Response.status(Status.NOT_FOUND).build();
         }
 
+        final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
+        if (bulkExtractFile==null || !bulkExtractFile.exists()) {
+            // return 503 if the bulk extract file is missing
+            LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
+            return Response.status(Status.SERVICE_UNAVAILABLE).build();
+        }
+
+        String fileName = bulkExtractFile.getName();
+        String lastModified = bulkExtractFileEntity.getLastModified();
 
         try {
-            final InputStream is = bulkExtractFile == null || !bulkExtractFile.exists() ?  defaultStream : new FileInputStream(
-                    bulkExtractFile);
-            if (is == null) {
-                return Response.status(Status.NOT_FOUND).build();
-            }
+
+            final InputStream is = new FileInputStream(bulkExtractFile);
+
             StreamingOutput out = new StreamingOutput() {
                 @Override
                 public void write(OutputStream output) throws IOException, WebApplicationException {
@@ -176,29 +174,21 @@ public class BulkExtract {
             builder.header("last-modified", lastModified);
             return builder.build();
         } catch (FileNotFoundException e) {
-            return Response.status(Status.NOT_FOUND).build();
+            return Response.status(Status.SERVICE_UNAVAILABLE).build();
         }
     }
 
     /**
      * Get the bulk extract file
      *
-     * @param deltaDate
-     *            the date of the delta, or null to retrieve a full extract
+     * @param deltaDate the date of the delta, or null to retrieve a full extract
      * @return
      */
     private ExtractFile getBulkExtractFile(String deltaDate) {
-        boolean isDelta = deltaDate != null;
         initializePrincipal();
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
+        NeutralQuery tenantQuery = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
-        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
-        if (isDelta) {
-            DateTime d = ISODateTimeFormat.basicDate().parseDateTime(deltaDate);
-            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.getMillis()));
-            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d.plusDays(1).getMillis()));
-        }
-        Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
+        Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, tenantQuery);
         if (entity == null) {
             return null;
         }

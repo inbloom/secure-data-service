@@ -22,6 +22,8 @@
  */
 package org.slc.sli.domain;
 
+import java.util.Set;
+
 public class CascadeResult {
 
     public enum Status {
@@ -36,6 +38,8 @@ public class CascadeResult {
     private int nObjects;		    // Number of objects affected
     private int	   depth;			// Furthest depth examined
     private Status status;			// Current/overall status of the operation
+
+    Set<String> deletedIds;         // ids of deleted entities - not set for dryrun
 
     private String message;          // Status message e.g. error text - null on SUCCESS
 
@@ -69,6 +73,14 @@ public class CascadeResult {
         this.objectId = objectId;
         this.objectType = objectType;
         return this;
+    }
+
+    public Set<String> getDeletedIds() {
+        return deletedIds;
+    }
+
+    public void setDeletedIds(Set<String> deletedIds) {
+        this.deletedIds = deletedIds;
     }
 
     // Return true if the operation is a success

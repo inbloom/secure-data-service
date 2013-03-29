@@ -7,14 +7,7 @@ Given I am using local data store
 Scenario: delete  teacher, associated entities should be deleted, non-associated entities should not be deleted
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I post "prep_cascading_deletion_teacher.zip" file as the payload of the ingestion job
-  And the following collections are empty in datastore:
-     | collectionName                            |
-     | teacherSchoolAssociation                  |
-     | teacherSectionAssociation                 |
-     | educationOrganization                     |
-     | program                                   |
-     | section                                   |
-     | staff                                     |
+  And the "Midgar" tenant db is empty
 When zip file is scp to ingestion landing zone
   And a batch job for file "prep_cascading_deletion_teacher.zip" is completed in database
   And a batch job log has been created
