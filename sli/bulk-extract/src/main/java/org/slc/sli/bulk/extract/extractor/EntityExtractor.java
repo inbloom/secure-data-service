@@ -15,6 +15,7 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.Map;
@@ -27,8 +28,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
 import org.slc.sli.bulk.extract.files.DataExtractFile;
+import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.treatment.TreatmentApplicator;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -63,7 +64,7 @@ public class EntityExtractor{
      * @param entityName
      *          Name of the entity to be extracted
      */
-    public void extractEntity(String tenant, ArchivedExtractFile archiveFile, String entityName) {
+    public void extractEntity(String tenant, ExtractFile archiveFile, String entityName) {
 
         LOG.info("Extracting " + entityName);
         DataExtractFile dataFile = null;
@@ -102,7 +103,7 @@ public class EntityExtractor{
             LOG.info("Finished extracting {} records for " + entityName,
                     noOfRecords);
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOG.error("Error while extracting " + entityName, e);
         } finally {
             TenantContext.setTenantId(null);

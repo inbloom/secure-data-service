@@ -16,19 +16,15 @@
 
 package org.slc.sli.api.resources;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -45,20 +41,26 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 @Path("/bulk")
@@ -120,23 +122,26 @@ public class BulkExtract {
     private Response getExtractResponse(String deltaDate) throws Exception{
         final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
 
-        String fileName = SAMPLED_FILE_NAME;
-        File bulkExtractFile = null;
         ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate);
-        String lastModified = "Not Specified";
-        if (bulkExtractFileEntity != null) {
-            bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
-            lastModified = bulkExtractFileEntity.getLastModified();
-            fileName = bulkExtractFile.getName();
-            LOG.info("Requested stream bulk extract file: {}", bulkExtractFile);
+        if (bulkExtractFileEntity == null) {
+            // return 404 if no bulk extract support for that tenant
+            LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
+            return Response.status(Status.NOT_FOUND).build();
         }
 
+        final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
+        if (bulkExtractFile==null || !bulkExtractFile.exists()) {
+            // return 503 if the bulk extract file is missing
+            LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
+            return Response.status(Status.SERVICE_UNAVAILABLE).build();
+        }
+
+        String fileName = bulkExtractFile.getName();
+        String lastModified = bulkExtractFileEntity.getLastModified();
 
         try {
 
-            final InputStream is = bulkExtractFile == null || !bulkExtractFile.exists() ?
-                    this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME) :
-                    new FileInputStream(bulkExtractFile);
+            final InputStream is = new FileInputStream(bulkExtractFile);
 
             StreamingOutput out = new StreamingOutput() {
                 @Override
@@ -169,7 +174,7 @@ public class BulkExtract {
             builder.header("last-modified", lastModified);
             return builder.build();
         } catch (FileNotFoundException e) {
-            return Response.status(Status.NOT_FOUND).build();
+            return Response.status(Status.SERVICE_UNAVAILABLE).build();
         }
     }
 
@@ -230,7 +235,7 @@ public class BulkExtract {
 
     private Pair<Cipher, SecretKey> getCiphers() throws Exception {
         SecretKey secret = KeyGenerator.getInstance("AES").generateKey();
-        
+
         Cipher encrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
         encrypt.init(Cipher.ENCRYPT_MODE, secret);
 
