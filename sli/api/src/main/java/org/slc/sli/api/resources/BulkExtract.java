@@ -197,8 +197,8 @@ public class BulkExtract {
         if (isDelta) {
             query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
             DateTime d = ISODateTimeFormat.basicDate().parseDateTime(deltaDate);
-            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.getMillis()));
-            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d.plusDays(1).getMillis()));
+            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.toDate()));
+            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d.plusDays(1).toDate()));
         }
         Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
         if (entity == null) {
