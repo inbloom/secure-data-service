@@ -42,6 +42,17 @@ And my new apps client ID is present
 And my new apps shared secret is present
 Then the "NotTheAppYoureLookingFor" is enabled for Districts
 
+#Add Bulk Extract role to IT Admin
+And I exit out of the iframe
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Create Custom Roles"
+And I edit the group "IT Administrator"
+When I add the right "BULK_EXTRACT" to the group "IT Administrator"
+And I hit the save button
+Then I am no longer in edit mode
+And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
+
 #Full Window App
 And I exit out of the iframe
 And I click on Admin
@@ -81,19 +92,6 @@ And under My Applications, I click on "Schlemiel"
 Then my current url is "http://www.google.com/"	
 
 #Bulk Extract 
-#Add Bulk Extract role to IT Admin
-When I navigate to the Portal home page
-Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
-And under System Tools, I click on "Create Custom Roles"
-And I edit the group "IT Administrator"
-When I add the right "BULK_EXTRACT" to the group "IT Administrator"
-And I hit the save button
-Then I am no longer in edit mode
-And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
-
 #Get a session to trigger a bulk extract
 Given the testing device app key has been created
 When I navigate to the API authorization endpoint with my client ID
