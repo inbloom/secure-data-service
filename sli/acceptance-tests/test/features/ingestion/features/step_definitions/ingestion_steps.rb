@@ -3531,7 +3531,6 @@ end
 
 $savedQueries = {}
 Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. And I save this query as "([^"]*)"/ do |count, collection, tenant, queryName, table|
-    disable_NOTABLESCAN()
     @db         = @conn[convertTenantIdToDbName(tenant)]
     @coll       = @db[collection]
     condArray   = table.rows()
@@ -3544,13 +3543,13 @@ Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. A
 	end
     end
     $savedQueries[queryName] = {"criteria"=>condHash, "collection"=>collection, "tenant"=>tenant};
+    disable_NOTABLESCAN()
     recordCnt   = @coll.find(condHash).count()
-    assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{condHash}!");
     enable_NOTABLESCAN()
+    assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{condHash}!");
 end
 
 Then /I re-execute saved query "([^"]*)" to get "([^"]*)" records/ do |queryName, count|
-    disable_NOTABLESCAN
     q             = $savedQueries[queryName]
     criteria      = q["criteria"]
     collection    = q["collection"]
@@ -3560,9 +3559,10 @@ Then /I re-execute saved query "([^"]*)" to get "([^"]*)" records/ do |queryName
 
     @db         = @conn[convertTenantIdToDbName(tenant)]
     @coll       = @db[collection]
+    disable_NOTABLESCAN()
     recordCnt   = @coll.find(criteria).count()
-    assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{criteria}!");
     enable_NOTABLESCAN()
+    assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{criteria}!");
 end
 
 
