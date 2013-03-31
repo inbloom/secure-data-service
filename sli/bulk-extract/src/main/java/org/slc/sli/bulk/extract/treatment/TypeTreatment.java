@@ -16,6 +16,8 @@
 
 package org.slc.sli.bulk.extract.treatment;
 
+import java.util.Map;
+
 import org.slc.sli.domain.Entity;
 
 /**
@@ -28,10 +30,33 @@ public class TypeTreatment implements Treatment {
 
     private static final String TYPE_STRING = "entityType";
 
+    private Map<String, String> combinedEntities;
+
     @Override
     public Entity apply(Entity entity) {
-        entity.getBody().put(TYPE_STRING, entity.getType());
+        String type = null;
+        if(combinedEntities.containsKey(entity.getType())){
+            type = combinedEntities.get(entity.getType());
+        } else {
+            type = entity.getType();
+        }
+        entity.getBody().put(TYPE_STRING, type);
         return entity;
+    }
+
+    /**
+     * get combined entities.
+     * @return the combinedEntities
+     */
+    public Map<String, String> getCombinedEntities() {
+        return combinedEntities;
+    }
+
+    /**set combined entities.
+     * @param combinedEntities the combinedEntities to set
+     */
+    public void setCombinedEntities(Map<String, String> combinedEntities) {
+        this.combinedEntities = combinedEntities;
     }
 
 }
