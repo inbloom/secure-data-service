@@ -24,11 +24,6 @@ import java.util.Map;
 
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.slc.sli.validation.schema.NaturalKeyExtractor;
-
-import com.mongodb.DBObject;
 
 /**
  * Util class for tests.
@@ -42,18 +37,18 @@ public class TestUtils {
      * @return
      *      returns a list of entities
      */
-    public static List<DBObject> createStudents(){
-        List<DBObject> res = new ArrayList<DBObject>();
+    public static List<Entity> createStudents(){
+        List<Entity> res = new ArrayList<Entity>();
 
         Map<String, Object> student1Body = new HashMap<String, Object>();
         student1Body.put("UniqueStudentId", "1");
 
-        DBObject student1 = makeDummyEntity("student", "1", student1Body);
+        Entity student1 = makeDummyEntity("student", "1", student1Body);
 
         Map<String, Object> student2Body = new HashMap<String, Object>();
         student1Body.put("UniqueStudentId", "2");
 
-        DBObject student2 = makeDummyEntity("student", "2", student2Body);
+        Entity student2 = makeDummyEntity("student", "2", student2Body);
 
         res.add(student1);
         res.add(student2);
@@ -72,10 +67,8 @@ public class TestUtils {
      * @return
      *      returns the genereated entity
      */
-    @SuppressWarnings("serial")
-    public static DBObject makeDummyEntity(final String type, final String id, final Map<String, Object> body) {
-        INaturalKeyExtractor naturalKeyExtractor = new NaturalKeyExtractor();
-        MongoEntity mongoEntity = new MongoEntity(type, id, body, null) {
+    public static Entity makeDummyEntity(final String type, final String id, final Map<String, Object> body) {
+        return new Entity() {
 
             @Override
             public String getType() {
@@ -109,7 +102,7 @@ public class TestUtils {
 
             @Override
             public Map<String, List<Entity>> getEmbeddedData() {
-                return null;
+                return new HashMap<String, List<Entity>>();
             }
 
             @Override
@@ -122,7 +115,6 @@ public class TestUtils {
                 return null;
             }
         };
-        return mongoEntity.toDBObject(null, naturalKeyExtractor);
     }
 
     /**

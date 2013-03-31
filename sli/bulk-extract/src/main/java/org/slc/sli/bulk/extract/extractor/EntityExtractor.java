@@ -22,6 +22,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 
@@ -131,16 +131,18 @@ public class EntityExtractor{
         Query query = new Query();
         try {
             TenantContext.setTenantId(tenant);
-            DBCursor cursor = entityRepository.getCollection(collectionName).find(query.getQueryObject());
+            //            DBCursor cursor = entityRepository.getCollection(collectionName).find(query.getQueryObject());
+            Iterator<Entity> cursor = entityRepository.findEach(collectionName, query);
 
             if (cursor.hasNext()) {
                 LOG.info("Extracting from " + collectionName);
 
                 while (cursor.hasNext()) {
-                    DBObject record = cursor.next();
+                    //                    DBObject record = cursor.next();
+                    Entity entity = cursor.next();
 
                     // Write entity to archive.
-                    Entity entity = MongoEntity.fromDBObject(record);
+                    //                    Entity entity = MongoEntity.fromDBObject(record);
                     if (entities.contains(entity.getType())) {
                         if (!archiveEntries.containsKey(entity.getType())) {
                             archiveEntries.put(entity.getType(), new ArchiveEntry(entity.getType(), archiveFile));
@@ -155,9 +157,9 @@ public class EntityExtractor{
 
                     // Write subdocs to archive.
                     Map<String, List<Entity>> subdocs = entity.getEmbeddedData();
-                    if (collectionName.equals("yearlyTranscript")) {  // Yearly Transcript subdocs are a special case.
-                        addYearlyTranscriptSubdocs(subdocs, record);
-                    }
+                    //                    if (collectionName.equals("yearlyTranscript")) {  // Yearly Transcript subdocs are a special case.
+                    //                        addYearlyTranscriptSubdocs(subdocs, record);
+                    //                    }
                     for (String subdocName : subdocs.keySet()) {
                         if (entities.contains(subdocName)) {
                             if (!archiveEntries.containsKey(subdocName)) {
