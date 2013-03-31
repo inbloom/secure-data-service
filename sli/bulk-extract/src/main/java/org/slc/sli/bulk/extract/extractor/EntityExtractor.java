@@ -61,6 +61,8 @@ public class EntityExtractor{
 
     private List<String> excludedCollections;
 
+    private List<String> yearlyTranscriptSubdocs;
+
     private Repository<Entity> entityRepository;
 
     private TreatmentApplicator applicator;
@@ -153,15 +155,19 @@ public class EntityExtractor{
 
                     // Write subdocs to archive.
                     Map<String, List<Entity>> subdocs = entity.getEmbeddedData();
+                    if (collectionName.equals("yearlyTranscript")) {  // Yearly Transcript subdocs are a special case.
+                        addYearlyTranscriptSubdocs(subdocs, record);
+                    }
                     for (String subdocName : subdocs.keySet()) {
-                        if (!archiveEntries.containsKey(subdocName)) {
-                            archiveEntries.put(subdocName, new ArchiveEntry(subdocName, archiveFile));
-                        }
-                        for (Entity subdoc : subdocs.get(subdocName)) {
-                            writeRecord(archiveEntries.get(subdocName), subdoc);
+                        if (entities.contains(subdocName)) {
+                            if (!archiveEntries.containsKey(subdocName)) {
+                                archiveEntries.put(subdocName, new ArchiveEntry(subdocName, archiveFile));
+                            }
+                            for (Entity subdoc : subdocs.get(subdocName)) {
+                                writeRecord(archiveEntries.get(subdocName), subdoc);
+                            }
                         }
                     }
-
                 }
 
                 for (String entity : archiveEntries.keySet()) {
@@ -181,6 +187,31 @@ public class EntityExtractor{
         }
     }
 
+    /**
+     * Add yearly transcript subdocs to list.
+     * @param subdocs list
+     * @param record
+     */
+    @SuppressWarnings("unchecked")
+    private void addYearlyTranscriptSubdocs(Map<String, List<Entity>> subdocs, DBObject record) {
+        for (String ytSubdoc : yearlyTranscriptSubdocs) {
+            if (record.keySet().contains(ytSubdoc)) {
+                List<DBObject> values = (List<DBObject>) record.get(ytSubdoc);
+                List<Entity> subEntityList = new ArrayList<Entity>();
+                for (DBObject subEntity : values) {
+                    subEntityList.add(MongoEntity.fromDBObject(subEntity));
+                }
+                subdocs.put(ytSubdoc, subEntityList);
+            }
+        }
+    }
+
+
+    /**
+     * Write record to archive entry.
+     * @param archive entry
+     * @param record
+     */
     private void writeRecord(ArchiveEntry archiveEntry, Entity record) throws JsonGenerationException, JsonMappingException, IOException {
         Entity treated = applicator.apply(record);
         archiveEntry.writeValue(treated);
@@ -193,6 +224,14 @@ public class EntityExtractor{
      */
     public void setExcludedCollections(List<String> excludedCollections) {
         this.excludedCollections = excludedCollections;
+    }
+
+    /**
+     * set excluded collections.
+     * @param excluded collections
+     */
+    public void setYearlyTranscriptSubdocs(List<String> yearlyTranscriptSubdocs) {
+        this.yearlyTranscriptSubdocs = yearlyTranscriptSubdocs;
     }
 
     /**
