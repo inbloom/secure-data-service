@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -31,16 +30,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
+import org.slc.sli.bulk.extract.TestUtils;
+import org.slc.sli.bulk.extract.files.DataExtractFile;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.dal.repository.MongoEntityRepository;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.bulk.extract.TestUtils;
-import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.files.DataExtractFile;
-import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.domain.Entity;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 /**
  * Test bulk extraction into zip files.
@@ -76,9 +78,8 @@ public class EntityExtractorTest {
      * @throws IOException
      *          if an I/O error occurred
      */
-    @SuppressWarnings("unchecked")
     @Test
-    public void testExtractEntity() throws IOException{
+    public void testExtractEntities() throws IOException{
         String testTenant = "Midgar";
         String testEntity = "student";
 
@@ -90,13 +91,15 @@ public class EntityExtractorTest {
 
         Mockito.when(archiveFile.getDataFileEntry(Matchers.anyString())).thenReturn(student);
 
-        Iterator<Entity> cursor = Mockito.mock(Iterator.class);
-        List<Entity> students = TestUtils.createStudents();
+        DBCursor cursor = Mockito.mock(DBCursor.class);
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(collection.find(Matchers.any(DBObject.class))).thenReturn(cursor);
+        List<DBObject> students = TestUtils.createStudents();
         Mockito.when(cursor.hasNext()).thenReturn(true, true, true, true, false, false);
         Mockito.when(cursor.next()).thenReturn(students.get(0), students.get(1));
-        Mockito.when(mongoEntityRepository.findEach(Matchers.eq(testEntity), Matchers.any(Query.class))).thenReturn(cursor);
+        Mockito.when(mongoEntityRepository.getCollection(testEntity)).thenReturn(collection);
 
-        extractor.extractEntity(testTenant, archiveFile, testEntity);
+        extractor.extractEntities(testTenant, archiveFile, testEntity);
 
         IOUtils.closeQuietly(outputStream);
 
@@ -104,11 +107,11 @@ public class EntityExtractorTest {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        Entity studentEntity1 = students.get(0);
+        Entity studentEntity1 = MongoEntity.fromDBObject(students.get(0));
         studentEntity1.getBody().put("entityType", "student");
         String student1 = mapper.writeValueAsString(studentEntity1.getBody());
 
-        Entity studentEntity2 = students.get(0);
+        Entity studentEntity2 = MongoEntity.fromDBObject(students.get(0));
         studentEntity2.getBody().put("entityType", "student");
         String student2 = mapper.writeValueAsString(studentEntity2.getBody());
 
