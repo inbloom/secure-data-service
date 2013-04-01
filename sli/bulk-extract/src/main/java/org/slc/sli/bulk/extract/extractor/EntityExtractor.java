@@ -215,6 +215,18 @@ public class EntityExtractor{
      * @param record
      */
     private void writeRecord(ArchiveEntry archiveEntry, Entity record) throws JsonGenerationException, JsonMappingException, IOException {
+        // Assessment and StudentAssessment entities are special cases.
+        if (record.getType().equals("assessment") || record.getType().equals("studentAssessment")) {
+            Map<String, List<Entity>> subdocs = record.getEmbeddedData();
+            for (Map.Entry<String, List<Entity>> subdoc : subdocs.entrySet()) {
+                List<Map<String, Object>> subdocList = new ArrayList<Map<String, Object>>();
+                for (Entity subdocItem : subdoc.getValue()) {
+                    subdocList.add(subdocItem.getBody());
+                }
+                record.getBody().put(subdoc.getKey(), subdocList);
+            }
+        }
+
         Entity treated = applicator.apply(record);
         archiveEntry.writeValue(treated);
         archiveEntry.incrementNoOfRecords();
