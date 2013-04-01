@@ -20,7 +20,7 @@ Scenario: Delete SEA with cascade
 	Then there exist "1" "program" records like below in "Midgar" tenant. And I save this query as "program"
 	|field                                                           |value                                                |
 	|studentProgramAssociation.body.educationOrganizationId          |884daa27d806c2d725bc469b273d840493f84b4d_id          |
-	Then there exist "135" "staffEducationOrganizationAssociation" records like below in "Midgar" tenant. And I save this query as "staffEducationOrganizationAssociation"
+	Then there exist "136" "staffEducationOrganizationAssociation" records like below in "Midgar" tenant. And I save this query as "staffEducationOrganizationAssociation"
 	|field                                                           |value                                                |
 	|body.educationOrganizationReference                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
 	Then there exist " 10" "student" records like below in "Midgar" tenant. And I save this query as "student"
@@ -48,7 +48,7 @@ Scenario: Delete SEA with cascade
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	 |collection                        |delta     |
 	 |educationOrganization             |        -1|
-	 |staffEducationOrganizationAssociation |  -135| 
+	 |staffEducationOrganizationAssociation |  -136|
 	 |studentProgramAssociation         |       -14|
 	 |recordHash                        |         0|
 	And I should not see "884daa27d806c2d725bc469b273d840493f84b4d_id" in the "Midgar" database
