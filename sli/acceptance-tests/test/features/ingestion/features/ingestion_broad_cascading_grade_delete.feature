@@ -19,6 +19,12 @@ Scenario: Delete Grade with cascade
     When zip file is scp to ingestion landing zone
     And a batch job for file "BroadGradeDelete.zip" is completed in database
     And a batch job log has been created
+	And I should see "records considered for processing: 1" in the resulting batch job file
+	And I should see "records ingested successfully: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "records not considered for processing: 0" in the resulting batch job file
+	And I should see "All records processed successfully." in the resulting batch job file
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
