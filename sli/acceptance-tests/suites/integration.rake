@@ -105,7 +105,6 @@ end
 
 desc "Run RC Sandbox Databrowser Test"
 task :rcSandboxAppApprovalTests do
-  @tags = ["~@wip", "@rc", "@sandbox", "~@ci"]
   runTests("test/features/cross_app_tests/rc_sandbox_app_approval.feature")
 end
 
