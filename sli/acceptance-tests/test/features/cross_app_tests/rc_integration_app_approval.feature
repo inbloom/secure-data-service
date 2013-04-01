@@ -61,6 +61,8 @@ And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'
 When I click on Ok
 Then the application is authorized to use data of "Daybreak School District 4529"
+And my new apps client ID is present
+And my new apps shared secret is present
 And the app "inBloom Dashboards" Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
@@ -115,7 +117,6 @@ And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
 
-
 Scenario: User sees non-installed Developer App 
 When I navigate to the Portal home page
 When I selected the realm "Daybreak Test Realm"
@@ -123,3 +124,90 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page    
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards"
+
+@ci
+Scenario: Operator triggers a bulk extract
+   When the operator triggers a bulk extract for tenant "<TENANT>"
+
+@ci
+Scenario: LEA adds Bulk Extract role
+When I navigate to the Portal home page
+When I see the realm selector I authenticate to "inBloom"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page    
+Then I should be on Portal home page
+Then I should see Admin link
+And I click on Admin
+Then I should be on the admin page
+ #Add Bulk Extract role to IT Admin
+And I exit out of the iframe
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Create Custom Roles"
+And I switch to the iframe
+And I edit the group "IT Administrator"
+When I add the right "BULK_EXTRACT" to the group "IT Administrator"
+And I hit the save button
+Then I am no longer in edit mode
+And I switch to the iframe
+And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
+
+@ci
+Scenario: App makes an api call to retrieve a bulk extract
+#Bulk Extract 
+#Get a session to trigger a bulk extract
+Given the testing device app key has been created
+When I navigate to the API authorization endpoint with my client ID
+When I select "Daybreak Test Realm" and click go
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
+Then I should be on Portal home page
+Then I should receive a json response containing my authorization code
+When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+Then I should receive a json response containing my authorization token
+
+#Get bulk extract tar file
+Then I request and download a bulk extract file
+And there is a metadata file in the extract
+And the extract contains a file for each of the following entities:
+   |  entityType                            |
+   |  assessment                            |
+   |  assessmentFamily                      |
+   |  assessmentPeriodDescriptor            |
+   |  attendance                            |
+   |  cohort                                |
+   |  course                                |
+   |  courseOffering                        |
+   |  disciplineIncident                    |
+   |  disciplineAction                      |
+   |  educationOrganization                 |
+#   |  grade                                 |
+   |  gradebookEntry                        |
+   |  gradingPeriod                         |
+   |  learningObjective                     |
+   |  learningStandard                      |
+   |  parent                                |
+   |  program                               |
+#   |  reportCard                            |
+   |  school                                |
+   |  section                               |
+   |  session                               |
+   |  staff                                 |
+   |  staffCohortAssociation                |
+   |  staffEducationOrganizationAssociation |
+   |  staffProgramAssociation               |
+   |  student                               |
+#   |  studentAcademicRecord                 |
+   |  studentAssessment                     |
+   |  studentCohortAssociation              |
+   |  studentCompetency                     |
+   |  studentCompetencyObjective            |
+   |  studentDisciplineIncidentAssociation  |
+   |  studentObjectiveAssessment            |
+   |  studentProgramAssociation             |
+   |  studentGradebookEntry                 |
+   |  studentSchoolAssociation              |
+   |  studentSectionAssociation             |
+   |  studentParentAssociation              |
+   |  teacher                               |
+   |  teacherSchoolAssociation              |

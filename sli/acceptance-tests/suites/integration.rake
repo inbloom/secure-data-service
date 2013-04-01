@@ -184,6 +184,7 @@ end
 desc "Run RC E2E Tests in Production mode"
 task :rcTests do
   @tags = ["~@wip", "@rc", "~@sandbox"]
+  @tags = ["~@wip", "@rc", "~@sandbox", "~@ci"] if RUN_ON_RC
   Rake::Task["rcDeleteLDAPUsers"].execute
   Rake::Task["rcTenantCleanUp"].execute # if tenant_exists
   Rake::Task["rcPortalCompile"].execute if RUN_ON_RC
