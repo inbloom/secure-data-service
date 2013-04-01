@@ -216,7 +216,19 @@ end
 
 When /^a the correct number of "(.*?)" was extracted from the database$/ do |collection|
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
-	count = @tenantDb.collection(collection).count()
+
+	case collection
+	when "educationOrganization"
+	  count = @tenantDb.collection(collection).find({"type" => { "$ne" => "school" }} ).count()
+	when "school"
+	  count = @tenantDb.collection("educationOrganization").find({"type" => "school" } ).count()
+	when "staff"
+	  count = @tenantDb.collection(collection).find({"type" => { "$ne" => "teacher" }} ).count()
+	when "teacher"
+	  count = @tenantDb.collection("staff").find({"type" => "teacher" } ).count()
+	else
+	  count = @tenantDb.collection(collection).count()
+	end
 
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
@@ -276,7 +288,14 @@ end
 
 def getMongoRecordFromJson(jsonRecord)
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant)) 
-	collection = jsonRecord['entityType']
+	case jsonRecord['entityType']
+	when "stateEducationAgency", "localEducationAgency", "school"
+	  collection = "educationOrganization"
+	when "teacher"
+	  collection = "staff"
+	else
+    collection = jsonRecord['entityType']
+	end
 	parent = subDocParent(collection)
 	if (parent == nil)
         return @tenantDb.collection(collection).find_one("_id" => jsonRecord['id'])
@@ -365,7 +384,7 @@ def compareToApi(collection, collFile)
       if @res.code == 200
         apiRecord = JSON.parse(@res.body)
         assert(apiRecord != nil, "Result of JSON parsing is nil")    
-        apiRecord.delete("links")     
+        apiRecord.delete("links")
         assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
         found = true
         break
