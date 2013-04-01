@@ -56,6 +56,13 @@ task :bulkExtractSimpleEntitiesTest do
 end
 
 desc "Trigger ingestion and extract of the ingestion"
+task :bulkExtractEdorgStaffTest do
+  Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
+  runTests("test/features/bulk_extract/features/bulk_extract_edorg_staff.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
+desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractIntegrationTest do
   #Rake::Task["bulkExtractSetup"].execute if TRIGGER_NEW_EXTRACT
   runTests("test/features/bulk_extract/features/bulk_extract_integration.feature")
