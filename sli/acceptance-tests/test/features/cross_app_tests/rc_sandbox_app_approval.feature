@@ -47,6 +47,7 @@ And I exit out of the iframe
 And I click on Admin
 Then I should be on the admin page
 And under System Tools, I click on "Create Custom Roles"
+And I switch to the iframe
 And I edit the group "IT Administrator"
 When I add the right "BULK_EXTRACT" to the group "IT Administrator"
 And I hit the save button
