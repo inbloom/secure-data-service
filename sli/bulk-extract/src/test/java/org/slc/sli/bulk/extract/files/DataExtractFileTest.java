@@ -45,7 +45,7 @@ public class DataExtractFileTest {
                     tempDir.mkdir();
                 }
 
-                DataExtractFile testDEF = new DataExtractFile(tempDir.getAbsolutePath(), tempFileName);
+                DataExtractFile testDEF = new DataExtractFile(tempDir, tempFileName);
                 OutputStream os = testDEF.getOutputStream();
 
                 if(os == null){

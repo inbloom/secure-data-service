@@ -16,14 +16,15 @@
 package org.slc.sli.bulk.extract.extractor;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
+
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Bulk extractor to extract data for a tenant.
@@ -50,7 +51,7 @@ public class TenantExtractor{
      * @param startTime
      *          start time stamp
      */
-    public void execute(String tenant, ExtractFile extractFile, Date startTime) {
+    public void execute(String tenant, ExtractFile extractFile, DateTime startTime) {
 
         List<String> collections = entityExtractor.getCollectionNames(tenant);
         for (String collection : collections) {
@@ -70,7 +71,7 @@ public class TenantExtractor{
             LOG.error("Error generating archive file: {}", e.getMessage());
         }
 
-        bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime, false);
+        bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime.toDate(), false);
     }
 
     /**
