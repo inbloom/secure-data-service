@@ -31,16 +31,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
+import org.slc.sli.bulk.extract.TestUtils;
+import org.slc.sli.bulk.extract.files.DataExtractFile;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.dal.repository.MongoEntityRepository;
+import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import org.slc.sli.bulk.extract.TestUtils;
-import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.files.DataExtractFile;
-import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.domain.Entity;
 
 /**
  * Test bulk extraction into zip files.
@@ -96,7 +95,7 @@ public class EntityExtractorTest {
         Mockito.when(cursor.next()).thenReturn(students.get(0), students.get(1));
         Mockito.when(mongoEntityRepository.findEach(Matchers.eq(testEntity), Matchers.any(Query.class))).thenReturn(cursor);
 
-        extractor.extractEntity(testTenant, archiveFile, testEntity);
+        extractor.extractEntities(testTenant, archiveFile, testEntity);
 
         IOUtils.closeQuietly(outputStream);
 

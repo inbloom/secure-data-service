@@ -102,7 +102,7 @@ public class TestUtils {
 
             @Override
             public Map<String, List<Entity>> getEmbeddedData() {
-                return null;
+                return new HashMap<String, List<Entity>>();
             }
 
             @Override
@@ -114,7 +114,7 @@ public class TestUtils {
             public String getStagedEntityId() {
                 return null;
             }
-       };
+        };
     }
 
     /**
@@ -145,7 +145,6 @@ public class TestUtils {
             throws IOException {
 
         if(file.isDirectory()){
-
             //directory is empty, then delete it
             if(file.list().length==0){
 
@@ -168,7 +167,6 @@ public class TestUtils {
                  file.delete();
                }
             }
-
         }else{
             //if file, then delete it
             file.delete();

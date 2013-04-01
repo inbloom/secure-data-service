@@ -15,8 +15,9 @@ Scenario: Trigger a bulk extract on ingested data
    And the extract contains a file for each of the following entities:
    |  entityType                            |
    |  assessment                            |
+   |  assessmentFamily                      |
+   |  assessmentPeriodDescriptor            |               
    |  attendance                            |
-   |  calendarDate                          |
    |  cohort                                |
    |  competencyLevelDescriptor             |
    |  course                                |
@@ -25,36 +26,36 @@ Scenario: Trigger a bulk extract on ingested data
    |  disciplineIncident                    |
    |  disciplineAction                      |
    |  educationOrganization                 |
-   #|  grade                                 |
-   #|  gradebookEntry                        |
+#   |  grade                                 |
+   |  gradebookEntry                        |
    |  gradingPeriod                         |
    |  graduationPlan                        |
    |  learningObjective                     |
    |  learningStandard                      |
-   #|  objectiveAssessment                   |
+   |  objectiveAssessment                   |
    |  parent                                |
    |  program                               |
-   #|  reportCard                            |
+#   |  reportCard                            |
    |  school                                |
    |  section                               |
    |  session                               |
-   #|  staff                                 |
+   |  staff                                 |
    |  staffCohortAssociation                |
    |  staffEducationOrganizationAssociation |
    |  staffProgramAssociation               |
    |  student                               |
-   #|  studentAcademicRecord                 |
+#   |  studentAcademicRecord                 |
    |  studentAssessment                     |
-   #|  studentCohortAssociation              |
+   |  studentCohortAssociation              |
    |  studentCompetency                     |
    |  studentCompetencyObjective            |
-   #|  studentDisciplineIncidentAssociation  |
-   #|  studentObjectiveAssessment            |
-   #|  studentProgramAssociation             |
+   |  studentDisciplineIncidentAssociation  |
+   |  studentObjectiveAssessment            |
+   |  studentProgramAssociation             |
    |  studentGradebookEntry                 |
    |  studentSchoolAssociation              |
-   #|  studentSectionAssociation             |
-   #|  studentParentAssociation              |
-   #|  teacher                               |
+   |  studentSectionAssociation             |
+   |  studentParentAssociation              |
+   |  teacher                               |
    |  teacherSchoolAssociation              |
-   #|  teacherSectionAssociation             |
+   |  teacherSectionAssociation             |
