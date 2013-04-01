@@ -29,8 +29,6 @@ import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoPersistentEntity;
 import org.springframework.data.mongodb.core.mapping.MongoPersistentProperty;
 import org.springframework.data.mongodb.core.query.Query;
-
-import org.slc.sli.domain.Entity;
 /**
  *
  * @author ablum npandey
@@ -47,9 +45,8 @@ public class MongoEntityTemplate extends MongoTemplate {
         mappingContext = mongoConverter.getMappingContext();
     }
 
-
-    public <T> Iterator<T> findEach(final Query query, Class<T> entityClass, String collectionName) {
-        MongoPersistentEntity<?> entity = mappingContext.getPersistentEntity(entityClass);
+    public <T> Iterator<T> findEach(final Query query, final Class<T> entityClass, String collectionName) {
+       MongoPersistentEntity<?> entity = mappingContext.getPersistentEntity(entityClass);
 
        DBCollection collection = getDb().getCollection(collectionName);
        DBObject dbQuery = mapper.getMappedObject(query.getQueryObject(), entity);
@@ -62,7 +59,6 @@ public class MongoEntityTemplate extends MongoTemplate {
        }
 
        return new Iterator<T>() {
-
            @Override
            public boolean hasNext() {
                // TODO Auto-generated method stub
@@ -71,16 +67,13 @@ public class MongoEntityTemplate extends MongoTemplate {
 
            @Override
            public T next() {
-               return (T) getConverter().read( Entity.class,  cursor.next());
+               return getConverter().read(entityClass, cursor.next());
            }
 
            @Override
            public void remove() {
                cursor.remove();
            }
-
        };
-
     }
-
 }

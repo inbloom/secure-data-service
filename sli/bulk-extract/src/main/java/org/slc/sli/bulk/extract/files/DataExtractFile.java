@@ -35,21 +35,18 @@ public class DataExtractFile implements Closeable{
 
     private GzipCompressorOutputStream outputStream;
     private File file;
-    private File parentDir;
-    private String fileName;
 
     private static final String FILE_EXTENSION = ".json.gz";
 
     /**
      * Parameterized constructor.
-     * @param parentDirName
+     * @param parentDir
      *          Name of the parent directory of the extract files
      * @param filePrefix
      *          the prefix string to be used in file name generationName of the data file
      */
-    public DataExtractFile(String parentDirName, String filePrefix) {
-        this.parentDir = new File(parentDirName + "/");
-        this.fileName = filePrefix + FILE_EXTENSION;
+    public DataExtractFile(File parentDir, String filePrefix) {
+        file = new File(parentDir, filePrefix + FILE_EXTENSION);
     }
 
     /**
@@ -63,7 +60,6 @@ public class DataExtractFile implements Closeable{
      */
     public OutputStream getOutputStream() throws FileNotFoundException, IOException {
         if(outputStream == null) {
-            file = new File(parentDir, fileName);
             outputStream = new GzipCompressorOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
         }
         return outputStream;
@@ -80,8 +76,8 @@ public class DataExtractFile implements Closeable{
      * @return
      *      returns the File object
      */
-    public String getFileName() {
-        return fileName;
+    public File getFile() {
+        return file;
     }
 
 }
