@@ -37,14 +37,12 @@ import org.slc.sli.bulk.extract.treatment.TreatmentApplicator;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 
 
 /**
@@ -157,9 +155,6 @@ public class EntityExtractor{
 
                     // Write subdocs to archive.
                     Map<String, List<Entity>> subdocs = entity.getEmbeddedData();
-                    //                    if (collectionName.equals("yearlyTranscript")) {  // Yearly Transcript subdocs are a special case.
-                    //                        addYearlyTranscriptSubdocs(subdocs, record);
-                    //                    }
                     for (String subdocName : subdocs.keySet()) {
                         if (entities.contains(subdocName)) {
                             if (!archiveEntries.containsKey(subdocName)) {
@@ -167,6 +162,19 @@ public class EntityExtractor{
                             }
                             for (Entity subdoc : subdocs.get(subdocName)) {
                                 writeRecord(archiveEntries.get(subdocName), subdoc);
+                            }
+                        }
+                    }
+
+                    // Write container docs to archive.
+                    Map<String, List<Entity>> containedDocs = entity.getContainerData();
+                    for (String containedDocName : containedDocs.keySet()) {
+                        if (entities.contains(containedDocName)) {
+                            if (!archiveEntries.containsKey(containedDocName)) {
+                                archiveEntries.put(containedDocName, new ArchiveEntry(containedDocName, archiveFile));
+                            }
+                            for (Entity containedDoc : containedDocs.get(containedDocName)) {
+                                writeRecord(archiveEntries.get(containedDocName), containedDoc);
                             }
                         }
                     }
@@ -190,43 +198,11 @@ public class EntityExtractor{
     }
 
     /**
-     * Add yearly transcript subdocs to list.
-     * @param subdocs list
-     * @param record
-     */
-    @SuppressWarnings("unchecked")
-    private void addYearlyTranscriptSubdocs(Map<String, List<Entity>> subdocs, DBObject record) {
-        for (String ytSubdoc : yearlyTranscriptSubdocs) {
-            if (record.keySet().contains(ytSubdoc)) {
-                List<DBObject> values = (List<DBObject>) record.get(ytSubdoc);
-                List<Entity> subEntityList = new ArrayList<Entity>();
-                for (DBObject subEntity : values) {
-                    subEntityList.add(MongoEntity.fromDBObject(subEntity));
-                }
-                subdocs.put(ytSubdoc, subEntityList);
-            }
-        }
-    }
-
-
-    /**
      * Write record to archive entry.
      * @param archive entry
      * @param record
      */
     private void writeRecord(ArchiveEntry archiveEntry, Entity record) throws JsonGenerationException, JsonMappingException, IOException {
-        // Assessment and StudentAssessment entities are special cases.
-        if (record.getType().equals("assessment") || record.getType().equals("studentAssessment")) {
-            Map<String, List<Entity>> subdocs = record.getEmbeddedData();
-            for (Map.Entry<String, List<Entity>> subdoc : subdocs.entrySet()) {
-                List<Map<String, Object>> subdocList = new ArrayList<Map<String, Object>>();
-                for (Entity subdocItem : subdoc.getValue()) {
-                    subdocList.add(subdocItem.getBody());
-                }
-                record.getBody().put(subdoc.getKey(), subdocList);
-            }
-        }
-
         Entity treated = applicator.apply(record);
         archiveEntry.writeValue(treated);
         archiveEntry.incrementNoOfRecords();

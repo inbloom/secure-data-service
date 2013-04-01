@@ -310,6 +310,11 @@ public class NaturalKeyExtractorTest {
             public String getStagedEntityId() {
                 return null;
             }
+
+            @Override
+            public Map<String, List<Entity>> getContainerData() {
+                return null;
+            }
         };
     }
 }

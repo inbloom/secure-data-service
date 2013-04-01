@@ -30,18 +30,16 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     <util:list id="excludedCollections" value-type="java.lang.String">
         <value>error</value>
         <value>recordHash</value>
-    </util:list>
-
-    <util:list id="yearlyTranscriptSubdocs" value-type="java.lang.String">
-        <value>grade</value>
-        <value>reportCard</value>
-        <value>studentAcademicRecord</value>
+        <value>adminDelegation</value>
+        <value>aggregation</value>
+        <value>aggregationDefinition</value>
+        <value>realm</value>
+        <value>search</value>
     </util:list>
 
     <bean id="entityExtractor" class="org.slc.sli.bulk.extract.extractor.EntityExtractor">
          <property name="entityRepository" ref="mongoEntityRepository" />
          <property name="excludedCollections" ref="excludedCollections" />
-         <property name="yearlyTranscriptSubdocs" ref="yearlyTranscriptSubdocs" />
          <property name="applicator" ref="applicator" />
     </bean>
 
@@ -67,9 +65,12 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 
     <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment" />
 
+    <bean id="assessmentTreatment" class="org.slc.sli.bulk.extract.treatment.AssessmentTreatment" />
+
     <util:list id="treatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
         <ref local="idTreatment"/>
         <ref local="typeTreatment"/>
+        <ref local="assessmentTreatment"/>
     </util:list>
 
 </beans>
