@@ -36,6 +36,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
@@ -158,31 +159,16 @@ public class BulkExtract {
                     byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
                     byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
 
-
-                    PublicKey publicKey = null;
-                    try {
-                        publicKey = getApplicationPublicKey();
-                    } catch (NoSuchAlgorithmException e) {
-                        LOG.error("Exception: NoSuchAlgorithmException {}", e);
-                    } catch (InvalidKeySpecException e) {
-                        LOG.error("Exception: InvalidKeySpecException {}", e);
-                    }
-
+                    PublicKey publicKey = getApplicationPublicKey();
                     byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
                     byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
 
                     output.write(encryptedIV);
                     output.write(encryptedSecret);
 
+                    CipherOutputStream stream = new CipherOutputStream(output, cipherSecretKeyPair.getLeft());
                     while ((n = is.read(buffer)) > -1) {
-                        try {
-                            output.write(cipherSecretKeyPair.getLeft().doFinal(buffer, 0, n), 0, n);
-                        } catch (IllegalBlockSizeException e) {
-                            LOG.error("Exception: IllegalBlockSizeException {}", e);
-                        } catch (BadPaddingException e) {
-                            LOG.error("Exception: BadPaddingException {}", e);
-                        }
-
+                        stream.write(buffer, 0, n);
                     }
                 }
             };
@@ -195,7 +181,9 @@ public class BulkExtract {
         }
     }
 
-    private PublicKey getApplicationPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private PublicKey getApplicationPublicKey() throws IOException {
+        PublicKey publicKey = null;
+
         final OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
         final String clientId = authentication.getClientAuthentication().getClientId();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("clientId", NeutralCriteria.OPERATOR_EQUAL,
@@ -204,9 +192,19 @@ public class BulkExtract {
         String key = (String) entity.getBody().get("public_key");
 
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(key.getBytes());
-        KeyFactory kf = KeyFactory.getInstance("RSA");
-        return (PublicKey) kf.generatePrivate(spec);
-    }
+        try {
+            KeyFactory kf = KeyFactory.getInstance("RSA");
+            publicKey = (PublicKey) kf.generatePrivate(spec);
+        } catch (NoSuchAlgorithmException e) {
+            LOG.error("Exception: NoSuchAlgorithmException {}", e);
+            throw new IOException("NoSuchAlgorithmException: " + e.toString());
+        } catch (InvalidKeySpecException e) {
+            LOG.error("Exception: InvalidKeySpecException {}", e);
+            throw new IOException("InvalidKeySpecException: " + e.toString() );
+        }
+
+        return publicKey;
+}
 
     /**
      * Get the bulk extract file
