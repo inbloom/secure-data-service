@@ -53,3 +53,21 @@ end
 Then /^I validate the bulk extract file is correct$/ do
   
 end
+
+Then /^there is a metadata file in the extract$/ do
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(@unpackDir + "/metadata.txt"), "Cannot find metadata file in extract")
+end
+
+Then /^the extract contains a file for each of the following entities:$/ do |table|
+  Minitar.unpack(@filePath, @unpackDir)
+
+  table.hashes.map do |entity|
+  exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
+  assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
+  end
+
+  fileList = Dir.entries(@unpackDir)
+# Had to comment this next line out.  Different servers contain different numbers of records.
+# assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
+end
