@@ -16,15 +16,23 @@
 
 package org.slc.sli.api.resources;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
+import org.apache.commons.lang3.tuple.Pair;
+import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -41,23 +49,18 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 
 /**
  *
@@ -152,24 +155,34 @@ public class BulkExtract {
                     int n;
                     byte[] buffer = new byte[1024];
 
-                    // byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
-                    // byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
-                    // PublicKey publicKey = null; //TODO get public key
-                    // try {
-                    // publicKey =
-                    // KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
-                    // } catch (NoSuchAlgorithmException e) {
-                    // LOG.error("Exception: NoSuchAlgorithmException {}", e);
-                    // tq:q }
-                    // byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
-                    // byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
-                    //
-                    // output.write(encryptedIV);
-                    // output.write(encryptedSecret.length);
-                    // output.write(encryptedSecret);
+                    byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+                    byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
+
+
+                    PublicKey publicKey = null;
+                    try {
+                        publicKey = getApplicationPublicKey();
+                    } catch (NoSuchAlgorithmException e) {
+                        LOG.error("Exception: NoSuchAlgorithmException {}", e);
+                    } catch (InvalidKeySpecException e) {
+                        LOG.error("Exception: InvalidKeySpecException {}", e);
+                    }
+
+                    byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+                    byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
+
+                    output.write(encryptedIV);
+                    output.write(encryptedSecret);
 
                     while ((n = is.read(buffer)) > -1) {
-                        output.write(buffer, 0, n);
+                        try {
+                            output.write(cipherSecretKeyPair.getLeft().doFinal(buffer, 0, n), 0, n);
+                        } catch (IllegalBlockSizeException e) {
+                            LOG.error("Exception: IllegalBlockSizeException {}", e);
+                        } catch (BadPaddingException e) {
+                            LOG.error("Exception: BadPaddingException {}", e);
+                        }
+
                     }
                 }
             };
@@ -180,6 +193,19 @@ public class BulkExtract {
         } catch (FileNotFoundException e) {
             return Response.status(Status.NOT_FOUND).build();
         }
+    }
+
+    private PublicKey getApplicationPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        final OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+        final String clientId = authentication.getClientAuthentication().getClientId();
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("clientId", NeutralCriteria.OPERATOR_EQUAL,
+                clientId));
+        final Entity entity = mongoEntityRepository.findOne(EntityNames.APPLICATION, query);
+        String key = (String) entity.getBody().get("public_key");
+
+        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(key.getBytes());
+        KeyFactory kf = KeyFactory.getInstance("RSA");
+        return (PublicKey) kf.generatePrivate(spec);
     }
 
     /**
