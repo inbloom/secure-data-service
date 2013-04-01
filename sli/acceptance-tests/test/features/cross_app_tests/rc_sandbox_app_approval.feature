@@ -52,6 +52,7 @@ And I edit the group "IT Administrator"
 When I add the right "BULK_EXTRACT" to the group "IT Administrator"
 And I hit the save button
 Then I am no longer in edit mode
+And I switch to the iframe
 And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
 
 #Full Window App
