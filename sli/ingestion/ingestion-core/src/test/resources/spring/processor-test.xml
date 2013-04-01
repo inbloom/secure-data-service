@@ -21,7 +21,7 @@
 
     <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
   </bean>
-  
+
   <util:set id="shardCollections" set-class="java.util.TreeSet">
     <value>attendance</value>
     <value>cohort</value>
@@ -60,19 +60,24 @@
   </bean>
 
   <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
-  
+
   <import resource="dal-context.xml" />
   <import resource="entity-mapping.xml" />
   <import resource="recordLvlHash-context.xml"/>
   <import resource="classpath:/spring/db.xml" />
 
   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
-  
+
   <bean class="org.slc.sli.ingestion.reporting.impl.DummyMessageReport"/>
 
-  <bean class="org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator"/>
+  <bean id="indexTxtFileParser" class="org.slc.sli.ingestion.util.IndexTxtFileParser" />
+  <bean class="org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator">
+    <property name="indexFile" value="tenantDB_indexes.txt" />
+    <property name="indexTxtFileParser" ref="indexTxtFileParser"/>
+  </bean>
+
   <bean class="org.slc.sli.ingestion.processors.ControlFilePreProcessor"/>
-  
+
   <bean class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator" />
   <bean class="org.slc.sli.ingestion.processors.ControlFileProcessor"/>
 
