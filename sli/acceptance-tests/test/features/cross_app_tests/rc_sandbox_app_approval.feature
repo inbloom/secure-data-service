@@ -93,6 +93,8 @@ And under My Applications, I see the following apps: "inBloom Dashboards;Schlemi
 And under My Applications, I click on "Schlemiel"
 Then my current url is "http://www.google.com/"	
 
+
+Scenario: App makes an api call to retrieve a bulk extract
 #Bulk Extract 
 #Get a session to trigger a bulk extract
 Given the testing device app key has been created
