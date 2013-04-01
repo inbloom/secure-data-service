@@ -19,10 +19,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,16 +48,6 @@ public class ManifestFileTest {
     }
 
     /**
-     * Runs after each JUnit test and does file cleanup.
-     * @throws IOException
-     *          if an I/O error occurred
-     */
-    @After
-    public void cleanup() throws IOException {
-        FileUtils.forceDelete(meta.getFile());
-    }
-
-    /**
      * JUnit test to test fetching api version.
      * @throws IOException
      *          if an I/O error occurred
@@ -78,8 +67,7 @@ public class ManifestFileTest {
      */
     @Test
     public void testGenerateFile() throws IOException {
-        ManifestFile meta = new ManifestFile("./");
-        Date startTime = new Date();
+        DateTime startTime = new DateTime();
 
         meta.generateMetaFile(startTime);
 
@@ -90,6 +78,8 @@ public class ManifestFileTest {
         assertTrue("Correct metadata version not found in metadata file", fileContent.contains("metadata_version=1.0"));
         assertTrue("Correct api version not found in metadata file", fileContent.contains("api_version=v1.4"));
         assertTrue("Correct time stamp entry not found in metadata file", fileContent.contains("timeStamp=" + ManifestFile.getTimeStamp(startTime)));
+
+        FileUtils.forceDelete(meta.getFile());
     }
 
 }

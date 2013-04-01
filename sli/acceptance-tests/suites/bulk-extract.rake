@@ -25,6 +25,7 @@ end
 desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSetup do
   Rake::Task["ingestionSmokeTests"].execute
+  Rake::Task["bulkExtractCleanup"].execute
   @tags = ["~@wip", "~@sandbox"]
 
 end
@@ -61,6 +62,12 @@ task :bulkExtractIntegrationTest do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "Deltas and Deletes"
+task :bulkExtractDeltasTest do
+  runTests("test/features/bulk_extract/features/bulk_extract_deltas_api.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
 desc "Run RC E2E Tests in Production mode"
 task :bulkExtractTests => [:realmInit] do
   CLEAN_EXTRACT_LOC = false
@@ -71,6 +78,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractStudentTest"].execute
   Rake::Task["bulkExtractIntegrationTest"].execute
+  Rake::Task["bulkExtractDeltasTest"].execute
   Rake::Task["bulkExtractSchedulerTest"].execute
   Rake::Task["bulkExtractCleanup"].execute 
   displayFailureReport()

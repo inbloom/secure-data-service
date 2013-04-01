@@ -28,19 +28,20 @@ import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.slc.sli.bulk.extract.TestUtils;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 /**
  * JUnit tests for ArchivedExtractFile class.
  * @author npandey
  *
  */
-public class ArchivedExtractFileTest {
+public class ExtractFileTest {
 
-    ArchivedExtractFile archiveFile;
+    ExtractFile archiveFile;
 
     private static final String FILE_NAME = "Test";
     private static final String FILE_EXT = ".tar";
@@ -53,17 +54,25 @@ public class ArchivedExtractFileTest {
      */
     @Before
     public void init() throws IOException, NoSuchFieldException {
-        archiveFile = new ArchivedExtractFile("./", FILE_NAME);
-        List<File> files = new ArrayList<File>();
+        archiveFile = new ExtractFile("./", FILE_NAME);
 
-        File studentFile = TestUtils.createTempFile("student", ".json.gz");
-        files.add(studentFile);
-        File assessmentFile = TestUtils.createTempFile("assessment", ".json.gz");
-        files.add(assessmentFile);
-        File metadataFile = TestUtils.createTempFile("metadata", ".txt");
-        files.add(metadataFile);
+        File parentDir = (File) PrivateAccessor.getField(archiveFile, "tempDir");
 
-        PrivateAccessor.setField(archiveFile, "filesToArchive", files);
+        ManifestFile metaFile = new ManifestFile(parentDir.getName());
+        metaFile.generateMetaFile(new DateTime());
+        Assert.assertTrue(metaFile.getFile() != null);
+        Assert.assertTrue(metaFile.getFile().getName() != null);
+        PrivateAccessor.setField(archiveFile, "manifestFile", metaFile);
+
+        List<DataExtractFile> files = new ArrayList<DataExtractFile>();
+        File studentFile = File.createTempFile("student", ".json.gz", parentDir);
+        String fileNamePrefix = studentFile.getName().substring(0, studentFile.getName().indexOf(".json.gz"));
+        DataExtractFile studentExtractFile = new DataExtractFile(parentDir.getName(), fileNamePrefix);
+        PrivateAccessor.setField(studentExtractFile, "file", studentFile);
+
+
+        files.add(studentExtractFile);
+        PrivateAccessor.setField(archiveFile, "dataFiles", files);
     }
 
     /**
@@ -97,10 +106,9 @@ public class ArchivedExtractFileTest {
             IOUtils.closeQuietly(tarInputStream);
         }
 
-        Assert.assertEquals(3, names.size());
-        Assert.assertTrue("Student extract file not found", names.get(0).contains("student"));
-        Assert.assertTrue("Assessment extract file not found", names.get(1).contains("assessment"));
-        Assert.assertTrue("Metadata file not found", names.get(2).contains("metadata"));
+        Assert.assertEquals(2, names.size());
+        Assert.assertTrue("Student extract file not found", names.get(1).contains("student"));
+        Assert.assertTrue("Metadata file not found", names.get(0).contains("metadata"));
     }
 
 }

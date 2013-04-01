@@ -17,18 +17,18 @@
 package org.slc.sli.bulk.extract;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
-import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 /**
  * Bulk extract launcher.
@@ -50,23 +50,16 @@ public class Launcher {
      * @param tenant
      *          Tenant for which extract has been initiated
      */
-    public void execute(String tenant){
-
-        Date startTime = new Date();
-        ArchivedExtractFile extractFile = null;
-        try {
-            extractFile = new ArchivedExtractFile(getTenantDirectory(tenant),
-                    getArchiveName(tenant, startTime));
-
-            tenantExtractor.execute(tenant, extractFile, startTime);
-        } catch (IOException e) {
-            LOG.error("Error writing extract file");
-        }
-
+    public void execute(String tenant) {
+        DateTime startTime = new DateTime();
+        ExtractFile extractFile = null;
+        extractFile = new ExtractFile(getTenantDirectory(tenant),
+                getArchiveName(tenant, startTime.toDate()));
+        tenantExtractor.execute(tenant, extractFile, startTime);
     }
 
     private String getArchiveName(String tenant, Date startTime) {
-        return tenant + "" + getTimeStamp(startTime);
+        return tenant + "-" + getTimeStamp(startTime);
     }
 
     private String getTenantDirectory(String tenant) {

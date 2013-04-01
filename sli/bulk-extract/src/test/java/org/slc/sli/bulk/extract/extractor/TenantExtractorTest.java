@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +32,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
+import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
 
@@ -52,7 +53,7 @@ public class TenantExtractorTest {
     @Autowired
     private TenantExtractor tenantExtractor;
 
-    private ArchivedExtractFile archiveFile;
+    private ExtractFile archiveFile;
 
     private List<String> collections;
 
@@ -71,9 +72,9 @@ public class TenantExtractorTest {
 
         File file = Mockito.mock(File.class);
         ManifestFile metadataFile = Mockito.mock(ManifestFile.class);
-        Mockito.doNothing().when(metadataFile).generateMetaFile(Mockito.any(Date.class));
+        Mockito.doNothing().when(metadataFile).generateMetaFile(Mockito.any(DateTime.class));
 
-        archiveFile = Mockito.mock(ArchivedExtractFile.class);
+        archiveFile = Mockito.mock(ExtractFile.class);
         Mockito.doNothing().when(archiveFile).generateArchive();
         Mockito.when(archiveFile.getArchiveFile()).thenReturn(file);
         Mockito.when(archiveFile.getManifestFile()).thenReturn(metadataFile);
@@ -89,20 +90,20 @@ public class TenantExtractorTest {
     @Test
     public void testinitiateExtractForEntites() {
 
-        tenantExtractor.setEntities(collections);
-
+        String tenant = "Midgar";
         EntityExtractor ex = Mockito.mock(EntityExtractor.class);
-        Mockito.doNothing().when(ex).extractEntity(Matchers.anyString(), Matchers.any(ArchivedExtractFile.class), Matchers.anyString());
+        Mockito.doNothing().when(ex).extractEntities(Matchers.anyString(), Matchers.any(ExtractFile.class), Matchers.anyString());
+        Mockito.when(ex.getCollectionNames(tenant)).thenReturn(collections);
 
         tenantExtractor.setEntityExtractor(ex);
 
-        tenantExtractor.execute("Midgar", archiveFile, new Date());
+        tenantExtractor.execute(tenant, archiveFile, new DateTime());
 
         for(String collection : collections) {
-            Mockito.verify(ex, Mockito.times(1)).extractEntity("Midgar", archiveFile, collection);
+            Mockito.verify(ex, Mockito.times(1)).extractEntities("Midgar", archiveFile, collection);
         }
 
-        Mockito.verify(bulkExtractMongoDA, Mockito.times(1)).updateDBRecord(Matchers.anyString(), Matchers.anyString(), Matchers.any(Date.class));
+        Mockito.verify(bulkExtractMongoDA, Mockito.times(1)).updateDBRecord(Matchers.anyString(), Matchers.anyString(), Matchers.any(Date.class), Mockito.eq(false));
     }
 
 

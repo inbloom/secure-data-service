@@ -102,7 +102,7 @@ public class TestUtils {
 
             @Override
             public Map<String, List<Entity>> getEmbeddedData() {
-                return null;
+                return new HashMap<String, List<Entity>>();
             }
 
             @Override
@@ -114,7 +114,7 @@ public class TestUtils {
             public String getStagedEntityId() {
                 return null;
             }
-       };
+        };
     }
 
     /**
@@ -144,41 +144,41 @@ public class TestUtils {
     public static void deleteDir(File file)
             throws IOException{
 
-            if(file.isDirectory()){
+        if(file.isDirectory()){
 
-                //directory is empty, then delete it
-                if(file.list().length==0){
+            //directory is empty, then delete it
+            if(file.list().length==0){
 
-                   file.delete();
-                   System.out.println("Directory is deleted : "
-                                                     + file.getAbsolutePath());
-
-                }else{
-
-                   //list all the directory contents
-                   String files[] = file.list();
-
-                   for (String temp : files) {
-                      //construct the file structure
-                      File fileDelete = new File(file, temp);
-
-                      //recursive delete
-                     deleteDir(fileDelete);
-                   }
-
-                   //check the directory again, if empty then delete it
-                   if(file.list().length==0){
-                     file.delete();
-                     System.out.println("Directory is deleted : "
-                                                      + file.getAbsolutePath());
-                   }
-                }
+                file.delete();
+                System.out.println("Directory is deleted : "
+                        + file.getAbsolutePath());
 
             }else{
-                //if file, then delete it
-                file.delete();
-                System.out.println("File is deleted : " + file.getAbsolutePath());
+
+                //list all the directory contents
+                String files[] = file.list();
+
+                for (String temp : files) {
+                    //construct the file structure
+                    File fileDelete = new File(file, temp);
+
+                    //recursive delete
+                    deleteDir(fileDelete);
+                }
+
+                //check the directory again, if empty then delete it
+                if(file.list().length==0){
+                    file.delete();
+                    System.out.println("Directory is deleted : "
+                            + file.getAbsolutePath());
+                }
             }
+
+        }else{
+            //if file, then delete it
+            file.delete();
+            System.out.println("File is deleted : " + file.getAbsolutePath());
         }
+    }
 
 }

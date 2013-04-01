@@ -70,6 +70,12 @@
 	<%= f.text_field :image_url %>
 	<span class="help-inline">An optional image url to be displayed as an icon</span>
 </div>
+
+<div class="field well">
+  <%=  f.label :public_key, "Public Key" %>
+  <%=  f.text_field :public_key %>
+</div>
+
 <div class = "actions">
 	<%= f.submit "Register", :disable_with => 'Submitting...', :class => "btn" %>
 	<%= link_to "Cancel", :back %>
