@@ -219,12 +219,8 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
 
 	case collection
-	when "educationOrganization"
-	  count = @tenantDb.collection(collection).find({"type" => { "$ne" => "school" }} ).count()
 	when "school"
 	  count = @tenantDb.collection("educationOrganization").find({"type" => "school" } ).count()
-	when "staff"
-	  count = @tenantDb.collection(collection).find({"type" => { "$ne" => "teacher" }} ).count()
 	when "teacher"
 	  count = @tenantDb.collection("staff").find({"type" => "teacher" } ).count()
 	else
