@@ -1,5 +1,9 @@
 #bulk extract
-Dir["./test/features/bulk_extract/features/step_definitions/*.rb"].each {|file| require file}
+TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
+OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
+PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
+KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
+JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
 

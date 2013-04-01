@@ -21,6 +21,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -50,10 +51,10 @@ public class Launcher {
      *          Tenant for which extract has been initiated
      */
     public void execute(String tenant) {
-        Date startTime = new Date();
+        DateTime startTime = new DateTime();
         ExtractFile extractFile = null;
         extractFile = new ExtractFile(getTenantDirectory(tenant),
-                getArchiveName(tenant, startTime));
+                getArchiveName(tenant, startTime.toDate()));
         tenantExtractor.execute(tenant, extractFile, startTime);
     }
 
@@ -61,10 +62,10 @@ public class Launcher {
         return tenant + "-" + getTimeStamp(startTime);
     }
 
-    private String getTenantDirectory(String tenant) {
+    private File getTenantDirectory(String tenant) {
         File tenantDirectory = new File(baseDirectory, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
         tenantDirectory.mkdirs();
-        return tenantDirectory.getPath();
+        return tenantDirectory;
     }
 
     /**

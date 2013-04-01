@@ -19,12 +19,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +38,6 @@ public class ManifestFile{
 
     private static final Logger LOG = LoggerFactory.getLogger(ManifestFile.class);
     private File metaFile;
-    private String parentDirName;
 
     private static final  String VERSION = "1.0";
     private static final  String METADATA_VERSION = "metadata_version=";
@@ -46,18 +45,16 @@ public class ManifestFile{
     private static  final String TIME_STAMP = "timeStamp=";
     private static  final String METADATA_FILE = "metadata.txt";
 
-    private static final String TIME_FORMAT = "yyyy-MM-dd'T'HH-mm-ss";
-
     private String apiVersion = null;
 
     /**
      * Parameterized constructor.
      *
-     * @param parentDirName
+     * @param parentDir
      *          Name of the parent directory
      */
-    public ManifestFile(String parentDirName) {
-        this.parentDirName = parentDirName;
+    public ManifestFile(File parentDir) {
+        metaFile = new File(parentDir, METADATA_FILE);
     }
 
     /**
@@ -99,9 +96,7 @@ public class ManifestFile{
      * @throws IOException
      *          throws IOException
      */
-    public void generateMetaFile(Date startTime) throws IOException {
-        File parentDir = new File(parentDirName + "/");
-        metaFile = new File(parentDir, METADATA_FILE);
+    public void generateMetaFile(DateTime startTime) throws IOException {
         String metaVersionEntry = METADATA_VERSION + VERSION;
         String timeStampEntry = TIME_STAMP + getTimeStamp(startTime);
         if (apiVersion == null) {
@@ -112,14 +107,16 @@ public class ManifestFile{
         FileWriter fw = null;
         try {
             fw = new FileWriter(metaFile);
+
             fw.write(metaVersionEntry);
             fw.write('\n');
             fw.write(apiVersionEntry);
             fw.write('\n');
             fw.write(timeStampEntry);
             fw.write('\n');
-        } finally {
+
             fw.flush();
+        } finally {
             IOUtils.closeQuietly(fw);
         }
     }
@@ -131,9 +128,9 @@ public class ManifestFile{
      * @return
      *      returns the formatted timestamp
      */
-    public static String getTimeStamp(Date date) {
-        DateFormat df = new SimpleDateFormat(TIME_FORMAT);
-        String timeStamp = df.format(date);
+    public static String getTimeStamp(DateTime date) {
+        DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+        String timeStamp = fmt.print(date);
         return timeStamp;
     }
 
