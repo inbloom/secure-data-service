@@ -106,3 +106,50 @@ Then I should receive a json response containing my authorization token
 
 #Get bulk extract tar file
 Then I request and download a bulk extract file
+And there is a metadata file in the extract
+And the extract contains a file for each of the following entities:
+   |  entityType                            |
+   |  assessment                            |
+   |  assessmentFamily                      |
+   |  assessmentPeriodDescriptor            |
+   |  attendance                            |
+   |  cohort                                |
+   |  competencyLevelDescriptor             |
+   |  course                                |
+   |  courseOffering                        |
+   |  courseTranscript                      |
+   |  disciplineIncident                    |
+   |  disciplineAction                      |
+   |  educationOrganization                 |
+#   |  grade                                 |
+   |  gradebookEntry                        |
+   |  gradingPeriod                         |
+   |  graduationPlan                        |
+   |  learningObjective                     |
+   |  learningStandard                      |
+   |  objectiveAssessment                   |
+   |  parent                                |
+   |  program                               |
+#   |  reportCard                            |
+   |  school                                |
+   |  section                               |
+   |  session                               |
+   |  staff                                 |
+   |  staffCohortAssociation                |
+   |  staffEducationOrganizationAssociation |
+   |  staffProgramAssociation               |
+   |  student                               |
+#   |  studentAcademicRecord                 |
+   |  studentAssessment                     |
+   |  studentCohortAssociation              |
+   |  studentCompetency                     |
+   |  studentCompetencyObjective            |
+   |  studentDisciplineIncidentAssociation  |
+   |  studentObjectiveAssessment            |
+   |  studentProgramAssociation             |
+   |  studentGradebookEntry                 |
+   |  studentSchoolAssociation              |
+   |  studentSectionAssociation             |
+   |  studentParentAssociation              |
+   |  teacher                               |
+   |  teacherSchoolAssociation              |
