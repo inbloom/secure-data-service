@@ -86,6 +86,11 @@
       <%= f.hidden_field :authorized_ed_orgs, :multiple => true, :value => role %>
   <% end %>
 </div>
+
+<div class="field well">
+    <%=  f.label :public_key, "Public Key" %>
+    <%=  f.text_field :public_key %>
+</div>
 <% if !@sea.nil? %>
 <h3>Enable the districts you would like to use your application</h3>
 <div id="state-menu">

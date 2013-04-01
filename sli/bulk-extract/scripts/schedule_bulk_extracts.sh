@@ -40,6 +40,17 @@ is_in_range() {
   return 1
 }
 
+is_logdir_line() {
+  # Check for config file bulk extract script logging directory line.
+  local line="$1"
+  options=`echo "${line[@]}" | grep '^[ \t]*/'`
+  if [ -n "${options}" ]
+  then
+    return 0
+  fi
+  return 1
+}
+
 is_options_line() {
   # Check for config file bulk extract script options line.
   local line="$1"
@@ -57,7 +68,7 @@ is_cron_line() {
   local line_number="$1"
   shift
   local line="$@"
-  if ( is_options_line "${line[@]}" )
+  if ( is_options_line "${line[@]}" ) || ( is_logdir_line "${line[@]}" )
   then
     return 1
   fi
@@ -129,6 +140,13 @@ process_config_file() {
   # Read config file line by line.  Extract cron job entries.
   echo "Reading config file ${SCHEDULER_CONFIGFILE}."
   OPTIONS=""
+  LOGDIR="${BULK_EXTRACT_SCRIPT_DIR}"/logs
+  if [ -n "`mkdir -p ${LOGDIR} 2>&1`" ]
+  then
+    LOGDIR="/tmp/logs"
+    mkdir -p ${LOGDIR}
+  fi
+  LOGFILE="${LOGDIR}/local_bulk_extract.log"
   NEW_BE_CRONTAB_FILE="/tmp/bulk_extract_crontab"
   CONF_FILE_IS_VALID="true"
   LINE_NO=0
@@ -141,11 +159,27 @@ process_config_file() {
       then
         CRON_SCHED=`echo "${LINE[@]}" | awk '{print $1, $2, $3, $4, $5}'`
         TENANT_ID="${LINE[5]}"
-        CRON_LINE="${CRON_SCHED} ${BULK_EXTRACT_SCRIPT} ${OPTIONS} -t${TENANT_ID}"
+        CRON_LINE="${CRON_SCHED} ${BULK_EXTRACT_SCRIPT} ${OPTIONS} -t${TENANT_ID} >> ${LOGFILE} 2>&1"
         echo "${CRON_LINE}" >> ${NEW_BE_CRONTAB_FILE}
       elif ( is_options_line "${LINE[@]}" )
       then
         OPTIONS="${LINE[@]}"
+      elif ( is_logdir_line "${LINE[@]}" )
+      then
+        TMP_LOGDIR="${LINE[@]}"
+        if [[ "${TMP_LOGDIR}" != /* ]]
+        then
+          echo "Warning: Bulk extract script logging directory ${TMP_LOGDIR} is not an absolute path."
+          echo "Using default logfile ${LOGFILE} for ${BULK_EXTRACT_SCRIPT} output."
+        elif [ -n "`mkdir -p ${TMP_LOGDIR} 2>&1`" ]
+        then
+          echo "Warning: Bulk extract script logging directory ${TMP_LOGDIR} cannot be created."
+          echo "Using default logfile ${LOGFILE} for ${BULK_EXTRACT_SCRIPT} output."
+        else
+          LOGDIR="${TMP_LOGDIR}"
+          LOGFILE="${LOGDIR}/local_bulk_extract.log"
+          echo "Using logfile ${LOGFILE} for ${BULK_EXTRACT_SCRIPT} output."
+        fi
       else
         CONF_FILE_IS_VALID="false"
       fi

@@ -21,10 +21,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.util.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
@@ -34,13 +37,18 @@ import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
  * @author npandey
  *
  */
-public class ArchivedExtractFile {
+public class ExtractFile {
 
     private String parentDirName;
+    private File tempDir;
+    private String archiveName;
     private File archiveFile;
-    private List<File> filesToArchive = new ArrayList<File>();
+    private List<DataExtractFile> dataFiles = new ArrayList<DataExtractFile>();
+    private ManifestFile manifestFile;
 
     private static final String FILE_EXT = ".tar";
+
+    private static final Logger LOG = LoggerFactory.getLogger(ExtractFile.class);
 
     /**
      *Parameterized constructor.
@@ -49,20 +57,19 @@ public class ArchivedExtractFile {
      *          parent directory name
      * @param archiveName
      *          name of the archive file
-     * @throws IOException
-     *          if an I/O error occurred
      */
-    public ArchivedExtractFile(String parentDirName, String archiveName) throws IOException {
+    public ExtractFile(String parentDirName, String archiveName) {
         this.parentDirName = parentDirName;
-        archiveFile = new File(parentDirName, archiveName + FILE_EXT);
-        archiveFile.createNewFile();
+        this.archiveName = archiveName;
+        tempDir = new File(parentDirName, UUID.randomUUID().toString());
+        tempDir.mkdir();
     }
 
     /**
      *Get a data file for the extract.
      *
-     * @param fileName
-     *          name of the data file
+     * @param filePrefix
+     *          the prefix string to be used in file name generation
      * @return
      *          DataExtractFile object
      * @throws FileNotFoundException
@@ -70,10 +77,12 @@ public class ArchivedExtractFile {
      * @throws IOException
      *          if an I/O error occurred
      */
-    public DataExtractFile getDataFileEntry(String fileName) throws FileNotFoundException, IOException {
-        DataExtractFile compressedFile = new DataExtractFile(parentDirName, fileName);
-       filesToArchive.add(compressedFile.getFile());
-       return compressedFile;
+    public DataExtractFile getDataFileEntry(String filePrefix)
+            throws FileNotFoundException, IOException {
+        DataExtractFile compressedFile = new DataExtractFile(
+                tempDir.getAbsolutePath(), filePrefix);
+        dataFiles.add(compressedFile);
+        return compressedFile;
     }
 
     /**
@@ -85,8 +94,8 @@ public class ArchivedExtractFile {
      *          if an I/O error occurred
      */
     public ManifestFile getManifestFile() throws IOException {
-        ManifestFile manifestFile = new ManifestFile(parentDirName);
-        filesToArchive.add(manifestFile.getFile());
+        ManifestFile manifestFile = new ManifestFile(tempDir.getAbsolutePath());
+        this.manifestFile = manifestFile;
         return manifestFile;
     }
 
@@ -97,21 +106,46 @@ public class ArchivedExtractFile {
      *      if an I/O error occurred
      */
     public void generateArchive() throws IOException {
+        createTarFile();
+
         TarArchiveOutputStream tarArchiveOutputStream = null;
         try {
-            tarArchiveOutputStream = new TarArchiveOutputStream(
-                    new FileOutputStream(archiveFile));
+            tarArchiveOutputStream = new TarArchiveOutputStream(new FileOutputStream(archiveFile));
 
-            for (File file : filesToArchive) {
-                tarArchiveOutputStream.putArchiveEntry(tarArchiveOutputStream
-                        .createArchiveEntry(file, file.getName()));
-                FileUtils.copyFile(file, tarArchiveOutputStream);
-                tarArchiveOutputStream.closeArchiveEntry();
-                file.delete();
+            archiveFile(tarArchiveOutputStream, manifestFile.getFile());
+            for (DataExtractFile dataFile : dataFiles) {
+                File file = new File(tempDir, dataFile.getFileName());
+                archiveFile(tarArchiveOutputStream, file);
             }
+        } catch (IOException e) {
+            LOG.error("Error writing to tar file: {}" + e.getMessage());
+            removeTarFile();
         } finally {
             IOUtils.close(tarArchiveOutputStream);
+            FileUtils.forceDelete(tempDir);
         }
+    }
+
+    private void archiveFile(TarArchiveOutputStream tarArchiveOutputStream, File fileToArchive) throws IOException {
+        tarArchiveOutputStream.putArchiveEntry(tarArchiveOutputStream
+                .createArchiveEntry(fileToArchive, fileToArchive.getName()));
+        FileUtils.copyFile(fileToArchive, tarArchiveOutputStream);
+        tarArchiveOutputStream.closeArchiveEntry();
+        fileToArchive.delete();
+    }
+
+    private void createTarFile() {
+        archiveFile = new File(parentDirName, archiveName + FILE_EXT);
+        try {
+            archiveFile.createNewFile();
+        } catch (IOException e) {
+            LOG.error("Error creating a tar file");
+        }
+    }
+
+    private void removeTarFile() {
+        LOG.error("Removing tar file");
+        archiveFile.delete();
     }
 
     /**

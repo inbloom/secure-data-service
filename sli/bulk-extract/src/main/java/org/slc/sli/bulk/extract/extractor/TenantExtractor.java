@@ -19,12 +19,11 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.files.ArchivedExtractFile;
-import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
 /**
  * Bulk extractor to extract data for a tenant.
@@ -36,43 +35,42 @@ public class TenantExtractor{
 
     private static final Logger LOG = LoggerFactory.getLogger(TenantExtractor.class);
 
-    private List<String> entities;
-
     private BulkExtractMongoDA bulkExtractMongoDA;
 
     private EntityExtractor entityExtractor;
 
     private ManifestFile metaDataFile;
 
-/**
- * Extract all the entities from a tenant.
- * @param tenant
- *          TenantId
- * @param extractFile
- *          Extract archive file
- * @param startTime
- *          start time stamp
- */
-    public void execute(String tenant, ArchivedExtractFile extractFile, Date startTime) {
+    /**
+     * Extract all the entities from a tenant.
+     * @param tenant
+     *          TenantId
+     * @param extractFile
+     *          Extract archive file
+     * @param startTime
+     *          start time stamp
+     */
+    public void execute(String tenant, ExtractFile extractFile, Date startTime) {
 
-        for (String entity : entities) {
-            entityExtractor.extractEntity(tenant, extractFile, entity);
+        List<String> collections = entityExtractor.getCollectionNames(tenant);
+        for (String collection : collections) {
+            entityExtractor.extractEntities(tenant, extractFile, collection);
         }
 
         try {
             metaDataFile = extractFile.getManifestFile();
             metaDataFile.generateMetaFile(startTime);
-
-            bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime);
         } catch (IOException e) {
-            LOG.error("Error creating metadata file");
+            LOG.error("Error creating metadata file: {}", e.getMessage());
         }
 
         try {
             extractFile.generateArchive();
         } catch (IOException e) {
-            LOG.error("Error generating archive file");
+            LOG.error("Error generating archive file: {}", e.getMessage());
         }
+
+        bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime, false);
     }
 
     /**
@@ -89,14 +87,6 @@ public class TenantExtractor{
      */
     public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
         this.bulkExtractMongoDA = bulkExtractMongoDA;
-    }
-
-    /**
-     * set entities.
-     * @param entities entities
-     */
-    public void setEntities(List<String> entities) {
-        this.entities = entities;
     }
 
     /**

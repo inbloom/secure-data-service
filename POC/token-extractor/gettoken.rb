@@ -8,7 +8,7 @@ require 'uri'
 
 
 @log = Logger.new(STDOUT)
-@log.level = 0
+@log.level = 2
 
 def main()
   profile = ARGV[0]
@@ -71,11 +71,14 @@ def startAuth(api, redirectUrl, clientId)
   @log.info "Starting Auth process..."
   url = "#{api}/oauth/authorize?response_type=code&redirect_uri=#{redirectUrl}&client_id=#{clientId}"
   @log.info "Connecting to API: [#{url}]"
-  response = HTTParty.get(url)
-  checkHttpResponse(response)
-  samlRequest = response.match("SAMLRequest\" value=\"(.*)\"")[1]
+  result = Curl::Easy.http_get(url) do |curl|
+    curl.follow_location = false
+  end
+  location = result.header_str.match("Location: (.*)")[1]
+  @log.info location
+  samlRequest = URI.unescape(location.match("SAMLRequest=(.*)")[1])
   @log.debug "SAMLRequest: [#{samlRequest}]"
-  realm = response.match("realm\" value=\"(.*)\"")[1]
+  realm = URI.unescape(location.match("realm=(.*)&")[1])
   @log.info "Realm: [#{realm}]"
   return {'samlRequest'=>samlRequest, 'realm'=>realm}
 end
@@ -108,11 +111,12 @@ def postSaml(api, samlResponse)
   @log.info "Posting SAML Assertion..."
   url = api + "/rest/saml/sso/post" 
   @log.info "Posting SAML to API: [#{url}]"
-  result = Curl::Easy.http_post(url, Curl::PostField.content('SAMLResponse', samlResponse)) do |curl|
-    curl.follow_location = false
-  end
-  @log.debug result.header_str
-  code = result.header_str.match("Location.*code=(.*)")[1]
+  response = HTTParty.post(url, 
+    :body => { :SAMLResponse => samlResponse }
+    )
+  checkHttpResponse(response)
+  json = JSON.parse(response.body)
+  code = json["authorization_code"]
   @log.info "auth code is: [#{code}]"
   enc_code = URI.escape(code.strip())
   return enc_code
@@ -130,116 +134,11 @@ def getToken(api, code, redirectUrl, clientId, secret)
   return token
 end
 
-def get(url, token)
-  @log.info "Calling API: [#{url}]"
-  response = HTTParty.get(url, :headers => {'Authorization' => 'Bearer ' +token})
-  checkHttpResponse(response)
-  json = JSON.parse(response.body)
-  @log.debug "Response as JSON: #{json}"
-  return json
-end
-
-def post(url, token, body)
-  @log.info "Posting to: [#{url}]"
-  @log.debug "Posting body: #{body}"
-  response = HTTParty.post(url, :body => body, :headers => 
-    {'Authorization' => 'Bearer ' +token,
-     'Content-Type' => 'application/json'})
-  if response.code != 201
-    @log.error response.body  
-    @log.error response.headers.inspect
-    @log.error "Response: [#{response.code}], message: [#{response.message}]"
-    @log.error "Unexpected response code"
-    exit()
-  else
-    @log.info "Post successful"
-    @log.debug response.headers.inspect
-    location = response.headers["location"]
-    newId = location.match(".*\/(.*)")[1]
-    @log.info "New entity: [#{newId}]"
-    return location
-  end
-end
-
-def apiHome(apiUrl, token)
-  json = get("#{apiUrl}/rest/v1/home", token)
-  return json
-end
-
-def getMyId(apiUrl, token)
-  json = apiHome(apiUrl, token)
-  link = getLink(json, "self")
-  me = link.match("staff/(.*)")[1]
-  if me == nil
-    me = link.match("teacher/(.*)")[1]
-  end
-  @log.info "Users id is: [#{me}]"
-  return me
-end
-
-def sessionCheck(apiUrl, token)
-  json = get("#{apiUrl}/rest/system/session/check", token)
-end
-
-def getMyEdOrg(apiUrl, token, myId)
-  json = get("#{apiUrl}/rest/v1/staff/#{myId}/staffEducationOrgAssignmentAssociations/educationOrganizations", token)  
-  myEdOrg = json[0]
-  return myEdOrg
-end
-
-def printJsonObject(hash)
-  hash.each do |key, value|
-    if key != "links"
-      puts "    #{key}: #{value}"
-    end
-  end
-end
-
-def getLink(json, name)
-  json["links"].each do |link|
-    if link["rel"] == name
-      return link["href"]
-    end
-  end
-end
-
-
-def createEdOrg(apiUrl, token, parentEdOrgId)
-  puts "City: "
-  city = gets.chomp
-  puts "State: "
-  state = gets.chomp
-  puts "State Organization ID: "
-  stateOrganizationId = gets.chomp
-  puts "Name of Institution: "
-  nameOfInstitution = gets.chomp
-  puts "Type of EdOrg:"
-  puts "1) LEA"
-  puts "2) School"
-  choice = Integer(gets.chomp)
-  orgCategory = choice==1 ? "Local Education Agency" : "School"
-  json = { "accountabilityRatings" => [],
-           "organizationCategories" => ["#{orgCategory}"],
-           "address" => [{
-                "streetNumberName" => "123 Street",
-                "postalCode" => "12345",
-                "stateAbbreviation" => "#{state}",
-                "city" => "#{city}"
-           }],
-          "educationOrgIdentificationCode" => [],
-          "parentEducationAgencyReference" => "#{parentEdOrgId}",
-          "programReference" => [],
-          "stateOrganizationId" => "#{stateOrganizationId}",
-          "entityType" => "educationOrganization",
-          "telephone" => [],
-          "nameOfInstitution" => "#{nameOfInstitution}"
-    }
-  post("#{apiUrl}/rest/v1/educationOrganizations", token, json.to_json) 
-end
 
 if ARGV.length < 2
   puts "Incorrect usage!"
   puts "ruby gettoken.rb <profile> <user> <role>"
+  puts "<profile> is the name of a profile defined in profiles.json"
   puts "<role> is optional, if not specied then IT Administator is used"
   exit()
 end
