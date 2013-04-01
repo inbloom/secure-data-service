@@ -5,6 +5,9 @@ PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
 KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
 JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 
+require 'archive/tar/minitar'
+include Archive::Tar
+
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
 
 command  = "sh #{TRIGGER_SCRIPT}"
