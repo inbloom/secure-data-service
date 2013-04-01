@@ -6,6 +6,7 @@ Feature:  RC Integration Tests
 Background:
 Given I have an open web browser
 
+@ci
 Scenario: Operator triggers a bulk extract
    When the operator triggers a bulk extract for tenant "<SANDBOX_TENANT>"
 
@@ -93,7 +94,7 @@ And under My Applications, I see the following apps: "inBloom Dashboards;Schlemi
 And under My Applications, I click on "Schlemiel"
 Then my current url is "http://www.google.com/"	
 
-
+@ci
 Scenario: App makes an api call to retrieve a bulk extract
 #Bulk Extract 
 #Get a session to trigger a bulk extract
