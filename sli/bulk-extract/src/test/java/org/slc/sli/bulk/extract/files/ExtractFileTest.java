@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -29,6 +28,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,12 +54,12 @@ public class ExtractFileTest {
      */
     @Before
     public void init() throws IOException, NoSuchFieldException {
-        archiveFile = new ExtractFile("./", FILE_NAME);
+        archiveFile = new ExtractFile(new File("./"), FILE_NAME);
 
         File parentDir = (File) PrivateAccessor.getField(archiveFile, "tempDir");
 
-        ManifestFile metaFile = new ManifestFile(parentDir.getName());
-        metaFile.generateMetaFile(new Date());
+        ManifestFile metaFile = new ManifestFile(parentDir);
+        metaFile.generateMetaFile(new DateTime());
         Assert.assertTrue(metaFile.getFile() != null);
         Assert.assertTrue(metaFile.getFile().getName() != null);
         PrivateAccessor.setField(archiveFile, "manifestFile", metaFile);
@@ -67,7 +67,7 @@ public class ExtractFileTest {
         List<DataExtractFile> files = new ArrayList<DataExtractFile>();
         File studentFile = File.createTempFile("student", ".json.gz", parentDir);
         String fileNamePrefix = studentFile.getName().substring(0, studentFile.getName().indexOf(".json.gz"));
-        DataExtractFile studentExtractFile = new DataExtractFile(parentDir.getName(), fileNamePrefix);
+        DataExtractFile studentExtractFile = new DataExtractFile(parentDir, fileNamePrefix);
         PrivateAccessor.setField(studentExtractFile, "file", studentFile);
 
 
