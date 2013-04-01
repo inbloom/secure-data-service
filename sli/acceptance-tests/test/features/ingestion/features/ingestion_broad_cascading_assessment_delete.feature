@@ -44,6 +44,4 @@ Scenario: Delete Assessment with cascade
 	|studentObjectiveAssessment             |        -2|
 	|recordHash                             |         0|
 	And I should not see "5f650f8a65dcfee035b74787ca47a6738239c614_id" in the "Midgar" database
-    And I should not see any entity mandatorily referring to "5f650f8a65dcfee035b74787ca47a6738239c614_id" in the "Midgar" database
-	And I should see entities optionally referring to "5f650f8a65dcfee035b74787ca47a6738239c614_id" be updated in the "Midgar" database
 	
