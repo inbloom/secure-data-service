@@ -147,7 +147,6 @@ public class BulkExtractTest {
       assertNotNull(headers);
       assertTrue(headers.containsKey("content-disposition"));
       assertTrue(headers.containsKey("last-modified"));
-      assertTrue(headers.containsKey("content-length"));
       String header = (String) headers.getFirst("content-disposition");
       assertNotNull(header);
       assertTrue(header.startsWith("attachment"));

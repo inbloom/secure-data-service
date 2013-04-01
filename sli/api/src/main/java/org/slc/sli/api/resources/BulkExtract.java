@@ -176,7 +176,6 @@ public class BulkExtract {
             ResponseBuilder builder = Response.ok(out);
             builder.header("content-disposition", "attachment; filename = " + fileName);
             builder.header("last-modified", lastModified);
-            builder.header("content-length", bulkExtractFile.length());
             return builder.build();
         } catch (FileNotFoundException e) {
             return Response.status(Status.NOT_FOUND).build();
