@@ -19,9 +19,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +67,7 @@ public class ManifestFileTest {
      */
     @Test
     public void testGenerateFile() throws IOException {
-        Date startTime = new Date();
+        DateTime startTime = new DateTime();
 
         meta.generateMetaFile(startTime);
 

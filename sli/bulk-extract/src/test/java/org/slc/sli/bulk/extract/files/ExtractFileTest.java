@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -29,6 +28,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,7 +59,7 @@ public class ExtractFileTest {
         File parentDir = (File) PrivateAccessor.getField(archiveFile, "tempDir");
 
         ManifestFile metaFile = new ManifestFile(parentDir);
-        metaFile.generateMetaFile(new Date());
+        metaFile.generateMetaFile(new DateTime());
         Assert.assertTrue(metaFile.getFile() != null);
         Assert.assertTrue(metaFile.getFile().getName() != null);
         PrivateAccessor.setField(archiveFile, "manifestFile", metaFile);

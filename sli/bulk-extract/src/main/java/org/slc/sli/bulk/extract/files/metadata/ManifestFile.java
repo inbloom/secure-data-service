@@ -19,12 +19,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,8 +44,6 @@ public class ManifestFile{
     private static final String API_VERSION = "api_version=";
     private static  final String TIME_STAMP = "timeStamp=";
     private static  final String METADATA_FILE = "metadata.txt";
-
-    private static final String TIME_FORMAT = "yyyy-MM-dd'T'HH-mm-ss";
 
     private String apiVersion = null;
 
@@ -98,7 +96,7 @@ public class ManifestFile{
      * @throws IOException
      *          throws IOException
      */
-    public void generateMetaFile(Date startTime) throws IOException {
+    public void generateMetaFile(DateTime startTime) throws IOException {
         String metaVersionEntry = METADATA_VERSION + VERSION;
         String timeStampEntry = TIME_STAMP + getTimeStamp(startTime);
         if (apiVersion == null) {
@@ -130,9 +128,9 @@ public class ManifestFile{
      * @return
      *      returns the formatted timestamp
      */
-    public static String getTimeStamp(Date date) {
-        DateFormat df = new SimpleDateFormat(TIME_FORMAT);
-        String timeStamp = df.format(date);
+    public static String getTimeStamp(DateTime date) {
+        DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+        String timeStamp = fmt.print(date);
         return timeStamp;
     }
 
