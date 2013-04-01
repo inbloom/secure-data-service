@@ -16,30 +16,7 @@
 
 package org.slc.sli.api.resources;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
-
 import com.sun.jersey.core.spi.factory.ResponseImpl;
-
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -51,22 +28,44 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import sun.security.rsa.RSAKeyPairGenerator;
 
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.lang.reflect.Method;
+import java.security.KeyPair;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 
 /**
  * Test for support BulkExtract
@@ -88,11 +87,11 @@ public class BulkExtractTest {
     @Autowired
     private SecurityContextInjector injector;
 
-    @Mock
     private Repository<Entity> mockMongoEntityRepository;
 
     @Before
     public void init() {
+        mockMongoEntityRepository = Mockito.mock(Repository.class);
         MockitoAnnotations.initMocks(this);
     }
 
@@ -128,7 +127,21 @@ public class BulkExtractTest {
 
   @Test
   public void testGet() throws Exception {
-      injector.setEducatorContext();
+      injector.setOauthAuthenticationWithEducationRole();
+
+      final KeyPair keyPair = new RSAKeyPairGenerator().generateKeyPair();
+      {
+          Entity mockEntity = Mockito.mock(Entity.class);
+          Map<String, Object> mockBody = Mockito.mock(Map.class);
+          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
+
+
+          Mockito.when(mockBody.get("public_key")).thenReturn(keyPair.getPublic().toString());
+          Mockito.when(mockMongoEntityRepository.findOne(EntityNames.APPLICATION, Mockito.any(NeutralQuery.class)))
+                  .thenReturn(mockEntity);
+      }
+
+
       Entity mockEntity = Mockito.mock(Entity.class);
       Map<String, Object> mockBody = Mockito.mock(Map.class);
       Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
@@ -138,7 +151,7 @@ public class BulkExtractTest {
       FileUtils.writeStringToFile(file, "12345");
       Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(file.getAbsolutePath());
       Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
-      Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
+      Mockito.when(mockMongoEntityRepository.findOne(BulkExtract.BULK_EXTRACT_FILES, Mockito.any(NeutralQuery.class)))
           .thenReturn(mockEntity);
 
       ResponseImpl res = (ResponseImpl) bulkExtract.get();

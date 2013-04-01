@@ -30,6 +30,8 @@ import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
@@ -184,11 +186,21 @@ public class BulkExtract {
     private PublicKey getApplicationPublicKey() throws IOException {
         PublicKey publicKey = null;
 
-        final OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
-        final String clientId = authentication.getClientAuthentication().getClientId();
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof OAuth2Authentication)) {
+            throw new AccessDeniedException("Not logged in with valid oauth context");
+        }
+        final OAuth2Authentication oauth = (OAuth2Authentication) authentication;
+
+        final String clientId = oauth.getClientAuthentication().getClientId();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("clientId", NeutralCriteria.OPERATOR_EQUAL,
                 clientId));
         final Entity entity = mongoEntityRepository.findOne(EntityNames.APPLICATION, query);
+
+        if (entity == null || entity.getBody().get("public_key") == null) {
+            throw new AccessDeniedException("Missing public_key attribute on application entity. clientId=" + clientId);
+        }
+
         String key = (String) entity.getBody().get("public_key");
 
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(key.getBytes());
@@ -197,10 +209,10 @@ public class BulkExtract {
             publicKey = (PublicKey) kf.generatePrivate(spec);
         } catch (NoSuchAlgorithmException e) {
             LOG.error("Exception: NoSuchAlgorithmException {}", e);
-            throw new IOException("NoSuchAlgorithmException: " + e.toString());
+            throw new IOException(e);
         } catch (InvalidKeySpecException e) {
             LOG.error("Exception: InvalidKeySpecException {}", e);
-            throw new IOException("InvalidKeySpecException: " + e.toString() );
+            throw new IOException(e);
         }
 
         return publicKey;
