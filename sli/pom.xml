@@ -1089,8 +1089,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
                 <configuration>
+                    <argLine>-Xms256m -Xmx256m</argLine>
                     <runOrder>alphabetical</runOrder>
-                    <threadCount>${test.threadcount}</threadCount>
                     <systemPropertyVariables>
                         <emma.rt.control>false</emma.rt.control>
                         <sli.conf>${sli.conf}</sli.conf>
