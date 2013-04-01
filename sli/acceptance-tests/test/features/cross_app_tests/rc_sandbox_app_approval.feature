@@ -119,20 +119,16 @@ And the extract contains a file for each of the following entities:
    |  assessmentPeriodDescriptor            |
    |  attendance                            |
    |  cohort                                |
-   |  competencyLevelDescriptor             |
    |  course                                |
    |  courseOffering                        |
-   |  courseTranscript                      |
    |  disciplineIncident                    |
    |  disciplineAction                      |
    |  educationOrganization                 |
 #   |  grade                                 |
    |  gradebookEntry                        |
    |  gradingPeriod                         |
-   |  graduationPlan                        |
    |  learningObjective                     |
    |  learningStandard                      |
-   |  objectiveAssessment                   |
    |  parent                                |
    |  program                               |
 #   |  reportCard                            |

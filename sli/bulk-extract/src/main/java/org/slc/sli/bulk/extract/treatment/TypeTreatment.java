@@ -16,6 +16,7 @@
 
 package org.slc.sli.bulk.extract.treatment;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -30,7 +31,13 @@ public class TypeTreatment implements Treatment {
 
     @Override
     public Entity apply(Entity entity) {
-        entity.getBody().put(TYPE_STRING, entity.getType());
+        // LEAs and SEAs are special cases.
+        if (entity.getType().equals("localEducationAgency") || entity.getType().equals("stateEducationAgency")) {
+            entity.getBody().put(TYPE_STRING, EntityNames.EDUCATION_ORGANIZATION);
+        } else {
+            entity.getBody().put(TYPE_STRING, entity.getType());
+        }
+
         return entity;
     }
 
