@@ -363,35 +363,28 @@ def entityToUri(entity)
 end
 
 def compareToApi(collection, collFile)
-#  case collection
-#  when "student", "competencyLevelDescriptor", "course", "courseOffering", 
-#    "gradingPeriod", "graduationPlan", "learningObjective", "learningStandard","parent", "session",
-#    "studentCompetencyObjective"
-    found = false
+  found = false
     
-    collFile.each do |extractRecord|
+  collFile.each do |extractRecord|
     
-      id = extractRecord["id"]
+    id = extractRecord["id"]
       
-      #Make API call and get JSON for the collection
-      @format = "application/vnd.slc+json"
-      uri = entityToUri(collection)
-      restHttpGet("/v1/#{uri}/#{id}")
-      assert(@res != nil, "Response from rest-client GET is nil")
-      if @res.code == 200
-        apiRecord = JSON.parse(@res.body)
-        assert(apiRecord != nil, "Result of JSON parsing is nil")    
-        apiRecord.delete("links")
-        assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
-        found = true
-        break
-      end
-    
+    #Make API call and get JSON for the collection
+    @format = "application/vnd.slc+json"
+    uri = entityToUri(collection)
+    restHttpGet("/v1/#{uri}/#{id}")
+    assert(@res != nil, "Response from rest-client GET is nil")
+    if @res.code == 200
+      apiRecord = JSON.parse(@res.body)
+      assert(apiRecord != nil, "Result of JSON parsing is nil")    
+      apiRecord.delete("links")
+      assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
+      found = true
+      break
     end
     
-    assert(found, "No API records for #{collection} were fetched successfully.")
-#  else
-#    assert(false,"API URI for #{collection} not configured")
-#  end
+  end
+    
+  assert(found, "No API records for #{collection} were fetched successfully.")
 end
 
