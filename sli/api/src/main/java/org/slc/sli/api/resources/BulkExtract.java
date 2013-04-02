@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package org.slc.sli.api.resources;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,10 +31,12 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -62,6 +63,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
+ * The Bulk Extract Endpoints.
  *
  * @author dkornishev
  *
@@ -89,43 +91,39 @@ public class BulkExtract {
     }
 
     /**
-     * Creates a streaming response for a sample data file
+     * Creates a streaming response for a sample data file.
      *
+     * @param sample
+     *          A flag for requesting a sample file. The default is true.
      * @return
-     * @throws FileNotFoundException
+     *          A response with either a sample or actual extract file, depending of the sample flag
+     * @throws Exception
+     *          On Error
      */
     @GET
     @Path("extract")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response get() throws Exception {
-        LOG.info("Received request to stream sample bulk extract...");
+    public Response get(@DefaultValue("true") @QueryParam("sample") boolean sample) throws Exception {
+        LOG.info("Received request to stream bulk extract...");
 
+        return sample ? getSampledFile() : getExtractResponse(null);
+    }
+
+    private Response getSampledFile() {
         InputStream input = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
 
         return getExtractResponse(input, SAMPLED_FILE_NAME, "Not Specified");
     }
 
     /**
-     * Creates a streaming response for a extracted data file
-     *
-     * @return
-     * @throws FileNotFoundException
-     */
-    @GET
-    @Path("extract/phase1")
-    @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getPhase1() throws Exception {
-        LOG.info("Received request to stream bulk extract...");
-
-        return getExtractResponse(null);
-    }
-
-    /**
-     * Stream a delta response
+     * Stream a delta response.
      *
      * @param date
      *            the date of the delta
      * @return
+     *          A response with a delta extract file.
+     * @throws Exception
+     *          On Error
      */
     @GET
     @Path("deltas/{date}")

@@ -15,6 +15,7 @@ DATABASE_NAME = PropLoader.getProps['sli_database_name']
 DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
 ENCRYPTED_ENTITIES = ['student', 'parent']
+COMBINED_ENTITIES = ['assessment', 'studentAssessment']
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 
 require 'zip/zip'
@@ -313,7 +314,7 @@ def	compareRecords(mongoRecord, jsonRecord)
 
     if (ENCRYPTED_ENTITIES.include?(mongoRecord['type'])) 
         compareEncryptedRecords(mongoRecord, jsonRecord)
-    else
+    elsif (!COMBINED_ENTITIES.include?(mongoRecord['type']))
 	    assert(mongoRecord['body'].eql?(jsonRecord), "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
     end
 end
