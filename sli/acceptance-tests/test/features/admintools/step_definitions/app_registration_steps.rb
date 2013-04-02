@@ -309,7 +309,7 @@ Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2
 end
 
 When /^I clicked Save$/ do
-  @form.find_element(:name, 'commit').click
+  @driver.find_element(:name, 'commit').click
 end
 
 Then /^the info for "([^"]*)" was updated$/ do |arg1|
@@ -432,6 +432,10 @@ end
 Then /^I have enabled "(.*?)"$/ do |arg1|
   client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[11]').text
   assert(client_id == 'true', "Expected 'true', got #{client_id}")
+end
+
+Then /^I check Bulk Extract$/ do
+  @driver.find_element(:id, 'app_isBulkExtract').click
 end
 
 private
