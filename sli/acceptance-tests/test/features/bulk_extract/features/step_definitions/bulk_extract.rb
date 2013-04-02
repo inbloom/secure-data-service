@@ -16,6 +16,7 @@ DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
 ENCRYPTED_ENTITIES = ['student', 'parent']
 COMBINED_ENTITIES = ['assessment', 'studentAssessment']
+
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
 
@@ -24,6 +25,7 @@ require 'archive/tar/minitar'
 require 'zlib'
 require 'open3'
 include Archive::Tar
+require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 
 ############################################################
@@ -217,6 +219,7 @@ When /^a "(.*?)" extract file exists$/ do |collection|
 end
 
 When /^a the correct number of "(.*?)" was extracted from the database$/ do |collection|
+  disable_NOTABLESCAN()
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
 
 	case collection
@@ -225,7 +228,12 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
 	when "teacher"
 	  count = @tenantDb.collection("staff").find({"type" => "teacher" } ).count()
 	else
-	  count = @tenantDb.collection(collection).count()
+    parentCollection = subDocParent(collection)
+	  if(parentCollection == nil)
+      count = @tenantDb.collection(collection).count()
+    else 
+      count = @tenantDb.collection(parentCollection).aggregate([ {"$match" => {"#{collection}" => {"$exists" => true}}}, {"$unwind" => "$#{collection}"}]).size
+    end
 	end
 
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
@@ -233,6 +241,7 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
     puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
     assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
   }
+  enable_NOTABLESCAN()
 end
 
 When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
