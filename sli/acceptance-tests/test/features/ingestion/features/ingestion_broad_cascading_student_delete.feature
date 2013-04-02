@@ -47,6 +47,12 @@ Scenario: Delete Student with cascade
     Then there exist "139" "studentGradebookEntry" records like below in "Midgar" tenant. And I save this query as "studentGradebookEntry"
         |field                                     |value                                                                                 |
         |body.studentId                            |908404e876dd56458385667fa383509035cd4312_id                                           |
+    Then there exist "1" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentObjectiveAssessment1"
+        |field                                     |value                                                                                 |
+        |studentObjectiveAssessment.body.studentAssessmentId |02c2c55fa1ecd2f47091d3f4df61bd6b525e6524_id                                 |        
+    Then there exist "1" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentObjectiveAssessment2"
+        |field                                     |value                                                                                 |
+        |studentObjectiveAssessment.body.studentAssessmentId |c278f2337a1cfc12b3d5ee3240b99c0457a96990_id                                 |        
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentParentAssociation"
         |field                                     |value                                                                                 |
         |studentParentAssociation.body.studentId   |908404e876dd56458385667fa383509035cd4312_id                                           |
@@ -80,6 +86,8 @@ Scenario: Delete Student with cascade
     And I re-execute saved query "studentCompetency" to get "0" records
     And I re-execute saved query "studentDisciplineIncidentAssociation" to get "0" records
     And I re-execute saved query "studentGradebookEntry" to get "0" records
+    And I re-execute saved query "studentObjectiveAssessment1" to get "0" records
+    And I re-execute saved query "studentObjectiveAssessment2" to get "0" records
     And I re-execute saved query "studentParentAssociation" to get "0" records
     And I re-execute saved query "studentProgramAssociation" to get "0" records
     And I re-execute saved query "studentSchoolAssociation" to get "0" records
