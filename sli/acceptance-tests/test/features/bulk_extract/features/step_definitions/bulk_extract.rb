@@ -219,6 +219,7 @@ When /^a "(.*?)" extract file exists$/ do |collection|
 end
 
 When /^a the correct number of "(.*?)" was extracted from the database$/ do |collection|
+  disable_NOTABLESCAN()
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
 
 	case collection
@@ -240,6 +241,7 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
     puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
     assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
   }
+  enable_NOTABLESCAN()
 end
 
 When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
