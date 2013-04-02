@@ -10,7 +10,7 @@ Scenario Outline: Verify educationOrganization, school, staff, and teacher entit
    
 	Examples:
   | entity                                | user       | role             | realm       | tenant |
-	#| educationOrganization                 | sbantu     | Leader           | IL-Daybreak | Midgar |
-	#| school                                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	#| staff                                 | rrogers  | IT Administrator | IL-Daybreak | Midgar |
+	| educationOrganization                 | jstevenson | IT Administrator           | IL-Daybreak | Midgar |
+	| school                                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| staff                                 | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| teacher                               | jstevenson | IT Administrator | IL-Daybreak | Midgar |

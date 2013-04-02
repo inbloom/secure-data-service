@@ -230,7 +230,7 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
 
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
-    puts "Counts Expected: " + count.to_s + " Actual: " + records.size.to_s
+    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
     assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
   }
 end
@@ -308,10 +308,7 @@ def getMongoRecordFromJson(jsonRecord)
 end
 
 def	compareRecords(mongoRecord, jsonRecord)
-	case mongoRecord['type']
-	when "stateEducationAgency", "localEducationAgency"
-	  assert(jsonRecord['entityType']=="educationOrganization", "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
-	else
+	if !MUTLI_ENTITY_COLLS.include?(jsonRecord['entityType'])
 	  assert(mongoRecord['type']==jsonRecord['entityType'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
 	end
 	jsonRecord.delete('id')
@@ -385,11 +382,7 @@ def compareToApi(collection, collFile)
       apiRecord.delete("links")
       assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
       found = true
-      break
-    else
-      puts @res.to_s + "\n"
     end
-    
   end
     
   assert(found, "No API records for #{collection} were fetched successfully.")
