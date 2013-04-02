@@ -406,7 +406,9 @@ public class JobReportingProcessor implements Processor {
                     temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
                     temp.setValidationErrorCount(combinedMetricsMap.get(m.getResourceId()).getValidationErrorCount());
                     temp.setDeletedCount(combinedMetricsMap.get(m.getResourceId()).getDeletedCount());
+                    temp.setDeletedChildCount(combinedMetricsMap.get(m.getResourceId()).getDeletedChildCount());
 
+                    temp.setDeletedChildCount(temp.getDeletedChildCount() + m.getDeletedChildCount());
                     temp.setDeletedCount(temp.getDeletedCount() + m.getDeletedCount());
                     temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
                     temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
@@ -416,7 +418,7 @@ public class JobReportingProcessor implements Processor {
 
                 } else {
                     // adding metrics to the map
-                    Metrics aggregatedMetrics = new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount(), m.getDeletedCount());
+                    Metrics aggregatedMetrics = new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount(), m.getDeletedCount(), m.getDeletedChildCount());
                     aggregatedMetrics.setValidationErrorCount(m.getValidationErrorCount());
                     combinedMetricsMap.put(m.getResourceId(), aggregatedMetrics);
                 }
@@ -435,7 +437,7 @@ public class JobReportingProcessor implements Processor {
             }
 
             logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), metric.getValidationErrorCount(),
-                    metric.getDeletedCount(), jobReportWriter);
+                    metric.getDeletedCount(), metric.getDeletedChildCount(), jobReportWriter);
 
             totalProcessed += metric.getRecordCount();
             totalProcessed += metric.getValidationErrorCount();
@@ -458,13 +460,13 @@ public class JobReportingProcessor implements Processor {
             if (resourceEntry.getResourceFormat() != null
                     && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())
                     && resourceEntry.getRecordCount() == 0 && resourceEntry.getErrorCount() == 0) {
-                logResourceMetric(resourceEntry, 0, 0, 0, 0, jobReportWriter);
+                logResourceMetric(resourceEntry, 0, 0, 0, 0, 0, jobReportWriter);
             }
         }
     }
 
     private void logResourceMetric(ResourceEntry resourceEntry, long numProcessed, long numFailed, long numFailedValidation,
-            long numDeleted, PrintWriter jobReportWriter) {
+            long numDeleted, long numDeletedChild, PrintWriter jobReportWriter) {
 
         String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
         writeInfoLine(jobReportWriter,
@@ -475,6 +477,7 @@ public class JobReportingProcessor implements Processor {
         writeInfoLine(jobReportWriter, id + " records considered for processing: " + numProcessed);
         writeInfoLine(jobReportWriter, id + " records ingested successfully: " + numPassed);
         writeInfoLine(jobReportWriter, id + " records deleted successfully: " + numDeleted);
+        writeInfoLine(jobReportWriter, id + " child records deleted successfully: " + numDeletedChild);
         writeInfoLine(jobReportWriter, id + " records failed processing: " + numFailed);
         writeInfoLine(jobReportWriter, id + " records not considered for processing: " + numFailedValidation);
     }

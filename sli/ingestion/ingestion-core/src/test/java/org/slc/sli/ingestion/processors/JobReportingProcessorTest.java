@@ -76,6 +76,7 @@ public class JobReportingProcessorTest {
     private static final int RECORDS_CONSIDERED = 50;
     private static final int RECORDS_FAILED = 5;
     private static final int RECORDS_DELETED = 2;
+    private static final int RECORDS_DELETED_CHILD_COUNT = 0;
     private static final int RECORDS_PASSED = RECORDS_CONSIDERED - RECORDS_FAILED - RECORDS_DELETED;
     private static final String DUP_ENTITY = "student";
     private static final Long DUP_COUNT = Long.valueOf(123);
@@ -189,6 +190,7 @@ public class JobReportingProcessorTest {
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records considered for processing: " + RECORDS_CONSIDERED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records ingested successfully: " + RECORDS_PASSED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records deleted successfully: " + RECORDS_DELETED));
+        assertTrue(br.readLine().contains("[file] " + RESOURCEID + " child records deleted successfully: " + RECORDS_DELETED_CHILD_COUNT));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records failed processing: " + RECORDS_FAILED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records not considered for processing: " + 0));
         assertTrue(br.readLine().contains("[configProperty] purge: false"));
