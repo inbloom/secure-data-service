@@ -9,8 +9,8 @@ Scenario Outline: Verify educationOrganization, school, staff, and teacher entit
    Then a "<entity>" was extracted in the same format as the api
    
 	Examples:
-    | entity                                | user       | role             | realm       | tenant |
-	| educationOrganization                 | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| school                                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| staff                                 | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+  | entity                                | user       | role             | realm       | tenant |
+	#| educationOrganization                 | sbantu     | Leader           | IL-Daybreak | Midgar |
+	#| school                                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	#| staff                                 | rrogers  | IT Administrator | IL-Daybreak | Midgar |
 	| teacher                               | jstevenson | IT Administrator | IL-Daybreak | Midgar |

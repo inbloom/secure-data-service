@@ -16,6 +16,7 @@ DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
 ENCRYPTED_ENTITIES = ['student', 'parent']
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
+MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
 
 require 'zip/zip'
 require 'archive/tar/minitar'
@@ -307,15 +308,17 @@ end
 
 def	compareRecords(mongoRecord, jsonRecord)
 	assert(mongoRecord['_id']==jsonRecord['id'], "Record Ids do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
-	assert(mongoRecord['type']==jsonRecord['entityType'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
-	jsonRecord.delete('id')
-	jsonRecord.delete('entityType')
+  jsonRecord.delete('id')
+  if (!MUTLI_ENTITY_COLLS.include?(jsonRecord['entityType']))
+	   assert(mongoRecord['type']==jsonRecord['entityType'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
+	end
+  jsonRecord.delete('entityType')
 
-    if (ENCRYPTED_ENTITIES.include?(mongoRecord['type'])) 
-        compareEncryptedRecords(mongoRecord, jsonRecord)
-    else
-	    assert(mongoRecord['body'].eql?(jsonRecord), "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
-    end
+  if (ENCRYPTED_ENTITIES.include?(jsonRecord['entityType'])) 
+     compareEncryptedRecords(mongoRecord, jsonRecord)
+  else
+	   assert(mongoRecord['body'].eql?(jsonRecord), "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
+  end
 end
 
 def compareEncryptedRecords(mongoRecord, jsonRecord)
@@ -380,6 +383,8 @@ def compareToApi(collection, collFile)
       assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
       found = true
       break
+    else
+      puts @res.to_s + "\n"
     end
     
   end
