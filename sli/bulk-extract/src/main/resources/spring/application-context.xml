@@ -75,10 +75,18 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <entry key="teacherSchoolAssociation" value="teacherSchoolAssociation" />
         <entry key="teacherSectionAssociation" value="section" />
     </util:map>
+    
+    <util:list id="addToCollectionFile" value-type="java.lang.String">
+        <value>stateEducationAgency</value>
+        <value>localEducationAgency</value>
+        <value>school</value>
+        <value>teacher</value>
+    </util:list>
 
     <bean id="entityExtractor" class="org.slc.sli.bulk.extract.extractor.EntityExtractor">
          <property name="entityRepository" ref="mongoEntityRepository" />
          <property name="entitiesToCollections" ref="entitiesToCollections" />
+         <property name="addToCollectionFile" ref="addToCollectionFile" />
          <property name="applicator" ref="applicator" />
     </bean>
 
@@ -99,18 +107,28 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 
      <bean id="applicator" class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
          <property name="treatments" ref="treatments" />
+         <property name="extraTreatments" ref="extraTreatments" />
     </bean>
+    
+    <bean id="collectionTreatment" class="org.slc.sli.bulk.extract.treatment.EntityToCollectionTreatment" />
 
     <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment" />
 
     <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment" />
 
     <bean id="assessmentTreatment" class="org.slc.sli.bulk.extract.treatment.AssessmentTreatment" />
+    
+    <bean id="studentAssessmentTreatment" class="org.slc.sli.bulk.extract.treatment.StudentAssessmentTreatment" />
 
     <util:list id="treatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
         <ref local="idTreatment"/>
         <ref local="typeTreatment"/>
         <ref local="assessmentTreatment"/>
+        <ref local="studentAssessmentTreatment"/>
+    </util:list>
+    
+   <util:list id="extraTreatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
+        <ref local="collectionTreatment"/>
     </util:list>
 
 </beans>
