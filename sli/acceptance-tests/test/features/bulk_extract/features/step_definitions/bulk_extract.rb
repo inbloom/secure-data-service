@@ -16,6 +16,7 @@ DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
 ENCRYPTED_ENTITIES = ['student', 'parent']
 COMBINED_ENTITIES = ['assessment', 'studentAssessment']
+
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 
 require 'zip/zip'
@@ -23,6 +24,7 @@ require 'archive/tar/minitar'
 require 'zlib'
 require 'open3'
 include Archive::Tar
+require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 
 ############################################################
@@ -224,7 +226,12 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
 	when "teacher"
 	  count = @tenantDb.collection("staff").find({"type" => "teacher" } ).count()
 	else
-	  count = @tenantDb.collection(collection).count()
+    parentCollection = subDocParent(collection)
+	  if(parentCollection == nil)
+      count = @tenantDb.collection(collection).count()
+    else 
+      count = @tenantDb.collection(parentCollection).aggregate([ {"$match" => {"#{collection}" => {"$exists" => true}}}, {"$unwind" => "$#{collection}"}]).size
+    end
 	end
 
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
