@@ -22,8 +22,12 @@ Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"
   @sessionId=token
 end
 
-When /^I make bulk extract API call$/ do
+When /^I make API call to retrieve sampled bulk extract file$/ do
   restHttpGet("/bulk/extract")
+end
+
+When /^I make bulk extract API call$/ do
+  restHttpGet("/bulk/extract/phase1")
 end
 
 When /^I make API call to retrieve today's delta file$/ do
@@ -93,6 +97,7 @@ When /^the return code is 200 I get expected tar downloaded$/ do
 	  @content_disposition = @res.headers[:content_disposition]
 	  @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
 	  @last_modified = @res.headers[:last_modified]
+      @is_sampled_file = @zip_file_name=="NY-WALTON-2013-03-19T13-02-02.tar"
 	
 	  puts "content-disposition: #{@content_disposition}"
 	  puts "download file name: #{@zip_file_name}"
@@ -103,8 +108,11 @@ When /^the return code is 200 I get expected tar downloaded$/ do
 end
 
 Then /^I check the http response headers$/ do  
-  
-  if @res.code == 200
+
+  if @is_sampled_file
+    EXPECTED_BYTE_COUNT = 5632
+    assert(@res.headers[:content_length].to_i==EXPECTED_BYTE_COUNT, "File Size is wrong! Actual: #{@res.headers[:content_length]} Expected: #{EXPECTED_BYTE_COUNT}" )
+  elsif @res.code == 200
     @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
     coll = "bulkExtractFiles";
     src_coll = @db[coll]
