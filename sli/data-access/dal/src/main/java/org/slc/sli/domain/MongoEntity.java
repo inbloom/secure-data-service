@@ -30,6 +30,7 @@ import org.bson.BasicBSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
@@ -39,7 +40,7 @@ import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 /**
  * Mongodb specific implementation of Entity Interface with basic conversion method
- * for convert from and to DBObject
+ * for convert from and to DBObject.
  *
  * @author Dong Liu dliu@wgen.net
  *
@@ -61,6 +62,7 @@ public class MongoEntity implements Entity, Serializable {
     private final CalculatedData<Map<String, Integer>> aggregates;
     private final Map<String, List<Entity>> embeddedData;
     private final Map<String, List<Map<String, Object>>> denormalizedData;
+    private final Map<String, List<Entity>> containerData;
 
     /**
      * Default constructor for the MongoEntity class.
@@ -105,6 +107,7 @@ public class MongoEntity implements Entity, Serializable {
         this.aggregates = aggregates == null ? new CalculatedData<Map<String, Integer>>() : aggregates;
         this.embeddedData = new HashMap<String, List<Entity>>();
         this.denormalizedData = new HashMap<String, List<Map<String, Object>>>();
+        this.containerData = new HashMap<String, List<Entity>>();
     }
 
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
@@ -119,6 +122,23 @@ public class MongoEntity implements Entity, Serializable {
         this.embeddedData = embeddedData == null ? new HashMap<String, List<Entity>>() : embeddedData;
         this.denormalizedData = denormalizedData == null ? new HashMap<String, List<Map<String, Object>>>()
                 : denormalizedData;
+        this.containerData = new HashMap<String, List<Entity>>();
+    }
+
+    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            CalculatedData<String> calculatedData, CalculatedData<Map<String, Integer>> aggregates,
+            Map<String, List<Entity>> embeddedData, Map<String, List<Map<String, Object>>> denormalizedData,
+            Map<String, List<Entity>> containerData) {
+        this.type = type;
+        this.entityId = id;
+        this.body = body == null ? new BasicBSONObject() : body;
+        this.metaData = metaData == null ? new BasicBSONObject() : metaData;
+        this.calculatedData = calculatedData == null ? new CalculatedData<String>() : calculatedData;
+        this.aggregates = aggregates == null ? new CalculatedData<Map<String, Integer>>() : aggregates;
+        this.embeddedData = embeddedData == null ? new HashMap<String, List<Entity>>() : embeddedData;
+        this.denormalizedData = denormalizedData == null ? new HashMap<String, List<Map<String, Object>>>()
+                : denormalizedData;
+        this.containerData = containerData == null ? new HashMap<String, List<Entity>>() : containerData;
     }
 
     @Override
@@ -219,6 +239,17 @@ public class MongoEntity implements Entity, Serializable {
                 dbObj.put(subdocList.getKey(), dbObjs);
             }
         }
+        if (containerData != null && containerData.size() > 0) {
+            for (Map.Entry<String, List<Entity>> containerList : containerData.entrySet()) {
+                List<DBObject> dbObjs = new ArrayList<DBObject>();
+                for (Entity subdocEntity : containerList.getValue()) {
+                    if (subdocEntity instanceof MongoEntity) {
+                        dbObjs.add(((MongoEntity) subdocEntity).toDBObject(uuidGeneratorStrategy, naturalKeyExtractor));
+                    }
+                }
+                dbObj.put(containerList.getKey(), dbObjs);
+            }
+        }
 
         return dbObj;
     }
@@ -252,9 +283,10 @@ public class MongoEntity implements Entity, Serializable {
 
         Map<String, List<Entity>> embeddedData = extractEmbeddedData(dbObj);
         Map<String, List<Map<String, Object>>> denormalizedData = extractDenormalizedData(dbObj);
+        Map<String, List<Entity>> containerData = extractContainerData(dbObj);
 
         return new MongoEntity(type, id, body, metaData, new CalculatedData<String>(cvals),
-                new CalculatedData<Map<String, Integer>>(aggs, "aggregate"), embeddedData, denormalizedData);
+                new CalculatedData<Map<String, Integer>>(aggs, "aggregate"), embeddedData, denormalizedData, containerData);
     }
 
     @SuppressWarnings("unchecked")
@@ -288,6 +320,25 @@ public class MongoEntity implements Entity, Serializable {
         }
 
         return denormalized;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Map<String, List<Entity>> extractContainerData(DBObject dbObj) {
+        ContainerDocumentHolder containerDocumentHolder = new ContainerDocumentHolder();
+        Map<String, List<Entity>> containerData = new HashMap<String, List<Entity>>();
+
+        for (String key : dbObj.keySet()) {
+            if (containerDocumentHolder.isContainerDocument(key)) {
+                List<DBObject> values = (List<DBObject>) dbObj.get(key);
+                List<Entity> subEntityList = new ArrayList<Entity>();
+                for (DBObject subEntity : values) {
+                    subEntityList.add(fromDBObject(subEntity));
+                }
+                containerData.put(key, subEntityList);
+            }
+        }
+
+        return containerData;
     }
 
     /**
@@ -326,6 +377,11 @@ public class MongoEntity implements Entity, Serializable {
     @Override
     public Map<String, List<Map<String, Object>>> getDenormalizedData() {
         return denormalizedData;
+    }
+
+    @Override
+    public Map<String, List<Entity>> getContainerData() {
+        return containerData;
     }
 
     @Override

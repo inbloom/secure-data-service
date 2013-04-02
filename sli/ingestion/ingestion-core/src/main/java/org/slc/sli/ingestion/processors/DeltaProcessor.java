@@ -26,7 +26,6 @@ import org.apache.camel.Exchange;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
@@ -123,9 +122,7 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Re
      * @return True if the record is support
      */
     private boolean isDeltafiable(NeutralRecord neutralRecord) {
-        boolean needDelta = ( neutralRecord.getActionVerb() == ActionVerb.CASCADE_DELETE ||
-                    neutralRecord.getActionVerb() == ActionVerb.DELETE ) ? false : true;
-        return recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType()) && needDelta;
+        return recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType());
     }
 
     private boolean isDeltaDisabled() {

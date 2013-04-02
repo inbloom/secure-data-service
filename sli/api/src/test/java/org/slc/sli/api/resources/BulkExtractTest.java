@@ -114,6 +114,33 @@ public class BulkExtractTest {
     }
 
     @Test
+    public void testGetPhase0() throws Exception {
+        injector.setEducatorContext();
+        ResponseImpl res = (ResponseImpl) bulkExtract.get(true);
+        assertEquals(200, res.getStatus());
+        MultivaluedMap<String, Object> headers = res.getMetadata();
+        assertNotNull(headers);
+        assertTrue(headers.containsKey("content-disposition"));
+        assertTrue(headers.containsKey("last-modified"));
+        String header = (String) headers.getFirst("content-disposition");
+        assertNotNull(header);
+        assertTrue(header.startsWith("attachment"));
+        assertTrue(header.indexOf("NY-WALTON-2013-03-19T13-02-02.tar") > 0);
+
+        Object entity = res.getEntity();
+        assertNotNull(entity);
+        StreamingOutput out = (StreamingOutput) entity;
+        File file = new File("out.zip");
+        FileOutputStream os = new FileOutputStream(file);
+        out.write(os);
+        os.flush();
+        assertTrue(file.exists());
+
+        assertEquals(2586331403L, FileUtils.checksumCRC32(file));
+        FileUtils.deleteQuietly(file);
+    }
+
+    @Test
     public void testGetFileError() throws Exception {
         injector.setEducatorContext();
         Entity mockEntity = Mockito.mock(Entity.class);
@@ -122,7 +149,7 @@ public class BulkExtractTest {
         Mockito.when(mockBody.get(Mockito.anyString())).thenReturn("");
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
-        ResponseImpl res = (ResponseImpl) bulkExtract.get();
+        ResponseImpl res = (ResponseImpl) bulkExtract.get(false);
         assertEquals(404, res.getStatus());
     }
 
@@ -141,7 +168,7 @@ public class BulkExtractTest {
       Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
           .thenReturn(mockEntity);
 
-      ResponseImpl res = (ResponseImpl) bulkExtract.get();
+      ResponseImpl res = (ResponseImpl) bulkExtract.get(false);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);

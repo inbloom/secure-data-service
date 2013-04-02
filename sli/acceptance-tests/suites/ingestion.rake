@@ -577,6 +577,10 @@ task :ingestionCascadingDeletionReportCardNotFoundTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_reportCardNotFound_delete.feature")
 end
 
+task :ingestionCascadingDeletionBroadStudentTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_student_delete.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

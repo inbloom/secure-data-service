@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -71,7 +72,7 @@ public class TenantExtractorTest {
 
         File file = Mockito.mock(File.class);
         ManifestFile metadataFile = Mockito.mock(ManifestFile.class);
-        Mockito.doNothing().when(metadataFile).generateMetaFile(Mockito.any(Date.class));
+        Mockito.doNothing().when(metadataFile).generateMetaFile(Mockito.any(DateTime.class));
 
         archiveFile = Mockito.mock(ExtractFile.class);
         Mockito.doNothing().when(archiveFile).generateArchive();
@@ -89,17 +90,17 @@ public class TenantExtractorTest {
     @Test
     public void testinitiateExtractForEntites() {
 
-        tenantExtractor.setEntities(collections);
-
+        String tenant = "Midgar";
         EntityExtractor ex = Mockito.mock(EntityExtractor.class);
-        Mockito.doNothing().when(ex).extractEntity(Matchers.anyString(), Matchers.any(ExtractFile.class), Matchers.anyString());
+        Mockito.doNothing().when(ex).extractEntities(Matchers.anyString(), Matchers.any(ExtractFile.class), Matchers.anyString());
+        Mockito.when(ex.getCollectionNames(tenant)).thenReturn(collections);
 
         tenantExtractor.setEntityExtractor(ex);
 
-        tenantExtractor.execute("Midgar", archiveFile, new Date());
+        tenantExtractor.execute(tenant, archiveFile, new DateTime());
 
         for(String collection : collections) {
-            Mockito.verify(ex, Mockito.times(1)).extractEntity("Midgar", archiveFile, collection);
+            Mockito.verify(ex, Mockito.times(1)).extractEntities("Midgar", archiveFile, collection);
         }
 
         Mockito.verify(bulkExtractMongoDA, Mockito.times(1)).updateDBRecord(Matchers.anyString(), Matchers.anyString(), Matchers.any(Date.class), Mockito.eq(false));

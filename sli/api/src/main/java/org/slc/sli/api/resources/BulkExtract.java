@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package org.slc.sli.api.resources;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,16 +31,20 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -60,6 +63,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
+ * The Bulk Extract Endpoints.
  *
  * @author dkornishev
  *
@@ -87,26 +91,39 @@ public class BulkExtract {
     }
 
     /**
-     * Creates a streaming response for a sample data file
+     * Creates a streaming response for a sample data file.
      *
+     * @param sample
+     *          A flag for requesting a sample file. The default is true.
      * @return
-     * @throws FileNotFoundException
+     *          A response with either a sample or actual extract file, depending of the sample flag
+     * @throws Exception
+     *          On Error
      */
     @GET
     @Path("extract")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response get() throws Exception {
+    public Response get(@DefaultValue("true") @QueryParam("sample") boolean sample) throws Exception {
         LOG.info("Received request to stream bulk extract...");
 
-        return getExtractResponse(null);
+        return sample ? getSampledFile() : getExtractResponse(null);
+    }
+
+    private Response getSampledFile() {
+        InputStream input = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
+
+        return getExtractResponse(input, SAMPLED_FILE_NAME, "Not Specified");
     }
 
     /**
-     * Stream a delta response
+     * Stream a delta response.
      *
      * @param date
      *            the date of the delta
      * @return
+     *          A response with a delta extract file.
+     * @throws Exception
+     *          On Error
      */
     @GET
     @Path("deltas/{date}")
@@ -140,46 +157,99 @@ public class BulkExtract {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        String fileName = bulkExtractFile.getName();
-        String lastModified = bulkExtractFileEntity.getLastModified();
+        return getExtractResponse(bulkExtractFile, bulkExtractFileEntity.getLastModified());
+    }
 
-        try {
+    /**
+     * Get the bulk extract response
+     *
+     * @param output
+     *          The StreamingOutput that represents a bulk extract file to return
+     * @param fileName
+     *          The name for a bulk extract file
+     * @param lastModified
+     *          The last modified date time stamp
+     * @return
+     *          Response with the bulk extract file
+     */
+    private Response getExtractResponse(StreamingOutput output, final String fileName, final String lastModified) {
+        ResponseBuilder builder = Response.ok(output)
+                .header("content-disposition", "attachment; filename = " + fileName)
+                .header(HttpHeaders.LAST_MODIFIED, lastModified);
 
-            final InputStream is = new FileInputStream(bulkExtractFile);
-            StreamingOutput out = new StreamingOutput() {
-                @Override
-                public void write(OutputStream output) throws IOException, WebApplicationException {
-                    int n;
-                    byte[] buffer = new byte[1024];
+        return builder.build();
+    }
 
-                    // byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
-                    // byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
-                    // PublicKey publicKey = null; //TODO get public key
-                    // try {
-                    // publicKey =
-                    // KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
-                    // } catch (NoSuchAlgorithmException e) {
-                    // LOG.error("Exception: NoSuchAlgorithmException {}", e);
-                    // tq:q }
-                    // byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
-                    // byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
-                    //
-                    // output.write(encryptedIV);
-                    // output.write(encryptedSecret.length);
-                    // output.write(encryptedSecret);
+    /**
+     * Get the bulk extract response
+     *
+     * @param input
+     *          The InputStream that represents a bulk extract file to return
+     * @param fileName
+     *          The name for a bulk extract file
+     * @param lastModified
+     *          The last modified date time stamp
+     * @return
+     *          Response with the bulk extract file
+     */
+    private Response getExtractResponse(final InputStream input, final String fileName, final String lastModified) {
+        StreamingOutput out = new StreamingOutput() {
+            @Override
+            public void write(OutputStream output) throws IOException, WebApplicationException {
+                BulkExtract.this.write(input, output);
+            }
+        };
 
-                    while ((n = is.read(buffer)) > -1) {
-                        output.write(buffer, 0, n);
-                    }
+        return getExtractResponse(out, fileName, lastModified);
+    }
+
+    /**
+     * Get the bulk extract response
+     *
+     * @param bulkExtractFile
+     *          The bulk extract file to return
+     * @param fileName
+     *          The name for a bulk extract file
+     * @param lastModified
+     *          The last modified date time stamp
+     * @return
+     *          Response with the bulk extract file
+     */
+    private Response getExtractResponse(final File bulkExtractFile, final String lastModified) {
+        StreamingOutput out = new StreamingOutput() {
+            @Override
+            public void write(OutputStream output) throws IOException, WebApplicationException {
+                InputStream input = null;
+                try {
+                    input = new FileInputStream(bulkExtractFile);
+                    BulkExtract.this.write(input, output);
+                } finally {
+                    IOUtils.closeQuietly(input);
                 }
-            };
-            ResponseBuilder builder = Response.ok(out);
-            builder.header("content-disposition", "attachment; filename = " + fileName);
-            builder.header("last-modified", lastModified);
-            return builder.build();
-        } catch (FileNotFoundException e) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
+            }
+        };
+
+        return getExtractResponse(out, bulkExtractFile.getName(), lastModified);
+    }
+
+    private void write(InputStream input, OutputStream output) throws IOException {
+        // byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+        // byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
+        // PublicKey publicKey = null; //TODO get public key
+        // try {
+        // publicKey =
+        // KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
+        // } catch (NoSuchAlgorithmException e) {
+        // LOG.error("Exception: NoSuchAlgorithmException {}", e);
+        // tq:q }
+        // byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+        // byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
+        //
+        // output.write(encryptedIV);
+        // output.write(encryptedSecret.length);
+        // output.write(encryptedSecret);
+
+        IOUtils.copyLarge(input, output);
     }
 
     /**

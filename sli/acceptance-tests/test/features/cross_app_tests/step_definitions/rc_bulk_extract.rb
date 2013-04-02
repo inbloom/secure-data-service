@@ -1,5 +1,12 @@
 #bulk extract
-Dir["./test/features/bulk_extract/features/step_definitions/*.rb"].each {|file| require file}
+TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
+OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
+PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
+KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
+JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
+
+require 'archive/tar/minitar'
+include Archive::Tar
 
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
 
@@ -48,4 +55,22 @@ end
 
 Then /^I validate the bulk extract file is correct$/ do
   
+end
+
+Then /^there is a metadata file in the extract$/ do
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(@unpackDir + "/metadata.txt"), "Cannot find metadata file in extract")
+end
+
+Then /^the extract contains a file for each of the following entities:$/ do |table|
+  Minitar.unpack(@filePath, @unpackDir)
+
+  table.hashes.map do |entity|
+  exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
+  assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
+  end
+
+  fileList = Dir.entries(@unpackDir)
+# Had to comment this next line out.  Different servers contain different numbers of records.
+# assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
 end
