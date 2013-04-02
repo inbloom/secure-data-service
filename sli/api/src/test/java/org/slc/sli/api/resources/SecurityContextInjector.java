@@ -19,6 +19,7 @@ package org.slc.sli.api.resources;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -266,6 +267,20 @@ public class SecurityContextInjector {
         return new PreAuthenticatedAuthenticationToken(principal, token, rights);
     }
 
+    public void setOauthAuthenticationWithEducationRole() {
+        String user = "educator";
+        String fullName = "Educator";
+        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getEntityId()).thenReturn(user);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setRoles(roles);
+        principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_RESTRICTED}));
+
+        setOauthSecurityContext(principal, false);
+    }
+
     public void setEducatorContext() {
         String user = "educator";
         String fullName = "Educator";
@@ -322,6 +337,16 @@ public class SecurityContextInjector {
         SecurityUtil.getSLIPrincipal().setAuthorizingEdOrgs(new HashSet<String>(Arrays.asList(principal.getEdOrg())));
 
         return principal;
+    }
+
+    public SLIPrincipal setOauthSecurityContext(SLIPrincipal principal, boolean  isAdminRealm) {
+        String token = "AQIC5wM2LY4SfczsoqTgHpfSEciO4J34Hc5ThvD0QaM2QUI.*AAJTSQACMDE.*";
+        debug("assembling authentication token");
+        PreAuthenticatedAuthenticationToken authenticationToken = getAuthenticationToken(token, principal, isAdminRealm);
+        OAuth2Authentication oauth = new OAuth2Authentication(new ClientToken("clientId", "clientSecret", Collections.singleton("scope")), authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(oauth);
+        SecurityUtil.getSLIPrincipal().setAuthorizingEdOrgs(new HashSet<String>(Arrays.asList(principal.getEdOrg())));
+        return  principal;
     }
 
     public void addToAuthorizingEdOrgs(String edOrgId) {
