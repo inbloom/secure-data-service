@@ -16,7 +16,6 @@
 package org.slc.sli.bulk.extract.files;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,13 +68,8 @@ public class ExtractFile {
      *          the prefix string to be used in file name generation
      * @return
      *          DataExtractFile object
-     * @throws FileNotFoundException
-     *          if the data file is not found
-     * @throws IOException
-     *          if an I/O error occurred
      */
-    public DataExtractFile getDataFileEntry(String filePrefix)
-            throws FileNotFoundException, IOException {
+    public DataExtractFile getDataFileEntry(String filePrefix) {
         DataExtractFile compressedFile = new DataExtractFile(tempDir, filePrefix);
         dataFiles.add(compressedFile);
         return compressedFile;
