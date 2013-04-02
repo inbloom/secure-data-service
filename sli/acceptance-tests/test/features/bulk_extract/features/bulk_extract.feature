@@ -12,6 +12,7 @@ Scenario: Trigger a bulk extract on ingested data
    |  assessmentFamily                      |
    |  assessmentPeriodDescriptor            |
    |  attendance                            |
+   |  calendarDate                          |
    |  cohort                                |
    |  competencyLevelDescriptor             |
    |  course                                |

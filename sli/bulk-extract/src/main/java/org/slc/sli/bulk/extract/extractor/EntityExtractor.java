@@ -18,8 +18,6 @@ package org.slc.sli.bulk.extract.extractor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,7 +32,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slc.sli.bulk.extract.files.DataExtractFile;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.treatment.TreatmentApplicator;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -55,11 +52,9 @@ public class EntityExtractor{
 
     private static final Logger LOG = LoggerFactory.getLogger(EntityExtractor.class);
 
-    private final List<String> entities = new ArrayList<String>();
-
     private List<String> excludedCollections;
 
-    private List<String> yearlyTranscriptSubdocs;
+    private List<String> entities;
 
     private Repository<Entity> entityRepository;
 
@@ -104,15 +99,6 @@ public class EntityExtractor{
         }
     };
 
-    public EntityExtractor() throws IllegalArgumentException, IllegalAccessException {
-        Field[] fields = EntityNames.class.getFields();
-        for (Field field : fields) {
-            if (Modifier.isStatic(field.getModifiers())) {
-                entities.add(field.get(null).toString());
-            }
-        }
-    }
-
     /**
      * extract all the records of entity.
      *
@@ -129,18 +115,15 @@ public class EntityExtractor{
         Query query = new Query();
         try {
             TenantContext.setTenantId(tenant);
-            //            DBCursor cursor = entityRepository.getCollection(collectionName).find(query.getQueryObject());
             Iterator<Entity> cursor = entityRepository.findEach(collectionName, query);
 
             if (cursor.hasNext()) {
                 LOG.info("Extracting from " + collectionName);
 
                 while (cursor.hasNext()) {
-                    //                    DBObject record = cursor.next();
                     Entity entity = cursor.next();
 
                     // Write entity to archive.
-                    //                    Entity entity = MongoEntity.fromDBObject(record);
                     if (entities.contains(entity.getType())) {
                         if (!archiveEntries.containsKey(entity.getType())) {
                             archiveEntries.put(entity.getType(), new ArchiveEntry(entity.getType(), archiveFile));
@@ -209,7 +192,7 @@ public class EntityExtractor{
     }
 
     /**
-     * set excluded collections.
+     * Set list of excluded collections.
      * @param excluded collections
      */
     public void setExcludedCollections(List<String> excludedCollections) {
@@ -217,11 +200,11 @@ public class EntityExtractor{
     }
 
     /**
-     * set excluded collections.
-     * @param excluded collections
+     * Set list of entities to extract.
+     * @param entities
      */
-    public void setYearlyTranscriptSubdocs(List<String> yearlyTranscriptSubdocs) {
-        this.yearlyTranscriptSubdocs = yearlyTranscriptSubdocs;
+    public void setEntities(List<String> entities) {
+        this.entities = entities;
     }
 
     /**
