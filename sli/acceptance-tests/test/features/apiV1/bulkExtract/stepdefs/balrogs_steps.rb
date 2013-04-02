@@ -27,7 +27,7 @@ When /^I make API call to retrieve sampled bulk extract file$/ do
 end
 
 When /^I make bulk extract API call$/ do
-  restHttpGet("/bulk/extract/phase1")
+  restHttpGet("/bulk/extract?sample=false")
 end
 
 When /^I make API call to retrieve today's delta file$/ do

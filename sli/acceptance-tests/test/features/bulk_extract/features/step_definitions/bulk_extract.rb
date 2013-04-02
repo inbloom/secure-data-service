@@ -15,6 +15,7 @@ DATABASE_NAME = PropLoader.getProps['sli_database_name']
 DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
 ENCRYPTED_ENTITIES = ['student', 'parent']
+COMBINED_ENTITIES = ['assessment', 'studentAssessment']
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
 
@@ -307,18 +308,20 @@ def getMongoRecordFromJson(jsonRecord)
 end
 
 def	compareRecords(mongoRecord, jsonRecord)
-	assert(mongoRecord['_id']==jsonRecord['id'], "Record Ids do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
-  jsonRecord.delete('id')
-  if (!MUTLI_ENTITY_COLLS.include?(jsonRecord['entityType']))
-	   assert(mongoRecord['type']==jsonRecord['entityType'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
+	case mongoRecord['type']
+	when "stateEducationAgency", "localEducationAgency"
+	  assert(jsonRecord['entityType']=="educationOrganization", "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
+	else
+	  assert(mongoRecord['type']==jsonRecord['entityType'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
 	end
-  jsonRecord.delete('entityType')
+	jsonRecord.delete('id')
+	jsonRecord.delete('entityType')
 
-  if (ENCRYPTED_ENTITIES.include?(jsonRecord['entityType'])) 
-     compareEncryptedRecords(mongoRecord, jsonRecord)
-  else
-	   assert(mongoRecord['body'].eql?(jsonRecord), "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
-  end
+    if (ENCRYPTED_ENTITIES.include?(mongoRecord['type'])) 
+        compareEncryptedRecords(mongoRecord, jsonRecord)
+    elsif (!COMBINED_ENTITIES.include?(mongoRecord['type']))
+	    assert(mongoRecord['body'].eql?(jsonRecord), "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
+    end
 end
 
 def compareEncryptedRecords(mongoRecord, jsonRecord)
