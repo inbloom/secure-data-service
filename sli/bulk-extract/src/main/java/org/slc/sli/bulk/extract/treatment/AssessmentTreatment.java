@@ -15,40 +15,44 @@
  */
 package org.slc.sli.bulk.extract.treatment;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.dal.convert.SuperdocConverter;
 import org.slc.sli.domain.Entity;
 
 /** Embed subdocs into Assessment and StudentAssessment entities.
- * 
+ *
  * @author tshewchuk
  *
  */
 public class AssessmentTreatment implements Treatment{
 
+    @Autowired
+    private SuperdocConverter assessmentConverter;
+
     @Override
     public Entity apply(Entity entity) {
-        // Assessment and StudentAssessment entities are special cases.
-        if (entity.getType().equals("assessment") || entity.getType().equals("studentAssessment")) {
-            Map<String, List<Entity>> subdocs = entity.getEmbeddedData();
-            for (Map.Entry<String, List<Entity>> subdoc : subdocs.entrySet()) {
-                List<Map<String, Object>> subdocList = new ArrayList<Map<String, Object>>();
-                for (Entity subdocItem : subdoc.getValue()) {
-                    if (subdocItem.getType().equals("objectiveAssessment")) {
-                        subdocItem.getBody().remove("assessmentItemReference");
-                        subdocItem.getBody().remove("assessmentId");
-                    } else if (subdocItem.getType().equals("assessmentItem")) {
-                        subdocItem.getBody().remove("assessmentId");
-                    }
-                    subdocList.add(subdocItem.getBody());
-                }
-                entity.getBody().put(subdoc.getKey(), subdocList);
-            }
+        if (entity.getType().equals("assessment")){
+            assessmentConverter.subdocToBodyField(entity);
         }
 
         return entity;
+    }
+
+    /**
+     * Get assessment converter.
+     * @return the assessmentConverter
+     */
+    public SuperdocConverter getAssessmentConverter() {
+        return assessmentConverter;
+    }
+
+    /**
+     * Set assessment converter.
+     * @param assessmentConverter the assessmentConverter to set
+     */
+    public void setAssessmentConverter(SuperdocConverter assessmentConverter) {
+        this.assessmentConverter = assessmentConverter;
     }
 
 }
