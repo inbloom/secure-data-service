@@ -1321,9 +1321,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </OrganizationCategories>
     <Address>
       <StreetNumberName>827 Braeburn Lane</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ProgramReference>
       <ProgramIdentity>
@@ -1390,9 +1390,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </OrganizationCategories>
     <Address>
       <StreetNumberName>867 Braeburn Lane</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ProgramReference>
       <ProgramIdentity>

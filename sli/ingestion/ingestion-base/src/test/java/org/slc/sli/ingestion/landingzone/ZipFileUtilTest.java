@@ -106,7 +106,12 @@ public class ZipFileUtilTest {
     public void testFileInputStreamOnBadZip() throws IOException {
         File zipFile = new File("nozip.zip");
 
-        ZipFileUtil.getInputStreamForFile(zipFile, "doesnotmatter");
+        InputStream is = null;
+        try {
+            is = ZipFileUtil.getInputStreamForFile(zipFile, "doesnotmatter");
+        } finally {
+            IOUtils.closeQuietly(is);
+        }
     }
 
     @Test(expected = FileNotFoundException.class)

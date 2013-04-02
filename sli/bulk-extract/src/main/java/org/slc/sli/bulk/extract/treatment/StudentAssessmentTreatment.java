@@ -13,24 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.slc.sli.bulk.extract.treatment;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slc.sli.dal.convert.StudentAssessmentConverter;
 import org.slc.sli.domain.Entity;
 
 /**
- * Add entity type to the body.
+ * Embed subdocs in studentAssessment superdoc.
  *
- * @author tke
+ * @author npandey
  *
  */
-public class TypeTreatment implements Treatment {
+public class StudentAssessmentTreatment implements Treatment{
 
-    private static final String TYPE_STRING = "entityType";
+    @Autowired
+    StudentAssessmentConverter studentAssessmentConverter;
 
     @Override
     public Entity apply(Entity entity) {
-        entity.getBody().put(TYPE_STRING, entity.getType());
+        if (entity.getType().equals("studentAssessment")) {
+            studentAssessmentConverter.subdocToBodyField(entity);
+        }
         return entity;
     }
 

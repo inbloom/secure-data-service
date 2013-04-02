@@ -108,5 +108,10 @@ public class BulkExtractEntity implements Entity{
         return new HashMap<String, List<Map<String, Object>>>();
     }
 
+    @Override
+    public Map<String, List<Entity>> getContainerData() {
+        return new HashMap<String, List<Entity>>();
+    }
+
 
 }

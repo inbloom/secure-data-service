@@ -15,9 +15,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1966-01-14</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>414 Martin Luther King Jr Blvd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>26@fakemail.com</EmailAddress>
@@ -43,9 +43,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1971-03-04</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>529 Braeburn Lane</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>3475@fakemail.com</EmailAddress>
@@ -71,9 +71,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1965-06-10</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>107 Cherry Rd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>6767@fakemail.com</EmailAddress>
@@ -99,9 +99,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1954-11-13</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>976 South Lane</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>2459@fakemail.com</EmailAddress>
@@ -127,9 +127,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1973-03-01</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>71 North Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>8967@fakemail.com</EmailAddress>
@@ -155,9 +155,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1963-10-18</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>208 Braeburn Lane</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>348@fakemail.com</EmailAddress>
@@ -183,9 +183,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1970-05-27</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>652 Marks Ct</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>5668@fakemail.com</EmailAddress>
@@ -211,9 +211,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1955-08-26</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>258 Elm Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>7301@fakemail.com</EmailAddress>
@@ -239,9 +239,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1978-12-30</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>300 Elm Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>2844@fakemail.com</EmailAddress>
@@ -267,9 +267,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1955-07-01</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>273 Braeburn Lane</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>6436@fakemail.com</EmailAddress>
@@ -295,9 +295,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1966-01-14</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>414 Martin Luther King Jr Blvd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>26@fakemail.com</EmailAddress>
@@ -323,9 +323,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1966-01-14</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>414 Martin Luther King Jr Blvd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>26@fakemail.com</EmailAddress>
@@ -351,9 +351,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1975-02-05</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>663 Oak Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>2501@fakemail.com</EmailAddress>
@@ -379,9 +379,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1969-07-31</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>938 East Rd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>2044@fakemail.com</EmailAddress>
@@ -407,9 +407,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1958-06-07</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>541 Martin Luther King Jr Blvd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>7698@fakemail.com</EmailAddress>
@@ -435,9 +435,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1966-05-20</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>569 Elm Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>4296@fakemail.com</EmailAddress>
@@ -463,9 +463,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1983-10-21</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>902 West Blvd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>8631@fakemail.com</EmailAddress>
@@ -491,9 +491,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1985-02-12</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>344 Oak Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>8767@fakemail.com</EmailAddress>
@@ -519,9 +519,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1972-03-06</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>611 North Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>4596@fakemail.com</EmailAddress>
@@ -547,9 +547,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1976-03-16</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>798 Cherry Rd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>5261@fakemail.com</EmailAddress>
@@ -575,9 +575,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1962-11-27</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>443 Martin Luther King Jr Blvd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>8147@fakemail.com</EmailAddress>
@@ -603,9 +603,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1980-10-09</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>440 East Rd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>5356@fakemail.com</EmailAddress>
@@ -631,9 +631,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1969-08-03</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>458 Elm Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>4426@fakemail.com</EmailAddress>
@@ -659,9 +659,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1977-07-15</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>371 Cherry Rd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>9690@fakemail.com</EmailAddress>
@@ -687,9 +687,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1987-03-12</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>316 Cherry Rd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>1226@fakemail.com</EmailAddress>
@@ -715,9 +715,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1981-02-07</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>895 Marks Ct</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>4598@fakemail.com</EmailAddress>
@@ -743,9 +743,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1973-11-03</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>764 Elm Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>9274@fakemail.com</EmailAddress>
@@ -771,9 +771,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1962-08-17</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>411 Marks Ct</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>1982@fakemail.com</EmailAddress>
@@ -799,9 +799,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1968-10-08</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>333 Martin Luther King Jr Blvd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>7243@fakemail.com</EmailAddress>
@@ -827,9 +827,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1979-01-24</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>366 Cherry Rd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>4441@fakemail.com</EmailAddress>
@@ -855,9 +855,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1977-12-27</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>877 Oak Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>2096@fakemail.com</EmailAddress>
@@ -883,9 +883,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1962-05-06</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>534 West Blvd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>4673@fakemail.com</EmailAddress>
@@ -911,9 +911,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1961-08-10</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>925 North Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>1520@fakemail.com</EmailAddress>
@@ -939,9 +939,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1968-03-12</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>621 Marks Ct</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>3864@fakemail.com</EmailAddress>
@@ -967,9 +967,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1981-10-06</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>948 Oak Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>8241@fakemail.com</EmailAddress>
@@ -995,9 +995,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1959-09-02</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>962 Braeburn Lane</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>6782@fakemail.com</EmailAddress>
@@ -1023,9 +1023,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1977-05-19</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>573 Cherry Rd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>1232@fakemail.com</EmailAddress>
@@ -1051,9 +1051,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1975-07-19</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>630 North Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>6229@fakemail.com</EmailAddress>
@@ -1079,9 +1079,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1969-09-18</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>480 Marks Ct</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>5417@fakemail.com</EmailAddress>
@@ -1107,9 +1107,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1961-11-21</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>468 Elm Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>3623@fakemail.com</EmailAddress>
@@ -1135,9 +1135,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1967-06-02</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>913 Oak Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>6882@fakemail.com</EmailAddress>
@@ -1163,9 +1163,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1955-01-23</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>609 Braeburn Lane</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>3973@fakemail.com</EmailAddress>
@@ -1191,9 +1191,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1967-04-29</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>469 East Rd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>8744@fakemail.com</EmailAddress>
@@ -1219,9 +1219,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1968-11-24</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>447 Martin Luther King Jr Blvd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>1646@fakemail.com</EmailAddress>
@@ -1247,9 +1247,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1982-05-27</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>764 Cherry Rd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>5646@fakemail.com</EmailAddress>
@@ -1275,9 +1275,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1956-12-13</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>602 Martin Luther King Jr Blvd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>39@fakemail.com</EmailAddress>
@@ -1303,9 +1303,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1965-01-05</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>891 East Rd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>7563@fakemail.com</EmailAddress>
@@ -1331,9 +1331,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1954-09-11</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>156 West Blvd</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>1160@fakemail.com</EmailAddress>
@@ -1359,9 +1359,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1967-12-21</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>401 Elm Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>2989@fakemail.com</EmailAddress>
@@ -1387,9 +1387,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <BirthDate>1985-05-08</BirthDate>
       <Address AddressType="Home">
         <StreetNumberName>170 North Street</StreetNumberName>
-        <City>New York</City>
-        <StateAbbreviation>NY</StateAbbreviation>
-        <PostalCode>10292</PostalCode>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
       </Address>
       <ElectronicMail EmailAddressType="Home/Personal">
         <EmailAddress>8895@fakemail.com</EmailAddress>
@@ -13724,9 +13724,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1953-06-19</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>121 North Street</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>4062@fakemail.com</EmailAddress>
@@ -13754,9 +13754,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1970-07-25</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>258 Cherry Rd</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>857@fakemail.com</EmailAddress>
@@ -13784,9 +13784,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1980-01-18</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>68 South Lane</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>9526@fakemail.com</EmailAddress>
@@ -13814,9 +13814,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1957-05-25</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>437 Elm Street</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>804@fakemail.com</EmailAddress>
@@ -13844,9 +13844,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1960-04-21</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>197 Braeburn Lane</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>1573@fakemail.com</EmailAddress>
@@ -13874,9 +13874,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1952-04-22</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>432 West Blvd</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>5887@fakemail.com</EmailAddress>
@@ -13904,9 +13904,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1957-05-25</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>437 Elm Street</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>804@fakemail.com</EmailAddress>
@@ -13934,9 +13934,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1967-11-20</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>166 Marks Ct</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>4486@fakemail.com</EmailAddress>
@@ -13964,9 +13964,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1963-05-14</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>726 West Blvd</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>4374@fakemail.com</EmailAddress>
@@ -13994,9 +13994,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1986-06-23</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>678 Marks Ct</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>5732@fakemail.com</EmailAddress>
@@ -14024,9 +14024,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1948-01-07</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>370 Marks Ct</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>9749@fakemail.com</EmailAddress>
@@ -14054,9 +14054,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1980-11-06</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>146 Martin Luther King Jr Blvd</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>6212@fakemail.com</EmailAddress>
@@ -14084,9 +14084,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1966-12-31</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>889 South Lane</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>7724@fakemail.com</EmailAddress>
@@ -14114,9 +14114,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1987-03-12</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>316 Cherry Rd</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>1226@fakemail.com</EmailAddress>
@@ -14144,9 +14144,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1985-07-22</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>513 Braeburn Lane</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>733@fakemail.com</EmailAddress>
@@ -14174,9 +14174,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1986-06-23</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>678 Marks Ct</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>5732@fakemail.com</EmailAddress>
@@ -14204,9 +14204,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1969-05-23</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>451 Martin Luther King Jr Blvd</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>4623@fakemail.com</EmailAddress>
@@ -14234,9 +14234,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1950-10-31</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>765 Oak Street</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>9895@fakemail.com</EmailAddress>
@@ -14264,9 +14264,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BirthDate>1957-05-25</BirthDate>
     <Address AddressType="Home">
       <StreetNumberName>437 Elm Street</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
     </Address>
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>804@fakemail.com</EmailAddress>

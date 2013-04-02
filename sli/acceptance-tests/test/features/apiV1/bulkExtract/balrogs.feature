@@ -10,6 +10,9 @@ Feature: Bulk Extraction Works
         When the return code is 503 I ensure there is a bulkExtractFiles entry for Midgar
         When the return code is 200 I get expected tar downloaded
         Then I check the http response headers
+        When I make API call to retrieve sampled bulk extract file
+        When the return code is 200 I get expected tar downloaded
+        Then I check the http response headers
     
     Scenario: Un-Authorized user cannot use the endpoint
         Given I am logged in using "linda.kim" "balrogs" to realm "IL"
