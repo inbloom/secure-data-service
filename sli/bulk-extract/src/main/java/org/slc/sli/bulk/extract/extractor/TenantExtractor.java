@@ -16,9 +16,9 @@
 package org.slc.sli.bulk.extract.extractor;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,27 +36,26 @@ public class TenantExtractor{
 
     private static final Logger LOG = LoggerFactory.getLogger(TenantExtractor.class);
 
-    private List<String> entities;
-
     private BulkExtractMongoDA bulkExtractMongoDA;
 
     private EntityExtractor entityExtractor;
 
     private ManifestFile metaDataFile;
 
-/**
- * Extract all the entities from a tenant.
- * @param tenant
- *          TenantId
- * @param extractFile
- *          Extract archive file
- * @param startTime
- *          start time stamp
- */
-    public void execute(String tenant, ExtractFile extractFile, Date startTime) {
+    /**
+     * Extract all the entities from a tenant.
+     * @param tenant
+     *          TenantId
+     * @param extractFile
+     *          Extract archive file
+     * @param startTime
+     *          start time stamp
+     */
+    public void execute(String tenant, ExtractFile extractFile, DateTime startTime) {
 
-        for (String entity : entities) {
-            entityExtractor.extractEntity(tenant, extractFile, entity);
+        List<String> collections = entityExtractor.getCollectionNames(tenant);
+        for (String collection : collections) {
+            entityExtractor.extractEntities(tenant, extractFile, collection);
         }
 
         try {
@@ -72,7 +71,7 @@ public class TenantExtractor{
             LOG.error("Error generating archive file: {}", e.getMessage());
         }
 
-        bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime, false);
+        bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime.toDate(), false);
     }
 
     /**
@@ -89,14 +88,6 @@ public class TenantExtractor{
      */
     public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
         this.bulkExtractMongoDA = bulkExtractMongoDA;
-    }
-
-    /**
-     * set entities.
-     * @param entities entities
-     */
-    public void setEntities(List<String> entities) {
-        this.entities = entities;
     }
 
     /**

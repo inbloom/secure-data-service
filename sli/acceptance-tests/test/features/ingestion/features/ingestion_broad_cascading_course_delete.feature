@@ -48,5 +48,5 @@ Scenario: Delete Course with cascade
         |gradebookEntry|-3|
         |teacherSectionAssociation|-1|
         |studentSectionAssociation|-1|
-        |recordHash  |   0|
+        #|recordHash  |  -18|
 	And I should not see "c818a2f609d4190166b96327d86086fe09f877ea_id" in the "Midgar" database

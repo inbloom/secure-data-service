@@ -213,5 +213,8 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
         return getSourceFile();
     }
 
-
+    @Override
+    public Map<String, List<Entity>> getContainerData() {
+        return new HashMap<String, List<Entity>>();
+    }
 }

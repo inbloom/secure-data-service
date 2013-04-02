@@ -27,14 +27,24 @@
     <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher" />
     <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
 
+    <util:list id="excludedCollections" value-type="java.lang.String">
+        <value>error</value>
+        <value>recordHash</value>
+        <value>adminDelegation</value>
+        <value>aggregation</value>
+        <value>aggregationDefinition</value>
+        <value>realm</value>
+        <value>search</value>
+    </util:list>
+
     <util:list id="entities" value-type="java.lang.String">
         <value>assessment</value>
         <value>assessmentFamily</value>
         <value>assessmentPeriodDescriptor</value>
         <value>attendance</value>
+        <value>calendarDate</value>
         <value>cohort</value>
         <value>competencyLevelDescriptor</value>
-        <value>competencyLevelDescriptorType</value>
         <value>course</value>
         <value>courseOffering</value>
         <value>courseTranscript</value>
@@ -75,28 +85,23 @@
         <value>teacherSchoolAssociation</value>
         <value>teacherSectionAssociation</value>
     </util:list>
-
-    <util:map id="queriedEntities" key-type="java.lang.String" value-type="java.lang.String">
-        <entry key="educationOrganization" value="educationOrganization" />
-        <entry key="school" value="educationOrganization" />
-        <entry key="staff" value="staff" />
-        <entry key="teacher" value="staff" />
-    </util:map>
-
-    <util:map id="combinedEntities" key-type="java.lang.String" value-type="java.lang.String">
-        <entry key="localEducationAgency" value="educationOrganization" />
-        <entry key="stateEducationAgency" value="educationOrganization" />
-    </util:map>
+    
+    <util:list id="addToCollectionFile" value-type="java.lang.String">
+        <value>stateEducationAgency</value>
+        <value>localEducationAgency</value>
+        <value>school</value>
+        <value>teacher</value>
+    </util:list>
 
     <bean id="entityExtractor" class="org.slc.sli.bulk.extract.extractor.EntityExtractor">
          <property name="entityRepository" ref="mongoEntityRepository" />
-         <property name="queriedEntities" ref="queriedEntities" />
-         <property name="combinedEntities" ref="combinedEntities" />
+         <property name="excludedCollections" ref="excludedCollections" />
+         <property name="entities" ref="entities" />
+         <property name="addToCollectionFile" ref="addToCollectionFile" />
          <property name="applicator" ref="applicator" />
     </bean>
 
     <bean id="tenantExtractor" class="org.slc.sli.bulk.extract.extractor.TenantExtractor">
-         <property name="entities" ref="entities" />
          <property name="entityExtractor" ref="entityExtractor" />
     </bean>
 
@@ -107,19 +112,26 @@
 
     <bean id="applicator" class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
          <property name="treatments" ref="treatments" />
+         <property name="extraTreatments" ref="extraTreatments" />
     </bean>
+
+    <bean id="collectionTreatment" class="org.slc.sli.bulk.extract.treatment.EntityToCollectionTreatment" />
+
+    <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment" />
+
+    <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment" />
+
+    <bean id="assessmentTreatment" class="org.slc.sli.bulk.extract.treatment.AssessmentTreatment" />
 
     <util:list id="treatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
         <ref local="idTreatment"/>
         <ref local="typeTreatment"/>
+        <ref local="assessmentTreatment"/>
     </util:list>
 
-        <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment">
-    </bean>
-
-    <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment">
-        <property name="combinedEntities" ref="combinedEntities" />
-    </bean>  
+    <util:list id="extraTreatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
+        <ref local="collectionTreatment"/>
+    </util:list>
 
     <context:component-scan base-package="org.slc">
         <context:exclude-filter type="regex"

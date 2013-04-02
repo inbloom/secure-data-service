@@ -178,7 +178,7 @@ process_config_file() {
         else
           LOGDIR="${TMP_LOGDIR}"
           LOGFILE="${LOGDIR}/local_bulk_extract.log"
-          echo "Using default logfile ${LOGFILE}."
+          echo "Using logfile ${LOGFILE} for ${BULK_EXTRACT_SCRIPT} output."
         fi
       else
         CONF_FILE_IS_VALID="false"
