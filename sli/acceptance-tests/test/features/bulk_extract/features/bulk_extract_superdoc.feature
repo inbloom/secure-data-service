@@ -14,11 +14,7 @@ Scenario Outline: Verify simple entities were correctly extracted
 	| studentParentAssociation              | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| studentDisciplineIncidentAssociation  | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| studentAssessment                     | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| studentAssessmentItem                 | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| studentObjectiveAssessment            | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| assessment                            | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| assessmentItem                        | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| objectiveAssessment                   | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| section                               | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| studentSectionAssociation             | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| gradebookEntry                        | jstevenson | IT Administrator | IL-Daybreak | Midgar |
