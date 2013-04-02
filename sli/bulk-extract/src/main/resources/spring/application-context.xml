@@ -32,7 +32,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <entry key="assessmentFamily" value="assessmentFamily" />
         <entry key="assessmentPeriodDescriptor" value="assessmentPeriodDescriptor" />
         <entry key="attendance" value="attendance" />
-        <entry key="calendarDate" value="calendarDate" />
         <entry key="cohort" value="cohort" />
         <entry key="competencyLevelDescriptor" value="competencyLevelDescriptor" />
         <entry key="course" value="course" />
@@ -47,7 +46,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <entry key="graduationPlan" value="graduationPlan" />
         <entry key="learningObjective" value="learningObjective" />
         <entry key="learningStandard" value="learningStandard" />
-        <entry key="objectiveAssessment" value="assessment" />
         <entry key="parent" value="parent" />
         <entry key="program" value="program" />
         <entry key="reportCard" value="yearlyTranscript" />
@@ -66,7 +64,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <entry key="studentCompetencyObjective" value="studentCompetencyObjective" />
         <entry key="studentDisciplineIncidentAssociation" value="student" />
         <entry key="studentGradebookEntry" value="studentGradebookEntry" />
-        <entry key="studentObjectiveAssessment" value="studentAssessment" />
         <entry key="studentParentAssociation" value="student" />
         <entry key="studentProgramAssociation" value="program" />
         <entry key="studentSchoolAssociation" value="studentSchoolAssociation" />
