@@ -18,6 +18,7 @@ ENCRYPTED_ENTITIES = ['student', 'parent']
 COMBINED_ENTITIES = ['assessment', 'studentAssessment']
 
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
+MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
 
 require 'zip/zip'
 require 'archive/tar/minitar'
@@ -236,7 +237,7 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
 
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
-    puts "Counts Expected: " + count.to_s + " Actual: " + records.size.to_s
+    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
     assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
   }
 end
@@ -314,8 +315,9 @@ def getMongoRecordFromJson(jsonRecord)
 end
 
 def	compareRecords(mongoRecord, jsonRecord)
-	assert(mongoRecord['_id']==jsonRecord['id'], "Record Ids do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
-	assert(mongoRecord['type']==jsonRecord['entityType'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
+	if !MUTLI_ENTITY_COLLS.include?(jsonRecord['entityType'])
+	  assert(mongoRecord['type']==jsonRecord['entityType'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
+	end
 	jsonRecord.delete('id')
 	jsonRecord.delete('entityType')
 
@@ -387,9 +389,7 @@ def compareToApi(collection, collFile)
       apiRecord.delete("links")
       assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
       found = true
-      break
     end
-    
   end
     
   assert(found, "No API records for #{collection} were fetched successfully.")
