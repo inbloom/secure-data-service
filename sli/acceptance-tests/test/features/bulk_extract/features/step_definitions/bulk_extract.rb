@@ -245,6 +245,7 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
 end
 
 When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
+  disable_NOTABLESCAN()
 	Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extractFile|
 	records = JSON.parse(extractFile.read)
 	uniqueRecords = Hash.new
@@ -257,6 +258,7 @@ When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
 
 		compareRecords(mongoRecord, jsonRecord)
 	end
+  enable_NOTABLESCAN()
 }
 end
 
