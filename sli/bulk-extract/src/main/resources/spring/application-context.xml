@@ -42,7 +42,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <value>assessmentFamily</value>
         <value>assessmentPeriodDescriptor</value>
         <value>attendance</value>
-        <value>calendarDate</value>
         <value>cohort</value>
         <value>competencyLevelDescriptor</value>
         <value>course</value>
@@ -75,7 +74,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <value>studentCompetency</value>
         <value>studentCompetencyObjective</value>
         <value>studentDisciplineIncidentAssociation</value>
-        <value>studentObjectiveAssessment</value>
         <value>studentProgramAssociation</value>
         <value>studentGradebookEntry</value>
         <value>studentSchoolAssociation</value>
