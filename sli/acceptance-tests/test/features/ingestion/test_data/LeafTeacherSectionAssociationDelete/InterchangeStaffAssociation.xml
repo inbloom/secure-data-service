@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-    <Action ActionType="DELETE" Cascade="true">
+    <Action ActionType="DELETE" Cascade="false">
         <TeacherSectionAssociation>
             <TeacherReference>
                 <StaffIdentity>
