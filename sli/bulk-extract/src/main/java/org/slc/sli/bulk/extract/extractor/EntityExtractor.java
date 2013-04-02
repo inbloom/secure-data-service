@@ -20,27 +20,27 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.DBCollection;
+import javax.annotation.PostConstruct;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Query;
-
 import org.slc.sli.bulk.extract.files.DataExtractFile;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.treatment.TreatmentApplicator;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
 
 
 /**
@@ -53,15 +53,20 @@ public class EntityExtractor{
 
     private static final Logger LOG = LoggerFactory.getLogger(EntityExtractor.class);
 
-    private List<String> excludedCollections;
-
-    private List<String> entities;
-
     private List<String> addToCollectionFile;
 
     private Repository<Entity> entityRepository;
 
+    private Map<String, String> entitiesToCollections;
+
     private TreatmentApplicator applicator;
+
+    private List<String> entities;
+
+    @PostConstruct
+    public void init() {
+        entities = new ArrayList<String>(new HashSet<String>(entitiesToCollections.keySet()));
+    }
 
     /**
      * extract all the records of entity.
@@ -163,32 +168,6 @@ public class EntityExtractor{
     }
 
     /**
-     * Get collection names for a tenant.
-     * @param tenant tenant
-     * @return collection names
-     */
-    public List<String> getCollectionNames(String tenant) {
-        TenantContext.setTenantId(tenant);
-        List<DBCollection> collections = entityRepository.getCollections(false);
-        List<String> collectionNames = new ArrayList<String>();
-        for (DBCollection collection : collections) {
-            if (!excludedCollections.contains(collection.getName())) {
-                collectionNames.add(collection.getName());
-            }
-        }
-        TenantContext.setTenantId(null);
-        return collectionNames;
-    }
-
-    /**
-     * Set list of excluded collections.
-     * @param excludedCollections excludedCollections
-     */
-    public void setExcludedCollections(List<String> excludedCollections) {
-        this.excludedCollections = excludedCollections;
-    }
-
-    /**
      * Set list of entities to extract.
      * @param entities entities
      */
@@ -205,11 +184,11 @@ public class EntityExtractor{
     }
 
     /**
-     * get applicator.
-     * @return treatment applicator
+     * Set entities to collections map.
+     * @param entities to collections map
      */
-    public TreatmentApplicator getApplicator() {
-        return applicator;
+    public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
+        this.entitiesToCollections = entitiesToCollections;
     }
 
     /**

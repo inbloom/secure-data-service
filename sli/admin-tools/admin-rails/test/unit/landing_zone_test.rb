@@ -23,6 +23,7 @@ require 'approval'
 class UserAccountValidationTest < ActiveSupport::TestCase
 
   def test_possible_sample_data_prod
+    APP_CONFIG["is_sandbox"] = false
     assert_equal [], LandingZone.possible_sample_data
   end
 

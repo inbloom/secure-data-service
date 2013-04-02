@@ -1,5 +1,8 @@
     <tr>
-      <td><%= @apps_map[@app_auth.appId].name %></td>
+      <td><%= @apps_map[@app_auth.appId].name %><% if @apps_map[@app_auth.appId].isBulkExtract %>
+          <br /><div class="alert alert-info">Bulk Extract application request</div>
+        <% end %>
+      </td>
       <td><%= @apps_map[@app_auth.appId].version  %></td>
       <td><%= @apps_map[@app_auth.appId].vendor %></td>
       <%=

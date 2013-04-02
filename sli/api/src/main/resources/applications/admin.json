@@ -20,6 +20,7 @@
    "redirect_uri":"${bootstrap.app.admin.url}/callback",
    "is_admin":true,
    "installed":false,
+   "isBulkExtract": false,
    "behavior":"Iframe App",
    "vendor":"${bootstrap.app.vendor}",
    "endpoints":[
