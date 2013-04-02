@@ -10,7 +10,6 @@ Scenario: Delete Assessment with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-	And I should see child of entityType "assessment" with id "5f650f8a65dcfee035b74787ca47a6738239c614_id" in the "Midgar" database	
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "assessment"
 	|field                               |value                                                                                          |
 	|_id                                 |5f650f8a65dcfee035b74787ca47a6738239c614_id          |
