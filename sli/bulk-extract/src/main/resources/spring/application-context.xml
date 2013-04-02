@@ -116,11 +116,14 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment" />
 
     <bean id="assessmentTreatment" class="org.slc.sli.bulk.extract.treatment.AssessmentTreatment" />
+    
+    <bean id="studentAssessmentTreatment" class="org.slc.sli.bulk.extract.treatment.StudentAssessmentTreatment" />
 
     <util:list id="treatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
         <ref local="idTreatment"/>
         <ref local="typeTreatment"/>
         <ref local="assessmentTreatment"/>
+        <ref local="studentAssessmentTreatment"/>
     </util:list>
 
 </beans>

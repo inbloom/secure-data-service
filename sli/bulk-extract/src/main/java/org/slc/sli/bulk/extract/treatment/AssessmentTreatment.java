@@ -22,7 +22,7 @@ import java.util.Map;
 import org.slc.sli.domain.Entity;
 
 /** Embed subdocs into Assessment and StudentAssessment entities.
- * 
+ *
  * @author tshewchuk
  *
  */
@@ -31,7 +31,7 @@ public class AssessmentTreatment implements Treatment{
     @Override
     public Entity apply(Entity entity) {
         // Assessment and StudentAssessment entities are special cases.
-        if (entity.getType().equals("assessment") || entity.getType().equals("studentAssessment")) {
+        if (entity.getType().equals("assessment")) {
             Map<String, List<Entity>> subdocs = entity.getEmbeddedData();
             for (Map.Entry<String, List<Entity>> subdoc : subdocs.entrySet()) {
                 List<Map<String, Object>> subdocList = new ArrayList<Map<String, Object>>();

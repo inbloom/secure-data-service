@@ -51,7 +51,6 @@ Scenario: Trigger a bulk extract on ingested data
    |  studentCompetency                     |
    |  studentCompetencyObjective            |
    |  studentDisciplineIncidentAssociation  |
-   |  studentObjectiveAssessment            |
    |  studentProgramAssociation             |
    |  studentGradebookEntry                 |
    |  studentSchoolAssociation              |
