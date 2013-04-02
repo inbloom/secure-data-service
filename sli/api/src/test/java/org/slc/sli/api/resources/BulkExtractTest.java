@@ -116,7 +116,7 @@ public class BulkExtractTest {
     @Test
     public void testGetPhase0() throws Exception {
         injector.setEducatorContext();
-        ResponseImpl res = (ResponseImpl) bulkExtract.get();
+        ResponseImpl res = (ResponseImpl) bulkExtract.get(true);
         assertEquals(200, res.getStatus());
         MultivaluedMap<String, Object> headers = res.getMetadata();
         assertNotNull(headers);
@@ -149,7 +149,7 @@ public class BulkExtractTest {
         Mockito.when(mockBody.get(Mockito.anyString())).thenReturn("");
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
-        ResponseImpl res = (ResponseImpl) bulkExtract.getPhase1();
+        ResponseImpl res = (ResponseImpl) bulkExtract.get(false);
         assertEquals(404, res.getStatus());
     }
 
@@ -168,7 +168,7 @@ public class BulkExtractTest {
       Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
           .thenReturn(mockEntity);
 
-      ResponseImpl res = (ResponseImpl) bulkExtract.getPhase1();
+      ResponseImpl res = (ResponseImpl) bulkExtract.get(false);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);

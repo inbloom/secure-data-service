@@ -32,10 +32,12 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -95,9 +97,13 @@ public class BulkExtract {
     @GET
     @Path("extract")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response get() throws Exception {
-        LOG.info("Received request to stream sample bulk extract...");
+    public Response get(@DefaultValue("true") @QueryParam("sample") boolean sample) throws Exception {
+        LOG.info("Received request to stream bulk extract...");
 
+        return sample ? getSampledFile() : getExtractResponse(null);
+    }
+
+    private Response getSampledFile() {
         final InputStream is = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
 
         StreamingOutput out = new StreamingOutput() {
@@ -115,21 +121,6 @@ public class BulkExtract {
         builder.header("content-disposition", "attachment; filename = " + SAMPLED_FILE_NAME);
         builder.header("last-modified", "Not Specified");
         return builder.build();
-    }
-
-    /**
-     * Creates a streaming response for a extracted data file
-     *
-     * @return
-     * @throws FileNotFoundException
-     */
-    @GET
-    @Path("extract/phase1")
-    @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getPhase1() throws Exception {
-        LOG.info("Received request to stream bulk extract...");
-
-        return getExtractResponse(null);
     }
 
     /**
