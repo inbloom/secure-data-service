@@ -159,17 +159,22 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
 
         return assessmentEntity;
     }
-    
+
     @Override
     public void bodyFieldToSubdoc(Entity entity) {
+        bodyFieldToSubdoc(entity, null);
+    }
+
+    @Override
+    public void bodyFieldToSubdoc(Entity entity, SuperdocConverter.Option option) {
         if (entity != null && entity.getType().equals(STUDENT_ASSESSMENT)) {
             referenceIdResolve(entity, "studentAssessmentItems", ASSESSMENT_ITEM, ASSESSMENT_ITEM_ID);
             bodyToSubdocs(entity, STUDENT_ASSESSMENT_ITEM, "studentAssessmentItems", STUDENT_ASSESSMENT_ID);
-            
+
             referenceIdResolve(entity, "studentObjectiveAssessments", OBJECTIVE_ASSESSMENT, OBJECTIVE_ASSESSMENT_ID);
             bodyToSubdocs(entity, STUDENT_OBJECTIVE_ASSESSMENT, "studentObjectiveAssessments", STUDENT_ASSESSMENT_ID);
         }
-        
+
     }
 
     @Override
@@ -183,13 +188,18 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
 
     @Override
     public void bodyFieldToSubdoc(Iterable<Entity> entities) {
+        bodyFieldToSubdoc(entities, null);
+    }
+
+    @Override
+    public void bodyFieldToSubdoc(Iterable<Entity> entities, SuperdocConverter.Option option) {
         if (entities != null) {
             for (Entity entity : entities) {
-                bodyFieldToSubdoc(entity);
+                bodyFieldToSubdoc(entity, option);
             }
         }
     }
-    
+
     private Entity getEntityById(Map<String, Entity> assessmentSubEntityMap, String id) {
         if (assessmentSubEntityMap != null && assessmentSubEntityMap.containsKey(id)) {
             return assessmentSubEntityMap.get(id);

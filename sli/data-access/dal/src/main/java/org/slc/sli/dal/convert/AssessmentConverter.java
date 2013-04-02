@@ -98,6 +98,11 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
 
     @Override
     public void bodyFieldToSubdoc(Entity entity) {
+        bodyFieldToSubdoc(entity, null);
+    }
+
+    @Override
+    public void bodyFieldToSubdoc(Entity entity, SuperdocConverter.Option option) {
         if (entity != null && entity.getType().equals(ASSESSMENT)) {
             //objectiveAssessment
             String parentKey = generateDid(entity);
@@ -119,20 +124,20 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             makeSubDocs(entity, ASSESSMENT_ITEM, ASSESSMENT_ID, assessmentItems);
            
             //assessmentPeriodDescriptor
-            Object assessmentPeriodDescrptor = entity.getBody().remove(ASSESSMENT_PERIOD_DESCRIPTOR);
-            if (assessmentPeriodDescrptor instanceof Map<?,?>) {
+            Object assessmentPeriodDescriptor = entity.getBody().remove(ASSESSMENT_PERIOD_DESCRIPTOR);
+            if (assessmentPeriodDescriptor instanceof Map<?,?>) {
                 //update embedded assessmentPeriodDescriptor
                 @SuppressWarnings("unchecked")
-                String did = generateSubdocDid((Map<String, Object>) assessmentPeriodDescrptor, ASSESSMENT_PERIOD_DESCRIPTOR);
+                String did = generateSubdocDid((Map<String, Object>) assessmentPeriodDescriptor, ASSESSMENT_PERIOD_DESCRIPTOR);
                 @SuppressWarnings("unchecked")
-                MongoEntity apdEntity = new MongoEntity(ASSESSMENT_PERIOD_DESCRIPTOR, did, (Map<String, Object>) assessmentPeriodDescrptor, null);
+                MongoEntity apdEntity = new MongoEntity(ASSESSMENT_PERIOD_DESCRIPTOR, did, (Map<String, Object>) assessmentPeriodDescriptor, null);
                 if (repo.update(ASSESSMENT_PERIOD_DESCRIPTOR, apdEntity, false)) {
                     //only record the id if it was successfully updated
                     entity.getBody().put(ASSESSMENT_PERIOD_DESCRIPTOR_ID, did);
                 }
             }
             
-            fixAssessmentFamilyReference(entity);
+            fixAssessmentFamilyReference(entity, option);
         }
     }
 
@@ -162,9 +167,14 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
 
     @Override
     public void bodyFieldToSubdoc(Iterable<Entity> entities) {
+        bodyFieldToSubdoc(entities, null);
+    }
+
+    @Override
+    public void bodyFieldToSubdoc(Iterable<Entity> entities, SuperdocConverter.Option option) {
         if (entities != null) {
             for (Entity entity : entities) {
-                bodyFieldToSubdoc(entity);
+                bodyFieldToSubdoc(entity, option);
             }
         }
     }
@@ -173,14 +183,13 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
      * On update, AssessmentFamilyReference will not exist on the entity. Fetch it from
      * the db and re-add it to the entity.
      */
-    private void fixAssessmentFamilyReference(Entity entity) {
+    private void fixAssessmentFamilyReference(Entity entity, SuperdocConverter.Option option) {
         //assessmentFamilyHierarchy is ignored on create/update
         Object assessmentFamilyHierarchy = entity.getBody().remove(ASSESSMENT_FAMILY_HIERARCHY);
 
-        // if assessmentFamilyHierarchy was removed from the body representing
-        // deletion of the assessmentFamilyReference, do not re-add it so assessmentFamilyReference
-        // will be deleted on update
-        if (assessmentFamilyHierarchy != null && assessmentFamilyHierarchy instanceof String) {
+        // There is a requirement that assessment.assessmentFamilyReference be READONLY via the API
+        // so only add assessmentFamilyReference back if the delete option is NOT set
+        if (option == null || Option.DELETE_ASSESSMENT_FAMILY_REFERENCE != option) {
             MongoTemplate mongo = ((MongoEntityRepository) repo).getTemplate();
             Entity existingAssessment = mongo.findById(entity.getEntityId(), Entity.class, ASSESSMENT);
             if (existingAssessment == null) {

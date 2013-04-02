@@ -740,7 +740,7 @@ def processPayloadFile(file_name)
       payload_file = entries[2]
       md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
       if entries[3] != md5.to_s
-        puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"
+        puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template} to #{md5.to_s}"
       end
       # swap out the md5 unless we encounter the special all zero md5 used for unhappy path tests
       entries[3] = md5 unless entries[3] == "00000000000000000000000000000000"
@@ -1883,39 +1883,25 @@ def cleanupSubDoc(superdocs, subdoc)
   end
 end
 
-def subDocParent(collectionName)
-  case collectionName
-    when "studentSectionAssociation"
-      "section"
-    when "gradebookEntry"
-      "section"
-    when "teacherSectionAssociation"
-      "section"
-    when "studentProgramAssociation"
-      "program"
-    when "studentParentAssociation"
-      "student"
-    when "studentCohortAssociation"
-      "cohort"
-    when "studentDisciplineIncidentAssociation"
-      "student"
-    when "studentAssessmentItem"
-      "studentAssessment"
-    when "assessmentItem"
-      "assessment"
-    when "objectiveAssessment"
-      "assessment"
-    when "studentObjectiveAssessment"
-      "studentAssessment"
-    when "reportCard"
-      "yearlyTranscript"
-    when "studentAcademicRecord"
-      "yearlyTranscript"
-    when "grade"
-      "yearlyTranscript"
-    else
-      nil
-  end
+$subDocEntity2ParentType = {
+    "studentSectionAssociation" => "section",
+    "gradebookEntry" => "section",
+    "teacherSectionAssociation" => "section",
+    "studentProgramAssociation" => "program",
+    "studentParentAssociation" => "student",
+    "studentCohortAssociation" => "cohort",
+    "studentDisciplineIncidentAssociation" => "student",
+    "studentAssessmentItem" => "studentAssessment",
+    "assessmentItem" => "assessment",
+    "objectiveAssessment" => "assessment",
+    "studentObjectiveAssessment" => "studentAssessment",
+    "reportCard" => "yearlyTranscript",
+    "studentAcademicRecord" => "yearlyTranscript",
+    "grade" => "yearlyTranscript"
+}
+
+def subDocParent(subDocType)
+    return $subDocEntity2ParentType[subDocType]
 end
 
 def subDocCount(parent, subdoc, opts=nil, key=nil, match_value=nil)
@@ -3645,18 +3631,21 @@ def getEntityCounts(tenant)
                      "roles",
                      "customRole"]
      disable_NOTABLESCAN
+     # Add straight collection counts
      coll_names.each do |coll|
         if !coll_to_skip.include?(coll)
-            parent = subDocParent coll
-            if parent
-              count = subDocCount(parent, coll)
-            else
-              count = tenant_db[coll].count().to_i
-            end
-
+            count = tenant_db[coll].count().to_i
             entityCounts[coll] = count
 #            puts "#{coll} #{count}"
         end
+    end
+    #Add subdoc entity counts
+    subDocEntities = $subDocEntity2ParentType.keys
+    subDocEntities.each do |subDocEntity|
+        parent = $subDocEntity2ParentType[subDocEntity]
+        count = subDocCount(parent, subDocEntity)
+        entityCounts[subDocEntity] = count
+#        puts "#{subDocEntity} #{count}"
     end
     enable_NOTABLESCAN
     return entityCounts
@@ -3680,6 +3669,7 @@ And /I see that collections counts have changed as follows in tenant "([^"]*)"/ 
 
         old   = @beforeEntityCounts[entityType].to_i;
         new   = afterEntityCounts[entityType].to_i;
+        actualDelta = new - old
 
         # build a map of delta values per entity
         entityCountDeltas[entityType] = new - old
@@ -3688,9 +3678,10 @@ And /I see that collections counts have changed as follows in tenant "([^"]*)"/ 
         if (condHash.has_key?(entityType))
             condDelta = condHash[entityType]
             operation = condDelta[0,1]   # + or -
-            actualDelta = new - old
             expectedDelta = condHash[entityType].to_i
-            assert(actualDelta == expectedDelta, "Actual delta #{actualDelta} does NOT match #{expectedDelta}")
+            assert(actualDelta == expectedDelta, "The change in count for #{entityType} was #{actualDelta}. It was expected to be #{expectedDelta}.")
+        else
+            assert(old == new, "The change in count for #{entityType} was #{actualDelta}. It was expected to be 0.")
         end
     end
 end

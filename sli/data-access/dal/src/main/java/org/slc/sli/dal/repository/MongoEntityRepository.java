@@ -434,7 +434,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
 
     	// LOG.info("*** DELETING object '" + id + "' of type '" + collectionName + "'");
-        DELETION_LOG.info("Delete request for entity:" + entityType + " collection: " + collectionName + " _id:" + id);
+        DELETION_LOG.info("Delete request for entity:" + entityType + " collection: " + collectionName + " _id:" + id + " cascade: " + cascade + "dryrun: " + dryrun);
         CascadeResult result = null;
         Set<String> deletedIds = new HashSet<String>();
 
@@ -586,7 +586,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
                         if (!dryrun) {
                             entity.getBody().remove(referencingFieldSchemaInfo.getMappedPath());
-                            if (!this.update(getEntityRepositoryType(referenceEntityType), entity, FullSuperDoc.isFullSuperdoc(entity))) {
+                            if (!this.update(getEntityRepositoryType(referenceEntityType), entity, true, FullSuperDoc.isFullSuperdoc(entity), true)) {
                                 String message = "Unable to update entity type: " + referenceEntityType +
                                         ", entity id: " + referencerId + ", field name: " + referenceField + " at depth " + depth;
                                 LOG.debug(message);
@@ -785,10 +785,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean update(String collection, Entity entity, boolean isSuperdoc) {
-        return this.update(collection, entity, true, isSuperdoc);
+        return this.update(collection, entity, true, isSuperdoc, false);
     }
 
-    private boolean update(String collection, Entity entity, boolean validateNaturalKeys, boolean isSuperdoc) {
+    // TODO for now API does not allow deletes of assessment.assessmentFamilyReference so we need a "special" flag for it hence deleteAssessmentFamilyReference
+    private boolean update(String collection, Entity entity, boolean validateNaturalKeys, boolean isSuperdoc, boolean deleteAssessmentFamilyReference) {
         if (validateNaturalKeys) {
             validator.validateNaturalKeys(entity, true);
         }
@@ -798,7 +799,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         // convert subdoc from superdoc body to outside body
         SuperdocConverter converter = converterReg.getConverter(entity.getType());
         if (converter != null && isSuperdoc) {
-            converter.bodyFieldToSubdoc(entity);
+            SuperdocConverter.Option option = null;
+            if (deleteAssessmentFamilyReference) {
+                option = SuperdocConverter.Option.DELETE_ASSESSMENT_FAMILY_REFERENCE;
+            }
+            converter.bodyFieldToSubdoc(entity, option);
         }
         validator.validate(entity);
         if (denormalizer.isDenormalizedDoc(collection)) {
