@@ -3397,22 +3397,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <BeginDate>2002-09-10</BeginDate>
     <EndDate>2003-06-05</EndDate>
   </StaffEducationOrgAssignmentAssociation>
-    <StaffEducationOrgAssignmentAssociation>
-        <StaffReference>
-            <StaffIdentity>
-                <StaffUniqueStateId>msmith</StaffUniqueStateId>
-            </StaffIdentity>
-        </StaffReference>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <StaffClassification>Instructional Coordinator</StaffClassification>
-        <PositionTitle>SUPERINTENDENT</PositionTitle>
-        <BeginDate>2002-09-10</BeginDate>
-        <EndDate>2003-06-05</EndDate>
-    </StaffEducationOrgAssignmentAssociation>
   <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
