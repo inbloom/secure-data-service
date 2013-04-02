@@ -27,74 +27,64 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 
     <context:property-placeholder location="file:${sli.conf}" system-properties-mode="OVERRIDE" order="0"/>
 
-    <util:list id="excludedCollections" value-type="java.lang.String">
-        <value>error</value>
-        <value>recordHash</value>
-        <value>adminDelegation</value>
-        <value>aggregation</value>
-        <value>aggregationDefinition</value>
-        <value>realm</value>
-        <value>search</value>
-    </util:list>
-
-    <util:list id="entities" value-type="java.lang.String">
-        <value>assessment</value>
-        <value>assessmentFamily</value>
-        <value>assessmentPeriodDescriptor</value>
-        <value>attendance</value>
-        <value>calendarDate</value>
-        <value>cohort</value>
-        <value>competencyLevelDescriptor</value>
-        <value>course</value>
-        <value>courseOffering</value>
-        <value>courseTranscript</value>
-        <value>disciplineIncident</value>
-        <value>disciplineAction</value>
-        <value>educationOrganization</value>
-        <value>grade</value>
-        <value>gradebookEntry</value>
-        <value>gradingPeriod</value>
-        <value>graduationPlan</value>
-        <value>learningObjective</value>
-        <value>learningStandard</value>
-        <value>objectiveAssessment</value>
-        <value>parent</value>
-        <value>program</value>
-        <value>reportCard</value>
-        <value>school</value>
-        <value>section</value>
-        <value>session</value>
-        <value>staff</value>
-        <value>staffCohortAssociation</value>
-        <value>staffEducationOrganizationAssociation</value>
-        <value>staffProgramAssociation</value>
-        <value>student</value>
-        <value>studentAcademicRecord</value>
-        <value>studentAssessment</value>
-        <value>studentCohortAssociation</value>
-        <value>studentCompetency</value>
-        <value>studentCompetencyObjective</value>
-        <value>studentDisciplineIncidentAssociation</value>
-        <value>studentObjectiveAssessment</value>
-        <value>studentProgramAssociation</value>
-        <value>studentGradebookEntry</value>
-        <value>studentSchoolAssociation</value>
-        <value>studentSectionAssociation</value>
-        <value>studentParentAssociation</value>
-        <value>teacher</value>
-        <value>teacherSchoolAssociation</value>
-        <value>teacherSectionAssociation</value>
-    </util:list>
+    <util:map id="entitiesToCollections" key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="assessment" value="assessment" />
+        <entry key="assessmentFamily" value="assessmentFamily" />
+        <entry key="assessmentPeriodDescriptor" value="assessmentPeriodDescriptor" />
+        <entry key="attendance" value="attendance" />
+        <entry key="calendarDate" value="calendarDate" />
+        <entry key="cohort" value="cohort" />
+        <entry key="competencyLevelDescriptor" value="competencyLevelDescriptor" />
+        <entry key="course" value="course" />
+        <entry key="courseOffering" value="courseOffering" />
+        <entry key="courseTranscript" value="courseTranscript" />
+        <entry key="disciplineAction" value="disciplineAction" />
+        <entry key="disciplineIncident" value="disciplineIncident" />
+        <entry key="educationOrganization" value="educationOrganization" />
+        <entry key="grade" value="yearlyTranscript" />
+        <entry key="gradebookEntry" value="section" />
+        <entry key="gradingPeriod" value="gradingPeriod" />
+        <entry key="graduationPlan" value="graduationPlan" />
+        <entry key="learningObjective" value="learningObjective" />
+        <entry key="learningStandard" value="learningStandard" />
+        <entry key="objectiveAssessment" value="assessment" />
+        <entry key="parent" value="parent" />
+        <entry key="program" value="program" />
+        <entry key="reportCard" value="yearlyTranscript" />
+        <entry key="school" value="educationOrganization" />
+        <entry key="section" value="section" />
+        <entry key="session" value="session" />
+        <entry key="staff" value="staff" />
+        <entry key="staffCohortAssociation" value="staffCohortAssociation" />
+        <entry key="staffEducationOrganizationAssociation" value="staffEducationOrganizationAssociation" />
+        <entry key="staffProgramAssociation" value="staffProgramAssociation" />
+        <entry key="student" value="student" />
+        <entry key="studentAcademicRecord" value="yearlyTranscript" />
+        <entry key="studentAssessment" value="studentAssessment" />
+        <entry key="studentCohortAssociation" value="cohort" />
+        <entry key="studentCompetency" value="studentCompetency" />
+        <entry key="studentCompetencyObjective" value="studentCompetencyObjective" />
+        <entry key="studentDisciplineIncidentAssociation" value="student" />
+        <entry key="studentGradebookEntry" value="studentGradebookEntry" />
+        <entry key="studentObjectiveAssessment" value="studentAssessment" />
+        <entry key="studentParentAssociation" value="student" />
+        <entry key="studentProgramAssociation" value="program" />
+        <entry key="studentSchoolAssociation" value="studentSchoolAssociation" />
+        <entry key="studentSectionAssociation" value="section" />
+        <entry key="teacher" value="staff" />
+        <entry key="teacherSchoolAssociation" value="teacherSchoolAssociation" />
+        <entry key="teacherSectionAssociation" value="section" />
+    </util:map>
 
     <bean id="entityExtractor" class="org.slc.sli.bulk.extract.extractor.EntityExtractor">
          <property name="entityRepository" ref="mongoEntityRepository" />
-         <property name="excludedCollections" ref="excludedCollections" />
-         <property name="entities" ref="entities" />
+         <property name="entitiesToCollections" ref="entitiesToCollections" />
          <property name="applicator" ref="applicator" />
     </bean>
 
     <bean id="tenantExtractor" class="org.slc.sli.bulk.extract.extractor.TenantExtractor">
          <property name="bulkExtractMongoDA" ref="bulkExtractMongoDA" />
+         <property name="entitiesToCollections" ref="entitiesToCollections" />
          <property name="entityExtractor" ref="entityExtractor" />
     </bean>
 

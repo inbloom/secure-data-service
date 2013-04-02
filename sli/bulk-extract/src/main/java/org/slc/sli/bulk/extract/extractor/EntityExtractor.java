@@ -20,9 +20,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerationException;
@@ -39,8 +42,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.mongodb.DBCollection;
-
 
 /**
  * Extractor pulls data for on entity from mongo and writes it to file.
@@ -52,13 +53,13 @@ public class EntityExtractor{
 
     private static final Logger LOG = LoggerFactory.getLogger(EntityExtractor.class);
 
-    private List<String> excludedCollections;
-
-    private List<String> entities;
-
     private Repository<Entity> entityRepository;
 
+    private Map<String, String> entitiesToCollections;
+
     private TreatmentApplicator applicator;
+
+    private List<String> entities;
 
     private class ArchiveEntry {
         private long noOfRecords = 0;
@@ -98,6 +99,11 @@ public class EntityExtractor{
             return noOfRecords;
         }
     };
+
+    @PostConstruct
+    public void init() {
+        entities = new ArrayList<String>(new HashSet<String>(entitiesToCollections.keySet()));
+    }
 
     /**
      * extract all the records of entity.
@@ -192,35 +198,19 @@ public class EntityExtractor{
     }
 
     /**
-     * Set list of excluded collections.
-     * @param excluded collections
-     */
-    public void setExcludedCollections(List<String> excludedCollections) {
-        this.excludedCollections = excludedCollections;
-    }
-
-    /**
-     * Set list of entities to extract.
-     * @param entities
-     */
-    public void setEntities(List<String> entities) {
-        this.entities = entities;
-    }
-
-    /**
-     * set entity repository.
-     * @param entityRepository entity repository
+     * Set entity repository.
+     * @param entity repository
      */
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
 
     /**
-     * get applicator.
-     * @return treatment applicator
+     * Set entities to collections map.
+     * @param entities to collections map
      */
-    public TreatmentApplicator getApplicator() {
-        return applicator;
+    public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
+        this.entitiesToCollections = entitiesToCollections;
     }
 
     /**
@@ -229,24 +219,6 @@ public class EntityExtractor{
      */
     public void setApplicator(TreatmentApplicator applicator) {
         this.applicator = applicator;
-    }
-
-    /**
-     * Get collection names for a tenant.
-     * @param tenant tenant
-     * @return collection names
-     */
-    public List<String> getCollectionNames(String tenant) {
-        TenantContext.setTenantId(tenant);
-        List<DBCollection> collections = entityRepository.getCollections(false);
-        List<String> collectionNames = new ArrayList<String>();
-        for (DBCollection collection : collections) {
-            if (!excludedCollections.contains(collection.getName())) {
-                collectionNames.add(collection.getName());
-            }
-        }
-        TenantContext.setTenantId(null);
-        return collectionNames;
     }
 
 }
