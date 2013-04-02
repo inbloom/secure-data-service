@@ -1,6 +1,9 @@
 @RALLY_US5180
 Feature: Safe Deletion and Cascading Deletion
 
+#Type	                Child Type	    Field	                        minOccurs	maxOccurs	Child Collection	
+#SEA	                LEA          	parentEducationAgencyReference	1	        1	         educationOrganization		
+
 Background: I have a landing zone route configured
 Given I am using local data store
 
