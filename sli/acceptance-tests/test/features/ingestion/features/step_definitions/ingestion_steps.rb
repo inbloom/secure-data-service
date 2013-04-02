@@ -3629,6 +3629,7 @@ def getEntityCounts(tenant)
                      "realm",
                      "application",
                      "roles",
+                     "recordHash",
                      "customRole"]
      disable_NOTABLESCAN
      # Add straight collection counts

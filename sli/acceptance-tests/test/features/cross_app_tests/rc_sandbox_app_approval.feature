@@ -6,6 +6,7 @@ Feature:  RC Integration Tests
 Background:
 Given I have an open web browser
 
+@ci
 Scenario: Operator triggers a bulk extract
    When the operator triggers a bulk extract for tenant "<SANDBOX_TENANT>"
 
@@ -47,10 +48,12 @@ And I exit out of the iframe
 And I click on Admin
 Then I should be on the admin page
 And under System Tools, I click on "Create Custom Roles"
+And I switch to the iframe
 And I edit the group "IT Administrator"
 When I add the right "BULK_EXTRACT" to the group "IT Administrator"
 And I hit the save button
 Then I am no longer in edit mode
+And I switch to the iframe
 And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
 
 #Full Window App
@@ -91,6 +94,8 @@ And under My Applications, I see the following apps: "inBloom Dashboards;Schlemi
 And under My Applications, I click on "Schlemiel"
 Then my current url is "http://www.google.com/"	
 
+@ci
+Scenario: App makes an api call to retrieve a bulk extract
 #Bulk Extract 
 #Get a session to trigger a bulk extract
 Given the testing device app key has been created
@@ -106,3 +111,46 @@ Then I should receive a json response containing my authorization token
 
 #Get bulk extract tar file
 Then I request and download a bulk extract file
+And there is a metadata file in the extract
+And the extract contains a file for each of the following entities:
+   |  entityType                            |
+   |  assessment                            |
+   |  assessmentFamily                      |
+   |  assessmentPeriodDescriptor            |
+   |  attendance                            |
+   |  cohort                                |
+   |  course                                |
+   |  courseOffering                        |
+   |  disciplineIncident                    |
+   |  disciplineAction                      |
+   |  educationOrganization                 |
+#   |  grade                                 |
+   |  gradebookEntry                        |
+   |  gradingPeriod                         |
+   |  learningObjective                     |
+   |  learningStandard                      |
+   |  parent                                |
+   |  program                               |
+#   |  reportCard                            |
+   |  school                                |
+   |  section                               |
+   |  session                               |
+   |  staff                                 |
+   |  staffCohortAssociation                |
+   |  staffEducationOrganizationAssociation |
+   |  staffProgramAssociation               |
+   |  student                               |
+#   |  studentAcademicRecord                 |
+   |  studentAssessment                     |
+   |  studentCohortAssociation              |
+   |  studentCompetency                     |
+   |  studentCompetencyObjective            |
+   |  studentDisciplineIncidentAssociation  |
+   |  studentObjectiveAssessment            |
+   |  studentProgramAssociation             |
+   |  studentGradebookEntry                 |
+   |  studentSchoolAssociation              |
+   |  studentSectionAssociation             |
+   |  studentParentAssociation              |
+   |  teacher                               |
+   |  teacherSchoolAssociation              |

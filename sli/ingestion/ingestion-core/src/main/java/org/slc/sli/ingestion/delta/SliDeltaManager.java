@@ -132,10 +132,11 @@ public final class SliDeltaManager {
 
             n.addMetaData(RECORDHASH_DATA, rhData);
 
-            isPrevIngested = (record != null && record.getHash().equals(recordHashValues));
+// If we are doing delete, we still want to proceed
+            isPrevIngested = !n.getActionVerb().doDelete() && (record != null && record.getHash().equals(recordHashValues));
 
             if(record != null) {
-                //not ingested previously
+
                 rhDataElement.put(RECORDHASH_CURRENT, record.exportToSerializableMap());
             }
 

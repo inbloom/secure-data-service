@@ -36,12 +36,15 @@ import org.springframework.dao.DuplicateKeyException;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.model.RecordHash;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
@@ -101,6 +104,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Autowired
     private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
 
+    @Autowired
+    private BatchJobDAO batchJobDAO;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         entityRepository.setWriteConcern(writeConcern);
@@ -143,8 +149,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             }
             CascadeResult cascade = entityRepository.safeDelete(entity.getType(), collectionName, id,
                     action.doCascade(), dryrun, max, null);
-            // Check the return from safeDelete
 
+            cleanupRecordHash( cascade );
             return ( cascade != null && cascade.getStatus() == CascadeResult.Status.SUCCESS) ? entity : null;
 
 
@@ -164,6 +170,26 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                         entity.getMetaData(), collectionName, totalRetries);
             }
         }
+    }
+
+    private boolean  cleanupRecordHash( CascadeResult cascade ) {
+        if( cascade == null) {
+            return false;
+        }
+
+        String tenantId = TenantContext.getTenantId();
+
+        for ( String id : cascade.getDeletedIds() ) {
+            RecordHash rh = batchJobDAO.findRecordHash(tenantId, id);
+            if( rh != null ) {
+                batchJobDAO.removeRecordHash(rh);
+                LOG.info( "Removed record hash for entity:{} Tenant:{}", id, tenantId);
+            } else {
+                LOG.warn("Could not find record hash. Entity:{} Tenant:{}", id, tenantId);
+            }
+        }
+
+        return true;
     }
 
     boolean update(String collectionName, Entity entity, List<Entity> failed, AbstractMessageReport report,

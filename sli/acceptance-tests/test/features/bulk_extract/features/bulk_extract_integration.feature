@@ -26,16 +26,15 @@ Scenario: Trigger a bulk extract on ingested data
    |  disciplineIncident                    |
    |  disciplineAction                      |
    |  educationOrganization                 |
-#   |  grade                                 |
+   |  grade                                 |
    |  gradebookEntry                        |
    |  gradingPeriod                         |
    |  graduationPlan                        |
    |  learningObjective                     |
    |  learningStandard                      |
-   |  objectiveAssessment                   |
    |  parent                                |
    |  program                               |
-#   |  reportCard                            |
+   |  reportCard                            |
    |  school                                |
    |  section                               |
    |  session                               |
@@ -44,13 +43,12 @@ Scenario: Trigger a bulk extract on ingested data
    |  staffEducationOrganizationAssociation |
    |  staffProgramAssociation               |
    |  student                               |
-#   |  studentAcademicRecord                 |
+   |  studentAcademicRecord                 |
    |  studentAssessment                     |
    |  studentCohortAssociation              |
    |  studentCompetency                     |
    |  studentCompetencyObjective            |
    |  studentDisciplineIncidentAssociation  |
-   |  studentObjectiveAssessment            |
    |  studentProgramAssociation             |
    |  studentGradebookEntry                 |
    |  studentSchoolAssociation              |

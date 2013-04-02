@@ -677,6 +677,11 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
 
         Object rhDataObj = nr.getMetaDataByName(SliDeltaManager.RECORDHASH_DATA);
 
+ /*
+        if ( nr.getActionVerb().doDelete() ) {
+            return;
+        }
+*/
         // Make sure complete metadata is present
         if (null == rhDataObj) {
             return;
@@ -703,8 +708,8 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
             } else {
                 RecordHash rh = new RecordHash();
                 rh.importFromSerializableMap(rhCurrentHash);
-                if (nr.getActionVerb().doDelete()) {
-                    batchJobDAO.removeRecordHash(rh);
+                if( nr.getActionVerb().doDelete()) {
+                    batchJobDAO.removeRecordHash( rh );
                 } else {
                     batchJobDAO.updateRecordHash(rh, newHashValue);
                 }

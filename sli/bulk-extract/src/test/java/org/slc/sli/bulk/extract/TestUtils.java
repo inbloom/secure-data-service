@@ -114,6 +114,11 @@ public class TestUtils {
             public String getStagedEntityId() {
                 return null;
             }
+
+            @Override
+            public Map<String, List<Entity>> getContainerData() {
+                return new HashMap<String, List<Entity>>();
+            }
         };
     }
 
@@ -148,24 +153,24 @@ public class TestUtils {
             //directory is empty, then delete it
             if(file.list().length==0){
 
-               file.delete();
+                file.delete();
             }else{
 
-               //list all the directory contents
-               String files[] = file.list();
+                //list all the directory contents
+                String files[] = file.list();
 
-               for (String temp : files) {
-                  //construct the file structure
-                  File fileDelete = new File(file, temp);
+                for (String temp : files) {
+                    //construct the file structure
+                    File fileDelete = new File(file, temp);
 
-                  //recursive delete
-                 deleteDir(fileDelete);
-               }
+                    //recursive delete
+                    deleteDir(fileDelete);
+                }
 
-               //check the directory again, if empty then delete it
-               if(file.list().length==0){
-                 file.delete();
-               }
+                //check the directory again, if empty then delete it
+                if(file.list().length==0){
+                    file.delete();
+                }
             }
         }else{
             //if file, then delete it
