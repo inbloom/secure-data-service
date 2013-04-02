@@ -434,7 +434,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
 
     	// LOG.info("*** DELETING object '" + id + "' of type '" + collectionName + "'");
-        DELETION_LOG.info("Delete request for entity:" + entityType + " collection: " + collectionName + " _id:" + id);
+        DELETION_LOG.info("Delete request for entity:" + entityType + " collection: " + collectionName + " _id:" + id + " cascade: " + cascade + "dryrun: " + dryrun);
         CascadeResult result = null;
         Set<String> deletedIds = new HashSet<String>();
 
