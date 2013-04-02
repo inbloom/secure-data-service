@@ -96,6 +96,37 @@ public class BulkExtract {
     @Path("extract")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response get() throws Exception {
+        LOG.info("Received request to stream sample bulk extract...");
+
+        final InputStream is = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
+
+        StreamingOutput out = new StreamingOutput() {
+            @Override
+            public void write(OutputStream output) throws IOException, WebApplicationException {
+                int n;
+                byte[] buffer = new byte[1024];
+                while ((n = is.read(buffer)) > -1) {
+                    output.write(buffer, 0, n);
+                }
+            }
+        };
+
+        ResponseBuilder builder = Response.ok(out);
+        builder.header("content-disposition", "attachment; filename = " + SAMPLED_FILE_NAME);
+        builder.header("last-modified", "Not Specified");
+        return builder.build();
+    }
+
+    /**
+     * Creates a streaming response for a extracted data file
+     *
+     * @return
+     * @throws FileNotFoundException
+     */
+    @GET
+    @Path("extract/phase1")
+    @RightsAllowed({ Right.BULK_EXTRACT })
+    public Response getPhase1() throws Exception {
         LOG.info("Received request to stream bulk extract...");
 
         return getExtractResponse(null);
