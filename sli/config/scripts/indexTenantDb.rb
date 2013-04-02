@@ -50,10 +50,11 @@ def applyIndex(db,collectionName,unique,keys, indexCount)
 end
 
 if __FILE__ == $0
-  unless ARGV.length == 2
+  unless ARGV.length >= 2
     puts "Usage: " + $0 + " <host> <database name>"
     exit(1)
   end
-TENANTDB_INDEX_FILE = File.expand_path("../../indexes/tenantDB_indexes.txt", __FILE__)
-indexTenantDb(ARGV[0], ARGV[1])
+  file_path = if ARGV.length == 2 then "../../indexes/tenantDB_indexes.txt" else ARGV[2] end
+  TENANTDB_INDEX_FILE = File.expand_path(file_path , __FILE__)
+  indexTenantDb(ARGV[0], ARGV[1])
 end
