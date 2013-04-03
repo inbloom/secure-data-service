@@ -214,7 +214,6 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
         return getSourceFile();
     }
 
-
     public String getDeletedChildCount( ) {
         String result = null;
         if ( metaData != null && metaData.containsKey( DELETEDCHILD_COUNT ) ) {
@@ -222,6 +221,7 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
         }
         return( result );
     }
+
     public void setDeletedChildCount( String id ) {
         if( metaData == null ) {
             metaData = new HashMap< String, Object>();
