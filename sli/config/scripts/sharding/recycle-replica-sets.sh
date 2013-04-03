@@ -13,10 +13,10 @@ if [ -e ../../../pom.xml -a -d ../../../config ]; then
     SLI_HOME=`pwd`/../../..
 fi
 
-sh $SLI_HOME/config/scripts/sharding/kill-shard.sh
+$SLI_HOME/config/scripts/sharding/kill-shard.sh
 echo Shards killed.
 
-sh $SLI_HOME/config/scripts/sharding/start-replica-shard.sh $mongos_port $num_shards
+$SLI_HOME/config/scripts/sharding/start-replica-shard.sh $mongos_port $num_shards
 echo Shards started.
 
 sleep 3

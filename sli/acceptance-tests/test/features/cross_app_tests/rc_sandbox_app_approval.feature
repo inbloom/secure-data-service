@@ -6,6 +6,9 @@ Feature:  RC Integration Tests
 Background:
 Given I have an open web browser
 
+Scenario: Operator triggers a bulk extract
+   When the operator triggers a bulk extract for tenant "<SANDBOX_TENANT>"
+
 Scenario: App developer Registers, Approves, and Enables a new Installed app and Full window web app. Educators and IT Administrators can see the apps.
 #Installed App
 When I navigate to the Portal home page
@@ -35,7 +38,22 @@ When I select a state
 Then I see all of the Districts
 Then I check the Districts
 When I click on Save
+And my new apps client ID is present
+And my new apps shared secret is present
 Then the "NotTheAppYoureLookingFor" is enabled for Districts
+
+#Add Bulk Extract role to IT Admin
+And I exit out of the iframe
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Create Custom Roles"
+And I switch to the iframe
+And I edit the group "IT Administrator"
+When I add the right "BULK_EXTRACT" to the group "IT Administrator"
+And I hit the save button
+Then I am no longer in edit mode
+And I switch to the iframe
+And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
 
 #Full Window App
 And I exit out of the iframe
@@ -74,3 +92,21 @@ Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards;Schlemiel"
 And under My Applications, I click on "Schlemiel"
 Then my current url is "http://www.google.com/"	
+
+
+Scenario: App makes an api call to retrieve a bulk extract
+#Bulk Extract 
+#Get a session to trigger a bulk extract
+Given the testing device app key has been created
+When I navigate to the API authorization endpoint with my client ID
+And I was redirected to the "Simple" IDP Login page
+When I submit the developer credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the impersonation login page
+Then I should be redirected to the impersonation page
+And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
+And I want to select "jstevenson" from the "SmallDatasetUsers" in automatic mode
+Then I should receive a json response containing my authorization code
+When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+Then I should receive a json response containing my authorization token
+
+#Get bulk extract tar file
+Then I request and download a bulk extract file
