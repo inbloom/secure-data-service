@@ -1,5 +1,8 @@
 @RALLY_US5180
 Feature: Safe Deletion and Cascading Deletion
+#Type	Child Type	        Field	   minOccurs	maxOccurs	Child Collection	
+#course	courseOffering	    courseId	1	        1	         courseOffering	
+#course	courseTranscript	courseId	1	        1	         courseTranscript		missing!	
 
 Background: I have a landing zone route configured
 Given I am using local data store
@@ -12,6 +15,9 @@ Scenario: Delete Course with cascade
 	|field                                             |value                                                |
 	|_id                                               |c818a2f609d4190166b96327d86086fe09f877ea_id          |
 	Then there exist "2" "courseOffering" records like below in "Midgar" tenant. And I save this query as "courseOffering"
+	|field                                             |value                                                |
+	|body.courseId                                     |c818a2f609d4190166b96327d86086fe09f877ea_id          |
+	Then there exist "1" "courseTranscript" records like below in "Midgar" tenant. And I save this query as "courseTranscript"
 	|field                                             |value                                                |
 	|body.courseId                                     |c818a2f609d4190166b96327d86086fe09f877ea_id          |
 	And I save the collection counts in "Midgar" tenant
@@ -31,9 +37,10 @@ Scenario: Delete Course with cascade
 	And I re-execute saved query "course" to get "0" records
 	And I re-execute saved query "courseOffering" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
-        | collection |delta|
+        |collection |delta|
         |course      |   -1|
         |courseOffering| -2|
+        |courseTranscript| -1|
         |section     |   -1|
         |studentCompetency|-5|
         |studentGradebookEntry|-3|
