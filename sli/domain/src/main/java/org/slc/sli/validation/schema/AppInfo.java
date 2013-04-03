@@ -171,8 +171,6 @@ public class AppInfo extends Annotation {
     }
 
     public Set<Right> getReadAuthorities() {
-        Right rval = Right.READ_GENERAL;
-
         if (values.containsKey(READ_ENFORCEMENT_ELEMENT_NAME)) {
             Set<String> rightStrings = (Set<String>) values.get(READ_ENFORCEMENT_ELEMENT_NAME);
             Set<Right> rights = new HashSet<Right>();
@@ -182,12 +180,10 @@ public class AppInfo extends Annotation {
             return rights;
         }
 
-        return new HashSet<Right>(Arrays.asList(rval));
+        return new HashSet<Right>();
     }
 
     public Set<Right> getWriteAuthorities() {
-        Right rval = Right.WRITE_GENERAL;
-
         if (values.containsKey(WRITE_ENFORCEMENT_ELEMENT_NAME)) {
             Set<String> rightStrings = (Set<String>) values.get(WRITE_ENFORCEMENT_ELEMENT_NAME);
             Set<Right> rights = new HashSet<Right>();
@@ -197,7 +193,7 @@ public class AppInfo extends Annotation {
             return rights;
         }
 
-        return new HashSet<Right>(Arrays.asList(rval));
+        return new HashSet<Right>();
     }
 
     public String getSecuritySphere() {

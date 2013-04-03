@@ -63,12 +63,12 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
 
                     @Override
                     public Set<Right> getReadAuthorities() {
-                        return new HashSet<Right>(Arrays.asList(Right.READ_GENERAL));
+                        return new HashSet<Right>();
                     }
 
                     @Override
                     public Set<Right> getWriteAuthorities() {
-                        return new HashSet<Right>(Arrays.asList(Right.WRITE_GENERAL));
+                        return new HashSet<Right>();
                     }
 
                 };
@@ -98,8 +98,6 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
 
     @Override
     public Set<Right> getRequiredReadLevels(String entityType, String fieldPath) {
-        Right auth = Right.READ_GENERAL;
-
         NeutralSchema schema = traverse(entityType, fieldPath);
         if (schema != null) {
             AppInfo info = schema.getAppInfo();
@@ -107,12 +105,11 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
                 return info.getReadAuthorities();
             }
         }
-        return new HashSet<Right>(Arrays.asList(auth));
+        return new HashSet<Right>();
     }
 
     @Override
     public Set<Right> getRequiredWriteLevels(String entityType, String fieldPath) {
-        Right auth = Right.WRITE_GENERAL;
         NeutralSchema schema = traverse(entityType, fieldPath);
         if (schema != null) {
             AppInfo info = schema.getAppInfo();
@@ -120,7 +117,7 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
                 return info.getWriteAuthorities();
             }
         }
-        return new HashSet<Right>(Arrays.asList(auth));
+        return new HashSet<Right>();
     }
 
     @Override
