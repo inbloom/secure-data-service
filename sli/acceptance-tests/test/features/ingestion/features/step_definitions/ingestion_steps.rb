@@ -1530,7 +1530,7 @@ end
 
 def checkForBatchJobLog(landing_zone, should_has_log = true)
   puts "checkForBatchJobLog"
-  intervalTime = 3 #seconds
+  intervalTime = 1 #seconds
                    #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   sleep(intervalTime)
@@ -3629,6 +3629,7 @@ def getEntityCounts(tenant)
                      "realm",
                      "application",
                      "roles",
+                     "applicationAuthorization",
                      "recordHash",
                      "customRole"]
      disable_NOTABLESCAN

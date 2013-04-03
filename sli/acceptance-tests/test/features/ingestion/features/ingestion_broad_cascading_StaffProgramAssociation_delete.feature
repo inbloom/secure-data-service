@@ -12,7 +12,6 @@ Scenario: Delete Assessment with cascade
     And I post "BroadStaffProgramAssociationDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadStaffProgramAssociationDelete.zip" is completed in database
-    And a batch job log has been created
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
