@@ -235,13 +235,13 @@ public class LoginTest {
         Mockito.when(userService.authenticate("realm", "userId", "password")).thenReturn(user);
         
         ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "realm", null, httpSession, null);
-        assertEquals("Invalid User Name or password", mov.getModel().get("errorMsg"));
+        assertEquals("User account is in invalid mode", mov.getModel().get("errorMsg"));
         
         UserService.User user2 = new User("userId", new ArrayList<String>(), attributes);
         Mockito.when(userService.authenticate("realm", "userId2", "password2")).thenReturn(user2);
         
         mov = loginController.login("userId2", "password2", "SAMLRequest", "realm", null, httpSession, null);
-        assertEquals("Invalid User Name or password", mov.getModel().get("errorMsg"));
+        assertEquals("User account is in invalid mode", mov.getModel().get("errorMsg"));
     }
 
     @Test
