@@ -118,7 +118,7 @@ Then /^I check the http response headers$/ do
     src_coll = @db[coll]
     raise "Could not find #{coll} collection" if src_coll.count == 0
 
-    ref_doc = src_coll.find({"_id" => "Midgar"}).to_a
+    ref_doc = src_coll.find({"_id" => "Midgar", "body.tenantId" => "Midgar"}).to_a
     raise "Could not find #{coll} document with _id #{"Midgar"}" if ref_doc.count == 0
 
     puts "bulkExtractFiles record: #{ref_doc}"
