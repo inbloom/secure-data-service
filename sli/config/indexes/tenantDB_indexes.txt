@@ -28,8 +28,8 @@ attendance,false,body.studentId:1
 cohort,false,body.educationOrgId:1
 # Used in cascade delete
 cohort,false,body.programId:1
-# Look up studentCohortAssociation by student: /students/{id}/studentCohortAssociations
-cohort,false,studentCohortAssociation.body.studentId:1
+# Look up studentCohortAssociation by cohortId: /cohorts/{id}/studentCohortAssociations
+student,false,studentCohortAssociation.body.cohortId:1
 # Look up course by school: /educationOrganizations/{id}/schools
 course,false,body.schoolId:1
 # Look up courseOffering by course: /courses/{id}/courseOfferings
@@ -119,9 +119,9 @@ studentGradebookEntry,false,body.studentSectionAssociationId:1
 # studentParentAssociation is embedded into student
 # Look up studentParentAssoc by parent: /parents/{id}/studentParentAssociations
 student,false,studentParentAssociation.body.parentId:1
-# studentProgramAssociation is embedded into program
-# Look up studentProgramAssoc by student: /students/{id}/studentProgramAssociations
-program,false,studentProgramAssociation.body.studentId:1
+# studentProgramAssociation is embedded into student
+# Look up studentProgramAssoc by program: /programs/{id}/studentProgramAssociations
+student,false,studentProgramAssociation.body.programId:1
 # Look up studentSchoolAssoc by school: /schools/{id}/studentSchoolAssociations
 studentSchoolAssociation,false,body.schoolId:1
 # Look up studentSchoolAssoc by student: /students/{id}/studentSchoolAssociations
