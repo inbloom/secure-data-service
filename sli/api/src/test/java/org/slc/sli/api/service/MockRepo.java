@@ -480,6 +480,11 @@ public class MockRepo implements Repository<Entity> {
             public String getStagedEntityId() {
                 return null;
             }
+
+            @Override
+            public Map<String, List<Entity>> getContainerData() {
+                return null;
+            }
         };
 
         update(collectionName, newEntity, false);
@@ -564,6 +569,11 @@ public class MockRepo implements Repository<Entity> {
 
             @Override
             public String getStagedEntityId() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Entity>> getContainerData() {
                 return null;
             }
         };

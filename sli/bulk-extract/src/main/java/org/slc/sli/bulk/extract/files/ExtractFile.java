@@ -16,7 +16,6 @@
 package org.slc.sli.bulk.extract.files;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,9 +38,7 @@ import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
  */
 public class ExtractFile {
 
-    private String parentDirName;
     private File tempDir;
-    private String archiveName;
     private File archiveFile;
     private List<DataExtractFile> dataFiles = new ArrayList<DataExtractFile>();
     private ManifestFile manifestFile;
@@ -53,16 +50,15 @@ public class ExtractFile {
     /**
      *Parameterized constructor.
      *
-     * @param parentDirName
-     *          parent directory name
+     * @param parentDir
+     *          parent directory
      * @param archiveName
      *          name of the archive file
      */
-    public ExtractFile(String parentDirName, String archiveName) {
-        this.parentDirName = parentDirName;
-        this.archiveName = archiveName;
-        tempDir = new File(parentDirName, UUID.randomUUID().toString());
-        tempDir.mkdir();
+    public ExtractFile(File parentDir, String archiveName) {
+        this.archiveFile = new File(parentDir, archiveName + FILE_EXT);
+        this.tempDir = new File(parentDir, UUID.randomUUID().toString());
+        this.tempDir.mkdir();
     }
 
     /**
@@ -72,15 +68,9 @@ public class ExtractFile {
      *          the prefix string to be used in file name generation
      * @return
      *          DataExtractFile object
-     * @throws FileNotFoundException
-     *          if the data file is not found
-     * @throws IOException
-     *          if an I/O error occurred
      */
-    public DataExtractFile getDataFileEntry(String filePrefix)
-            throws FileNotFoundException, IOException {
-        DataExtractFile compressedFile = new DataExtractFile(
-                tempDir.getAbsolutePath(), filePrefix);
+    public DataExtractFile getDataFileEntry(String filePrefix) {
+        DataExtractFile compressedFile = new DataExtractFile(tempDir, filePrefix);
         dataFiles.add(compressedFile);
         return compressedFile;
     }
@@ -94,7 +84,7 @@ public class ExtractFile {
      *          if an I/O error occurred
      */
     public ManifestFile getManifestFile() throws IOException {
-        ManifestFile manifestFile = new ManifestFile(tempDir.getAbsolutePath());
+        ManifestFile manifestFile = new ManifestFile(tempDir);
         this.manifestFile = manifestFile;
         return manifestFile;
     }
@@ -114,15 +104,18 @@ public class ExtractFile {
 
             archiveFile(tarArchiveOutputStream, manifestFile.getFile());
             for (DataExtractFile dataFile : dataFiles) {
-                File file = new File(tempDir, dataFile.getFileName());
-                archiveFile(tarArchiveOutputStream, file);
+                File df = dataFile.getFile();
+
+                if (df != null && df.exists()) {
+                    archiveFile(tarArchiveOutputStream, df);
+                }
             }
         } catch (IOException e) {
-            LOG.error("Error writing to tar file: {}" + e.getMessage());
-            removeTarFile();
+            LOG.error("Error writing to tar file: {}", e.getMessage());
+            FileUtils.deleteQuietly(archiveFile);
         } finally {
             IOUtils.close(tarArchiveOutputStream);
-            FileUtils.forceDelete(tempDir);
+            FileUtils.deleteQuietly(tempDir);
         }
     }
 
@@ -135,17 +128,11 @@ public class ExtractFile {
     }
 
     private void createTarFile() {
-        archiveFile = new File(parentDirName, archiveName + FILE_EXT);
         try {
             archiveFile.createNewFile();
         } catch (IOException e) {
             LOG.error("Error creating a tar file");
         }
-    }
-
-    private void removeTarFile() {
-        LOG.error("Removing tar file");
-        archiveFile.delete();
     }
 
     /**

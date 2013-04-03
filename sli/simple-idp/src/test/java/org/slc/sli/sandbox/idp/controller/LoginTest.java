@@ -218,6 +218,31 @@ public class LoginTest {
         ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "realm", null, httpSession, null);
         assertEquals("Invalid User Name or password", mov.getModel().get("errorMsg"));
     }
+    
+    @Test
+    public void testBadLoginUserHasNoRoles() throws AuthenticationException {
+        loginController.setSandboxImpersonationEnabled(false);
+        Request reqInfo = Mockito.mock(Request.class);
+        Mockito.when(reqInfo.getRealm()).thenReturn("realm");
+        Mockito.when(authRequestService.processRequest("SAMLRequest", "realm", null)).thenReturn(reqInfo);
+        
+        @SuppressWarnings("unchecked")
+        Map<String, String> attributes = Mockito.mock(HashMap.class);
+        Mockito.when(attributes.get("userName")).thenReturn("Test Name");
+        Mockito.when(attributes.get("emailToken")).thenReturn("mockToken");
+        
+        UserService.User user = new User("userId", null, attributes);
+        Mockito.when(userService.authenticate("realm", "userId", "password")).thenReturn(user);
+        
+        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "realm", null, httpSession, null);
+        assertEquals("Invalid User Name or password", mov.getModel().get("errorMsg"));
+        
+        UserService.User user2 = new User("userId", new ArrayList<String>(), attributes);
+        Mockito.when(userService.authenticate("realm", "userId2", "password2")).thenReturn(user2);
+        
+        mov = loginController.login("userId2", "password2", "SAMLRequest", "realm", null, httpSession, null);
+        assertEquals("Invalid User Name or password", mov.getModel().get("errorMsg"));
+    }
 
     @Test
     public void testSandboxLoginSetup() {

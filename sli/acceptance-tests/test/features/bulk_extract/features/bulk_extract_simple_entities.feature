@@ -10,7 +10,6 @@ Scenario Outline: Verify simple entities were correctly extracted
    
 	Examples:
     | entity                                | user       | role             | realm       | tenant |
-	| cohort                                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| competencyLevelDescriptor             | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| course                                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| courseOffering                        | jstevenson | IT Administrator | IL-Daybreak | Midgar |

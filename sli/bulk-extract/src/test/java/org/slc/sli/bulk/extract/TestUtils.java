@@ -114,6 +114,11 @@ public class TestUtils {
             public String getStagedEntityId() {
                 return null;
             }
+
+            @Override
+            public Map<String, List<Entity>> getContainerData() {
+                return new HashMap<String, List<Entity>>();
+            }
         };
     }
 
@@ -142,17 +147,13 @@ public class TestUtils {
      *          if an I/O error occurred
      */
     public static void deleteDir(File file)
-            throws IOException{
+            throws IOException {
 
         if(file.isDirectory()){
-
             //directory is empty, then delete it
             if(file.list().length==0){
 
                 file.delete();
-                System.out.println("Directory is deleted : "
-                        + file.getAbsolutePath());
-
             }else{
 
                 //list all the directory contents
@@ -169,16 +170,11 @@ public class TestUtils {
                 //check the directory again, if empty then delete it
                 if(file.list().length==0){
                     file.delete();
-                    System.out.println("Directory is deleted : "
-                            + file.getAbsolutePath());
                 }
             }
-
         }else{
             //if file, then delete it
             file.delete();
-            System.out.println("File is deleted : " + file.getAbsolutePath());
         }
     }
-
 }

@@ -210,6 +210,7 @@ end
 desc "Run RC E2E Tests in Sandbox mode"
 task :rcSandboxTests do
   @tags = ["~@wip", "@rc", "@sandbox"]
+  @tags = ["~@wip", "@rc", "@sandbox", "~@ci"] if RUN_ON_RC
   Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(PropLoader.getProps['sandbox_tenant'])
   Rake::Task["rcDeleteSandboxLDAPUsers"].execute
   Rake::Task["rcPortalCompile"].execute if RUN_ON_RC

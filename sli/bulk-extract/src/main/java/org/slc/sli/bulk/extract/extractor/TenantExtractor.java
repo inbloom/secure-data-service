@@ -16,9 +16,14 @@
 package org.slc.sli.bulk.extract.extractor;
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
@@ -37,9 +42,18 @@ public class TenantExtractor{
 
     private BulkExtractMongoDA bulkExtractMongoDA;
 
+    private Map<String, String> entitiesToCollections;
+
     private EntityExtractor entityExtractor;
 
+    private List<String> collections;
+
     private ManifestFile metaDataFile;
+
+    @PostConstruct
+    public void init() {
+        collections = new ArrayList<String>(new HashSet<String>(entitiesToCollections.values()));
+    }
 
     /**
      * Extract all the entities from a tenant.
@@ -50,9 +64,8 @@ public class TenantExtractor{
      * @param startTime
      *          start time stamp
      */
-    public void execute(String tenant, ExtractFile extractFile, Date startTime) {
+    public void execute(String tenant, ExtractFile extractFile, DateTime startTime) {
 
-        List<String> collections = entityExtractor.getCollectionNames(tenant);
         for (String collection : collections) {
             entityExtractor.extractEntities(tenant, extractFile, collection);
         }
@@ -70,7 +83,7 @@ public class TenantExtractor{
             LOG.error("Error generating archive file: {}", e.getMessage());
         }
 
-        bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime, false);
+        bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime.toDate(), false);
     }
 
     /**
@@ -87,6 +100,14 @@ public class TenantExtractor{
      */
     public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
         this.bulkExtractMongoDA = bulkExtractMongoDA;
+    }
+
+    /**
+     * Set entities to collections map.
+     * @param entities to collections map
+     */
+    public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
+        this.entitiesToCollections = entitiesToCollections;
     }
 
     /**
