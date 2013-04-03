@@ -90,6 +90,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractSetup"].execute
   Rake::Task["addBootstrapAppAuths"].execute
   Rake::Task["bulkExtractTriggerTest"].execute
+  Rake::Task["bulkExtractSimpleEntitiesTest"].execute
   Rake::Task["bulkExtractStudentTest"].execute
   Rake::Task["bulkExtractEdorgStaffTest"].execute
   Rake::Task["bulkExtractIntegrationTest"].execute
