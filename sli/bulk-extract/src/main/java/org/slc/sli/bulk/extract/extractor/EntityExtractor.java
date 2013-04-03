@@ -17,7 +17,6 @@ package org.slc.sli.bulk.extract.extractor;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -104,7 +103,7 @@ public class EntityExtractor{
         // Write entity to its archive.
         if (entitiesToCollections.containsKey(entity.getType())) {
             if (!archiveEntries.containsKey(entity.getType())) {
-                archiveEntries.put(entity.getType(), new ArchiveEntry(entity.getType(), archiveFile));
+                archiveEntries.put(entity.getType(), ArchiveEntry.createArchiveEntry(entity.getType(), archiveFile));
             }
             writeRecord(archiveEntries.get(entity.getType()), entity, false);
         }
@@ -112,7 +111,7 @@ public class EntityExtractor{
         // Write entity to collection archive, if indicated.
         if (addToCollectionFile.contains(entity.getType())) {
             if (!archiveEntries.containsKey(collectionName)) {
-                archiveEntries.put(collectionName, new ArchiveEntry(collectionName, archiveFile));
+                archiveEntries.put(collectionName, ArchiveEntry.createArchiveEntry(collectionName, archiveFile));
             }
             writeRecord(archiveEntries.get(collectionName), entity, true);
         }
@@ -134,7 +133,7 @@ public class EntityExtractor{
         for (String docName : docs.keySet()) {
             if (entitiesToCollections.containsKey(docName)) {
                 if (!archiveEntries.containsKey(docName)) {
-                    archiveEntries.put(docName, new ArchiveEntry(docName, archiveFile));
+                    archiveEntries.put(docName, ArchiveEntry.createArchiveEntry(docName, archiveFile));
                 }
                 for (Entity doc : docs.get(docName)) {
                     writeRecord(archiveEntries.get(docName), doc, false);
@@ -154,8 +153,7 @@ public class EntityExtractor{
         if (applyExtraTreatment) {
             treated = applicator.applyExtra(treated);
         }
-        archiveEntry.writeValue(treated);
-        archiveEntry.incrementNoOfRecords();
+        archiveEntry.write(treated);
     }
 
     /**
@@ -166,7 +164,7 @@ public class EntityExtractor{
         for (String entity : archiveEntries.keySet()) {
             try {
                 archiveEntries.get(entity).flush();
-                archiveEntries.get(entity).closeDatafile();
+                archiveEntries.get(entity).close();
 
                 LOG.info("Finished extracting {} records for " + entity,
                         archiveEntries.get(entity).getNoOfRecords());
@@ -186,7 +184,11 @@ public class EntityExtractor{
 
     /**
      * Set entities to collections map.
+<<<<<<< HEAD
      * @param entitiesToCollections - entities to collections map
+=======
+     * @param entitiesToCollections entities to collections map
+>>>>>>> 7814f3a8afeb3962131c900dbb3c4a9b481c5a94
      */
     public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
         this.entitiesToCollections = entitiesToCollections;
@@ -211,27 +213,29 @@ public class EntityExtractor{
     /**
      * Describes class to encapsulate archive file entry operations.
      */
-    private class ArchiveEntry {
+     private static class ArchiveEntry {
+        private static final JsonFactory JSON_FACTORY = new JsonFactory();
+        private static final ObjectMapper MAPPER = new ObjectMapper();
+
         private long noOfRecords = 0;
         private DataExtractFile dataFile = null;
-        private OutputStream outputStream = null;
-        private final JsonFactory jsonFactory = new JsonFactory();
         private JsonGenerator jsonGenerator = null;
-        private final ObjectMapper mapper = new ObjectMapper();
 
-        public ArchiveEntry(String collectionName, ExtractFile archiveFile) throws FileNotFoundException, IOException {
-            dataFile = archiveFile.getDataFileEntry(collectionName);
-            outputStream = dataFile.getOutputStream();
-            jsonGenerator = jsonFactory.createJsonGenerator(outputStream);
+        protected ArchiveEntry(DataExtractFile dataFile) throws IOException {
+            this.dataFile = dataFile;
+
+            jsonGenerator = JSON_FACTORY.createJsonGenerator(dataFile.getOutputStream());
+            jsonGenerator.setCodec(MAPPER);
             jsonGenerator.writeStartArray();
         }
 
-        public void incrementNoOfRecords() {
-            noOfRecords++;
+        public static ArchiveEntry createArchiveEntry(String collectionName, ExtractFile extractFile) throws IOException {
+            return new ArchiveEntry(extractFile.getDataFileEntry(collectionName));
         }
 
-        public void writeValue(Entity entity) throws JsonGenerationException, JsonMappingException, IOException {
-            mapper.writeValue(jsonGenerator, entity.getBody());
+        public void write(Entity entity) throws JsonGenerationException, JsonMappingException, IOException {
+            jsonGenerator.writeObject(entity.getBody());
+            noOfRecords++;
         }
 
         public void flush() throws JsonGenerationException, IOException {
@@ -239,10 +243,14 @@ public class EntityExtractor{
             jsonGenerator.flush();
         }
 
-        public void closeDatafile() {
-            if (dataFile != null) {
-                dataFile.close();
+        public void close() {
+            try {
+                jsonGenerator.close();
+            } catch (IOException e) {
+                // eat the exception
+                e = null;
             }
+            dataFile.close();
         }
 
         public long getNoOfRecords() {

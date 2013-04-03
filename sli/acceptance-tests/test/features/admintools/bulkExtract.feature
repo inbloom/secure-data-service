@@ -20,7 +20,7 @@ Feature: Admininstrating role-based access to bulking
         Then I should see that my role is "Balrog"
         When I navigate to GET "/v1/sections"
         And I should receive a return code of 403
-        When I navigate to GET "/bulk/extract?sample=false"
+        When I navigate to GET "/bulk/extract/tenant"
         When the return code is 404 I ensure there is no bulkExtractFiles entry for Midgar
         When the return code is 503 I ensure there is a bulkExtractFiles entry for Midgar
         When the return code is 200 I get expected tar downloaded
@@ -35,6 +35,9 @@ Feature: Admininstrating role-based access to bulking
     And I clicked on the button Edit for the application "Testing App"
     And I check Bulk Extract
     When I clicked Save
+    Then I should get 1 error
+    When I enter a public key
+    Then I clicked Save
     Then I am redirected to the Application Registration Tool page
 
   Scenario: Legacy apps are still safe for application registration

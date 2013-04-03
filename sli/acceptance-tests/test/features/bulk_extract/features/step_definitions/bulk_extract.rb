@@ -137,9 +137,10 @@ puts runShellCommand(command)
 end
 
 Given /^the extraction zone is empty$/ do
-    assert(Dir.exists?(OUTPUT_DIRECTORY), "Bulk Extract output directory #{OUTPUT_DIRECTORY} does not exist")
-    puts OUTPUT_DIRECTORY
-    FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
+    if (Dir.exists?(OUTPUT_DIRECTORY))
+      puts OUTPUT_DIRECTORY
+      FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
+    end
 end
 
 Given /^I have delta bulk extract files generated for today$/ do
@@ -172,7 +173,7 @@ When /^I retrieve the path to the extract file for the tenant "(.*?)"$/ do |tena
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
 
-  match =  @coll.find_one("body.tenantId" => tenant)
+  match =  @coll.find_one({"_id" => tenant, "body.tenantId" => tenant})
 
   assert(match !=nil, "Database was not updated with bulk extract file location")
 

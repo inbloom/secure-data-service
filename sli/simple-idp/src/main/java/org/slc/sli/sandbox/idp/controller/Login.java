@@ -220,10 +220,18 @@ public class Login {
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, developer);
 
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
-
+        
+        String errorMsg = "Invalid User Name or password";
         if(user == null){
             try {
                 user = userService.authenticate(realm, userId, password);
+
+                List<String> roles = user.getRoles();
+                if (roles == null || roles.isEmpty()) {
+                    errorMsg = "User account is in invalid mode";
+                    throw new AuthenticationException("User does not have any roles defined");
+                }
+
                 if (shouldForcePasswordChange(user, realm)) {
 
                     //create timestamp as part of resetKey for user
@@ -254,7 +262,7 @@ public class Login {
             } catch (AuthenticationException e) {
                 ModelAndView mav = new ModelAndView("login");
                 mav.addObject("subTitle", buildSubTitle(realm));
-                mav.addObject("errorMsg", "Invalid User Name or password");
+                mav.addObject("errorMsg", errorMsg);
                 mav.addObject("isForgotPasswordVisible", sliAdminRealmName.equals(realm));
                 mav.addObject("adminUrl", adminUrl);
                 mav.addObject("developer", developer);
