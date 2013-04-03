@@ -247,7 +247,8 @@ def getApp(name)
   results = []
   for row in rows
     appName = row.find_elements(:xpath, 'td')
-    if appName[0].text == name
+    fixedName = appName[0].text.sub(/Bulk Extract application request/,"").strip
+    if fixedName == name
       return row      
     end
   end

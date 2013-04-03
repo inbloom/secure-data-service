@@ -58,6 +58,25 @@ echo "Create directory..."
 mkdir $NAME
 
 #
+# Get statistics if they exist
+#
+killall mongostat
+killall iostat
+killall vmstat
+if [ -e /tmp/mongostat ] ; then
+  mv /tmp/mongostat $NAME
+fi
+if [ -e /tmp/iostat_cpu ] ; then
+  mv /tmp/iostat_cpu $NAME
+fi
+if [ -e /tmp/iostat_io ] ; then
+  mv /tmp/iostat_io $NAME
+fi
+if [ -e /tmp/vmstat ] ; then
+  mv /tmp/vmstat $NAME
+fi
+
+#
 # Get start/stop time
 #
 echo "Job Start/Stop..."

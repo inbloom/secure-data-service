@@ -78,7 +78,7 @@ Scenario: As an IT Admin, I want to update custom entity associated with any cor
 	When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
     Then I should receive a key value pair "ColumnConfig" : "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" in the result
 
-Scenario:  As an Educator, I can retrieve correct custom entity for correct application, but I can not create nor update custom entities
+Scenario:  As an Educator, I can retrieve correct custom entity for correct application, and I can also create and update custom entities
 	#As an educator I can also retrieve correct custom entity for correct application
     Given  I am a valid SEA/LEA end user "rbraverman" with password "rbraverman1234"
     And the clientID is "demoClient"
@@ -91,14 +91,14 @@ Scenario:  As an Educator, I can retrieve correct custom entity for correct appl
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" to the object
 	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
-    Then I should receive a return code of 403
+    Then I should receive a return code of 201
 
     #And I can't update as an Educator
     Given format "application/json"
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Writing Results</DisplayName>" to the object
 	When I navigate to PUT "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
-	Then I should receive a return code of 403
+	Then I should receive a return code of 204
 
 Scenario Outline: As an educator or leader, I want to read a custom entity associated with any core entity belonging to my application 
 	   Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
@@ -192,9 +192,9 @@ Scenario Outline: As an user, I want to update  a custom entity associated with 
 
 	Examples:
 	| Username  | Password      | AnyDefaultSLIRole  | ClientID     | Key            | Value    | Code   | 
-	| "sbantu"  | "sbantu1234"  | "Leader"           | "demoClient" | "Drives"       | "True"   |  403   |
-	| "rbraverman"  | "rbraverman1234"  | "Educator" | "demoClient" | "Drives"       | "True"   |  403   |
-	| "msmith"  | "msmith1234"  | "AggregateViewer"  | "demoClient" | "Drives"       | "True"   |  403   |
+	| "sbantu"  | "sbantu1234"  | "Leader"           | "demoClient" | "Drives"       | "True"   |  204   |
+	| "rbraverman"  | "rbraverman1234"  | "Educator" | "demoClient" | "Drives"       | "True"   |  204   |
+	| "msmith"  | "msmith1234"  | "AggregateViewer"  | "demoClient" | "Drives"       | "True"   |  204   |
 	| "rrogers" | "rrogers1234" | "ITAdmin"          | "demoClient" | "Drives"       | "True"   |  204   |
 	
 Scenario Outline: As an user, I want to create  a custom entity associated with any association belonging to my application 		
@@ -209,9 +209,9 @@ Scenario Outline: As an user, I want to create  a custom entity associated with 
 		Then I should receive a return code of <Code>	
 	Examples:
 | Username  | Password      | AnyDefaultSLIRole  | ClientID     | Key                       | Value     | Code   | Action |
-| "sbantu"  | "sbantu1234"  | "Leader"           | "demoClient" | "currentlyEnrolled"       | "False"   |  403   | POST   |
-| "rbraverman"  | "rbraverman1234"  | "Educator" | "demoClient" | "currentlyEnrolled"       | "False"   |  403   | POST   |
-| "msmith"  | "msmith1234"  | "AggregateViewer"  | "demoClient" | "currentlyEnrolled"       | "False"   |  403   | POST   |
+| "sbantu"  | "sbantu1234"  | "Leader"           | "demoClient" | "currentlyEnrolled"       | "False"   |  201   | POST   |
+| "rbraverman"  | "rbraverman1234"  | "Educator" | "demoClient" | "currentlyEnrolled"       | "False"   |  201   | POST   |
+| "msmith"  | "msmith1234"  | "AggregateViewer"  | "demoClient" | "currentlyEnrolled"       | "False"   |  201   | POST   |
 | "rrogers" | "rrogers1234" | "ITAdmin"          | "demoClient" | "currentlyEnrolled"       | "False"   |  201   | POST   | 
 	
 
@@ -237,9 +237,9 @@ Scenario Outline: As an user, I want to update  a custom entity associated with 
 		Then I should receive a return code of <Code>
 	Examples:
 	| Username  | Password      | AnyDefaultSLIRole  | ClientID     | Key                       | Value     | Code   | Action |
-	| "sbantu"  | "sbantu1234"  | "Leader"           | "demoClient" | "currentlyEnrolled"       | "False"   |  403   | PUT    |
-	| "rbraverman"  | "rbraverman1234"  | "Educator" | "demoClient" | "currentlyEnrolled"       | "False"   |  403   | PUT    |
-	| "msmith"  | "msmith1234"  | "AggregateViewer"  | "demoClient" | "currentlyEnrolled"       | "False"   |  403   | PUT    |
+	| "sbantu"  | "sbantu1234"  | "Leader"           | "demoClient" | "currentlyEnrolled"       | "False"   |  204   | PUT    |
+	| "rbraverman"  | "rbraverman1234"  | "Educator" | "demoClient" | "currentlyEnrolled"       | "False"   |  204   | PUT    |
+	| "msmith"  | "msmith1234"  | "AggregateViewer"  | "demoClient" | "currentlyEnrolled"       | "False"   |  204   | PUT    |
 	| "rrogers" | "rrogers1234" | "ITAdmin"          | "demoClient" | "currentlyEnrolled"       | "False"   |  204   | PUT    | 
 	
 
