@@ -27,7 +27,6 @@
     <value>educationOrganizationAssociation</value>
     <value>educationOrganizationSchoolAssociation</value>
     <value>grade</value>
-    <value>gradebookEntry</value>
     <value>graduationPlan</value>
     <value>parent</value>
     <value>reportCard</value>
@@ -38,17 +37,12 @@
     <value>staffProgramAssociation</value>
     <value>student</value>
     <value>studentAcademicRecord</value>
-    <value>studentCohortAssociation</value>
     <value>studentCompetency</value>
     <value>studentCompetencyObjective</value>
-    <value>studentDisciplineIncidentAssociation</value>
     <value>studentGradebookEntry</value>
-    <value>studentParentAssociation</value>
-    <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
     <value>courseTranscript</value>
     <value>teacherSchoolAssociation</value>
-    <value>teacherSectionAssociation</value>
   </util:set>
 </beans>
 

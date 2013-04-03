@@ -44,6 +44,7 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
     private int visitAfterColumnNumber;
 
     public static final String FIELD_UUID = "UUID";
+    public static final String DELETEDCHILD_COUNT = "DELETEDCHILDCOUNT";
 
     @Override
     public String getType() {
@@ -213,8 +214,25 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
         return getSourceFile();
     }
 
+    public String getDeletedChildCount( ) {
+        String result = null;
+        if ( metaData != null && metaData.containsKey( DELETEDCHILD_COUNT ) ) {
+            result = (String) metaData.get( DELETEDCHILD_COUNT);
+        }
+        return( result );
+    }
+
+    public void setDeletedChildCount( String id ) {
+        if( metaData == null ) {
+            metaData = new HashMap< String, Object>();
+        }
+        metaData.put( DELETEDCHILD_COUNT, id);
+    }
+
+
     @Override
     public Map<String, List<Entity>> getContainerData() {
         return new HashMap<String, List<Entity>>();
     }
+
 }

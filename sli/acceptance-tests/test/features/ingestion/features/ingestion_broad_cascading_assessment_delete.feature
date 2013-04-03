@@ -13,14 +13,19 @@ Scenario: Delete Assessment with cascade
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "assessment"
 	|field                               |value                                                                                          |
 	|_id                                 |5f650f8a65dcfee035b74787ca47a6738239c614_id          |
+	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "assessmentItem"
+	|field                               |value                                                                                          |
+	|assessmentItem.body.assessmentId                   |5f650f8a65dcfee035b74787ca47a6738239c614_id          | 
+	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "objectiveAssessment"
+	|field                               |value                                                                                          |
+	|objectiveAssessment.body.assessmentId                   |5f650f8a65dcfee035b74787ca47a6738239c614_id          | 
 	Then there exist "2" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentAssessment"
 	|field                               |value                                                                                          |
-	|body.assessmentId                   |5f650f8a65dcfee035b74787ca47a6738239c614_id          |
+	|body.assessmentId                   |5f650f8a65dcfee035b74787ca47a6738239c614_id          | 
 	And I save the collection counts in "Midgar" tenant
     And I post "BroadAssessmentDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadAssessmentDelete.zip" is completed in database
-    And a batch job log has been created
 	And I should see "records considered for processing: 1" in the resulting batch job file
 	And I should see "records ingested successfully: 0" in the resulting batch job file
 	And I should see "records deleted successfully: 1" in the resulting batch job file

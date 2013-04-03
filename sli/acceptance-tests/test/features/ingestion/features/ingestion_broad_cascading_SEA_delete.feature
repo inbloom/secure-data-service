@@ -1,6 +1,9 @@
 @RALLY_US5180
 Feature: Safe Deletion and Cascading Deletion
 
+#Type	                Child Type	    Field	                        minOccurs	maxOccurs	Child Collection	
+#SEA	                LEA          	parentEducationAgencyReference	1	        1	         educationOrganization		
+
 Background: I have a landing zone route configured
 Given I am using local data store
 
@@ -30,7 +33,6 @@ Scenario: Delete SEA with cascade
 	And I post "BroadSEADelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadSEADelete.zip" is completed in database
-    And a batch job log has been created
 	And I should see "records considered for processing: 1" in the resulting batch job file
 	And I should see "records ingested successfully: 0" in the resulting batch job file
 	And I should see "records deleted successfully: 1" in the resulting batch job file

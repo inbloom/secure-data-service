@@ -17,14 +17,14 @@ package org.slc.sli.bulk.extract.extractor;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.DBCollection;
+import javax.annotation.PostConstruct;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerationException;
@@ -53,15 +53,20 @@ public class EntityExtractor{
 
     private static final Logger LOG = LoggerFactory.getLogger(EntityExtractor.class);
 
-    private List<String> excludedCollections;
-
-    private List<String> entities;
-
     private List<String> addToCollectionFile;
 
     private Repository<Entity> entityRepository;
 
+    private Map<String, String> entitiesToCollections;
+
     private TreatmentApplicator applicator;
+
+    private List<String> entities;
+
+    @PostConstruct
+    public void init() {
+        entities = new ArrayList<String>(new HashSet<String>(entitiesToCollections.keySet()));
+    }
 
     /**
      * extract all the records of entity.
@@ -105,7 +110,7 @@ public class EntityExtractor{
         } finally {
             TenantContext.setTenantId(null);
             for (String entity : archiveEntries.keySet()) {
-                archiveEntries.get(entity).closeDatafile();
+                archiveEntries.get(entity).close();
             }
         }
     }
@@ -113,14 +118,14 @@ public class EntityExtractor{
     private void writeEntityToArchive(Entity entity, String collectionName, Map<String, ArchiveEntry> archiveEntries, ExtractFile archiveFile) throws JsonGenerationException, JsonMappingException, IOException {
         if (entities.contains(entity.getType())) {
             if (!archiveEntries.containsKey(entity.getType())) {
-                archiveEntries.put(entity.getType(), new ArchiveEntry(entity.getType(), archiveFile));
+                archiveEntries.put(entity.getType(), ArchiveEntry.createArchiveEntry(entity.getType(), archiveFile));
             }
             writeRecord(archiveEntries.get(entity.getType()), entity, false);
         }
 
         if (addToCollectionFile.contains(entity.getType())) {
             if (!archiveEntries.containsKey(collectionName)) {
-                archiveEntries.put(collectionName, new ArchiveEntry(collectionName, archiveFile));
+                archiveEntries.put(collectionName, ArchiveEntry.createArchiveEntry(collectionName, archiveFile));
             }
 
             writeRecord(archiveEntries.get(collectionName), entity, true);
@@ -131,7 +136,7 @@ public class EntityExtractor{
         for (String docName : docs.keySet()) {
             if (entities.contains(docName)) {
                 if (!archiveEntries.containsKey(docName)) {
-                    archiveEntries.put(docName, new ArchiveEntry(docName, archiveFile));
+                    archiveEntries.put(docName, ArchiveEntry.createArchiveEntry(docName, archiveFile));
                 }
                 for (Entity doc : docs.get(docName)) {
                     writeRecord(archiveEntries.get(docName), doc, false);
@@ -150,8 +155,7 @@ public class EntityExtractor{
         if (applyExtraTreatment) {
             treated = applicator.applyExtra(treated);
         }
-        archiveEntry.writeValue(treated);
-        archiveEntry.incrementNoOfRecords();
+        archiveEntry.write(treated);
     }
 
     private void cleanupArchiveFiles(Map<String, ArchiveEntry> archiveEntries) throws JsonGenerationException, IOException {
@@ -160,32 +164,6 @@ public class EntityExtractor{
             LOG.info("Finished extracting {} records for " + entity,
                     archiveEntries.get(entity).getNoOfRecords());
         }
-    }
-
-    /**
-     * Get collection names for a tenant.
-     * @param tenant tenant
-     * @return collection names
-     */
-    public List<String> getCollectionNames(String tenant) {
-        TenantContext.setTenantId(tenant);
-        List<DBCollection> collections = entityRepository.getCollections(false);
-        List<String> collectionNames = new ArrayList<String>();
-        for (DBCollection collection : collections) {
-            if (!excludedCollections.contains(collection.getName())) {
-                collectionNames.add(collection.getName());
-            }
-        }
-        TenantContext.setTenantId(null);
-        return collectionNames;
-    }
-
-    /**
-     * Set list of excluded collections.
-     * @param excludedCollections excludedCollections
-     */
-    public void setExcludedCollections(List<String> excludedCollections) {
-        this.excludedCollections = excludedCollections;
     }
 
     /**
@@ -205,11 +183,11 @@ public class EntityExtractor{
     }
 
     /**
-     * get applicator.
-     * @return treatment applicator
+     * Set entities to collections map.
+     * @param entitiesToCollections entities to collections map
      */
-    public TreatmentApplicator getApplicator() {
-        return applicator;
+    public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
+        this.entitiesToCollections = entitiesToCollections;
     }
 
     /**
@@ -236,27 +214,29 @@ public class EntityExtractor{
         this.addToCollectionFile = addToCollectionFile;
     }
 
-    private class ArchiveEntry {
+    private static class ArchiveEntry {
+        private static final JsonFactory JSON_FACTORY = new JsonFactory();
+        private static final ObjectMapper MAPPER = new ObjectMapper();
+
         private long noOfRecords = 0;
         private DataExtractFile dataFile = null;
-        private OutputStream outputStream = null;
-        private final JsonFactory jsonFactory = new JsonFactory();
         private JsonGenerator jsonGenerator = null;
-        private final ObjectMapper mapper = new ObjectMapper();
 
-        public ArchiveEntry(String collectionName, ExtractFile archiveFile) throws FileNotFoundException, IOException {
-            dataFile = archiveFile.getDataFileEntry(collectionName);
-            outputStream = dataFile.getOutputStream();
-            jsonGenerator = jsonFactory.createJsonGenerator(outputStream);
+        protected ArchiveEntry(DataExtractFile dataFile) throws IOException {
+            this.dataFile = dataFile;
+
+            jsonGenerator = JSON_FACTORY.createJsonGenerator(dataFile.getOutputStream());
+            jsonGenerator.setCodec(MAPPER);
             jsonGenerator.writeStartArray();
         }
 
-        public void incrementNoOfRecords() {
-            noOfRecords++;
+        public static ArchiveEntry createArchiveEntry(String collectionName, ExtractFile extractFile) throws IOException {
+            return new ArchiveEntry(extractFile.getDataFileEntry(collectionName));
         }
 
-        public void writeValue(Entity entity) throws JsonGenerationException, JsonMappingException, IOException {
-            mapper.writeValue(jsonGenerator, entity.getBody());
+        public void write(Entity entity) throws JsonGenerationException, JsonMappingException, IOException {
+            jsonGenerator.writeObject(entity.getBody());
+            noOfRecords++;
         }
 
         public void flush() throws JsonGenerationException, IOException {
@@ -264,10 +244,14 @@ public class EntityExtractor{
             jsonGenerator.flush();
         }
 
-        public void closeDatafile() {
-            if (dataFile != null) {
-                dataFile.close();
+        public void close() {
+            try {
+                jsonGenerator.close();
+            } catch (IOException e) {
+                // eat the exception
+                e = null;
             }
+            dataFile.close();
         }
 
         public long getNoOfRecords() {

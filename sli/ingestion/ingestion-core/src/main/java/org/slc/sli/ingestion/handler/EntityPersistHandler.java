@@ -149,6 +149,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             }
             CascadeResult cascade = entityRepository.safeDelete(entity.getType(), collectionName, id,
                     action.doCascade(), dryrun, max, null);
+            
+            if (cascade != null) {
+            	entity.setDeletedChildCount(String.valueOf(cascade.getnObjects() - 1));
+            }
+            // Check the return from safeDelete
+
 
             cleanupRecordHash( cascade );
             return ( cascade != null && cascade.getStatus() == CascadeResult.Status.SUCCESS) ? entity : null;
