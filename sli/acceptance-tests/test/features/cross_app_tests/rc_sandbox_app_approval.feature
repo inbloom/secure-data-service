@@ -124,14 +124,14 @@ And the extract contains a file for each of the following entities:
    |  disciplineIncident                    |
    |  disciplineAction                      |
    |  educationOrganization                 |
-#   |  grade                                 |
+   |  grade                                 |
    |  gradebookEntry                        |
    |  gradingPeriod                         |
    |  learningObjective                     |
    |  learningStandard                      |
    |  parent                                |
    |  program                               |
-#   |  reportCard                            |
+   |  reportCard                            |
    |  school                                |
    |  section                               |
    |  session                               |
@@ -140,7 +140,7 @@ And the extract contains a file for each of the following entities:
    |  staffEducationOrganizationAssociation |
    |  staffProgramAssociation               |
    |  student                               |
-#   |  studentAcademicRecord                 |
+   |  studentAcademicRecord                 |
    |  studentAssessment                     |
    |  studentCohortAssociation              |
    |  studentCompetency                     |
