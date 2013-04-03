@@ -224,6 +224,12 @@ public class Login {
         if(user == null){
             try {
                 user = userService.authenticate(realm, userId, password);
+
+                List<String> roles = user.getRoles();
+                if (roles == null || roles.isEmpty()) {
+                    throw new AuthenticationException("User does not have any roles defined");
+                }
+
                 if (shouldForcePasswordChange(user, realm)) {
 
                     //create timestamp as part of resetKey for user
