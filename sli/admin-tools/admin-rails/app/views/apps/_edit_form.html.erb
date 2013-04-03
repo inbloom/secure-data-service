@@ -55,6 +55,11 @@
 	<span class="help-inline">Is this an administrative application?</span>
 </div>
 <div class = "field">
+  <%= f.label :isBulkExtract, "Bulk Extract" %>
+  <%= f.check_box :isBulkExtract %>
+  <span class="help-inline">Is this application used to perform only bulk extraction?</span>
+</div>
+<div class = "field">
 	<%= f.label :behavior, "Display Method" %>
 	<%= select_tag(:app_behavior, options_for_select(['iframe App', 'WSRP App', 'Full Window App'], app.behavior))%>
 	<span class="help-inline">How does this application behave, can it be put into an IFrame, behave as a portlet, or stand alone?</span>
