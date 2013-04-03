@@ -27,24 +27,69 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 
     <context:property-placeholder location="file:${sli.conf}" system-properties-mode="OVERRIDE" order="0"/>
 
-    <util:list id="excludedCollections" value-type="java.lang.String">
-        <value>error</value>
-        <value>recordHash</value>
-        <value>adminDelegation</value>
-        <value>aggregation</value>
-        <value>aggregationDefinition</value>
-        <value>realm</value>
-        <value>search</value>
+    <util:map id="entitiesToCollections" key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="assessment" value="assessment" />
+        <entry key="assessmentFamily" value="assessmentFamily" />
+        <entry key="assessmentPeriodDescriptor" value="assessmentPeriodDescriptor" />
+        <entry key="attendance" value="attendance" />
+        <entry key="cohort" value="cohort" />
+        <entry key="competencyLevelDescriptor" value="competencyLevelDescriptor" />
+        <entry key="course" value="course" />
+        <entry key="courseOffering" value="courseOffering" />
+        <entry key="courseTranscript" value="courseTranscript" />
+        <entry key="disciplineAction" value="disciplineAction" />
+        <entry key="disciplineIncident" value="disciplineIncident" />
+        <entry key="educationOrganization" value="educationOrganization" />
+        <entry key="grade" value="yearlyTranscript" />
+        <entry key="gradebookEntry" value="section" />
+        <entry key="gradingPeriod" value="gradingPeriod" />
+        <entry key="graduationPlan" value="graduationPlan" />
+        <entry key="learningObjective" value="learningObjective" />
+        <entry key="learningStandard" value="learningStandard" />
+        <entry key="parent" value="parent" />
+        <entry key="program" value="program" />
+        <entry key="reportCard" value="yearlyTranscript" />
+        <entry key="school" value="educationOrganization" />
+        <entry key="section" value="section" />
+        <entry key="session" value="session" />
+        <entry key="staff" value="staff" />
+        <entry key="staffCohortAssociation" value="staffCohortAssociation" />
+        <entry key="staffEducationOrganizationAssociation" value="staffEducationOrganizationAssociation" />
+        <entry key="staffProgramAssociation" value="staffProgramAssociation" />
+        <entry key="student" value="student" />
+        <entry key="studentAcademicRecord" value="yearlyTranscript" />
+        <entry key="studentAssessment" value="studentAssessment" />
+        <entry key="studentCohortAssociation" value="cohort" />
+        <entry key="studentCompetency" value="studentCompetency" />
+        <entry key="studentCompetencyObjective" value="studentCompetencyObjective" />
+        <entry key="studentDisciplineIncidentAssociation" value="student" />
+        <entry key="studentGradebookEntry" value="studentGradebookEntry" />
+        <entry key="studentParentAssociation" value="student" />
+        <entry key="studentProgramAssociation" value="program" />
+        <entry key="studentSchoolAssociation" value="studentSchoolAssociation" />
+        <entry key="studentSectionAssociation" value="section" />
+        <entry key="teacher" value="staff" />
+        <entry key="teacherSchoolAssociation" value="teacherSchoolAssociation" />
+        <entry key="teacherSectionAssociation" value="section" />
+    </util:map>
+    
+    <util:list id="addToCollectionFile" value-type="java.lang.String">
+        <value>stateEducationAgency</value>
+        <value>localEducationAgency</value>
+        <value>school</value>
+        <value>teacher</value>
     </util:list>
 
     <bean id="entityExtractor" class="org.slc.sli.bulk.extract.extractor.EntityExtractor">
          <property name="entityRepository" ref="mongoEntityRepository" />
-         <property name="excludedCollections" ref="excludedCollections" />
+         <property name="entitiesToCollections" ref="entitiesToCollections" />
+         <property name="addToCollectionFile" ref="addToCollectionFile" />
          <property name="applicator" ref="applicator" />
     </bean>
 
     <bean id="tenantExtractor" class="org.slc.sli.bulk.extract.extractor.TenantExtractor">
          <property name="bulkExtractMongoDA" ref="bulkExtractMongoDA" />
+         <property name="entitiesToCollections" ref="entitiesToCollections" />
          <property name="entityExtractor" ref="entityExtractor" />
     </bean>
 
@@ -59,18 +104,28 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 
      <bean id="applicator" class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
          <property name="treatments" ref="treatments" />
+         <property name="extraTreatments" ref="extraTreatments" />
     </bean>
+    
+    <bean id="collectionTreatment" class="org.slc.sli.bulk.extract.treatment.EntityToCollectionTreatment" />
 
     <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment" />
 
     <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment" />
 
     <bean id="assessmentTreatment" class="org.slc.sli.bulk.extract.treatment.AssessmentTreatment" />
+    
+    <bean id="studentAssessmentTreatment" class="org.slc.sli.bulk.extract.treatment.StudentAssessmentTreatment" />
 
     <util:list id="treatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
         <ref local="idTreatment"/>
         <ref local="typeTreatment"/>
         <ref local="assessmentTreatment"/>
+        <ref local="studentAssessmentTreatment"/>
+    </util:list>
+    
+   <util:list id="extraTreatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
+        <ref local="collectionTreatment"/>
     </util:list>
 
 </beans>

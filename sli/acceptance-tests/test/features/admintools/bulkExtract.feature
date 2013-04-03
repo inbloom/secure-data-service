@@ -20,8 +20,37 @@ Feature: Admininstrating role-based access to bulking
         Then I should see that my role is "Balrog"
         When I navigate to GET "/v1/sections"
         And I should receive a return code of 403
-        When I navigate to GET "/bulk/extract"
+        When I navigate to GET "/bulk/extract?sample=false"
         When the return code is 404 I ensure there is no bulkExtractFiles entry for Midgar
         When the return code is 503 I ensure there is a bulkExtractFiles entry for Midgar
         When the return code is 200 I get expected tar downloaded
         Then I check the http response headers
+
+  Scenario: Enabling an application for bulk extract
+    Given I have an open web browser
+    When I hit the Application Registration Tool URL
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
+    Then I am redirected to the Application Registration Tool page
+    And I clicked on the button Edit for the application "Testing App"
+    And I check Bulk Extract
+    When I clicked Save
+    Then I am redirected to the Application Registration Tool page
+
+  Scenario: Legacy apps are still safe for application registration
+    Given I have an open web browser
+    When I hit the Application Registration Tool URL
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
+    Then I am redirected to the Application Registration Tool page
+    And I clicked on the button Edit for the application "AuthorizeTestApp1"
+    When I clicked Save
+    Then I am redirected to the Application Registration Tool page
+  
+  @production
+  Scenario: District administrator is alerted to applications that want bulk extract
+    Given I have an open web browser
+    Given I am an authenticated District Super Administrator for "Sunset School District"
+  	And I am logged into the Application Authorization Tool
+  	And I see an application "Testing App" in the table
+  	Then I see that it has an alert about bulk extract

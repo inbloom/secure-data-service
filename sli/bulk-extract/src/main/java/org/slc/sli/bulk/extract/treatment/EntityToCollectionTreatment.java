@@ -13,24 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.slc.sli.bulk.extract.treatment;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
 /**
- * Add entity type to the body.
- *
- * @author tke
+ * Sets the entity type to the collection name.
+ * @author ablum
  *
  */
-public class TypeTreatment implements Treatment {
-
+public class EntityToCollectionTreatment implements Treatment {
     private static final String TYPE_STRING = "entityType";
 
     @Override
     public Entity apply(Entity entity) {
-        entity.getBody().put(TYPE_STRING, entity.getType());
+        if (entity.getType().equals("localEducationAgency") || entity.getType().equals("stateEducationAgency") || entity.getType().equals("school")) {
+            entity.getBody().put(TYPE_STRING, EntityNames.EDUCATION_ORGANIZATION);
+        } else if (entity.getType().equals(EntityNames.TEACHER)) {
+            entity.getBody().put(TYPE_STRING, EntityNames.STAFF);
+        }
+
         return entity;
     }
 

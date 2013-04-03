@@ -18,42 +18,26 @@ package org.slc.sli.bulk.extract.treatment;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.dal.convert.SuperdocConverter;
+import org.slc.sli.dal.convert.StudentAssessmentConverter;
 import org.slc.sli.domain.Entity;
 
-/** Embed subdocs into Assessment and StudentAssessment entities.
+/**
+ * Embed subdocs in studentAssessment superdoc.
  *
- * @author tshewchuk
+ * @author npandey
  *
  */
-public class AssessmentTreatment implements Treatment{
+public class StudentAssessmentTreatment implements Treatment{
 
     @Autowired
-    private SuperdocConverter assessmentConverter;
+    StudentAssessmentConverter studentAssessmentConverter;
 
     @Override
     public Entity apply(Entity entity) {
-        if (entity.getType().equals(EntityNames.ASSESSMENT)){
-            assessmentConverter.subdocToBodyField(entity);
+        if (entity.getType().equals(EntityNames.STUDENT_ASSESSMENT)) {
+            studentAssessmentConverter.subdocToBodyField(entity);
         }
-
         return entity;
-    }
-
-    /**
-     * Get assessment converter.
-     * @return the assessmentConverter
-     */
-    public SuperdocConverter getAssessmentConverter() {
-        return assessmentConverter;
-    }
-
-    /**
-     * Set assessment converter.
-     * @param assessmentConverter the assessmentConverter to set
-     */
-    public void setAssessmentConverter(SuperdocConverter assessmentConverter) {
-        this.assessmentConverter = assessmentConverter;
     }
 
 }

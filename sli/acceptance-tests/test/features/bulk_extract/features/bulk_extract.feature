@@ -26,7 +26,6 @@ Scenario: Trigger a bulk extract on ingested data
    |  graduationPlan                        |
    |  learningObjective                     |
    |  learningStandard                      |
-   |  objectiveAssessment                   |
    |  parent                                |
    |  program                               |
    |  reportCard                            |
@@ -44,7 +43,6 @@ Scenario: Trigger a bulk extract on ingested data
    |  studentCompetency                     |
    |  studentCompetencyObjective            |
    |  studentDisciplineIncidentAssociation  |
-   |  studentObjectiveAssessment            |
    |  studentProgramAssociation             |
    |  studentGradebookEntry                 |
    |  studentSchoolAssociation              |
