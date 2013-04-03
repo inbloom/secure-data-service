@@ -20,7 +20,7 @@ Scenario: Delete Session with cascade
     Then there exist "10" "yearlyTranscript" records like below in "Midgar" tenant. And I save this query as "studentAcademicRecords"
         |field                                          |value                                      |
         |studentAcademicRecord.body.sessionId           |fd5005534bf74e30de034c0e82662309f4df630f_id|
-    Then there exist "2" "courseTranscript" records like below in "Midgar" tenant. And I save this query as "courseTranscript1"
+    Then there exist "3" "courseTranscript" records like below in "Midgar" tenant. And I save this query as "courseTranscript1"
         |field                                  |value                                                                                 |
         |body.studentAcademicRecordId           |861efe5627b2c10ac01441b9afd26903398585bc_id8c0587f25143443bd060b75244834f4058daabac_id|
     Then there exist "1" "courseTranscript" records like below in "Midgar" tenant. And I save this query as "courseTranscript2"
@@ -68,7 +68,7 @@ Scenario: Delete Session with cascade
         |section                    |  -22|
         |courseOffering             |  -34|
         |studentAcademicRecord      |  -10|
-        |courseTranscript           |   -8|
+        |courseTranscript           |   -9|
         |studentCompetency          |  -40|
         |studentGradebookEntry      | -117|
         |grade                      |   -8|
