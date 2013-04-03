@@ -62,8 +62,10 @@ import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.RSAPublicKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 
 /**
  *
@@ -203,10 +205,10 @@ public class BulkExtract {
 
         String key = (String) entity.getBody().get("public_key");
 
-        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(key.getBytes());
+        RSAPublicKeySpec spec = new RSAPublicKeySpec(key.getBytes());
         try {
             KeyFactory kf = KeyFactory.getInstance("RSA");
-            publicKey = (PublicKey) kf.generatePrivate(spec);
+            publicKey = kf.generatePublic(spec);
         } catch (NoSuchAlgorithmException e) {
             LOG.error("Exception: NoSuchAlgorithmException {}", e);
             throw new IOException(e);

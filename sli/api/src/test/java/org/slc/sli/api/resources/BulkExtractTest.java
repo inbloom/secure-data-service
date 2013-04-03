@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -87,11 +88,11 @@ public class BulkExtractTest {
     @Autowired
     private SecurityContextInjector injector;
 
+    @Mock
     private Repository<Entity> mockMongoEntityRepository;
 
     @Before
     public void init() {
-        mockMongoEntityRepository = Mockito.mock(Repository.class);
         MockitoAnnotations.initMocks(this);
     }
 
@@ -118,7 +119,7 @@ public class BulkExtractTest {
         Entity mockEntity = Mockito.mock(Entity.class);
         Map<String, Object> mockBody = Mockito.mock(Map.class);
         Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-        Mockito.when(mockBody.get(Mockito.anyString())).thenReturn("");
+        Mockito.when(mockBody.get(Mockito.anyString())).thenReturn("AAAAB3NzaC1yc2EAAAADAQABAAABAQDQq3++kMgrL9Na6iRBDxz+AkuDjnby5cN+mdf+zWQzSbze8l/pYTXC6eDNT9FBd5A8j5rNYvVsse8Pkcz1gRsp8WAQXyW1a9gA3p9cLiKSh8d3ckRU6ZCzHR27OF1wKT5rY/nobbFClktd91+mXIWYFnqdwsrNQZCBJaYday30eopLraU2EwderZxSEvkSivQI6VkQgX03s9BJSnxU2c+k0IVUkh2pllyb3mAJQ88uvygjLYjhQK8NIMTtqYe3c+Th5ak8Pe05KOD+H0M4jmambefqgfLaSWBbAlMM8QDRE+D5me5kCJ26ovc+U6Oos0LhemcBhK+2LaYpHgFCSpz5");
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
         ResponseImpl res = (ResponseImpl) bulkExtract.get();
@@ -137,7 +138,7 @@ public class BulkExtractTest {
 
 
           Mockito.when(mockBody.get("public_key")).thenReturn(keyPair.getPublic().toString());
-          Mockito.when(mockMongoEntityRepository.findOne(EntityNames.APPLICATION, Mockito.any(NeutralQuery.class)))
+          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
                   .thenReturn(mockEntity);
       }
 
@@ -151,7 +152,7 @@ public class BulkExtractTest {
       FileUtils.writeStringToFile(file, "12345");
       Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(file.getAbsolutePath());
       Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
-      Mockito.when(mockMongoEntityRepository.findOne(BulkExtract.BULK_EXTRACT_FILES, Mockito.any(NeutralQuery.class)))
+      Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
           .thenReturn(mockEntity);
 
       ResponseImpl res = (ResponseImpl) bulkExtract.get();
