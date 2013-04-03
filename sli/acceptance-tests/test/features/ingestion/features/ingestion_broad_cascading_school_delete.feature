@@ -4,7 +4,7 @@ Feature: Safe Deletion and Cascading Deletion
 Background: I have a landing zone route configured
 Given I am using local data store
 
-#@wip
+@wip
 Scenario: Delete School with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -51,7 +51,6 @@ Scenario: Delete School with cascade
     And I post "BroadSchoolDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "BroadSchoolDelete.zip" is completed in database
-
     And a batch job log has been created
 	  And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
@@ -76,7 +75,7 @@ Scenario: Delete School with cascade
         | cohort                                    |        -3|        
         | course                                    |       -34| 
         | courseOffering                            |      	-12|
-        | courseTranscript                          |      	 -5|
+        | courseTranscript                          |      	 -6|
         | disciplineAction                          |        -4| 
         | disciplineAction2                         |        -4|  
         | disciplineIncident                        |       -23| 
