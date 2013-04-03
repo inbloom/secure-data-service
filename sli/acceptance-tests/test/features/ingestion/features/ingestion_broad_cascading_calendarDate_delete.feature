@@ -30,7 +30,7 @@ Scenario: Delete Calendar Date with cascade
 	And I re-execute saved query "calendarDate" to get "0" records
 	And I re-execute saved query "gradingPeriod" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
-	|collection                        |delta          |
+	|collection                             |delta     |
 	|calendarDate                           |        -1|
 	|gradingPeriod                          |         0|
 	|recordHash                             |         0|
