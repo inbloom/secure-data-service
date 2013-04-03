@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<InterchangeStudentProgram xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                           xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentProgram.xsd">
+<Action ActionType="DELETE" Cascade="true">
+        <StudentProgramAssociation>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <ProgramReference>
+                <ProgramIdentity>
+                    <ProgramId>3</ProgramId>
+                </ProgramIdentity>
+            </ProgramReference>
+            <Services>
+
+
+                <Description>Reading Intervention</Description>
+            </Services>
+            <BeginDate>2001-09-03</BeginDate>
+            <EndDate>2002-05-30</EndDate>
+            <ReasonExited>Transfer to regular education</ReasonExited>
+            <EducationOrganizationReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationOrganizationReference>
+        </StudentProgramAssociation>
+    </Action>
+</InterchangeStudentProgram>
