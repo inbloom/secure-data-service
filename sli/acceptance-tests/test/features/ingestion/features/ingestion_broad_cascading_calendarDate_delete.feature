@@ -4,7 +4,7 @@ Feature: Safe Deletion and Cascading Deletion
 Background: I have a landing zone route configured
 Given I am using local data store
 
-Scenario: Delete Calendar Date with cascade
+Scenario: Delete Calendar Date with cascade,  gradingPeriod with one calendarDateReference should be deleted; gradingPeriod with more calendarDateReference should be deleted
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -32,6 +32,6 @@ Scenario: Delete Calendar Date with cascade
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                             |delta     |
 	|calendarDate                           |        -1|
-	|gradingPeriod                          |         0|
+	#|gradingPeriod                          |        -1|
 	|recordHash                             |         0|
 	And I should not see "68afcad771ff07a4d988d8ff44434248a900fb5c_id" in the "Midgar" database
