@@ -44,7 +44,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import sun.security.rsa.RSAKeyPairGenerator;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -56,7 +55,6 @@ import javax.ws.rs.core.StreamingOutput;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
-import java.security.KeyPair;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -119,7 +117,12 @@ public class BulkExtractTest {
         Entity mockEntity = Mockito.mock(Entity.class);
         Map<String, Object> mockBody = Mockito.mock(Map.class);
         Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-        Mockito.when(mockBody.get(Mockito.anyString())).thenReturn("AAAAB3NzaC1yc2EAAAADAQABAAABAQDQq3++kMgrL9Na6iRBDxz+AkuDjnby5cN+mdf+zWQzSbze8l/pYTXC6eDNT9FBd5A8j5rNYvVsse8Pkcz1gRsp8WAQXyW1a9gA3p9cLiKSh8d3ckRU6ZCzHR27OF1wKT5rY/nobbFClktd91+mXIWYFnqdwsrNQZCBJaYday30eopLraU2EwderZxSEvkSivQI6VkQgX03s9BJSnxU2c+k0IVUkh2pllyb3mAJQ88uvygjLYjhQK8NIMTtqYe3c+Th5ak8Pe05KOD+H0M4jmambefqgfLaSWBbAlMM8QDRE+D5me5kCJ26ovc+U6Oos0LhemcBhK+2LaYpHgFCSpz5");
+        //Mockito.when(mockBody.get(Mockito.anyString())).thenReturn("AAAAB3NzaC1yc2EAAAADAQABAAABAQDQq3++kMgrL9Na6iRBDxz+AkuDjnby5cN+mdf+zWQzSbze8l/pYTXC6eDNT9FBd5A8j5rNYvVsse8Pkcz1gRsp8WAQXyW1a9gA3p9cLiKSh8d3ckRU6ZCzHR27OF1wKT5rY/nobbFClktd91+mXIWYFnqdwsrNQZCBJaYday30eopLraU2EwderZxSEvkSivQI6VkQgX03s9BJSnxU2c+k0IVUkh2pllyb3mAJQ88u\n" +
+        //        "vygjLYjhQK8NIMTtqYe3c+Th5ak8Pe05KOD+H0M4jmambefqgfLaSWBbAlMM8QDRE+D5me5kCJ26ovc+U6Oos0LhemcBhK+2LaYpHgFCSpz5");
+
+        Mockito.when(mockBody.get(Mockito.anyString())).thenReturn("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCJZdv/y7fGXFUbhGVZXS+kjVQ//Dnmz4fs8ZES\n" +
+                "L7O8mEoAsyPuYfTncaSLXjn5LY1ce/IOD45ojP1qNU+XptRa+JCig/o3tZbS/K5YyztzoAanraAs\n" +
+                "/9Hx48aOeWhlJAPLOijX0eGoMibSbTLu1mQlKZAclwuPq9mEk6jLnlkyjwIDAQAB");
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
         ResponseImpl res = (ResponseImpl) bulkExtract.get();
@@ -130,14 +133,18 @@ public class BulkExtractTest {
   public void testGet() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
 
-      final KeyPair keyPair = new RSAKeyPairGenerator().generateKeyPair();
+//      final KeyPair keyPair = new RSAKeyPairGenerator().generateKeyPair();
       {
           Entity mockEntity = Mockito.mock(Entity.class);
           Map<String, Object> mockBody = Mockito.mock(Map.class);
           Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
 
-
-          Mockito.when(mockBody.get("public_key")).thenReturn(keyPair.getPublic().toString());
+//          Mockito.when(mockBody.get(eq("public_key"))).thenReturn("AAAAB3NzaC1yc2EAAAADAQABAAABAQDQq3++kMgrL9Na6iRBDxz+AkuDjnby5cN+mdf+zWQzSbze8l/pYTXC6eDNT9FBd5A8j5rNYvVsse8Pkcz1gRsp8WAQXyW1a9gA3p9cLiKSh8d3ckRU6ZCzHR27OF1wKT5rY/nobbFClktd91+mXIWYFnqdwsrNQZCBJaYday30eopLraU2EwderZxSEvkSivQI6VkQgX03s9BJSnxU2c+k0IVUkh2pllyb3mAJQ88u\n" +
+//                  "vygjLYjhQK8NIMTtqYe3c+Th5ak8Pe05KOD+H0M4jmambefqgfLaSWBbAlMM8QDRE+D5me5kCJ26ovc+U6Oos0LhemcBhK+2LaYpHgFCSpz5");
+          Mockito.when(mockBody.get(eq("public_key"))).thenReturn("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCJZdv/y7fGXFUbhGVZXS+kjVQ//Dnmz4fs8ZES\n" +
+                  "L7O8mEoAsyPuYfTncaSLXjn5LY1ce/IOD45ojP1qNU+XptRa+JCig/o3tZbS/K5YyztzoAanraAs\n" +
+                  "/9Hx48aOeWhlJAPLOijX0eGoMibSbTLu1mQlKZAclwuPq9mEk6jLnlkyjwIDAQAB");
+//          Mockito.when(mockBody.get()).thenReturn(keyPair.getPublic().toString());
           Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
                   .thenReturn(mockEntity);
       }

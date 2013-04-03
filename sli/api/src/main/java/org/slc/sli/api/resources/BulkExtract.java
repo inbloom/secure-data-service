@@ -35,6 +35,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
+import sun.misc.BASE64Decoder;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -62,9 +63,7 @@ import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 /**
@@ -205,7 +204,7 @@ public class BulkExtract {
 
         String key = (String) entity.getBody().get("public_key");
 
-        RSAPublicKeySpec spec = new RSAPublicKeySpec(key.getBytes());
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(new BASE64Decoder().decodeBuffer(key));
         try {
             KeyFactory kf = KeyFactory.getInstance("RSA");
             publicKey = kf.generatePublic(spec);
