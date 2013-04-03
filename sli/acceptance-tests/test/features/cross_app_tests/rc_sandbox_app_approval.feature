@@ -8,6 +8,7 @@ Given I have an open web browser
 
 @ci
 Scenario: Operator triggers a bulk extract
+   Given the extraction zone is empty
    When the operator triggers a bulk extract for tenant "<SANDBOX_TENANT>"
 
 Scenario: App developer Registers, Approves, and Enables a new Installed app and Full window web app. Educators and IT Administrators can see the apps.

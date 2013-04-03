@@ -8,6 +8,13 @@ JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 require 'archive/tar/minitar'
 include Archive::Tar
 
+Given /^the extraction zone is empty$/ do
+    if (Dir.exists?(OUTPUT_DIRECTORY))
+      puts OUTPUT_DIRECTORY
+      FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
+    end
+end
+
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
 
 command  = "sh #{TRIGGER_SCRIPT}"
