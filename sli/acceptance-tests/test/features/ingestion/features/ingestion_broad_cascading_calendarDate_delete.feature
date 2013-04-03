@@ -11,7 +11,7 @@ Scenario: Delete Calendar Date with cascade
 	Then there exist "1" "calendarDate" records like below in "Midgar" tenant. And I save this query as "calendarDate"
 	|field                                                           |value                                                |
 	|_id                                                             |68afcad771ff07a4d988d8ff44434248a900fb5c_id          |
-	Then there exist "1" "gradingPeriod" records like below in "Midgar" tenant. And I save this query as "gradingPeriod"
+	Then there exist "2" "gradingPeriod" records like below in "Midgar" tenant. And I save this query as "gradingPeriod"
 	|field                                                           |value                                                |
 	|body.calendarDateReference                                      |68afcad771ff07a4d988d8ff44434248a900fb5c_id          |
 	And I save the collection counts in "Midgar" tenant
