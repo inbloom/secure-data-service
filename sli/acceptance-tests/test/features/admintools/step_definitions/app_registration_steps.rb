@@ -434,6 +434,10 @@ Then /^I have enabled "(.*?)"$/ do |arg1|
   assert(client_id == 'true', "Expected 'true', got #{client_id}")
 end
 
+When /^I enter a public key$/ do
+  @driver.find_element(:name, 'app[public_key]').send_keys "PUBLIC_KEYPUBLIC_KEYPUBLIC_KEYPUBLIC_KEY"
+end
+
 Then /^I check Bulk Extract$/ do
   @driver.find_element(:id, 'app_isBulkExtract').click
 end
