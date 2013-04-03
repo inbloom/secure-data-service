@@ -309,7 +309,7 @@ Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2
 end
 
 When /^I clicked Save$/ do
-  @form.find_element(:name, 'commit').click
+  @driver.find_element(:name, 'commit').click
 end
 
 Then /^the info for "([^"]*)" was updated$/ do |arg1|
@@ -427,6 +427,15 @@ And /^I can delete "(.*?)"$/ do |app_name|
     step "I got warning message saying 'You are trying to remove this application from inBloom. By doing so, you will prevent any active user to access it. Do you want to continue?'"
     step "I click 'Yes'"
     step "the application named \"#{app_name}\" is removed from the SLI"
+end
+
+Then /^I have enabled "(.*?)"$/ do |arg1|
+  client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[11]').text
+  assert(client_id == 'true', "Expected 'true', got #{client_id}")
+end
+
+Then /^I check Bulk Extract$/ do
+  @driver.find_element(:id, 'app_isBulkExtract').click
 end
 
 private
