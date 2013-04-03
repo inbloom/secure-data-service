@@ -18,29 +18,26 @@ package org.slc.sli.bulk.extract.extractor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.bulk.extract.files.DataExtractFile;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.treatment.TreatmentApplicator;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Query;
 
 
 /**
@@ -61,13 +58,6 @@ public class EntityExtractor{
 
     private TreatmentApplicator applicator;
 
-    private List<String> entities;
-
-    @PostConstruct
-    public void init() {
-        entities = new ArrayList<String>(new HashSet<String>(entitiesToCollections.keySet()));
-    }
-
     /**
      * extract all the records of entity.
      *
@@ -81,10 +71,9 @@ public class EntityExtractor{
     public void extractEntities(String tenant, ExtractFile archiveFile, String collectionName) {
 
         Map<String, ArchiveEntry> archiveEntries = new HashMap<String, ArchiveEntry>();
-        Query query = new Query();
         try {
             TenantContext.setTenantId(tenant);
-            Iterator<Entity> cursor = entityRepository.findEach(collectionName, query);
+            Iterator<Entity> cursor = entityRepository.findEach(collectionName, new Query());
 
             if (cursor.hasNext()) {
                 LOG.info("Extracting from " + collectionName);
@@ -92,49 +81,58 @@ public class EntityExtractor{
                 while (cursor.hasNext()) {
                     Entity entity = cursor.next();
 
-                    // Write entity to archive.
-                    writeEntityToArchive(entity, collectionName, archiveEntries, archiveFile);
-
-                    //Write subdocs
-                    writeEmbeddedDocs(entity.getEmbeddedData(), archiveEntries, archiveFile);
-
-                    //Write container data
-                    writeEmbeddedDocs(entity.getContainerData(), archiveEntries, archiveFile);
+                    // Write entity and its embedded docs to their corresponding archives.
+                    writeEntity(entity, collectionName, archiveEntries, archiveFile);
                 }
-
-                cleanupArchiveFiles(archiveEntries);
             }
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.error("Error while extracting from " + collectionName, e);
         } finally {
             TenantContext.setTenantId(null);
-            for (String entity : archiveEntries.keySet()) {
-                archiveEntries.get(entity).closeDatafile();
-            }
+            closeArchiveEntries(archiveEntries);
         }
     }
 
-    private void writeEntityToArchive(Entity entity, String collectionName, Map<String, ArchiveEntry> archiveEntries, ExtractFile archiveFile) throws JsonGenerationException, JsonMappingException, IOException {
-        if (entities.contains(entity.getType())) {
+    /**
+     * Write entity and its embedded docs to their respective archives.
+     * @param entity - entity to be written
+     * @param collectionName - name of collection containing entity
+     * @param archiveEntries - collection of archive entries, one per entity
+     * @param archiveFile - file containing archives to be written to
+     */
+    private void writeEntity(Entity entity, String collectionName, Map<String, ArchiveEntry> archiveEntries, ExtractFile archiveFile) throws JsonGenerationException, JsonMappingException, IOException {
+        // Write entity to its archive.
+        if (entitiesToCollections.containsKey(entity.getType())) {
             if (!archiveEntries.containsKey(entity.getType())) {
                 archiveEntries.put(entity.getType(), new ArchiveEntry(entity.getType(), archiveFile));
             }
             writeRecord(archiveEntries.get(entity.getType()), entity, false);
         }
 
+        // Write entity to collection archive, if indicated.
         if (addToCollectionFile.contains(entity.getType())) {
             if (!archiveEntries.containsKey(collectionName)) {
                 archiveEntries.put(collectionName, new ArchiveEntry(collectionName, archiveFile));
             }
-
             writeRecord(archiveEntries.get(collectionName), entity, true);
         }
+
+        //Write entity subdocs.
+        writeEmbeddedDocs(entity.getEmbeddedData(), archiveEntries, archiveFile);
+
+        //Write entity container docs.
+        writeEmbeddedDocs(entity.getContainerData(), archiveEntries, archiveFile);
     }
 
+    /**
+     * Write collection of an entity's embedded documents to their respective archives.
+     * @param docs - embedded documents within an entity
+     * @param archiveEntries - collection of archive entries, one per subdoc type
+     * @param archiveFile - file containing archives to be written to
+     */
     private void writeEmbeddedDocs(Map<String, List<Entity>> docs, Map<String, ArchiveEntry> archiveEntries, ExtractFile archiveFile) throws FileNotFoundException, IOException {
         for (String docName : docs.keySet()) {
-            if (entities.contains(docName)) {
+            if (entitiesToCollections.containsKey(docName)) {
                 if (!archiveEntries.containsKey(docName)) {
                     archiveEntries.put(docName, new ArchiveEntry(docName, archiveFile));
                 }
@@ -147,8 +145,9 @@ public class EntityExtractor{
 
     /**
      * Write record to archive entry.
-     * @param archive entry
-     * @param record
+     * @param archiveEntry - archive entry to which to be written
+     * @param record - record to be written to archive entry
+     * @param applyExtraTreatment - determines whether extra treatments should be applied
      */
     private void writeRecord(ArchiveEntry archiveEntry, Entity record, boolean applyExtraTreatment) throws JsonGenerationException, JsonMappingException, IOException {
         Entity treated = applicator.apply(record);
@@ -159,25 +158,27 @@ public class EntityExtractor{
         archiveEntry.incrementNoOfRecords();
     }
 
-    private void cleanupArchiveFiles(Map<String, ArchiveEntry> archiveEntries) throws JsonGenerationException, IOException {
+    /**
+     * Write record to archive entry.
+     * @param archiveEntries - complete set of entity archive entries
+     */
+    private void closeArchiveEntries(Map<String, ArchiveEntry> archiveEntries) {
         for (String entity : archiveEntries.keySet()) {
-            archiveEntries.get(entity).flush();
-            LOG.info("Finished extracting {} records for " + entity,
-                    archiveEntries.get(entity).getNoOfRecords());
+            try {
+                archiveEntries.get(entity).flush();
+                archiveEntries.get(entity).closeDatafile();
+
+                LOG.info("Finished extracting {} records for " + entity,
+                        archiveEntries.get(entity).getNoOfRecords());
+           } catch (Exception e) {
+               LOG.error("Error while closing archive for entity " + entity, e);
+           }
         }
     }
 
     /**
-     * Set list of entities to extract.
-     * @param entities entities
-     */
-    public void setEntities(List<String> entities) {
-        this.entities = entities;
-    }
-
-    /**
      * set entity repository.
-     * @param entityRepository entity repository
+     * @param entityRepository - extractor entity repository
      */
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
@@ -185,36 +186,31 @@ public class EntityExtractor{
 
     /**
      * Set entities to collections map.
-     * @param entities to collections map
+     * @param entitiesToCollections - entities to collections map
      */
     public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
         this.entitiesToCollections = entitiesToCollections;
     }
 
     /**
-     * set applicator.
-     * @param applicator applicator
+     * Set treatment applicator.
+     * @param applicator - treatment applicator
      */
     public void setApplicator(TreatmentApplicator applicator) {
         this.applicator = applicator;
     }
 
     /**
-     * get list of entities which should also be added to their collection extract file.
-     * @return addToCollectionFile
-     */
-    public List<String> getAddToCollectionFile() {
-        return addToCollectionFile;
-    }
-
-    /**
-     * set addToCollectionFile.
-     * @param addToCollectionFile addToCollectionFile
+     * Set add to collection file.
+     * @param addToCollectionFile - collection of entities to add to collection archive
      */
     public void setAddToCollectionFile(List<String> addToCollectionFile) {
         this.addToCollectionFile = addToCollectionFile;
     }
 
+    /**
+     * Describes class to encapsulate archive file entry operations.
+     */
     private class ArchiveEntry {
         private long noOfRecords = 0;
         private DataExtractFile dataFile = null;
