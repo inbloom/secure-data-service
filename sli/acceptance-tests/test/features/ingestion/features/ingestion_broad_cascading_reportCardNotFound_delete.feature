@@ -10,7 +10,6 @@ Scenario: Delete Report Card with cascade
     When I post "BroadReportCardDelete.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone
     And a batch job for file "BroadReportCardDelete.zip" is completed in database
-    And a batch job log has been created
 	And I should see "records considered for processing: 1" in the resulting batch job file
 	And I should see "ingested successfully: 0" in the resulting batch job file
 	And I should see "records deleted successfully: 0" in the resulting batch job file

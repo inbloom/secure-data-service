@@ -9,13 +9,6 @@ Scenario: Delete Staff with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-#    And I post "BroadSetOfTypes.zip" file as the payload of the ingestion job
-#    When zip file is scp to ingestion landing zone
-#    Then a batch job for file "BroadSetOfTypes.zip" is completed in database
-#    And a batch job log has been created
-#    And I should not see an error log file created
-#    And I should not see a warning log file created
-  And I should see child entities of entityType "staff" with id "3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id" in the "Midgar" database
     Then there exist "1" "staff" records like below in "Midgar" tenant. And I save this query as "StaffQ"
       |field                                        |value                                         |
       |_id                                          |3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id   |
@@ -38,7 +31,6 @@ Scenario: Delete Staff with cascade
     And I post "BroadStaffDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "BroadStaffDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
     And I should not see a warning log file created

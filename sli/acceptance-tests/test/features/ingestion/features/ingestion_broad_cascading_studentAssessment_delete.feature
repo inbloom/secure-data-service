@@ -15,7 +15,6 @@ Given I am using local data store
   #    And I post "BroadSetOfTypes.zip" file as the payload of the ingestion job
   #    When zip file is scp to ingestion landing zone
   #    Then a batch job for file "BroadSetOfTypes.zip" is completed in database
-  #    And a batch job log has been created
   #    And I should not see an error log file created
   #    And I should not see a warning log file created
 
@@ -38,7 +37,6 @@ Given I am using local data store
     And I post "BroadStudentAssessmentDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "BroadStudentAssessmentDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
     And I should not see a warning log file created

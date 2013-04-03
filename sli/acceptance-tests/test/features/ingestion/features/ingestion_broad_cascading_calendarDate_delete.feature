@@ -18,7 +18,6 @@ Scenario: Delete Calendar Date with cascade
     And I post "BroadCalendarDateDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadCalendarDateDelete.zip" is completed in database
-    And a batch job log has been created
 	And I should see "records considered for processing: 1" in the resulting batch job file
 	And I should see "records ingested successfully: 0" in the resulting batch job file
 	And I should see "records deleted successfully: 1" in the resulting batch job file

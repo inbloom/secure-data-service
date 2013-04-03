@@ -19,7 +19,6 @@ Scenario: Delete Student School Association with cascade
     And I post "BroadStudentSchoolAssociationDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadStudentSchoolAssociationDelete.zip" is completed in database
-    And a batch job log has been created
 	And I should see "records considered for processing: 1" in the resulting batch job file
     And I should see "records ingested successfully: 0" in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
@@ -52,7 +51,6 @@ Scenario: Delete Student School Association without cascade
     And I post "LeafStudentSchoolAssociationDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "LeafStudentSchoolAssociationDelete.zip" is completed in database
-    And a batch job log has been created
 	And I should see "records considered for processing: 1" in the resulting batch job file
     And I should see "records ingested successfully: 0" in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
