@@ -116,7 +116,6 @@ And there is a metadata file in the extract
 And the extract contains a file for each of the following entities:
    |  entityType                            |
    |  assessment                            |
-   |  assessmentFamily                      |
    |  assessmentPeriodDescriptor            |
    |  attendance                            |
    |  cohort                                |
@@ -147,7 +146,6 @@ And the extract contains a file for each of the following entities:
    |  studentCompetency                     |
    |  studentCompetencyObjective            |
    |  studentDisciplineIncidentAssociation  |
-   |  studentObjectiveAssessment            |
    |  studentProgramAssociation             |
    |  studentGradebookEntry                 |
    |  studentSchoolAssociation              |
