@@ -169,7 +169,16 @@ end
 
 private
 def get_app(name="Testing App")
-  @driver.find_element(:xpath, "//tr/td[text()='#{name}']/..")
+  rows = @driver.find_elements(:xpath, ".//tbody/tr")
+  results = []
+  for row in rows
+    appName = row.find_elements(:xpath, 'td')
+    fixedName = appName[0].text.sub(/Bulk Extract application request/,"").strip
+    if fixedName == name
+      return row      
+    end
+  end
+  return nil
 end
 def check_app(arg1)
   @test_app = get_app(arg1)

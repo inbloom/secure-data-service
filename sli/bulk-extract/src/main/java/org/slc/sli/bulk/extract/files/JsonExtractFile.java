@@ -25,16 +25,24 @@ import java.io.OutputStream;
 
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import org.slc.sli.domain.Entity;
 
 /**
  * Extract's Data File Class.
  * @author npandey
  *
  */
-public class DataExtractFile implements Closeable{
+public class JsonExtractFile implements Closeable{
+    private static final JsonFactory JSON_FACTORY = new JsonFactory();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    private GzipCompressorOutputStream outputStream;
     private File file;
+    private GzipCompressorOutputStream outputStream;
+    private JsonGenerator jsonGenerator;
 
     private static final String FILE_EXTENSION = ".json.gz";
 
@@ -45,7 +53,7 @@ public class DataExtractFile implements Closeable{
      * @param filePrefix
      *          the prefix string to be used in file name generationName of the data file
      */
-    public DataExtractFile(File parentDir, String filePrefix) {
+    public JsonExtractFile(File parentDir, String filePrefix) {
         file = new File(parentDir, filePrefix + FILE_EXTENSION);
     }
 
@@ -58,15 +66,44 @@ public class DataExtractFile implements Closeable{
      * @throws FileNotFoundException
      *          if data file is not found
      */
-    public OutputStream getOutputStream() throws FileNotFoundException, IOException {
+    private OutputStream getOutputStream() throws FileNotFoundException, IOException {
         if(outputStream == null) {
             outputStream = new GzipCompressorOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
         }
         return outputStream;
     }
 
+    private JsonGenerator getJsonGenerator() throws IOException {
+        if (jsonGenerator == null) {
+            jsonGenerator = JSON_FACTORY.createJsonGenerator(getOutputStream());
+            jsonGenerator.setCodec(MAPPER);
+            jsonGenerator.writeStartArray();
+        }
+
+        return jsonGenerator;
+    }
+
+    /**
+     * Writes an entity to a json file.
+     * @param entity entity
+     * @throws IOException IOException
+     */
+    public void write(Entity entity) throws IOException {
+        getJsonGenerator().writeObject(entity.getBody());
+    }
+
     @Override
     public void close() {
+        try {
+            if (jsonGenerator != null) {
+                jsonGenerator.writeEndArray();
+                jsonGenerator.flush();
+                jsonGenerator.close();
+            }
+        } catch (IOException e) {
+            // eat the exception
+            e = null;
+        }
         IOUtils.closeQuietly(outputStream);
 
     }

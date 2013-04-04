@@ -76,7 +76,6 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 public class BasicService implements EntityService, AccessibilityCheck {
 
     private static final String ADMIN_SPHERE = "Admin";
-    private static final String PUBLIC_SPHERE = "Public";
 
     private static final int MAX_RESULT_SIZE = 0;
 
@@ -193,11 +192,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             neededRights = new HashSet<Right>(Arrays.asList(Right.ADMIN_ACCESS));
-        }
-        if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            if (neededRights.contains(Right.READ_GENERAL)) {
-                neededRights = new HashSet<Right>(Arrays.asList(Right.READ_PUBLIC));
-            }
         }
 
         if (auths.contains(Right.FULL_ACCESS)) {
@@ -845,7 +839,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 if(isSelf((String) eb.get("id"))) {
                     auths.addAll(principal.getSelfRights());
                 }
-                if (!intersection(auths, neededRights)) {
+                if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
                     toRemove.add(fieldName);
                 } else if (value instanceof Map) {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
@@ -872,12 +866,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
             neededRights.add(Right.ADMIN_ACCESS);
         }
 
-        if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            if (neededRights.contains(Right.READ_GENERAL)) {
-                neededRights.add(Right.READ_PUBLIC);
-            }
-        }
-
         return neededRights;
     }
 
@@ -897,13 +885,13 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
             }
 
-
             if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
                 for (NeutralCriteria criteria : query.getCriteria()) {
                     // get the needed rights for the field
                     Set<Right> neededRights = getNeededRights(criteria.getKey());
 
-                    if (!intersection(auths, neededRights)) {
+                    if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
+                    	debug("Denied user searching on field {}", criteria.getKey());
                         throw new QueryParseException("Cannot search on restricted field", criteria.getKey());
                     }
                 }

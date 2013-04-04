@@ -8,7 +8,6 @@ Scenario: Delete Program with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-	And I should see child of entityType "program" with id "0064dd5bb3bffd47e93b023585e6591c018ee697_id" in the "Midgar" database	
 	Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "localEducationAgency"
 	|field                                                           |value                                                |
 	|body.programReference                                                |0064dd5bb3bffd47e93b023585e6591c018ee697_id          |

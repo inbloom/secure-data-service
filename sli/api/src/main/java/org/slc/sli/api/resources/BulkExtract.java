@@ -24,6 +24,8 @@ import java.io.OutputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.util.Map;
+import java.util.Set;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -31,12 +33,10 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -48,12 +48,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
@@ -61,6 +55,13 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Component;
 
 /**
  * The Bulk Extract Endpoints.
@@ -91,28 +92,39 @@ public class BulkExtract {
     }
 
     /**
-     * Creates a streaming response for a sample data file.
+     * Creates a streaming response for the sample data file.
      *
-     * @param sample
-     *          A flag for requesting a sample file. The default is true.
      * @return
-     *          A response with either a sample or actual extract file, depending of the sample flag
+     *          A response with the sample extract file
      * @throws Exception
      *          On Error
      */
     @GET
     @Path("extract")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response get(@DefaultValue("true") @QueryParam("sample") boolean sample) throws Exception {
-        LOG.info("Received request to stream bulk extract...");
-
-        return sample ? getSampledFile() : getExtractResponse(null);
-    }
-
-    private Response getSampledFile() {
+    public Response get() throws Exception {
+        LOG.info("Received request to stream sample bulk extract...");
         InputStream input = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
 
         return getExtractResponse(input, SAMPLED_FILE_NAME, "Not Specified");
+    }
+
+    /**
+     * Creates a streaming response for the tenant data file.
+     *
+     * @return
+     *          A response with the actual extract file
+     * @throws Exception
+     *          On Error
+     */
+    @GET
+    @Path("extract/tenant")
+    @RightsAllowed({ Right.BULK_EXTRACT })
+    public Response getTenant() throws Exception {
+        info("Received request to stream tenant bulk extract...");
+        checkApplicationAuthorization(null);
+
+        return getExtractResponse(null);
     }
 
     /**
@@ -264,8 +276,8 @@ public class BulkExtract {
         initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
+        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
         if (isDelta) {
-            query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
             DateTime d = ISODateTimeFormat.basicDate().parseDateTime(deltaDate);
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.toDate()));
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d.plusDays(1).toDate()));
@@ -298,6 +310,21 @@ public class BulkExtract {
         }
 
         return encryptedData;
+    }
+    
+    /**
+     * @throws AccessDeniedException
+     *             if the application is not BEEP enabled
+     */
+    private void checkApplicationAuthorization(Set<String> edorgsForExtract) throws AccessDeniedException {
+        OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+        String clientId = auth.getClientAuthentication().getClientId();
+        Entity app = this.mongoEntityRepository.findOne("application", new NeutralQuery(new NeutralCriteria(
+                "client_id", NeutralCriteria.OPERATOR_EQUAL, clientId)));
+        Map<String, Object> body = app.getBody();
+        if (!body.containsKey("isBulkExtract") || (Boolean) body.get("isBulkExtract") == false) {
+            throw new AccessDeniedException("Application is not approved for bulk extract");
+        }
     }
 
     /**

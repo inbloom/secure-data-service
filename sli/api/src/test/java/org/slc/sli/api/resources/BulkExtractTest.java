@@ -38,8 +38,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 
-import com.sun.jersey.core.spi.factory.ResponseImpl;
-
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -54,19 +52,21 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import com.sun.jersey.core.spi.factory.ResponseImpl;
 
 /**
  * Test for support BulkExtract
@@ -94,6 +94,13 @@ public class BulkExtractTest {
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
+        Map<String, Object> appBody = new HashMap<String, Object>();
+        appBody.put("isBulkExtract", true);
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(appBody);
+        when(mockMongoEntityRepository.findOne(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -114,9 +121,10 @@ public class BulkExtractTest {
     }
 
     @Test
-    public void testGetPhase0() throws Exception {
+    public void testGetSampleExtract() throws Exception {
         injector.setEducatorContext();
-        ResponseImpl res = (ResponseImpl) bulkExtract.get(true);
+
+        ResponseImpl res = (ResponseImpl) bulkExtract.get();
         assertEquals(200, res.getStatus());
         MultivaluedMap<String, Object> headers = res.getMetadata();
         assertNotNull(headers);
@@ -141,20 +149,21 @@ public class BulkExtractTest {
     }
 
     @Test
-    public void testGetFileError() throws Exception {
+    public void testGetTenantFileError() throws Exception {
         injector.setEducatorContext();
         Entity mockEntity = Mockito.mock(Entity.class);
         Map<String, Object> mockBody = Mockito.mock(Map.class);
         Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
         Mockito.when(mockBody.get(Mockito.anyString())).thenReturn("");
-        Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
+        Mockito.when(
+                mockMongoEntityRepository.findOne(eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
-        ResponseImpl res = (ResponseImpl) bulkExtract.get(false);
+        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant();
         assertEquals(404, res.getStatus());
     }
 
   @Test
-  public void testGet() throws Exception {
+  public void testGetTenant() throws Exception {
       injector.setEducatorContext();
       Entity mockEntity = Mockito.mock(Entity.class);
       Map<String, Object> mockBody = Mockito.mock(Map.class);
@@ -165,10 +174,11 @@ public class BulkExtractTest {
       FileUtils.writeStringToFile(file, "12345");
       Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(file.getAbsolutePath());
       Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
-      Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
+        Mockito.when(
+                mockMongoEntityRepository.findOne(eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
           .thenReturn(mockEntity);
 
-      ResponseImpl res = (ResponseImpl) bulkExtract.get(false);
+      ResponseImpl res = (ResponseImpl) bulkExtract.getTenant();
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -222,5 +232,30 @@ public class BulkExtractTest {
         } finally {
             f.delete();
         }
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testAppHasNoDefinedRestriction() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        bulkExtract.getTenant();
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testAppIsNotBeepApp() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", false);
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        bulkExtract.getTenant();
     }
 }

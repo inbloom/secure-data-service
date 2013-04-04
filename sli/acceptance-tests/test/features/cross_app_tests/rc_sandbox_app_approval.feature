@@ -8,6 +8,7 @@ Given I have an open web browser
 
 @ci
 Scenario: Operator triggers a bulk extract
+   Given the extraction zone is empty
    When the operator triggers a bulk extract for tenant "<SANDBOX_TENANT>"
 
 Scenario: App developer Registers, Approves, and Enables a new Installed app and Full window web app. Educators and IT Administrators can see the apps.
@@ -115,23 +116,22 @@ And there is a metadata file in the extract
 And the extract contains a file for each of the following entities:
    |  entityType                            |
    |  assessment                            |
-   |  assessmentFamily                      |
-   |  assessmentPeriodDescriptor            |
    |  attendance                            |
    |  cohort                                |
    |  course                                |
+   |  courseTranscript                      |
    |  courseOffering                        |
    |  disciplineIncident                    |
    |  disciplineAction                      |
    |  educationOrganization                 |
-#   |  grade                                 |
+   |  grade                                 |
    |  gradebookEntry                        |
    |  gradingPeriod                         |
    |  learningObjective                     |
    |  learningStandard                      |
    |  parent                                |
    |  program                               |
-#   |  reportCard                            |
+   |  reportCard                            |
    |  school                                |
    |  section                               |
    |  session                               |
@@ -140,13 +140,12 @@ And the extract contains a file for each of the following entities:
    |  staffEducationOrganizationAssociation |
    |  staffProgramAssociation               |
    |  student                               |
-#   |  studentAcademicRecord                 |
+   |  studentAcademicRecord                 |
    |  studentAssessment                     |
    |  studentCohortAssociation              |
    |  studentCompetency                     |
    |  studentCompetencyObjective            |
    |  studentDisciplineIncidentAssociation  |
-   |  studentObjectiveAssessment            |
    |  studentProgramAssociation             |
    |  studentGradebookEntry                 |
    |  studentSchoolAssociation              |
@@ -154,3 +153,4 @@ And the extract contains a file for each of the following entities:
    |  studentParentAssociation              |
    |  teacher                               |
    |  teacherSchoolAssociation              |
+   |  teacherSectionAssociation             |

@@ -8,7 +8,6 @@ Scenario: Delete Student Parent Association with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-	And I should see child of entityType "studentParentAssociation" with id "908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id" in the "Midgar" database
 	Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentParentAssociation"
 	|field                                                           |value                                                                                          |
 	|studentParentAssociation._id                                    |908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id          |

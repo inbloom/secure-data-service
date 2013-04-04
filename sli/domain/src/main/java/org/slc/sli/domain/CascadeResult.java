@@ -22,7 +22,14 @@
  */
 package org.slc.sli.domain;
 
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import org.codehaus.jackson.map.ObjectMapper;
 
 public class CascadeResult {
 
@@ -47,6 +54,25 @@ public class CascadeResult {
     private String objectType;
     private String objectId;
 
+    private static final String TREE_KEY_TYPE = "type";
+    private static final String TREE_KEY_ID = "id";
+    private static final String TREE_KEY_REF = "ref";
+
+    /* Maintain a tree (accumulated during dry run, and only when cascade is enable)
+     * of all the objects encountered in the cascade, organized by child referring
+     * field.  This can then be used as an exploratory tool, and also for detailed
+     * logging of the child data that would be left orphaned if cascade is off, and
+     * is causing the CHILD_DATA_EXISTS error.
+     *
+     * Each node in the tree is an object, represented by a  map with keys (type, id, ref), where type and ID
+     * are that of the object, and ref is an optional map, keyed on child referring field of the form "childType.childField",
+     * and whose values are lists of nodes representing the child instances.  If a child reference type exists but
+     * has no instance data, we still put in an empty list in the map to denote explicitly the lack of children
+     * for that referring field.
+     *
+     */
+    private Map<String, Object> idTree;
+
     public CascadeResult() {
         nObjects = 0;
         depth = 0;
@@ -54,6 +80,7 @@ public class CascadeResult {
         message = null;
         objectType = null;
         objectId = null;
+        idTree = null;
     }
 
     public CascadeResult(int nObjects, int depth, Status status, String message, String objectId, String objectType) {
@@ -136,5 +163,51 @@ public class CascadeResult {
 
     public void setObjectId(String objectId) {
         this.objectId = objectId;
+    }
+
+    public Map<String, Object> getIdTree() {
+    	return idTree;
+    }
+
+    // idTree
+    public void initIdTree(String type, String id) {
+    	if ( null == idTree ) {
+    		idTree = new HashMap<String, Object>();
+    	}
+    	idTree.put(TREE_KEY_TYPE, type);
+    	idTree.put(TREE_KEY_ID, id);
+    }
+
+    // Add an entry in the child ref map, initialized with an empty list of child objects
+    public List<Map<String, Object>> addRefField(String childRefField) {
+    	Map<String, Object> map = (Map<String, Object>) (idTree.get(TREE_KEY_REF));
+    	if ( null == map ) {
+    		map = new HashMap<String, Object>();
+    		idTree.put(TREE_KEY_REF,  map);
+    	}
+    	List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+    	map.put(childRefField, result);
+    	return result;
+    }
+
+    public String getIdTreeAsJSON() {
+    	return objectToJSON(idTree);
+    }
+
+    @Override
+	public String toString() {
+    	return objectToJSON(this);
+    }
+
+    // Convert object to JSON
+    private String objectToJSON(Object ob) {
+        ObjectMapper mapper = new ObjectMapper();
+        StringWriter writer = new StringWriter();
+        try {
+            mapper.writeValue(writer, ob);
+        } catch (Exception e) {
+            return "{\"error\": \"JSON conversion error\"";
+        }
+        return writer.getBuffer().toString();
     }
 }

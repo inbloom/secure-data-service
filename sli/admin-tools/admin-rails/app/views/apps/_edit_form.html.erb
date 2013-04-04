@@ -54,11 +54,7 @@
 	<%= f.check_box :is_admin %>
 	<span class="help-inline">Is this an administrative application?</span>
 </div>
-<div class = "field">
-  <%= f.label :isBulkExtract, "Bulk Extract" %>
-  <%= f.check_box :isBulkExtract %>
-  <span class="help-inline">Is this application used to perform only bulk extraction?</span>
-</div>
+
 <div class = "field">
 	<%= f.label :behavior, "Display Method" %>
 	<%= select_tag(:app_behavior, options_for_select(['iframe App', 'WSRP App', 'Full Window App'], app.behavior))%>
@@ -91,11 +87,21 @@
       <%= f.hidden_field :authorized_ed_orgs, :multiple => true, :value => role %>
   <% end %>
 </div>
-
-<div class="field well">
-    <%=  f.label :public_key, "Public Key" %>
-    <%=  f.text_field :public_key %>
+<div class= "well">
+  <div class = "field" id="isBulkExtract">
+    <%= f.label :isBulkExtract, "Bulk Extract" %>
+    <%= f.check_box :isBulkExtract %>
+    <span class="help-inline">Is this application used to perform only bulk extraction?</span>
+  </div>
+  <div class="field" id="publicKey">
+      <%=  f.label :public_key, "Public Key" %>
+      <%=  f.text_field :public_key %>
+      <span class="help-inline">Your public key used to encrypt the bulk extract data</span>
+  </div>
 </div>
+
+
+
 <% if !@sea.nil? %>
 <h3>Enable the districts you would like to use your application</h3>
 <div id="state-menu">
