@@ -3,7 +3,7 @@
 ############################################################
 task :bulkExtract => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/bulkExtract/")
+  runTests("test/features/apiV1/bulkExtract")
 end
 
 desc "Run API V1 Yearly Transcript Tests"

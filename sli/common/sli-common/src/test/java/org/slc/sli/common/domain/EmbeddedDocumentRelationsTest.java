@@ -21,7 +21,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -47,47 +46,19 @@ public class EmbeddedDocumentRelationsTest {
     }
 
     @Test
-    public void testGetDenormalizedDocuments() {
-        assertTrue(EmbeddedDocumentRelations.getDenormalizedDocuments().contains("studentProgramAssociation"));
+    public void testDenormalization() {
+        String denormalizedEntityType = "studentSchoolAssociation";
+        assertTrue(EmbeddedDocumentRelations.getDenormalizedDocuments().contains(denormalizedEntityType));
         assertFalse(EmbeddedDocumentRelations.getDenormalizedDocuments().contains("foobar"));
+        assertEquals("student", EmbeddedDocumentRelations.getDenormalizeToEntity(denormalizedEntityType));
+        assertEquals("schoolId", EmbeddedDocumentRelations.getDenormalizedIdKey(denormalizedEntityType));
+        assertEquals(Arrays.asList("entryDate", "entryGradeLevel", "exitWithdrawDate"),
+                EmbeddedDocumentRelations.getDenormalizedBodyFields(denormalizedEntityType));
+        assertEquals("schools", EmbeddedDocumentRelations.getDenormalizedToField(denormalizedEntityType));
+        Map<String, String> referenceKeys = EmbeddedDocumentRelations.getReferenceKeys(denormalizedEntityType);
+        assertEquals(1, referenceKeys.keySet().size());
+        assertTrue(referenceKeys.containsKey("studentId"));
+        assertEquals("_id", referenceKeys.get("studentId"));
     }
 
-    @Test
-    public void testGetDenormalizedToEntity() {
-        String entityType = "studentProgramAssociation";
-        assertEquals("student", EmbeddedDocumentRelations.getDenormalizeToEntity(entityType));
-    }
-
-    @Test
-    public void testGetReferenceKeys() {
-        String entityType = "studentProgramAssociation";
-        Map<String, String> actual = EmbeddedDocumentRelations.getReferenceKeys(entityType);
-        assertEquals(1, actual.keySet().size());
-        assertTrue(actual.containsKey("studentId"));
-        assertEquals("_id", actual.get("studentId"));
-    }
-
-    @Test
-    public void testGetDenormalizedIdKey() {
-        String entityType = "studentProgramAssociation";
-        String expected = "programId";
-        String actual = EmbeddedDocumentRelations.getDenormalizedIdKey(entityType);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testGetDenormalizedFields() {
-        String entityType = "studentProgramAssociation";
-        List<String> expected = Arrays.asList("endDate");
-        List<String> actual = EmbeddedDocumentRelations.getDenormalizedBodyFields(entityType);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testGetDenormalizedToField() {
-        String entityType = "studentProgramAssociation";
-        String expected = "program";
-        String actual = EmbeddedDocumentRelations.getDenormalizedToField(entityType);
-        assertEquals(expected, actual);
-    }
 }

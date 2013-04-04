@@ -59,11 +59,9 @@ public class EntityExtractor{
      *          Name of the entity to be extracted
      */
     public void extractEntities(String tenant, ExtractFile archiveFile, String collectionName) {
-
-        Query query = new Query();
         try {
             TenantContext.setTenantId(tenant);
-            Iterator<Entity> cursor = entityRepository.findEach(collectionName, query);
+            Iterator<Entity> cursor = entityRepository.findEach(collectionName, new Query());
 
             if (cursor.hasNext()) {
                 LOG.info("Extracting from " + collectionName);
@@ -85,12 +83,16 @@ public class EntityExtractor{
         } catch (IOException e) {
             LOG.error("Error while extracting from " + collectionName, e);
         } finally {
-            for (String entity : entitiesToCollections.keySet()) {
-                archiveFile.getDataFileEntry(entity).close();
-            }
+            closeArchiveEntries(archiveFile);
         }
     }
 
+    /**
+     * Write collection of an entity's embedded documents to their respective archives.
+     * @param docs - embedded documents within an entity
+     * @param archiveEntries - collection of archive entries, one per subdoc type
+     * @param archiveFile - file containing archives to be written to
+     */
     private void extractAndWriteEmbeddedDocs(Map<String, List<Entity>> docs, ExtractFile archiveFile) throws FileNotFoundException, IOException {
         for (String docName : docs.keySet()) {
             if (entitiesToCollections.containsKey(docName)) {
@@ -102,26 +104,37 @@ public class EntityExtractor{
     }
 
     /**
+     * Write record to archive entry.
+     * @param archiveEntries - complete set of entity archive entries
+     */
+    private void closeArchiveEntries(ExtractFile archiveFile) {
+        for (String entity : entitiesToCollections.keySet()) {
+            archiveFile.getDataFileEntry(entity).close();
+        }
+    }
+
+    /**
      * set entity repository.
-     * @param entityRepository entity repository
+     * @param entityRepository - extractor entity repository
      */
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
 
     /**
-     * Set entities to collections map.
-     * @param entitiesToCollections entities to collections map
-     */
-    public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
-        this.entitiesToCollections = entitiesToCollections;
-    }
-
-    /**
-     * sets writer.
-     * @param writer writer
+     * Set writer.
+     * @param writer - writer the entity to a file
      */
     public void setWriter(EntityWriter writer) {
         this.writer = writer;
     }
+
+    /**
+     * Set entites to collection map.
+     * @param entitiesToCollections entitiesToCollections
+     */
+    public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
+        this.entitiesToCollections = entitiesToCollections;
+    }
 }
+

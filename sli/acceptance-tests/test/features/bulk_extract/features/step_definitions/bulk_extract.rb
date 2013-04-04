@@ -173,7 +173,7 @@ When /^I retrieve the path to the extract file for the tenant "(.*?)"$/ do |tena
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
 
-  match =  @coll.find_one("body.tenantId" => tenant)
+  match =  @coll.find_one({"_id" => tenant, "body.tenantId" => tenant})
 
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
