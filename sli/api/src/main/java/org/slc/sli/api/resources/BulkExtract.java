@@ -24,6 +24,8 @@ import java.io.OutputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.util.Map;
+import java.util.Set;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -46,12 +48,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
@@ -59,6 +55,13 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Component;
 
 /**
  * The Bulk Extract Endpoints.
@@ -118,7 +121,8 @@ public class BulkExtract {
     @Path("extract/tenant")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getTenant() throws Exception {
-        LOG.info("Received request to stream tenant bulk extract...");
+        info("Received request to stream tenant bulk extract...");
+        checkApplicationAuthorization(null);
 
         return getExtractResponse(null);
     }
@@ -306,6 +310,21 @@ public class BulkExtract {
         }
 
         return encryptedData;
+    }
+    
+    /**
+     * @throws AccessDeniedException
+     *             if the application is not BEEP enabled
+     */
+    private void checkApplicationAuthorization(Set<String> edorgsForExtract) throws AccessDeniedException {
+        OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+        String clientId = auth.getClientAuthentication().getClientId();
+        Entity app = this.mongoEntityRepository.findOne("application", new NeutralQuery(new NeutralCriteria(
+                "client_id", NeutralCriteria.OPERATOR_EQUAL, clientId)));
+        Map<String, Object> body = app.getBody();
+        if (!body.containsKey("isBulkExtract") || (Boolean) body.get("isBulkExtract") == false) {
+            throw new AccessDeniedException("Application is not approved for bulk extract");
+        }
     }
 
     /**
