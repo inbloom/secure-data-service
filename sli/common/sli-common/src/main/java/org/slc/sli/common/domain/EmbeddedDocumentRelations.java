@@ -49,15 +49,6 @@ public class EmbeddedDocumentRelations {
         denormalizationMap.put("studentSectionAssociation", new Denormalization("student", "section", studentReferenceMap,
                 "sectionId", Arrays.asList("endDate")));
 
-        //student assessment association de-normalization
-        denormalizationMap.put("studentAssessment", new Denormalization("student", "studentAssessment", studentReferenceMap,
-                "_id", Arrays.asList("administrationDate")));
-
-        // Student--program
-        denormalizationMap.put("studentProgramAssociation", new Denormalization("student", "program",
-                studentReferenceMap, "programId", Arrays.asList("endDate")));
-        denormalizationMap.put("studentCohortAssociation", new Denormalization("student", "cohort",
-                studentReferenceMap, "cohortId", Arrays.asList("beginDate", "endDate")));
         // student school association de-normalization
         // -> puts information from the student school association on the student db object
         // -> assembles school's 'education organization lineage' and denormalizes onto student with
