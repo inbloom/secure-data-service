@@ -95,6 +95,7 @@ Scenario: Delete School with cascade
         | teacherSectionAssociation                 |       -11|                         
     And I should not see "352e8570bd1116d11a72755b987902440045d346_id" in the "Midgar" database
 
+@wip
 Scenario: Delete School with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -140,11 +141,11 @@ Scenario: Delete School with cascade = false
     When zip file is scp to ingestion landing zone
     And a batch job for file "LeafSchoolDelete.zip" is completed in database
     And a batch job log has been created
-	  And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 0" in the resulting batch job file
-	  And I should see "records failed processing: 1" in the resulting batch job file
+	And I should see "Processed 1 records." in the resulting batch job file
+	And I should see "records deleted successfully: 0" in the resulting batch job file
+	And I should see "records failed processing: 1" in the resulting batch job file
     And I should not see an error log file created
-	  And I should not see a warning log file created
+	And I should not see a warning log file created
     And I re-execute saved query "school" to get "1" records
     And I re-execute saved query "attendance" to get "11" records
     And I re-execute saved query "cohort" to get "3" records
@@ -161,7 +162,7 @@ Scenario: Delete School with cascade = false
         | collection                                |     delta|
         | educationOrganization                     |         0|
         | recordHash                                |         0|
-        | attendance	                              |         0|
+        | attendance	                            |         0|
         | cohort                                    |         0|       
         | course                                    |         0| 
         | courseOffering                            |         0|
@@ -173,5 +174,3 @@ Scenario: Delete School with cascade = false
         | studentCompetencyObjective                |         0|                                
         | studentSchoolAssociation                  |         0|  
         | teacherSchoolAssociation                  |         0|         
-                       
-
