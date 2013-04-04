@@ -139,12 +139,9 @@ public class BulkExtractTest {
           Map<String, Object> mockBody = Mockito.mock(Map.class);
           Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
 
-//          Mockito.when(mockBody.get(eq("public_key"))).thenReturn("AAAAB3NzaC1yc2EAAAADAQABAAABAQDQq3++kMgrL9Na6iRBDxz+AkuDjnby5cN+mdf+zWQzSbze8l/pYTXC6eDNT9FBd5A8j5rNYvVsse8Pkcz1gRsp8WAQXyW1a9gA3p9cLiKSh8d3ckRU6ZCzHR27OF1wKT5rY/nobbFClktd91+mXIWYFnqdwsrNQZCBJaYday30eopLraU2EwderZxSEvkSivQI6VkQgX03s9BJSnxU2c+k0IVUkh2pllyb3mAJQ88u\n" +
-//                  "vygjLYjhQK8NIMTtqYe3c+Th5ak8Pe05KOD+H0M4jmambefqgfLaSWBbAlMM8QDRE+D5me5kCJ26ovc+U6Oos0LhemcBhK+2LaYpHgFCSpz5");
           Mockito.when(mockBody.get(eq("public_key"))).thenReturn("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCJZdv/y7fGXFUbhGVZXS+kjVQ//Dnmz4fs8ZES\n" +
                   "L7O8mEoAsyPuYfTncaSLXjn5LY1ce/IOD45ojP1qNU+XptRa+JCig/o3tZbS/K5YyztzoAanraAs\n" +
                   "/9Hx48aOeWhlJAPLOijX0eGoMibSbTLu1mQlKZAclwuPq9mEk6jLnlkyjwIDAQAB");
-//          Mockito.when(mockBody.get()).thenReturn(keyPair.getPublic().toString());
           Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
                   .thenReturn(mockEntity);
       }
