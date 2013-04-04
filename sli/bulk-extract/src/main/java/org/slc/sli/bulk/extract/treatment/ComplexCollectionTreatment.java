@@ -23,7 +23,7 @@ import org.slc.sli.domain.Entity;
  * @author ablum
  *
  */
-public class EntityToCollectionTreatment implements Treatment {
+public class ComplexCollectionTreatment implements Treatment {
     private static final String TYPE_STRING = "entityType";
 
     @Override
