@@ -1,0 +1,6 @@
+openssl pkcs8 -topk8 -nocrypt -in features/test-key -outform DER -out features/test-key.pkcs8
+base64 -i features/tesk-key.pkcs8
+
+
+
+
