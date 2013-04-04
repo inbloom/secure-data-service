@@ -14,8 +14,7 @@ Scenario: Trigger a bulk extract on ingested data
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
    |  entityType                            |
-   |  assessment                            |
-   |  assessmentPeriodDescriptor            |               
+   |  assessment                            |              
    |  attendance                            |
    |  cohort                                |
    |  competencyLevelDescriptor             |
