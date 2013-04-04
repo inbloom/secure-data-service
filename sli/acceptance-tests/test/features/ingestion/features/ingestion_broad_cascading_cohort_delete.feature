@@ -8,7 +8,6 @@ Scenario: Delete Cohort with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-    And I should see child of entityType "cohort" with id "3ec8e3eb5388b559890be7df3cf189902fc2735d_id" in the "Midgar" database	
 	Then there exist "1" "cohort" records like below in "Midgar" tenant. And I save this query as "cohort"
 	|field                                                           |value                                                                                          |
 	|_id                                                             |3ec8e3eb5388b559890be7df3cf189902fc2735d_id          |
