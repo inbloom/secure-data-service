@@ -15,7 +15,20 @@
  */
 package org.slc.sli.api.resources.generic;
 
-import org.slc.sli.api.constants.PathConstants;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
@@ -26,19 +39,6 @@ import org.slc.sli.api.resources.v1.CustomEntityResource;
 import org.slc.sli.api.security.context.WriteValidator;
 import org.slc.sli.api.util.PATCH;
 import org.slc.sli.api.util.SecurityUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 
 
 /**
@@ -83,6 +83,9 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
         return defaultResponseBuilder.build(uriInfo, onePartTemplate, ResourceMethod.POST, new ResourceLogic() {
             @Override
             public Response run(Resource resource) {
+                if (entityBody == null) {
+                    return Response.status(Response.Status.BAD_REQUEST).build();
+                }
                 final String id = resourceService.postEntity(resource, entityBody);
 
                 final String uri = ResourceUtil.getURI(uriInfo, resourceHelper.extractVersion(uriInfo.getPathSegments()),
