@@ -43,5 +43,5 @@ Scenario: Delete Grading Period with cascade
         |session      |   -1|
         |recordHash   |    0|
 	And I should not see "0d88d7123ffea30a9bb12d557152518e560a65d5_id" in the "Midgar" database
-	
-	
+#gradingPeriod.yearlyTranscript This relationship is missing from Odin data
+#gradingPeriod.section This relationship is missing from Odin data	

@@ -34,6 +34,7 @@ public class Metrics {
     private Map<String, Long> duplicateCounts;
     private long validationErrorCount;
     private long deletedCount;
+    private long deletedChildCount;
 
     public static Metrics newInstance(String resourceId) {
         Metrics metrics = new Metrics(resourceId);
@@ -67,6 +68,14 @@ public class Metrics {
 
     }
 
+    public Metrics( String resourceId, long recordCount, long errorCount, long deletedCount, long deletedChildCount) {
+        this.resourceId = resourceId;
+        this.recordCount = recordCount;
+        this.errorCount = errorCount;
+        this.deletedCount = deletedCount;
+        this.deletedChildCount = deletedChildCount;
+
+    }
     public String getResourceId() {
         return resourceId;
     }
@@ -134,4 +143,13 @@ public class Metrics {
     public void setDeletedCount(long deletedCount) {
         this.deletedCount = deletedCount;
     }
+    
+    public long getDeletedChildCount() {
+    	return deletedChildCount;
+    }
+    
+    public void setDeletedChildCount(long deletedChildCount) {
+    	this.deletedChildCount = deletedChildCount;
+    }
+    
 }

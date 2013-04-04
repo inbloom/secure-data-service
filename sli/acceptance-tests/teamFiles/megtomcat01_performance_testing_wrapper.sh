@@ -1,6 +1,6 @@
 #!/bin/sh
 if [ -z "$1" ]; then
-    echo "Dataset defaulted to SmallSampleDataSet.zip"
+    echo "Ingestion dataset defaulted to SmallSampleDataSet.zip"
     dataset="SmallSampleDataSet.zip"
 else
     dataset=$1
@@ -10,6 +10,12 @@ if [ -z "$2" ]; then
     branch="master"
 else
     branch=$2
+fi
+if [ -z "$3" ]; then
+    echo "Delete dataset defaulted to BroadStudentDeleteFromInterchangeStudentParent.zip"
+    delete="BroadStudentDeleteFromInterchangeStudentParent.zip"
+else
+    delete=$3
 fi
 set -e
 cd /opt/megatron/sli/sli/
@@ -26,4 +32,4 @@ cd /opt/megatron/sli/sli/acceptance-tests/teamFiles/
 now=$(date +"%Y_%m_%d")
 filename="/opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01_logs/ingestion_performance_$now.log"
 echo "Starting automated performance testing, logging to $filename"
-nohup sh megtomcat01_ingestion_performance.sh $dataset $branch >> $filename &
+nohup sh megtomcat01_ingestion_performance.sh $dataset $branch $delete >> $filename &

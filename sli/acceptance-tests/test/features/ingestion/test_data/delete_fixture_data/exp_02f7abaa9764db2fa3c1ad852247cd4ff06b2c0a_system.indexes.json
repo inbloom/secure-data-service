@@ -123,17 +123,10 @@
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.educationOrganizationAssociation", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.educationOrganizationSchoolAssociation", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.grade", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.gradebookEntry", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.reportCard", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.studentAcademicRecord", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.studentCohortAssociation", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.studentDisciplineIncidentAssociation", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.studentParentAssociation", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.studentProgramAssociation", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.teacherSectionAssociation", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.recordHash", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.calendarDate", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.assessmentPeriodDescriptor", "name" : "_id_" }
+{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.calendarDate", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.error", "name" : "_id_" }
 { "v" : 1, "key" : { "batchJobId" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.error", "name" : "batchJobId", "dropDups" : false, "sparse" : false }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.system", "name" : "_id_" }

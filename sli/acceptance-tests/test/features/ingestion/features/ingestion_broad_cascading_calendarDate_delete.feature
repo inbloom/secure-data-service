@@ -4,14 +4,14 @@ Feature: Safe Deletion and Cascading Deletion
 Background: I have a landing zone route configured
 Given I am using local data store
 
-Scenario: Delete Calendar Date with cascade
+Scenario: Delete Calendar Date with cascade,  gradingPeriod with one calendarDateReference should be deleted; gradingPeriod with more calendarDateReference should be deleted
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
 	Then there exist "1" "calendarDate" records like below in "Midgar" tenant. And I save this query as "calendarDate"
 	|field                                                           |value                                                |
 	|_id                                                             |68afcad771ff07a4d988d8ff44434248a900fb5c_id          |
-	Then there exist "1" "gradingPeriod" records like below in "Midgar" tenant. And I save this query as "gradingPeriod"
+	Then there exist "2" "gradingPeriod" records like below in "Midgar" tenant. And I save this query as "gradingPeriod"
 	|field                                                           |value                                                |
 	|body.calendarDateReference                                      |68afcad771ff07a4d988d8ff44434248a900fb5c_id          |
 	And I save the collection counts in "Midgar" tenant
@@ -30,8 +30,8 @@ Scenario: Delete Calendar Date with cascade
 	And I re-execute saved query "calendarDate" to get "0" records
 	And I re-execute saved query "gradingPeriod" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
-	|collection                        |delta          |
+	|collection                             |delta     |
 	|calendarDate                           |        -1|
-	|gradingPeriod                          |         0|
+	#|gradingPeriod                          |        -1|
 	|recordHash                             |         0|
 	And I should not see "68afcad771ff07a4d988d8ff44434248a900fb5c_id" in the "Midgar" database

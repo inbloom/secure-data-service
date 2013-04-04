@@ -337,7 +337,8 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionTeacherTest,
         :ingestionLeafStudentDelete,
         :ingestionCascadingDeletionReportCardNotFoundTest,
-  ] do
+        :ingestionCascadingDeleteReportTest,
+        ] do
 
   displayFailureReport()
   if $SUCCESS
@@ -345,6 +346,11 @@ desc "Run Ingestion Deletion Tests"
   else
     raise "Tests have failed"
   end
+end
+
+desc "Run Cascading Deletion Report Test"
+task :ingestionCascadingDeleteReportTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_deleteReport.feature")
 end
 
 desc "Run Leaf Student Deletion Test"
@@ -581,9 +587,10 @@ task :ingestionCascadingDeletionBroadStudentTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_student_delete.feature")
 end
 
-task :ingestionDeletionDeleteReingest do
-  runTests("test/features/ingestion/features/ingestion_nes_delete_reingest.feature")
+task :ingestionCascadingDeletionBroadSchoolTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_school_delete.feature")
 end
+
 ############################################################
 # Ingestion tests end
 ############################################################

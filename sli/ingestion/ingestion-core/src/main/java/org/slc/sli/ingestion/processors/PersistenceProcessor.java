@@ -320,7 +320,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                                 recordHashStore.remove(record);
                             }
                         }
-
+                        
                         for (SimpleEntity entity : subtract(persist, failed)) {
                             if( !entity.getAction().doDelete() ) {
                                 continue;
@@ -328,6 +328,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                             NeutralRecord record = recordStore.get(persist.indexOf(entity));
                             Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
                             currentMetric.setDeletedCount(currentMetric.getDeletedCount() + 1);
+                            currentMetric.setDeletedChildCount(currentMetric.getDeletedChildCount() + Long.parseLong(entity.getDeletedChildCount()));
                         }
                     }
                     for (NeutralRecord neutralRecord2 : recordHashStore) {

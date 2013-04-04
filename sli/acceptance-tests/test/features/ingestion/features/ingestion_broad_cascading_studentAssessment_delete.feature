@@ -50,6 +50,6 @@ Given I am using local data store
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                       |delta|
       | studentAssessment                |   -1|
-      | studentAssessmentItem            |   -1|
+      | studentAssessmentItem            |   -2|
       | studentObjectiveAssessment       |   -1|
 #studentAssessmentItem.studentObjectiveAssessment.studentAssessment This relationship is missing from Odin data
