@@ -47,6 +47,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <entry key="graduationPlan" value="graduationPlan" />
         <entry key="learningObjective" value="learningObjective" />
         <entry key="learningStandard" value="learningStandard" />
+        <entry key="localEducationAgency" value="educationOrganization" />
         <entry key="parent" value="parent" />
         <entry key="program" value="program" />
         <entry key="reportCard" value="yearlyTranscript" />
@@ -57,6 +58,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <entry key="staffCohortAssociation" value="staffCohortAssociation" />
         <entry key="staffEducationOrganizationAssociation" value="staffEducationOrganizationAssociation" />
         <entry key="staffProgramAssociation" value="staffProgramAssociation" />
+        <entry key="stateEducationAgency" value="educationOrganization" />
         <entry key="student" value="student" />
         <entry key="studentAcademicRecord" value="yearlyTranscript" />
         <entry key="studentAssessment" value="studentAssessment" />
@@ -77,6 +79,8 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     <util:map id="multiFileEntities" key-type="java.lang.String" value-type="java.lang.String">
         <entry key="teacher" value="staff" />
         <entry key="school" value="educationOrganization" />
+        <entry key="localEducationAgency" value="educationOrganization" />
+        <entry key="stateEducationAgency" value="educationOrganization" />
     </util:map>
 
     <bean id="writer" class="org.slc.sli.bulk.extract.files.writer.ComplexEntityWriter">

@@ -36,7 +36,10 @@ public class ComplexEntityWriter implements EntityWriter{
 
     @Override
     public Entity write(Entity entity, ExtractFile archiveFile) {
-        writers.get(entity.getType()).write(entity, archiveFile.getDataFileEntry(entity.getType()));
+
+        if(writers.containsKey(entity.getType())) {
+            writers.get(entity.getType()).write(entity, archiveFile.getDataFileEntry(entity.getType()));
+        }
 
         if (multiFileEntities.containsKey(entity.getType())) {
             String otherFileName = multiFileEntities.get(entity.getType());

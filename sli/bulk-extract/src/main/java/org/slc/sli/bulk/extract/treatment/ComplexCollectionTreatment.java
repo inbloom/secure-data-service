@@ -28,9 +28,9 @@ public class ComplexCollectionTreatment implements Treatment {
 
     @Override
     public Entity apply(Entity entity) {
-        if (entity.getType().equals("localEducationAgency") || entity.getType().equals("stateEducationAgency") || entity.getType().equals("school")) {
+        if (entity.getType().equals("localEducationAgency") || entity.getType().equals("stateEducationAgency") || entity.getType().equals(EntityNames.SCHOOL)) {
             entity.getBody().put(TYPE_STRING, EntityNames.EDUCATION_ORGANIZATION);
-        } else if (entity.getType().equals(EntityNames.TEACHER)) {
+        } else if (entity.getType().equals(EntityNames.TEACHER) || entity.getType().equals(EntityNames.STAFF)) {
             entity.getBody().put(TYPE_STRING, EntityNames.STAFF);
         }
 

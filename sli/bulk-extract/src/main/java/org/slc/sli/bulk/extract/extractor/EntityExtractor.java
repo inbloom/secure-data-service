@@ -68,14 +68,8 @@ public class EntityExtractor{
 
                 while (cursor.hasNext()) {
                     Entity entity = cursor.next();
-                    if (entitiesToCollections.containsKey(entity.getType())) {
-                        writer.write(entity, archiveFile);
-                    }
-                    //Write subdocs
-                    extractAndWriteEmbeddedDocs(entity.getEmbeddedData(), archiveFile);
 
-                    //Write container data
-                    extractAndWriteEmbeddedDocs(entity.getContainerData(), archiveFile);
+                    writeEntity(archiveFile, entity);
                 }
 
                 LOG.info("Finished extracting {} records for " + collectionName);
@@ -86,6 +80,25 @@ public class EntityExtractor{
             closeArchiveEntries(archiveFile);
         }
     }
+
+    /**
+     * Writes an entity to a file.
+     * @param archiveFile archiveFile
+     * @param entity entity
+     * @throws FileNotFoundException FileNotFoundException
+     * @throws IOException IOException
+     */
+    public void writeEntity(ExtractFile archiveFile, Entity entity) throws FileNotFoundException, IOException {
+        if (entitiesToCollections.containsKey(entity.getType())) {
+            writer.write(entity, archiveFile);
+        }
+        //Write subdocs
+        extractAndWriteEmbeddedDocs(entity.getEmbeddedData(), archiveFile);
+
+        //Write container data
+        extractAndWriteEmbeddedDocs(entity.getContainerData(), archiveFile);
+    }
+
 
     /**
      * Write collection of an entity's embedded documents to their respective archives.
