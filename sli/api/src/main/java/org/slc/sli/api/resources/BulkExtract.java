@@ -173,6 +173,7 @@ public class BulkExtract {
                     while ((n = is.read(buffer)) > -1) {
                         stream.write(buffer, 0, n);
                     }
+                    stream.close();
                 }
             };
             ResponseBuilder builder = Response.ok(out);
