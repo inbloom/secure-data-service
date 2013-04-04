@@ -75,7 +75,9 @@ import static org.mockito.Mockito.when;
         DirtiesContextTestExecutionListener.class })
 public class BulkExtractTest {
 
-    private static final String FILE_NAME = "mock.tar.gz";
+    private static final String INPUT_FILE_NAME = "mock.in.tar.gz";
+    private static final String OUTPUT_FILE_NAME = "mock.out.tar.gz";
+
 
     private static final String EXPECTED_STRING = "Crypto sux";
 
@@ -152,9 +154,11 @@ public class BulkExtractTest {
       Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
 
       File tmpDir = FileUtils.getTempDirectory();
-      File file = FileUtils.getFile(tmpDir, FILE_NAME);
-      FileUtils.writeStringToFile(file, "12345");
-      Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(file.getAbsolutePath());
+      File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
+      File outputFile = FileUtils.getFile(tmpDir, OUTPUT_FILE_NAME);
+
+      FileUtils.writeStringToFile(inputFile, "12345");
+      Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
       Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
       Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
           .thenReturn(mockEntity);
@@ -168,16 +172,16 @@ public class BulkExtractTest {
       String header = (String) headers.getFirst("content-disposition");
       assertNotNull(header);
       assertTrue(header.startsWith("attachment"));
-      assertTrue(header.indexOf(FILE_NAME) > 0);
+      assertTrue(header.indexOf(INPUT_FILE_NAME) > 0);
 
       Object entity = res.getEntity();
       assertNotNull(entity);
       StreamingOutput out = (StreamingOutput) entity;
-      FileOutputStream os = new FileOutputStream(file);
+      FileOutputStream os = new FileOutputStream(outputFile);
       out.write(os);
       os.flush();
-      assertTrue(file.exists());
-      FileUtils.deleteQuietly(file);
+      assertTrue(outputFile.exists());
+      FileUtils.deleteQuietly(outputFile);
   }
 
     @Test
