@@ -504,13 +504,21 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         // Simulate deleting references for dryruns so we can determine if the non-cascade delete is a leaf
         // based on the number of objects reported by the dryrun
         if (cascade) {
-
+        	if ( dryrun) {
+        		result.initIdTree(entityType, id);
+        	}
             List<SchemaReferencePath> refFields = getAllReferencesTo(entityType);
 
             // Process each referencing entity field that COULD reference the deleted ID
             for (SchemaReferencePath referencingFieldSchemaInfo : refFields) {
                 String referenceEntityType = referencingFieldSchemaInfo.getEntityName();
                 String referenceField = referencingFieldSchemaInfo.getFieldPath();
+                String referenceTypeField = referenceEntityType + "." + referenceField;
+
+                List<Map<String, Object>> idTreeChildList = null;
+                if ( dryrun ) {
+                	idTreeChildList = result.addRefField(referenceTypeField);
+                }
 
                 // Form the query to access the referencing entity's field values
                 NeutralQuery neutralQuery = new NeutralQuery();
@@ -558,6 +566,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         CascadeResult recursiveResult = safeDeleteHelper(referenceEntityType, null, referencerId,
                                 cascade, dryrun, maxObjects, access, depth+1, deletedIds);
                         DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + recursiveResult.getStatus().name() + " Cascading deletion of " + referent);
+
+                        // Accumulate object list in dry run for reporting
+                        if ( dryrun ) {
+                        	idTreeChildList.add(recursiveResult.getIdTree());
+                        }
 
                         // Update the overall result depth if necessary
                         if (result.getDepth() < recursiveResult.getDepth()) {
