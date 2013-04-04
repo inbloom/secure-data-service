@@ -17,6 +17,7 @@
 package org.slc.sli.api.resources;
 
 import com.sun.jersey.core.spi.factory.ResponseImpl;
+import com.sun.jersey.core.util.Base64;
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -55,6 +56,10 @@ import javax.ws.rs.core.StreamingOutput;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.Method;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -99,31 +104,7 @@ public class BulkExtractTest {
             "HGofzWZoCWGR70gJkkOZhwtLw+njpIhmnjDyknngUsOaX1Gza5Fzuz0QtVc/iVHg\n" +
             "iSFSz068XR5+zUmTI3cns6QbGnbsajuaTNQiZUHmQ8LOCddAfZz/7incsD9D9Jfb\n" +
             "YwIDAQAB\n";
-    private static final String PRIVATE_KEY = "MIIEpQIBAAKCAQEAw1KLTcuf8OpvbHfwMJksUAXbeaoVqZiK/CRhttWDmlMEs8Au\n" +
-            "bXiSgZCekXeaUqefK544BOgeuNgQmMmo0pLyj/GoGhf/bSZH2tsx1uKneCUm9Oq1\n" +
-            "g+juw5HmBa14H914tslvriFpJvN0b7q53ZeyAOxuD06l94UMj7wnMiNypEhowIMy\n" +
-            "VMMCRR9485hC8YsRtGB+f607bB440+d5zjG8HGofzWZoCWGR70gJkkOZhwtLw+nj\n" +
-            "pIhmnjDyknngUsOaX1Gza5Fzuz0QtVc/iVHgiSFSz068XR5+zUmTI3cns6QbGnbs\n" +
-            "ajuaTNQiZUHmQ8LOCddAfZz/7incsD9D9JfbYwIDAQABAoIBAAl05KO2mR7L6usg\n" +
-            "f3OK5vdU4URptLTKWuhMRqLYgY+mN1MQme7Y6Jb3ToYSeVlJHk65UVMDfgFLDLqp\n" +
-            "ANB5Jt9LPu1MfiRltxLki+wwexU5D0LKXlFtpKm5VZ6uwGMikOagqBSRL4sgPGHw\n" +
-            "c3FEF+0thUKedzCds3b+EBPAXZuQhD4k4wPBdHjngPGsEHzyt1uCTz2ZIVRK2/Yn\n" +
-            "tE49fMQEaZiPJZSO7OpAFOdaphR74udZfJ6kzQm1ccX0TwAk+TVK+KpA9n4Whmha\n" +
-            "jHpCc/GiryBFAXN+wQXtT5mkb0CmRnPhoKT5CXPcalRIX4oZthx3H4bAOx76zHmB\n" +
-            "XddrQwkCgYEA6Nr8KjnWJ/y/M/Yn/QdfqmMPxEyejjMFzftcmo6WZu0U/rY+Lr7K\n" +
-            "KqPPBv1WCG+Wc2l0+8bS8CDRIJfBtT3SChcEnL/X8VToI7maTynSbr6ZUs6iV0j+\n" +
-            "zpP7tUlBprTd6BmwRvK/je9nbwwdYLeHWmmZGulbivDTiZ+gUx8Xn60CgYEA1ryH\n" +
-            "/K1nTsG4ydtj/ygdqcfIEwlQwpG/kT+t7lcaAESeLTHiGdmEUxxGVISqpbw1j2Yf\n" +
-            "tZdm584YyEP4jh8H4juKAYOoBanHiHcFkLN9+c/ONiSlepR4ZTdr6wHSCHOOrsEx\n" +
-            "bNxxH0Ch2pVawOP+HgJpjb+FKJFkkXy+8WqCiU8CgYEAgEEFfTiH9VRn9/XQBrUG\n" +
-            "AzI23/cXqdj+jHqzgcmhm6Vf1/+G9nZNofjBsebdeR4FLyJZtcfILUzWAu6zWeFo\n" +
-            "C/irqK6eASW0CuFS1eGCL0854ftAPXVOK3gkvrBPwcODKjDj/9/6k/HV9bslfzz3\n" +
-            "B1x8YO9BZaDJ0taiFsZcW60CgYEAmGFM9qduidq6cLO4sBYdhp94gNm5b3jRwha4\n" +
-            "LEuu7cXDoTqmwcUzO27zEYLbPaTjNRE5Kzl3EsOTnnltZhzrEUVC13Q/xVUHfPVJ\n" +
-            "A7f7i0xFfvJeYy/8h4bek/PEwa6O77+0fRWpSI4qzNvzfLHNYCpCEQ55RaJ3BS7K\n" +
-            "qLH2U80CgYEA4ZLf7FibJzEOE5XCBQ4M5gBNw+WHjyVt6DfhQcnvurpAeDmQLBfS\n" +
-            "OzgBd4m23lUkPAlw+wbiRSXpxWs4Lg988na3grEZrhCJLMINpkTrAZ3Ityat6Jpy\n" +
-            "rH0fFdNeDwk2kV9/VQwr5k7ikpN/cxYm4qFm++K/owBeiEVFbbtAOIU=\n";
+    private static final String PRIVATE_KEY = "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDDUotNy5/w6m9sd/AwmSxQBdt5qhWpmIr8JGG21YOaUwSzwC5teJKBkJ6Rd5pSp58rnjgE6B642BCYyajSkvKP8agaF/9tJkfa2zHW4qd4JSb06rWD6O7DkeYFrXgf3Xi2yW+uIWkm83Rvurndl7IA7G4PTqX3hQyPvCcyI3KkSGjAgzJUwwJFH3jzmELxixG0YH5/rTtsHjjT53nOMbwcah/NZmgJYZHvSAmSQ5mHC0vD6eOkiGaeMPKSeeBSw5pfUbNrkXO7PRC1Vz+JUeCJIVLPTrxdHn7NSZMjdyezpBsaduxqO5pM1CJlQeZDws4J10B9nP/uKdywP0P0l9tjAgMBAAECggEACXTko7aZHsvq6yB/c4rm91ThRGm0tMpa6ExGotiBj6Y3UxCZ7tjolvdOhhJ5WUkeTrlRUwN+AUsMuqkA0Hkm30s+7Ux+JGW3EuSL7DB7FTkPQspeUW2kqblVnq7AYyKQ5qCoFJEviyA8YfBzcUQX7S2FQp53MJ2zdv4QE8Bdm5CEPiTjA8F0eOeA8awQfPK3W4JPPZkhVErb9ie0Tj18xARpmI8llI7s6kAU51qmFHvi51l8nqTNCbVxxfRPACT5NUr4qkD2fhaGaFqMekJz8aKvIEUBc37BBe1PmaRvQKZGc+GgpPkJc9xqVEhfihm2HHcfhsA7HvrMeYFd12tDCQKBgQDo2vwqOdYn/L8z9if9B1+qYw/ETJ6OMwXN+1yajpZm7RT+tj4uvsoqo88G/VYIb5ZzaXT7xtLwINEgl8G1PdIKFwScv9fxVOgjuZpPKdJuvplSzqJXSP7Ok/u1SUGmtN3oGbBG8r+N72dvDB1gt4daaZka6VuK8NOJn6BTHxefrQKBgQDWvIf8rWdOwbjJ22P/KB2px8gTCVDCkb+RP63uVxoARJ4tMeIZ2YRTHEZUhKqlvDWPZh+1l2bnzhjIQ/iOHwfiO4oBg6gFqceIdwWQs335z842JKV6lHhlN2vrAdIIc46uwTFs3HEfQKHalVrA4/4eAmmNv4UokWSRfL7xaoKJTwKBgQCAQQV9OIf1VGf39dAGtQYDMjbf9xep2P6MerOByaGbpV/X/4b2dk2h+MGx5t15HgUvIlm1x8gtTNYC7rNZ4WgL+Kuorp4BJbQK4VLV4YIvTznh+0A9dU4reCS+sE/Bw4MqMOP/3/qT8dX1uyV/PPcHXHxg70FloMnS1qIWxlxbrQKBgQCYYUz2p26J2rpws7iwFh2Gn3iA2blveNHCFrgsS67txcOhOqbBxTM7bvMRgts9pOM1ETkrOXcSw5OeeW1mHOsRRULXdD/FVQd89UkDt/uLTEV+8l5jL/yHht6T88TBro7vv7R9FalIjirM2/N8sc1gKkIRDnlFoncFLsqosfZTzQKBgQDhkt/sWJsnMQ4TlcIFDgzmAE3D5YePJW3oN+FBye+6ukB4OZAsF9I7OAF3ibbeVSQ8CXD7BuJFJenFazguD3zydreCsRmuEIkswg2mROsBnci3Jq3omnKsfR8V014PCTaRX39VDCvmTuKSk39zFibioWb74r+jAF6IRUVtu0A4hQ==";
 
     @Before
     public void init() {
@@ -164,7 +145,7 @@ public class BulkExtractTest {
   public void testGet() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
 
-      {
+      { //mock application entity
           Entity mockEntity = Mockito.mock(Entity.class);
           Map<String, Object> mockBody = Mockito.mock(Map.class);
           Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
@@ -175,7 +156,7 @@ public class BulkExtractTest {
       }
 
 
-      {
+      { //mock bulk extract entity
           Entity mockEntity = Mockito.mock(Entity.class);
           Map<String, Object> mockBody = Mockito.mock(Map.class);
           Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
@@ -210,8 +191,32 @@ public class BulkExtractTest {
 
       out.write(os);
       os.flush();
-      byte[] message = os.toByteArray();
-      assertTrue(message.length >= 256 + 256 + BULK_DATA.length());
+      byte[] responseData = os.toByteArray();
+      assertTrue(responseData.length >= 256 + 256 + BULK_DATA.length());
+
+      byte[] encodediv = Arrays.copyOfRange(responseData, 0, 256);
+      byte[] encodedsecret = Arrays.copyOfRange(responseData, 256, 512);
+      byte[] message = Arrays.copyOfRange(responseData, 512, responseData.length);
+
+      Cipher decrypt = Cipher.getInstance("RSA");
+      KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+      PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(Base64.decode(PRIVATE_KEY.getBytes()));
+      PrivateKey privateKey = keyFactory.generatePrivate(privateKeySpec);
+      decrypt.init(Cipher.DECRYPT_MODE, privateKey);
+
+      byte[] iv = decrypt.doFinal(encodediv);
+      byte[] secret = decrypt.doFinal(encodedsecret);
+
+      decrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
+      SecretKeySpec key = new SecretKeySpec(secret, "AES");
+      IvParameterSpec ivSpec = new IvParameterSpec(iv);
+      decrypt.init(Cipher.DECRYPT_MODE, key, ivSpec);
+
+      byte[] unencryptedMessage = decrypt.doFinal(message);
+      assertTrue(unencryptedMessage.length == BULK_DATA.length());
+
+      String s = new String(unencryptedMessage);
+      assertTrue(s.equals(BULK_DATA));
   }
 
     @Test
