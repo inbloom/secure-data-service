@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.resources;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -35,7 +36,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
-import sun.misc.BASE64Decoder;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -204,7 +204,9 @@ public class BulkExtract {
 
         String key = (String) entity.getBody().get("public_key");
 
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(new BASE64Decoder().decodeBuffer(key));
+
+
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.decodeBase64(key));
         try {
             KeyFactory kf = KeyFactory.getInstance("RSA");
             publicKey = kf.generatePublic(spec);
