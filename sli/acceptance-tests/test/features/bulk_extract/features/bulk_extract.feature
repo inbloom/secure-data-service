@@ -9,8 +9,6 @@ Scenario: Trigger a bulk extract on ingested data
    And the extract contains a file for each of the following entities:
    |  entityType                            |
    |  assessment                            |
-   |  assessmentFamily                      |
-   |  assessmentPeriodDescriptor            |
    |  attendance                            |
    |  cohort                                |
    |  competencyLevelDescriptor             |
@@ -45,9 +43,9 @@ Scenario: Trigger a bulk extract on ingested data
    |  studentDisciplineIncidentAssociation  |
    |  studentProgramAssociation             |
    |  studentGradebookEntry                 |
+   |  studentParentAssociation              |
    |  studentSchoolAssociation              |
    |  studentSectionAssociation             |
-   |  studentParentAssociation              |
    |  teacher                               |
    |  teacherSchoolAssociation              |
    |  teacherSectionAssociation             |
