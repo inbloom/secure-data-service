@@ -8,7 +8,6 @@ Scenario: Delete Assessment Item from Student Assessment with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-	And I should see child of entityType "assessmentItem" with id "58346902a070426a109f451129eeeb1268daed21_id406e5f1c9ff1339aaf93fc8f3fe21ff6fead0439_id" in the "Midgar" database	
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "assessmentItem"
 	|field                                                           |value                                                                                          |
 	|assessmentItem._id                                              |58346902a070426a109f451129eeeb1268daed21_id406e5f1c9ff1339aaf93fc8f3fe21ff6fead0439_id          |

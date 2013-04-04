@@ -8,7 +8,6 @@ Scenario: Delete Objective Assessment From Assessment Metadata with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-	And I should see child of entityType "objectiveAssessment" with id "58346902a070426a109f451129eeeb1268daed21_idd705e26a138eb9e608e23b4c82fd6257633b7244_id" in the "Midgar" database	
     And I post "BroadObjectiveAssessmentFromAssessmentMetadataDelete.zip" file as the payload of the ingestion job
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "objectiveAssessment"
 	|field                                                           |value                                                                                          |
