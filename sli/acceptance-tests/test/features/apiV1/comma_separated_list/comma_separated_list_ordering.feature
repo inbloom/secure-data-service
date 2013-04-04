@@ -82,10 +82,10 @@ Feature: As an SLI application, I want to return the right order of entities.
  	    |staffEducationOrgAssignmentAssociations|b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a|2e2c3dd7-d8d6-4966-82dc-cdc598aa7d2c|
  	    |staffProgramAssociations               |9bf7591b-8fd5-11e1-86ec-0021701f543f|9bfab47d-8fd5-11e1-86ec-0021701f5432|
  	    |studentAssessments                     |e5e13e61-01aa-066b-efe0-710f7a011115_id|87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id|
- 	    |studentCohortAssociations              |b40926af-8fd5-11e1-86ec-0021701f543f_idb40ca923-8fd5-11e1-86ec-0021701f543f_id|b408d88e-8fd5-11e1-86ec-0021701f543f_idb40d6c75-8fd5-11e1-86ec-0021701f543f_id|
+ 	    |studentCohortAssociations              |ffee781b-22b1-4015-81ff-3289ceb2c113_idb40ca923-8fd5-11e1-86ec-0021701f543f_id|bf88acdb-71f9-4c19-8de8-2cdc698936fe_idb40d6c75-8fd5-11e1-86ec-0021701f543f_id|
  	    |studentDisciplineIncidentAssociations  |0c2756fd-6a30-4010-af79-488d6ef2735a_id20120613-8d5a-c796-76e3-d77d5d497e6c_id|1563ec1d-924d-4c02-8099-3a0e314ef1d4_id3792acf6-8d5a-c796-76e3-d77d5d497e6c_id|
  	    |studentParentAssociations              |74cf790e-84c4-4322-84b8-fca7206f1085_iddd69083f-a053-4819-a3cd-a162cdc627d7_id|5738d251-dd0b-4734-9ea6-417ac9320a15_idc5aa1969-492a-5150-8479-71bfc4d57f1e_id|
- 	    |studentProgramAssociations             |9b8c3aab-8fd5-11e1-86ec-0021701f543f_idb3f63ae6-8fd5-11e1-86ec-0021701f543f_id|9b8cafdc-8fd5-11e1-86ec-0021701f543f_idb3f55084-8fd5-11e1-86ec-0021701f543f_id|
+ 	    |studentProgramAssociations             |891faebe-bc84-4e0c-b7f3-195637cd981e_idb3f63ae6-8fd5-11e1-86ec-0021701f543f_id|f7094bd8-46fc-4204-9fa2-a383fb71bdf6_idb3f55084-8fd5-11e1-86ec-0021701f543f_id|
  	    |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|db49239e-4813-44d6-98b1-da29eba0f47f|
  	    |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|26a4a0fc-fad4-45f4-a00d-285acd1f83eb|
  	    |teacherSectionAssociations             |706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id|
@@ -121,10 +121,10 @@ Feature: As an SLI application, I want to return the right order of entities.
       |staffEducationOrgAssignmentAssociations|b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a|05e3de47-9e41-c048-a572-3eb4c7ee9095|
       |staffProgramAssociations               |9bf7591b-8fd5-11e1-86ec-0021701f543f|04223945-b773-425c-8173-af090a960603|
       |studentAssessments                     |e5e13e61-01aa-066b-efe0-710f7a011115_id|c8672d3b-0953-4ad7-a1b5-d5395bc0150a_id|
-      |studentCohortAssociations              |b40926af-8fd5-11e1-86ec-0021701f543f_idb40ca923-8fd5-11e1-86ec-0021701f543f_id|a50121a2-c566-401b-99a5-71eb5cab5f4f_id32b4b1f1-f7c6-40c2-8de6-37e34f8051de_id|
+      |studentCohortAssociations              |ffee781b-22b1-4015-81ff-3289ceb2c113_idb40ca923-8fd5-11e1-86ec-0021701f543f_id|7a86a6a7-1f80-4581-b037-4a9328b9b650_id32b4b1f1-f7c6-40c2-8de6-37e34f8051de_id|
       |studentDisciplineIncidentAssociations  |0c2756fd-6a30-4010-af79-488d6ef2735a_id20120613-8d5a-c796-76e3-d77d5d497e6c_id|714c1304-8a04-4e23-b043-4ad80eb60992_id0e26de6c-225b-9f67-8621-5113ad50a03b_id|
 #      |studentParentAssociations              |74cf790e-84c4-4322-84b8-fca7206f1085_iddd69083f-a053-4819-a3cd-a162cdc627d7_id|5738d251-dd0b-4734-9ea6-417ac9320a15_idc5aa1969-492a-5150-8479-71bfc4d57f1e_id| - Get a 404 when accessing a parent where you get a 403 for accessing their student
-      |studentProgramAssociations             |9b8c3aab-8fd5-11e1-86ec-0021701f543f_idb3f63ae6-8fd5-11e1-86ec-0021701f543f_id|f24e5725-c1e4-48db-9f62-381ab434c0ec_id052f9397-db72-4c3d-bb6d-0626c00a3694_id|
+      |studentProgramAssociations             |891faebe-bc84-4e0c-b7f3-195637cd981e_idb3f63ae6-8fd5-11e1-86ec-0021701f543f_id|9b00720f-1341-4e1a-b0d0-34ef1671ec87_id052f9397-db72-4c3d-bb6d-0626c00a3694_id|
       |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|03af9c21-43c0-4d2d-bac6-96cf3290a6f4| 
       |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|1a72521b-7bed-890a-d574-1d729a379528|
       |teacherSectionAssociations             |706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|58c9ef19-c172-4798-8e6e-c73e68ffb5a3_id12f25c0f-75d7-4e45-8f36-af1bcc342871_id|
@@ -160,10 +160,10 @@ Scenario Outline: Validate CSL where teacher has access to one ID but not two
       |staffEducationOrgAssignmentAssociations|a29e3113-316d-bfd1-4b00-b9121b8fdfd3|b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a|
       |staffProgramAssociations               |971638e0-03a8-43df-b4d3-a577fa5ff59c|9bf7591b-8fd5-11e1-86ec-0021701f543f|
       |studentAssessments                     |e5e13e61-01aa-066b-efe0-710f7a011115_id|c8672d3b-0953-4ad7-a1b5-d5395bc0150a_id|
-      |studentCohortAssociations              |9ac7ad37-80aa-42ab-9d63-e48cc70a7863_id9f916af2-c178-49ca-b9c4-e52fc2f629ed_id|b40926af-8fd5-11e1-86ec-0021701f543f_idb40ca923-8fd5-11e1-86ec-0021701f543f_id|
+      |studentCohortAssociations              |1c30fdce-11ad-4894-a95d-d8315c88ac7d_id9f916af2-c178-49ca-b9c4-e52fc2f629ed_id|ffee781b-22b1-4015-81ff-3289ceb2c113_idb40ca923-8fd5-11e1-86ec-0021701f543f_id|
       |studentDisciplineIncidentAssociations  |0c2756fd-6a30-4010-af79-488d6ef2735a_id20120613-8d5a-c796-76e3-d77d5d497e6c_id|714c1304-8a04-4e23-b043-4ad80eb60992_id0e26de6c-225b-9f67-8621-5113ad50a03b_id|
       |studentParentAssociations              |0c2756fd-6a30-4010-af79-488d6ef2735a_idc5aa1969-492a-5150-8479-71bfc4d87984_id|74cf790e-84c4-4322-84b8-fca7206f1085_iddd69083f-a053-4819-a3cd-a162cdc627d7_id|
-      |studentProgramAssociations             |9b8cafdc-8fd5-11e1-86ec-0021701f543f_idb3f4db53-8fd5-11e1-86ec-0021701f543f_id|9b8c3aab-8fd5-11e1-86ec-0021701f543f_idb3f63ae6-8fd5-11e1-86ec-0021701f543f_id|
+      |studentProgramAssociations             |ace1dc53-8c1d-4c01-b922-c3ebb7ff5be8_idb3f4db53-8fd5-11e1-86ec-0021701f543f_id|891faebe-bc84-4e0c-b7f3-195637cd981e_idb3f63ae6-8fd5-11e1-86ec-0021701f543f_id|
       |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|03af9c21-43c0-4d2d-bac6-96cf3290a6f4|
       |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|1a72521b-7bed-890a-d574-1d729a379528|
       |teacherSectionAssociations             |15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id|706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|

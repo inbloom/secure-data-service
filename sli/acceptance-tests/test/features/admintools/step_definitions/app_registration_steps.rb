@@ -400,18 +400,7 @@ Then /^a notification email is sent to "([^"]*)"$/ do |email|
 end
 
 When /^I click on the In Progress button$/ do
-  @mongo_ids = []
-  db = Mongo::Connection.new[convertTenantIdToDbName('developer-email@slidev.org')]['educationOrganization']
-
-  ed_org = build_edorg("Some State", "developer-email@slidev.org")
-  ed_org[:body][:organizationCategories] = ["State Education Agency"]
-  @mongo_ids << db.insert(ed_org)
-  ed_org = build_edorg("Some District", "developer-email@slidev.org", @mongo_ids.first, "WaffleDistrict", true)
-  @mongo_ids << db.insert(ed_org)
-  ed_org = build_edorg("Some School", "developer-email@slidev.org", @mongo_ids[1], "WaffleSchool", false)
-  @mongo_ids << db.insert(ed_org, opts = {:safe => true})
   step 'I clicked on the button Edit for the application "NewApp"'
-  db.remove()
 end
 
 Then /^I can see the ed\-orgs I want to approve for my application$/ do
@@ -432,6 +421,10 @@ end
 Then /^I have enabled "(.*?)"$/ do |arg1|
   client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[11]').text
   assert(client_id == 'true', "Expected 'true', got #{client_id}")
+end
+
+When /^I enter a public key$/ do
+  @driver.find_element(:name, 'app[public_key]').send_keys "PUBLIC_KEYPUBLIC_KEYPUBLIC_KEYPUBLIC_KEY"
 end
 
 Then /^I check Bulk Extract$/ do

@@ -28,6 +28,7 @@ class App < SessionResource
 
   validates_format_of [:application_url, :redirect_uri], :with => /^http(s)*:\/\/.+$/, :message => "must be a valid url (starting with http:// or https://)", :if => :not_installed
   validates_presence_of [:application_url, :redirect_uri], :message => "must not be blank", :if => :not_installed
+  validates_presence_of :public_key, :message => "must not be blank", :if => :isBulkExtract
 
   def not_installed
     not installed

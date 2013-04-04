@@ -91,6 +91,17 @@ jQuery ->
       $(@).parent().next("tr").slideToggle()
 
 jQuery ->
+  if $('#isBulkExtract > :checkbox').is(':checked')
+    $("#publicKey").show()
+  else
+    $("#publicKey").hide()
+  $('#isBulkExtract > :checkbox').click ->
+    if($(@).is(':checked'))
+      $("#publicKey").show()
+    else
+      $("#publicKey").hide()
+
+jQuery ->
   $('#installed > :checkbox').click ->
     state = $(@).prop('checked')
     if state

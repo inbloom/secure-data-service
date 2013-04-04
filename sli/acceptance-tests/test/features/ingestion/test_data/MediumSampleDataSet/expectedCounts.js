@@ -29,18 +29,14 @@ var entities ={
               'teacherSchoolAssociation':50,
 };
 var superdocs = {
-    'cohort':{
-        'studentCohortAssociation':1500,
-    },
-    'program':{
-        'studentProgramAssociation':1000,
-    },
     'section':{
         'gradebookEntry':1,
         'studentSectionAssociation':2500,
         'teacherSectionAssociation':300,
     },
     'student':{
+        'studentProgramAssociation':1000,
+        'studentCohortAssociation':1500,
         'schools':500,
         'studentDisciplineIncidentAssociation':4875,
         'studentParentAssociation':763,

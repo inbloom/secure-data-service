@@ -8,6 +8,13 @@ JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 require 'archive/tar/minitar'
 include Archive::Tar
 
+Given /^the extraction zone is empty$/ do
+    if (Dir.exists?(OUTPUT_DIRECTORY))
+      puts OUTPUT_DIRECTORY
+      FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
+    end
+end
+
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
 
 command  = "sh #{TRIGGER_SCRIPT}"
@@ -71,6 +78,5 @@ Then /^the extract contains a file for each of the following entities:$/ do |tab
   end
 
   fileList = Dir.entries(@unpackDir)
-# Had to comment this next line out.  Different servers contain different numbers of records.
-# assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
+  assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
 end

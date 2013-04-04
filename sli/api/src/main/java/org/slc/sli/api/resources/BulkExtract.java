@@ -31,12 +31,10 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -91,28 +89,38 @@ public class BulkExtract {
     }
 
     /**
-     * Creates a streaming response for a sample data file.
+     * Creates a streaming response for the sample data file.
      *
-     * @param sample
-     *          A flag for requesting a sample file. The default is true.
      * @return
-     *          A response with either a sample or actual extract file, depending of the sample flag
+     *          A response with the sample extract file
      * @throws Exception
      *          On Error
      */
     @GET
     @Path("extract")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response get(@DefaultValue("true") @QueryParam("sample") boolean sample) throws Exception {
-        LOG.info("Received request to stream bulk extract...");
-
-        return sample ? getSampledFile() : getExtractResponse(null);
-    }
-
-    private Response getSampledFile() {
+    public Response get() throws Exception {
+        LOG.info("Received request to stream sample bulk extract...");
         InputStream input = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
 
         return getExtractResponse(input, SAMPLED_FILE_NAME, "Not Specified");
+    }
+
+    /**
+     * Creates a streaming response for the tenant data file.
+     *
+     * @return
+     *          A response with the actual extract file
+     * @throws Exception
+     *          On Error
+     */
+    @GET
+    @Path("extract/tenant")
+    @RightsAllowed({ Right.BULK_EXTRACT })
+    public Response getTenant() throws Exception {
+        LOG.info("Received request to stream tenant bulk extract...");
+
+        return getExtractResponse(null);
     }
 
     /**
@@ -264,8 +272,8 @@ public class BulkExtract {
         initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
+        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
         if (isDelta) {
-            query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
             DateTime d = ISODateTimeFormat.basicDate().parseDateTime(deltaDate);
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.toDate()));
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d.plusDays(1).toDate()));
