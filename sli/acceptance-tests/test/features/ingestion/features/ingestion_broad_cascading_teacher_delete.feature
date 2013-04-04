@@ -4,7 +4,7 @@ Feature: Safe Deletion and Cascading Deletion
 Background: I have a landing zone route configured
 Given I am using local data store
 
-Scenario: Delete Assessment with cascade
+Scenario: Delete Teacher  with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
