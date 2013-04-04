@@ -114,9 +114,9 @@ public class BulkExtractTest {
     }
 
     @Test
-    public void testGetPhase0() throws Exception {
+    public void testGetSampleExtract() throws Exception {
         injector.setEducatorContext();
-        ResponseImpl res = (ResponseImpl) bulkExtract.get(true);
+        ResponseImpl res = (ResponseImpl) bulkExtract.get();
         assertEquals(200, res.getStatus());
         MultivaluedMap<String, Object> headers = res.getMetadata();
         assertNotNull(headers);
@@ -141,7 +141,7 @@ public class BulkExtractTest {
     }
 
     @Test
-    public void testGetFileError() throws Exception {
+    public void testGetTenantFileError() throws Exception {
         injector.setEducatorContext();
         Entity mockEntity = Mockito.mock(Entity.class);
         Map<String, Object> mockBody = Mockito.mock(Map.class);
@@ -149,12 +149,12 @@ public class BulkExtractTest {
         Mockito.when(mockBody.get(Mockito.anyString())).thenReturn("");
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
-        ResponseImpl res = (ResponseImpl) bulkExtract.get(false);
+        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant();
         assertEquals(404, res.getStatus());
     }
 
   @Test
-  public void testGet() throws Exception {
+  public void testGetTenant() throws Exception {
       injector.setEducatorContext();
       Entity mockEntity = Mockito.mock(Entity.class);
       Map<String, Object> mockBody = Mockito.mock(Map.class);
@@ -168,7 +168,7 @@ public class BulkExtractTest {
       Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
           .thenReturn(mockEntity);
 
-      ResponseImpl res = (ResponseImpl) bulkExtract.get(false);
+      ResponseImpl res = (ResponseImpl) bulkExtract.getTenant();
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);

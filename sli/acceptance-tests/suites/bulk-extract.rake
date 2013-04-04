@@ -34,6 +34,7 @@ desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSmokeTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
   Rake::Task["bulkExtractTriggerTest"].execute
+  Rake::Task["bulkExtractStudentTest"].execute  
 end
 
 desc "Trigger ingestion and extract of the ingestion"
@@ -91,10 +92,9 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["addBootstrapAppAuths"].execute
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractSimpleEntitiesTest"].execute
-  Rake::Task["bulkExtractStudentTest"].execute
+  Rake::Task["bulkExtractSuperdocTest"].execute  
   Rake::Task["bulkExtractEdorgStaffTest"].execute
   Rake::Task["bulkExtractIntegrationTest"].execute
-  Rake::Task["bulkExtractSuperdocTest"].execute
   Rake::Task["bulkExtractDeltasTest"].execute
   Rake::Task["bulkExtractSchedulerTest"].execute
   Rake::Task["bulkExtractCleanup"].execute 
