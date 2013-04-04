@@ -135,7 +135,6 @@ public class BulkExtractTest {
   public void testGet() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
 
-//      final KeyPair keyPair = new RSAKeyPairGenerator().generateKeyPair();
       {
           Entity mockEntity = Mockito.mock(Entity.class);
           Map<String, Object> mockBody = Mockito.mock(Map.class);
