@@ -117,7 +117,7 @@ end
 
 
 Then /^I request and download a bulk extract file$/ do
-  restHttpGet("/bulk/extract", "application/x-tar", @sessionId)
+  restHttpGet("/bulk/extract/tenant", "application/x-tar", @sessionId)
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
   @filePath = OUTPUT_DIRECTORY + "/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
