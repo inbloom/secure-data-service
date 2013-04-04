@@ -18,8 +18,8 @@ package org.slc.sli.bulk.extract.files;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
@@ -40,7 +40,7 @@ public class ExtractFile {
 
     private File tempDir;
     private File archiveFile;
-    private List<DataExtractFile> dataFiles = new ArrayList<DataExtractFile>();
+    private Map<String, JsonExtractFile> dataFiles = new HashMap<String, JsonExtractFile>();
     private ManifestFile manifestFile;
 
     private static final String FILE_EXT = ".tar";
@@ -69,10 +69,12 @@ public class ExtractFile {
      * @return
      *          DataExtractFile object
      */
-    public DataExtractFile getDataFileEntry(String filePrefix) {
-        DataExtractFile compressedFile = new DataExtractFile(tempDir, filePrefix);
-        dataFiles.add(compressedFile);
-        return compressedFile;
+    public JsonExtractFile getDataFileEntry(String filePrefix) {
+        if (!dataFiles.containsKey(filePrefix)) {
+         JsonExtractFile compressedFile = new JsonExtractFile(tempDir, filePrefix);
+         dataFiles.put(filePrefix, compressedFile);
+        }
+        return dataFiles.get(filePrefix);
     }
 
     /**
@@ -103,7 +105,7 @@ public class ExtractFile {
             tarArchiveOutputStream = new TarArchiveOutputStream(new FileOutputStream(archiveFile));
 
             archiveFile(tarArchiveOutputStream, manifestFile.getFile());
-            for (DataExtractFile dataFile : dataFiles) {
+            for (JsonExtractFile dataFile : dataFiles.values()) {
                 File df = dataFile.getFile();
 
                 if (df != null && df.exists()) {

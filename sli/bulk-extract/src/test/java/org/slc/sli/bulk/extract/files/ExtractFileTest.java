@@ -24,6 +24,9 @@ import java.util.List;
 import junit.framework.Assert;
 import junitx.util.PrivateAccessor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.io.FileUtils;
@@ -32,6 +35,8 @@ import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import org.slc.sli.bulk.extract.files.JsonExtractFile;
 
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 /**
@@ -64,14 +69,14 @@ public class ExtractFileTest {
         Assert.assertTrue(metaFile.getFile().getName() != null);
         PrivateAccessor.setField(archiveFile, "manifestFile", metaFile);
 
-        List<DataExtractFile> files = new ArrayList<DataExtractFile>();
+        Map<String, JsonExtractFile> files = new HashMap<String, JsonExtractFile>();
         File studentFile = File.createTempFile("student", ".json.gz", parentDir);
         String fileNamePrefix = studentFile.getName().substring(0, studentFile.getName().indexOf(".json.gz"));
-        DataExtractFile studentExtractFile = new DataExtractFile(parentDir, fileNamePrefix);
+        JsonExtractFile studentExtractFile = new JsonExtractFile(parentDir, fileNamePrefix);
         PrivateAccessor.setField(studentExtractFile, "file", studentFile);
 
 
-        files.add(studentExtractFile);
+        files.put("student", studentExtractFile);
         PrivateAccessor.setField(archiveFile, "dataFiles", files);
     }
 
