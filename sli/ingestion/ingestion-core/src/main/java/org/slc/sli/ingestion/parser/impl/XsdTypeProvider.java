@@ -49,7 +49,6 @@ public class XsdTypeProvider implements TypeProvider {
     private static final String XS_DECIMAL = "xs:decimal";
     private static final String XS_INT = "xs:int";
     private static final String XS_INTEGER = "xs:integer";
-    private static final String XC_ACTION = "SLC-ActionType";
 
     private static final String INTERCHANGE = "interchange";
     private static final String INCLUDE = "include";
@@ -156,8 +155,8 @@ public class XsdTypeProvider implements TypeProvider {
     }
 
     @Override
-    public RecordMeta getTypeFromParentType(RecordMeta parentMeta, String eventName) {
-        Element parentElement = getComplexElement( parentMeta.getType());
+    public RecordMeta getTypeFromParentType(String type, String eventName) {
+        Element parentElement = getComplexElement(type);
 
         while (parentElement != null && eventName != null) {
             IteratorIterable<Element> res = parentElement.getDescendants(Filters.element(ELEMENT, XS_NAMESPACE));
@@ -169,7 +168,7 @@ public class XsdTypeProvider implements TypeProvider {
                         elementType = getSimpleTypeRestrictionBase(simple);
                     }
 
-                    return new RecordMetaImpl(eventName, elementType, shouldBeList(e, parentElement), parentMeta.getAction());
+                    return new RecordMetaImpl(eventName, elementType, shouldBeList(e, parentElement));
                 }
             }
 
@@ -302,12 +301,6 @@ public class XsdTypeProvider implements TypeProvider {
         this.schemaFiles = Arrays.copyOf(schemaFiles, schemaFiles.length);
 
         init();
-    }
-
-    @Override
-    public boolean isActionType(String type) {
-
-        return XC_ACTION.equals( type) ? true : false;
     }
 
 }

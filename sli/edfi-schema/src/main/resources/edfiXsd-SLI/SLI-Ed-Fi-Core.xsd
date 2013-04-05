@@ -25,6 +25,9 @@
 	<xs:complexType name="SLC-ActionType">
 	  <xs:annotation>
 	    <xs:documentation>This is the verb wrapper that surrounds a sequence of objects to be operated on.</xs:documentation>
+          <xs:appinfo>
+              <sli:recordType>action</sli:recordType>
+          </xs:appinfo>
 	  </xs:annotation>
 
 	  <!-- Sequence of entities wrapped -->

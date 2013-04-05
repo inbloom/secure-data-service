@@ -35,6 +35,8 @@ import java.util.Set;
  */
 public enum EdfiEntity {
 
+    ACTION("action", Collections.<EdfiEntity> emptyList()),
+
     SELF("self", Collections.<EdfiEntity> emptyList()),
 
     ASSESSMENT_FAMILY("assessmentFamily", Arrays.asList(SELF)),

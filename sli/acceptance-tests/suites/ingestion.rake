@@ -591,6 +591,10 @@ task :ingestionCascadingDeletionBroadSchoolTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_school_delete.feature")
 end
 
+task :ingestionStudentRefDeleteTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_student_ref_delete.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
