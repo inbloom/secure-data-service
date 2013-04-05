@@ -25,8 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Query;
 
+import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.files.writer.EntityWriter;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -44,9 +44,7 @@ public class EntityExtractor{
 
     private Repository<Entity> entityRepository;
 
-    private Map<String, String> entitiesToCollections;
-
-    private EntityWriter writer;
+    private EntityWriterManager writer;
 
     /**
      * extract all the records of entity.
@@ -62,41 +60,35 @@ public class EntityExtractor{
         try {
             TenantContext.setTenantId(tenant);
             Iterator<Entity> cursor = entityRepository.findEach(collectionName, new Query());
-
             if (cursor.hasNext()) {
                 LOG.info("Extracting from " + collectionName);
-
                 while (cursor.hasNext()) {
                     Entity entity = cursor.next();
 
-                    writeEntity(archiveFile, entity);
+                    write(entity, archiveFile);
+
                 }
 
-                LOG.info("Finished extracting {} records for " + collectionName);
             }
         } catch (IOException e) {
             LOG.error("Error while extracting from " + collectionName, e);
-        } finally {
-            closeArchiveEntries(archiveFile);
         }
     }
 
     /**
      * Writes an entity to a file.
-     * @param archiveFile archiveFile
      * @param entity entity
+     * @param archiveFile archiveFile
      * @throws FileNotFoundException FileNotFoundException
      * @throws IOException IOException
      */
-    public void writeEntity(ExtractFile archiveFile, Entity entity) throws FileNotFoundException, IOException {
-        if (entitiesToCollections.containsKey(entity.getType())) {
-            writer.write(entity, archiveFile);
-        }
+    public void write(Entity entity, ExtractFile archiveFile) throws FileNotFoundException, IOException {
+        writer.write(entity, archiveFile);
         //Write subdocs
-        extractAndWriteEmbeddedDocs(entity.getEmbeddedData(), archiveFile);
+        writeEmbeddedDocs(entity.getEmbeddedData(), archiveFile);
 
         //Write container data
-        extractAndWriteEmbeddedDocs(entity.getContainerData(), archiveFile);
+        writeEmbeddedDocs(entity.getContainerData(), archiveFile);
     }
 
 
@@ -106,23 +98,11 @@ public class EntityExtractor{
      * @param archiveEntries - collection of archive entries, one per subdoc type
      * @param archiveFile - file containing archives to be written to
      */
-    private void extractAndWriteEmbeddedDocs(Map<String, List<Entity>> docs, ExtractFile archiveFile) throws FileNotFoundException, IOException {
+    private void writeEmbeddedDocs(Map<String, List<Entity>> docs, ExtractFile archiveFile) throws FileNotFoundException, IOException {
         for (String docName : docs.keySet()) {
-            if (entitiesToCollections.containsKey(docName)) {
                 for (Entity doc : docs.get(docName)) {
                     writer.write(doc, archiveFile);
                 }
-            }
-        }
-    }
-
-    /**
-     * Write record to archive entry.
-     * @param archiveEntries - complete set of entity archive entries
-     */
-    private void closeArchiveEntries(ExtractFile archiveFile) {
-        for (String entity : entitiesToCollections.keySet()) {
-            archiveFile.getDataFileEntry(entity).close();
         }
     }
 
@@ -138,16 +118,9 @@ public class EntityExtractor{
      * Set writer.
      * @param writer - writer the entity to a file
      */
-    public void setWriter(EntityWriter writer) {
+    public void setWriter(EntityWriterManager writer) {
         this.writer = writer;
     }
 
-    /**
-     * Set entites to collection map.
-     * @param entitiesToCollections entitiesToCollections
-     */
-    public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
-        this.entitiesToCollections = entitiesToCollections;
-    }
 }
 
