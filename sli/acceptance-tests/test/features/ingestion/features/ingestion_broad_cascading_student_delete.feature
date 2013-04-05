@@ -116,17 +116,6 @@ Scenario: Delete Student with cascade
         | yearlyTranscript                          |				 -2|          
     And I should not see "908404e876dd56458385667fa383509035cd4312_id" in the "Midgar" database
 
-@wip    
-Scenario: Load Data
-
-Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And I post "BroadSetOfTypes.zip" file as the payload of the ingestion job
-And the "Midgar" tenant db is empty
-    When zip file is scp to ingestion landing zone
-    Then a batch job for file "BroadSetOfTypes.zip" is completed in database
-    And I should not see an error log file created
-And I should not see a warning log file created    
- 
    
 Scenario: Delete Student with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -160,9 +149,9 @@ Scenario: Delete Student with cascade = false
     Then there exist "1" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentAssessmentItem"
         |field                                     |value                                                                                 |
         |studentAssessmentItem.body.studentAssessmentId |c278f2337a1cfc12b3d5ee3240b99c0457a96990_id                                      |        
-#    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentCohortAssociation"
-#        |field                                     |value                                                                                 |
-#        |cohort._id                                |271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_id                                           |
+    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentCohortAssociation"
+        |field                                     |value                                                                                 |
+        |studentCohortAssociation._id              |908404e876dd56458385667fa383509035cd4312_ide3e74d25c695f1e27d2272bcbe12351cd02a78c1_id|
     Then there exist "5" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                     |value                                                                                 |
         |body.studentSectionAssociationId          |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|  
@@ -181,9 +170,9 @@ Scenario: Delete Student with cascade = false
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentParentAssociation"
         |field                                     |value                                                                                 |
         |studentParentAssociation.body.studentId   |908404e876dd56458385667fa383509035cd4312_id                                           |
-#    Then there exist "3" "program" records like below in "Midgar" tenant. And I save this query as "studentProgramAssociation"
-#        |field                                     |value                                                                                 |
-#        |studentProgramAssociation.body.studentId  |908404e876dd56458385667fa383509035cd4312_id                                           |
+    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentProgramAssociation"
+        |field                                     |value                                                                                 |
+        |studentProgramAssociation.body.studentId  |908404e876dd56458385667fa383509035cd4312_id                                           |
     Then there exist "2" "studentSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "studentSchoolAssociation"
         |field                                     |value                                                                                 |
         |body.studentId                            |908404e876dd56458385667fa383509035cd4312_id                                           |
@@ -196,7 +185,7 @@ Scenario: Delete Student with cascade = false
     And a batch job for file "SafeStudentDelete.zip" is completed in database
 	  And I should see "Processed 1 records." in the resulting batch job file
 		And I should see "records deleted successfully: 0" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	  And I should see "records failed processing: 1" in the resulting batch job file
 #    And I should not see an error log file created
 	  And I should not see a warning log file created
     And I re-execute saved query "student" to get "1" records
@@ -208,14 +197,14 @@ Scenario: Delete Student with cascade = false
     And I re-execute saved query "studentAcademicRecord" to get "2" records
     And I re-execute saved query "studentAssessment" to get "4" records
     And I re-execute saved query "studentAssessmentItem" to get "1" records    
-#    And I re-execute saved query "studentCohortAssociation" to get "1" records
+    And I re-execute saved query "studentCohortAssociation" to get "1" records
     And I re-execute saved query "studentCompetency" to get "5" records
     And I re-execute saved query "studentDisciplineIncidentAssociation" to get "1" records
     And I re-execute saved query "studentGradebookEntry" to get "139" records
     And I re-execute saved query "studentObjectiveAssessment1" to get "1" records
     And I re-execute saved query "studentObjectiveAssessment2" to get "1" records
     And I re-execute saved query "studentParentAssociation" to get "1" records
-#    And I re-execute saved query "studentProgramAssociation" to get "3" records
+    And I re-execute saved query "studentProgramAssociation" to get "1" records
     And I re-execute saved query "studentSchoolAssociation" to get "2" records
     And I re-execute saved query "studentSectionAssociation" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"
