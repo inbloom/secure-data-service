@@ -38,7 +38,7 @@ Scenario: Delete Student with cascade
         |studentAssessmentItem.body.studentAssessmentId |c278f2337a1cfc12b3d5ee3240b99c0457a96990_id                                      |        
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentCohortAssociation"
         |field                                     |value                                                                                 |
-        |cohort._id                                |271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_id                                           |
+        |studentCohortAssociation.body.cohortId    |271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_id                                           |
     Then there exist "5" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                     |value                                                                                 |
         |body.studentSectionAssociationId          |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|  
@@ -57,9 +57,9 @@ Scenario: Delete Student with cascade
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentParentAssociation"
         |field                                     |value                                                                                 |
         |studentParentAssociation.body.studentId   |908404e876dd56458385667fa383509035cd4312_id                                           |
-    Then there exist "3" "program" records like below in "Midgar" tenant. And I save this query as "studentProgramAssociation"
+    Then there exist "4" "student" records like below in "Midgar" tenant. And I save this query as "studentProgramAssociation"
         |field                                     |value                                                                                 |
-        |studentProgramAssociation.body.studentId  |908404e876dd56458385667fa383509035cd4312_id                                           |
+        |studentProgramAssociation.body.programId  |0064dd5bb3bffd47e93b023585e6591c018ee697_id                                           |
     Then there exist "2" "studentSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "studentSchoolAssociation"
         |field                                     |value                                                                                 |
         |body.studentId                            |908404e876dd56458385667fa383509035cd4312_id                                           |
@@ -162,7 +162,7 @@ Scenario: Delete Student with cascade = false
         |studentAssessmentItem.body.studentAssessmentId |c278f2337a1cfc12b3d5ee3240b99c0457a96990_id                                      |        
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentCohortAssociation"
         |field                                     |value                                                                                 |
-        |cohort._id                                |271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_id                                           |
+        |studentCohortAssociation.body.cohortId    |271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_id                                           |
     Then there exist "5" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                     |value                                                                                 |
         |body.studentSectionAssociationId          |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|  
@@ -181,9 +181,9 @@ Scenario: Delete Student with cascade = false
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentParentAssociation"
         |field                                     |value                                                                                 |
         |studentParentAssociation.body.studentId   |908404e876dd56458385667fa383509035cd4312_id                                           |
-    Then there exist "3" "program" records like below in "Midgar" tenant. And I save this query as "studentProgramAssociation"
+    Then there exist "9" "student" records like below in "Midgar" tenant. And I save this query as "studentProgramAssociation"
         |field                                     |value                                                                                 |
-        |studentProgramAssociation.body.studentId  |908404e876dd56458385667fa383509035cd4312_id                                           |
+        |studentProgramAssociation.body.programId  |0064dd5bb3bffd47e93b023585e6591c018ee697_id                                           |
     Then there exist "2" "studentSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "studentSchoolAssociation"
         |field                                     |value                                                                                 |
         |body.studentId                            |908404e876dd56458385667fa383509035cd4312_id                                           |
@@ -215,7 +215,7 @@ Scenario: Delete Student with cascade = false
     And I re-execute saved query "studentObjectiveAssessment1" to get "1" records
     And I re-execute saved query "studentObjectiveAssessment2" to get "1" records
     And I re-execute saved query "studentParentAssociation" to get "1" records
-    And I re-execute saved query "studentProgramAssociation" to get "3" records
+    And I re-execute saved query "studentProgramAssociation" to get "9" records
     And I re-execute saved query "studentSchoolAssociation" to get "2" records
     And I re-execute saved query "studentSectionAssociation" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"
