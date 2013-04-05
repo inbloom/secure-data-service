@@ -23,17 +23,12 @@ import org.slc.sli.domain.Entity;
  * @author ablum
  *
  */
-public class EntityToCollectionTreatment implements Treatment {
+public class StaffTreatment implements Treatment {
     private static final String TYPE_STRING = "entityType";
 
     @Override
     public Entity apply(Entity entity) {
-        if (entity.getType().equals("localEducationAgency") || entity.getType().equals("stateEducationAgency") || entity.getType().equals("school")) {
-            entity.getBody().put(TYPE_STRING, EntityNames.EDUCATION_ORGANIZATION);
-        } else if (entity.getType().equals(EntityNames.TEACHER)) {
-            entity.getBody().put(TYPE_STRING, EntityNames.STAFF);
-        }
-
+        entity.getBody().put(TYPE_STRING, EntityNames.STAFF);
         return entity;
     }
 

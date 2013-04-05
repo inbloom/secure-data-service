@@ -55,6 +55,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -94,6 +95,13 @@ public class BulkExtractTest {
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
+        Map<String, Object> appBody = new HashMap<String, Object>();
+        appBody.put("isBulkExtract", true);
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(appBody);
+        when(mockMongoEntityRepository.findOne(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -116,6 +124,7 @@ public class BulkExtractTest {
     @Test
     public void testGetSampleExtract() throws Exception {
         injector.setEducatorContext();
+
         ResponseImpl res = (ResponseImpl) bulkExtract.get();
         assertEquals(200, res.getStatus());
         MultivaluedMap<String, Object> headers = res.getMetadata();
@@ -125,7 +134,7 @@ public class BulkExtractTest {
         String header = (String) headers.getFirst("content-disposition");
         assertNotNull(header);
         assertTrue(header.startsWith("attachment"));
-        assertTrue(header.indexOf("NY-WALTON-2013-03-19T13-02-02.tar") > 0);
+        assertTrue(header.indexOf("sample-extract.tar") > 0);
 
         Object entity = res.getEntity();
         assertNotNull(entity);
@@ -136,7 +145,7 @@ public class BulkExtractTest {
         os.flush();
         assertTrue(file.exists());
 
-        assertEquals(2586331403L, FileUtils.checksumCRC32(file));
+        assertEquals(798669192L, FileUtils.checksumCRC32(file));
         FileUtils.deleteQuietly(file);
     }
 
@@ -147,7 +156,8 @@ public class BulkExtractTest {
         Map<String, Object> mockBody = Mockito.mock(Map.class);
         Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
         Mockito.when(mockBody.get(Mockito.anyString())).thenReturn("");
-        Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
+        Mockito.when(
+                mockMongoEntityRepository.findOne(eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
         ResponseImpl res = (ResponseImpl) bulkExtract.getTenant();
         assertEquals(404, res.getStatus());
@@ -165,7 +175,8 @@ public class BulkExtractTest {
       FileUtils.writeStringToFile(file, "12345");
       Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(file.getAbsolutePath());
       Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
-      Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
+        Mockito.when(
+                mockMongoEntityRepository.findOne(eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
           .thenReturn(mockEntity);
 
       ResponseImpl res = (ResponseImpl) bulkExtract.getTenant();
@@ -222,5 +233,30 @@ public class BulkExtractTest {
         } finally {
             f.delete();
         }
+    }
+
+    @Test(expected = AccessDeniedException.class)
+    public void testAppHasNoDefinedRestriction() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        bulkExtract.getTenant();
+    }
+
+    @Test(expected = AccessDeniedException.class)
+    public void testAppIsNotBeepApp() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", false);
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        bulkExtract.getTenant();
     }
 }

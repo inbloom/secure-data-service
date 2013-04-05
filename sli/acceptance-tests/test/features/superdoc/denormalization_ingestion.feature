@@ -103,11 +103,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
     And I should not see a warning log file created
-    # Reference should be inserted
-     When I look at "<INGESTED STUDENT ID>" in the "student"
-     Then I should find "<STUDENTASSESSMENT REFERENCE ID>" in "studentAssessment"
 
-@wip
   Scenario: Post new data and check if references are denormalized correctly to Super Docs
     # Pre-ingest check
     When I look at "<INGESTED MATT SOLLARS>" in the "student"
@@ -141,9 +137,3 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     # Check if references are inserted
     When I look at "<INGESTED MATT SOLLARS>" in the "student"
     Then I should find "<INGESTED 7TH GRADE ENGLISH SEC 5>" in "section"
-    And I should find "<INGESTED ACC TEST PROG 2>" in "program"
-    And I should find "<INGESTED MATT SOLLARS ACC-TEST-COH-4>" in "cohort"
-
-    When I look at "<INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH>" in the "studentSchoolAssociation"
-    Then I should find "<INGESTED SUMMER 2012 EAST BREAK JUNIOR HIGH>" in "sessions"
-

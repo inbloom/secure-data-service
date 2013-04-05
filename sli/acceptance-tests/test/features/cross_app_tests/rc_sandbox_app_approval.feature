@@ -29,6 +29,8 @@ When I entered the name "NotTheAppYoureLookingFor" into the field titled "Name"
 And I entered the name "Best.  Description.  Ever." into the field titled "Description"
 And I entered the name "0.0" into the field titled "Version"
 And I make my app an installed app
+And I check Bulk Extract
+And I enter a public key
 And I click on the button Submit
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
@@ -116,11 +118,10 @@ And there is a metadata file in the extract
 And the extract contains a file for each of the following entities:
    |  entityType                            |
    |  assessment                            |
-   |  assessmentFamily                      |
-   |  assessmentPeriodDescriptor            |
    |  attendance                            |
    |  cohort                                |
    |  course                                |
+   |  courseTranscript                      |
    |  courseOffering                        |
    |  disciplineIncident                    |
    |  disciplineAction                      |
@@ -147,7 +148,6 @@ And the extract contains a file for each of the following entities:
    |  studentCompetency                     |
    |  studentCompetencyObjective            |
    |  studentDisciplineIncidentAssociation  |
-   |  studentObjectiveAssessment            |
    |  studentProgramAssociation             |
    |  studentGradebookEntry                 |
    |  studentSchoolAssociation              |
@@ -155,3 +155,4 @@ And the extract contains a file for each of the following entities:
    |  studentParentAssociation              |
    |  teacher                               |
    |  teacherSchoolAssociation              |
+   |  teacherSectionAssociation             |

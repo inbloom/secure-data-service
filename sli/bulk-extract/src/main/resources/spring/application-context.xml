@@ -18,6 +18,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 
     <import resource="classpath:/spring/validation.xml" />
     <import resource="classpath:/spring/db.xml" />
+    <import resource="classpath:/spring/writer-context.xml" />
     
     <context:component-scan base-package="org.slc.sli.common.util.uuid" />
     <context:component-scan base-package="org.slc.sli.common.domain" />
@@ -29,8 +30,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 
     <util:map id="entitiesToCollections" key-type="java.lang.String" value-type="java.lang.String">
         <entry key="assessment" value="assessment" />
-        <entry key="assessmentFamily" value="assessmentFamily" />
-        <entry key="assessmentPeriodDescriptor" value="assessmentPeriodDescriptor" />
         <entry key="attendance" value="attendance" />
         <entry key="cohort" value="cohort" />
         <entry key="competencyLevelDescriptor" value="competencyLevelDescriptor" />
@@ -73,18 +72,27 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <entry key="teacherSectionAssociation" value="section" />
     </util:map>
     
-    <util:list id="addToCollectionFile" value-type="java.lang.String">
-        <value>stateEducationAgency</value>
-        <value>localEducationAgency</value>
-        <value>school</value>
-        <value>teacher</value>
-    </util:list>
+    <util:map id="multiFileEntities" key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="teacher" value="staff" />
+        <entry key="school" value="educationOrganization" />
+        <entry key="localEducationAgency" value="educationOrganization" />
+        <entry key="stateEducationAgency" value="educationOrganization" />
+    </util:map>
+
+    <bean id="defaultWriterMap" class="org.slc.sli.bulk.extract.util.DefaultHashMap" >
+        <constructor-arg ref="writers" type="java.util.Map"/>
+        <constructor-arg ref="defaultWriter"/>
+    </bean>
+
+    <bean id="writer" class="org.slc.sli.bulk.extract.files.EntityWriterManager">
+         <property name="writers" ref="defaultWriterMap" />
+         <property name="multiFileEntities" ref="multiFileEntities" />
+         <property name="entities" ref="entitiesToCollections" />
+    </bean>
 
     <bean id="entityExtractor" class="org.slc.sli.bulk.extract.extractor.EntityExtractor">
          <property name="entityRepository" ref="mongoEntityRepository" />
-         <property name="entitiesToCollections" ref="entitiesToCollections" />
-         <property name="addToCollectionFile" ref="addToCollectionFile" />
-         <property name="applicator" ref="applicator" />
+         <property name="writer" ref="writer" />
     </bean>
 
     <bean id="tenantExtractor" class="org.slc.sli.bulk.extract.extractor.TenantExtractor">
@@ -102,31 +110,5 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     <bean id="bulkExtractMongoDA" class="org.slc.sli.bulk.extract.BulkExtractMongoDA">
          <property name="entityRepository" ref="mongoEntityRepository" />
     </bean>
-
-     <bean id="applicator" class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
-         <property name="treatments" ref="treatments" />
-         <property name="extraTreatments" ref="extraTreatments" />
-    </bean>
-    
-    <bean id="collectionTreatment" class="org.slc.sli.bulk.extract.treatment.EntityToCollectionTreatment" />
-
-    <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment" />
-
-    <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment" />
-
-    <bean id="assessmentTreatment" class="org.slc.sli.bulk.extract.treatment.AssessmentTreatment" />
-    
-    <bean id="studentAssessmentTreatment" class="org.slc.sli.bulk.extract.treatment.StudentAssessmentTreatment" />
-
-    <util:list id="treatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
-        <ref local="idTreatment"/>
-        <ref local="typeTreatment"/>
-        <ref local="assessmentTreatment"/>
-        <ref local="studentAssessmentTreatment"/>
-    </util:list>
-    
-   <util:list id="extraTreatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
-        <ref local="collectionTreatment"/>
-    </util:list>
 
 </beans>

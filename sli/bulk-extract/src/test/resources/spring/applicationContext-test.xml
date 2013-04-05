@@ -21,12 +21,13 @@
     </bean>
 
     <import resource="classpath:/spring/db.xml" />
-
+    <import resource="classpath:/spring/writer-context-test.xml" />
+    
     <bean id="validator" class="org.slc.sli.validation.schema.ApiNeutralSchemaValidator" />
 
     <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher" />
     <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
-
+    
     <util:map id="entitiesToCollections" key-type="java.lang.String" value-type="java.lang.String">
         <entry key="assessment" value="assessment" />
         <entry key="assessmentFamily" value="assessmentFamily" />
@@ -73,18 +74,25 @@
         <entry key="teacherSectionAssociation" value="section" />
     </util:map>
     
-    <util:list id="addToCollectionFile" value-type="java.lang.String">
-        <value>stateEducationAgency</value>
-        <value>localEducationAgency</value>
-        <value>school</value>
-        <value>teacher</value>
-    </util:list>
+    <util:map id="multiFileEntities" key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="teacher" value="staff" />
+        <entry key="school" value="educationOrganization" />
+    </util:map>
+    
+    <bean id="defaultWriterMap" class="org.slc.sli.bulk.extract.util.DefaultHashMap" >
+        <constructor-arg ref="writers" type="java.util.Map"/>
+        <constructor-arg ref="defaultWriter"/>
+    </bean>
+
+    <bean id="writer" class="org.slc.sli.bulk.extract.files.EntityWriterManager">
+         <property name="writers" ref="defaultWriterMap" />
+         <property name="multiFileEntities" ref="multiFileEntities" />
+         <property name="entities" ref="entitiesToCollections" />
+    </bean>
 
     <bean id="entityExtractor" class="org.slc.sli.bulk.extract.extractor.EntityExtractor">
          <property name="entityRepository" ref="mongoEntityRepository" />
-         <property name="entitiesToCollections" ref="entitiesToCollections" />
-         <property name="addToCollectionFile" ref="addToCollectionFile" />
-         <property name="applicator" ref="applicator" />
+         <property name="writer" ref="writer" />
     </bean>
 
     <bean id="tenantExtractor" class="org.slc.sli.bulk.extract.extractor.TenantExtractor">
@@ -96,29 +104,6 @@
         <property name="baseDirectory" value="${sli.bulk.extract.output.directory:extract}" />
         <property name="tenantExtractor" ref="tenantExtractor" />
     </bean>
-
-    <bean id="applicator" class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
-         <property name="treatments" ref="treatments" />
-         <property name="extraTreatments" ref="extraTreatments" />
-    </bean>
-
-    <bean id="collectionTreatment" class="org.slc.sli.bulk.extract.treatment.EntityToCollectionTreatment" />
-
-    <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment" />
-
-    <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment" />
-
-    <bean id="assessmentTreatment" class="org.slc.sli.bulk.extract.treatment.AssessmentTreatment" />
-
-    <util:list id="treatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
-        <ref local="idTreatment"/>
-        <ref local="typeTreatment"/>
-        <ref local="assessmentTreatment"/>
-    </util:list>
-
-    <util:list id="extraTreatments" value-type="org.slc.sli.bulk.extract.treatment.Treatment">
-        <ref local="collectionTreatment"/>
-    </util:list>
 
     <context:component-scan base-package="org.slc">
         <context:exclude-filter type="regex"

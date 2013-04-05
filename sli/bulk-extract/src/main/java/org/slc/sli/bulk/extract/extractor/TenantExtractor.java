@@ -16,19 +16,17 @@
 package org.slc.sli.bulk.extract.extractor;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
+import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Bulk extractor to extract data for a tenant.
@@ -46,14 +44,7 @@ public class TenantExtractor{
 
     private EntityExtractor entityExtractor;
 
-    private List<String> collections;
-
     private ManifestFile metaDataFile;
-
-    @PostConstruct
-    public void init() {
-        collections = new ArrayList<String>(new HashSet<String>(entitiesToCollections.values()));
-    }
 
     /**
      * Extract all the entities from a tenant.
@@ -65,9 +56,10 @@ public class TenantExtractor{
      *          start time stamp
      */
     public void execute(String tenant, ExtractFile extractFile, DateTime startTime) {
-
-        for (String collection : collections) {
+        Set<String> uniqueCollections = new HashSet<String>(entitiesToCollections.values());
+        for (String collection : uniqueCollections) {
             entityExtractor.extractEntities(tenant, extractFile, collection);
+            extractFile.closeWriters();
         }
 
         try {
@@ -104,7 +96,7 @@ public class TenantExtractor{
 
     /**
      * Set entities to collections map.
-     * @param entities to collections map
+     * @param entitiesToCollections to collections map
      */
     public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
         this.entitiesToCollections = entitiesToCollections;

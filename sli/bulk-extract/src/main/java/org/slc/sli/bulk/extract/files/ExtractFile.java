@@ -18,8 +18,8 @@ package org.slc.sli.bulk.extract.files;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
 
 /**
  * Extract's archive file class.
@@ -40,7 +41,7 @@ public class ExtractFile {
 
     private File tempDir;
     private File archiveFile;
-    private List<DataExtractFile> dataFiles = new ArrayList<DataExtractFile>();
+    private Map<String, JsonFileWriter> dataFiles = new HashMap<String, JsonFileWriter>();
     private ManifestFile manifestFile;
 
     private static final String FILE_EXT = ".tar";
@@ -69,10 +70,21 @@ public class ExtractFile {
      * @return
      *          DataExtractFile object
      */
-    public DataExtractFile getDataFileEntry(String filePrefix) {
-        DataExtractFile compressedFile = new DataExtractFile(tempDir, filePrefix);
-        dataFiles.add(compressedFile);
-        return compressedFile;
+    public JsonFileWriter getDataFileEntry(String filePrefix) {
+        if (!dataFiles.containsKey(filePrefix)) {
+         JsonFileWriter compressedFile = new JsonFileWriter(tempDir, filePrefix);
+         dataFiles.put(filePrefix, compressedFile);
+        }
+        return dataFiles.get(filePrefix);
+    }
+
+    /**
+     *  Closes the files in the extract.
+     */
+    public void closeWriters() {
+        for (JsonFileWriter file : dataFiles.values()) {
+            file.close();
+        }
     }
 
     /**
@@ -103,7 +115,7 @@ public class ExtractFile {
             tarArchiveOutputStream = new TarArchiveOutputStream(new FileOutputStream(archiveFile));
 
             archiveFile(tarArchiveOutputStream, manifestFile.getFile());
-            for (DataExtractFile dataFile : dataFiles) {
+            for (JsonFileWriter dataFile : dataFiles.values()) {
                 File df = dataFile.getFile();
 
                 if (df != null && df.exists()) {
