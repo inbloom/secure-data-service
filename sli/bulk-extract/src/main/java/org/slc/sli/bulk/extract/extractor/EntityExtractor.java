@@ -163,11 +163,11 @@ public class EntityExtractor{
         @Override
         public String toString() {
             Object[] collArguments = { collectionName, new Integer(numberOfEntitiesWritten)};
-            StringBuffer sb = new StringBuffer(MessageFormat.format("{1} records for <{0}>", collArguments));
+            StringBuffer sb = new StringBuffer(MessageFormat.format("{1} records for {0}", collArguments));
             
             for (Map.Entry<String, Integer> entry : embeddedDocWrittenRecords.entrySet()) {
                 Object[] embeddedArguments = { entry.getKey(), entry.getValue()};
-                sb.append(MessageFormat.format("\n\t{1} embedded records for <{0}>", embeddedArguments));
+                sb.append(MessageFormat.format("\n\t{1} embedded records for {0}", embeddedArguments));
             }
 
             return sb.toString();
