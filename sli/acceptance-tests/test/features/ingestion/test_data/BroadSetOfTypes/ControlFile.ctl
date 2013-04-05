@@ -20,3 +20,4 @@ edfi-xml,StudentParent,InterchangeStudentParent.xml,09e8d9bef1a0cc80927becfdde9d
 edfi-xml,StudentParent,InterchangeStudentParent-Orphans.xml,56050f09c5db0cf01c7833ebf947f70f
 edfi-xml,StudentProgram,InterchangeStudentProgram.xml,9ec46e6d1268bbfa2efd2d1427fdfb91
 edfi-xml,MasterSchedule,InterchangeMasterSchedule-Orphans.xml,bcff2b3687d06fc6bc6e9f9b546644f6
+edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata-Orphans.xml,bcff2b3687d06fc6bc6e9f9b546644f6
