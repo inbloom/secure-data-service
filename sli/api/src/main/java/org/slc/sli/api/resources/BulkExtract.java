@@ -16,6 +16,36 @@
 
 package org.slc.sli.api.resources;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.StreamingOutput;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
@@ -36,35 +66,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.CipherOutputStream;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.StreamingOutput;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.InvalidKeyException;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
 
 /**
  *
@@ -151,7 +152,7 @@ public class BulkExtract {
         String lastModified = bulkExtractFileEntity.getLastModified();
 
         try {
-
+        	final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             final InputStream is = new FileInputStream(bulkExtractFile);
             StreamingOutput out = new StreamingOutput() {
                 @Override
@@ -162,7 +163,7 @@ public class BulkExtract {
                     byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
                     byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
 
-                    PublicKey publicKey = getApplicationPublicKey();
+                    PublicKey publicKey = getApplicationPublicKey(auth);
                     byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
                     byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
 
@@ -185,22 +186,23 @@ public class BulkExtract {
         }
     }
 
-    private PublicKey getApplicationPublicKey() throws IOException {
+    private PublicKey getApplicationPublicKey(Authentication authentication) throws IOException {
         PublicKey publicKey = null;
 
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof OAuth2Authentication)) {
             throw new AccessDeniedException("Not logged in with valid oauth context");
         }
         final OAuth2Authentication oauth = (OAuth2Authentication) authentication;
 
         final String clientId = oauth.getClientAuthentication().getClientId();
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("clientId", NeutralCriteria.OPERATOR_EQUAL,
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("client_id", NeutralCriteria.OPERATOR_EQUAL,
                 clientId));
         final Entity entity = mongoEntityRepository.findOne(EntityNames.APPLICATION, query);
 
-        if (entity == null || entity.getBody().get("public_key") == null) {
-            throw new AccessDeniedException("Missing public_key attribute on application entity. clientId=" + clientId);
+        if(entity == null) {
+        	throw new AccessDeniedException("Could not find application with client_id=" + clientId);
+        } else if (entity.getBody().get("public_key") == null) {
+            throw new AccessDeniedException("Missing public_key attribute on application entity. client_id=" + clientId);
         }
 
         String key = (String) entity.getBody().get("public_key");
