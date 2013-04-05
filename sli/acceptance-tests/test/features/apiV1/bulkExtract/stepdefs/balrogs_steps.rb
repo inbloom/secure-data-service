@@ -86,19 +86,19 @@ When /^the return code is 200 I get expected tar downloaded$/ do
 	  puts "@res.headers: #{@res.headers}"
 	  puts "@res.code: #{@res.code}"
     if @res.code == 200
-	  puts "@res.headers: #{@res.headers}"
-	  puts "@res.code: #{@res.code}"
+	   puts "@res.headers: #{@res.headers}"
+	   puts "@res.code: #{@res.code}"
 	
-	  EXPECTED_CONTENT_TYPE = 'application/x-tar'
-	  @content_disposition = @res.headers[:content_disposition]
-	  @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
-	  @last_modified = @res.headers[:last_modified]
+	   EXPECTED_CONTENT_TYPE = 'application/x-tar'
+	   @content_disposition = @res.headers[:content_disposition]
+	   @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
+	   @last_modified = @res.headers[:last_modified]
 	
-	  puts "content-disposition: #{@content_disposition}"
-	  puts "download file name: #{@zip_file_name}"
-	  puts "last-modified: #{@last_modified}"
+	   puts "content-disposition: #{@content_disposition}"
+	   puts "download file name: #{@zip_file_name}"
+	   puts "last-modified: #{@last_modified}"
 	
-	  assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
+	   assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
     end
 end
 

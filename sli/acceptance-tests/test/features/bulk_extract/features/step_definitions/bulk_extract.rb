@@ -21,6 +21,7 @@ require 'zip/zip'
 require 'archive/tar/minitar'
 require 'zlib'
 require 'open3'
+require 'openssl'
 include Archive::Tar
 
 
@@ -269,6 +270,11 @@ Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
   assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
   compareToApi(collection, collFile)
 }
+end
+
+Then /^the response is decrypted/ do
+  private_key = OpenSSL::PKey::RSA.new File.read 'test-key.pkcs8'
+  
 end
 
 ############################################################
