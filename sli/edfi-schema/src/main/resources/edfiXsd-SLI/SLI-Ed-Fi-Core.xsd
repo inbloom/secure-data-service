@@ -36,8 +36,8 @@
         <xs:element name="LocationReference" type="LocationReferenceType"/>
   		<xs:element name="AcademicWeekReference" type="SLC-AcademicWeekReferenceType"/>
   		<xs:element name="AssessmentFamilyReference" type="SLC-AssessmentFamilyReferenceType"/>
-  		<xs:element name="AsessmentItemReference" type="SLC-AssessmentItemReferenceType"/>
-  		<xs:element name="AsessmentReference" type="SLC-AssessmentReferenceType"/>
+  		<xs:element name="AssessmentItemReference" type="SLC-AssessmentItemReferenceType"/>
+  		<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType"/>
   		<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType"/>
   		<xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType"/>
   		<xs:element name="CohortReference" type="SLC-CohortReferenceType"/>

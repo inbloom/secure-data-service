@@ -17,7 +17,7 @@ Scenario: Delete Entity Report with cascade
 	And I should see "InterchangeStudentParent.xml child records deleted successfully: 2" in the resulting batch job file
 	
 	And I should see "InterchangeStaffAssociation.xml records deleted successfully: 1" in the resulting batch job file
-	And I should see "InterchangeStaffAssociation.xml child records deleted successfully: 35" in the resulting batch job file
+	And I should see "InterchangeStaffAssociation.xml child records deleted successfully: 37" in the resulting batch job file
 	
 	And I should see "InterchangeStudentProgram.xml records deleted successfully: 1" in the resulting batch job file
 	And I should see "InterchangeStudentProgram.xml child records deleted successfully: 0" in the resulting batch job file

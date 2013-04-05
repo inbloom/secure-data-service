@@ -25,6 +25,7 @@ package org.slc.sli.domain;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,26 +34,21 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 public class CascadeResult {
 
-    public enum Status {
+    public static enum Status {
         SUCCESS,
         MAX_OBJECTS_EXCEEDED,
-        ACCESS_DENIED,
-        DATABASE_ERROR,
-        CHILD_DATA_EXISTS,
-        MAX_DEPTH_EXCEEDED
+        ERROR
     }
 
-    private int nObjects;		    // Number of objects affected
+//    private int nObjects;		    // Number of objects affected
     private int	   depth;			// Furthest depth examined
     private Status status;			// Current/overall status of the operation
 
-    Set<String> deletedIds;         // ids of deleted entities - not set for dryrun
+    private List<CascadeResultError> errors;   // list of errors encountered during safe delete
 
-    private String message;          // Status message e.g. error text - null on SUCCESS
-
-    // Used to identify the error object for ACCESS_DENIED and CHILD_DATA_EXISTS status
-    private String objectType;
-    private String objectId;
+    private Set<String> deletedIds;                       // ids of deleted entities - would have been for dryrun
+    private Set<String> referenceFieldPatchedIds;         // ids of entities with reference fields patched - would have been for dryrun
+    private Set<String> referenceFieldRemovedIds;         // ids of entities with reference fields removed - would have been for dryrun
 
     private static final String TREE_KEY_TYPE = "type";
     private static final String TREE_KEY_ID = "id";
@@ -74,32 +70,24 @@ public class CascadeResult {
     private Map<String, Object> idTree;
 
     public CascadeResult() {
-        nObjects = 0;
+//        nObjects = 0;
         depth = 0;
         status = Status.SUCCESS; // Until further notice
-        message = null;
-        objectType = null;
-        objectId = null;
         idTree = null;
+        deletedIds = new HashSet<String>();
+        referenceFieldPatchedIds = new HashSet<String>();
+        referenceFieldRemovedIds = new HashSet<String>();
+        errors = new ArrayList<CascadeResultError>();
     }
 
-    public CascadeResult(int nObjects, int depth, Status status, String message, String objectId, String objectType) {
-        this.nObjects = nObjects;
-        this.depth = depth;
-        this.status = status;
-        this.message = message;
-        this.objectId = objectId;
-        this.objectType = objectType;
+    public boolean addError(int errorDepth, String message, CascadeResultError.ErrorType errorType, String objectType, String objectId) {
+        status = Status.ERROR;    // set the overall result status to ERROR if any error is encountered
+        CascadeResultError error = new CascadeResultError(errorDepth, message, errorType, objectType, objectId);
+        return errors.add(error);
     }
 
-    public CascadeResult setFields(int nObjects, int depth, Status status, String message, String objectId, String objectType) {
-        this.nObjects = nObjects;
-        this.depth = depth;
-        this.status = status;
-        this.message = message;
-        this.objectId = objectId;
-        this.objectType = objectType;
-        return this;
+    public List<CascadeResultError> getErrors() {
+        return errors;
     }
 
     public Set<String> getDeletedIds() {
@@ -110,17 +98,29 @@ public class CascadeResult {
         this.deletedIds = deletedIds;
     }
 
+    public Set<String> getReferenceFieldPatchedIds() {
+        return referenceFieldPatchedIds;
+    }
+
+    public void setReferenceFieldPatchedIds(Set<String> referenceFieldPatchedIds) {
+        this.referenceFieldPatchedIds = referenceFieldPatchedIds;
+    }
+
+    public Set<String> getReferenceFieldRemovedIds() {
+        return referenceFieldRemovedIds;
+    }
+
+    public void setReferenceFieldRemovedIds(Set<String> referenceFieldRemovedIds) {
+        this.referenceFieldRemovedIds = referenceFieldRemovedIds;
+    }
+
     // Return true if the operation is a success
 	public boolean success() {
 		return status == Status.SUCCESS;
 	}
 
     public int getnObjects() {
-        return nObjects;
-    }
-
-    public void setnObjects(int nObjects) {
-        this.nObjects = nObjects;
+        return deletedIds.size() + referenceFieldPatchedIds.size() + referenceFieldRemovedIds.size();
     }
 
     public void setDepth(int depth) {
@@ -141,28 +141,6 @@ public class CascadeResult {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getObjectType() {
-        return objectType;
-    }
-
-    public void setObjectType(String objectType) {
-        this.objectType = objectType;
-    }
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
     }
 
     public Map<String, Object> getIdTree() {

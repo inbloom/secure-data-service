@@ -6,7 +6,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>South Daybreak Elementary</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>South Daybreak Elementary (Elementary School)</NameOfInstitution>
+    <NameOfInstitution>School Orphan-South Daybreak Elementary</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
@@ -109,18 +109,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevels>
-    <CodeValue>Course-Incompetent</CodeValue>
+    <CodeValue>CRS-Incompetent</CodeValue>
     </CompetencyLevels>
     <CompetencyLevels>
-    <CodeValue>Course-Barely Competent</CodeValue>
+    <CodeValue>CRS-Barely Competent</CodeValue>
     </CompetencyLevels>
     <CompetencyLevels>
-    <CodeValue>Course-Competent</CodeValue>
+    <CodeValue>CRS-Competent</CodeValue>
     </CompetencyLevels>
     <CompetencyLevels>
-    <CodeValue>Course-Very Competent</CodeValue>
+    <CodeValue>CRS-Very Competent</CodeValue>
     </CompetencyLevels>
-    <UniqueCourseId>1</UniqueCourseId>
+    <UniqueCourseId>CRS-1</UniqueCourseId>
   </Course>
   <CompetencyLevelDescriptor>
       <CodeValue>CLD-Incompetent</CodeValue>

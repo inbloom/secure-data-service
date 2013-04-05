@@ -6,7 +6,7 @@ Given I am using local data store
 
 Scenario: Post Small Sample Data Set
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-  And I post "BroadSetOfTypes.zip" file as the payload of the ingestion job
+  And I post "SmallSampleDataSet.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
@@ -64,7 +64,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | teacherSectionAssociation                 |
      | yearlyTranscript                          |
 When zip file is scp to ingestion landing zone
-  And a batch job for file "BroadSetOfTypes.zip" is completed in database
+  And a batch job for file "SmallSampleDataSet.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
