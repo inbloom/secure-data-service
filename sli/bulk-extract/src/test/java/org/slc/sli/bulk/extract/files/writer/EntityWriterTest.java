@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import org.slc.sli.bulk.extract.files.JsonExtractFile;
 import org.slc.sli.bulk.extract.treatment.Treatment;
 import org.slc.sli.domain.Entity;
 
@@ -33,8 +32,8 @@ import org.slc.sli.domain.Entity;
  * @author ablum
  *
  */
-public class JsonEntityWriterTest {
-    private JsonEntityWriter writer;
+public class EntityWriterTest {
+    private EntityWriter writer;
     Treatment treatment;
     Entity treatedEntity;
 
@@ -46,7 +45,7 @@ public class JsonEntityWriterTest {
         treatedEntity = Mockito.mock(Entity.class);
         treatment = Mockito.mock(Treatment.class);
         Mockito.when(treatment.apply(Mockito.any(Entity.class))).thenReturn(treatedEntity);
-        writer = new JsonEntityWriter(treatment);
+        writer = new EntityWriter(treatment);
     }
 
     /**
@@ -54,7 +53,7 @@ public class JsonEntityWriterTest {
      */
     @Test
     public void testWrite() {
-        JsonExtractFile file = Mockito.mock(JsonExtractFile.class);
+        JsonFileWriter file = Mockito.mock(JsonFileWriter.class);
         Entity entity = Mockito.mock(Entity.class);
 
         Entity check = writer.write(entity, file);

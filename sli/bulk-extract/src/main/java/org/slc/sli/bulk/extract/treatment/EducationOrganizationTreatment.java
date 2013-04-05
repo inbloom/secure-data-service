@@ -15,25 +15,20 @@
  */
 package org.slc.sli.bulk.extract.treatment;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.slc.sli.dal.convert.StudentAssessmentConverter;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
 /**
- * Embed subdocs in studentAssessment superdoc.
- *
- * @author npandey
+ * Sets the entity type to the collection name.
+ * @author ablum
  *
  */
-public class StudentAssessmentTreatment implements Treatment{
-
-    @Autowired
-    StudentAssessmentConverter studentAssessmentConverter;
+public class EducationOrganizationTreatment implements Treatment {
+    private static final String TYPE_STRING = "entityType";
 
     @Override
     public Entity apply(Entity entity) {
-        studentAssessmentConverter.subdocToBodyField(entity);
+        entity.getBody().put(TYPE_STRING, EntityNames.EDUCATION_ORGANIZATION);
         return entity;
     }
 
