@@ -594,6 +594,7 @@ end
 
 task :ingestionStudentRefDeleteTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_student_ref_delete.feature")
+end
 
 task :ingestBroadSetOfTypesAndExportData do
   runTests("test/features/ingestion/features/ingestion_BroadSetOfTypes.feature")
