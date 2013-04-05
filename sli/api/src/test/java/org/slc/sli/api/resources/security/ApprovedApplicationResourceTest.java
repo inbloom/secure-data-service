@@ -26,11 +26,16 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
-import com.sun.jersey.core.spi.factory.ResponseImpl;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.context.validator.ValidatorTestHelper;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,13 +44,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.security.context.validator.ValidatorTestHelper;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
+import com.sun.jersey.core.spi.factory.ResponseImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -81,6 +80,9 @@ public class ApprovedApplicationResourceTest {
         SecurityUtil.getSLIPrincipal().setEdOrgId(lea.getEntityId());
 
         Map<String, Object> body = new HashMap<String, Object>();
+        Map<String, Object> registration = new HashMap<String, Object>();
+        registration.put(ApplicationResource.STATUS, ApplicationResource.STATUS_APPROVED);
+        body.put("registration", registration);
         body.put("authorized_ed_orgs", Arrays.asList(SecurityUtil.getEdOrgId()));
         body.put("installed", false);
         body.put("name", "MyApp");
