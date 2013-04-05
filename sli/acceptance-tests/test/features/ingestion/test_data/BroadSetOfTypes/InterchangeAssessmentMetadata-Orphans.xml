@@ -8,8 +8,8 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 7 2011 State Reading</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>A-State summative assessment 3-8 general</AssessmentCategory>
-    <AcademicSubject>A-Reading</AcademicSubject>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
     <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
@@ -83,7 +83,7 @@
             <IdentificationCode>LO-LO-G3-6</IdentificationCode>
         </LearningObjectiveId>
         <Objective>LO-Narrative Writing</Objective>
-        <AcademicSubject>LO-Writing</AcademicSubject>
+        <AcademicSubject>Writing</AcademicSubject>
         <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         <LearningStandardReference>
             <LearningStandardIdentity>
