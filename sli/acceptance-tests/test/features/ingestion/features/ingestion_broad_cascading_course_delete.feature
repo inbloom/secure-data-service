@@ -128,7 +128,7 @@ Scenario: Delete Course with cascade
     And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
 	  And I should see "records deleted successfully: 0" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	  And I should see "records failed processing: 1" in the resulting batch job file
 #    And I should not see an error log file created
    	And I should not see a warning log file created
     And I re-execute saved query "course" to get "1" records

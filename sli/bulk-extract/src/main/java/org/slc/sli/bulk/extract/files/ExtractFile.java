@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
 
 /**
  * Extract's archive file class.
@@ -40,7 +41,7 @@ public class ExtractFile {
 
     private File tempDir;
     private File archiveFile;
-    private Map<String, JsonExtractFile> dataFiles = new HashMap<String, JsonExtractFile>();
+    private Map<String, JsonFileWriter> dataFiles = new HashMap<String, JsonFileWriter>();
     private ManifestFile manifestFile;
 
     private static final String FILE_EXT = ".tar";
@@ -69,12 +70,21 @@ public class ExtractFile {
      * @return
      *          DataExtractFile object
      */
-    public JsonExtractFile getDataFileEntry(String filePrefix) {
+    public JsonFileWriter getDataFileEntry(String filePrefix) {
         if (!dataFiles.containsKey(filePrefix)) {
-         JsonExtractFile compressedFile = new JsonExtractFile(tempDir, filePrefix);
+         JsonFileWriter compressedFile = new JsonFileWriter(tempDir, filePrefix);
          dataFiles.put(filePrefix, compressedFile);
         }
         return dataFiles.get(filePrefix);
+    }
+
+    /**
+     *  Closes the files in the extract.
+     */
+    public void closeWriters() {
+        for (JsonFileWriter file : dataFiles.values()) {
+            file.close();
+        }
     }
 
     /**
@@ -105,7 +115,7 @@ public class ExtractFile {
             tarArchiveOutputStream = new TarArchiveOutputStream(new FileOutputStream(archiveFile));
 
             archiveFile(tarArchiveOutputStream, manifestFile.getFile());
-            for (JsonExtractFile dataFile : dataFiles.values()) {
+            for (JsonFileWriter dataFile : dataFiles.values()) {
                 File df = dataFile.getFile();
 
                 if (df != null && df.exists()) {
