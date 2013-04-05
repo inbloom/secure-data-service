@@ -104,7 +104,6 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     And I should not see an error log file created
     And I should not see a warning log file created
 
-@wip
   Scenario: Post new data and check if references are denormalized correctly to Super Docs
     # Pre-ingest check
     When I look at "<INGESTED MATT SOLLARS>" in the "student"
@@ -138,7 +137,3 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     # Check if references are inserted
     When I look at "<INGESTED MATT SOLLARS>" in the "student"
     Then I should find "<INGESTED 7TH GRADE ENGLISH SEC 5>" in "section"
-
-    When I look at "<INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH>" in the "studentSchoolAssociation"
-    Then I should find "<INGESTED SUMMER 2012 EAST BREAK JUNIOR HIGH>" in "sessions"
-
