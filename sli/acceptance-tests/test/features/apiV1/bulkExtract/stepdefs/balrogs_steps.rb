@@ -97,7 +97,7 @@ When /^the return code is 200 I get expected tar downloaded$/ do
 	  @content_disposition = @res.headers[:content_disposition]
 	  @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
 	  @last_modified = @res.headers[:last_modified]
-      @is_sampled_file = @zip_file_name=="NY-WALTON-2013-03-19T13-02-02.tar"
+      @is_sampled_file = @zip_file_name=="sample-extract.tar"
 	
 	  puts "content-disposition: #{@content_disposition}"
 	  puts "download file name: #{@zip_file_name}"
@@ -110,8 +110,8 @@ end
 Then /^I check the http response headers$/ do  
 
   if @is_sampled_file
-    EXPECTED_BYTE_COUNT = 5632
-    assert(@res.headers[:content_length].to_i==EXPECTED_BYTE_COUNT, "File Size is wrong! Actual: #{@res.headers[:content_length]} Expected: #{EXPECTED_BYTE_COUNT}" )
+    EXPECTED_LAST_MODIFIED = "Not Specified"
+    assert(@res.headers[:last_modified].to_s==EXPECTED_LAST_MODIFIED, "Last Modified date is wrong! Actual: #{@res.headers[:last_modified]} Expected: #{EXPECTED_LAST_MODIFIED}" )
   elsif @res.code == 200
     @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
     coll = "bulkExtractFiles";

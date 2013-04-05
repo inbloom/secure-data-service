@@ -15,22 +15,49 @@
  */
 package org.slc.sli.bulk.extract.files.writer;
 
-import org.slc.sli.bulk.extract.files.ExtractFile;
+import java.io.IOException;
+
+import org.codehaus.jackson.JsonProcessingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.slc.sli.bulk.extract.treatment.Treatment;
 import org.slc.sli.domain.Entity;
 
 /**
-* Writes an Entity to a File.
-* @author ablum
-*
-*/
-public interface EntityWriter {
+ * Writes an Entity to a File.
+ * @author ablum
+ *
+ */
+public class EntityWriter {
+    private static final Logger LOG = LoggerFactory.getLogger(EntityWriter.class);
+
+    private Treatment applicator;
 
     /**
-     * Write an Entity to a File.
-     * @param entity entity
-     * @param archiveFile archiveFile
-     * @return written entity
+     * Constructor.
+     * @param treatment treatment
      */
-    public Entity write(Entity entity, ExtractFile archiveFile);
+    public EntityWriter(Treatment treatment) {
+        this.applicator = treatment;
+    }
 
+    /**
+     * Writes a treated entity to a file.
+     * @param entity entity
+     * @param file file
+     * @return entity
+     */
+    public Entity write(Entity entity, JsonFileWriter file) {
+        Entity treated = applicator.apply(entity);
+        try {
+            file.write(treated);
+        } catch (JsonProcessingException e) {
+            LOG.error("Error while extracting from " + entity.getType(), e);
+        } catch (IOException e) {
+            LOG.error("Error while extracting from " + entity.getType(), e);
+        }
+
+        return treated;
+    }
 }

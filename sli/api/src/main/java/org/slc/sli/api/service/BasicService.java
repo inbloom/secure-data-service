@@ -183,6 +183,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private void checkAccess(boolean isRead, boolean isSelf, EntityBody content) {
         SecurityUtil.ensureAuthenticated();
         Set<Right> neededRights = new HashSet<Right>();
+
         if (isRead || content == null) {
             neededRights.addAll(provider.getAllFieldRights(defn.getType(), isRead));
         } else {
@@ -832,7 +833,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 String fieldName = entry.getKey();
                 Object value = entry.getValue();
 
-                String fieldPath = prefix.replaceAll("^.", "") + fieldName;
+                String fieldPath = prefix + fieldName;
                 Set<Right> neededRights = getNeededRights(fieldPath);
 
                 SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
@@ -954,20 +955,28 @@ public class BasicService implements EntityService, AccessibilityCheck {
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             toReturn.add(Right.ADMIN_ACCESS);
         } else {
-            for (Map.Entry<String, Object> entry : eb.entrySet()) {
-                String fieldName = entry.getKey();
-                Object value = entry.getValue();
+			for (Map.Entry<String, Object> entry : eb.entrySet()) {
+				String fieldName = entry.getKey();
+				Object value = entry.getValue();
 
-                if (value instanceof Map) {
-                    filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
-                } else {
-                    String fieldPath = prefix + fieldName;
-                    Set<Right> neededRights = provider.getRequiredWriteLevels(defn.getType(), fieldPath);
-                    debug("Field {} requires {}", fieldPath, neededRights);
-                    toReturn.addAll(neededRights);
-                }
-            }
-        }
+				List<Object> list = null;
+				if (value instanceof List) {
+					list = (List<Object>) value;
+				} else {
+					list = Collections.singletonList(value);
+				}
+
+				for (Object obj : list) {
+					String fieldPath = prefix + fieldName;
+					Set<Right> neededRights = provider.getRequiredWriteLevels(defn.getType(), fieldPath);
+					if (neededRights.isEmpty() && obj instanceof Map) {
+						neededRights.addAll(determineWriteAccess((Map<String, Object>) obj, prefix + "." + fieldName + "."));	// Mixing recursion and iteration, very bad
+					}
+					debug("Field {} requires {}", fieldPath, neededRights);
+					toReturn.addAll(neededRights);
+				}
+			}
+		}
 
         return toReturn;
     }
