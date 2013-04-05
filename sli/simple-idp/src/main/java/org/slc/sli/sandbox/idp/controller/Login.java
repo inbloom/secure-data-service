@@ -220,16 +220,14 @@ public class Login {
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, developer);
 
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
-        
-        String errorMsg = "Invalid User Name or password";
+
         if(user == null){
             try {
                 user = userService.authenticate(realm, userId, password);
 
                 List<String> roles = user.getRoles();
                 if (roles == null || roles.isEmpty()) {
-                    errorMsg = "User account is in invalid mode";
-                    throw new AuthenticationException("User does not have any roles defined");
+                    return handleAuthenticationError(userId, encodedSamlRequest, realm, developer, request, "User account is in invalid mode");
                 }
 
                 if (shouldForcePasswordChange(user, realm)) {
@@ -260,37 +258,7 @@ public class Login {
                     return mav;
                 }
             } catch (AuthenticationException e) {
-                ModelAndView mav = new ModelAndView("login");
-                mav.addObject("subTitle", buildSubTitle(realm));
-                mav.addObject("errorMsg", errorMsg);
-                mav.addObject("isForgotPasswordVisible", sliAdminRealmName.equals(realm));
-                mav.addObject("adminUrl", adminUrl);
-                mav.addObject("developer", developer);
-                mav.addObject("realm", realm);
-                mav.addObject("SAMLRequest", encodedSamlRequest);
-
-                // if a user with this userId exists, get his info and roles/groups and
-                // log that information as a failed login attempt.
-                String edOrg = "UnknownEdOrg";
-                String tenant = "UnknownTenant";
-                List<String> userRoles = Collections.emptyList();
-                try {
-                    User unauthenticatedUser = userService.getUser(realm, userId);
-                    if (unauthenticatedUser != null) {
-                        Map<String, String> attributes = unauthenticatedUser.getAttributes();
-                        if (attributes != null) {
-                            edOrg = attributes.get("edOrg");
-                            tenant = attributes.get("tenant");
-                        }
-                    }
-                    userRoles = userService.getUserGroups(realm, userId);
-                } catch (EmptyResultDataAccessException noMatchesException) {
-                    LOG.info(userId + " failed to login into realm [" + realm + "]. User does not exist.");
-                } catch (Exception exception) {
-                    LOG.info(userId + " failed to login into realm [" + realm + "]. " + exception.getMessage());
-                }
-                writeLoginSecurityEvent(false, userId, userRoles, edOrg, tenant, request);
-                return mav;
+                return handleAuthenticationError(userId, encodedSamlRequest, realm, developer, request, "Invalid User Name or password");
             }
         }
 
@@ -311,6 +279,41 @@ public class Login {
             return mav;
 
         }
+    }
+
+    private ModelAndView handleAuthenticationError(String userId, String encodedSamlRequest, String realm, String developer,
+            HttpServletRequest request, String errorMsg) {
+        ModelAndView mav = new ModelAndView("login");
+        mav.addObject("subTitle", buildSubTitle(realm));
+        mav.addObject("errorMsg", errorMsg);
+        mav.addObject("isForgotPasswordVisible", sliAdminRealmName.equals(realm));
+        mav.addObject("adminUrl", adminUrl);
+        mav.addObject("developer", developer);
+        mav.addObject("realm", realm);
+        mav.addObject("SAMLRequest", encodedSamlRequest);
+
+        // if a user with this userId exists, get his info and roles/groups and
+        // log that information as a failed login attempt.
+        String edOrg = "UnknownEdOrg";
+        String tenant = "UnknownTenant";
+        List<String> userRoles = Collections.emptyList();
+        try {
+            User unauthenticatedUser = userService.getUser(realm, userId);
+            if (unauthenticatedUser != null) {
+                Map<String, String> attributes = unauthenticatedUser.getAttributes();
+                if (attributes != null) {
+                    edOrg = attributes.get("edOrg");
+                    tenant = attributes.get("tenant");
+                }
+            }
+            userRoles = userService.getUserGroups(realm, userId);
+        } catch (EmptyResultDataAccessException noMatchesException) {
+            LOG.info(userId + " failed to login into realm [" + realm + "]. User does not exist.");
+        } catch (Exception exception) {
+            LOG.info(userId + " failed to login into realm [" + realm + "]. " + exception.getMessage());
+        }
+        writeLoginSecurityEvent(false, userId, userRoles, edOrg, tenant, request);
+        return mav;
     }
 
     private ModelAndView buildImpersonationModelAndView(String realm, String samlRequest, String impersonateUserName) {
