@@ -27,7 +27,6 @@ import org.slc.sli.domain.Entity;
  */
 public class TreatmentApplicator implements Treatment {
     List<Treatment> treatments;
-    List<Treatment> extraTreatments;
 
     @Override
     public Entity apply(Entity entity) {
@@ -38,18 +37,6 @@ public class TreatmentApplicator implements Treatment {
         return treated;
     }
 
-    /**
-     * Apply treatments that should not be applied to every entity.
-     * @param entity Entity to treat
-     * @return entity A treated Entity
-     */
-    public Entity applyExtra(Entity entity) {
-        Entity treated = entity;
-        for (Treatment treatment : extraTreatments) {
-            treated = treatment.apply(treated);
-        }
-        return treated;
-    }
     /**
      * get treatments.
      * @return list<Treatment>
@@ -65,14 +52,5 @@ public class TreatmentApplicator implements Treatment {
     public void setTreatments(List<Treatment> treatments) {
         this.treatments = treatments;
     }
-
-    /**
-     * set extra treatments.
-     * @param extraTreatments extraTreatments
-     */
-    public void setExtraTreatments(List<Treatment> extraTreatments) {
-        this.extraTreatments = extraTreatments;
-    }
-
 
 }

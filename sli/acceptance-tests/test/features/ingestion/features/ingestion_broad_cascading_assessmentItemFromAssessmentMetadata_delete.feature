@@ -4,6 +4,7 @@ Feature: Safe Deletion and Cascading Deletion
 Background: I have a landing zone route configured
 Given I am using local data store
 
+@wip
 Scenario: Delete Assessment Item from Assessment Metadata with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -24,6 +25,7 @@ Scenario: Delete Assessment Item from Assessment Metadata with cascade
 	And I should see "records considered for processing: 1" in the resulting batch job file
 	And I should see "records ingested successfully: 0" in the resulting batch job file
 	And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "child records deleted successfully: 3" in the resulting batch job file
 	And I should see "records failed processing: 0" in the resulting batch job file
 	And I should see "records not considered for processing: 0" in the resulting batch job file
 	And I should see "All records processed successfully." in the resulting batch job file

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.bulk.extract.files;
+package org.slc.sli.bulk.extract.files.writer;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -32,13 +32,14 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
 import org.slc.sli.domain.Entity;
 
 /** Unit test for JsonExtractFile.
  * @author tke
  *
  */
-public class JsonExtractFileTest {
+public class JsonFileWriterTest {
 
     /**
      * test case.
@@ -56,7 +57,7 @@ public class JsonExtractFileTest {
                 Map<String, Object> body = new HashMap<String, Object>();
                 body.put("Student", "Student");
                 Mockito.when(entity.getBody()).thenReturn(body);
-                JsonExtractFile testDEF = new JsonExtractFile(tempDir, tempFileName);
+                JsonFileWriter testDEF = new JsonFileWriter(tempDir, tempFileName);
 
                 testDEF.write(entity);
                 testDEF.close();

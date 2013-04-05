@@ -166,9 +166,14 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
         NeutralSchema schema = repo.getSchema(entityType);
 
         if (schema != null) {
-            String[] chunks = fieldPath.split("\\.");
+            String[] chunks = fieldPath.replaceAll("^\\.", "").split("\\.");
 
             for (String chunk : chunks) {
+            	if(schema instanceof ListSchema) {
+            		ListSchema l = (ListSchema) schema;
+            		schema = l.getList().get(0);
+            	}
+            	
                 schema = schema.getFields().get(chunk);
 
                 if (schema == null) {
