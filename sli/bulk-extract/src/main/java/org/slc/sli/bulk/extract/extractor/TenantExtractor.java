@@ -59,6 +59,7 @@ public class TenantExtractor{
         Set<String> uniqueCollections = new HashSet<String>(entitiesToCollections.values());
         for (String collection : uniqueCollections) {
             entityExtractor.extractEntities(tenant, extractFile, collection);
+            extractFile.closeWriters();
         }
 
         try {

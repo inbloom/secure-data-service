@@ -45,7 +45,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <entry key="graduationPlan" value="graduationPlan" />
         <entry key="learningObjective" value="learningObjective" />
         <entry key="learningStandard" value="learningStandard" />
-        <entry key="localEducationAgency" value="educationOrganization" />
         <entry key="parent" value="parent" />
         <entry key="program" value="program" />
         <entry key="reportCard" value="yearlyTranscript" />
@@ -56,7 +55,6 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <entry key="staffCohortAssociation" value="staffCohortAssociation" />
         <entry key="staffEducationOrganizationAssociation" value="staffEducationOrganizationAssociation" />
         <entry key="staffProgramAssociation" value="staffProgramAssociation" />
-        <entry key="stateEducationAgency" value="educationOrganization" />
         <entry key="student" value="student" />
         <entry key="studentAcademicRecord" value="yearlyTranscript" />
         <entry key="studentAssessment" value="studentAssessment" />
@@ -81,14 +79,19 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
         <entry key="stateEducationAgency" value="educationOrganization" />
     </util:map>
 
-    <bean id="writer" class="org.slc.sli.bulk.extract.files.writer.ComplexEntityWriter">
-         <property name="writers" ref="writers" />
+    <bean id="defaultWriterMap" class="org.slc.sli.bulk.extract.util.DefaultHashMap" >
+        <constructor-arg ref="writers" type="java.util.Map"/>
+        <constructor-arg ref="defaultWriter"/>
+    </bean>
+
+    <bean id="writer" class="org.slc.sli.bulk.extract.files.EntityWriterManager">
+         <property name="writers" ref="defaultWriterMap" />
          <property name="multiFileEntities" ref="multiFileEntities" />
+         <property name="entities" ref="entitiesToCollections" />
     </bean>
 
     <bean id="entityExtractor" class="org.slc.sli.bulk.extract.extractor.EntityExtractor">
          <property name="entityRepository" ref="mongoEntityRepository" />
-         <property name="entitiesToCollections" ref="entitiesToCollections" />
          <property name="writer" ref="writer" />
     </bean>
 
