@@ -3,18 +3,18 @@
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentCohort.xsd">
   <Cohort>
     <CohortIdentifier>Cohort-1</CohortIdentifier>
-    <CohortDescription>Cohort 1 at Edorg South Daybreak Elementary</CohortDescription>
+    <CohortDescription>Cohort Orphan 1 at Edorg South Daybreak Elem</CohortDescription>
     <CohortType>Extracurricular Activity</CohortType>
     <CohortScope>School</CohortScope>
     <AcademicSubject>ELA</AcademicSubject>
     <EducationOrgReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Cohort-South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>Cohort Orphan-South Daybreak Elem</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrgReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>Cohort-3</ProgramId>
+        <ProgramId>Cohort Orphan-3</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
   </Cohort>
