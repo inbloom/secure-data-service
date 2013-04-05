@@ -1,5 +1,6 @@
 @RALLY_US3033
-Feature: Safe Deletion and Cascading Deletion 
+@wip
+Feature: Safe Deletion and Cascading Deletion
 
 Background: I have a landing zone route configured
 Given I am using local data store
