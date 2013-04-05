@@ -591,6 +591,10 @@ task :ingestionCascadingDeletionBroadSchoolTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_school_delete.feature")
 end
 
+task :ingestBroadSetOfTypesAndExportData do
+  runTests("test/features/ingestion/features/ingestion_BroadSetOfTypes.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
