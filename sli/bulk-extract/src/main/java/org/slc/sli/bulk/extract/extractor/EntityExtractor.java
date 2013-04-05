@@ -141,15 +141,15 @@ public class EntityExtractor{
      */
     private class CollectionWrittenRecord {
         final String collectionName;
-        int numberOfEntitiesWritten;
-        Map<String, Integer> embeddedDocWrittenRecords = new HashMap<String, Integer>();
+        long numberOfEntitiesWritten;
+        Map<String, Long> embeddedDocWrittenRecords = new HashMap<String, Long>();
 
         CollectionWrittenRecord(String name) {
             this.collectionName = name;
         }
 
-        void addEmbeddedDocWrittenRecord(String docName, int records) {
-            int total = records;
+        void addEmbeddedDocWrittenRecord(String docName, long records) {
+            long total = records;
             if (embeddedDocWrittenRecords.containsKey(docName)) {
                 total = records + embeddedDocWrittenRecords.get(docName);
             }
@@ -162,12 +162,12 @@ public class EntityExtractor{
 
         @Override
         public String toString() {
-            Object[] collArguments = { collectionName, new Integer(numberOfEntitiesWritten)};
-            StringBuffer sb = new StringBuffer(MessageFormat.format("{1} records for {0}", collArguments));
+            Object[] collArguments = { collectionName, new Long(numberOfEntitiesWritten)};
+            StringBuffer sb = new StringBuffer(MessageFormat.format("{1,number,#} records for {0}", collArguments));
             
-            for (Map.Entry<String, Integer> entry : embeddedDocWrittenRecords.entrySet()) {
+            for (Map.Entry<String, Long> entry : embeddedDocWrittenRecords.entrySet()) {
                 Object[] embeddedArguments = { entry.getKey(), entry.getValue()};
-                sb.append(MessageFormat.format("\n\t{1} embedded records for {0}", embeddedArguments));
+                sb.append(MessageFormat.format("\n\t{1,number,#} embedded records for {0}", embeddedArguments));
             }
 
             return sb.toString();
