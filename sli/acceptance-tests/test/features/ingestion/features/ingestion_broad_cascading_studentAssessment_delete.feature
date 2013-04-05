@@ -8,6 +8,7 @@ Given I am using local data store
 #SLC-StudentAssessmentReferenceType	SLC-StudentObjectiveAssessment	            StudentAssessmentReference	1	1
 #SLC-StudentAssessmentReferenceType	SLC-StudentObjectiveAssessmentIdentityType	StudentAssessmentReference	1	1
 
+  @wip
   Scenario: Delete Program with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
