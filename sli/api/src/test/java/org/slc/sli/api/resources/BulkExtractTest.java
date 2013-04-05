@@ -38,6 +38,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 
+import com.sun.jersey.core.spi.factory.ResponseImpl;
+
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -52,12 +54,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
@@ -66,7 +62,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import com.sun.jersey.core.spi.factory.ResponseImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Test for support BulkExtract
@@ -133,7 +134,7 @@ public class BulkExtractTest {
         String header = (String) headers.getFirst("content-disposition");
         assertNotNull(header);
         assertTrue(header.startsWith("attachment"));
-        assertTrue(header.indexOf("NY-WALTON-2013-03-19T13-02-02.tar") > 0);
+        assertTrue(header.indexOf("sample-extract.tar") > 0);
 
         Object entity = res.getEntity();
         assertNotNull(entity);
@@ -144,7 +145,7 @@ public class BulkExtractTest {
         os.flush();
         assertTrue(file.exists());
 
-        assertEquals(2586331403L, FileUtils.checksumCRC32(file));
+        assertEquals(798669192L, FileUtils.checksumCRC32(file));
         FileUtils.deleteQuietly(file);
     }
 
@@ -233,7 +234,7 @@ public class BulkExtractTest {
             f.delete();
         }
     }
-    
+
     @Test(expected = AccessDeniedException.class)
     public void testAppHasNoDefinedRestriction() throws Exception {
         injector.setEducatorContext();
@@ -245,7 +246,7 @@ public class BulkExtractTest {
                 mockEntity);
         bulkExtract.getTenant();
     }
-    
+
     @Test(expected = AccessDeniedException.class)
     public void testAppIsNotBeepApp() throws Exception {
         injector.setEducatorContext();
