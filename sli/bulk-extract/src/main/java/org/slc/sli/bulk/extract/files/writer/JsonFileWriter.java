@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.bulk.extract.files;
+package org.slc.sli.bulk.extract.files.writer;
 
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
@@ -36,7 +36,7 @@ import org.slc.sli.domain.Entity;
  * @author npandey
  *
  */
-public class JsonExtractFile implements Closeable{
+public class JsonFileWriter implements Closeable {
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -53,7 +53,7 @@ public class JsonExtractFile implements Closeable{
      * @param filePrefix
      *          the prefix string to be used in file name generationName of the data file
      */
-    public JsonExtractFile(File parentDir, String filePrefix) {
+    public JsonFileWriter(File parentDir, String filePrefix) {
         file = new File(parentDir, filePrefix + FILE_EXTENSION);
     }
 
