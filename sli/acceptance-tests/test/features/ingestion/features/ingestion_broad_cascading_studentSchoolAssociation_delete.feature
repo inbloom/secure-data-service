@@ -49,9 +49,9 @@ Scenario: Delete Student School Association without cascade
         |_id                    |908404e876dd56458385667fa383509035cd4312_id|
         |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
     And I save the collection counts in "Midgar" tenant
-    And I post "LeafStudentSchoolAssociationDelete.zip" file as the payload of the ingestion job
+    And I post "OrphanStudentSchoolAssociationDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
-    And a batch job for file "LeafStudentSchoolAssociationDelete.zip" is completed in database
+    And a batch job for file "OrphanStudentSchoolAssociationDelete.zip" is completed in database
 	And I should see "records considered for processing: 1" in the resulting batch job file
     And I should see "records ingested successfully: 0" in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
