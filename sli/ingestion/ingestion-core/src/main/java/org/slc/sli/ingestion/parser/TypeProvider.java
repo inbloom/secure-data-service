@@ -16,6 +16,8 @@
 
 package org.slc.sli.ingestion.parser;
 
+import org.slc.sli.ingestion.ActionVerb;
+
 /**
  * Provides type information.
  *
@@ -36,6 +38,19 @@ public interface TypeProvider {
      */
     public String getTypeFromInterchange(String interchange, String elementName);
 
+    /**
+     * Given an interchange, provide the type of the element with given name. ( with special logic for
+     *
+     * @param interchange
+     *            String value of EdFi Interchange name.
+     * @param elementName
+     *            String value of the name of an EdFi element defined in the interchange.
+     * @param action (optional )
+     *            ActionVerb value ( if this element is a part of the "Action" wrapper )
+     * @return String value of the type of the element with given name as defined by the
+     *         interchange.
+     */
+    public String getTypeFromInterchange( String interchange, String elementName, ActionVerb action );
     /**
      * Given an element's parent's type, provide the type of the element with given name.
      *

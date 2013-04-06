@@ -88,4 +88,15 @@ public interface RecordMeta {
      */
     ActionVerb getAction();
 
+    /**
+     * Checks if "isReference" flag was set
+     * @return <code>true</code> if cascade flag was set
+     *
+     */
+    boolean isReference();
+
+    String getOriginalType();
+
+    void setOriginalType(String originalType);
+
 }

@@ -19,6 +19,7 @@ import javax.xml.stream.Location;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.ActionVerb;
+import org.slc.sli.ingestion.ReferenceConverter;
 import org.slc.sli.ingestion.parser.RecordMeta;
 
 /**
@@ -29,9 +30,11 @@ import org.slc.sli.ingestion.parser.RecordMeta;
  */
 public final class RecordMetaImpl implements RecordMeta {
 
-    final String name;
+    private final String name;
     final String type;
+    private String originalType;
     final boolean isList;
+    private boolean isReference = false;
     private ActionVerb action;
     private boolean isCascade = false;
     Location sourceStartLocation;
@@ -50,6 +53,7 @@ public final class RecordMetaImpl implements RecordMeta {
         this.isList = isList;
         this.action = ActionVerb.NONE;
 
+
     }
 
     public RecordMetaImpl( String name, String type, boolean isList, ActionVerb doWhat ) {
@@ -57,6 +61,9 @@ public final class RecordMetaImpl implements RecordMeta {
         this.type = type;
         this.isList = isList;
         this.action = doWhat;
+        if( doWhat.doDelete() && ReferenceConverter.isReferenceType( name ) ) {
+            this.isReference = true;
+        }
     }
 
     @Override
@@ -73,6 +80,7 @@ public final class RecordMetaImpl implements RecordMeta {
     public String getName() {
         return name;
     }
+
 
     @Override
     public String toString() {
@@ -136,5 +144,22 @@ public final class RecordMetaImpl implements RecordMeta {
     public void setCascade(boolean isCascade) {
         this.isCascade = isCascade;
     }
+
+    @Override
+    public boolean isReference() {
+        return isReference;
+    }
+
+    @Override
+    public String getOriginalType() {
+        return originalType;
+    }
+
+    @Override
+    public void setOriginalType(String originalType) {
+        this.originalType = originalType;
+    }
+
+
 
 }

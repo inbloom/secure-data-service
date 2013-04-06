@@ -40,6 +40,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import org.slc.sli.ingestion.ActionVerb;
+import org.slc.sli.ingestion.ReferenceConverter;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
@@ -70,6 +71,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
     private Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
     private ActionVerb action = ActionVerb.NONE;
+    private String originalType;
 
     private boolean currentEntityValid = false;
 
@@ -138,8 +140,13 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
         if( ACTION.equals( localName)) {
             action = getAction( localName, attributes);
+            originalType = null;
         } else if (interchange != null) {
-            parseInterchangeEvent(localName, attributes);
+            if( ReferenceConverter.isReferenceType( localName ) && action.doDelete() ) {
+                originalType = localName;
+            } else {
+                parseInterchangeEvent(localName, attributes);
+            }
         } else if (localName.startsWith("Interchange")) {
             interchange = localName;
         }
@@ -150,6 +157,10 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
         if( ACTION.equals( localName)) {
             action = ActionVerb.NONE;
+            return;
+        }
+
+        if( action.doDelete() && ReferenceConverter.isReferenceType( localName )) {
             return;
         }
 
@@ -228,10 +239,12 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     }
 
     private void initCurrentEntity(String localName, Attributes attributes, ActionVerb doAction ) {
-        String xsdType = typeProvider.getTypeFromInterchange(interchange, localName);
-
+        String xsdType = typeProvider.getTypeFromInterchange(interchange, localName, doAction);
 
         RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType, false, doAction);
+        if( originalType != null ) {
+            recordMeta.setOriginalType( originalType );
+        }
 
         recordMeta.setSourceStartLocation(getCurrentLocation());
 
@@ -299,6 +312,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
         if (currentEntityValid) {
             ((RecordMetaImpl) pair.getLeft()).setSourceEndLocation(getCurrentLocation());
+            originalType = null;
 
             for (RecordVisitor visitor : recordVisitors) {
                 visitor.visit(pair.getLeft(), pair.getRight());

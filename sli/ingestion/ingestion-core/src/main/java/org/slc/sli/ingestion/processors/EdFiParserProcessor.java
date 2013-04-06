@@ -37,6 +37,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
+import org.slc.sli.ingestion.ReferenceConverter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -146,7 +147,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
     @Override
     public void visit(RecordMeta recordMeta, Map<String, Object> record) {
-        state.get().addToBatch(recordMeta, record);
+        state.get().addToBatch(recordMeta, record, typeProvider);
 
         if (state.get().getDataBatch().size() >= batchSize) {
             sendDataBatch();
@@ -258,10 +259,21 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             dataBatch = new ArrayList<NeutralRecord>();
         }
 
-        public void addToBatch(RecordMeta recordMeta, Map<String, Object> record) {
+        public void addToBatch(RecordMeta recordMeta, Map<String, Object> record, TypeProvider typeProvider) {
             NeutralRecord neutralRecord = new NeutralRecord();
+            neutralRecord.setActionVerb( recordMeta.getAction());
+            String recordType = StringUtils.uncapitalize(recordMeta.getName());
 
-            neutralRecord.setRecordType(StringUtils.uncapitalize(recordMeta.getName()));
+            if( recordMeta.getOriginalType() != null ) {
+                ReferenceConverter convert = ReferenceConverter.fromReferenceName( recordMeta.getOriginalType() );
+                String useType = convert != null ? convert.getEntityName() : recordType;
+                neutralRecord.setRecordType( useType);
+                neutralRecord.setDataType( recordMeta.getName() );
+
+            } else {
+                neutralRecord.setRecordType( recordType );
+            }
+
             neutralRecord.setBatchJobId(work.getBatchJobId());
             neutralRecord.setSourceFile(work.getFileEntry().getResourceId());
 
@@ -272,7 +284,6 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             neutralRecord.setVisitBeforeColumnNumber(startLoc.getColumnNumber());
             neutralRecord.setVisitAfterLineNumber(endLoc.getLineNumber());
             neutralRecord.setVisitAfterColumnNumber(endLoc.getColumnNumber());
-            neutralRecord.setActionVerb( recordMeta.getAction());
 
             neutralRecord.setAttributes(record);
             dataBatch.add(neutralRecord);
