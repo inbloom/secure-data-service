@@ -244,7 +244,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                         failed.add(entity);
                     }
                 } catch (SafeDeleteException ex) {
-                    LOG.error("Exception deleting record with entityPersistentHandler", ex);
+                    LOG.info("Error deleting entity type {} id {} with entityPersistentHandler", entity.getType(), entity.getEntityId());
                     reportSafeDeleteErrors(ex.getStatus(), ex.getErrors(), entity, report, reportStats, new ElementSourceImpl(entity));
                     failed.add(entity);
                 }

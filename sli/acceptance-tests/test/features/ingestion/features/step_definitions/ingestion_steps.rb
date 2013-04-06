@@ -3636,7 +3636,8 @@ def getEntityCounts(tenant)
                      "applicationAuthorization",
                      "custom_entities",
                      "recordHash",
-                     "customRole"]
+                     "customRole",
+                     "adminDelegation"]
      disable_NOTABLESCAN
      # Add straight collection counts
      coll_names.each do |coll|
