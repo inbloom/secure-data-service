@@ -9,7 +9,7 @@
         <StudentIdentity>
           <StudentUniqueStateId>Student-1</StudentUniqueStateId>
         </StudentIdentity>
-      <StudentReference>
+      </StudentReference>
   </Action>
 
 </InterchangeStudentParent>

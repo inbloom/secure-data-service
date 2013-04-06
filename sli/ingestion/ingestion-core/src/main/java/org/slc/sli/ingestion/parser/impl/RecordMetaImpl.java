@@ -30,8 +30,9 @@ import org.slc.sli.ingestion.parser.RecordMeta;
  */
 public final class RecordMetaImpl implements RecordMeta {
 
-    final String name;
+    private final String name;
     final String type;
+    private String originalType;
     final boolean isList;
     private boolean isReference = false;
     private ActionVerb action;
@@ -79,6 +80,7 @@ public final class RecordMetaImpl implements RecordMeta {
     public String getName() {
         return name;
     }
+
 
     @Override
     public String toString() {
@@ -143,8 +145,19 @@ public final class RecordMetaImpl implements RecordMeta {
         this.isCascade = isCascade;
     }
 
+    @Override
     public boolean isReference() {
         return isReference;
+    }
+
+    @Override
+    public String getOriginalType() {
+        return originalType;
+    }
+
+    @Override
+    public void setOriginalType(String originalType) {
+        this.originalType = originalType;
     }
 
 

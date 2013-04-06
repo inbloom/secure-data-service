@@ -26,8 +26,6 @@ import java.util.Map;
 import com.mongodb.MongoException;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.domain.CascadeResultError;
-import org.slc.sli.ingestion.dal.SafeDeleteException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -41,10 +39,12 @@ import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.CascadeResultError;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.dal.SafeDeleteException;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
@@ -160,12 +160,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             // Set the objects affected in the entity for reporting
             entity.setDeleteAffectedCount(String.valueOf(result.getnObjects()));
 
-            cleanupRecordHash( result );
 
             if (result.getStatus() != CascadeResult.Status.SUCCESS) {
                 // error during safe delete
                 throw new SafeDeleteException(result.getStatus(), id, entity.getType(), result.getErrors());
             }
+            cleanupRecordHash( result );
 
             return entity;
 

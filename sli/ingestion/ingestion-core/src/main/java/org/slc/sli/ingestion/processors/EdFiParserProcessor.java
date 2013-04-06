@@ -262,20 +262,18 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         public void addToBatch(RecordMeta recordMeta, Map<String, Object> record, TypeProvider typeProvider) {
             NeutralRecord neutralRecord = new NeutralRecord();
             neutralRecord.setActionVerb( recordMeta.getAction());
-
-
             String recordType = StringUtils.uncapitalize(recordMeta.getName());
-            String originalType = recordType;
-            if( neutralRecord.getActionVerb().doDelete() && ReferenceConverter.isReferenceType( recordType) ) {
-                ReferenceConverter convert = ReferenceConverter.fromReferenceName( recordType );
-                if( convert != null ) {
-                    neutralRecord.setDataType( recordType );
-                    recordType = convert.getEntityName();
 
-                }
+            if( recordMeta.getOriginalType() != null ) {
+                ReferenceConverter convert = ReferenceConverter.fromReferenceName( recordMeta.getOriginalType() );
+                String useType = convert != null ? convert.getEntityName() : recordType;
+                neutralRecord.setRecordType( useType);
+                neutralRecord.setDataType( recordMeta.getName() );
 
+            } else {
+                neutralRecord.setRecordType( recordType );
             }
-            neutralRecord.setRecordType( StringUtils.uncapitalize( recordType ));
+
             neutralRecord.setBatchJobId(work.getBatchJobId());
             neutralRecord.setSourceFile(work.getFileEntry().getResourceId());
 

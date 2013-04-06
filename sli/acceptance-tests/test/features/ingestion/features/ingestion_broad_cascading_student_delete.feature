@@ -233,7 +233,7 @@ Scenario: Delete Orphan Student with cascade = false
         | student                                   |        -1|
 #        | recordHash                                |        -1|
 
-@wip
+
 Scenario: Delete Orphan Student Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -254,4 +254,4 @@ Scenario: Delete Orphan Student Reference with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | student                                   |        -1|
-#        | recordHash                                |        -1|      
+        | recordHash                                |        -1|      

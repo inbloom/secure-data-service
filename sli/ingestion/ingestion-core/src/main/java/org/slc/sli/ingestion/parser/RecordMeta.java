@@ -95,4 +95,8 @@ public interface RecordMeta {
      */
     boolean isReference();
 
+    String getOriginalType();
+
+    void setOriginalType(String originalType);
+
 }
