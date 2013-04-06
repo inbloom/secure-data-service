@@ -231,14 +231,14 @@ Scenario: Delete Orphan Student with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | student                                   |        -1|
-#        | recordHash                                |        -1|
+        | recordHash                                |        -1|
 
 
 Scenario: Delete Orphan Student Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "school"
+    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "student"
         |field                                     |value                                                                                 |
         |_id                                       |d054b5e51b007508752e8038f073ebf3000b6cdb_id                                           |
     And I save the collection counts in "Midgar" tenant

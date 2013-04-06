@@ -154,7 +154,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
             // Check the return from safeDelete
             if (result == null) {
-                return entity;  // the entity is returned on failure
+                return null;  // the entity is returned on failure
             }
 
             // Set the objects affected in the entity for reporting
@@ -167,7 +167,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             }
             cleanupRecordHash( result );
 
-            return null;
+            return entity;
 
 
         } else {
