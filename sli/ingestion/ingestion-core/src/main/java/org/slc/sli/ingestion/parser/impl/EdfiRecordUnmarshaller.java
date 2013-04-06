@@ -71,7 +71,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
     private Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
     private ActionVerb action = ActionVerb.NONE;
-    private String originalType;
+    private String originalType = null;
 
     private boolean currentEntityValid = false;
 
@@ -142,11 +142,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
             action = getAction( localName, attributes);
             originalType = null;
         } else if (interchange != null) {
-            if( ReferenceConverter.isReferenceType( localName ) && action.doDelete() ) {
-                originalType = localName;
-            } else {
-                parseInterchangeEvent(localName, attributes);
-            }
+            parseInterchangeEvent( localName, attributes);
         } else if (localName.startsWith("Interchange")) {
             interchange = localName;
         }
@@ -160,7 +156,8 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
             return;
         }
 
-        if( action.doDelete() && ReferenceConverter.isReferenceType( localName )) {
+        if( action.doDelete() && ReferenceConverter.isReferenceType( originalType )
+                && originalType.equals( localName)) {
             return;
         }
 
@@ -195,6 +192,17 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     }
 
     private void parseInterchangeEvent(String localName, Attributes attributes) {
+
+        boolean isFirst = false;
+
+        if( originalType == null && action.doDelete()) {
+            originalType = localName;
+            isFirst = true;
+        }
+
+        if( isFirst &&  ReferenceConverter.isReferenceType( localName ) ) {
+            return;
+        }
 
 
         if (complexTypeStack.isEmpty()) {
