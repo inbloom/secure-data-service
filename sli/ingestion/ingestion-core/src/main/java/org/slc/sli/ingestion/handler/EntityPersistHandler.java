@@ -154,7 +154,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
             // Check the return from safeDelete
             if (result == null) {
-                return null;
+                return entity;  // the entity is returned on failure
             }
 
             // Set the objects affected in the entity for reporting
@@ -167,7 +167,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 throw new SafeDeleteException(result.getStatus(), id, entity.getType(), result.getErrors());
             }
 
-            return entity;
+            return null;
 
 
         } else {
@@ -246,6 +246,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 } catch (SafeDeleteException ex) {
                     LOG.error("Exception deleting record with entityPersistentHandler", ex);
                     reportSafeDeleteErrors(ex.getStatus(), ex.getErrors(), entity, report, reportStats, new ElementSourceImpl(entity));
+                    failed.add(entity);
                 }
             } else {
                 entity.removeAction();
