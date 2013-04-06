@@ -316,19 +316,20 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                             Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
                             currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
 
+                            // TODO report partial deletions on cascade delete error
+
                             if (recordHashStore.contains(record)) {
                                 recordHashStore.remove(record);
                             }
                         }
                         
                         for (SimpleEntity entity : subtract(persist, failed)) {
-                            if( !entity.getAction().doDelete() ) {
-                                continue;
+                            if( entity.getAction().doDelete() ) {
+                                NeutralRecord record = recordStore.get(persist.indexOf(entity));
+                                Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
+                                currentMetric.setDeletedCount(currentMetric.getDeletedCount() + 1);
+                                currentMetric.setDeletedChildCount(currentMetric.getDeletedChildCount() + Long.parseLong(entity.getDeleteAffectedCount()) - 1);
                             }
-                            NeutralRecord record = recordStore.get(persist.indexOf(entity));
-                            Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
-                            currentMetric.setDeletedCount(currentMetric.getDeletedCount() + 1);
-                            currentMetric.setDeletedChildCount(currentMetric.getDeletedChildCount() + Long.parseLong(entity.getDeletedChildCount()));
                         }
                     }
                     for (NeutralRecord neutralRecord2 : recordHashStore) {
@@ -428,8 +429,8 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
     /**
      * Sort records in dependency-honoring order since they are self-referencing.
      *
-     * @param records
-     * @param collectionName
+     * @param unsortedRecords
+     * @param collectionNameAsStaged
      * @return
      */
     // TODO: make this generic for all self-referencing entities
