@@ -112,7 +112,7 @@ Scenario: Delete Grading Period with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |gradingPeriod|  -1|
-        
+@wip        
 Scenario: Delete Orphan GradingPeriod Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
