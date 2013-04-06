@@ -101,7 +101,11 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return Collections.emptyList();
         }
 
-        if (transformed != null && !transformed.isEmpty()) {
+        String recType = item.getRecordType();
+        if(recType.equals("action")){
+             return transformed;
+        }
+        else if (transformed != null && !transformed.isEmpty()) {
 
             for (SimpleEntity entity : transformed) {
 

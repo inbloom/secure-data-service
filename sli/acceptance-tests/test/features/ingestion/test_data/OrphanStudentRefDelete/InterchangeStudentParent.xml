@@ -7,17 +7,17 @@
   <Action ActionType="DELETE" Cascade="false">
       <StudentReference>
         <StudentIdentity>
-          <StudentUniqueStateId>Student-1</StudentUniqueStateId>
+          <StudentUniqueStateId>1</StudentUniqueStateId>
         </StudentIdentity>
       </StudentReference>
       <StudentReference>
           <StudentIdentity>
-              <StudentUniqueStateId>Student-1</StudentUniqueStateId>
+              <StudentUniqueStateId>2</StudentUniqueStateId>
           </StudentIdentity>
       </StudentReference>
 
       <Student>
-          <StudentUniqueStateId>Student-1</StudentUniqueStateId>
+          <StudentUniqueStateId>3</StudentUniqueStateId>
           <StudentIdentificationCode IdentificationSystem="Local" AssigningOrganizationCode="School">
               <IdentificationCode>abcde</IdentificationCode>
           </StudentIdentificationCode>

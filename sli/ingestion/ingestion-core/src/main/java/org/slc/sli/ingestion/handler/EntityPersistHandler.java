@@ -26,6 +26,8 @@ import java.util.Map;
 import com.mongodb.MongoException;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -113,6 +115,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         entityRepository.setReferenceCheck(referenceCheckEnabled);
     }
 
+    @Autowired
+    SmooksEdFi2SLITransformer    smooksEdFi2SLITransformer;
     /**
      * Persist entity in the data store.
      *
@@ -226,8 +230,42 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
 
         for (SimpleEntity entity : entities) {
-
-            if (entity.getAction().doDelete()) {
+            if(entity.getType().equals("action")) {
+                Map<String, Object> body = entity.getBody();
+                for(String key: body.keySet()) {
+                    if(key.equals("DiDResolved_StudentReference"))  {
+                        List<String> studentReferences = (List)body.get("DiDResolved_StudentReference");
+                        for(String studentReferenceId :studentReferences) {
+                            CascadeResult casResult = entityRepository.safeDelete("student", "student", studentReferenceId, true, false, 255, null);
+                            String delLog = casResult.getStatus().toString() + " " + casResult.getDeletedIds().toString();
+                            LOG.info(delLog);
+                            cleanupRecordHash(casResult);
+                        }
+                    } else if(key.equals("Student")){
+                        List<Map<String, Object>> students = (List)body.get("Student");
+                        for(Map<String, Object> student: students) {
+                            SimpleEntity se = new SimpleEntity();
+                            se.setBody(student);
+                            se.setType("student");
+                            try {
+                                NeutralRecord neutral = new NeutralRecord();
+                                neutral.setAttributes(student);
+                                neutral.setRecordType("student");
+                                List<SimpleEntity> sel = smooksEdFi2SLITransformer.transform(neutral, report, reportStats);
+                                NaturalKeyDescriptor naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(sel.get(0));
+                                String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
+                                CascadeResult casResult = entityRepository.safeDelete("student", "student", id, true, false, 255, null);
+                                String delLog = casResult.getStatus().toString() + " " + casResult.getDeletedIds().toString();
+                                LOG.info(delLog);
+                                cleanupRecordHash(casResult);
+                            }catch(Exception e) {
+                                LOG.error("Delete failed!", e);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (entity.getAction().doDelete()) {
                 if( persist(entity) == null ) {
                     LOG.error("Delete failed for entity: {}", entity.getType());
                     failed.add(entity);
