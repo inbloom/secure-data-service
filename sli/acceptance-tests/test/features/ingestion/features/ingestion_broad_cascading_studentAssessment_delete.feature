@@ -77,9 +77,8 @@ Scenario: Delete StudentAssessment with cascade = false
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeStudentAssessmentDelete.zip" is completed in database
 	  And I should see "Processed 1 records." in the resulting batch job file
-		And I should see "records deleted successfully: 0" in the resulting batch job file
+ 		And I should see "records deleted successfully: 0" in the resulting batch job file
 	  And I should see "records failed processing: 1" in the resulting batch job file
-#    And I should not see an error log file created
 	  And I should not see a warning log file created
     And I re-execute saved query "studentAssessment" to get "1" records
     And I re-execute saved query "studentAssessmentItem" to get "1" records    
@@ -101,8 +100,8 @@ Scenario: Delete Orphan StudentAssessment with cascade = false
     When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanStudentAssessmentDelete.zip" is completed in database
 	  And I should see "Processed 1 records." in the resulting batch job file
-		And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+ 		And I should see "records deleted successfully: 1" in the resulting batch job file
+ 	  And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
 	  And I should not see a warning log file created
     And I re-execute saved query "studentAssessment" to get "0" records
@@ -118,7 +117,7 @@ Scenario: Delete Orphan StudentAssessment Reference with cascade = false
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
     Then there exist "1" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentAssessment"
         |field                                     |value                                                                                 |
-        |_id                                       |d054b5e51b007508752e8038f073ebf3000b6cdb_id                                           |
+        |_id                                       |43be4c7fe5848aa8df60477f735793309fa19cd2_id                                           |
     And I save the collection counts in "Midgar" tenant
     And I post "OrphanStudentAssessmentRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
