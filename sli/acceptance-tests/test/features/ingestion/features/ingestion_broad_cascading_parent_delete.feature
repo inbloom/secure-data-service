@@ -39,7 +39,6 @@ Scenario: Delete Parent with cascade = false
     And I should see "Processed 1 records." in the resulting batch job file
 	  And I should see "records deleted successfully: 0" in the resulting batch job file
 	  And I should see "records failed processing: 1" in the resulting batch job file
-#    And I should not see an error log file created
    	And I should not see a warning log file created
     And I re-execute saved query "parent" to get "1" records 
     And I see that collections counts have changed as follows in tenant "Midgar"
@@ -58,8 +57,8 @@ Scenario: Delete Orphan Parent with cascade = false
     When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanParentDelete.zip" is completed in database
 	  And I should see "Processed 1 records." in the resulting batch job file
-		And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+ 		And I should see "records deleted successfully: 1" in the resulting batch job file
+ 	  And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
 	  And I should not see a warning log file created
     And I re-execute saved query "parent" to get "0" records
