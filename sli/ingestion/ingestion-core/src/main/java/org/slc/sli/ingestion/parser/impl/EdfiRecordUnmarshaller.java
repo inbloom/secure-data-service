@@ -228,10 +228,10 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     }
 
     private void initCurrentEntity(String localName, Attributes attributes, ActionVerb doAction ) {
-        String xsdType = typeProvider.getTypeFromInterchange(interchange, localName);
-
+        String xsdType = typeProvider.getTypeFromInterchange(interchange, localName, doAction);
 
         RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType, false, doAction);
+
 
         recordMeta.setSourceStartLocation(getCurrentLocation());
 

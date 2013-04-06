@@ -50,7 +50,14 @@ import org.slc.sli.ingestion.reporting.ElementSource;
 public class NeutralRecord implements Cloneable, Resource, ElementSource {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
+
+
     public static final String KEY_ACTION = "Action";
+    public static final String KEY_DATA = "DataType";
+
+    public static final String TYPE_ENTITY = "Entity";
+    public static final String TYPE_REFERENCE = "Referece";
+
 
     /**
      * stores an Id value uniquely identifying the record within the data store.
@@ -537,4 +544,12 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
         this.metaData.put( KEY_ACTION, action.toString());
         //this.actionVerb = action;
     }
+
+
+    public void setDataType( String dataType ) {
+        this.metaData.put( KEY_DATA, dataType);
+        //this.actionVerb = action;
+    }
+
+
 }

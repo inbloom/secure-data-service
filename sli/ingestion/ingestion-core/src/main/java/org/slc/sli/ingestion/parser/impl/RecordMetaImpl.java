@@ -19,6 +19,7 @@ import javax.xml.stream.Location;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.ActionVerb;
+import org.slc.sli.ingestion.ReferenceConverter;
 import org.slc.sli.ingestion.parser.RecordMeta;
 
 /**
@@ -32,6 +33,7 @@ public final class RecordMetaImpl implements RecordMeta {
     final String name;
     final String type;
     final boolean isList;
+    private boolean isReference = false;
     private ActionVerb action;
     private boolean isCascade = false;
     Location sourceStartLocation;
@@ -50,6 +52,7 @@ public final class RecordMetaImpl implements RecordMeta {
         this.isList = isList;
         this.action = ActionVerb.NONE;
 
+
     }
 
     public RecordMetaImpl( String name, String type, boolean isList, ActionVerb doWhat ) {
@@ -57,6 +60,9 @@ public final class RecordMetaImpl implements RecordMeta {
         this.type = type;
         this.isList = isList;
         this.action = doWhat;
+        if( doWhat.doDelete() && ReferenceConverter.isReferenceType( name ) ) {
+            this.isReference = true;
+        }
     }
 
     @Override
@@ -136,5 +142,11 @@ public final class RecordMetaImpl implements RecordMeta {
     public void setCascade(boolean isCascade) {
         this.isCascade = isCascade;
     }
+
+    public boolean isReference() {
+        return isReference;
+    }
+
+
 
 }
