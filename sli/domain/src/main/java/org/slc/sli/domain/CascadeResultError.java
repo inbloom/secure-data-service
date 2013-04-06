@@ -3,7 +3,6 @@ package org.slc.sli.domain;
 public class CascadeResultError {
 
     public static enum ErrorType {
-        MAX_OBJECTS_EXCEEDED,
         ACCESS_DENIED,
         DELETE_ERROR,
         UPDATE_ERROR,

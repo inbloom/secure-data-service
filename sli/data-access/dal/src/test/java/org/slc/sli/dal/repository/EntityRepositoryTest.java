@@ -177,7 +177,7 @@ public class EntityRepositoryTest {
         testSafeDeleteHelper("session", null, true, false, null, access, false, 4, 2, CascadeResult.Status.SUCCESS, null);
 
         // Test maxobjects
-        testSafeDeleteHelper("session", null, true, false, 2, access, false, 4, 2, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.MAX_OBJECTS_EXCEEDED);
+        testSafeDeleteHelper("session", null, true, false, 2, access, false, 4, 2, CascadeResult.Status.MAX_OBJECTS_EXCEEDED, null);
 
         // Test access denied
         testSafeDeleteHelper("session", null, true, false, null, accessDenied, false, 2, 2, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.ACCESS_DENIED);
@@ -216,10 +216,11 @@ public class EntityRepositoryTest {
 
         // check for at least one instance of the expected error type
         boolean errorMatchFound = false;
-        if (expectedErrorType == null) {
+        List<CascadeResultError> errors = result.getErrors();
+        if (expectedErrorType == null && errors != null && errors.size() == 0) {
             errorMatchFound = true;
         } else {
-            for(CascadeResultError error : result.getErrors()) {
+            for(CascadeResultError error : errors) {
                 if (error.getErrorType() == expectedErrorType) {
                     errorMatchFound = true;
                     break;

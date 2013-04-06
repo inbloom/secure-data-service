@@ -8,6 +8,7 @@
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.course", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.courseOffering", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.courseTranscript", "name" : "_id_" }
+{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.custom", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.disciplineAction", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.disciplineIncident", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.educationOrganization", "name" : "_id_" }
@@ -55,6 +56,7 @@
 { "v" : 1, "key" : { "body.studentSectionAssociationId" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.studentCompetency", "name" : "idx_19" }
 { "v" : 1, "key" : { "body.schoolId" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.course", "name" : "idx_20" }
 { "v" : 1, "key" : { "body.studentCompetencyObjectiveId" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.studentCompetencyObjective", "name" : "idx_21" }
+{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.grade", "name" : "_id_" }
 { "v" : 1, "key" : { "body.stateOrganizationId" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.educationOrganization", "name" : "idx_22" }
 { "v" : 1, "key" : { "body.educationOrganizationId" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.graduationPlan", "name" : "idx_23" }
 { "v" : 1, "key" : { "body.gradingPeriodReference" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.session", "name" : "idx_24" }
@@ -126,7 +128,6 @@
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.courseSectionAssociation", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.educationOrganizationAssociation", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.educationOrganizationSchoolAssociation", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.grade", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.reportCard", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.studentAcademicRecord", "name" : "_id_" }
 { "v" : 1, "key" : { "_id" : 1 }, "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.error", "name" : "_id_" }
