@@ -463,7 +463,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
 
     	// LOG.info("*** DELETING object '" + id + "' of type '" + collectionName + "'");
-        DELETION_LOG.info("Delete request for entity:" + entityType + " collection: " + collectionName + " _id:" + id + " cascade: " + cascade + "dryrun: " + dryrun);
+        DELETION_LOG.info("Delete request for entity:" + entityType + " collection: " + collectionName + " _id:" + id + " cascade: " + cascade + " dryrun: " + dryrun);
         CascadeResult result = null;
         Set<String> deletedIds = new HashSet<String>();
 
@@ -580,7 +580,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 // Non-cascade handling
                 if (!cascade) {
                     // There is a child when there shouldn't be
-                    result.addError(depth + 1, "Child reference exits.", CascadeResultError.ErrorType.CHILD_DATA_EXISTS, referenceEntityType, referencerId);
+                    String message = "Child reference of entity type " + referenceEntityType + " id " + referencerId + " exists for entity type " + entityType + " id " + id;
+                    result.addError(depth + 1, message, CascadeResultError.ErrorType.CHILD_DATA_EXISTS, referenceEntityType, referencerId);
                     continue;
                 }
 

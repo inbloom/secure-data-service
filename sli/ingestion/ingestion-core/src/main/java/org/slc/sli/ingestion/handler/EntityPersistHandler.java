@@ -26,6 +26,8 @@ import java.util.Map;
 import com.mongodb.MongoException;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.domain.CascadeResultError;
+import org.slc.sli.ingestion.dal.SafeDeleteException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -147,17 +149,25 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             if( id == null ) {
                 id = entity.getUUID();
             }
-            CascadeResult cascade = entityRepository.safeDelete(entity.getType(), collectionName, id,
+            CascadeResult result = entityRepository.safeDelete(entity.getType(), collectionName, id,
                     action.doCascade(), dryrun, max, null);
-            
-            if (cascade != null) {
-            	entity.setDeletedChildCount(String.valueOf(cascade.getnObjects() - 1));
-            }
+
             // Check the return from safeDelete
+            if (result == null) {
+                return null;
+            }
 
+            // Set the objects affected in the entity for reporting
+            entity.setDeleteAffectedCount(String.valueOf(result.getnObjects()));
 
-            cleanupRecordHash( cascade );
-            return ( cascade != null && cascade.getStatus() == CascadeResult.Status.SUCCESS) ? entity : null;
+            cleanupRecordHash( result );
+
+            if (result.getStatus() != CascadeResult.Status.SUCCESS) {
+                // error during safe delete
+                throw new SafeDeleteException(result.getStatus(), id, entity.getType(), result.getErrors());
+            }
+
+            return entity;
 
 
         } else {
@@ -228,9 +238,14 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         for (SimpleEntity entity : entities) {
 
             if (entity.getAction().doDelete()) {
-                if( persist(entity) == null ) {
-                    LOG.error("Delete failed for entity: {}", entity.getType());
-                    failed.add(entity);
+                try {
+                    if (persist(entity) == null) {
+                        LOG.error("Delete failed for entity: {}", entity.getType());
+                        failed.add(entity);
+                    }
+                } catch (SafeDeleteException ex) {
+                    LOG.error("Exception deleting record with entityPersistentHandler", ex);
+                    reportSafeDeleteErrors(ex.getStatus(), ex.getErrors(), entity, report, reportStats, new ElementSourceImpl(entity));
                 }
             } else {
                 entity.removeAction();
@@ -348,14 +363,58 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         return collectionName;
     }
 
+    private void reportSafeDeleteErrors(CascadeResult.Status status, List<CascadeResultError> errors, SimpleEntity entity, AbstractMessageReport report,
+                              ReportStats reportStats, Source source) {
+
+        if (status == CascadeResult.Status.MAX_OBJECTS_EXCEEDED) {
+            report.error(reportStats, source, CoreMessageCode.CORE_0067, entity.getType(), entity.getEntityId());
+        }
+
+        for (CascadeResultError err : errors) {
+            switch (err.getErrorType()) {
+                case DELETE_ERROR:
+                    if (err.getObjectId().equals(entity.getEntityId())) {
+                        report.error(reportStats, source, CoreMessageCode.CORE_0071, entity.getType(), entity.getEntityId());
+                    } else {
+                        report.error(reportStats, source, CoreMessageCode.CORE_0070, err.getObjectType(), err.getObjectId(),
+                                err.getDepth(), entity.getType(), entity.getEntityId());
+                    }
+                    break;
+                case PATCH_ERROR:
+                    report.error(reportStats, source, CoreMessageCode.CORE_0069, err.getObjectType(), err.getObjectId(),
+                            err.getDepth(), entity.getType(), entity.getEntityId());
+                    break;
+                case UPDATE_ERROR:
+                    report.error(reportStats, source, CoreMessageCode.CORE_0068, err.getObjectType(), err.getObjectId(),
+                            err.getDepth(), entity.getType(), entity.getEntityId());
+                    break;
+                case DATABASE_ERROR:
+                    report.error(reportStats, source, CoreMessageCode.CORE_0061);
+                    break;
+                case CHILD_DATA_EXISTS:
+                    report.error(reportStats, source, CoreMessageCode.CORE_0066, err.getObjectType(), err.getObjectId(),
+                            err.getDepth(), entity.getType(), entity.getEntityId());
+                    break;
+                case ACCESS_DENIED:
+                    report.error(reportStats, source, CoreMessageCode.CORE_0065, err.getObjectType(), err.getObjectId(),
+                            err.getDepth(), entity.getType(), entity.getEntityId());
+                    break;
+                case MAX_DEPTH_EXCEEDED:
+                    report.error(reportStats, source, CoreMessageCode.CORE_0064, entity.getType(), entity.getEntityId(),
+                            err.getDepth());
+                    break;
+            }
+        }
+    }
+
     /**
      * Generic error reporting function.
      *
-     * @param error
+     * @param errors
      *            List of errors to report.
      * @param entity
      *            Entity reporting errors.
-     * @param errorReport
+     * @param report
      *            Reference to error report logging error messages.
      * @param source
      *            Reference to Source.
@@ -373,9 +432,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      *
      * @param warningMessage
      *            Warning message reported by entity.
-     * @param entity
-     *            Entity reporting warning.
-     * @param errorReport
+     * @param report
      *            Reference to error report to log warning message in.
      * @param source
      *            Reference to Source.
@@ -412,6 +469,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             FileProcessStatus fileProcessStatus) {
         try {
             return persist(item);
+        } catch (SafeDeleteException ex) {
+            LOG.error("Exception deleting record with entityPersistentHandler", ex);
+            reportSafeDeleteErrors(ex.getStatus(), ex.getErrors(), item, report, reportStats, new ElementSourceImpl(item));
         } catch (EntityValidationException ex) {
             LOG.error("Exception persisting record with entityPersistentHandler", ex);
             reportErrors(ex.getValidationErrors(), item, report, reportStats, new ElementSourceImpl(item));
