@@ -37,7 +37,7 @@ Scenario: Delete Student School Association with cascade
         #|recordHash                 |   -1|
 	And I should not see "c5c25df986e6e8fcf3fd9fde80cecbbeb662de42_id" in the "Midgar" database
 
-Scenario: Delete Student School Association without cascade
+Scenario: Delete Orphan Student School Association with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
