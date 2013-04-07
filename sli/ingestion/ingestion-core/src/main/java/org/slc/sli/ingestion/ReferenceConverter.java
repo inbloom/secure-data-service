@@ -29,7 +29,8 @@ public enum ReferenceConverter {
     EDORG( "EducationalOrgReference", "educationOrganization"),
     ASSESSMENT( "AssessmentReference", "assessment"),
     TEACHER( "TeacherReference", "teacher"),
-    ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily");
+    ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily"),
+    SCHOOL( "SchoolReference", "school");
 
     /*
     ASSESSMENT( "AsessmentReference","assesment"),
