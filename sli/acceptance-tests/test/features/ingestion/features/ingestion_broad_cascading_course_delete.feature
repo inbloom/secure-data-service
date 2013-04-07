@@ -130,7 +130,7 @@ Scenario: Delete Course with cascade
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
 	And I should see "Processed 1 records." in the resulting batch job file
-    And I should see "CORE_0066" in the resulting error log file for "InterchangeAssessmentMetadata.xml"
+    And I should see "CORE_0066" in the resulting error log file for "InterchangeEducationOrganization.xml"
    	And I should not see a warning log file created
     And I re-execute saved query "course" to get "1" records
     And I re-execute saved query "courseOffering" to get "2" records
