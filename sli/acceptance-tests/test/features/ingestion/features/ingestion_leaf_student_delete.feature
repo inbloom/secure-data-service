@@ -4,6 +4,7 @@ Feature: Safe Deletion and Cascading Deletion
 Background: I have a landing zone route configured
 Given I am using local data store
 
+
 Scenario: delete student with cascade
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I post "prep_cascading_deletion_student.zip" file as the payload of the ingestion job
@@ -130,6 +131,7 @@ Then I should see following map of entry counts in the corresponding collections
        | reportCard                            | 1                   | body.studentId      | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string     |
        | studentCompetency                     | 1                   | body.studentSectionAssociationId      | 6df6309cd7609257f454ac8b7456e3943f4d6190_id11d22f998a39f5db6ccfa55264a3629637733195_id  | string     |
        | grade                                 | 1                   | body.studentId      | c6fcb4deb579ad0131c2664393d40b4319d8e215_id  | string     |
-    And I should see "Processed 1 records." in the resulting batch job file
-    And I should not see an error log file created
+ 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
+ 	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "CORE_0066" in the resulting error log file for "InterchangeStudent.xml"
 	And I should not see a warning log file created
