@@ -76,9 +76,9 @@ Scenario: Delete Assessment with cascade = false
 	And I should see "records deleted successfully: 0" in the resulting batch job file
 	And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "records not considered for processing: 0" in the resulting batch job file
-	And I should see "All records processed successfully." in the resulting batch job file
+	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
 	And I should see "Processed 1 records." in the resulting batch job file
-    And I should not see an error log file created
+    And I should see "CORE_0066" in the resulting error log file for "InterchangeAssessmentMetadata.xml"
 	And I should not see a warning log file created
 	And I re-execute saved query "assessment" to get "1" records
 	And I re-execute saved query "assessmentItem" to get "1" records
@@ -113,7 +113,6 @@ Scenario: Delete Orphan Assessment with cascade = false
 	|collection                        |delta          |
 	|assessment                             |         -1|
 
-@wip
 Scenario: Delete Orphan Assessment Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty

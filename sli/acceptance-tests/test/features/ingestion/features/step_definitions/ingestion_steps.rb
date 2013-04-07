@@ -3636,7 +3636,8 @@ def getEntityCounts(tenant)
                      "applicationAuthorization",
                      "custom_entities",
                      "recordHash",
-                     "customRole"]
+                     "customRole",
+                     "adminDelegation"]
      disable_NOTABLESCAN
      # Add straight collection counts
      coll_names.each do |coll|
@@ -3671,11 +3672,14 @@ And /I see that collections counts have changed as follows in tenant "([^"]*)"/ 
     unionOfEntities = @beforeEntityCounts.keys | afterEntityCounts.keys
     unionOfEntities.each do |entityType|
         # check for missing entity types
-        assert(@beforeEntityCounts.has_key?(entityType), "Collection #{entityType} has been created.")
         assert(afterEntityCounts.has_key?(entityType), "Collection #{entityType} has been deleted.")
+        new   = afterEntityCounts[entityType].to_i;
+
+        if (new != 0)
+            assert(@beforeEntityCounts.has_key?(entityType), "Collection #{entityType} has been created.")
+        end
 
         old   = @beforeEntityCounts[entityType].to_i;
-        new   = afterEntityCounts[entityType].to_i;
         actualDelta = new - old
 
         # build a map of delta values per entity

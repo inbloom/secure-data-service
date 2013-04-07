@@ -108,7 +108,7 @@ Scenario: Delete Course with cascade
         | teacherSectionAssociation                 |       -11|                         
     And I should not see "352e8570bd1116d11a72755b987902440045d346_id" in the "Midgar" database
 	
-	Scenario: Delete Course with cascade = false
+	Scenario: Delete Course with cascade = false (negative case)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -126,10 +126,11 @@ Scenario: Delete Course with cascade
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeCourseDelete.zip" is completed in database
     And a batch job log has been created
-    And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 0" in the resulting batch job file
-	  And I should see "records failed processing: 1" in the resulting batch job file
-#    And I should not see an error log file created
+    And I should see "records deleted successfully: 0" in the resulting batch job file
+    And I should see "records failed processing: 1" in the resulting batch job file
+	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "CORE_0066" in the resulting error log file for "InterchangeEducationOrganization.xml"
    	And I should not see a warning log file created
     And I re-execute saved query "course" to get "1" records
     And I re-execute saved query "courseOffering" to get "2" records
@@ -137,7 +138,7 @@ Scenario: Delete Course with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|    
         | course                                    |         0| 
-#        | recordHash                                |      	 -1|
+        | recordHash                                |      	  0|
 
            
 	Scenario: Delete Orphan Course with cascade = false
@@ -153,17 +154,16 @@ Scenario: Delete Course with cascade
     And a batch job for file "OrphanCourseDelete.zip" is completed in database
     And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
-#    And I should not see an error log file created
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+    And I should see "records failed processing: 0" in the resulting batch job file
+    And I should not see an error log file created
    	And I should not see a warning log file created
     And I re-execute saved query "course" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|    
         | course                                    |        -1| 
-#        | recordHash                                |      	 -1|
+        | recordHash                                |      	 -1|
 
-@wip
 	Scenario: Delete Orphan Course Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -177,13 +177,13 @@ Scenario: Delete Course with cascade
     And a batch job for file "OrphanCourseRefDelete.zip" is completed in database
     And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
-#    And I should not see an error log file created
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+    And I should see "records failed processing: 0" in the resulting batch job file
+    And I should not see an error log file created
    	And I should not see a warning log file created
     And I re-execute saved query "course" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|    
         | course                                    |        -1| 
-#        | recordHash                                |      	 -1|
+        | recordHash                                |      	 -1|
 
