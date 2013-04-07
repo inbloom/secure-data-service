@@ -37,7 +37,7 @@ Scenario: Delete Grade with cascade
         #|recordHash  |    -1|
     And I should not see "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" in the "Midgar" database
 
-Scenario: Delete Grade without cascade
+Scenario: Delete Grade without cascade, using just Action Type of Delete without cascade flag to verify default
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -67,7 +67,7 @@ Scenario: Delete Grade without cascade
         | collection |delta|
         |grade       |   0|
 
-Scenario: Delete Orphan Grade without cascade - using just Action Type of Delete without cascade flag
+Scenario: Delete Orphan Grade without cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
