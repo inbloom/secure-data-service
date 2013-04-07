@@ -56,7 +56,7 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
     public static final String KEY_DATA = "DataType";
 
     public static final String TYPE_ENTITY = "Entity";
-    public static final String TYPE_REFERENCE = "Referece";
+    public static final String TYPE_REFERENCE = "Reference";
 
 
     /**
