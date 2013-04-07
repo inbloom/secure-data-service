@@ -33,7 +33,7 @@ Scenario: Delete AttendanceEvent with cascade
 	|recordHash                             |         0|
 	And I should not see "94de66549a6b58f96463ff0d59b34817aa1fead6_id" in the "Midgar" database
 	And a query on attendance of for studentId "908404e876dd56458385667fa383509035cd4312_id", schoolYear "2001-2002" and date "2001-09-13" on the "Midgar" tenant has a count of "0"
-	
+@wip
 Scenario: Delete AttendanceEvent with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -60,7 +60,7 @@ Scenario: Delete AttendanceEvent with cascade = false
         | attendanceEvent                           |        -1|
 #        | recordHash                                |        -1|          
     
-       
+@wip
 Scenario: Delete Orphan AttendanceEvent with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
