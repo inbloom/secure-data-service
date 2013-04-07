@@ -107,7 +107,7 @@ Scenario: Delete Course with cascade
         | studentSectionAssociation                 |        -5| 
         | teacherSectionAssociation                 |       -11|                         
     And I should not see "352e8570bd1116d11a72755b987902440045d346_id" in the "Midgar" database
-	
+
 	Scenario: Delete Course with cascade = false (negative case)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -140,7 +140,6 @@ Scenario: Delete Course with cascade
         | course                                    |         0| 
         | recordHash                                |      	  0|
 
-           
 	Scenario: Delete Orphan Course with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty

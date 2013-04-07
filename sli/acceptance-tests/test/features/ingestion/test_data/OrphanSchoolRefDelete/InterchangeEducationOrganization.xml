@@ -3,11 +3,11 @@
                                   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
     <Action ActionType="DELETE" Cascade="false">
 
-        <EducationalOrgReference>
+        <SchoolReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>School-South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
-        </EducationalOrgReference>
+        </SchoolReference>
         
     </Action>
     </InterchangeEducationOrganization>

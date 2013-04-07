@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.processors;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -259,20 +260,28 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             dataBatch = new ArrayList<NeutralRecord>();
         }
 
+        private static void convertReference2EntityFieldNames(NeutralRecord neutralRecord) {
+            Map<String, Object> attributes = neutralRecord.getAttributes();
+            final Map<String, String> derivedFields = new HashMap<String, String>();
+                              //target                          //source
+            derivedFields.put("EducationOrganizationReference", "EducationalOrgReference");
+            derivedFields.put("SchoolReference"               , "EducationalOrgReference");
+
+            for(String derivedField : derivedFields.keySet())
+            {
+                String existingField =  derivedFields.get(derivedField);
+                if (attributes.containsKey(existingField)) {
+                    attributes.put(derivedField, attributes.get(existingField));
+                    //attributes.remove(refFieldName);
+                }
+            }
+
+        }
+
         public void addToBatch(RecordMeta recordMeta, Map<String, Object> record, TypeProvider typeProvider) {
             NeutralRecord neutralRecord = new NeutralRecord();
             neutralRecord.setActionVerb( recordMeta.getAction());
             String recordType = StringUtils.uncapitalize(recordMeta.getName());
-
-            if( recordMeta.getOriginalType() != null ) {
-                ReferenceConverter convert = ReferenceConverter.fromReferenceName( recordMeta.getOriginalType() );
-                String useType = convert != null ? convert.getEntityName() : recordType;
-                neutralRecord.setRecordType( useType);
-                neutralRecord.setDataType( recordMeta.getName() );
-
-            } else {
-                neutralRecord.setRecordType( recordType );
-            }
 
             neutralRecord.setBatchJobId(work.getBatchJobId());
             neutralRecord.setSourceFile(work.getFileEntry().getResourceId());
@@ -286,6 +295,20 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             neutralRecord.setVisitAfterColumnNumber(endLoc.getColumnNumber());
 
             neutralRecord.setAttributes(record);
+
+            if( recordMeta.getOriginalType() != null ) {
+                ReferenceConverter convert = ReferenceConverter.fromReferenceName( recordMeta.getOriginalType() );
+                String useType = convert != null ? convert.getEntityName() : recordType;
+                neutralRecord.setRecordType( useType);
+                neutralRecord.setDataType( recordMeta.getName() );
+
+                // Do a record conversion for field names that don't match up between the reference type and entity type
+                convertReference2EntityFieldNames(neutralRecord);
+
+            } else {
+                neutralRecord.setRecordType( recordType );
+            }
+
             dataBatch.add(neutralRecord);
         }
     }
