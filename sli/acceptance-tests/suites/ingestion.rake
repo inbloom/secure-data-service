@@ -600,6 +600,10 @@ task :errorOnCascadedDeleteTest do
   runTests("test/features/ingestion/features/error_on_cascade_delete.feature")
 end
 
+task :multipleOrphansDeleteTest do
+  runTests("test/features/ingestion/features/multiple_orphans_deletion.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
