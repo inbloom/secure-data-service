@@ -262,14 +262,20 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
         private static void convertReference2EntityFieldNames(NeutralRecord neutralRecord) {
             Map<String, Object> attributes = neutralRecord.getAttributes();
-            final Map<String, String> reference2EntityFieldNameMap = new HashMap<String, String>();
-            reference2EntityFieldNameMap.put("EducationalOrgReference", "EducationOrganizationReference");
+            final Map<String, String> derivedFields = new HashMap<String, String>();
+                              //target                          //source
+            derivedFields.put("EducationOrganizationReference", "EducationalOrgReference");
+            derivedFields.put("SchoolReference"               , "EducationalOrgReference");
 
-            for(String refFieldName : reference2EntityFieldNameMap.keySet())
-            if (attributes.containsKey(refFieldName)) {
-                attributes.put(reference2EntityFieldNameMap.get(refFieldName), attributes.get(refFieldName));
-                attributes.remove(refFieldName);
+            for(String derivedField : derivedFields.keySet())
+            {
+                String existingField =  derivedFields.get(derivedField);
+                if (attributes.containsKey(existingField)) {
+                    attributes.put(derivedField, attributes.get(existingField));
+                    //attributes.remove(refFieldName);
+                }
             }
+
         }
 
         public void addToBatch(RecordMeta recordMeta, Map<String, Object> record, TypeProvider typeProvider) {
