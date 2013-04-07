@@ -22,6 +22,7 @@ Scenario: Delete Grade with cascade
 	And I should see "records considered for processing: 1" in the resulting batch job file
 	And I should see "records ingested successfully: 0" in the resulting batch job file
 	And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "child records deleted successfully: 1" in the resulting batch job file
 	And I should see "records failed processing: 0" in the resulting batch job file
 	And I should see "records not considered for processing: 0" in the resulting batch job file
 	And I should see "All records processed successfully." in the resulting batch job file
@@ -53,6 +54,7 @@ Scenario: Delete Grade without cascade
     And I should see "records considered for processing: 1" in the resulting batch job file
     And I should see "records ingested successfully: 0" in the resulting batch job file
     And I should see "records deleted successfully: 0" in the resulting batch job file
+    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
  	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -65,7 +67,7 @@ Scenario: Delete Grade without cascade
         | collection |delta|
         |grade       |   0|
 
-Scenario: Delete Orphan Grade without cascade
+Scenario: Delete Orphan Grade without cascade - using just Action Type of Delete without cascade flag
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
