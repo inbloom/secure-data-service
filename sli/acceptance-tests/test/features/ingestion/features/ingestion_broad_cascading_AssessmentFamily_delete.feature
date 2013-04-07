@@ -88,7 +88,7 @@ Scenario: Delete Orphan AssessmentFamily with cascade = false
 	|collection                        |delta          |
 	|assessmentFamily                  |             -1|
 
-@wip	
+
 Scenario: Delete Orphan AssessmentFamily Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -110,5 +110,6 @@ Scenario: Delete Orphan AssessmentFamily Reference with cascade = false
   And I should not see an error log file created
 	And I should not see a warning log file created
     And I re-execute saved query "assessmentFamily" to get "0" records
+    And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|assessmentFamily                  |             -1|
