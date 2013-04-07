@@ -28,7 +28,7 @@ public enum ReferenceConverter {
     CALENDAR_DATE( "CalendarDateReference", "calendarDate"),
     EDORG( "EducationalOrgReference", "educationOrganization"),
     ASSESSMENT( "AssessmentReference", "assessment"),
-    TECHER( "TeacherReference", "teacher");
+    TEACHER( "TeacherReference", "teacher");
 
     /*
     ASSESSMENT( "AsessmentReference","assesment"),
