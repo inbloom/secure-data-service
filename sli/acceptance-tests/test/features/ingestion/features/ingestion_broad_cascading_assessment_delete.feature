@@ -113,7 +113,6 @@ Scenario: Delete Orphan Assessment with cascade = false
 	|collection                        |delta          |
 	|assessment                             |         -1|
 
-
 Scenario: Delete Orphan Assessment Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
