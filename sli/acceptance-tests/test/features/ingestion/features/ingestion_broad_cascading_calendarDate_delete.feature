@@ -91,7 +91,7 @@ Scenario: Delete Orphan Calendar Date with cascade = false
 	|collection                             |delta     |
 	|calendarDate                           |         -1|
 	|recordHash                             |         0|
-@wip	
+
 Scenario: Delete Orphan Calendar Date Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty

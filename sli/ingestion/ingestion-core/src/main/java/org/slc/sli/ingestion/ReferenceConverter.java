@@ -25,6 +25,9 @@ public enum ReferenceConverter {
     STUDENT( "StudentReference", "student" ),
     PARENT( "ParentReference", "parent"),
     COURSE( "CourseReferece", "course"),
+    CALENDAR_DATE( "CalendarDateReference", "calendarDate"),
+    EDORG( "EducationalOrgReference", "educationOrganization"),
+    ASSESSMENT( "AssessmentReference", "assessment"),
     TECHER( "TeacherReference", "teacher");
 
     /*
