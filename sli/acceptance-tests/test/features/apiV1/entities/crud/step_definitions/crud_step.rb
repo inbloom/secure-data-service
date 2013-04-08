@@ -405,12 +405,27 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
        }],
       "studentObjectiveAssessments" => [
         {
+          "performanceLevelDescriptors"=>[
+          [
+            {
+              "codeValue"=>"code1"
+            }
+          ]],
           "scoreResults" => [
           {
             "result" => "28",
             "assessmentReportingMethod" => "Scale score"
           }],
           "objectiveAssessment" => {
+             "assessmentPerformanceLevel"=>[
+               {
+                "performanceLevelDescriptor"=> [{
+                    "codeValue"=> "code1"
+               }],
+              "assessmentReportingMethod"=> "Number score",
+              "minimumScore"=> 0,
+              "maximumScore"=> 50
+             }],
             "nomenclature"=> "Nomenclature",
             "percentOfAssessment"=> 50,
             "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
