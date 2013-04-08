@@ -310,6 +310,7 @@ public class BulkExtract {
             super();
             this.lastModified = lastModified;
             this.fileName = fileName;
+            debug("The file is "  + fileName + " and lastModified is " + lastModified);
         }
 
         public String getLastModified() {
@@ -318,6 +319,7 @@ public class BulkExtract {
 
         public File getBulkExtractFile(ExtractFile bulkExtractFileEntity) {
             File bulkExtractFile = new File(fileName);
+            debug("Length of bulk extract file is " + bulkExtractFile.length());
             return bulkExtractFile;
         }
 
