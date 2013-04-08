@@ -328,9 +328,20 @@ def	compareRecords(mongoRecord, jsonRecord)
 
     if (ENCRYPTED_ENTITIES.include?(mongoRecord['type'])) 
         compareEncryptedRecords(mongoRecord, jsonRecord)
+    elsif(mongoRecord['type'] == 'attendance')
+      compareAttendances(mongoRecord, jsonRecord)
     elsif (!COMBINED_ENTITIES.include?(mongoRecord['type']))
 	    assert(mongoRecord['body'].eql?(jsonRecord), "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
     end
+end
+
+def compareAttendances(mongoRecord, jsonRecord)
+      assert(mongoRecord['body']['attendanceEvent']==jsonRecord['schoolYearAttendance'][0]['attendanceEvent'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
+      assert(mongoRecord['body']['schoolYear']==jsonRecord['schoolYearAttendance'][0]['schoolYear'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
+      jsonRecord.delete('schoolYearAttendance')
+      mongoRecord['body'].delete('schoolYear')
+      mongoRecord['body'].delete('attendanceEvent')
+      assert(mongoRecord['body'].eql?(jsonRecord), "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
 end
 
 def compareEncryptedRecords(mongoRecord, jsonRecord)
@@ -392,7 +403,7 @@ def compareToApi(collection, collFile)
       apiRecord = JSON.parse(@res.body)
       assert(apiRecord != nil, "Result of JSON parsing is nil")    
       apiRecord.delete("links")
-      assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
+      assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.\nExtractRecord:\n" +extractRecord.to_s + "\nAPIRecord:\n" + apiRecord.to_s)
       found = true
     end
   end
