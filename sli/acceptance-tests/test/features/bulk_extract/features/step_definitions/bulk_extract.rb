@@ -272,11 +272,6 @@ Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
 }
 end
 
-Then /^the response is decrypted/ do
-  private_key = OpenSSL::PKey::RSA.new File.read 'test-key.pkcs8'
-  
-end
-
 ############################################################
 # Functions
 ############################################################
