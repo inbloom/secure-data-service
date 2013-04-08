@@ -37,8 +37,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.CalculatedData;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -489,6 +491,13 @@ public class MockRepo implements Repository<Entity> {
 
         update(collectionName, newEntity, false);
         return newEntity;
+    }
+
+    @Override
+    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+    	// TODO do real cascade
+    	repo.get(entityType).remove(id);
+    	return new CascadeResult();
     }
 
     @Override

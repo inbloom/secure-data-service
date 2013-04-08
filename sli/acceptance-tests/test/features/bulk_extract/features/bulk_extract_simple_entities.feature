@@ -10,9 +10,11 @@ Scenario Outline: Verify simple entities were correctly extracted
    
 	Examples:
     | entity                                | user       | role             | realm       | tenant |
+    | attendance                            | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| competencyLevelDescriptor             | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| course                                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| courseOffering                        | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| courseTranscript                      | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| disciplineIncident                    | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| disciplineAction                      | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| gradingPeriod                         | jstevenson | IT Administrator | IL-Daybreak | Midgar |
@@ -25,6 +27,7 @@ Scenario Outline: Verify simple entities were correctly extracted
 	| staffCohortAssociation                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| staffProgramAssociation               | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| studentCompetency                     | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+    | studentGradebookEntry                 | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| studentCompetencyObjective            | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| studentSchoolAssociation              | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| teacherSchoolAssociation              | jstevenson | IT Administrator | IL-Daybreak | Midgar |

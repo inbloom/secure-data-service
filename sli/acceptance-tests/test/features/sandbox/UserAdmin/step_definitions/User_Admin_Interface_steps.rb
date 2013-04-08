@@ -245,6 +245,8 @@ When /^I confirm the delete action$/ do
   begin
     @driver.switch_to.alert.accept
   rescue
+    sleep(3)
+    @driver.switch_to.alert.accept
   end
   sleep(3)
 end

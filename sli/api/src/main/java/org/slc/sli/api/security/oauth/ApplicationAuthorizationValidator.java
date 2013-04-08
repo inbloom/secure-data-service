@@ -21,18 +21,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
+import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -69,6 +70,8 @@ public class ApplicationAuthorizationValidator {
         } else {
             if (isAutoAuthorized(app)) {
                 return true;
+            } else if (!isOperatorApproved(app)) {
+                return false;
             } else {
                 Set<String> edOrgs = helper.locateDirectEdorgs(principal.getEntity());
                 NeutralQuery appAuthCollQuery = new NeutralQuery();
@@ -104,6 +107,12 @@ public class ApplicationAuthorizationValidator {
     private boolean isAdminVisible(Entity app) {
         Boolean value = (Boolean) app.getBody().get("admin_visible");
         return value != null && value.booleanValue();
+    }
+    
+    private boolean isOperatorApproved(Entity app) {
+        Map<String, Object> registration = (Map<String, Object>) app.getBody().get("registration");
+        String value = (String) registration.get("status");
+        return value.equals(ApplicationResource.STATUS_APPROVED);
     }
 
     /**

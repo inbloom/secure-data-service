@@ -19,6 +19,7 @@ package org.slc.sli.validation.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -669,6 +670,23 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 listSchema.updateAnnotations();
                 elementSchema = listSchema;
             }
+        }
+
+
+
+
+        Long min = element.getMinOccurs();
+        Long max = element.getMaxOccurs();
+        QName type = element.getSchemaTypeName();
+
+        if(min != null) {
+            elementSchema.getProperties().put("minCardinality", min);
+        }
+        if( max != null) {
+            elementSchema.getProperties().put("maxCardinality", max);
+        }
+        if(type != null) {
+            elementSchema.getProperties().put("elementType", type.toString());
         }
 
         return elementSchema;

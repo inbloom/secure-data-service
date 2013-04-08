@@ -17,7 +17,9 @@
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,9 +32,11 @@ import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -41,9 +45,8 @@ import org.springframework.util.Assert;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.dal.template.MongoEntityTemplate;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.validation.schema.SchemaReferencePath;
+import org.slc.sli.validation.schema.SchemaReferencesMetaData;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -53,6 +56,12 @@ import org.slc.sli.domain.Repository;
  *
  */
 public abstract class MongoRepository<T> implements Repository<T> {
+
+    // TODO determine whether this is the best place to have custom entity meta information
+    public static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
+    public static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
+    public static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
+
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
 
     protected MongoEntityTemplate template;
@@ -77,7 +86,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * this method
      * add the Tenant ID to a neutral query.
      *
-     * @param query
+     * @param origQuery
      *            The query returned is the same as the query passed.
      * @return
      *         The modified neutral query
@@ -199,14 +208,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public List<T> insert(List<T> records, String collectionName) {
         guideIfTenantAgnostic(collectionName);
         template.insert(records, collectionName);
-        LOG.debug("Insert {} records into collection: {}", new Object[] { records.size(), collectionName });
+        LOG.debug("Insert {} records into collection: {}", new Object[]{records.size(), collectionName});
         return records;
     }
 
     @Override
     public T findById(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a record in collection {} with id {}", new Object[] { collectionName, id });
+        LOG.debug("find a record in collection {} with id {}", new Object[]{collectionName, id});
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
@@ -472,6 +481,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
     protected abstract T getEncryptedRecord(T entity);
 
     protected abstract Update getUpdateCommand(T entity, boolean isSuperdoc);
+
+    @Override
+    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        throw new UnsupportedOperationException("safeDelete is not implemented at the " + this.getClass().getSimpleName() + ", perhaps you should be using MongoEntityRepository");
+    }
 
     @Override
     public boolean delete(String collectionName, String id) {

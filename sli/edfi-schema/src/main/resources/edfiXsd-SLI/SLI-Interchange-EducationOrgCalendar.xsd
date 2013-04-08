@@ -13,6 +13,7 @@
 				<xs:element name="Session" type="SLC-Session"/>
 				<xs:element name="GradingPeriod" type="SLC-GradingPeriod"/>
 				<xs:element name="CalendarDate" type="SLC-CalendarDate"/>
+				<xs:element name="Action" type="SLC-ActionType"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

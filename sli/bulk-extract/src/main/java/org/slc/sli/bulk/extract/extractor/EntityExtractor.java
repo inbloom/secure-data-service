@@ -17,6 +17,8 @@ package org.slc.sli.bulk.extract.extractor;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Query;
 
+import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.files.writer.EntityWriter;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -44,9 +46,7 @@ public class EntityExtractor{
 
     private Repository<Entity> entityRepository;
 
-    private Map<String, String> entitiesToCollections;
-
-    private EntityWriter writer;
+    private EntityWriterManager writer;
 
     /**
      * extract all the records of entity.
@@ -62,41 +62,41 @@ public class EntityExtractor{
         try {
             TenantContext.setTenantId(tenant);
             Iterator<Entity> cursor = entityRepository.findEach(collectionName, new Query());
-
             if (cursor.hasNext()) {
                 LOG.info("Extracting from " + collectionName);
+                CollectionWrittenRecord collectionRecord = new CollectionWrittenRecord(collectionName);
 
                 while (cursor.hasNext()) {
                     Entity entity = cursor.next();
 
-                    writeEntity(archiveFile, entity);
+                    write(entity, archiveFile, collectionRecord);
+
                 }
 
-                LOG.info("Finished extracting {} records for " + collectionName);
+                LOG.info("Finished extracting " + collectionRecord.toString());
             }
         } catch (IOException e) {
             LOG.error("Error while extracting from " + collectionName, e);
-        } finally {
-            closeArchiveEntries(archiveFile);
         }
     }
 
     /**
      * Writes an entity to a file.
-     * @param archiveFile archiveFile
      * @param entity entity
+     * @param archiveFile archiveFile
+     * @param collectionRecord collectionRecord
      * @throws FileNotFoundException FileNotFoundException
      * @throws IOException IOException
      */
-    public void writeEntity(ExtractFile archiveFile, Entity entity) throws FileNotFoundException, IOException {
-        if (entitiesToCollections.containsKey(entity.getType())) {
-            writer.write(entity, archiveFile);
-        }
+    private void write(Entity entity, ExtractFile archiveFile, CollectionWrittenRecord collectionRecord)
+            throws FileNotFoundException, IOException {
+        writer.write(entity, archiveFile);
+        collectionRecord.incrementNumberOfEntitiesWritten();
         //Write subdocs
-        extractAndWriteEmbeddedDocs(entity.getEmbeddedData(), archiveFile);
+        writeEmbeddedDocs(entity.getEmbeddedData(), archiveFile, collectionRecord);
 
         //Write container data
-        extractAndWriteEmbeddedDocs(entity.getContainerData(), archiveFile);
+        writeEmbeddedDocs(entity.getContainerData(), archiveFile, collectionRecord);
     }
 
 
@@ -105,24 +105,15 @@ public class EntityExtractor{
      * @param docs - embedded documents within an entity
      * @param archiveEntries - collection of archive entries, one per subdoc type
      * @param archiveFile - file containing archives to be written to
+     * @param collectionRecord collectionRecord
      */
-    private void extractAndWriteEmbeddedDocs(Map<String, List<Entity>> docs, ExtractFile archiveFile) throws FileNotFoundException, IOException {
+    private void writeEmbeddedDocs(Map<String, List<Entity>> docs, ExtractFile archiveFile,
+            CollectionWrittenRecord collectionRecord) throws FileNotFoundException, IOException {
         for (String docName : docs.keySet()) {
-            if (entitiesToCollections.containsKey(docName)) {
                 for (Entity doc : docs.get(docName)) {
                     writer.write(doc, archiveFile);
                 }
-            }
-        }
-    }
-
-    /**
-     * Write record to archive entry.
-     * @param archiveEntries - complete set of entity archive entries
-     */
-    private void closeArchiveEntries(ExtractFile archiveFile) {
-        for (String entity : entitiesToCollections.keySet()) {
-            archiveFile.getDataFileEntry(entity).close();
+                collectionRecord.addEmbeddedDocWrittenRecord(docName, docs.get(docName).size());
         }
     }
 
@@ -138,16 +129,50 @@ public class EntityExtractor{
      * Set writer.
      * @param writer - writer the entity to a file
      */
-    public void setWriter(EntityWriter writer) {
+    public void setWriter(EntityWriterManager writer) {
         this.writer = writer;
     }
 
     /**
-     * Set entites to collection map.
-     * @param entitiesToCollections entitiesToCollections
+     * A helper class to record number of writtens entities, including embedded docs
+     *
+     * @author slee
+     *
      */
-    public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
-        this.entitiesToCollections = entitiesToCollections;
+    private class CollectionWrittenRecord {
+        final String collectionName;
+        long numberOfEntitiesWritten;
+        Map<String, Long> embeddedDocWrittenRecords = new HashMap<String, Long>();
+
+        CollectionWrittenRecord(String name) {
+            this.collectionName = name;
+        }
+
+        void addEmbeddedDocWrittenRecord(String docName, long records) {
+            long total = records;
+            if (embeddedDocWrittenRecords.containsKey(docName)) {
+                total = records + embeddedDocWrittenRecords.get(docName);
+            }
+            embeddedDocWrittenRecords.put(docName, total);
+        }
+
+        void incrementNumberOfEntitiesWritten() {
+            ++numberOfEntitiesWritten;
+        }
+
+        @Override
+        public String toString() {
+            Object[] collArguments = { collectionName, new Long(numberOfEntitiesWritten)};
+            StringBuffer sb = new StringBuffer(MessageFormat.format("{1,number,#} records for {0}", collArguments));
+            
+            for (Map.Entry<String, Long> entry : embeddedDocWrittenRecords.entrySet()) {
+                Object[] embeddedArguments = { entry.getKey(), entry.getValue()};
+                sb.append(MessageFormat.format("\n\t{1,number,#} embedded records for {0}", embeddedArguments));
+            }
+
+            return sb.toString();
+        }
     }
+
 }
 

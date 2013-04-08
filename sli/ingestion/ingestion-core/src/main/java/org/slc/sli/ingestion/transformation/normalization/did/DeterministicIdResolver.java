@@ -133,7 +133,15 @@ public class DeterministicIdResolver implements BatchJobStage {
 
         // resolve and set all the parentNodes
         for (Map<String, Object> node : parentNodes) {
-            Object resolvedRef = resolveReference(entity, node.get(refObjName), didRefSource.isOptional(), didRefConfig,
+
+            //Getting delete to work. Should be reworked.
+            boolean isDelete = false;
+            String action = (String)entity.getMetaData().get("Action");
+            if(action != null && action.equals("DELETE")) {
+                isDelete = true;
+            }
+
+            Object resolvedRef = resolveReference(entity, node.get(refObjName), isDelete?true:didRefSource.isOptional(), didRefConfig,
                     tenantId);
             if (resolvedRef != null) {
                 node.put(refObjName, resolvedRef);

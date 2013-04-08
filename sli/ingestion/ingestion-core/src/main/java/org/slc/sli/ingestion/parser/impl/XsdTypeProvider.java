@@ -31,6 +31,7 @@ import org.jdom2.util.IteratorIterable;
 import org.springframework.core.io.Resource;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.TypeProvider;
 
@@ -49,6 +50,7 @@ public class XsdTypeProvider implements TypeProvider {
     private static final String XS_DECIMAL = "xs:decimal";
     private static final String XS_INT = "xs:int";
     private static final String XS_INTEGER = "xs:integer";
+    private static final String XC_ACTION = "SLC-ActionType";
 
     private static final String INTERCHANGE = "interchange";
     private static final String INCLUDE = "include";
@@ -66,6 +68,8 @@ public class XsdTypeProvider implements TypeProvider {
     private static final String MAX_OCCURS = "maxOccurs";
     private static final String EXTENSION = "extension";
 
+    private static final String REFERENCE = "Reference";
+    private static final String ELEMENT_ACTION = "Student";
     private Resource[] schemaFiles;
 
     private Map<String, Element> complexTypes = new HashMap<String, Element>();
@@ -136,17 +140,33 @@ public class XsdTypeProvider implements TypeProvider {
     private void parseInterchangeSchemas(Resource schemaFile, SAXBuilder b) throws JDOMException, IOException {
         Document doc = b.build(schemaFile.getURL());
 
-        // get interchange element name and build map for it
 
+        // get interchange element name and build map for it
         Iterator<Element> schemaIter = doc.getDescendants(Filters.element(SCHEMA, XS_NAMESPACE)).iterator();
+
+        buildMap( schemaIter, doc, ELEMENT );
+
+        Iterator<Element> wrapperIter = doc.getDescendants( Filters.element( ELEMENT_ACTION, XS_NAMESPACE)).iterator();
+
+        buildMap( wrapperIter, doc, ELEMENT_ACTION );
+
+
+    }
+
+    private void buildMap( Iterator<Element>  schemaIter, Document doc, String elName ) {
+
+
         if (schemaIter.hasNext()) {
-            Element interchangeElement = schemaIter.next().getChild(ELEMENT, XS_NAMESPACE);
+            Element interchangeElement = schemaIter.next().getChild( elName, XS_NAMESPACE);
 
             Map<String, String> interchangeElementMap = new HashMap<String, String>();
             interchangeMap.put(interchangeElement.getAttributeValue(NAME), interchangeElementMap);
 
             buildXsdElementsMap(doc, interchangeElementMap);
+
         }
+
+
     }
 
     @Override
@@ -155,8 +175,20 @@ public class XsdTypeProvider implements TypeProvider {
     }
 
     @Override
-    public RecordMeta getTypeFromParentType(String type, String eventName) {
-        Element parentElement = getComplexElement(type);
+    public String getTypeFromInterchange(String interchange, String eventName, ActionVerb action) {
+        String local = eventName;
+
+        // to support deletes by reference...
+        if( action != null && action.doDelete() && eventName.endsWith( REFERENCE)) {
+           return typeMap.get( eventName );
+        }
+        return getTypeFromInterchange( interchange, local);
+    }
+
+
+    @Override
+    public RecordMeta getTypeFromParentType(RecordMeta parentMeta, String eventName) {
+        Element parentElement = getComplexElement( parentMeta.getType());
 
         while (parentElement != null && eventName != null) {
             IteratorIterable<Element> res = parentElement.getDescendants(Filters.element(ELEMENT, XS_NAMESPACE));
@@ -168,7 +200,7 @@ public class XsdTypeProvider implements TypeProvider {
                         elementType = getSimpleTypeRestrictionBase(simple);
                     }
 
-                    return new RecordMetaImpl(eventName, elementType, shouldBeList(e, parentElement));
+                    return new RecordMetaImpl(eventName, elementType, shouldBeList(e, parentElement), parentMeta.getAction());
                 }
             }
 
@@ -301,6 +333,12 @@ public class XsdTypeProvider implements TypeProvider {
         this.schemaFiles = Arrays.copyOf(schemaFiles, schemaFiles.length);
 
         init();
+    }
+
+    @Override
+    public boolean isActionType(String type) {
+
+        return XC_ACTION.equals( type) ? true : false;
     }
 
 }

@@ -17,7 +17,6 @@ package org.slc.sli.bulk.extract.treatment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.dal.convert.StudentAssessmentConverter;
 import org.slc.sli.domain.Entity;
 
@@ -34,9 +33,7 @@ public class StudentAssessmentTreatment implements Treatment{
 
     @Override
     public Entity apply(Entity entity) {
-        if (entity.getType().equals(EntityNames.STUDENT_ASSESSMENT)) {
-            studentAssessmentConverter.subdocToBodyField(entity);
-        }
+        studentAssessmentConverter.subdocToBodyField(entity);
         return entity;
     }
 

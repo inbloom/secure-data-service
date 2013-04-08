@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.processors;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
+import org.slc.sli.ingestion.ReferenceConverter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -146,7 +148,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
     @Override
     public void visit(RecordMeta recordMeta, Map<String, Object> record) {
-        state.get().addToBatch(recordMeta, record);
+        state.get().addToBatch(recordMeta, record, typeProvider);
 
         if (state.get().getDataBatch().size() >= batchSize) {
             sendDataBatch();
@@ -258,10 +260,30 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             dataBatch = new ArrayList<NeutralRecord>();
         }
 
-        public void addToBatch(RecordMeta recordMeta, Map<String, Object> record) {
-            NeutralRecord neutralRecord = new NeutralRecord();
+        private static void convertReference2EntityFieldNames(NeutralRecord neutralRecord) {
+            Map<String, Object> attributes = neutralRecord.getAttributes();
+            final Map<String, String> derivedFields = new HashMap<String, String>();
+                              //target                          //source
+            derivedFields.put("EducationOrganizationReference", "EducationalOrgReference");
+            derivedFields.put("SchoolReference"               , "EducationalOrgReference");
+            derivedFields.put("EducationOrgReference"         , "EducationalOrgReference");
 
-            neutralRecord.setRecordType(StringUtils.uncapitalize(recordMeta.getName()));
+            for(String derivedField : derivedFields.keySet())
+            {
+                String existingField =  derivedFields.get(derivedField);
+                if (attributes.containsKey(existingField)) {
+                    attributes.put(derivedField, attributes.get(existingField));
+                    //attributes.remove(refFieldName);
+                }
+            }
+
+        }
+
+        public void addToBatch(RecordMeta recordMeta, Map<String, Object> record, TypeProvider typeProvider) {
+            NeutralRecord neutralRecord = new NeutralRecord();
+            neutralRecord.setActionVerb( recordMeta.getAction());
+            String recordType = StringUtils.uncapitalize(recordMeta.getName());
+
             neutralRecord.setBatchJobId(work.getBatchJobId());
             neutralRecord.setSourceFile(work.getFileEntry().getResourceId());
 
@@ -274,6 +296,20 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             neutralRecord.setVisitAfterColumnNumber(endLoc.getColumnNumber());
 
             neutralRecord.setAttributes(record);
+
+            if( recordMeta.getOriginalType() != null ) {
+                ReferenceConverter convert = ReferenceConverter.fromReferenceName( recordMeta.getOriginalType() );
+                String useType = convert != null ? convert.getEntityName() : recordType;
+                neutralRecord.setRecordType( useType);
+                neutralRecord.setDataType( recordMeta.getName() );
+
+                // Do a record conversion for field names that don't match up between the reference type and entity type
+                convertReference2EntityFieldNames(neutralRecord);
+
+            } else {
+                neutralRecord.setRecordType( recordType );
+            }
+
             dataBatch.add(neutralRecord);
         }
     }

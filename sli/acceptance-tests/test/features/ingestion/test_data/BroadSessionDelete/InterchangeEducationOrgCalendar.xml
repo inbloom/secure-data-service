@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrgCalendar.xsd">
+
+    <Action ActionType="DELETE" Cascade="true">
+        <Session>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+            <SchoolYear>2001-2002</SchoolYear>
+            <Term>Year Round</Term>
+            <BeginDate>2001-09-03</BeginDate>
+            <EndDate>2002-05-30</EndDate>
+            <TotalInstructionalDays>180</TotalInstructionalDays>
+            <EducationOrganizationReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationOrganizationReference>
+            <GradingPeriodReference>
+                <GradingPeriodIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <GradingPeriod>End of Year</GradingPeriod>
+                    <BeginDate>2001-09-03</BeginDate>
+                </GradingPeriodIdentity>
+            </GradingPeriodReference>
+            <CalendarDateReference>
+                <CalendarDateIdentity>
+                    <Date>2012-03-01</Date>
+                    <EducationOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationOrgReference>
+                </CalendarDateIdentity>
+            </CalendarDateReference>
+        </Session>
+    </Action>
+</InterchangeEducationOrgCalendar>
