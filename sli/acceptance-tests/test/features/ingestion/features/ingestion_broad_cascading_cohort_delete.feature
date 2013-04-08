@@ -43,9 +43,9 @@ Scenario: Delete Cohort with cascade
 	And I should not see "3ec8e3eb5388b559890be7df3cf189902fc2735d_id" in the "Midgar" database
 	And I should not see any entity mandatorily referring to "3ec8e3eb5388b559890be7df3cf189902fc2735d_id" in the "Midgar" database
 	And I should see entities optionally referring to "3ec8e3eb5388b559890be7df3cf189902fc2735d_id" be updated in the "Midgar" database
-	
 
-	
+
+
 	Scenario: Delete Cohort with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -100,8 +100,7 @@ Scenario: Delete Cohort with cascade
         | cohort                                    |        -1| 
         | recordHash                                |      	 -1|
 
-@wip
-	Scenario: Delete Orphan Cohort with cascade = false
+	Scenario: Delete Orphan Cohort Ref with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
