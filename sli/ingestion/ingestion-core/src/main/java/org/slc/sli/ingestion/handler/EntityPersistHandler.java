@@ -374,7 +374,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         for (CascadeResultError err : errors) {
             switch (err.getErrorType()) {
                 case DELETE_ERROR:
-                    if (err.getObjectId().equals(entity.getEntityId())) {
+                    String id = (entity.getEntityId() == null) ? entity.getUUID() : entity.getEntityId();
+                    if (err.getObjectId().equals(id)) {
                         report.error(reportStats, source, CoreMessageCode.CORE_0071, entity.getType(), entity.getEntityId());
                     } else {
                         report.error(reportStats, source, CoreMessageCode.CORE_0070, err.getObjectType(), err.getObjectId(),

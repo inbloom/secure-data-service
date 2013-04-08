@@ -174,6 +174,7 @@ end
 desc "Run Ingestion Smoke Tests"
 task :ingestionSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
+  Rake::Task["multipleOrphansDeleteTest"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].invoke
 end
 
@@ -324,7 +325,6 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadStudentCompetencyObjectiveTest,
         :ingestionCascadingDeletionBroadStudentCompetencyTest,
         :ingestionCascadingDeletionBroadStudentDisciplineIncidentAssociationTest,
-        :ingestionCascadingDeletionBroadStudentFromInterchangeStudentParentTest,
         :ingestionCascadingDeletionBroadStudentGradebookEntryTest,
         :ingestionCascadingDeletionBroadStudentParentAssociationTest,
         :ingestionCascadingDeletionBroadStudentProgramAssociationTest,
@@ -382,15 +382,6 @@ end
 
 task :ingestionCascadingDeletionBroadProgramTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_program_delete.feature")
-end
-
-
-task :ingestionCascadingDeletionBroadSchoolTest do
-  runTests("test/features/ingestion/features/ingestion_broad_cascading_school_delete.feature")
-end
-
-task :ingestionCascadingDeletionBroadStudentFromInterchangeStudentParentTest do
-  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentFromInterchangeStudentParent_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadSectionTest do
