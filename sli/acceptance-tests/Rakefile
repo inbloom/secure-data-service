@@ -808,6 +808,7 @@ desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [
         :loadDefaultIngestionTenants,
         :IngestionIndexValidationTest,
+        :ingestionDeletionTests,
         :ingestionTenantPurgeTests,
         :ingestionJobFailOnMissingIndexTest,
         :ingestionDbSpinupTest,
