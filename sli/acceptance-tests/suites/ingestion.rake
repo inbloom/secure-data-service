@@ -280,6 +280,7 @@ end
 
 desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
+        :multipleOrphansDeleteTest,
         :errorOnCascadedDeleteTest,
         :ingestionCascadingDeletionBroadAssessmentFamilyTest,
         :ingestionCascadingDeletionBroadAssessmentItemFromAssessmentMetadataTest,
