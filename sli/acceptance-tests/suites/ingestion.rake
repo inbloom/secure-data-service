@@ -282,7 +282,7 @@ end
 desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
         :multipleOrphansDeleteTest,
-        :errorOnCascadedDeleteTest,
+        :errorsOnUnsupportedDeleteRequestsTest,
         :ingestionCascadingDeletionBroadAssessmentFamilyTest,
         :ingestionCascadingDeletionBroadAssessmentItemFromAssessmentMetadataTest,
         :ingestionCascadingDeletionBroadAssessmentItemFromStudentAssessmentTest,
@@ -588,8 +588,8 @@ task :ingestBroadSetOfTypesAndExportData do
   runTests("test/features/ingestion/features/ingestion_BroadSetOfTypes.feature")
 end
 
-task :errorOnCascadedDeleteTest do
-  runTests("test/features/ingestion/features/error_on_cascade_delete.feature")
+task :errorsOnUnsupportedDeleteRequestsTest do
+  runTests("test/features/ingestion/features/error_on_unsupported_delete.feature")
 end
 
 task :multipleOrphansDeleteTest do
