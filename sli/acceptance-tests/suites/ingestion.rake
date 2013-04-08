@@ -384,11 +384,6 @@ task :ingestionCascadingDeletionBroadProgramTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_program_delete.feature")
 end
 
-
-task :ingestionCascadingDeletionBroadSchoolTest do
-  runTests("test/features/ingestion/features/ingestion_broad_cascading_school_delete.feature")
-end
-
 task :ingestionCascadingDeletionBroadStudentFromInterchangeStudentParentTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_studentFromInterchangeStudentParent_delete.feature")
 end

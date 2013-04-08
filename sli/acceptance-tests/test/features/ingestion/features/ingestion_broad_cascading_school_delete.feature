@@ -142,9 +142,9 @@ Scenario: Delete School with cascade = false
     And a batch job for file "SafeSchoolDelete.zip" is completed in database
     And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 0" in the resulting batch job file
-	  And I should see "records failed processing: 1" in the resulting batch job file
-#    And I should not see an error log file created
+	And I should see "records deleted successfully: 0" in the resulting batch job file
+	And I should see "records failed processing: 1" in the resulting batch job file
+    And I should see "CORE_0066" in the resulting error log file for "InterchangeEducationOrganization.xml"
    	And I should not see a warning log file created
     And I re-execute saved query "school" to get "1" records
     And I re-execute saved query "attendance" to get "11" records
@@ -167,8 +167,8 @@ Scenario: Delete Orphan School with cascade = false
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
     Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "school"
-        |field                                     |value                                                                                 |
-        |_id                                       |bb6db4e34541d0c3a42bd9aa11f5da6b0f51cf38_id                                           |
+        |field                                     |value                                      |
+        |_id                                       |bb6db4e34541d0c3a42bd9aa11f5da6b0f51cf38_id|
     And I save the collection counts in "Midgar" tenant
     And I post "OrphanSchoolDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
@@ -189,17 +189,17 @@ Scenario: Delete Orphan School Reference with cascade = false
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
     Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "school"
-        |field                                     |value                                                                                 |
-        |_id                                       |bb6db4e34541d0c3a42bd9aa11f5da6b0f51cf38_id                                           |
+        |field                                     |value                                      |
+        |_id                                       |bb6db4e34541d0c3a42bd9aa11f5da6b0f51cf38_id|
     And I save the collection counts in "Midgar" tenant
     And I post "OrphanSchoolRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanSchoolRefDelete.zip" is completed in database
-	  And I should see "Processed 1 records." in the resulting batch job file
-		And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+    And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
-	  And I should not see a warning log file created
+	And I should not see a warning log file created
     And I re-execute saved query "school" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
