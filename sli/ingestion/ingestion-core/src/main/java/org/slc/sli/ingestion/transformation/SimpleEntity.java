@@ -22,6 +22,8 @@ import java.util.Map;
 
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.ActionVerb;
+import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.reporting.ElementSource;
 
@@ -40,6 +42,9 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
     private int visitBeforeColumnNumber;
     private int visitAfterLineNumber;
     private int visitAfterColumnNumber;
+
+    public static final String FIELD_UUID = "UUID";
+    public static final String DELETE_AFFECTED_COUNT = "DELETEAFFECTEDCOUNT";
 
     @Override
     public String getType() {
@@ -133,6 +138,44 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
         this.sourceFile = sourceFile;
     }
 
+    public ActionVerb getAction( ) {
+        ActionVerb result = ActionVerb.NONE;
+        if ( metaData != null && metaData.containsKey( NeutralRecord.KEY_ACTION) ) {
+            result = ActionVerb.valueOf( (String) metaData.get(NeutralRecord.KEY_ACTION));
+        }
+     return ( result) ;
+    }
+
+    public String getUUID( ) {
+        String result = null;
+        if ( metaData != null && metaData.containsKey( FIELD_UUID ) ) {
+            result = (String) metaData.get( FIELD_UUID);
+        }
+        return( result );
+    }
+    public void setUUID( String id ) {
+        if( metaData == null ) {
+            metaData = new HashMap< String, Object>();
+        }
+        metaData.put( FIELD_UUID, id);
+    }
+
+    public void setAction( ActionVerb action) {
+        if( metaData == null ) {
+            metaData = new HashMap< String, Object>();
+        }
+        metaData.put( NeutralRecord.KEY_ACTION, action.toString());
+    }
+
+    public void removeAction( ) {
+        if( metaData != null ) {
+
+            if( this.getMetaData().containsKey( NeutralRecord.KEY_ACTION ) ) {
+                this.getMetaData().remove(NeutralRecord.KEY_ACTION );
+            }
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder entity = new StringBuilder();
@@ -171,8 +214,25 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
         return getSourceFile();
     }
 
+    public String getDeleteAffectedCount() {
+        String result = null;
+        if ( metaData != null && metaData.containsKey(DELETE_AFFECTED_COUNT) ) {
+            result = (String) metaData.get(DELETE_AFFECTED_COUNT);
+        }
+        return( result );
+    }
+
+    public void setDeleteAffectedCount(String id) {
+        if( metaData == null ) {
+            metaData = new HashMap< String, Object>();
+        }
+        metaData.put(DELETE_AFFECTED_COUNT, id);
+    }
+
+
     @Override
     public Map<String, List<Entity>> getContainerData() {
         return new HashMap<String, List<Entity>>();
     }
+
 }

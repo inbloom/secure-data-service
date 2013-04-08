@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-StaffAssociation.xsd">
+
+  
+  <!-- Illustrative use of DELETE -->
+ <Action ActionType="DELETE" Cascade="true">
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>sbantu</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+
+
+
+</Action>
+
+</InterchangeStaffAssociation>

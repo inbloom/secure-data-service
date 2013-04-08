@@ -47,6 +47,15 @@ import org.elasticsearch.common.cache.CacheBuilder;
 import org.elasticsearch.common.cache.CacheLoader;
 import org.elasticsearch.common.cache.LoadingCache;
 import org.elasticsearch.common.collect.Iterators;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CalculatedData;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.encryption.tool.Encryptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -292,6 +301,11 @@ public class ElasticSearchRepository implements Repository<Entity> {
     @Override
     public boolean delete(String collectionName, String id) {
         throw new UnsupportedOperationException("ElasticSearchRepository.delete not implemented");
+    }
+
+    @Override
+    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.safeDelete not implemented");
     }
 
     @Override

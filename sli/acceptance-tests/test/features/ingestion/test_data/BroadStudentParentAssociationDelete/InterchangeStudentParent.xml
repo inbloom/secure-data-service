@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                          xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
+
+    <Action ActionType="DELETE" Cascade="true">
+
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>1-dad</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Father</Relation>
+        <PrimaryContactStatus>true</PrimaryContactStatus>
+        <ContactPriority>2</ContactPriority>
+        <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+    </StudentParentAssociation>
+
+    </Action>
+
+</InterchangeStudentParent>

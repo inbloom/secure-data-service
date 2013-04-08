@@ -51,6 +51,7 @@ import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.FullSuperDoc;
@@ -72,7 +73,7 @@ import org.slc.sli.validation.ValidationError.ErrorType;
  */
 @Scope("prototype")
 @Component("basicService")
-public class BasicService implements EntityService {
+public class BasicService implements EntityService, AccessibilityCheck {
 
     private static final String ADMIN_SPHERE = "Admin";
 
@@ -224,6 +225,27 @@ public class BasicService implements EntityService {
         checkAccess(isRead, isSelf(entityId), content);
     }
 
+    /*
+     * Check routine for interface
+     * @see org.slc.sli.domain.AccessibilityCheck#accessibilityCheck(java.lang.String)
+     */
+    @Override
+	public boolean accessibilityCheck(String id) {
+    	try {
+    		checkAccess(false, id, null);
+    	}
+    	catch( AccessDeniedException e) {
+    		return false;
+    	}
+    	return true;
+    }
+
+    // This will be replaced by a call to:
+    //     getRepo().safeDelete(collectionName, id, true, false, 0, this);
+    // I.e., cascade=true, dryrun=false, max=0=unlimited, access check = this service
+    //
+    // Future "enhanced" versions of delete exposed to the API can call safeDelete()
+    // with different combinations of parameters
 
     @Override
     public void delete(String id) {

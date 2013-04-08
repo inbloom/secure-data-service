@@ -37,6 +37,8 @@ public enum EdfiEntity {
 
     SELF("self", Collections.<EdfiEntity> emptyList()),
 
+//    ACTION( "action", Collections.<EdfiEntity> emptyList()),
+
     ASSESSMENT_FAMILY("assessmentFamily", Arrays.asList(SELF)),
 
     CALENDAR_DATE("calendarDate", Collections.<EdfiEntity> emptyList()),

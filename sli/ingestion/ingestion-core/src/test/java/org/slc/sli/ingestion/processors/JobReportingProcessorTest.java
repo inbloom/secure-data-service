@@ -75,7 +75,9 @@ public class JobReportingProcessorTest {
     private static final String NULLRESOURCEID = null;
     private static final int RECORDS_CONSIDERED = 50;
     private static final int RECORDS_FAILED = 5;
-    private static final int RECORDS_PASSED = RECORDS_CONSIDERED - RECORDS_FAILED;
+    private static final int RECORDS_DELETED = 2;
+    private static final int RECORDS_DELETED_CHILD_COUNT = 0;
+    private static final int RECORDS_PASSED = RECORDS_CONSIDERED - RECORDS_FAILED - RECORDS_DELETED;
     private static final String DUP_ENTITY = "student";
     private static final Long DUP_COUNT = Long.valueOf(123);
     private static final String RECORDID = "recordIdentifier";
@@ -146,7 +148,7 @@ public class JobReportingProcessorTest {
         mockDeltaStage.add(new Stage(BatchJobStageType.DELTA_PROCESSOR.getName(), "Drop records that are duplicates", "finished",
                 new Date(), new Date(), mockDeltaMetrics));
 
-        mockPersistenceMetrics.add(new Metrics(RESOURCEID, RECORDS_CONSIDERED, RECORDS_FAILED));
+        mockPersistenceMetrics.add(new Metrics(RESOURCEID, RECORDS_CONSIDERED, RECORDS_FAILED,RECORDS_DELETED));
         mockPersistenceStages.add(new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "Persists records to the sli database", "finished",
                 new Date(), new Date(), mockPersistenceMetrics));
 
@@ -187,6 +189,8 @@ public class JobReportingProcessorTest {
                         + FileType.XML_STUDENT_PARENT_ASSOCIATION.getName() + ")"));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records considered for processing: " + RECORDS_CONSIDERED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records ingested successfully: " + RECORDS_PASSED));
+        assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records deleted successfully: " + RECORDS_DELETED));
+        assertTrue(br.readLine().contains("[file] " + RESOURCEID + " child records deleted successfully: " + RECORDS_DELETED_CHILD_COUNT));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records failed processing: " + RECORDS_FAILED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records not considered for processing: " + 0));
         assertTrue(br.readLine().contains("[configProperty] purge: false"));

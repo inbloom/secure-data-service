@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
+
+  
+  <!-- Illustrative use of DELETE -->
+  <Action ActionType="DELETE" Cascade="true">
+  	
+  	<ParentReference>
+  		<ParentIdentity>
+  			<ParentUniqueStateId>CAP0-D0-HSch0-stu78-dad78</ParentUniqueStateId>
+  	    </ParentIdentity>		
+   </ParentReference>
+   
+    <StudentReference>
+  		<StudentIdentity>
+  			<StudentUniqueStateId>100000017</StudentUniqueStateId>
+  	    </StudentIdentity>		
+   </StudentReference>
+  	
+	<StudentParentAssociation>
+      <ParentReference>
+        <ParentIdentity>
+	      <ParentUniqueStateId>CAP0-D0-HSch0-stu78-mom78</ParentUniqueStateId>
+        </ParentIdentity>
+      </ParentReference>
+    <StudentReference>
+      <StudentIdentity>
+	    <StudentUniqueStateId>100000017</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    </StudentParentAssociation>
+
+</Action>
+
+</InterchangeStudentParent>

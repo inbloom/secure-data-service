@@ -16,16 +16,15 @@
 
 package org.slc.sli.dal.convert;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
-import org.slc.sli.common.domain.ContainerDocument;
-import org.slc.sli.common.domain.ContainerDocumentHolder;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -33,12 +32,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.slc.sli.common.domain.ContainerDocument;
+import org.slc.sli.common.domain.ContainerDocumentHolder;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 /**
  * @author pghosh
@@ -233,6 +232,9 @@ public class ContainerDocumentAccessor {
     }
 
     protected boolean deleteContainerDoc(final Entity entity) {
+        if( entity == null ) {
+            return false;
+        }
         return getLocation(entity.getType()).delete(entity);
     }
 
