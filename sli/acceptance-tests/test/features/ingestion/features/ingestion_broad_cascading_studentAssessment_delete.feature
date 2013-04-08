@@ -108,9 +108,9 @@ Scenario: Delete Orphan StudentAssessment with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentAssessment                         |        -1|
-#        | recordHash                                |        -1|
+        | recordHash                                |        -1|
 
-@wip
+
 Scenario: Delete Orphan StudentAssessment Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -131,4 +131,4 @@ Scenario: Delete Orphan StudentAssessment Reference with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentAssessment                         |        -1|
-#        | recordHash                                |        -1|      
+        | recordHash                                |        -1|      
