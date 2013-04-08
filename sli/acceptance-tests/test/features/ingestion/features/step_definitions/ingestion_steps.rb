@@ -3660,6 +3660,7 @@ def getEntityCounts(tenant)
 end
 
 And /I save the collection counts in "([^"]*)" tenant/ do |tenant|
+    @db         = @conn[convertTenantIdToDbName(tenant)]
     @beforeEntityCounts = getEntityCounts(tenant)
 end
 
