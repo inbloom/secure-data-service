@@ -15,11 +15,9 @@
  */
 package org.slc.sli.bulk.extract.treatment;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.common.migration.strategy.impl.AttendanceStrategyHelper;
 import org.slc.sli.domain.Entity;
 /**
  * Treat attendance entity.
@@ -27,25 +25,12 @@ import org.slc.sli.domain.Entity;
  *
  */
 public class AttendanceTreatment implements Treatment {
-    private static final String SCHOOL_YEAR = "schoolYear";
-    private static final String ATTENDANCE_EVENT = "attendanceEvent";
-    private static final String SCHOOL_YEAR_ATTENDANCE = "schoolYearAttendance";
 
     @Override
     public Entity apply(Entity entity) {
-        List<Map<String,Object>> attendances = new ArrayList<Map<String,Object>>();
-        Map<String, Object> schoolYearAttendance = new HashMap<String, Object>();
-        if (entity.getBody().containsKey(SCHOOL_YEAR)) {
-            schoolYearAttendance.put(SCHOOL_YEAR, entity.getBody().get(SCHOOL_YEAR));
-            entity.getBody().remove(SCHOOL_YEAR);
-        }
-
-        if (entity.getBody().containsKey(ATTENDANCE_EVENT)) {
-            schoolYearAttendance.put(ATTENDANCE_EVENT, entity.getBody().get(ATTENDANCE_EVENT));
-            entity.getBody().remove(ATTENDANCE_EVENT);
-        }
-        attendances.add(schoolYearAttendance);
-        entity.getBody().put(SCHOOL_YEAR_ATTENDANCE, attendances);
+        Map<String,Object> treated = AttendanceStrategyHelper.wrap(entity.getBody());
+        entity.getBody().clear();
+        entity.getBody().putAll(treated);
         return entity;
     }
 

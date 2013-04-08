@@ -41,7 +41,8 @@ public class AttendanceTreatmentTest {
     public void testApply() {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("schoolYear", "schoolYear");
-        body.put("attendanceEvent", "attendanceEvent");
+        List<Map<String,Object>> attendanceEvent = new ArrayList<Map<String,Object>>();
+        body.put("attendanceEvent", attendanceEvent);
 
         Entity entity = new BulkExtractEntity(body, "student");
         Entity treated = treat.apply(entity);
@@ -55,7 +56,7 @@ public class AttendanceTreatmentTest {
         Assert.assertNotNull(schoolYearAttendance.get("attendanceEvent"));
 
         Assert.assertEquals("schoolYear", schoolYearAttendance.get("schoolYear"));
-        Assert.assertEquals("attendanceEvent", schoolYearAttendance.get("attendanceEvent"));
+        Assert.assertNotNull(schoolYearAttendance.get("attendanceEvent"));
 
     }
 }
