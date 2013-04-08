@@ -266,6 +266,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
                               //target                          //source
             derivedFields.put("EducationOrganizationReference", "EducationalOrgReference");
             derivedFields.put("SchoolReference"               , "EducationalOrgReference");
+            derivedFields.put("EducationOrgReference"         , "EducationalOrgReference");
 
             for(String derivedField : derivedFields.keySet())
             {

@@ -3,6 +3,7 @@ Feature: Safe Deletion and Cascading Deletion
 
 Background: I have a landing zone route configured
 Given I am using local data store
+
 @wip
 Scenario: Delete Grading Period with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -57,12 +58,6 @@ Scenario: Delete Grading Period with cascade = false
 	Then there exist "1" "session" records like below in "Midgar" tenant. And I save this query as "session"
 	|field                                                           |value                                                |
 	|body.gradingPeriodReference                                     |0d88d7123ffea30a9bb12d557152518e560a65d5_id          |
-	#Then there exist "1" "yearlyTranscript" records like below in "Midgar" tenant. And I save this query as "reportCard"
-	#|field                                                           |value                                                |
-	#|reportCard.body.gradingPeriodId                                 |0d88d7123ffea30a9bb12d557152518e560a65d5_id          |
-	#Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "gradebookEntry"
-	#|field                                                           |value                                                |
-	#|gradebookEntry.body.gradingPeriodId                             |0d88d7123ffea30a9bb12d557152518e560a65d5_id          |
 	And I save the collection counts in "Midgar" tenant
     And I post "SafeGradingPeriodDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -78,8 +73,6 @@ Scenario: Delete Grading Period with cascade = false
 	And I should not see a warning log file created
     And I re-execute saved query "gradingPeriod" to get "1" records
     And I re-execute saved query "session" to get "1" records
-    #And I re-execute saved query "reportCard" to get "0" records
-    #And I re-execute saved query "gradebookEntry" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |gradingPeriod|   0|
@@ -90,8 +83,8 @@ Scenario: Delete Grading Period with cascade = false
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
 	Then there exist "1" "gradingPeriod" records like below in "Midgar" tenant. And I save this query as "gradingPeriod"
-	|field                                                           |value                                                |
-	|_id                                                             |4f3309cd97c95b466a7348605287ab327e492608_id          |
+	|field  |value                                                |
+	|_id    |4f3309cd97c95b466a7348605287ab327e492608_id          |
 	And I save the collection counts in "Midgar" tenant
     And I post "OrphanGradingPeriodDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -106,8 +99,6 @@ Scenario: Delete Grading Period with cascade = false
     And I should not see an error log file created
 	And I should not see a warning log file created
     And I re-execute saved query "gradingPeriod" to get "0" records
-    #And I re-execute saved query "reportCard" to get "0" records
-    #And I re-execute saved query "gradebookEntry" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |gradingPeriod|  -1|
@@ -135,8 +126,6 @@ Scenario: Delete Orphan GradingPeriod Reference with cascade = false
     And I should not see an error log file created
 	And I should not see a warning log file created
     And I re-execute saved query "gradingPeriod" to get "0" records
-    #And I re-execute saved query "reportCard" to get "0" records
-    #And I re-execute saved query "gradebookEntry" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |gradingPeriod|  -1|
