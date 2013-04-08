@@ -20,7 +20,7 @@ Scenario: Delete Student Cohort Association with cascade
 	And I should not see any entity mandatorily referring to "271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_ide3e74d25c695f1e27d2272bcbe12351cd02a78c1_id" in the "Midgar" database
 	And I should see entities optionally referring to "271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_ide3e74d25c695f1e27d2272bcbe12351cd02a78c1_id" be updated in the "Midgar" database
 
-	
+	@wip
 	Scenario: Delete StudentCohortAssociation with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -42,5 +42,4 @@ Scenario: Delete Student Cohort Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|    
         | studentCohortAssociation                  |        -1| 
-#        | recordHash                                |      	 -1|	
-	
+        | recordHash                                |      	 -1|

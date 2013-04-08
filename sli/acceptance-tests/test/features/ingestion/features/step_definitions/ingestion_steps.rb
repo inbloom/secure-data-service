@@ -3635,7 +3635,6 @@ def getEntityCounts(tenant)
                      "roles",
                      "applicationAuthorization",
                      "custom_entities",
-                     "recordHash",
                      "customRole",
                      "adminDelegation"]
      disable_NOTABLESCAN

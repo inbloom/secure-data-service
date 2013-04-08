@@ -74,7 +74,7 @@ Scenario: Delete Cohort with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|    
         | cohort                                    |         0| 
-#        | recordHash                                |      	 -1|
+        | recordHash                                |      	  0|
 
 
 	Scenario: Delete Orphan Cohort with cascade = false
@@ -98,7 +98,7 @@ Scenario: Delete Cohort with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|    
         | cohort                                    |        -1| 
-#        | recordHash                                |      	 -1|
+        | recordHash                                |      	 -1|
 
 @wip
 	Scenario: Delete Orphan Cohort with cascade = false
@@ -122,4 +122,4 @@ Scenario: Delete Cohort with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|    
         | cohort                                    |        -1| 
-#        | recordHash                                |      	 -1|
+        | recordHash                                |      	 -1|

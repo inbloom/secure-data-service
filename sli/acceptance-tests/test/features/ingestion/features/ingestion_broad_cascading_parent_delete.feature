@@ -65,7 +65,7 @@ Scenario: Delete Orphan Parent with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | parent                                    |        -1|       
-#        | recordHash                                |        -1|   
+        | recordHash                                |        -1|
 
 @wip
 Scenario: Delete Orphan Parent Reference with cascade = false
@@ -88,6 +88,6 @@ Scenario: Delete Orphan Parent Reference with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | parent                                    |        -1|       
-#        | recordHash                                |        -1|   
+        | recordHash                                |        -1|
 
 	

@@ -34,7 +34,7 @@ Scenario: Delete Grade with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |grade       |   -1|
-        #|recordHash  |    -1|
+        |recordHash  |    -1|
     And I should not see "861efe5627b2c10ac01441b9afd26903398585bc_id091159fdc8200451fc5482189b29f7b9749ba775_id" in the "Midgar" database
 
 Scenario: Delete Grade without cascade, using just Action Type of Delete without cascade flag to verify default
@@ -92,7 +92,7 @@ Scenario: Delete Orphan Grade without cascade using body
         | collection            |delta|
         |yearlyTranscript       |   -1|
         |grade                  |   -1|
-        #|recordHash             |   -1|
+        |recordHash             |   -1|
 
 @wip
 Scenario: Delete Orphan Grade without cascade using reference
@@ -120,7 +120,7 @@ Scenario: Delete Orphan Grade without cascade using reference
         | collection            |delta|
         |yearlyTranscript       |   -1|
         |grade                  |   -1|
-        #|recordHash             |   -1|
+        |recordHash             |   -1|
 
 @wip
 Scenario: Delete Grade without cascade with reference, using just Action Type of Delete without cascade flag to verify default

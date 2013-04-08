@@ -28,7 +28,7 @@ Scenario: Delete Teacher School Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |teacherSchoolAssociation   |   -1|
-        #|recordHash                 |   -1|
+        |recordHash                 |   -1|
 	And I should not see "185f8333b893edd803f880463a2a193d60715743_id" in the "Midgar" database
 
 
@@ -55,5 +55,5 @@ Scenario: Delete Orphan Teacher School Association cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |teacherSchoolAssociation   |   -1|
-        #|recordHash                 |   -1|
+        |recordHash                 |   -1|
 	And I should not see "185f8333b893edd803f880463a2a193d60715743_id" in the "Midgar" database

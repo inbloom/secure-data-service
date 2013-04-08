@@ -41,7 +41,7 @@ Scenario: Delete Grading Period with cascade
         | collection |delta|
         |gradingPeriod|   -1|
         |session      |   -1|
-        |recordHash   |    0|
+        |recordHash   |   -1|
 	And I should not see "0d88d7123ffea30a9bb12d557152518e560a65d5_id" in the "Midgar" database
 #gradingPeriod.yearlyTranscript This relationship is missing from Odin data
 #gradingPeriod.section This relationship is missing from Odin data	
@@ -112,7 +112,8 @@ Scenario: Delete Grading Period with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |gradingPeriod|  -1|
-@wip        
+        |recordHash   |  -1|
+@wip
 Scenario: Delete Orphan GradingPeriod Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -139,3 +140,4 @@ Scenario: Delete Orphan GradingPeriod Reference with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |gradingPeriod|  -1|
+        |recordHash   |  -1|
