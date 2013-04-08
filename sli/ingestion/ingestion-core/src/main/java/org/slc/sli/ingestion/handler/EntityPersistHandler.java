@@ -165,10 +165,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 // error during safe delete
                 throw new SafeDeleteException(result.getStatus(), id, entity.getType(), result.getErrors());
             }
-            cleanupRecordHash( result );
 
             return entity;
-
 
         } else {
             entity.removeAction();
