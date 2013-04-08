@@ -2,9 +2,18 @@
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
                                   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
     <Action ActionType="DELETE" Cascade="false">
-
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Course-South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>CRS-1</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
         <Course>
-            <CourseTitle>Course-Kindergarten</CourseTitle>
+            <CourseTitle>Kindergarten</CourseTitle>
             <NumberOfParts>1</NumberOfParts>
             <CourseCode IdentificationSystem="School course code">
                 <ID>1</ID>
@@ -31,7 +40,7 @@
             <CareerPathway>Education and Training</CareerPathway>
             <EducationOrganizationReference>
                 <EducationalOrgIdentity>
-                    <StateOrganizationId>Course-South Daybreak Elementary</StateOrganizationId>
+                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
             </EducationOrganizationReference>
             <LearningObjectiveReference>
@@ -70,25 +79,30 @@
                 </LearningObjectiveIdentity>
             </LearningObjectiveReference>
             <CompetencyLevels>
-                <CodeValue>CRS-Incompetent</CodeValue>
+                <CodeValue>Incompetent</CodeValue>
             </CompetencyLevels>
             <CompetencyLevels>
-                <CodeValue>CRS-Barely Competent</CodeValue>
+                <CodeValue>Barely Competent</CodeValue>
             </CompetencyLevels>
             <CompetencyLevels>
-                <CodeValue>CRS-Competent</CodeValue>
+                <CodeValue>Competent</CodeValue>
             </CompetencyLevels>
             <CompetencyLevels>
-                <CodeValue>CRS-Very Competent</CodeValue>
+                <CodeValue>Very Competent</CodeValue>
             </CompetencyLevels>
-            <UniqueCourseId>CRS-1</UniqueCourseId>
+            <UniqueCourseId>1</UniqueCourseId>
         </Course>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School-South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
         <School>
-            <StateOrganizationId>School-South Daybreak Elementary</StateOrganizationId>
+            <StateOrganizationId>Wombridge Infants</StateOrganizationId>
             <EducationOrgIdentificationCode IdentificationSystem="School">
                 <ID>South Daybreak Elementary</ID>
             </EducationOrgIdentificationCode>
-            <NameOfInstitution>School Orphan-South Daybreak Elementary</NameOfInstitution>
+            <NameOfInstitution>South Daybreak Elementary (Elementary School)</NameOfInstitution>
             <OrganizationCategories>
                 <OrganizationCategory>School</OrganizationCategory>
             </OrganizationCategories>
@@ -122,9 +136,10 @@
             <AdministrativeFundingControl>Other</AdministrativeFundingControl>
             <LocalEducationAgencyReference>
                 <EducationalOrgIdentity>
-                    <StateOrganizationId>School-IL-DAYBREAK</StateOrganizationId>
+                    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
                 </EducationalOrgIdentity>
             </LocalEducationAgencyReference>
         </School>
+
     </Action>
 </InterchangeEducationOrganization>
