@@ -37,7 +37,10 @@ public enum ReferenceConverter {
 
     GRADINGPERIOD( "GradingPeriodReference", "gradingPeriod"),
     SESSION( "SessionReference", "session"),
-    COURSEOFFERING( "CourseOfferingReference", "courseOffering");
+    COURSEOFFERING( "CourseOfferingReference", "courseOffering"),
+
+
+    SECTION("SectionReference","section");
 
 
     /*
@@ -46,9 +49,6 @@ public enum ReferenceConverter {
     GRADING_PERIOD( "GradingPeriodReference", "gradingPeriod"),
     SESSION( "SessionReference", "session"),
     COURSE_OFFERING(""),
-    SECTION(),
-    STUDENT_ASSESSMENT(),
-    COHORT(),
     STUDENT_GRADES(),
 
     /*
