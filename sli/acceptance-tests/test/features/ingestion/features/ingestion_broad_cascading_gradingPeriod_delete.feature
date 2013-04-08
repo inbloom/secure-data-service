@@ -47,7 +47,6 @@ Scenario: Delete Grading Period with cascade
 #gradingPeriod.section This relationship is missing from Odin data	
 
 
-
 Scenario: Delete Grading Period with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -92,7 +91,7 @@ Scenario: Delete Grading Period with cascade = false
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
 	Then there exist "1" "gradingPeriod" records like below in "Midgar" tenant. And I save this query as "gradingPeriod"
 	|field                                                           |value                                                |
-	|_id                                                             |329336b1d5fab016abba61edc4261b57d7fcde58_id          |
+	|_id                                                             |4f3309cd97c95b466a7348605287ab327e492608_id          |
 	And I save the collection counts in "Midgar" tenant
     And I post "OrphanGradingPeriodDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -113,6 +112,7 @@ Scenario: Delete Grading Period with cascade = false
         | collection |delta|
         |gradingPeriod|  -1|
         |recordHash   |  -1|
+
 @wip
 Scenario: Delete Orphan GradingPeriod Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -120,7 +120,7 @@ Scenario: Delete Orphan GradingPeriod Reference with cascade = false
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
 	Then there exist "1" "gradingPeriod" records like below in "Midgar" tenant. And I save this query as "gradingPeriod"
 	|field                                                           |value                                                |
-	|_id                                                             |329336b1d5fab016abba61edc4261b57d7fcde58_id          |
+	|_id                                                             |4f3309cd97c95b466a7348605287ab327e492608_id          |
 	And I save the collection counts in "Midgar" tenant
     And I post "OrphanGradingPeriodRefDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone

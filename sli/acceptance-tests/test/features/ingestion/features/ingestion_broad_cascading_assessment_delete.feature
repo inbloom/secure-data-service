@@ -1,7 +1,7 @@
 @RALLY_US5180
 Feature: Safe Deletion and Cascading Deletion
 #assessment	studentAssessment	assessmentId	1	1	studentAssessment		
-#assessment	section	assessmentReferences	0	N	section		
+#assessment	section	assessmentReferences	0	N	section	missing!
 
 Background: I have a landing zone route configured
 Given I am using local data store
