@@ -183,11 +183,11 @@ Scenario: Delete Student with cascade = false
     And I post "SafeStudentDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeStudentDelete.zip" is completed in database
-	  And I should see "Processed 1 records." in the resulting batch job file
-		And I should see "records deleted successfully: 0" in the resulting batch job file
-	  And I should see "records failed processing: 1" in the resulting batch job file
-#    And I should not see an error log file created
-	  And I should not see a warning log file created
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 0" in the resulting batch job file
+	And I should see "records failed processing: 1" in the resulting batch job file
+    And I should see "CORE_0066" in the resulting error log file for "InterchangeStudentParent.xml"
+    And I should not see a warning log file created
     And I re-execute saved query "student" to get "1" records
     And I re-execute saved query "attendance" to get "2" records
     And I re-execute saved query "disciplineAction" to get "8" records
@@ -222,11 +222,11 @@ Scenario: Delete Orphan Student with cascade = false
     And I post "OrphanStudentDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanStudentDelete.zip" is completed in database
-	  And I should see "Processed 1 records." in the resulting batch job file
-		And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
-	  And I should not see a warning log file created
+	And I should not see a warning log file created
     And I re-execute saved query "student" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
@@ -245,11 +245,11 @@ Scenario: Delete Orphan Student Reference with cascade = false
     And I post "OrphanStudentRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanStudentRefDelete.zip" is completed in database
-	  And I should see "Processed 1 records." in the resulting batch job file
-		And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
-	  And I should not see a warning log file created
+	And I should not see a warning log file created
     And I re-execute saved query "student" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
