@@ -30,7 +30,8 @@ public enum ReferenceConverter {
     ASSESSMENT( "AssessmentReference", "assessment"),
     TEACHER( "TeacherReference", "teacher"),
     ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily"),
-    SCHOOL( "SchoolReference", "school");
+    SCHOOL( "SchoolReference", "school"),
+    COHORT("CohortReference","cohort");
 
     /*
     CLASS_PERIOD("ClassPeriodReference", "classPeriod"),
