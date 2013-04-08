@@ -16,7 +16,10 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       And I click on Admin
       Then I should be on the admin page
       And under System Tools, I click on "Manage Developer Accounts"
+      #These two waits were added by the operator to improve test reliability
+      And I wait for "5" seconds
       And I switch to the iframe
+      And I wait for "2" seconds
       Then I am redirected to the "Sandbox Account Management" page
 
       Then I delete the user "RCTestDev PartTwo" if exists
@@ -49,7 +52,10 @@ Feature: RC Sandbox Integration - Developer Account Management Tool (DAMT)
       And I click on Admin
       Then I should be on the admin page
       And under System Tools, I click on "Manage Developer Accounts"
+      #These two waits were added by the operator to improve test reliability
+      And I wait for "5" seconds
       And I switch to the iframe
+      And I wait for "2" seconds
       Then I am redirected to the "Sandbox Account Management" page
       When I click the "edit" link for "RCTestDev PartTwo"
       Then I am redirected to "Update a User" page
