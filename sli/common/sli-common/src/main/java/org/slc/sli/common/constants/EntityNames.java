@@ -24,6 +24,7 @@ public final class EntityNames {
     public static final String ADMIN_DELEGATION = "adminDelegation";
     public static final String AGGREGATION = "aggregation";
     public static final String AGGREGATION_DEFINITION = "aggregationDefinition";
+    public static final String APPLICATION = "application";
     public static final String ASSESSMENT = "assessment";
     public static final String ASSESSMENT_FAMILY = "assessmentFamily";
     public static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
@@ -72,5 +73,4 @@ public final class EntityNames {
     public static final String TEACHER = "teacher";
     public static final String TEACHER_SCHOOL_ASSOCIATION = "teacherSchoolAssociation";
     public static final String TEACHER_SECTION_ASSOCIATION = "teacherSectionAssociation";
-    public static final String APPLICATION = "application";
 }

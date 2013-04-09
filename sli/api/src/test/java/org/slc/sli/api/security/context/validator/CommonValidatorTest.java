@@ -82,6 +82,7 @@ public class CommonValidatorTest {
         ignored.add(EntityNames.ADMIN_DELEGATION);
         ignored.add(EntityNames.AGGREGATION);
         ignored.add(EntityNames.AGGREGATION_DEFINITION);
+        ignored.add(EntityNames.APPLICATION);
         ignored.add(EntityNames.ASSESSMENT_FAMILY);
         ignored.add(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
         ignored.add(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPE);
