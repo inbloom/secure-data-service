@@ -117,7 +117,6 @@ Scenario: Delete Student with cascade
     And I should not see "908404e876dd56458385667fa383509035cd4312_id" in the "Midgar" database
 
 
-@wip
 Scenario: Delete Student with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -212,7 +211,6 @@ Scenario: Delete Student with cascade = false
         | collection                                |     delta|
         | student                                   |         0|        
 
-@wip
 Scenario: Delete Orphan Student with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
