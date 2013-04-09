@@ -74,9 +74,9 @@ Scenario: Delete Teacher with cascade = false
         |field                                     |value                                                                                 |
         |_id                                       |31c87f975b69371f2172bbdf5fd8fac612014ba0_id                                           |
     And I save the collection counts in "Midgar" tenant
-    And I post "OrphanStaffDelete.zip" file as the payload of the ingestion job
+    And I post "OrphanTeacherDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "OrphanStaffDelete.zip" is completed in database
+    And a batch job for file "OrphanTeacherDelete.zip" is completed in database
 	  And I should see "Processed 1 records." in the resulting batch job file
 		And I should see "records deleted successfully: 1" in the resulting batch job file
 	  And I should see "records failed processing: 0" in the resulting batch job file
