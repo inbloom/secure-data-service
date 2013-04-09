@@ -41,9 +41,9 @@ Scenario: Error when attempting safe delete using reference for unsupported enti
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
     And I save the collection counts in "Midgar" tenant
-    And I post "OrphanAttendanceEventDelete.zip" file as the payload of the ingestion job
+    And I post "OrphanGradeReferenceDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "OrphanAttendanceEventDelete.zip" is completed in database
+    And a batch job for file "OrphanGradeReferenceDelete.zip" is completed in database
 	And I should see "Processed 1 records." in the resulting batch job file
 	And I should see "records deleted successfully: 0" in the resulting batch job file
 	And I should see "records failed processing: 1" in the resulting batch job file
