@@ -110,9 +110,9 @@ Then /^I can see the on\-boarded states$/ do
   assert(found, "At least one state should exist")
 end
 
-When /^I select a state$/ do
+When /^I select the state "([^"]*)"$/ do |arg1|
   options = @driver.find_elements(:css, 'div#state-menu select option')
-  step "I select the \"#{options[1].text}\""
+  step "I select the \"#{arg1}\""
 end
 
 Then /^I see all of the Districts$/ do
