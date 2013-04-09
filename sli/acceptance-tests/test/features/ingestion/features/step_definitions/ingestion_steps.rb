@@ -3586,6 +3586,10 @@ Then /^the data from "(.*?)" is imported$/ do |directory|
         db=x.split("_")[1].to_s
         coll=x.split("_")[2].to_s.split(".")[0].to_s
         if x != "." && x != ".."
+            #hack - splitting on underscore doesn't work on custom_entities
+            if coll=="custom"
+                coll="custom_entities"
+            end
             `mongoimport --db #{db} --collection #{coll} #{directory}/#{x}`
         end
     }
@@ -3634,7 +3638,6 @@ def getEntityCounts(tenant)
                      "application",
                      "roles",
                      "applicationAuthorization",
-                     "custom_entities",
                      "customRole",
                      "adminDelegation"]
      disable_NOTABLESCAN

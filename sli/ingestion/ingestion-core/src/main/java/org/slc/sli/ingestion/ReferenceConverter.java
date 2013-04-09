@@ -28,7 +28,7 @@ public enum ReferenceConverter {
     CALENDAR_DATE( "CalendarDateReference", "calendarDate"),
     EDORG( "EducationalOrgReference", "educationOrganization"),
     ASSESSMENT( "AssessmentReference", "assessment"),
-    TEACHER( "TeacherReference", "teacher"),
+    STAFF( "StaffReference", "staff"),
     ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily"),
     SCHOOL( "SchoolReference", "school"),
 
