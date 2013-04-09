@@ -203,17 +203,21 @@ Given /^I set up a fake tar file on the file system and in Mongo$/ do
   
   db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
   src_coll = db["bulkExtractFiles"]
-  src_coll.insert({"_id" => SecureRandom.uuid, "body" => {"isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%Y-%m-%d"), "path" => Dir.pwd + "/fake.tar"}})
+  @fake_tar_id = SecureRandom.uuid
+  src_coll.insert({"_id" => @fake_tar_id, "body" => {"isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%Y-%m-%d"), "path" => Dir.pwd + "/fake.tar"}})
 end
 
 Then /^I see that the response matches what I put in the fake tar file$/ do
   assert(@plain == $FAKE_FILE_TEXT, "Decrypted text in 'tar' file did not match, expected #{$FAKE_FILE_TEXT} received #{@plain}")
 end
 
-Given /^I remove the fake tar file and remove its reference in Mongo$/ do
-  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+After('@fakeTar') do 
+#Given /^I remove the fake tar file and remove its reference in Mongo$/ do
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
+  db ||= conn.db('sli')
   path = Dir.pwd + "/fake.tar"
   src_coll = db["bulkExtractFiles"]
-  src_coll.remove({"body.path" => path})
+  src_coll.remove({"_id" => @fake_tar_id})
   File.delete(path)
+  conn.close()
 end
