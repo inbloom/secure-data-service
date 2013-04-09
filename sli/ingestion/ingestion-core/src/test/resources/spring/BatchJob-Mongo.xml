@@ -34,5 +34,5 @@
 
   <bean class="org.slc.sli.ingestion.dal.StagingEntityEncryption" />
 
-
+  <bean class="org.slc.sli.validation.schema.SchemaReferencesMetaData"/>
 </beans>

@@ -135,6 +135,7 @@ class AppsController < ApplicationController
     @app.vendor = dev_info[:vendor]
     @app.is_admin = boolean_fix @app.is_admin
     @app.installed = boolean_fix @app.installed
+    @app.isBulkExtract = boolean_fix @app.isBulkExtract
     logger.debug{"Application is valid? #{@app.valid?}"}
     respond_to do |format|
       if @app.save
@@ -160,6 +161,7 @@ class AppsController < ApplicationController
     logger.debug("App params are #{params[:app].inspect}")
     params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
     params[:app][:installed] = boolean_fix params[:app][:installed]
+    params[:app][:isBulkExtract] = boolean_fix params[:app][:isBulkExtract]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
     params[:app].delete_if {|key, value| ["administration_url", "image_url", "application_url", "redirect_uri"].include? key and value.length == 0 }
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app

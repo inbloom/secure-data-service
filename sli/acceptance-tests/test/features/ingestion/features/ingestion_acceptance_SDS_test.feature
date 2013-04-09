@@ -134,7 +134,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 11    |
    Then I should see following map of entry counts in the corresponding sli db collections:
         | collectionName              | count |
-        | securityEvent               | 149   |
+        | securityEvent               | 207   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | attendance                  | 11                  | body.attendanceEvent.event | Tardy         | string     |
@@ -418,9 +418,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id | body.educationOrgId       | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
     | objectiveAssessment                  | d50118aaad960b54a8b2afc7268d01d13842cb58_id482743e46032284fc880ec785f8a4a9db16bafc3_id | body.subObjectiveAssessment.0 | ACT-English-Usage |
     | objectiveAssessment                  | d50118aaad960b54a8b2afc7268d01d13842cb58_id482743e46032284fc880ec785f8a4a9db16bafc3_id | body.subObjectiveAssessment.1 | ACT-English-Rhetorical |
-    | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
-    | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
-    | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
+    | studentCohortAssociation             | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
+    | studentCohortAssociation             | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
+    | studentCohortAssociation             | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
     | studentAssessment         | d8e0b70696b616712641162668edffe64511abcc_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
     | studentAssessment         | d8e0b70696b616712641162668edffe64511abcc_id | body.assessmentId         | 8be1b9e5f8b4274b0e0fd49ffe0e199297e0cb30_id |
     | studentAssessment         | 4f3903628a3e67a727cbd88c5cc68aae17f243e5_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
@@ -432,7 +432,7 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.competencyLevel.codeValue    | 777                                  |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id  |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
-	| studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
+  | studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
     | studentGradebookEntry                | 56751666983beeaa65cf74c1178f1f824fe02659_id | body.studentId                    | 97144661247f1646b4e284fbc4584afd35a00549_id    |
     | studentGradebookEntry                | 56751666983beeaa65cf74c1178f1f824fe02659_id | body.studentSectionAssociationId  | 135963f2abd3320ae508546fbff31f37e10b949e_id9c8a94ce380481ecda4e95068f5bb69a29da3c58_id    |
     | studentGradebookEntry                | 56751666983beeaa65cf74c1178f1f824fe02659_id | body.gradebookEntryId             | 135963f2abd3320ae508546fbff31f37e10b949e_ide9add8e4ac3753fbb70d39d0909026ac852d3305_id    |
@@ -507,109 +507,109 @@ And I check that multiple educationOrganization ids were generated properly:
 @smoke
 Scenario: Verify references were resolved correctly
   And I check that references were resolved correctly:
-    | entityCollection                      | entityId                             													 | referenceField                                | referenceCollection                        |
-	#assessment
-	| studentAssessment                     | d8e0b70696b616712641162668edffe64511abcc_id | body.assessmentId							 | assessment						 		  |
-	#calendarDate
-	|gradingPeriod                        	| a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id 											 | body.calendarDateReference                	 | calendarDate								  |
-	#cohort
-	| staffCohortAssociation                | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id 											 | body.cohortId                       			 | cohort									  |
-    | studentCohortAssociation              | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             					 | cohort									  |
-	#courseOffering
-	| section                      			| b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id 											 | body.courseOfferingId 						 | courseOffering							  |
-	#course
-	| courseOffering						| fee52ec62018d167371308be20b8a9096a6b2410_id											 | body.courseId								 | course									  |
-	| courseTranscript                      | 774599b82398ed463809785b565aec75a64f6359_id 											 | body.courseId                				 | course                                     |
-	#disciplineIncident
-	| disciplineAction						| 70b8c1f4b77823bf5ede69389e13b0487f32e720_id											 | body.disciplineIncidentId					 | disciplineIncident						  |
-	| studentDisciplineIncidentAssociation  | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.disciplineIncidentId    				 | disciplineIncident						  |
-	#educationOrganization
-	| attendance                           | d0c9f4e72313c4f185fdbc9b1ed3d8859a641dfe_id 											 | body.schoolId                        		 | educationOrganization 					  |
-	| cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id 											 | body.educationOrgId                      	 | educationOrganization 					  |
-    | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id 											 | body.schoolId  								 | educationOrganization                      |
-  	| courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id 											 | body.schoolId                        		 | educationOrganization 					  |
-  	| disciplineAction                     | 9c4d62d9af758b3b7124836ffc75afd98a858c6b_id 											 | body.assignmentSchoolId              		 | educationOrganization 					  |
-    | disciplineAction                     | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id 											 | body.responsibilitySchoolId          		 | educationOrganization 					  |
-    | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id 											 | body.schoolId                        		 | educationOrganization 					  |
+    | entityCollection                      | entityId                                                       | referenceField                                | referenceCollection                        |
+  #assessment
+  | studentAssessment                     | d8e0b70696b616712641162668edffe64511abcc_id | body.assessmentId              | assessment                 |
+  #calendarDate
+  |gradingPeriod                          | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id                        | body.calendarDateReference                  | calendarDate                 |
+  #cohort
+  | staffCohortAssociation                | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id                        | body.cohortId                             | cohort                   |
+    | studentCohortAssociation              | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId                       | cohort                   |
+  #courseOffering
+  | section                           | b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id                        | body.courseOfferingId             | courseOffering               |
+  #course
+  | courseOffering            | fee52ec62018d167371308be20b8a9096a6b2410_id                      | body.courseId                 | course                   |
+  | courseTranscript                      | 774599b82398ed463809785b565aec75a64f6359_id                        | body.courseId                         | course                                     |
+  #disciplineIncident
+  | disciplineAction            | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id                      | body.disciplineIncidentId           | disciplineIncident             |
+  | studentDisciplineIncidentAssociation  | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.disciplineIncidentId             | disciplineIncident             |
+  #educationOrganization
+  | attendance                           | d0c9f4e72313c4f185fdbc9b1ed3d8859a641dfe_id                       | body.schoolId                             | educationOrganization            |
+  | cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id                       | body.educationOrgId                         | educationOrganization            |
+    | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id                       | body.schoolId                   | educationOrganization                      |
+    | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id                       | body.schoolId                             | educationOrganization            |
+    | disciplineAction                     | 9c4d62d9af758b3b7124836ffc75afd98a858c6b_id                       | body.assignmentSchoolId                   | educationOrganization            |
+    | disciplineAction                     | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id                       | body.responsibilitySchoolId               | educationOrganization            |
+    | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id                       | body.schoolId                             | educationOrganization            |
 
-    | educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id                                             | body.parentEducationAgencyReference           | educationOrganization 					  |
-	| educationOrganization                | 64d6f51699270b047483e27846880ede195425e0_id                                             | body.localEducationAgencyReference            | educationOrganization 					  |
-	| educationOrganization                | a13489364c2eb015c219172d561c62350f0453f3_id 											 | body.parentEducationAgencyReference      	 | educationOrganization 					  |
+    | educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id                                             | body.parentEducationAgencyReference           | educationOrganization            |
+  | educationOrganization                | 64d6f51699270b047483e27846880ede195425e0_id                                             | body.localEducationAgencyReference            | educationOrganization            |
+  | educationOrganization                | a13489364c2eb015c219172d561c62350f0453f3_id                       | body.parentEducationAgencyReference         | educationOrganization            |
 
-   	| gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id 											 | body.gradingPeriodIdentity.schoolId      	 | educationOrganization 					  |
-   	| graduationPlan                       | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id 											 | body.educationOrganizationId					 | educationOrganization					  |
-    | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id 											 | body.schoolId                            	 | educationOrganization 					  |
-    | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id 											 | body.schoolId                        		 | educationOrganization 					  |
-	| staffEducationOrganizationAssociation| 5a000d037de00063995e84fdc3d0f91d9afb4b65_id 											 | body.educationOrganizationReference  		 | educationOrganization 					  |
-    | studentCompetencyObjective           | 85aa230afd51cfbe761c883bc7694ebb0ba2f867_id 											 | body.educationOrganizationId         		 | educationOrganization 					  |
-    | studentProgramAssociation            | a50802f02c7e771d979f7d5b3870c500014e6803_idcf81759eafe33b0f1280caa1ea1922fc578ef9c7_id  | body.educationOrganizationId 				 | educationOrganization 					  |
-	| studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id 											 | body.schoolId             					 | educationOrganization  					  |
-    | teacherSchoolAssociation             | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id 											 | body.schoolId                       			 | educationOrganization 					  |
-	#grade
-	| reportCard							| 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id25a038f1108526afc18cc2351de481388b84878c_id											 | body.grades									 | grade									  |
-	#gradebookEntry
-	| studentGradebookEntry					| acbc46150673fc24cbf23530c1baf408682f60de_id											 | body.gradebookEntryId						 | gradebookEntry							  |
-	#gradingPeriod
-	| session								| 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id											 | body.gradingPeriodReference					 | gradingPeriod							  |
-	| reportCard                            | 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id25a038f1108526afc18cc2351de481388b84878c_id 											 | body.gradingPeriodId 						 | gradingPeriod                       		  |
-	| grade                                 | 0f3a7dbe3e7404583c126f3869c8d413ae1e88e0_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id 											 | body.gradingPeriodId                 		 | gradingPeriod 							  |
-	| gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_id88cb14f9fbf459281d79c7c0561d6d9542989e02_id | body.gradingPeriodId							 | gradingPeriod							  |
-	#graduationPlan
-	| studentSchoolAssociation				| 53570e4b376fc1466f47eb3f2c0404f5b17eae37_id											 | body.graduationPlanId						| graduationPlan							  |
-	#learningObjective
-    | studentCompetency                     | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											 | body.objectiveId.learningObjectiveId         | learningObjective							  |
-	#learningStandard
-	| learningObjective						| e7ca691a652808cedd4fc8abd1275c94f9679e56_id											 | body.learningStandards						| learningStandard							  |
-	#parent
-	| studentParentAssociation              | 067198fd6da91e1aa8d67e28e850f224d6851713_id482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.parentId             					| parent 									  |
-	#program
-	| studentProgramAssociation				| a50802f02c7e771d979f7d5b3870c500014e6803_id98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.programId 								| program									  |
-	| cohort								| d4141f13a54a30a0daef0adced5db8ef9c3d8879_id											 | body.programId								| program									  |
-	| educationOrganization					| b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id											 | body.programReference						| program									  |
-	| staffProgramAssociation				| 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id											 | body.programId								| program									  |
-	| section								| 135963f2abd3320ae508546fbff31f37e10b949e_id											 | body.programReference						| program									  |
-	#reportCard
-	| studentAcademicRecord					| 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id31b7513b764bed826297307baa560d88e211e687_id											 | body.reportCards								| reportCard								  |
-	#section
-	| gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       		| section									  |
-	| studentSectionAssociation			    | 84432d70656e1ab68df27cf2584282da351ab684_id3c11fbcc6e93af20a926e17438af188c53bc02ea_id | body.sectionId								| section									  |
-	| teacherSectionAssociation             | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId            					| section									  |
-	| studentGradebookEntry					| 5e4a91f91f408fc9e50cfed32c18e46858839e78_id											 | body.sectionId								| section									  |
-	#session
-	| courseOffering                        | a6c96dcc34fc021f685b6d082c7759b070731f93_id 											 | body.sessionId                      			| session 									  |
-	| studentAcademicRecord                 | 3d7e898167fe27b1fa393f979a5f6bf89e6dcc04_id2c10dec5f74762e0fcdd0ba8d547d9b9f4f34b57_id 											 | body.sessionId                       		| session									  |
-	| section								| b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id											 | body.sessionId								| session									  |
-	#studentAcademicRecord
-	| courseTranscript                      | 774599b82398ed463809785b565aec75a64f6359_id 											 | body.studentAcademicRecordId                 | studentAcademicRecord	                      |
-	#staff
-	| disciplineAction                      | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id 											 | body.staffId                      			| staff 									  |
-	| disciplineIncident					| 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id											 | body.staffId									| staff										  |
-	| staffCohortAssociation                | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id 											 | body.staffId                        			| staff 									  |
-	| staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id 											 | body.staffReference                 			| staff										  |
-	| staffProgramAssociation               | 1c0ea205ed43afc88096ce626f22bd07a30d2729_id 											 | body.staffId                        			| staff										  |
-	| teacherSchoolAssociation              | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id 											 | body.teacherId                      			| staff										  |
-    | teacherSectionAssociation             | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId            					| staff										  |
-	#studentCompetency
-	| reportCard							| 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id25a038f1108526afc18cc2351de481388b84878c_id											 | body.studentCompetencyId						| studentCompetency							  |
-	#studentCompetencyObjective
-	| studentCompetency						| 0d1963676e1627e9a971d748851f549fdc9528c6_id											 | body.objectiveId.studentCompetencyObjectiveId | studentCompetencyObjective				  |
-	#student
-	| studentCohortAssociation              | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId           					| student									  |
-    | studentDisciplineIncidentAssociation  | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.studentId              					| student									  |
-	| studentParentAssociation              | 067198fd6da91e1aa8d67e28e850f224d6851713_id482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.studentId            					| student									  |
-	| studentProgramAssociation             | a50802f02c7e771d979f7d5b3870c500014e6803_id98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.studentId            					| student									  |
-    | studentSchoolAssociation              | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id 											 | body.studentId            					| student									  |
-	| studentSectionAssociation             | 84432d70656e1ab68df27cf2584282da351ab684_id3c11fbcc6e93af20a926e17438af188c53bc02ea_id | body.studentId            					| student									  |
-	| attendance                            | d0c9f4e72313c4f185fdbc9b1ed3d8859a641dfe_id 											 | body.studentId                      			| student									  |
-	| disciplineAction						| 70b8c1f4b77823bf5ede69389e13b0487f32e720_id											 | body.studentId								| student									  |
-	| reportCard                            | 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id25a038f1108526afc18cc2351de481388b84878c_id 											 | body.studentId 								| student                       			  |
-    | studentAcademicRecord                 | 3d7e898167fe27b1fa393f979a5f6bf89e6dcc04_id2c10dec5f74762e0fcdd0ba8d547d9b9f4f34b57_id 											 | body.studentId                       		| student									  |
-	| studentAssessment	         		    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentId            					| student 									  |
-	#studentSectionAssociation
-	| studentGradebookEntry           | 56751666983beeaa65cf74c1178f1f824fe02659_id 											| body.studentSectionAssociationId  			| studentSectionAssociation				  |
-	| grade                           | 0f3a7dbe3e7404583c126f3869c8d413ae1e88e0_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id 										  | body.studentSectionAssociationId  			| studentSectionAssociation				  |
-	| studentCompetency               | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											| body.studentSectionAssociationId  			| studentSectionAssociation  			  |
-	
+    | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id                       | body.gradingPeriodIdentity.schoolId         | educationOrganization            |
+    | graduationPlan                       | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id                       | body.educationOrganizationId          | educationOrganization            |
+    | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id                       | body.schoolId                               | educationOrganization            |
+    | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id                       | body.schoolId                             | educationOrganization            |
+  | staffEducationOrganizationAssociation| 5a000d037de00063995e84fdc3d0f91d9afb4b65_id                       | body.educationOrganizationReference       | educationOrganization            |
+    | studentCompetencyObjective           | 85aa230afd51cfbe761c883bc7694ebb0ba2f867_id                       | body.educationOrganizationId              | educationOrganization            |
+    | studentProgramAssociation            | 067198fd6da91e1aa8d67e28e850f224d6851713_idcf81759eafe33b0f1280caa1ea1922fc578ef9c7_id  | body.educationOrganizationId          | educationOrganization            |
+  | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id                       | body.schoolId                       | educationOrganization              |
+    | teacherSchoolAssociation             | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id                       | body.schoolId                             | educationOrganization            |
+  #grade
+  | reportCard              | 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id25a038f1108526afc18cc2351de481388b84878c_id                       | body.grades                   | grade                    |
+  #gradebookEntry
+  | studentGradebookEntry         | acbc46150673fc24cbf23530c1baf408682f60de_id                      | body.gradebookEntryId             | gradebookEntry               |
+  #gradingPeriod
+  | session               | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id                      | body.gradingPeriodReference           | gradingPeriod                |
+  | reportCard                            | 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id25a038f1108526afc18cc2351de481388b84878c_id                       | body.gradingPeriodId              | gradingPeriod                            |
+  | grade                                 | 0f3a7dbe3e7404583c126f3869c8d413ae1e88e0_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id                       | body.gradingPeriodId                      | gradingPeriod                |
+  | gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_id88cb14f9fbf459281d79c7c0561d6d9542989e02_id | body.gradingPeriodId              | gradingPeriod                |
+  #graduationPlan
+  | studentSchoolAssociation        | 53570e4b376fc1466f47eb3f2c0404f5b17eae37_id                      | body.graduationPlanId            | graduationPlan                |
+  #learningObjective
+    | studentCompetency                     | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id                        | body.objectiveId.learningObjectiveId         | learningObjective               |
+  #learningStandard
+  | learningObjective           | e7ca691a652808cedd4fc8abd1275c94f9679e56_id                      | body.learningStandards           | learningStandard                |
+  #parent
+  | studentParentAssociation              | 067198fd6da91e1aa8d67e28e850f224d6851713_id482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.parentId                      | parent                    |
+  #program
+  | studentProgramAssociation       | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.programId                 | program                   |
+  | cohort                | d4141f13a54a30a0daef0adced5db8ef9c3d8879_id                      | body.programId               | program                   |
+  | educationOrganization         | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id                      | body.programReference            | program                   |
+  | staffProgramAssociation       | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id                      | body.programId               | program                   |
+  | section               | 135963f2abd3320ae508546fbff31f37e10b949e_id                      | body.programReference            | program                   |
+  #reportCard
+  | studentAcademicRecord         | 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id31b7513b764bed826297307baa560d88e211e687_id                       | body.reportCards               | reportCard                  |
+  #section
+  | gradebookEntry                        | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                           | section                   |
+  | studentSectionAssociation         | 84432d70656e1ab68df27cf2584282da351ab684_id3c11fbcc6e93af20a926e17438af188c53bc02ea_id | body.sectionId               | section                   |
+  | teacherSectionAssociation             | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId                     | section                   |
+  | studentGradebookEntry         | 5e4a91f91f408fc9e50cfed32c18e46858839e78_id                      | body.sectionId               | section                   |
+  #session
+  | courseOffering                        | a6c96dcc34fc021f685b6d082c7759b070731f93_id                        | body.sessionId                           | session                     |
+  | studentAcademicRecord                 | 3d7e898167fe27b1fa393f979a5f6bf89e6dcc04_id2c10dec5f74762e0fcdd0ba8d547d9b9f4f34b57_id                       | body.sessionId                           | session                   |
+  | section               | b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id                      | body.sessionId               | session                   |
+  #studentAcademicRecord
+  | courseTranscript                      | 774599b82398ed463809785b565aec75a64f6359_id                        | body.studentAcademicRecordId                 | studentAcademicRecord                       |
+  #staff
+  | disciplineAction                      | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id                        | body.staffId                           | staff                     |
+  | disciplineIncident          | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id                      | body.staffId                 | staff                     |
+  | staffCohortAssociation                | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id                        | body.staffId                             | staff                     |
+  | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id                        | body.staffReference                      | staff                     |
+  | staffProgramAssociation               | 1c0ea205ed43afc88096ce626f22bd07a30d2729_id                        | body.staffId                             | staff                     |
+  | teacherSchoolAssociation              | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id                        | body.teacherId                           | staff                     |
+    | teacherSectionAssociation             | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId                     | staff                     |
+  #studentCompetency
+  | reportCard              | 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id25a038f1108526afc18cc2351de481388b84878c_id                       | body.studentCompetencyId           | studentCompetency               |
+  #studentCompetencyObjective
+  | studentCompetency           | 0d1963676e1627e9a971d748851f549fdc9528c6_id                      | body.objectiveId.studentCompetencyObjectiveId | studentCompetencyObjective         |
+  #student
+  | studentCohortAssociation              | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId                     | student                   |
+    | studentDisciplineIncidentAssociation  | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.studentId                       | student                   |
+  | studentParentAssociation              | 067198fd6da91e1aa8d67e28e850f224d6851713_id482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.studentId                     | student                   |
+  | studentProgramAssociation             | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.studentId                     | student                   |
+    | studentSchoolAssociation              | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id                        | body.studentId                     | student                   |
+  | studentSectionAssociation             | 84432d70656e1ab68df27cf2584282da351ab684_id3c11fbcc6e93af20a926e17438af188c53bc02ea_id | body.studentId                     | student                   |
+  | attendance                            | d0c9f4e72313c4f185fdbc9b1ed3d8859a641dfe_id                        | body.studentId                           | student                   |
+  | disciplineAction            | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id                      | body.studentId               | student                   |
+  | reportCard                            | 95fc25511ba26de62a7fd9f3b0b8cd9300727462_id25a038f1108526afc18cc2351de481388b84878c_id                       | body.studentId                 | student                               |
+    | studentAcademicRecord                 | 3d7e898167fe27b1fa393f979a5f6bf89e6dcc04_id2c10dec5f74762e0fcdd0ba8d547d9b9f4f34b57_id                       | body.studentId                           | student                   |
+  | studentAssessment                 | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentId                      | student                     |
+  #studentSectionAssociation
+  | studentGradebookEntry           | 56751666983beeaa65cf74c1178f1f824fe02659_id                       | body.studentSectionAssociationId        | studentSectionAssociation         |
+  | grade                           | 0f3a7dbe3e7404583c126f3869c8d413ae1e88e0_id1372cf96377b8aa5e28baf4058efb929f5d4db18_id                      | body.studentSectionAssociationId        | studentSectionAssociation         |
+  | studentCompetency               | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id                       | body.studentSectionAssociationId        | studentSectionAssociation         |
+  
 @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Sunset"

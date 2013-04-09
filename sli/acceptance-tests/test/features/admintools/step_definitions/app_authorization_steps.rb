@@ -126,12 +126,7 @@ end
 Given /^in Status it says "([^"]*)"$/ do |arg1|
   statusIndex = 4
   
-  rows = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
-  rows.each do |curRow|
-    if curRow.displayed?
-      @appRow = curRow
-    end
-  end
+  @appRow = getApp(@appName)
   actualStatus = @appRow.find_element(:xpath, ".//td[#{statusIndex}]").text
   assert(actualStatus == arg1, "Expected status of #{@appName} to be #{arg1} instead it's #{actualStatus.inspect}")
 end
@@ -154,7 +149,7 @@ Given /^I am asked 'Do you really want this application to access the district's
 end
 
 Then /^the application is authorized to use data of "([^"]*)"$/ do |arg1|
-  row = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
+  row = getApp(@appName)
   assert(row != nil)
 end
 
@@ -170,17 +165,8 @@ Then /^is put on the top of the table$/ do
 end
 
 Then /^the app "([^"]*)" Status becomes "([^"]*)"$/ do |app, arg1|
-  rows = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{app}']/..")
-  visible_rows = []
-  rows.each do |curRow|
-    if curRow.displayed?
-      visible_rows << curRow
-      break
-    end
-  end
-  puts("Multiple rows found for app #{app}") if visible_rows.length > 1
-  assert(visible_rows.length != 0, "Could not find application #{app}")
-  @row = visible_rows[0]
+  @row = getApp(app)
+  assert(@row.displayed?, "#{app} should be present and visible")
   assertWithWait("Status should have switched to #{arg1}"){  @row.find_element(:xpath, ".//td[4]").text == arg1} 
 end
 
@@ -216,7 +202,7 @@ Given /^I am asked 'Do you really want deny access to this application of the di
 end
 
 Then /^the application is denied to use data of "([^"]*)"$/ do |arg1|
-  row = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
+  row = getApp(@appName)
   assertWithWait("wait added to ensure appropriate time in CI for update to occur") {row != nil}
 end
 
@@ -238,6 +224,11 @@ Then /^the Deny button next to it is disabled$/ do
   end
 end
 
+Then /^I see that it has an alert about bulk extract$/ do
+  app = @driver.find_element(:xpath, ".//tbody/tr/td/div")
+  assert(!app.nil?, "There should be #{@appName} with a warning about Bulk Extract")
+end
+
 Given /^I am a valid District Super Administrator for "([^"]*)"$/ do |arg1|
   #No code needed
 end
@@ -248,6 +239,20 @@ Given /^I am an authenticated District Super Administrator for "([^"]*)"$/ do |a
   step "I was redirected to the \"Simple\" IDP Login page"
   step "I submit the credentials \"sunsetadmin\" \"sunsetadmin1234\" for the \"Simple\" login page"
   step "I am redirected to the Admin Application Authorization Tool"
+end
+
+private
+def getApp(name)
+  rows = @driver.find_elements(:xpath, ".//tbody/tr")
+  results = []
+  for row in rows
+    appName = row.find_elements(:xpath, 'td')
+    fixedName = appName[0].text.sub(/Bulk Extract application request/,"").strip
+    if fixedName == name
+      return row      
+    end
+  end
+  return nil
 end
 
 

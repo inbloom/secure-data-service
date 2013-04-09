@@ -17,14 +17,6 @@ Then I am redirected to the Application Registration Tool page
 And I see all of the applications that are registered to SLI
 And those apps are sorted by the Last Update column
 
-Scenario: Non-SLI hosted user tries to access the App Registration Tool
-
-Given I am a valid IT Administrator "administrator" from the "SLI" hosted directory
-When I hit the Application Registration Tool URL
-And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "administrator" "administrator1234" for the "Simple" login page
-Then the api should generate a 403 error
-
 Scenario: Register a new application
 
 Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory

@@ -66,7 +66,7 @@ public class BulkExtractMongoDA {
         body.put(TENANT_ID, tenantId);
         body.put(FILE_PATH, path);
         body.put(DATE, date);
-        body.put(IS_DELTA, isDelta);
+        body.put(IS_DELTA, Boolean.toString(isDelta));
 
         BulkExtractEntity bulkExtractEntity = new BulkExtractEntity(body, tenantId);
 

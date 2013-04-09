@@ -1,0 +1,4091 @@
+<?xml version="1.0"?>
+<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
+  <CourseOffering>
+    <LocalCourseCode>49</LocalCourseCode>
+    <LocalCourseTitle>Kindergarten</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>1</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>50</LocalCourseCode>
+    <LocalCourseTitle>First grade</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>2</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>51</LocalCourseCode>
+    <LocalCourseTitle>Second grade</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>3</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>52</LocalCourseCode>
+    <LocalCourseTitle>Third grade</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>4</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>53</LocalCourseCode>
+    <LocalCourseTitle>Fourth grade</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>5</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>54</LocalCourseCode>
+    <LocalCourseTitle>Fifth grade</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>6</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>103</LocalCourseCode>
+    <LocalCourseTitle>Kindergarten</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>1</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>104</LocalCourseCode>
+    <LocalCourseTitle>First grade</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>2</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>105</LocalCourseCode>
+    <LocalCourseTitle>Second grade</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>3</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>106</LocalCourseCode>
+    <LocalCourseTitle>Third grade</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>4</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>107</LocalCourseCode>
+    <LocalCourseTitle>Fourth grade</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>5</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>108</LocalCourseCode>
+    <LocalCourseTitle>Fifth grade</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>6</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>205</LocalCourseCode>
+    <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>7</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>206</LocalCourseCode>
+    <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>8</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>207</LocalCourseCode>
+    <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>9</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>208</LocalCourseCode>
+    <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>10</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>209</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>11</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>210</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>12</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>211</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>13</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>212</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>14</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>213</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>15</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>214</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>16</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>215</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>17</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>216</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>18</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>313</LocalCourseCode>
+    <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>7</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>314</LocalCourseCode>
+    <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>8</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>315</LocalCourseCode>
+    <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>9</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>316</LocalCourseCode>
+    <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>10</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>317</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>11</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>318</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>12</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>319</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>13</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>320</LocalCourseCode>
+    <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>14</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>321</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>15</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>322</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>16</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>323</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>17</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>324</LocalCourseCode>
+    <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>18</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>453</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>19</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>454</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>20</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>455</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>21</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>456</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>22</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>457</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>23</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>458</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>24</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>459</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>25</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>460</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>26</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>461</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>27</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>462</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>28</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>463</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>29</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>464</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>30</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>465</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>31</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>466</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>32</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>467</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>33</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>468</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>34</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>597</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>19</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>598</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>20</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>599</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>21</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>600</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>22</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>601</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>23</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>602</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>24</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>603</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>25</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>604</LocalCourseCode>
+    <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>26</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>605</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>27</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>606</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>28</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>607</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>29</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>608</LocalCourseCode>
+    <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>30</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>609</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>31</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>610</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>32</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>611</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>33</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <LocalCourseCode>612</LocalCourseCode>
+    <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>34</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <Section>
+    <UniqueSectionCode>1</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Nine month year hour credit" CreditConversion="1">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>453</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>2</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Nine month year hour credit" CreditConversion="0">
+        <Credit>2</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>454</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>3</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Quarter hour credit" CreditConversion="1">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>455</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>4</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Other" CreditConversion="1">
+        <Credit>1</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>456</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>5</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Quarter hour credit" CreditConversion="0">
+        <Credit>0</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>601</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>6</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Semester hour credit" CreditConversion="1">
+        <Credit>2</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>602</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>7</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Trimester hour credit" CreditConversion="0">
+        <Credit>4</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>603</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>8</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Carnegie unit" CreditConversion="1">
+        <Credit>4</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>604</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>9</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Twelve month year hour credit" CreditConversion="0">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>597</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>10</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Other" CreditConversion="0">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>598</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>11</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>599</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>12</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Trimester hour credit" CreditConversion="0">
+        <Credit>2</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>600</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>13</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Nine month year hour credit" CreditConversion="0">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>205</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>14</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Trimester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>206</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>15</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Nine month year hour credit" CreditConversion="1">
+        <Credit>0</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>207</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>16</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Other" CreditConversion="1">
+        <Credit>0</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>208</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>17</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Nine month year hour credit" CreditConversion="1">
+        <Credit>2</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>209</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>18</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Trimester hour credit" CreditConversion="0">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>210</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>19</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Quarter hour credit" CreditConversion="0">
+        <Credit>0</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>211</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>20</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Other" CreditConversion="0">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>212</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>21</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Quarter hour credit" CreditConversion="1">
+        <Credit>2</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>213</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>22</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Other" CreditConversion="0">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>214</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>23</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Twelve month year hour credit" CreditConversion="1">
+        <Credit>0</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>215</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>24</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Quarter hour credit" CreditConversion="1">
+        <Credit>1</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>216</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>25</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Trimester hour credit" CreditConversion="0">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>321</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>26</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Twelve month year hour credit" CreditConversion="1">
+        <Credit>0</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>322</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>27</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Twelve month year hour credit" CreditConversion="1">
+        <Credit>4</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>323</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>28</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Twelve month year hour credit" CreditConversion="1">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>324</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>29</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Twelve month year hour credit" CreditConversion="1">
+        <Credit>2</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>317</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>30</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Twelve month year hour credit" CreditConversion="0">
+        <Credit>0</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>318</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>31</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Carnegie unit" CreditConversion="1">
+        <Credit>1</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>319</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>32</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Other" CreditConversion="1">
+        <Credit>1</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>320</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>33</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Trimester hour credit" CreditConversion="1">
+        <Credit>1</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>313</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>34</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>314</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>35</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Quarter hour credit" CreditConversion="0">
+        <Credit>2</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>315</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>36</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>4</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>316</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>37</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>2</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>49</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>38</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Twelve month year hour credit" CreditConversion="1">
+        <Credit>1</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>50</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>39</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Nine month year hour credit" CreditConversion="1">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>51</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>40</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Quarter hour credit" CreditConversion="1">
+        <Credit>2</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>52</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>41</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Quarter hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>53</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>42</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Nine month year hour credit" CreditConversion="0">
+        <Credit>4</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>54</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>43</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Other" CreditConversion="0">
+        <Credit>0</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>108</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>44</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Quarter hour credit" CreditConversion="0">
+        <Credit>4</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>107</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>45</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>0</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>106</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>46</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>105</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>47</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Trimester hour credit" CreditConversion="0">
+        <Credit>3</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>104</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+</InterchangeMasterSchedule>

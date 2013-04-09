@@ -31,27 +31,31 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.MongoException;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.MongoException;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.CascadeResultError;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * JUnits for DAL
@@ -59,7 +63,7 @@ import com.mongodb.MongoException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityRepositoryTest {
-    
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -74,8 +78,8 @@ public class EntityRepositoryTest {
     @Test
     public void testDeleteAll() {
         repository.deleteAll("student", null);
-        
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
+
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
         mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         Map<String, Object> studentMap = buildTestStudentEntity();
@@ -90,9 +94,259 @@ public class EntityRepositoryTest {
         neutralQuery.addCriteria(new NeutralCriteria("firstName=John"));
         repository.deleteAll("student", neutralQuery);
         assertEquals(4, repository.count("student", new NeutralQuery()));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys); 
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
+    }
+
+    private AccessibilityCheck access = new AccessibilityCheck() {
+        // grant access to all entities
+        // TODO exercise access denied logic
+        @Override
+        public boolean accessibilityCheck(String id) {
+            return true;
+        }
+    };
+
+    private AccessibilityCheck accessDenied = new AccessibilityCheck() {
+        int count = 0;
+        // grant access to no entities
+        // TODO exercise access denied logic
+        @Override
+        public boolean accessibilityCheck(String id) {
+            count++;
+            if (count > 1) {
+                // deny access after the first check
+                return false;
+            }
+            return true;
+        }
+    };
+
+    @Test
+    public void testSafeDelete() {
+//        testSafeDeleteHelper(collectionName, overridingId, cascade, dryrun, maxObjects, access, leafDataOnly,
+//                leafDataOnly, expectedNObjects, expectedDepth, expectedStatus)
+
+        // Test leaf node delete success : cascade=false and dryrun=false
+        testSafeDeleteHelper("gradingPeriod", null, false, false, null, access, true, 1, 1, CascadeResult.Status.SUCCESS, null);
+
+        // Test leaf node delete failure : cascade=false and dryrun=false
+        testSafeDeleteHelper("gradingPeriod", null, false, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS);
+
+        // Test cascade=false and dryrun=true
+        testSafeDeleteHelper("gradingPeriod", null, false, true, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS);
+
+        // Test cascade=true and dryrun=true
+        testSafeDeleteHelper("gradingPeriod", null, true, true, null, access, false, 4, 2, CascadeResult.Status.SUCCESS, null);
+
+        // Test cascade=true and dryrun=false
+        testSafeDeleteHelper("gradingPeriod", null, true, false, null, access, false, 4, 2, CascadeResult.Status.SUCCESS, null);
+
+        // Test maxobjects
+        testSafeDeleteHelper("gradingPeriod", null, true, false, 2, access, false, 4, 2, CascadeResult.Status.MAX_OBJECTS_EXCEEDED, null);
+
+        // Test access denied
+        testSafeDeleteHelper("gradingPeriod", null, true, false, null, accessDenied, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.ACCESS_DENIED);
+
+        // Test deletion from a non-existent collection
+        testSafeDeleteHelper("nonexistentCollection", null, true, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DELETE_ERROR);
+
+        // Test deletion of a non-existent id
+        testSafeDeleteHelper("gradingPeriod", "noMatchId", true, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DELETE_ERROR);
+
+    }
+
+    public void testSafeSessionDelete() {
+//        testSafeDeleteHelper(collectionName, overridingId, cascade, dryrun, maxObjects, access, leafDataOnly,
+//                leafDataOnly, expectedNObjects, expectedDepth, expectedStatus)
+
+        // Test leaf node delete success : cascade=false and dryrun=false
+        testSafeDeleteHelper("session", null, false, false, null, access, true, 1, 1, CascadeResult.Status.SUCCESS, null);
+
+        // Test leaf node delete failure : cascade=false and dryrun=false
+        testSafeDeleteHelper("session", null, false, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS);
+
+        // Test cascade=false and dryrun=true
+        testSafeDeleteHelper("session", null, false, true, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS);
+
+        // Test cascade=true and dryrun=true
+        testSafeDeleteHelper("session", null, true, true, null, access, false, 4, 2, CascadeResult.Status.SUCCESS, null);
+
+        // Test cascade=true and dryrun=false
+        testSafeDeleteHelper("session", null, true, false, null, access, false, 4, 2, CascadeResult.Status.SUCCESS, null);
+
+        // Test maxobjects
+        testSafeDeleteHelper("session", null, true, false, 2, access, false, 4, 2, CascadeResult.Status.MAX_OBJECTS_EXCEEDED, null);
+
+        // Test access denied
+        testSafeDeleteHelper("session", null, true, false, null, accessDenied, false, 2, 2, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.ACCESS_DENIED);
+
+        // Test deletion from a non-existent collection
+        testSafeDeleteHelper("nonexistentCollection", null, true, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DATABASE_ERROR);
+
+        // Test deletion of a non-existent id
+        testSafeDeleteHelper("session", "noMatchId", true, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DATABASE_ERROR);
+
+    }
+
+    private void testSafeDeleteHelper(String collectionName, String overridingId,
+            boolean cascade, boolean dryrun, Integer maxObjects, AccessibilityCheck access,
+            boolean leafDataOnly,int expectedNObjects, int expectedDepth,
+            CascadeResult.Status expectedStatus, CascadeResultError.ErrorType expectedErrorType) {
+        System.out.println("Testing safeDelete: ");
+        System.out.println("   entity type             : " + collectionName);
+        System.out.println("   override id             : " + overridingId);
+        System.out.println("   cascade                 : " + cascade);
+        System.out.println("   dryrun                  : " + dryrun);
+        System.out.println("   maxObjects              : " + maxObjects);
+        System.out.println("   leaf data only          : " + leafDataOnly);
+        System.out.println("   expected affected count : " + expectedNObjects);
+        System.out.println("   expected depth          : " + expectedDepth);
+
+        CascadeResult result = null;
+        String idToDelete = prepareSafeDeleteGradingPeriodData(leafDataOnly);
+
+        // used to test bad id scenario
+        if (overridingId != null) {
+            idToDelete = overridingId;
+        }
+
+        result = repository.safeDelete(collectionName, null, idToDelete, cascade, dryrun, maxObjects, access);
+
+        // check for at least one instance of the expected error type
+        boolean errorMatchFound = false;
+        List<CascadeResultError> errors = result.getErrors();
+        if (expectedErrorType == null && errors != null && errors.size() == 0) {
+            errorMatchFound = true;
+        } else {
+            for(CascadeResultError error : errors) {
+                if (error.getErrorType() == expectedErrorType) {
+                    errorMatchFound = true;
+                    break;
+                }
+            }
+        }
+
+        for(CascadeResultError error : result.getErrors()) {
+            System.out.println(error);
+        }
+
+        //   verify expected results
+        assertEquals(expectedNObjects, result.getnObjects());
+        assertEquals(expectedDepth, result.getDepth());
+        assertEquals(expectedStatus, result.getStatus());
+        assertTrue(errorMatchFound);
+    }
+
+    private String prepareSafeDeleteGradingPeriodData(boolean justLeaf) {
+        clearSafeDeleteGradingPeriodData();
+
+        // populate the leaf grading period entity to be deleted
+        String idToDelete = prepareSafeDeleteGradingPeriodLeafData();
+
+        if (!justLeaf) {
+            prepareSafeDeleteGradingPeriodReferenceData(idToDelete);
+        }
+
+        return idToDelete;
+    }
+
+    private void clearSafeDeleteGradingPeriodData() {
+        repository.deleteAll("gradingPeriod", null);
+        repository.deleteAll("session", null);
+        repository.deleteAll(MongoRepository.CUSTOM_ENTITY_COLLECTION, null);
+        repository.deleteAll("yearlyTranscript", null); // actual mongo collection for grade and reportCard
+    }
+
+    private String prepareSafeDeleteGradingPeriodLeafData() {
+        DBObject indexKeys =  new BasicDBObject("body.beginDate", 1);
+        mongoTemplate.getCollection("gradingPeriod").ensureIndex(indexKeys);
+
+        // create a minimal gradingPeriod document
+        Map<String, Object> gradingPeriodIdentity = new HashMap<String, Object>();
+        gradingPeriodIdentity.put("gradingPeriod", "gradingPeriod1");
+        gradingPeriodIdentity.put("schoolYear", "2011-2012");
+        gradingPeriodIdentity.put("schoolId", "schoolId1");
+        Map<String, Object> gradingPeriodBody = new HashMap<String, Object>();
+        gradingPeriodBody.put("gradingPeriodIdentity", gradingPeriodIdentity);
+        gradingPeriodBody.put("beginDate", "beginDate1");
+        repository.create("gradingPeriod", gradingPeriodBody);
+
+        // get the db id of the gradingPeriod - there is only one
+        NeutralQuery neutralQuery = new NeutralQuery();
+        Entity gradingPeriod1 = repository.findOne("gradingPeriod", neutralQuery);
+        return gradingPeriod1.getEntityId();
+    }
+
+    private void prepareSafeDeleteGradingPeriodReferenceData(String idToDelete) {
+        DBObject indexKeys =  new BasicDBObject("body.gradingPeriodId", 1);
+        mongoTemplate.getCollection("grade").ensureIndex(indexKeys);
+        mongoTemplate.getCollection("gradeBookEntry").ensureIndex(indexKeys);
+        mongoTemplate.getCollection("reportCard").ensureIndex(indexKeys);
+        mongoTemplate.getCollection(MongoRepository.CUSTOM_ENTITY_COLLECTION).ensureIndex("metaData." + MongoRepository.CUSTOM_ENTITY_ENTITY_ID);
+        DBObject indexKeysList =  new BasicDBObject("body.gradingPeriodReference", 1);
+        mongoTemplate.getCollection("session").ensureIndex(indexKeysList);
+
+        // add a custom entity referencing the entity to be deleted
+        Map<String, Object> customEntityMetaData = new HashMap<String, Object>();
+        customEntityMetaData.put(MongoRepository.CUSTOM_ENTITY_ENTITY_ID, idToDelete);
+        Map<String, Object> customEntityBody = new HashMap<String, Object>();
+        customEntityBody.put("customBodyData", "customData1");
+        repository.create(MongoRepository.CUSTOM_ENTITY_COLLECTION, customEntityBody, customEntityMetaData, MongoRepository.CUSTOM_ENTITY_COLLECTION);
+        customEntityMetaData.put(MongoRepository.CUSTOM_ENTITY_ENTITY_ID, "nonMatchingId");
+        customEntityBody.put("customBodyData", "customData2");
+        repository.create(MongoRepository.CUSTOM_ENTITY_COLLECTION, customEntityBody, customEntityMetaData, MongoRepository.CUSTOM_ENTITY_COLLECTION);
+
+        // add referencing grade entities
+        Map<String, Object> gradeMap = new HashMap<String, Object>();
+        gradeMap.put("studentId", "studentId1");
+        gradeMap.put("sectionId", "sectionId1");
+        gradeMap.put("schoolYear", "2011-2012");
+        gradeMap.put("gradingPeriodId", "noMatch");
+        repository.create("grade", gradeMap); // add one non-matching document
+        gradeMap.put("studentId", "studentId2");
+        gradeMap.put("sectionId", "sectionId2");
+        gradeMap.put("schoolYear", "2011-2012");
+        gradeMap.put("gradingPeriodId", idToDelete);
+        repository.create("grade", gradeMap); // add matching document
+
+//        // add referencing gradeBookEntry entities  -  excluded since the reference type is the same as grade
+//        Map<String, Object> gradeBookEntryMap = new HashMap<String, Object>();
+//        gradeBookEntryMap.put("gradebookEntryType", "gradebookEntryType1");
+//        gradeBookEntryMap.put("sectionId", "sectionId1");
+//        gradeBookEntryMap.put("gradingPeriodId", idToDelete);
+//        repository.create("gradeBookEntry", gradeBookEntryMap); // add one non-matching document
+//        gradeBookEntryMap.put("gradebookEntryType", "gradebookEntryType2");
+//        gradeBookEntryMap.put("sectionId", "sectionId2");
+//        gradeBookEntryMap.put("gradingPeriodId", "noMatch");
+//        repository.create("gradeBookEntry", gradeBookEntryMap); // add matching document
+
+        // add referencing resportCard entities
+        Map<String, Object> reportCardMap = new HashMap<String, Object>();
+        reportCardMap.put("schoolYear", "2011-2012");
+        reportCardMap.put("studentId", "studentId1");
+        reportCardMap.put("gradingPeriodId", "noMatch");
+        repository.create("reportCard", reportCardMap); // add one non-matching document
+        reportCardMap.put("schoolYear", "2011-2012");
+        reportCardMap.put("studentId", "studentId2");
+        reportCardMap.put("gradingPeriodId", idToDelete);
+        repository.create("reportCard", reportCardMap); // add matching document
+
+        // create a minimal session document
+        Map<String, Object> sessionMap = new HashMap<String, Object>();
+        sessionMap.put("sessionName", "session1");
+        sessionMap.put("schoolId", "schoolId1");
+        List<String> gradingPeriodRefArray = new ArrayList<String>();
+        gradingPeriodRefArray.add("dog");
+        sessionMap.put("gradingPeriodReference", gradingPeriodRefArray);
+        repository.create("session", sessionMap);
+        sessionMap.put("sessionName", "session2");
+        sessionMap.put("schoolId", "schoolId2");
+        gradingPeriodRefArray.add(idToDelete);
+        gradingPeriodRefArray.add("mousearama");
+        sessionMap.put("gradingPeriodReference", gradingPeriodRefArray);
+        repository.create("session", sessionMap);
     }
 
     @Test
@@ -249,8 +503,8 @@ public class EntityRepositoryTest {
     @Test
     public void testCount() {
         repository.deleteAll("student", null);
-        
-        DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1); 
+
+        DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1);
         mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         repository.create("student", buildTestStudentEntity());
@@ -264,9 +518,9 @@ public class EntityRepositoryTest {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=Nantucket"));
         assertEquals(1, repository.count("student", neutralQuery));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);        
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
     private Map<String, Object> buildTestStudentEntity() {
@@ -354,8 +608,8 @@ public class EntityRepositoryTest {
     @Test
     public void findOneTest() {
         repository.deleteAll("student", null);
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        mongoTemplate.getCollection("student").ensureIndex(indexKeys);        
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
@@ -367,15 +621,15 @@ public class EntityRepositoryTest {
         assertNotNull(this.repository.findOne("student", neutralQuery));
 
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);    
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
     @Test
     public void findOneMultipleMatches() {
         repository.deleteAll("student", null);
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        mongoTemplate.getCollection("student").ensureIndex(indexKeys);        
-        
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
+
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
         this.repository.create("student", student);
@@ -393,22 +647,22 @@ public class EntityRepositoryTest {
         assertNotNull(this.repository.findOne("student", neutralQuery));
 
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);     
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
     @Test
     public void findOneTestNegative() {
         repository.deleteAll("student", null);
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        mongoTemplate.getCollection("student").ensureIndex(indexKeys);        
-        
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
+
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
 
         assertNull(this.repository.findOne("student", neutralQuery));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);       
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
     @Test
@@ -416,7 +670,7 @@ public class EntityRepositoryTest {
         TenantContext.setTenantId("SLIUnitTest");
         repository.deleteAll("student", null);
 
-        DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1); 
+        DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1);
         mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         repository.create("student", buildTestStudentEntity());
@@ -431,9 +685,9 @@ public class EntityRepositoryTest {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=ABC"));
         assertEquals(1, repository.count("student", neutralQuery));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);         
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
     @Test
     public void testCreateWithMetadata() {

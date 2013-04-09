@@ -52,6 +52,16 @@
     </encoder>
   </appender>
 
+    <appender name="CDL_APPENDER" class="ch.qos.logback.core.FileAppender">
+        <File>${logging.path}/cascadingDelete.log</File>
+        <Append>true</Append>
+        <encoder>
+            <pattern>%date{dd MMM yyyy HH:mm:ss.SSSZ},%msg%n</pattern>
+            <!-- this quadruples logging throughput -->
+            <immediateFlush>false</immediateFlush>
+        </encoder>
+    </appender>
+
   <!-- jsa: temporarily debugging issues on deving1. -->
   <root level="info">
     <!-- <appender-ref ref="STDOUT"/> -->
@@ -75,4 +85,8 @@
   <logger name="org.milyn.delivery" level="ERROR" />
 
   <logger name="org.slc.sli" level="${sli.ingestion.log.level}" />
+
+  <logger name="CascadingDeletionLog" level="DEBUG">
+        <appender-ref ref="CDL_APPENDER" />
+  </logger>
 </configuration>

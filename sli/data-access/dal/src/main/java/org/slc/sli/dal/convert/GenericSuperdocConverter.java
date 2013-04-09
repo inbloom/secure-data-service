@@ -87,6 +87,10 @@ public class GenericSuperdocConverter {
         }
     }
 
+    protected void bodyToSubdocs(Entity parent, String subdocFieldName, String inBodyFieldName, String parentKey, SuperdocConverter.Option option) {
+        bodyToSubdocs(parent, subdocFieldName, inBodyFieldName, parentKey, null);
+    }
+
     protected void makeSubDocs(Entity parent, String subdocFieldName, String parentKey,
             List<Map<String, Object>> subdocFromBody) {
         List<Entity> subdocs = new ArrayList<Entity>();

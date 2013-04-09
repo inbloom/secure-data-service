@@ -22,8 +22,12 @@ Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"
   @sessionId=token
 end
 
-When /^I make bulk extract API call$/ do
+When /^I make API call to retrieve sampled bulk extract file$/ do
   restHttpGet("/bulk/extract")
+end
+
+When /^I make bulk extract API call$/ do
+  restHttpGet("/bulk/extract/tenant")
 end
 
 When /^I make API call to retrieve today's delta file$/ do
@@ -103,14 +107,17 @@ When /^the return code is 200 I get expected tar downloaded$/ do
 end
 
 Then /^I check the http response headers$/ do  
-  
-  if @res.code == 200
+
+  if @is_sampled_file
+    EXPECTED_LAST_MODIFIED = "Not Specified"
+    assert(@res.headers[:last_modified].to_s==EXPECTED_LAST_MODIFIED, "Last Modified date is wrong! Actual: #{@res.headers[:last_modified]} Expected: #{EXPECTED_LAST_MODIFIED}" )
+  elsif @res.code == 200
     @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
     coll = "bulkExtractFiles";
     src_coll = @db[coll]
     raise "Could not find #{coll} collection" if src_coll.count == 0
 
-    ref_doc = src_coll.find({"_id" => "Midgar"}).to_a
+    ref_doc = src_coll.find({"_id" => "Midgar", "body.tenantId" => "Midgar"}).to_a
     raise "Could not find #{coll} document with _id #{"Midgar"}" if ref_doc.count == 0
 
     puts "bulkExtractFiles record: #{ref_doc}"

@@ -33,6 +33,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -251,6 +253,16 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
         return repo.doUpdate(collection, query, update);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.slc.sli.domain.Repository#safeDelete(...)
+     */
+    @Override
+    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        return repo.safeDelete(collectionName, null, id, cascade, dryrun, maxObjects, access);
     }
 
     /*
