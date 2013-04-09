@@ -63,4 +63,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
     </StudentCompetencyObjective>
+   <CompetencyLevelDescriptor>
+       <CodeValue>CLD-CodeValue-CLD_1</CodeValue>
+       <Description>CompetencyLevelDesciptor Description CLD_1</Description>
+        <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
 </InterchangeStudentGrade>
