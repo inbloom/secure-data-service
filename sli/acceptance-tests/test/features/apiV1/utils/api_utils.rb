@@ -262,6 +262,7 @@ end
 Then /^in occurrence (\d+) I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |position, rel, href|
   position = position.to_i - 1
   foundInEntity = false
+  puts("\n-----\nThe result is #{@result[position].inspect}\n-----\n")
   @result[position]["links"].each do |link|
     if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
       foundInEntity = true
