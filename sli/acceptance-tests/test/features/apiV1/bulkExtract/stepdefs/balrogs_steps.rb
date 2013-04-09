@@ -59,6 +59,26 @@ When /^I save the extracted file$/ do
   File.open(@filePath, 'w') {|f| f.write(@res.body) }
 end
 
+When /^I decrypt and save the extracted file$/ do
+  @filePath = "extract/extract.tar"
+  @unpackDir = File.dirname(@filePath) + '/unpack'
+  if (!File.exists?("extract"))
+      FileUtils.mkdir("extract")
+  end
+  if (File.exists?(@filePath)) 
+      FileUtils.rm(@filePath)
+      puts "Removed existing #{@filePath}"
+  end
+  if (File.exists?(@unpackDir))
+      FileUtils.rm_r(@unpackDir)
+      puts "Removed existing #{@unpackDir}"
+  end
+
+  step "the response is decrypted"
+  File.open(@filePath, 'w') {|f| f.write(@plain) }
+end
+
+
 When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Midgar$/ do
     @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
     @coll = "bulkExtractFiles";

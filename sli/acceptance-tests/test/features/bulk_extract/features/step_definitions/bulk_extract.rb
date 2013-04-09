@@ -27,7 +27,7 @@ require 'open3'
 require 'openssl'
 include Archive::Tar
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
-
+require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb' #This is for the decryption step
 
 ############################################################
 # Scheduler
