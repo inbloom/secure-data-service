@@ -102,9 +102,6 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         } finally {
             IOUtils.closeQuietly(input);
 
-            if( !hasProcessedRecords()) {
-                validData = false;
-            }
 
             if (validData  ) {
                 sendDataBatch();
@@ -118,13 +115,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         }
     }
 
-    private boolean hasProcessedRecords() {
-        boolean status = false;
-        if( processedRecordCount.get() + state.get().getDataBatch().size() >= ignoredRecordCount.get()) {
-            status = true;
-        }
-        return status;
-    }
+
     protected void parse(InputStream input, Resource xsdSchema, ReportStats reportStats, Source source)
             throws SAXException, IOException, XmlParseException {
         EdfiRecordUnmarshaller.parse(input, xsdSchema, typeProvider, this, getMessageReport(), reportStats, source);
