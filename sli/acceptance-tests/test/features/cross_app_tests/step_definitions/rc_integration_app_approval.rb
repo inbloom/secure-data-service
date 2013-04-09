@@ -124,7 +124,8 @@ Then /^I request and download a bulk extract file$/ do
   if (!File.exists?("extract"))
       FileUtils.mkdir("extract")
   end
-  File.open(@filePath, 'w') {|f| f.write(@res.body) }
+  step "the response is decrypted"
+  File.open(@filePath, 'w') {|f| f.write(@plain) }
 
   assert(File.exists?(@filePath), "Bulk Extract file was unable to be download to: #{@filePath.to_s}")
 end
