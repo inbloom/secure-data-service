@@ -95,7 +95,6 @@ Scenario: Delete School with cascade
         | teacherSectionAssociation                 |       -11|                         
     And I should not see "352e8570bd1116d11a72755b987902440045d346_id" in the "Midgar" database
 
-
 Scenario: Delete School with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -169,6 +168,9 @@ Scenario: Delete Orphan School with cascade = false
     Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "school"
         |field                                     |value                                      |
         |_id                                       |bb6db4e34541d0c3a42bd9aa11f5da6b0f51cf38_id|
+    Then there exist "3" "custom_entities" records like below in "Midgar" tenant. And I save this query as "custom_entities"
+            |field                                     |value                                      |
+            |metaData.entityId                            |bb6db4e34541d0c3a42bd9aa11f5da6b0f51cf38_id|
     And I save the collection counts in "Midgar" tenant
     And I post "OrphanSchoolDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
@@ -179,10 +181,12 @@ Scenario: Delete Orphan School with cascade = false
     And I should not see an error log file created
 	  And I should not see a warning log file created
     And I re-execute saved query "school" to get "0" records
+    And I re-execute saved query "custom_entities" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | educationOrganization                     |        -1|
         | recordHash                                |        -1|
+        | custom_entities                           |        -3|
 
 Scenario: Delete Orphan School Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -191,6 +195,9 @@ Scenario: Delete Orphan School Reference with cascade = false
     Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "school"
         |field                                     |value                                      |
         |_id                                       |bb6db4e34541d0c3a42bd9aa11f5da6b0f51cf38_id|
+    Then there exist "3" "custom_entities" records like below in "Midgar" tenant. And I save this query as "custom_entities"
+        |field                                     |value                                      |
+        |metaData.entityId                            |bb6db4e34541d0c3a42bd9aa11f5da6b0f51cf38_id|
     And I save the collection counts in "Midgar" tenant
     And I post "OrphanSchoolRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
@@ -201,7 +208,9 @@ Scenario: Delete Orphan School Reference with cascade = false
     And I should not see an error log file created
 	And I should not see a warning log file created
     And I re-execute saved query "school" to get "0" records
+    And I re-execute saved query "custom_entities" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | educationOrganization                     |        -1|
         | recordHash                                |        -1|
+        | custom_entities                           |        -3|

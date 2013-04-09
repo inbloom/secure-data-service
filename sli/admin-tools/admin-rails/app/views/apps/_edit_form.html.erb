@@ -106,7 +106,7 @@
 <h3>Enable the districts you would like to use your application</h3>
 <div id="state-menu">
   <label class="inline">Select a state
-  <% state_array = @sea.map { |state| [state["name"], state["state"]]} %>
+  <% state_array = @sea.map { |state| [state["name"], state["sea_id"]]} %>
   <%= select_tag(:state_select, options_for_select(state_array), :prompt => 'Please select a state') %>
   </label>
 </div>

@@ -208,24 +208,24 @@ class AppsController < ApplicationController
     @results = []
 
     state_ed_orgs.each do |ed_org|
-      current = {"name" => ed_org.nameOfInstitution, "state" => ed_org.address[0].stateAbbreviation }
+      current = {"name" => ed_org.nameOfInstitution, "sea_id" => ed_org.id }
       @results.push current
     end
-    @results.sort! {|x, y| x["state"] <=> y["state"]}
+    @results.sort! {|x, y| x["name"] <=> y["name"]}
   end
 
   def get_local_edorgs
-    state = params[:state]
+    sea_id = params[:sea_id]
     @results = []
     count = 0
-    local = EducationOrganization.find(:all, :params => {"organizationCategories" => "Local Education Agency", "address.stateAbbreviation" => state, "limit" => 0})
+    local = EducationOrganization.find(:all, :params => {"organizationCategories" => "Local Education Agency", "parentEducationAgencyReference" => sea_id, "limit" => 0})
     until local.count == 0
       count += local.count
       local.each do |lea|
         temp = {"name" => lea.nameOfInstitution, "id" => lea.id}
         @results.push temp
       end
-      local = EducationOrganization.find(:all, :params => {"organizationCategories" => "Local Education Agency", "address.stateAbbreviation" => state, "offset" => count, "limit" => 0})
+      local = EducationOrganization.find(:all, :params => {"organizationCategories" => "Local Education Agency", "parentEducationAgencyReference" => sea_id, "offset" => count, "limit" => 0})
     end
     @results.sort! {|x, y| x["name"] <=> y["name"]}
     render :partial => "lea_list", :locals => {:results => @results, :sea => params[:state]}

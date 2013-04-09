@@ -88,7 +88,7 @@ public class GenericSuperdocConverter {
     }
 
     protected void bodyToSubdocs(Entity parent, String subdocFieldName, String inBodyFieldName, String parentKey, SuperdocConverter.Option option) {
-        bodyToSubdocs(parent, subdocFieldName, inBodyFieldName, parentKey, null);
+        bodyToSubdocs(parent, subdocFieldName, inBodyFieldName, parentKey);
     }
 
     protected void makeSubDocs(Entity parent, String subdocFieldName, String parentKey,
