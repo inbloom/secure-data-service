@@ -10,19 +10,19 @@ Scenario Outline: Verify simple entities were correctly extracted
    
 	Examples:
     | entity                                | user       | role             | realm       | tenant |
-	| student                               | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| studentParentAssociation              | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| studentDisciplineIncidentAssociation  | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| studentAssessment                     | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| assessment                            | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| section                               | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| studentSectionAssociation             | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| gradebookEntry                        | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| teacherSectionAssociation             | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| program                               | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| studentProgramAssociation             | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| cohort                                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| studentCohortAssociation              | jstevenson | IT Administrator | IL-Daybreak | Midgar |
-	| studentAcademicRecord                 | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| grade                                 | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| gradebookEntry                        | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| program                               | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| reportCard                            | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| section                               | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| student                               | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| studentAcademicRecord                 | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| studentAssessment                     | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| studentCohortAssociation              | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| studentDisciplineIncidentAssociation  | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| studentParentAssociation              | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| studentProgramAssociation             | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| studentSectionAssociation             | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| teacherSectionAssociation             | jstevenson | IT Administrator | IL-Daybreak | Midgar |
