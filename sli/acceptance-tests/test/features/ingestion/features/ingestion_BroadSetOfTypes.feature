@@ -13,4 +13,4 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     Then a batch job for file "BroadSetOfTypes.zip" is completed in database
     And I should not see an error log file created
     And I should not see a warning log file created
-    And the data from tenant "Midgar"is exported to "test/features/ingestion/test_data/delete_fixture_data/"
+    #And the data from tenant "Midgar"is exported to "test/features/ingestion/test_data/delete_fixture_data/"
