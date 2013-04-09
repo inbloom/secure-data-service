@@ -22,25 +22,22 @@ package org.slc.sli.ingestion;
  */
 public enum ReferenceConverter {
 
-    STUDENT( "StudentReference", "student" ),
-    PARENT( "ParentReference", "parent"),
-    COURSE( "CourseReference", "course"),
-    CALENDAR_DATE( "CalendarDateReference", "calendarDate"),
-    EDORG( "EducationalOrgReference", "educationOrganization"),
     ASSESSMENT( "AssessmentReference", "assessment"),
-    STAFF( "StaffReference", "staff"),
-    ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily"),
-    SCHOOL( "SchoolReference", "school"),
-
-    COHORT("CohortReference","cohort"),
-    STUDENTASSESSMENT("StudentAssessmentReference","studentAssessment"),
-
-    GRADINGPERIOD( "GradingPeriodReference", "gradingPeriod"),
+    ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily"),    
+    CALENDAR_DATE( "CalendarDateReference", "calendarDate"),
+    COURSE( "CourseReference", "course"),
+    COURSEOFFERING( "CourseOfferingReference", "courseOffering"),    
+    COHORT("CohortReference","cohort"),    
+    EDORG( "EducationalOrgReference", "educationOrganization"),   
+    GRADINGPERIOD( "GradingPeriodReference", "gradingPeriod"), 
+    PARENT( "ParentReference", "parent"), 
+    SCHOOL( "SchoolReference", "school"),          
+    SECTION("SectionReference","section"),     
     SESSION( "SessionReference", "session"),
-    COURSEOFFERING( "CourseOfferingReference", "courseOffering"),
-
-
-    SECTION("SectionReference","section");
+    STAFF( "StaffReference", "staff"),    
+    STUDENT( "StudentReference", "student" ),
+    STUDENTASSESSMENT("StudentAssessmentReference","studentAssessment"),
+    TEACHER("TeacherReference","teacher");
 
 
     /*
