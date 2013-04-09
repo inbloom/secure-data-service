@@ -16,23 +16,23 @@
 
 package org.slc.sli.api.resources.generic.util;
 
+import java.net.URI;
+import java.util.List;
+
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 import com.sun.jersey.server.impl.application.WebApplicationContext;
-
-import java.net.URI;
-import java.util.List;
 
 /**
  * Class for storing changes to requested uri.
  */
 public class ChangedUriInfo implements UriInfo {
-    
+
     private URI uri;
+    private UriInfo original;
     private UriBuilder baseUriBuilder;
 
     public String getOriginalUri() {
@@ -44,6 +44,7 @@ public class ChangedUriInfo implements UriInfo {
 
     public ChangedUriInfo(String uri, UriInfo uriInfo) {
         this.uri = URI.create(uri);
+        this.original = uriInfo;
         if (uriInfo != null) {
             this.baseUriBuilder = uriInfo.getBaseUriBuilder();
             if (uriInfo instanceof WebApplicationContext) {
@@ -51,7 +52,7 @@ public class ChangedUriInfo implements UriInfo {
             }
         }
     }
-    
+
     @Override
     public String getPath() {
         String uriPath = this.uri.getPath();
@@ -60,104 +61,104 @@ public class ChangedUriInfo implements UriInfo {
             if (uriPath.startsWith(removeString)) {
                 return uriPath.substring(removeString.length());
             }
-            
+
             return uriPath;
         }
 
         return null;
     }
-    
+
     @Override
     public String getPath(boolean decode) {
-        
+
         // No op
         return null;
     }
-    
+
     @Override
     public List<PathSegment> getPathSegments() {
         // No op
         return null;
     }
-    
+
     @Override
     public List<PathSegment> getPathSegments(boolean decode) {
         // No op
         return null;
     }
-    
+
     @Override
     public URI getRequestUri() {
         return this.uri;
     }
-    
+
     @Override
     public UriBuilder getRequestUriBuilder() {
         return UriBuilder.fromUri(uri);
     }
-    
+
     @Override
     public URI getAbsolutePath() {
         // No op
         return null;
     }
-    
+
     @Override
     public UriBuilder getAbsolutePathBuilder() {
         // No op
         return null;
     }
-    
+
     @Override
     public URI getBaseUri() {
         // No op
         return null;
     }
-    
+
     @Override
     public UriBuilder getBaseUriBuilder() {
         return this.baseUriBuilder.clone();
     }
-    
+
     @Override
     public MultivaluedMap<String, String> getPathParameters() {
         // No op
         return null;
     }
-    
+
     @Override
     public MultivaluedMap<String, String> getPathParameters(boolean decode) {
         // No op
         return null;
     }
-    
+
     @Override
     public MultivaluedMap<String, String> getQueryParameters() {
-        return new MultivaluedMapImpl();
+        return original.getQueryParameters();
     }
-    
+
     @Override
     public MultivaluedMap<String, String> getQueryParameters(boolean decode) {
         // No op
         return null;
     }
-    
+
     @Override
     public List<String> getMatchedURIs() {
         // No op
         return null;
     }
-    
+
     @Override
     public List<String> getMatchedURIs(boolean decode) {
         // No op
         return null;
     }
-    
+
     @Override
     public List<Object> getMatchedResources() {
         // No op
         return null;
     }
-    
+
 }
