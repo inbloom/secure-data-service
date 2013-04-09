@@ -333,10 +333,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadTeacherSchoolAssociationTest,
         :ingestionCascadingDeletionBroadTeacherSectionAssociationTest,
         :ingestionCascadingDeletionBroadTeacherTest,
-        :ingestionCascadingDeletionSchoolTest,
-        :ingestionCascadingDeletionSectionTest,
-        :ingestionCascadingDeletionStudentTest,
-        :ingestionCascadingDeletionTeacherTest,
+        :ingestionCascadingDeletionJetsSharksScenario,
         :ingestionCascadingDeletionReportCardNotFoundTest,
         :ingestionCascadingDeleteReportTest,
         ] do
@@ -354,16 +351,8 @@ task :ingestionCascadingDeleteReportTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_deleteReport.feature")
 end
 
-task :ingestionCascadingDeletionStudentTest do
-  runTests("test/features/ingestion/features/ingestion_cascadingDelete_student.feature")
-end
-
-task :ingestionCascadingDeletionSectionTest do
-  runTests("test/features/ingestion/features/ingestion_cascadingDelete_section.feature")
-end
-
-task :ingestionCascadingDeletionSchoolTest do
-  runTests("test/features/ingestion/features/ingestion_cascadingDelete_school.feature")
+task :ingestionCascadingDeletionJetsSharksScenario do
+  runTests("test/features/ingestion/features/ingestion_cascading_delete_jets_sharks_scenario.feature")
 end
 
 task :ingestionCascadingDeletionBroadSEATest do
@@ -480,10 +469,6 @@ end
 
 task :ingestionCascadingDeletionBroadAttendanceEventTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_attendanceEvent_delete.feature")
-end
-
-task :ingestionCascadingDeletionTeacherTest do
-  runTests("test/features/ingestion/features/ingestion_cascadingDelete_teacher.feature")
 end
 
 task :ingestionCascadingDeletionBroadStudentSchoolAssociationTest do
