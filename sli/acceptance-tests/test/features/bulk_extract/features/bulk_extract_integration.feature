@@ -8,8 +8,7 @@ Scenario: Trigger a bulk extract on ingested data
    When I make bulk extract API call
    When the return code is 200 I get expected tar downloaded
    Then I check the http response headers
-
-   When I save the extracted file
+   When I decrypt and save the extracted file
    And I verify that an extract tar file was created for the tenant "Midgar"
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:

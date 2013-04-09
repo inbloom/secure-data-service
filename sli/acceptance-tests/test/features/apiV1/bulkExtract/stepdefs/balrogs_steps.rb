@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require_relative '../../../utils/sli_utils.rb'
+$FAKE_FILE_TEXT = "This is a fake tar file"
 
 Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"$/ do |token|
   @sessionId=token
@@ -58,6 +59,26 @@ When /^I save the extracted file$/ do
   File.open(@filePath, 'w') {|f| f.write(@res.body) }
 end
 
+When /^I decrypt and save the extracted file$/ do
+  @filePath = "extract/extract.tar"
+  @unpackDir = File.dirname(@filePath) + '/unpack'
+  if (!File.exists?("extract"))
+      FileUtils.mkdir("extract")
+  end
+  if (File.exists?(@filePath)) 
+      FileUtils.rm(@filePath)
+      puts "Removed existing #{@filePath}"
+  end
+  if (File.exists?(@unpackDir))
+      FileUtils.rm_r(@unpackDir)
+      puts "Removed existing #{@unpackDir}"
+  end
+
+  step "the response is decrypted"
+  File.open(@filePath, 'w') {|f| f.write(@plain) }
+end
+
+
 When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Midgar$/ do
     @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
     @coll = "bulkExtractFiles";
@@ -90,20 +111,19 @@ When /^the return code is 200 I get expected tar downloaded$/ do
 	  puts "@res.headers: #{@res.headers}"
 	  puts "@res.code: #{@res.code}"
     if @res.code == 200
-	  puts "@res.headers: #{@res.headers}"
-	  puts "@res.code: #{@res.code}"
+	   puts "@res.headers: #{@res.headers}"
+	   puts "@res.code: #{@res.code}"
 	
-	  EXPECTED_CONTENT_TYPE = 'application/x-tar'
-	  @content_disposition = @res.headers[:content_disposition]
-	  @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
-	  @last_modified = @res.headers[:last_modified]
-      @is_sampled_file = @zip_file_name=="sample-extract.tar"
+	   EXPECTED_CONTENT_TYPE = 'application/x-tar'
+	   @content_disposition = @res.headers[:content_disposition]
+	   @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
+	   @last_modified = @res.headers[:last_modified]
 	
-	  puts "content-disposition: #{@content_disposition}"
-	  puts "download file name: #{@zip_file_name}"
-	  puts "last-modified: #{@last_modified}"
+	   puts "content-disposition: #{@content_disposition}"
+	   puts "download file name: #{@zip_file_name}"
+	   puts "last-modified: #{@last_modified}"
 	
-	  assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
+	   assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
     end
 end
 
@@ -142,9 +162,58 @@ Then /^I check the http response headers$/ do
   end
 end
 
+Then /^the response is decrypted$/ do
+  private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
+  assert(@res.body.length >= 512)
+  encryptediv = @res.body[0,256] 
+  encryptedsecret = @res.body[256,256]
+  encryptedmessage = @res.body[512,@res.body.length - 512]
+ 
+  decrypted_iv = private_key.private_decrypt(encryptediv)
+  decrypted_secret = private_key.private_decrypt(encryptedsecret)
+ 
+  aes = OpenSSL::Cipher.new('AES-128-CBC')
+  aes.decrypt
+  aes.key = decrypted_secret
+  aes.iv = decrypted_iv
+  @plain = aes.update(encryptedmessage) + aes.final
+  if $SLI_DEBUG 
+    puts("Final is #{aes.final}")
+    puts("IV is #{encryptediv}")
+    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
+    puts("Encrypted message is #{encryptedmessage}")
+    puts("Cipher is #{aes}")
+    puts("Plain text length is #{@plain.length} and it is #{@plain}")
+    puts "length #{@res.body.length}"
+  end
+end
+
 
 #=============================================================
 
 Given /^in my list of rights I have BULK_EXTRACT$/ do
   #  Explanatory step
+end
+
+
+Given /^I set up a fake tar file on the file system and in Mongo$/ do
+  File.open("fake.tar", 'w') {|f| f.write($FAKE_FILE_TEXT)}
+  puts("Tar file is in #{Dir.pwd}/fake.tar")
+  time = Time.new
+  
+  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  src_coll = db["bulkExtractFiles"]
+  src_coll.insert({"_id" => SecureRandom.uuid, "body" => {"isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%Y-%m-%d"), "path" => Dir.pwd + "/fake.tar"}})
+end
+
+Then /^I see that the response matches what I put in the fake tar file$/ do
+  assert(@plain == $FAKE_FILE_TEXT, "Decrypted text in 'tar' file did not match, expected #{$FAKE_FILE_TEXT} received #{@plain}")
+end
+
+Given /^I remove the fake tar file and remove its reference in Mongo$/ do
+  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  path = Dir.pwd + "/fake.tar"
+  src_coll = db["bulkExtractFiles"]
+  src_coll.remove({"body.path" => path})
+  File.delete(path)
 end
