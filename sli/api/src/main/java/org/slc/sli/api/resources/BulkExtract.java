@@ -284,8 +284,10 @@ public class BulkExtract {
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.toDate()));
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d.plusDays(1).toDate()));
         }
+        debug("Bulk Extract query is {}", query);
         Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
         if (entity == null) {
+        	debug("Could not find a bulk extract entity");
             return null;
         }
         return new ExtractFile(entity.getBody().get(BULK_EXTRACT_DATE).toString(), entity.getBody()

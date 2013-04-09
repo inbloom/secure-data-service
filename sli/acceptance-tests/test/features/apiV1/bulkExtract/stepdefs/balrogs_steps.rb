@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require_relative '../../../utils/sli_utils.rb'
+$FAKE_FILE_TEXT = "This is a fake tar file"
 
 Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"$/ do |token|
   @sessionId=token
@@ -155,14 +156,16 @@ Then /^the response is decrypted$/ do
   aes.decrypt
   aes.key = decrypted_secret
   aes.iv = decrypted_iv
-  plain = aes.update(encryptedmessage) + aes.final
-  puts("Final is #{aes.final}")
-  puts("IV is #{encryptediv}")
-  puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
-  puts("Encrypted message is #{encryptedmessage}")
-  puts("Cipher is #{aes}")
-  puts("Plain text length is #{plain.length} and it is #{plain}")
-  puts "length #{@res.body.length}"
+  @plain = aes.update(encryptedmessage) + aes.final
+  if $SLI_DEBUG 
+    puts("Final is #{aes.final}")
+    puts("IV is #{encryptediv}")
+    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
+    puts("Encrypted message is #{encryptedmessage}")
+    puts("Cipher is #{aes}")
+    puts("Plain text length is #{@plain.length} and it is #{@plain}")
+    puts "length #{@res.body.length}"
+  end
 end
 
 
@@ -170,4 +173,27 @@ end
 
 Given /^in my list of rights I have BULK_EXTRACT$/ do
   #  Explanatory step
+end
+
+
+Given /^I set up a fake tar file on the file system and in Mongo$/ do
+  File.open("fake.tar", 'w') {|f| f.write($FAKE_FILE_TEXT)}
+  puts("Tar file is in #{Dir.pwd}/fake.tar")
+  time = Time.new
+  
+  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  src_coll = db["bulkExtractFiles"]
+  src_coll.insert({"_id" => SecureRandom.uuid, "body" => {"isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%Y-%m-%d"), "path" => Dir.pwd + "/fake.tar"}})
+end
+
+Then /^I see that the response matches what I put in the fake tar file$/ do
+  assert(@plain == $FAKE_FILE_TEXT, "Decrypted text in 'tar' file did not match, expected #{$FAKE_FILE_TEXT} received #{@plain}")
+end
+
+Given /^I remove the fake tar file and remove its reference in Mongo$/ do
+  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  path = Dir.pwd + "/fake.tar"
+  src_coll = db["bulkExtractFiles"]
+  src_coll.remove({"body.path" => path})
+  File.delete(path)
 end
