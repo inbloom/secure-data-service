@@ -36,7 +36,7 @@ public final class RecordMetaImpl implements RecordMeta {
     final boolean isList;
     private boolean isReference = false;
     private ActionVerb action;
-    private boolean isCascade = false;
+    private final boolean isCascade;
     Location sourceStartLocation;
     Location sourceEndLocation;
 
@@ -44,6 +44,7 @@ public final class RecordMetaImpl implements RecordMeta {
         this.name = name;
         this.type = type;
         isList = false;
+        this.isCascade = false;
         action = ActionVerb.NONE;
     }
 
@@ -51,6 +52,7 @@ public final class RecordMetaImpl implements RecordMeta {
         this.name = name;
         this.type = type;
         this.isList = isList;
+        this.isCascade = false;
         this.action = ActionVerb.NONE;
 
 
@@ -61,6 +63,7 @@ public final class RecordMetaImpl implements RecordMeta {
         this.type = type;
         this.isList = isList;
         this.action = doWhat;
+        this.isCascade = ( doWhat == ActionVerb.CASCADE_DELETE ) ? true : false ;
         if( doWhat.doDelete() && ReferenceConverter.isReferenceType( name ) ) {
             this.isReference = true;
         }
@@ -141,9 +144,6 @@ public final class RecordMetaImpl implements RecordMeta {
         return isCascade;
     }
 
-    public void setCascade(boolean isCascade) {
-        this.isCascade = isCascade;
-    }
 
     @Override
     public boolean isReference() {
