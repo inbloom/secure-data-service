@@ -224,7 +224,6 @@ public class BulkExtractTest {
       String header = (String) headers.getFirst("content-disposition");
       assertNotNull(header);
       assertTrue(header.startsWith("attachment"));
-      System.out.println("Header is " + header);
       assertTrue(header.indexOf(INPUT_FILE_NAME) > 0);
 
       Object entity = res.getEntity();
