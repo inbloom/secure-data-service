@@ -173,7 +173,11 @@ public class BulkExtractTest {
         Entity mockEntity = Mockito.mock(Entity.class);
         Map<String, Object> mockBody = Mockito.mock(Map.class);
         Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-        Mockito.when(mockBody.get(Mockito.anyString())).thenReturn(PUBLIC_KEY);
+        Mockito.when(mockBody.get("public_key")).thenReturn(PUBLIC_KEY);
+        Mockito.when(mockBody.get("isBulkExtract")).thenReturn(true);
+        Mockito.when(mockBody.containsKey("isBulkExtract")).thenReturn(true);
+        Mockito.when(mockBody.get("path")).thenReturn("/fake/path");
+        Mockito.when(mockBody.get("date")).thenReturn("2013-05-04");
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
         ResponseImpl res = (ResponseImpl) bulkExtract.getTenant();
