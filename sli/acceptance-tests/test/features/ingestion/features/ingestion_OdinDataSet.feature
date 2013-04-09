@@ -71,23 +71,23 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Verify entities in education organization calendar were ingested correctly: Populated Database
     And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                   | searchType           |
-     | assessmentFamily            | 13                  | body.assessmentFamilyReference           | 8a66422e6a4756a0c412b5856d94ae30fab650ca_id   | string               |
-     | assessmentFamily            | 1                   | body.assessmentPeriods                   | 8d6d7b017c9b865f2a932d8aaf615bf4394361b5_id   | string               |
-     | assessmentPeriodDescriptor  | 1                   | _id                                      | 8d6d7b017c9b865f2a932d8aaf615bf4394361b5_id   | string               |
-     | assessment                  | 2                   | body.assessmentPeriodDescriptorId        | 5b074ef7c104dd0cdd2e4f65d554c3ae5adf073f_id   | string               |
-     | assessment                  | 2                   | body.assessmentFamilyReference           | c32be9ce85a4a387c7dc407277d1a8db99b8446e_id   | string               |
-     | session                     | 1                   | body.sessionName                         | 2001-2002 Year Round session: IL-DAYBREAK     | string               |
-     | session                     | 1                   | body.sessionName                         | 2002-2003 Year Round session: IL-DAYBREAK     | string               |
-     | session                     | 1                   | body.sessionName                         | 2003-2004 Year Round session: IL-DAYBREAK     | string               |
-     | session                     | 2                   | body.schoolYear                          | 2001-2002                                     | string               |
-     | session                     | 2                   | body.schoolYear                          | 2002-2003                                     | string               |
-     | session                     | 2                   | body.schoolYear                          | 2003-2004                                     | string               |
+     | assessmentFamily            | 13                  | body.assessmentFamilyReference           | 6cca2c359d5af40e1b85060cf7f91001f6c0ae28_id   | string               |
+     | assessmentFamily            | 1                   | body.assessmentPeriods                   | b65a29fe0bd39ebf1f1bb77a0491d6ba1e90b2ea_id   | string               |
+     | assessmentPeriodDescriptor  | 1                   | _id                                      | b65a29fe0bd39ebf1f1bb77a0491d6ba1e90b2ea_id   | string               |
+     | assessment                  | 2                   | body.assessmentPeriodDescriptorId        | b4eb598d47d621d9b8969cbdc033f0edd5683154_id   | string               |
+     | assessment                  | 2                   | body.assessmentFamilyReference           | 673e722b6b0511717b633fc5fec0cc069fd5ed96_id   | string               |
+     | session                     | 1                   | body.sessionName                         | 2012-2013 Year Round session: IL-DAYBREAK     | string               |
+     | session                     | 1                   | body.sessionName                         | 2013-2014 Year Round session: IL-DAYBREAK     | string               |
+     | session                     | 1                   | body.sessionName                         | 2014-2015 Year Round session: IL-DAYBREAK     | string               |
+     | session                     | 2                   | body.schoolYear                          | 2012-2013                                     | string               |
+     | session                     | 2                   | body.schoolYear                          | 2013-2014                                     | string               |
+     | session                     | 2                   | body.schoolYear                          | 2014-2015                                     | string               |
      | session                     | 6                   | body.term                                | Year Round                                    | string               |
      | session                     | 6                   | body.totalInstructionalDays              | 180                                           | integer              |
      | gradingPeriod               | 6                   | body.gradingPeriodIdentity.gradingPeriod | End of Year                                   | string               |
-     | gradingPeriod               | 2                   | body.gradingPeriodIdentity.schoolYear    | 2001-2002                                     | string               |
-     | gradingPeriod               | 2                   | body.gradingPeriodIdentity.schoolYear    | 2002-2003                                     | string               |
-     | gradingPeriod               | 2                   | body.gradingPeriodIdentity.schoolYear    | 2003-2004                                     | string               |
+     | gradingPeriod               | 2                   | body.gradingPeriodIdentity.schoolYear    | 2012-2013                                     | string               |
+     | gradingPeriod               | 2                   | body.gradingPeriodIdentity.schoolYear    | 2013-2014                                     | string               |
+     | gradingPeriod               | 2                   | body.gradingPeriodIdentity.schoolYear    | 2014-2015                                     | string               |
      | gradingPeriod               | 3                   | body.gradingPeriodIdentity.schoolId      | 880572db916fa468fbee53a68918227e104c10f5_id   | string               |
      | gradingPeriod               | 3                   | body.gradingPeriodIdentity.schoolId      | 1b223f577827204a1c7e9c851dba06bea6b031fe_id   | string               |
      | gradingPeriod               | 6                   | body.totalInstructionalDays              | 180                                           | integer              |
@@ -106,7 +106,7 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
      | student                     | 1                   | body.studentUniqueStateId                | 8                                             | string               |
      | student                     | 1                   | body.studentUniqueStateId                | 9                                             | string               |
      | student                     | 1                   | body.studentUniqueStateId                | 10                                            | string               |
-     | student                     | 10                  | schools.entryDate                        | 2001-08-27                                    | string               |
+     | student                     | 10                  | schools.entryDate                        | 2012-08-27                                    | string               |
      | student                     | 3                   | schools.entryGradeLevel                  | Sixth grade                                   | string               |
      | student                     | 1                   | schools.entryGradeLevel                  | Kindergarten                                  | string               |
      | student                     | 3                   | schools.entryGradeLevel                  | Ninth grade                                   | string               |     
@@ -165,8 +165,8 @@ Scenario: Verify entities in student school association were ingested correctly
 Scenario: Verify objective assessment in assessment has valid references
     And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                             | searchValue                                   | searchType           |
-     | assessment                  | 5                   | objectiveAssessment.body.learningObjectives | 6a0a6909345544ba5ef7a2b61e6c9c9ed6b1fa6a_id   | string               |
-     | learningObjective           | 1                   | _id                                         | 6a0a6909345544ba5ef7a2b61e6c9c9ed6b1fa6a_id   | string               |
+     | assessment                  | 3                   | objectiveAssessment.body.learningObjectives | d8e3b4100ed9fb6da738846c845693ffd897165b_id   | string               |
+     | learningObjective           | 1                   | _id                                         | d8e3b4100ed9fb6da738846c845693ffd897165b_id   | string               |
 
 Scenario: Verify the sli verification script confirms everything ingested correctly
     Given the edfi manifest that was generated in the 'generated' directory
