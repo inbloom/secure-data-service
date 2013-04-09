@@ -215,7 +215,7 @@ public class BulkExtractTest {
       }
 
 
-      Response res = bulkExtract.get();
+      Response res = bulkExtract.getDelta(null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -224,6 +224,7 @@ public class BulkExtractTest {
       String header = (String) headers.getFirst("content-disposition");
       assertNotNull(header);
       assertTrue(header.startsWith("attachment"));
+      System.out.println("Header is " + header);
       assertTrue(header.indexOf(INPUT_FILE_NAME) > 0);
 
       Object entity = res.getEntity();
