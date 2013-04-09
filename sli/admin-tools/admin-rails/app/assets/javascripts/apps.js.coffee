@@ -12,7 +12,7 @@ jQuery ->
     $("#state-menu select").change ->
         selected = $(@).find("option:selected")
         return false if selected.val() == ""
-        $.get("/lea?state=" + selected.val(), (data) ->
+        $.get("/lea?sea_id=" + selected.val(), (data) ->
             $("#lea-menu").html(data)
             $('a#enable-help').tooltip()            
             $("#lea-menu table").trigger("change")

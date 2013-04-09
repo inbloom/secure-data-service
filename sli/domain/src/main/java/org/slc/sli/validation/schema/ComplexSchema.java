@@ -82,6 +82,16 @@ public class ComplexSchema extends NeutralSchema {
     }
 
     private boolean validate(String validateFieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo, boolean checkForMissingFields) {
+        
+        // If this complexSchema only has one ChoiceSchema, swap out the current ComplexSchema object that contains
+        // this single choice schema for the actual choice schema itself, and validate use this choiceSchema
+        if (getFields().size() == 1) {
+            NeutralSchema ns = getOnlySchemaValidator();
+            if (ns != null && ns instanceof ChoiceSchema) {
+                return ns.validate(validateFieldName, entity, errors, repo);
+            }
+        }
+
         boolean isValid = true;
 
         if (entity instanceof Map) {
@@ -89,7 +99,7 @@ public class ComplexSchema extends NeutralSchema {
             Map<String, ?> entityMap = (Map<String, ?>) entity;
 
             if (checkForMissingFields) {
-             // Make sure the entity contains all required fields
+                // Make sure the entity contains all required fields
                 for (Map.Entry<String, NeutralSchema> entry : getFields().entrySet()) {
                     NeutralSchema schema = entry.getValue();
                     AppInfo appInfo = schema.getAppInfo();
@@ -152,6 +162,20 @@ public class ComplexSchema extends NeutralSchema {
         }
 
         return isValid;
+    }
+
+    private NeutralSchema getOnlySchemaValidator() {
+        Map<String, NeutralSchema> fields = getFields();
+        if (fields.size() != 1) {
+            return null;
+        }
+        
+        NeutralSchema ns = null;
+        for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
+            ns = entry.getValue();
+        }
+        
+        return ns;
     }
 
     /**

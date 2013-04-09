@@ -39,7 +39,6 @@
   		<xs:element name="CourseOfferingReference" type="SLC-CourseOfferingReferenceType"/>
   		<xs:element name="CourseReference" type="SLC-CourseReferenceType"/>
   		<xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType"/>
-  	    <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType"/>
   		<xs:element name="GradeReference" type="SLC-GradeReferenceType"/>
   		<xs:element name="GradebookEntryReference" type="SLC-GradebookEntryReferenceType"/>
   		<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"/>
@@ -50,6 +49,7 @@
   		<xs:element name="ParentReference" type="SLC-ParentReferenceType"/>
   		<xs:element name="ProgramReference" type="SLC-ProgramReferenceType"/>
   		<xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType"/>
+        <xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType"/>
   		<xs:element name="SectionReference" type="SLC-SectionReferenceType"/>
   		<xs:element name="SessionReference" type="SLC-SessionReferenceType"/>
   		<xs:element name="StaffReference" type="SLC-StaffReferenceType"/>
@@ -60,8 +60,8 @@
  		<xs:element name="StudentObjectiveAssessmentReference" type="SLC-StudentObjectiveAssessmentReferenceType"/>
   		<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
   		<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
-
-        <xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType"/>
+        <xs:element name="TeacherReference" type="SLC-StaffReferenceType"/>
+        
 
 
 		<!-- All top level entity types from the Interchange schemas -->

@@ -13,25 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.bulk.extract.treatment;
 
-import java.util.Map;
+package org.slc.sli.api.representation;
 
-import org.slc.sli.common.migration.strategy.impl.AttendanceStrategyHelper;
-import org.slc.sli.domain.Entity;
+import java.io.EOFException;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
+
+import org.springframework.stereotype.Component;
+
 /**
- * Treat attendance entity.
- * @author ablum
+ * Exception handler to catch cases where an EOF exception is thrown. This can be the case if a user
+ * tries to post a null body
+ *
+ * @author nbrown
  *
  */
-public class AttendanceTreatment implements Treatment {
+@Provider
+@Component
+public class EOFExceptionHandler implements ExceptionMapper<EOFException> {
 
     @Override
-    public Entity apply(Entity entity) {
-        Map<String,Object> treated = AttendanceStrategyHelper.wrap(entity.getBody());
-        entity.getBody().clear();
-        entity.getBody().putAll(treated);
-        return entity;
+    public Response toResponse(EOFException exception) {
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
 }

@@ -37,7 +37,7 @@ Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
 	And I clicked on the button Edit for the application "Testing App"
   Then I can see the on-boarded states
-When I select a state
+When I select the state "Illinois State Board of Education"
   Then I see all of the Districts
   Then I check the Districts
 When I click on Save
@@ -60,7 +60,7 @@ Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
 	And I clicked on the button Edit for the application "Testing App"
 Then I can see the on-boarded states
-When I select a state
+When I select the state "Illinois State Board of Education"
   Then I see all of the Districts
   Then I uncheck the Districts
 When I click on Save
@@ -84,7 +84,7 @@ Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
 	And I clicked on the button Edit for the application "Testing App"
   Then I can see the on-boarded states
-When I select a state
+When I select the state "Illinois State Board of Education"
   Then I see all of the Districts
   Then I check the Districts
 When I click on Save
