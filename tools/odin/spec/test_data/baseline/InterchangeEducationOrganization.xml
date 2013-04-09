@@ -1461,6 +1461,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
+ 
     <LocalEducationAgencyReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1494,6 +1495,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>Middle School</SchoolCategory>
     </SchoolCategories>
+ 
     <LocalEducationAgencyReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1528,6 +1530,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
+ 
     <LocalEducationAgencyReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
