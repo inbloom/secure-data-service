@@ -116,7 +116,8 @@ Scenario: Delete Student with cascade
         | yearlyTranscript                          |				 -2|          
     And I should not see "908404e876dd56458385667fa383509035cd4312_id" in the "Midgar" database
 
-   
+
+@wip
 Scenario: Delete Student with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -211,6 +212,7 @@ Scenario: Delete Student with cascade = false
         | collection                                |     delta|
         | student                                   |         0|        
 
+@wip
 Scenario: Delete Orphan Student with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -234,7 +236,7 @@ Scenario: Delete Orphan Student with cascade = false
         | recordHash                                |        -1|
 
 
-Scenario: Delete Orphan Student Reference with cascade = false
+Scenario: Delete Orphan Student Reference with cascade = false, attempt subsequent delete with body and then re-ingest and delete again
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -254,4 +256,50 @@ Scenario: Delete Orphan Student Reference with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | student                                   |        -1|
-        | recordHash                                |        -1|      
+        | recordHash                                |        -1|
+    When the landing zone is reinitialized
+    And I save the collection counts in "Midgar" tenant
+    And I post "OrphanStudentDelete.zip" file as the payload of the ingestion job
+    And zip file is scp to ingestion landing zone with name "OrphanStudentDelete2.zip"
+    And a batch job for file "OrphanStudentDelete2.zip" is completed in database
+    And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 0" in the resulting batch job file
+    And I should see "records failed processing: 1" in the resulting batch job file
+    And I should see "CORE_0071" in the resulting error log file for "InterchangeStudentParent.xml"
+    And I should not see a warning log file created
+    And I re-execute saved query "student" to get "0" records
+    And I see that collections counts have changed as follows in tenant "Midgar"
+        | collection                                |     delta|
+        | student                                   |        0|
+        | recordHash                                |        0|
+    When the landing zone is reinitialized
+    And I save the collection counts in "Midgar" tenant
+    And I post "OrphanStudent.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "OrphanStudent.zip" is completed in database
+    And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records ingested successfully: 1" in the resulting batch job file
+    And I should see "records failed processing: 0" in the resulting batch job file
+    And I should not see an error log file created
+    And I should not see a warning log file created
+    And I re-execute saved query "student" to get "1" records
+    And I see that collections counts have changed as follows in tenant "Midgar"
+        | collection                                |     delta|
+        | student                                   |        +1|
+        | recordHash                                |        +1|
+    When the landing zone is reinitialized
+    And I save the collection counts in "Midgar" tenant
+    And I post "OrphanStudentDelete.zip" file as the payload of the ingestion job
+    And zip file is scp to ingestion landing zone with name "OrphanStudentDelete3.zip"
+    And a batch job for file "OrphanStudentDelete3.zip" is completed in database
+    And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+    And I should see "records failed processing: 0" in the resulting batch job file
+    And I should not see an error log file created
+    And I should not see a warning log file created
+    And I re-execute saved query "student" to get "0" records
+    And I see that collections counts have changed as follows in tenant "Midgar"
+        | collection                                |     delta|
+        | student                                   |        -1|
+        | recordHash                                |        -1|
+

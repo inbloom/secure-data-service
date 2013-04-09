@@ -40,7 +40,9 @@ Scenario: Multiple Orphans
         |studentSchoolAssociation               |       -1|
         |teacherSchoolAssociation               |       -1|
         |teacherSectionAssociation              |       -1|
-        |recordHash                             |      -17|
+        |recordHash                             |      -16|
+        |custom_entities                        |       -3|
 
-    #grade lives in yearly transcript so -1 for each expected
+    #grade lives in yearly transcript so -1 for each expected, yearly transcript not record hashed
     #3 assessment types not record hashed
+    # school has 3 associated custom entities
