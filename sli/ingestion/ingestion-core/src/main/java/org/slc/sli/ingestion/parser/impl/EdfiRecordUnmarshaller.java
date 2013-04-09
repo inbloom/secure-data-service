@@ -380,6 +380,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         });
 
         boolean isDelete = meta.getAction().doDelete();
+        boolean isReference = false;
 
         if (!isDelete) {
             return status;
@@ -394,12 +395,14 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         if (isDelete && ReferenceConverter.isReferenceType(originalType)) {
             if (ReferenceConverter.fromReferenceName(originalType) == null) {
                 messageReport.error(reportStats, elementSource, CoreMessageCode.CORE_0073, originalType);
-                status = false;
+                return false;
+            } else {
+                isReference = true;
             }
         }
 
 
-        if (isDelete && originalType != null && !SupportedEntities.isSupportedForDelete(originalType)) {
+        if (isDelete && originalType != null &&  !isReference && !SupportedEntities.isSupportedForDelete(originalType)) {
             messageReport.error(reportStats, elementSource, CoreMessageCode.CORE_0073, originalType);
             return false;
         }
@@ -465,7 +468,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
      */
 
     protected static enum SupportedEntities {
-        ASSESMENTFAMILY("AssessmentFamily"), ASSESSMENT("Assessment"), CALENDARDATE("CalendarDate"), COHORT("Cohort"), COURSEOFFERING(
+        ASSESSMENTFAMILY("AssessmentFamily"), ASSESSMENT("Assessment"), CALENDARDATE("CalendarDate"), COHORT("Cohort"), COURSEOFFERING(
                 "CourseOffering"), COURSE("Course"), GRADE("Grade"), GRADINGPERIOD("GradingPeriod"), PARENT("Parent"), SCHOOL(
                 "School"), SECTION("Section"), SESSION("Session"), STAFFEDUCATIONORGASSIGNMENTASSOCIATION(
                 "StaffEducationOrgAssignmentAssociation"), STUDENTASSESSMENT("StudentAssessment"), STUDENTCOHORTASSOCIATION(
