@@ -1,0 +1,1127 @@
+<?xml version="1.0"?>
+<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
+  <GraduationPlan>
+    <GraduationPlanType>Distinguished</GraduationPlanType>
+    <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
+      <Credit>54</Credit>
+    </TotalCreditsRequired>
+    <CreditsBySubject>
+      <SubjectArea>English Language and Literature</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+      <SubjectArea>Mathematics</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>15</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+      <SubjectArea>Science</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>15</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+      <SubjectArea>Social Sciences and History</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>English Language and Literature</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Mathematics</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>15</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Science</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>15</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Social Sciences and History</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+        </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </GraduationPlan>
+  <GraduationPlan>
+    <GraduationPlanType>Minimum</GraduationPlanType>
+    <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
+      <Credit>36</Credit>
+    </TotalCreditsRequired>
+    <CreditsBySubject>
+      <SubjectArea>English Language and Literature</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>9</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+      <SubjectArea>Mathematics</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>9</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+      <SubjectArea>Science</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>9</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+      <SubjectArea>Social Sciences and History</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>9</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>English Language and Literature</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>9</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Mathematics</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>9</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Science</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>9</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Social Sciences and History</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>9</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+        </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </GraduationPlan>
+  <GraduationPlan>
+    <GraduationPlanType>Standard</GraduationPlanType>
+    <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
+      <Credit>48</Credit>
+    </TotalCreditsRequired>
+    <CreditsBySubject>
+      <SubjectArea>English Language and Literature</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+      <SubjectArea>Mathematics</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+      <SubjectArea>Science</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+      <SubjectArea>Social Sciences and History</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>English Language and Literature</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Mathematics</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Science</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Social Sciences and History</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+        </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </GraduationPlan>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2019-2020</SchoolYear>
+    <EntryDate>2001-09-03</EntryDate>
+    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+      <EntryType>Other</EntryType>
+      <RepeatGradeIndicator>true</RepeatGradeIndicator>
+      <ClassOf>2014-2015</ClassOf>
+      <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2002-05-30</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>IDEA IEP</EducationalPlan>
+      </EducationalPlans>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2019-2020</SchoolYear>
+    <EntryDate>2002-09-09</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+      <EntryType>Other</EntryType>
+      <RepeatGradeIndicator>true</RepeatGradeIndicator>
+      <ClassOf>2014-2015</ClassOf>
+      <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2003-06-04</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>IDEA IEP</EducationalPlan>
+      </EducationalPlans>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2016-2017</SchoolYear>
+    <EntryDate>2001-09-03</EntryDate>
+    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
+      <EntryType>Transfer from a school outside of the country</EntryType>
+      <RepeatGradeIndicator>true</RepeatGradeIndicator>
+      <ClassOf>2021-2022</ClassOf>
+      <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2002-05-30</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Employability Skills</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2016-2017</SchoolYear>
+    <EntryDate>2002-09-09</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+      <EntryType>Transfer from a school outside of the country</EntryType>
+      <RepeatGradeIndicator>true</RepeatGradeIndicator>
+      <ClassOf>2021-2022</ClassOf>
+      <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2003-06-04</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Employability Skills</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2016-2017</SchoolYear>
+    <EntryDate>2001-09-03</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+      <EntryType>Re-entry from the same school with no interruption of schooling</EntryType>
+      <RepeatGradeIndicator>true</RepeatGradeIndicator>
+      <ClassOf>2013-2014</ClassOf>
+      <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2002-05-30</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Student Success Plan</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2016-2017</SchoolYear>
+    <EntryDate>2002-09-09</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+      <EntryType>Re-entry from the same school with no interruption of schooling</EntryType>
+      <RepeatGradeIndicator>true</RepeatGradeIndicator>
+      <ClassOf>2013-2014</ClassOf>
+      <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2003-06-04</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Student Success Plan</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2016-2017</SchoolYear>
+    <EntryDate>2001-09-03</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+      <EntryType>Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state</EntryType>
+      <RepeatGradeIndicator>true</RepeatGradeIndicator>
+      <ClassOf>2021-2022</ClassOf>
+      <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2002-05-30</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>504 Plan</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2014-2015</SchoolYear>
+    <EntryDate>2002-09-09</EntryDate>
+    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+      <EntryType>Original entry into a United States school</EntryType>
+      <RepeatGradeIndicator>true</RepeatGradeIndicator>
+      <ClassOf>2020-2021</ClassOf>
+      <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2003-06-04</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Full Time Employment</EducationalPlan>
+      </EducationalPlans>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2019-2020</SchoolYear>
+    <EntryDate>2001-09-03</EntryDate>
+    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
+      <EntryType>Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2017-2018</ClassOf>
+      <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2002-05-30</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Outside Service Access</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2019-2020</SchoolYear>
+    <EntryDate>2002-09-09</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+      <EntryType>Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2017-2018</ClassOf>
+      <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2003-06-04</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Outside Service Access</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2019-2020</SchoolYear>
+    <EntryDate>2001-09-03</EntryDate>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+      <EntryType>Other</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2019-2020</ClassOf>
+      <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2002-05-30</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>High School Education Plan</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2019-2020</SchoolYear>
+    <EntryDate>2002-09-09</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+      <EntryType>Other</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2019-2020</ClassOf>
+      <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2003-06-04</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>High School Education Plan</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2014-2015</SchoolYear>
+    <EntryDate>2001-09-03</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+      <EntryType>Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2016-2017</ClassOf>
+      <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2002-05-30</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Career Pathways</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2014-2015</SchoolYear>
+    <EntryDate>2002-09-09</EntryDate>
+    <EntryGradeLevel>Third grade</EntryGradeLevel>
+      <EntryType>Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2016-2017</ClassOf>
+      <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2003-06-04</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Career Pathways</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2020-2021</SchoolYear>
+    <EntryDate>2001-09-03</EntryDate>
+    <EntryGradeLevel>Third grade</EntryGradeLevel>
+      <EntryType>Original entry into a United States school</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2017-2018</ClassOf>
+      <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2002-05-30</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Outside Service Access</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2020-2021</SchoolYear>
+    <EntryDate>2002-09-09</EntryDate>
+    <EntryGradeLevel>Fourth grade</EntryGradeLevel>
+      <EntryType>Original entry into a United States school</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2017-2018</ClassOf>
+      <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2003-06-04</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Outside Service Access</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2014-2015</SchoolYear>
+    <EntryDate>2001-09-03</EntryDate>
+    <EntryGradeLevel>Fourth grade</EntryGradeLevel>
+      <EntryType>Re-entry from the same school with no interruption of schooling</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2018-2019</ClassOf>
+      <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2002-05-30</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>High School Education Plan</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2014-2015</SchoolYear>
+    <EntryDate>2002-09-09</EntryDate>
+    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
+      <EntryType>Re-entry from the same school with no interruption of schooling</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2018-2019</ClassOf>
+      <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2003-06-04</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>High School Education Plan</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2016-2017</SchoolYear>
+    <EntryDate>2001-09-03</EntryDate>
+    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
+      <EntryType>Re-entry from the same school with no interruption of schooling</EntryType>
+      <RepeatGradeIndicator>true</RepeatGradeIndicator>
+      <ClassOf>2016-2017</ClassOf>
+      <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2002-05-30</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Full Time Employment</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2020-2021</SchoolYear>
+    <EntryDate>2002-09-09</EntryDate>
+    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
+      <EntryType>Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2016-2017</ClassOf>
+      <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2003-06-04</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Full Time Employment</EducationalPlan>
+      </EducationalPlans>
+  </StudentSchoolAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>3</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2001-09-03</BeginDate>
+      <EndDate>2002-05-30</EndDate>
+      <HomeroomIndicator>false</HomeroomIndicator>
+      <RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>4</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2001-09-03</BeginDate>
+      <EndDate>2002-05-30</EndDate>
+      <HomeroomIndicator>true</HomeroomIndicator>
+      <RepeatIdentifier>Not repeated</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>5</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2002-09-09</BeginDate>
+      <EndDate>2003-06-04</EndDate>
+      <HomeroomIndicator>true</HomeroomIndicator>
+      <RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2002-09-09</BeginDate>
+      <EndDate>2003-06-04</EndDate>
+      <HomeroomIndicator>false</HomeroomIndicator>
+      <RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>7</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2002-09-09</BeginDate>
+      <EndDate>2003-06-04</EndDate>
+      <HomeroomIndicator>false</HomeroomIndicator>
+      <RepeatIdentifier>Repeated, not counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>8</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2002-09-09</BeginDate>
+      <EndDate>2003-06-04</EndDate>
+      <HomeroomIndicator>true</HomeroomIndicator>
+      <RepeatIdentifier>Repeated, not counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>14</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2001-09-03</BeginDate>
+      <EndDate>2002-05-30</EndDate>
+      <HomeroomIndicator>true</HomeroomIndicator>
+      <RepeatIdentifier>Other</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>15</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2001-09-03</BeginDate>
+      <EndDate>2002-05-30</EndDate>
+      <HomeroomIndicator>false</HomeroomIndicator>
+      <RepeatIdentifier>Repeated, not counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>29</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2002-09-09</BeginDate>
+      <EndDate>2003-06-04</EndDate>
+      <HomeroomIndicator>true</HomeroomIndicator>
+      <RepeatIdentifier>Not repeated</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>32</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2002-09-09</BeginDate>
+      <EndDate>2003-06-04</EndDate>
+      <HomeroomIndicator>true</HomeroomIndicator>
+      <RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>19</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2001-09-03</BeginDate>
+      <EndDate>2002-05-30</EndDate>
+      <HomeroomIndicator>false</HomeroomIndicator>
+      <RepeatIdentifier>Not repeated</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>26</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2002-09-09</BeginDate>
+      <EndDate>2003-06-04</EndDate>
+      <HomeroomIndicator>true</HomeroomIndicator>
+      <RepeatIdentifier>Repeated, not counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2002-09-09</BeginDate>
+      <EndDate>2003-06-04</EndDate>
+      <HomeroomIndicator>false</HomeroomIndicator>
+      <RepeatIdentifier>Repeated, not counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2002-09-09</BeginDate>
+      <EndDate>2003-06-04</EndDate>
+      <HomeroomIndicator>false</HomeroomIndicator>
+      <RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>37</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2001-09-03</BeginDate>
+      <EndDate>2002-05-30</EndDate>
+      <HomeroomIndicator>true</HomeroomIndicator>
+      <RepeatIdentifier>Other</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>47</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2002-09-09</BeginDate>
+      <EndDate>2003-06-04</EndDate>
+      <HomeroomIndicator>false</HomeroomIndicator>
+      <RepeatIdentifier>Other</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>46</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2002-09-09</BeginDate>
+      <EndDate>2003-06-04</EndDate>
+      <HomeroomIndicator>true</HomeroomIndicator>
+      <RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>39</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2001-09-03</BeginDate>
+      <EndDate>2002-05-30</EndDate>
+      <HomeroomIndicator>true</HomeroomIndicator>
+      <RepeatIdentifier>Other</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>41</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2001-09-03</BeginDate>
+      <EndDate>2002-05-30</EndDate>
+      <HomeroomIndicator>true</HomeroomIndicator>
+      <RepeatIdentifier>Repeated, not counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>33</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2002-09-09</BeginDate>
+      <EndDate>2003-06-04</EndDate>
+      <HomeroomIndicator>false</HomeroomIndicator>
+      <RepeatIdentifier>Not repeated</RepeatIdentifier>
+  </StudentSectionAssociation>
+</InterchangeStudentEnrollment>

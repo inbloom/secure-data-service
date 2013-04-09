@@ -15,23 +15,40 @@
  */
 package org.slc.sli.api.resources.generic.service;
 
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.ws.rs.core.Response;
+import javax.xml.bind.DatatypeConverter;
+
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilter;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilterProvider;
+import org.slc.sli.api.migration.ApiSchemaAdapter;
 import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.resources.util.InProcessDateQueryEvaluator;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -47,19 +64,6 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
-
-import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Default implementation of the resource service.
@@ -88,10 +92,25 @@ public class DefaultResourceService implements ResourceService {
     private GranularAccessFilterProvider granularAccessFilterProvider;
 
     @Autowired
-    private InProcessDateQueryEvaluator inProcessDateQueryEvaluator;
+    private ApiSchemaAdapter adapter;
+    private Map<String, String> endDates = new HashMap<String, String>();
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
+    private static final String POST = "POST";
+    private static final String GET = "GET";
+    private static final String PUT = "PUT";
+
+    @PostConstruct
+    public void init() {
+        endDates.put(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS,
+                "exitWithdrawDate");
+
+        endDates.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "endDate");
+        endDates.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "endDate");
+        endDates.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "endDate");
+    }    
+    
     /**
      * @author jstokes
      */
@@ -145,7 +164,7 @@ public class DefaultResourceService implements ResourceService {
                 //inject error entities if needed
                 finalResults = injectErrors(definition, ids, finalResults);
 
-                return new ServiceResponse(finalResults, idLength);
+                return new ServiceResponse(adapter.migrate(finalResults, definition.getResourceName(), GET), idLength);
             }
         });
     }
@@ -188,7 +207,7 @@ public class DefaultResourceService implements ResourceService {
                     }
                     long count = getEntityCount(definition, apiQuery);
 
-                    return new ServiceResponse((List<EntityBody>) entityBodies, count);
+                    return new ServiceResponse(adapter.migrate((List<EntityBody>) entityBodies, definition.getResourceName(), GET), count);
                 } catch (NoGranularAccessDatesException e) {
                     List<EntityBody> entityBodyList = Collections.emptyList();
                     return new ServiceResponse(entityBodyList, 0);
@@ -228,8 +247,8 @@ public class DefaultResourceService implements ResourceService {
     @MigratePostedEntity
     public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
-
-        return definition.getService().create(entity);
+        List<String> entityIds = definition.getService().create(adapter.migrate(entity, definition.getResourceName(), POST));
+        return StringUtils.join(entityIds.toArray(), ",");
     }
 
     @Override
@@ -240,7 +259,11 @@ public class DefaultResourceService implements ResourceService {
         EntityBody copy = new EntityBody(entity);
         copy.remove(ResourceConstants.LINKS);
 
-        definition.getService().update(id, copy);
+        List<EntityBody> migratedCopies = adapter.migrate(copy, definition.getResourceName(), PUT);
+        if (migratedCopies.size() != 1) {
+            throw new IllegalStateException("Error occurred while processing entity body.");
+        }
+        definition.getService().update(id, migratedCopies.get(0));
     }
 
     @Override
@@ -329,9 +352,9 @@ public class DefaultResourceService implements ResourceService {
             } catch (final UnsupportedSelectorException e) {
                 entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
             }
-
+            
             long count = getEntityCount(definition, apiQuery);
-            return new ServiceResponse(entityBodyList, count);
+            return new ServiceResponse(adapter.migrate(entityBodyList, definition.getResourceName(), GET), count);
         } catch (NoGranularAccessDatesException e) {
             List<EntityBody> entityBodyList = Collections.emptyList();
             return new ServiceResponse(entityBodyList, 0);
@@ -358,6 +381,7 @@ public class DefaultResourceService implements ResourceService {
 
         return isAssociation;
     }
+    @SuppressWarnings("unchecked")
     private ServiceResponse getAssociatedEntities(final Resource base, final Resource association, final String id,
                                                   final Resource resource, final String associationKey, final URI requestUri) {
         List<String> valueList = Arrays.asList(id.split(","));
@@ -381,24 +405,20 @@ public class DefaultResourceService implements ResourceService {
                 apiQuery.setEmbeddedFields(Arrays.asList(assocEntity.getType()));
 
                 for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
-                    @SuppressWarnings("unchecked")
                     List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
-
+                    
                     if (associations != null) {
-                        if (finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
-                            //if the finalEntity references the assocEntity
-                            for (EntityBody associationEntity : associations) {
-                                filteredIdList.add((String) associationEntity.get("id"));
-                            }
+                        String ident = resourceKey;
+                        if (finalEntityReferencesAssociation(finalEntity,
+                                assocEntity, resourceKey)) {
+                            ident = "id";
                             key = resourceKey;
-                        } else {
-                            //otherwise the assocEntity references the finalEntity
+                        }
 
-                            List<EntityBody> dateMatchedAssociations = filterAssociationEntitiesForDates(associations, assocEntity);
-
-                            for (EntityBody associationEntity : dateMatchedAssociations) {
-                                filteredIdList.add((String) associationEntity.get(resourceKey));
-                            }
+                        List<EntityBody> filtered = getTimeFilteredAssociations(associations, baseEntity, assocEntity);
+                        
+                        for(EntityBody body : filtered) {
+                            filteredIdList.add((String) body.get(ident));
                         }
                     }
                 }
@@ -448,9 +468,9 @@ public class DefaultResourceService implements ResourceService {
                 if (crit.getKey().equals(key)
                         && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
                     skipIn = true;
-                    Set valueSet = new HashSet();
+                    Set<Object> valueSet = new HashSet<Object>();
                     if (crit.getValue() instanceof Collection) {
-                        valueSet.addAll((Collection) crit.getValue());
+                        valueSet.addAll((Collection<Object>) crit.getValue());
                     } else {
                         valueSet.add(crit.getValue());
                     }
@@ -471,7 +491,7 @@ public class DefaultResourceService implements ResourceService {
 
             long count = getEntityCount(finalEntity, finalApiQuery);
 
-            return new ServiceResponse(entityBodyList, count);
+            return new ServiceResponse(adapter.migrate(entityBodyList,finalEntity.getResourceName(), GET), count);
         } catch (NoGranularAccessDatesException e) {
             List<EntityBody> entityBodyList = Collections.emptyList();
             return new ServiceResponse(entityBodyList, 0);
@@ -572,74 +592,39 @@ public class DefaultResourceService implements ResourceService {
         }
     }
 
-    private List<EntityBody> filterAssociationEntitiesForDates(List<EntityBody> originalList, EntityDefinition assocEntity) {
-
-        if (granularAccessFilterProvider.hasFilter()) {
-            GranularAccessFilter filter = granularAccessFilterProvider.getFilter();
-
-            if (assocEntity.getType().equals(filter.getEntityName())) {
-                // need to filter in java, not using mongo query
-                NeutralQuery query = filter.getNeutralQuery();
-                List<EntityBody> resultList = new ArrayList<EntityBody>();
-
-                for (EntityBody entity : originalList){
-
-                    if(inProcessDateQueryEvaluator.entitySatisfiesDateQuery(entity,query)){
-                        resultList.add(entity);
-                    }
-                }
-
-                return resultList;
-            } else {
-                return originalList;
-            }
-        } else {
-            return originalList;
-        }
-    }
-
-
-    /**
-     * Determines whether a query matches an entity. This does NOT handle all operators,
-     * and it assumes that all the fields are strings. This is a minimal filter function
-     * that is used to apply the granular access query in Java in the case of embedded
-     * docs that are loaded in a batch. This is not intended to be a general purpose query
-     * handler.
-     *
-     * @param entity
-     * @param query
-     * @return
-     */
-    private boolean entitySatisfiesDateQuery(EntityBody entity, NeutralQuery query) {
-        for (NeutralCriteria andCriteria : query.getCriteria()) {
-            String fieldName = andCriteria.getKey();
-            String fieldValue = (String) entity.get(fieldName);
-            String operator = andCriteria.getOperator();
-
-
-            if (NeutralCriteria.CRITERIA_EXISTS.equals(operator)) {
-                boolean shouldExist = (Boolean) andCriteria.getValue();
-                Object actualValue = entity.get(fieldName);
-                if (shouldExist && actualValue == null) {
-                    return false;
-                }
-            } else {
-                String expectedValue = (String) andCriteria.getValue();
-                int comparison = fieldValue.compareTo(expectedValue);
-                if(NeutralCriteria.CRITERIA_LT.equals(operator)){
-
+    private List<EntityBody> getTimeFilteredAssociations(List<EntityBody> associations, EntityDefinition baseEntity, EntityDefinition assocEntity) {
+        List<EntityBody> filtered = new ArrayList<EntityBody>(associations);
+        if (!baseEntity.getResourceName().equals(ResourceNames.STUDENTS))  {
+            for (EntityBody associationEntity : associations) {
+                if ((this.endDates.keySet().contains(assocEntity.getResourceName()) && !isCurrent(assocEntity, associationEntity))) {
+                    filtered.remove(associationEntity);
                 }
             }
+        } 
 
-        }
-        return true;
+        return filtered;
     }
 
+    
+    private boolean isCurrent(EntityDefinition def, EntityBody body) {
+        String now = DatatypeConverter.printDate(Calendar.getInstance());
+        String assocEnd = (String) body.get(this.endDates.get(def
+                .getResourceName()));
+
+        // Absent end date means association is 'current'
+        if (assocEnd == null) {
+            assocEnd = "6999-12-12"; // infinity
+        }
+
+        return now.compareTo(assocEnd) < 0;
+    }
+    
     /**
      * Indicates that for a valid granular access query, no sessions and hence
      * no beginDate or endDate were found.
      */
     private class NoGranularAccessDatesException extends Exception {
+        private static final long serialVersionUID = 1L;
     }
 
 }

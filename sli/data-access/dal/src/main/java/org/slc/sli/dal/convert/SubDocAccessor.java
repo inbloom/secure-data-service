@@ -32,6 +32,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
 
@@ -54,7 +55,6 @@ import org.slc.sli.validation.schema.INaturalKeyExtractor;
  * Utility for accessing subdocuments that have been collapsed into a super-doc
  *
  * @author nbrown
- *
  */
 public class SubDocAccessor {
 
@@ -69,7 +69,7 @@ public class SubDocAccessor {
     private final INaturalKeyExtractor naturalKeyExtractor;
 
     public SubDocAccessor(MongoTemplate template, UUIDGeneratorStrategy didGenerator,
-            INaturalKeyExtractor naturalKeyExtractor) {
+                          INaturalKeyExtractor naturalKeyExtractor) {
         this.template = template;
         this.didGenerator = didGenerator;
         this.naturalKeyExtractor = naturalKeyExtractor;
@@ -93,6 +93,10 @@ public class SubDocAccessor {
         return new LocationBuilder(type);
     }
 
+    public Location createLocation(String type, String parentColl, Map<String, String> lookup, String subField) {
+        return new LocationBuilder(type).as(subField).within(parentColl).mapping(lookup).build();
+    }
+
     private class LocationBuilder {
         private Map<String, String> lookup = new HashMap<String, String>();
         private String collection;
@@ -107,8 +111,7 @@ public class SubDocAccessor {
         /**
          * Store the subdoc within the given super doc collection
          *
-         * @param collection
-         *            the collection the subdoc gets stored in
+         * @param collection the collection the subdoc gets stored in
          * @return
          */
         public LocationBuilder within(String collection) {
@@ -119,8 +122,7 @@ public class SubDocAccessor {
         /**
          * The field the subdocs show up in
          *
-         * @param subField
-         *            The field the subdocs show up in
+         * @param subField The field the subdocs show up in
          * @return
          */
         public LocationBuilder as(String subField) {
@@ -147,13 +149,20 @@ public class SubDocAccessor {
             locations.put(type, new Location(collection, lookup, subField));
         }
 
+        public Location build() {
+            return new Location(collection, lookup, subField);
+        }
+
+        public LocationBuilder mapping(Map<String, String> lookupMap) {
+            lookup.putAll(lookupMap);
+            return this;
+        }
     }
 
     /**
      * THe location of the subDoc
      *
      * @author nbrown
-     *
      */
     public class Location {
 
@@ -164,12 +173,9 @@ public class SubDocAccessor {
         /**
          * Create a new location to store subdocs
          *
-         * @param collection
-         *            the collection the superdoc is in
-         * @param key
-         *            the field in the subdoc that refers to the super doc's id
-         * @param subField
-         *            the place to put the sub doc
+         * @param collection the collection the superdoc is in
+         * @param key        the field in the subdoc that refers to the super doc's id
+         * @param subField   the place to put the sub doc
          */
         public Location(String collection, Map<String, String> lookup, String subField) {
             super();
@@ -250,7 +256,6 @@ public class SubDocAccessor {
                 }
                 return false;
             }
-
         }
 
         private DBObject buildPullObject(List<Entity> subEntities) {
@@ -316,9 +321,56 @@ public class SubDocAccessor {
             subEntities.add(entity);
             TenantContext.setIsSystemCall(false);
 
-            return template.getCollection(collection)
-                    .update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError()
+            boolean updateResult = template.getCollection(collection)
+            		.update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError()
                     .ok();
+            if (!updateResult) {
+            	return updateResult;
+            }
+
+            // Now retrieve the full doc and if it has gone completely empty, remove it from the data store.
+            // This is useful to clean out data consisting solely of IDs that appear in the "lookup" fields:
+            // the subdoc data may be getting deleted as part of a larger, cascading delete that also deletes
+            // the parent objects these IDs refer to.  In these cases it is necessary to remove the entire superdoc
+            // to avoid having dangling IDs anywhere in the data store.
+            DBCursor subDocs = template.getCollection(collection).find(parentQuery);
+            if( null == subDocs ) {
+            	LOG.warn("Failed to retreive superdoc after item deletion using criteria: " + parentQuery.toString());
+            	return updateResult;
+            }
+            // Should really only have one object in this cursor.  However the empty-check is highly conservative
+            // so that the effect on multiple matches would be to clean them all, which would be desirable.
+            while( subDocs.hasNext() ) {
+                DBObject subDoc = subDocs.next();
+                Map<String, Object> map = subDoc.toMap();
+                map.remove("_id");
+                map.remove("type");
+                // Remove "lookup" keys present in body
+                Map<String, Object> body = (Map<String, Object>) map.get("body");
+                if ( body != null ) {
+                	// Remove keys from body that match exactly keys in "lookup" of the form { "foo": "body.foo" }
+                	for ( String lkey : lookup.keySet() ) {
+                		String lval = lookup.get(lkey);
+                		if (!lval.startsWith("body.")) {
+                			continue;
+                		}
+                		lval = lval.substring(5); // Remove leading "body."
+                		if (null != body.get(lval)) {
+                			body.remove(lval);
+                		}
+                	}
+                }
+                // Remove entire document if it is empty (net of any extra "lookup" fields added for performance)
+                if ( isEffectivelyEmpty(map) ) {
+                    boolean deleteResult = template.getCollection(collection)
+                    		.remove(parentQuery, WriteConcern.SAFE).getLastError()
+                            .ok();
+                    if (!deleteResult) {
+                    	return deleteResult;
+                    }
+                }
+            }
+            return updateResult;
         }
 
         public boolean insert(List<Entity> entities) {
@@ -478,7 +530,7 @@ public class SubDocAccessor {
         }
 
         // retrieve the ids from DBObject value for "_id" field
-        @SuppressWarnings({ "unchecked" })
+        @SuppressWarnings({"unchecked"})
         private Set<String> getIds(Object queryValue) {
             Set<String> ids = new HashSet<String>();
             if (queryValue instanceof String) {
@@ -499,8 +551,15 @@ public class SubDocAccessor {
             simplifyParentQuery(parentQuery);
             DBObject idQuery = buildIdQuery(parentQuery);
 
-            String queryCommand = buildAggregateQuery((idQuery == null ? parentQuery.toString() : idQuery.toString()),
-                    parentQuery.toString(), ", {$group: { _id: null, count: {$sum: 1}}}");
+//            String queryCommand = buildAggregateQuery((idQuery == null ? parentQuery.toString() : idQuery.toString()),
+//                    parentQuery.toString(), ", {$group: { _id: null, count: {$sum: 1}}}");
+            String groupQuery = ", {$group: { _id: null, count: {$sum: 1}}}";
+            String queryCommand;
+            if (idQuery == null) {
+                queryCommand = buildAggregateQuery(parentQuery.toString(), null, groupQuery);
+            } else {
+                queryCommand = buildAggregateQuery(idQuery.toString(), parentQuery.toString(), groupQuery);
+            }
             TenantContext.setIsSystemCall(false);
 
             CommandResult result = template.executeCommand(queryCommand);
@@ -530,8 +589,14 @@ public class SubDocAccessor {
             simplifyParentQuery(parentQuery);
 
             DBObject idQuery = buildIdQuery(parentQuery);
-            String queryCommand = buildAggregateQuery(idQuery != null ? idQuery.toString() : parentQuery.toString(),
-                    parentQuery.toString(), limitQuerySB.toString());
+//            String queryCommand = buildAggregateQuery(idQuery != null ? idQuery.toString() : parentQuery.toString(),
+//                    parentQuery.toString(), limitQuerySB.toString());
+            String queryCommand;
+            if (idQuery == null) {
+                queryCommand = buildAggregateQuery(parentQuery.toString(), null, limitQuerySB.toString());
+            } else {
+                queryCommand = buildAggregateQuery(idQuery.toString(), parentQuery.toString(), limitQuerySB.toString());
+            }
             TenantContext.setIsSystemCall(false);
             CommandResult result = template.executeCommand(queryCommand);
             List<DBObject> subDocs = (List<DBObject>) result.get("result");
@@ -563,6 +628,7 @@ public class SubDocAccessor {
         private DBObject buildIdQuery(DBObject parentQuery) {
             DBObject idQuery = new Query().getQueryObject();
             Set<String> parentQueryKeys = parentQuery.keySet();
+            Set<String> removeFieldKeys = new HashSet<String>();
             if (parentQuery.containsField("_id")) {
                 Object idFinalList = parentQuery.get("_id");
                 if (idFinalList instanceof List) {
@@ -573,9 +639,18 @@ public class SubDocAccessor {
                 parentQuery.removeField("_id");
             } else {
                 for (String parentQueryKey : parentQueryKeys) {
-                    if (parentQueryKey.startsWith(subField + ".body.") && parentQueryKey.endsWith("Id")) {
+                    if (parentQueryKey.startsWith(subField + ".body.") && (parentQueryKey.endsWith("Id") ||
+                            parentQueryKey.endsWith("learningObjectives") || parentQueryKey.endsWith("assessmentItemRefs"))) {
                         idQuery.put(parentQueryKey, parentQuery.get(parentQueryKey));
+                    } else if (parentQueryKey.startsWith("body")) {
+                        idQuery.put(parentQueryKey, parentQuery.get(parentQueryKey));
+                        removeFieldKeys.add(parentQueryKey);
                     }
+                }
+            }
+            if (!removeFieldKeys.isEmpty()) {
+                for (String parentQueryKey : removeFieldKeys) {
+                    parentQuery.removeField(parentQueryKey);
                 }
             }
             if (idQuery.keySet().size() == 0) {
@@ -707,6 +782,31 @@ public class SubDocAccessor {
 
     public Location subDoc(String docType) {
         return locations.get(docType);
+    }
+
+    /*
+     * Check if a map of data is "effectively" empty - has only values that are null,
+     * empty string, or empty lists.  This allows us to get rid of
+     * "garbage" super-docs after the last subdoc item is deleted, so as not to leave
+     * potentially invalid indexing information in the data store.
+     *
+     * This method is used as criteria for total deletion of a document, and therefore
+     * should be "conservative," only returning true if it is certain all content
+     * is of known (and empty) type.
+     */
+    private static boolean isEffectivelyEmpty(Map<String, Object> map) {
+    	for ( String key : map.keySet()) {
+    		Object val = map.get(key);
+    		if (    ( null == val )
+    			 || ( (val instanceof String) && ((String) val).length() == 0 )
+    			 || ( (val instanceof Map)  && isEffectivelyEmpty((Map<String, Object>) val) )
+    			 || ( (val instanceof List<?>) && ((List<?>) val).isEmpty() )
+    			 ) {
+				continue;
+			}
+    		return false;
+    	}
+    	return true;
     }
 
     public static void main(String[] args) {

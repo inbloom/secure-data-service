@@ -31,6 +31,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -77,6 +78,9 @@ public class DeterministicIdResolverTest {
 
     @Mock
     private EntityConfigFactory entityConfigs;
+
+    @Mock
+    private ContainerDocumentHolder mockContainerDocHolder;
 
     private static final String TENANT = "tenant";
     private static final String ENTITY_TYPE = "entity_type";

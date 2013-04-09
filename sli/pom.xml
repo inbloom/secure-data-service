@@ -18,7 +18,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
         <sli.build.tools>1.0-SNAPSHOT</sli.build.tools>
-	<test.threadcount>2</test.threadcount>
         <!-- Maven Plugin Versions -->
         <maven.compiler.version>2.3.2</maven.compiler.version>
         <maven.jar.version>2.3.2</maven.jar.version>
@@ -226,6 +225,7 @@
         <module>simple-idp</module>
         <module>sif</module>
         <module>search-indexer</module>
+        <module>bulk-extract</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -978,7 +978,8 @@
                         </dependency>
                     </dependencies>
                     <configuration>
-                        <showWeaveInfo>true</showWeaveInfo>
+                        <showWeaveInfo>false</showWeaveInfo>
+                        <verbose>false</verbose>
                         <source>1.6</source>
                         <XnoInline>true</XnoInline>
                         <complianceLevel>1.6</complianceLevel>
@@ -1088,9 +1089,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
                 <configuration>
+                    <argLine>-Xms256m -Xmx256m</argLine>
                     <runOrder>alphabetical</runOrder>
-                    <parallel>methods</parallel>
-                    <threadCount>${test.threadcount}</threadCount>
                     <systemPropertyVariables>
                         <emma.rt.control>false</emma.rt.control>
                         <sli.conf>${sli.conf}</sli.conf>
@@ -1184,6 +1184,34 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <!-- here the phase you need -->
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>opstools/migration/index_migration</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>config/indexes</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>tenantDB_indexes.txt</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
         </plugins>
     </build>
     <reporting>

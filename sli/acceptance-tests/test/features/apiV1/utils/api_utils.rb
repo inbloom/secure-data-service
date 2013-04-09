@@ -79,14 +79,15 @@ end
 
 When /^I navigate to POST "([^"]*)"$/ do |post_uri|
   data = prepareData(@format, @fields)
+  puts("POSTing: #{data.inspect}") if $SLI_DEBUG
   restHttpPost(post_uri, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-When /^I set the "([^"]*)" array to "([^"]*)"$/ do |property,value|
+When /^I set the "([^"]*)" array to (.*)$/ do |property,value|
   @fields = {} if !defined? @fields
   if (value.is_a?(Array))
-    @fields[property] = value
+    step "\"#{property}\" is \"#{value}\""
   else
     @fields[property] = eval(value)
   end
@@ -182,7 +183,7 @@ Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
 end
 
 Then /^the response should contain the appropriate fields and values$/ do
-  EntityProvider.verify_entities_match(@fields, @result)
+  EntityProvider.verify_entities_match(@fields.to_hash, @result.to_hash)
 end
 
 Then /^the error message should indicate "([^"]*)"$/ do |error_message|
@@ -245,6 +246,17 @@ Then /^in each entity, I should receive a link named "([^"]*)" with URI "([^"]*)
     end
     assert(foundInEntity, "A link labeled #{rel} with value #{href} was not present in one or more returned entities")
   end
+end
+
+Then /^I should find and store a link named "(.*?)"$/ do |rel|
+  foundInEntity = false
+  @result["links"].each do |link|
+    if link["rel"] == rel
+      @link = link["href"]
+      foundInEntity = true
+    end
+  end
+  assert(foundInEntity, "A link labeled #{rel} with value #{href} was not present in one or more returned entities")
 end
 
 Then /^in occurrence (\d+) I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |position, rel, href|
@@ -329,5 +341,11 @@ def data_builder
   formatted_data
 end
 
+Then /^the response should contain the "([^"]*)" field$/ do  |school_year|
+    jsonresult = JSON.parse(@res.body)
+    jsonresult.each do |data|
+        assert(data["schoolYear"] == school_year, "School year matches")
+    end
+end
 
 

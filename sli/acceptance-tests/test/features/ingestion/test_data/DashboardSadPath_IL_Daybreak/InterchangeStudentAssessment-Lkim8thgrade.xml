@@ -19,7 +19,6 @@
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>XY</CodeValue> 
-           <Description>XY unknown</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -28,9 +27,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 StateTest Writing</ID> 
-                </AssessmentIdentificationCode> 
+               <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+               <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -57,7 +56,6 @@
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>XY</CodeValue> 
-           <Description>XY Unknown</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -66,9 +64,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 StateTest Reading</ID> 
-                </AssessmentIdentificationCode> 
+               <AssessmentTitle>Grade 8 2011 StateTest Reading</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+               <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment>  
@@ -92,7 +90,6 @@
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>BS</CodeValue> 
-           <Description>Below Standards</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -101,9 +98,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 StateTest Writing</ID> 
-                </AssessmentIdentificationCode> 
+               <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+               <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -130,7 +127,6 @@
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>MS</CodeValue> 
-           <Description>Meets Standards</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -139,9 +135,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 StateTest Reading</ID> 
-                </AssessmentIdentificationCode> 
+               <AssessmentTitle>Grade 8 2011 StateTest Reading</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+               <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -159,7 +155,6 @@
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>BS</CodeValue> 
-           <Description>Below Standards</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -168,9 +163,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 StateTest Writing</ID> 
-                </AssessmentIdentificationCode> 
+               <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+               <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -197,7 +192,6 @@
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>ES</CodeValue> 
-           <Description>Exceeds Standards</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -206,9 +200,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 StateTest Reading</ID> 
-                </AssessmentIdentificationCode> 
+               <AssessmentTitle>Grade 8 2011 StateTest Reading</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+               <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -229,7 +223,6 @@
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>MS</CodeValue> 
-           <Description>Meets Standards</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -238,9 +231,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 StateTest Writing</ID> 
-                </AssessmentIdentificationCode> 
+               <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+               <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -264,7 +257,6 @@
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>MS</CodeValue> 
-           <Description>Meets Standards</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -273,9 +265,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 StateTest Reading</ID> 
-                </AssessmentIdentificationCode> 
+               <AssessmentTitle>Grade 8 2011 StateTest Reading</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+               <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -293,7 +285,6 @@
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>BS</CodeValue> 
-           <Description>Below Standards</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -302,9 +293,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 StateTest Writing</ID> 
-                </AssessmentIdentificationCode> 
+               <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+               <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -334,7 +325,6 @@
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>ES</CodeValue> 
-           <Description>Exceeds Standards</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -343,9 +333,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 StateTest Reading</ID> 
-                </AssessmentIdentificationCode> 
+               <AssessmentTitle>Grade 8 2011 StateTest Reading</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+               <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -363,7 +353,6 @@
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>AW</CodeValue> 
-           <Description>Academic Warning</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -372,9 +361,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 StateTest Writing</ID> 
-                </AssessmentIdentificationCode> 
+               <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+               <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -398,7 +387,6 @@
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>MS</CodeValue> 
-           <Description>Meets Standards</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -407,9 +395,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 StateTest Reading</ID> 
-                </AssessmentIdentificationCode> 
+               <AssessmentTitle>Grade 8 2011 StateTest Reading</AssessmentTitle>
+               <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+               <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 	

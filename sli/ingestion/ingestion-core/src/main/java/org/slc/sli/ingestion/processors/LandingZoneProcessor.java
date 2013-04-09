@@ -85,8 +85,6 @@ public class LandingZoneProcessor implements Processor {
         } else {
             currentJob = createNewBatchJob(lzFile);
             createResourceEntryAndAddToJob(lzFile, currentJob);
-            TenantContext.setTenantId(currentJob.getTenantId());
-            TenantContext.setJobId(currentJob.getId());
             batchJobId = currentJob.getId();
 
             // Verify that the landing zone file is a zip file.
@@ -138,6 +136,8 @@ public class LandingZoneProcessor implements Processor {
     private NewBatchJob createNewBatchJob(File lzFile) {
         String batchJobId = NewBatchJob.createId(lzFile.getName());
         String tenantId = tenantDA.getTenantId(lzFile.getParent());
+        TenantContext.setTenantId(tenantId);
+        TenantContext.setJobId(batchJobId);
 
         NewBatchJob newJob = new NewBatchJob(batchJobId, tenantId);
         newJob.setStatus(BatchJobStatusType.RUNNING.getName());
@@ -160,10 +160,10 @@ public class LandingZoneProcessor implements Processor {
     private void setExchangeBody(Exchange exchange, ReportStats reportStats, NewBatchJob job, boolean hasErrors) {
         WorkNote workNote = null;
         if (job != null) {
-            workNote = new WorkNote(job.getId(), job.getTenantId(), hasErrors);
+            workNote = new WorkNote(job.getId(), hasErrors);
             exchange.getIn().setBody(workNote, WorkNote.class);
         } else {
-            workNote = new WorkNote(null, null, hasErrors);
+            workNote = new WorkNote(null, hasErrors);
         }
         exchange.getIn().setBody(workNote, WorkNote.class);
     }

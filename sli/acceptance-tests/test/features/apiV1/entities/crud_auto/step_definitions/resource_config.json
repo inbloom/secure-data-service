@@ -9,6 +9,7 @@
       "beginDate": "2012-07-01",
       "endDate": "2013-07-31",
       "totalInstructionalDays": 20
+
     },
     "UPDATE": {
       "field": "endDate",
@@ -36,7 +37,7 @@
     "POST": {
       "entityType": "attendance",
       "studentId": "0c2756fd-6a30-4010-af79-488d6ef2735a_id",
-      "schoolId": "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+      "schoolId": "92d6d5a0-852c-45f4-907a-912752831772",
       "schoolYearAttendance": [
         {
           "schoolYear": "2011-2012",
@@ -77,7 +78,8 @@
   "studentAcademicRecord": {
     "POST": {
       "studentId": "61161008-2560-480d-aadf-4b0264dc2ae3_id",
-      "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072"
+      "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072",
+      "schoolYear": "2011-2012"
     },
     "UPDATE": {
       "field": "cumulativeGradePointsEarned",
@@ -301,7 +303,7 @@
     "POST": {
       "gradebookEntryType": "Quiz",
       "dateAssigned": "2012-02-14",
-      "sectionId": "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
+      "sectionId": "47b5adbf-6fd0-4f07-ba5e-39612da2e234_id"
     },
     "UPDATE": {
       "field": "description",
@@ -576,7 +578,11 @@
     "POST": {
       "studentSectionAssociationId": "9b02fbd2-0892-4399-a4ea-e048b3315f25_id00cbf81b-41df-4bda-99ad-a5717d3e81a1_id",
       "letterGradeEarned": "B+",
-      "gradeType": "Final"
+      "gradeType": "Final",
+      "schoolYear": "2011-2012",
+      "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id",
+      "sectionId": "47b5adbf-6fd0-4f07-ba5e-39612da2e234_id"
+
     },
     "UPDATE": {
       "field": "gradeType",
@@ -623,7 +629,7 @@
   "reportCard": {
     "POST": {
       "grades": [
-        "ef42e2a2-9942-11e1-a8a9-68a86d21d918"
+        "78501562270ca2938d56f793547bc3fc2c0b56e6_idef42e2a2-9942-11e1-a8a9-68a86d21d918"
       ],
       "studentCompetencyId": [
         "3a2ea9f8-9acf-11e1-add5-68a86d83461b"
@@ -634,7 +640,8 @@
       "numberOfDaysInAttendance": 150,
       "numberOfDaysTardy": 10,
       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id",
-      "gradingPeriodId": "ef72b883-90fa-40fa-afc2-4cb1ae17623b"
+      "gradingPeriodId": "ef72b883-90fa-40fa-afc2-4cb1ae17623b",
+      "schoolYear": "2011-2012"
     },
     "UPDATE": {
       "field": "numberOfDaysAbsent",
@@ -698,7 +705,7 @@
       "objectiveGradeLevel": "Kindergarten",
       "objective": "Phonemic Awareness",
       "studentCompetencyObjectiveId": "SCO-K-1",
-      "educationOrganizationId": "ec2e4218-6483-4e9c-8954-0aecccfd4731"
+      "educationOrganizationId": "92d6d5a0-852c-45f4-907a-912752831772"
     },
     "UPDATE": {
       "field": "objectiveGradeLevel",
@@ -715,13 +722,14 @@
     "POST": {
       "studentId": "0f0d9bac-0081-4900-af7c-d17915e02378_id",
       "courseId": "5a04c851-d741-4fd7-8bca-62e3f6f7220e",
-      "studentAcademicRecordId": "16afc8d4-6c91-48f9-8a51-de527c1131b7",
+      "studentAcademicRecordId": "7a70c01bf8d93d9b1f53ab45080777b0b49794fa_id56afc8d4-6c91-48f9-8a11-de527c1131b7",
       "courseAttemptResult": "Pass",
       "creditsEarned": {
         "credit": 4.0
       },
       "gradeType": "Final",
-      "finalLetterGradeEarned": "A"
+      "finalLetterGradeEarned": "A",
+      "educationOrganizationReference" : ["92d6d5a0-852c-45f4-907a-912752831772"]
     },
     "UPDATE": {
       "field": "finalLetterGradeEarned",
@@ -741,7 +749,7 @@
   "staffCohortAssociation": {
     "POST": {
       "staffId": "04f708bc-928b-420d-a440-f1592a5d1073",
-      "cohortId": "b408635d-8fd5-11e1-86ec-0021701f543f_id",
+      "cohortId": "f95269af-cb73-4694-7919-201211130010_id",
       "beginDate": "2010-01-15",
       "endDate": "2013-03-29",
       "studentRecordAccess": true
@@ -990,5 +998,22 @@
     "context" : {
       "sectionId": "sections"
     }
+  },
+  "yearlyAttendance" : {
+    "POST" :{
+        "studentId" : "5738d251-dd0b-4734-9ea6-417ac9320a15_id",
+        "schoolId" : "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+        "schoolYear" : "2012-2013",
+        "attendanceEvent" : [
+        {
+            "date" : "2010-09-16",
+            "event" : "Tardy"
+        }
+        ]
+   },
+   "UPDATE" : {
+    "field": "studentId",
+    "value": "5738d251-dd0b-4734-9ea6-417ac9320a15_id"
+   }
   }
 }

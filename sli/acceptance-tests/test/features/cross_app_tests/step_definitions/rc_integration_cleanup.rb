@@ -31,7 +31,14 @@ limitations under the License.
 Given /^I have a connection to Mongo$/ do
   host = PropLoader.getProps['ingestion_db']
   port = PropLoader.getProps['ingestion_db_port']
+
   @conn = Mongo::Connection.new(host, port)
+
+  # HACK TO WORK AROUND MONGOS DROP DATABASE BUG
+  port2 = PropLoader.getProps['rcingest02_port']
+  port3 = PropLoader.getProps['rcingest03_port']
+  @conn2 = Mongo::Connection.new(host, port2) if port2
+  @conn3 = Mongo::Connection.new(host, port3) if port3
 end
 
 ###############################################################################
@@ -84,7 +91,25 @@ Then /^my tenant database should be cleared$/ do
 end
 
 Then /^I will drop the whole database$/ do
-  @conn.drop_database(@tenant_db_name)
+  attempts = 0
+  begin
+    attempts += 1
+    res = @conn.drop_database(@tenant_db_name)
+    puts "Attempted to drop database #{attempts} times: #{res.to_a}"
+    raise "Could not drop database" if (attempts > 15)
+  end while @conn.database_names.include?(@tenant_db_name)
+
+  # HACK TO WORK AROUND MONGOS DROP DATABASE BUG
+  if @conn2
+    res = @conn2.drop_database(@tenant_db_name)
+    puts "Attempted to drop database from second mongos: #{res.to_a}"
+  end
+  if @conn3
+    res = @conn3.drop_database(@tenant_db_name)
+    puts "Attempted to drop database from second mongos: #{res.to_a}"
+  end
+  #/ HACK TO WORK AROUND MONGOS DROP DATABASE BUG
+
   tenant_dropped = false
   if (!@conn.database_names.include?(@tenant_db_name) || @conn.db(@tenant_db_name).collection_names.empty?)
     tenant_dropped = true
@@ -101,20 +126,26 @@ Then /^I will clean my tenants recordHash documents from ingestion_batch_job db$
 end
 
 Then /^I clean my tenant's landing zone$/ do
-if RUN_ON_RC
-    steps %Q{
+  begin
+    if RUN_ON_RC
+      steps %Q{
         Given I am using local data store
         And I am using default landing zone
         And I am using the tenant "<SANDBOX_TENANT>"
         And I use the landingzone user name "<DEVELOPER_SB_EMAIL>" and password "<DEVELOPER_SB_EMAIL_PASS>" on landingzone server "<LANDINGZONE>" on port "<LANDINGZONE_PORT>"
    }
-
-   Net::SFTP.start(@lz_url, @lz_username, {:password => @lz_password, :port => @lz_port_number}) do |sftp|
+      puts "SFTP Connection info: #{@lz_url}, #{@lz_username}, #{@lz_password}, #{@lz_port_number}, #{@landing_zone_path}"
+      Net::SFTP.start(@lz_url, @lz_username, {:password => @lz_password, :port => @lz_port_number}) do |sftp|
         clear_remote_lz(sftp)
       end
+    end
+  rescue SystemExit, Interrupt
+    raise
+  rescue Exception => e
+    puts "Error cleaning out Landing Zone.  Continuing regardless."
+    puts "#{e}"
+    puts e.backtrace.join("\n")
   end
-
-
 end
 
 
@@ -126,8 +157,8 @@ end
 
 Then /^I will delete the realm for this tenant from the collection$/ do
   sli_db = @conn.db(PropLoader.getProps['sli_database_name'])
-  sli_db['realm'].remove("body.tenantId" => @tenant_name)
-  assert(sli_db['realm'].find("body.tenantId" => @tenant_name).count == 0, "Realm document not deleted.")
+  sli_db['realm'].remove("body.uniqueIdentifier" => "RC-IL-Daybreak")
+  assert(sli_db['realm'].find("body.uniqueIdentifier" => "RC-IL-Daybreak").count == 0, "Realm document not deleted.")
 end
 
 Then /^I will delete the applications "([^\"]*)" from the collection$/ do |apps|
@@ -137,4 +168,11 @@ Then /^I will delete the applications "([^\"]*)" from the collection$/ do |apps|
     sli_db['application'].remove("body.name" => name)
     assert(sli_db['application'].find("body.name" => name).count == 0, "The application '#{name}' is not deleted.")
   end
+end
+
+
+Then /^I close all open Mongo connections$/ do
+  @conn.close if @conn != nil
+  @conn2.close if @conn2 != nil
+  @conn3.close if @conn3 != nil
 end

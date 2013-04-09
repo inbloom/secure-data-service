@@ -16,16 +16,24 @@
 
 package org.slc.sli.dal.convert;
 
+import static org.slc.sli.common.constants.EntityNames.ASSESSMENT;
+import static org.slc.sli.common.constants.EntityNames.OBJECTIVE_ASSESSMENT;
+import static org.slc.sli.common.constants.EntityNames.STUDENT_ASSESSMENT;
+import static org.slc.sli.common.constants.EntityNames.STUDENT_OBJECTIVE_ASSESSMENT;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_ID;
+import static org.slc.sli.common.constants.ParameterConstants.ASSESSMENT_ITEM;
+import static org.slc.sli.common.constants.ParameterConstants.STUDENT_ASSESSMENT_ITEM;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
-import org.springframework.stereotype.Component;
 
 /**
  * studentAssessment converter that transform studentAssessment superdoc to sli studentAssessment
@@ -36,23 +44,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class StudentAssessmentConverter extends GenericSuperdocConverter implements SuperdocConverter {
     
+    private static final String OBJECTIVE_ASSESSMENT_ID = "objectiveAssessmentId";
+    private static final String STUDENT_ASSESSMENT_ID = "studentAssessmentId";
+    private static final String ASSESSMENT_ITEM_ID = "assessmentItemId";
+
     @Override
     public void subdocToBodyField(Entity entity) {
-        if (entity != null && entity.getType().equals(EntityNames.STUDENT_ASSESSMENT)) {
-            Entity assessment = retrieveAssessment(entity.getBody().get("assessmentId"));
+        if (entity != null && entity.getType().equals(STUDENT_ASSESSMENT)) {
+            Entity assessment = retrieveAssessment(entity.getBody().get(ASSESSMENT_ID));
             
             // replace assessmentItem reference in studentAssessmentItem with actual assessmentItem
             // entity
-            referenceEntityResolve(entity, assessment, "studentAssessmentItem", "assessmentItemId", "assessmentItem");
-            subdocsToBody(entity, "studentAssessmentItem", "studentAssessmentItems",
-                    Arrays.asList("studentAssessmentId"));
+            referenceEntityResolve(entity, assessment, STUDENT_ASSESSMENT_ITEM, ASSESSMENT_ITEM_ID, ASSESSMENT_ITEM);
+            subdocsToBody(entity, STUDENT_ASSESSMENT_ITEM, "studentAssessmentItems",
+                    Arrays.asList(STUDENT_ASSESSMENT_ID));
             
             // replace objectiveAssessment reference in studentObjectiveAssessment with actual
             // objectiveAssessment entity
-            referenceEntityResolve(entity, assessment, "studentObjectiveAssessment", "objectiveAssessmentId",
-                    "objectiveAssessment");
-            subdocsToBody(entity, "studentObjectiveAssessment", "studentObjectiveAssessments",
-                    Arrays.asList("studentAssessmentId"));
+            referenceEntityResolve(entity, assessment, STUDENT_OBJECTIVE_ASSESSMENT, OBJECTIVE_ASSESSMENT_ID,
+                    OBJECTIVE_ASSESSMENT);
+            subdocsToBody(entity, STUDENT_OBJECTIVE_ASSESSMENT, "studentObjectiveAssessments",
+                    Arrays.asList(STUDENT_ASSESSMENT_ID));
             
             entity.getEmbeddedData().clear();
         }
@@ -78,6 +90,10 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
                 String referenceKeyId = (String) saSubEntity.getBody().remove(referenceKey);
                 Entity assessmentSubEntity = getEntityById(assessmentSubEntityMap, referenceKeyId);
                 if (assessmentSubEntity != null) {
+                    // remove the subObjectiveAssessment
+                    if (assmtSubEntityType.equals(OBJECTIVE_ASSESSMENT)) {
+                        assessmentSubEntity.getBody().remove(AssessmentConverter.SUB_OBJECTIVE_ASSESSMENT_REFS);
+                    }
                     saSubEntity.getBody().put(assmtSubEntityType, assessmentSubEntity.getBody());
                     saConvertedSubEntities.add(saSubEntity);
                 }
@@ -118,7 +134,7 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
                 // superdoc studentAssessment
                 
                 // also need to put in the parent key for the refEntity so it will generate the same did
-                refEntityBody.put("assessmentId", studentAssessment.getBody().get("assessmentId"));
+                refEntityBody.put(ASSESSMENT_ID, studentAssessment.getBody().get(ASSESSMENT_ID));
                 
                 String refEntityDid = generateSubdocDid(refEntityBody, refEntityType);
                 // remove the ref entity (objectiveAssessment and assessmentItem) from subEntity
@@ -139,21 +155,26 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
         }
         String assessmentId = (String) object;
         Entity assessmentEntity = ((MongoEntityRepository) repo).getTemplate().findById(assessmentId, Entity.class,
-                EntityNames.ASSESSMENT);
+                ASSESSMENT);
 
         return assessmentEntity;
     }
-    
+
     @Override
     public void bodyFieldToSubdoc(Entity entity) {
-        if (entity != null && entity.getType().equals(EntityNames.STUDENT_ASSESSMENT)) {
-            referenceIdResolve(entity, "studentAssessmentItems", "assessmentItem", "assessmentItemId");
-            bodyToSubdocs(entity, "studentAssessmentItem", "studentAssessmentItems", "studentAssessmentId");
-            
-            referenceIdResolve(entity, "studentObjectiveAssessments", "objectiveAssessment", "objectiveAssessmentId");
-            bodyToSubdocs(entity, "studentObjectiveAssessment", "studentObjectiveAssessments", "studentAssessmentId");
+        bodyFieldToSubdoc(entity, null);
+    }
+
+    @Override
+    public void bodyFieldToSubdoc(Entity entity, SuperdocConverter.Option option) {
+        if (entity != null && entity.getType().equals(STUDENT_ASSESSMENT)) {
+            referenceIdResolve(entity, "studentAssessmentItems", ASSESSMENT_ITEM, ASSESSMENT_ITEM_ID);
+            bodyToSubdocs(entity, STUDENT_ASSESSMENT_ITEM, "studentAssessmentItems", STUDENT_ASSESSMENT_ID);
+
+            referenceIdResolve(entity, "studentObjectiveAssessments", OBJECTIVE_ASSESSMENT, OBJECTIVE_ASSESSMENT_ID);
+            bodyToSubdocs(entity, STUDENT_OBJECTIVE_ASSESSMENT, "studentObjectiveAssessments", STUDENT_ASSESSMENT_ID);
         }
-        
+
     }
 
     @Override
@@ -167,13 +188,18 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
 
     @Override
     public void bodyFieldToSubdoc(Iterable<Entity> entities) {
+        bodyFieldToSubdoc(entities, null);
+    }
+
+    @Override
+    public void bodyFieldToSubdoc(Iterable<Entity> entities, SuperdocConverter.Option option) {
         if (entities != null) {
             for (Entity entity : entities) {
-                bodyFieldToSubdoc(entity);
+                bodyFieldToSubdoc(entity, option);
             }
         }
     }
-    
+
     private Entity getEntityById(Map<String, Entity> assessmentSubEntityMap, String id) {
         if (assessmentSubEntityMap != null && assessmentSubEntityMap.containsKey(id)) {
             return assessmentSubEntityMap.get(id);

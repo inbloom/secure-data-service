@@ -17,7 +17,6 @@ domain/src/main/resources/sliModel/SLI.xmi
 domain/src/main/resources/sliModel/SLI.xsd
 META*
 testBundle*.zip
-opstools/search-indexer/data/
 api/data
 api/src/main/resources/is_shards.js
 api/src/main/resources/sli-shard-presplit.js
@@ -26,4 +25,12 @@ api/src/main/resources/sli_shards.js
 config/scripts/vendor/*
 config/scripts/.bundle/*
 
+opstools/search-indexer/data/
+opstools/migration/index_migration/tenantDB_indexes.txt
+
 search-indexer/activemq-data
+
+bulk-extract/scripts/extract
+!bulk-extract/src/main/java/org/slc/sli/bulk/extract/files/metadata/
+!bulk-extract/src/test/java/org/slc/sli/bulk/extract/files/metadata/
+bulk-extract/src/main/resources/api

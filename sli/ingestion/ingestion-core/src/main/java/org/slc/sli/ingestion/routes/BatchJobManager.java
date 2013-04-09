@@ -19,7 +19,10 @@ import org.apache.camel.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
@@ -34,6 +37,23 @@ public final class BatchJobManager {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    public void prepareTenantContext(Exchange exchange) {
+        String[] commandChunks = exchange.getIn().getBody().toString().split("\\|");
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+
+        // How to find the current batch job id?
+        // If the body is of WorkNote (for most cases), use workNote.getBatchJobId(
+        // Otherwise (such as between JobReportingProcessor and CommandProcessor), use commandChunks[1]
+        NewBatchJob currentJob = null;
+        if (workNote != null) {
+            currentJob = batchJobDAO.findBatchJobById(workNote.getBatchJobId());
+        } else if (commandChunks != null && commandChunks.length > 1) {
+            currentJob = batchJobDAO.findBatchJobById(commandChunks[1]);
+        }
+        String tenantId = currentJob==null ? null : currentJob.getTenantId();
+        TenantContext.setTenantId(tenantId);
+    }
+
     public boolean isDryRun(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         String jobId = workNote.getBatchJobId();
@@ -45,4 +65,22 @@ public final class BatchJobManager {
         return workNote.hasErrors();
     }
 
+    public boolean isEligibleForDeltaPurge(Exchange exchange) {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        String jobId = workNote.getBatchJobId();
+        String deltaMode =  batchJobDAO.getDuplicateDetectionMode(jobId);
+
+        if(deltaMode != null && isDeltaPurgeMode(deltaMode)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isDeltaPurgeMode(String mode) {
+        if((mode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE) || mode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_RESET))) {
+            return true;
+        }
+            return false;
+    }
 }

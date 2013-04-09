@@ -31,7 +31,7 @@ describe "Student" do
     end
     
     it "Can access demographics.state class variable" do
-      student.state.should eq("NY")
+      student.state.should eq("IL")
     end
     
     it "will choose gender" do
@@ -39,11 +39,11 @@ describe "Student" do
     end
       
     it "will match the city in choices.yml" do
-      student.city.should eq("New York")
+      student.city.should eq("Chicago")
     end
 
     it "will match the HARDCODED zip code"  do
-      student.postalCode.should eq("10292")
+      student.postalCode.should eq("60601")
     end
 
     it "should generate a first name" do

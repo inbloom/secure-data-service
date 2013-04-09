@@ -12,7 +12,7 @@ jQuery ->
     $("#state-menu select").change ->
         selected = $(@).find("option:selected")
         return false if selected.val() == ""
-        $.get("/lea?state=" + selected.val(), (data) ->
+        $.get("/lea?sea_id=" + selected.val(), (data) ->
             $("#lea-menu").html(data)
             $('a#enable-help').tooltip()            
             $("#lea-menu table").trigger("change")
@@ -89,6 +89,17 @@ jQuery ->
   $("#applications tr.odd td").click ->
     if $(@).attr("class") != "rowAction"
       $(@).parent().next("tr").slideToggle()
+
+jQuery ->
+  if $('#isBulkExtract > :checkbox').is(':checked')
+    $("#publicKey").show()
+  else
+    $("#publicKey").hide()
+  $('#isBulkExtract > :checkbox').click ->
+    if($(@).is(':checked'))
+      $("#publicKey").show()
+    else
+      $("#publicKey").hide()
 
 jQuery ->
   $('#installed > :checkbox').click ->

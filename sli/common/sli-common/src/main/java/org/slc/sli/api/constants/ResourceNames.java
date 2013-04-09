@@ -39,6 +39,7 @@ public final class ResourceNames {
     public static final String COHORTS = "cohorts";
     public static final String COMPETENCY_LEVEL_DESCRIPTORS = "competencyLevelDescriptor";
     public static final String COURSES = "courses";
+    public static final String CUSTOM = "custom";
     public static final String STUDENT_TRANSCRIPTS = "courseTranscripts";
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
     public static final String DISCIPLINE_ACTIONS = "disciplineActions";
@@ -82,6 +83,7 @@ public final class ResourceNames {
     public static final String STAFF_COHORT_ASSOCIATION_GETTER = "getStaffCohortAssociation";
     public static final String STAFF_COHORT_ASSOCIATIONS_GETTER = "getStaffCohortAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
+    public static final String YEARLY_ATTENDANCES = "yearlyAttendances";
     public static final String ADMIN_DELEGATION = "adminDelegation";
     public static final String HOME = "home";
 
@@ -115,6 +117,7 @@ public final class ResourceNames {
 
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");
+        SINGULAR_LINK_NAMES.put(ResourceNames.YEARLY_ATTENDANCES, "getYearlyAttendance");
         SINGULAR_LINK_NAMES.put(ResourceNames.COHORTS, ResourceNames.COHORT_GETTER);
         SINGULAR_LINK_NAMES.put(ResourceNames.COURSES, "getCourse");
         SINGULAR_LINK_NAMES.put(ResourceNames.DISCIPLINE_INCIDENTS, "getDisciplineIncident");

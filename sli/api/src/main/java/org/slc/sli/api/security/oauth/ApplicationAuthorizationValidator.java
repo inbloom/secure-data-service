@@ -21,8 +21,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.domain.Entity;
@@ -68,8 +70,10 @@ public class ApplicationAuthorizationValidator {
         } else {
             if (isAutoAuthorized(app)) {
                 return true;
+            } else if (!isOperatorApproved(app)) {
+                return false;
             } else {
-                Set<String> edOrgs = helper.getDirectEdorgs(principal.getEntity());
+                Set<String> edOrgs = helper.locateDirectEdorgs(principal.getEntity());
                 NeutralQuery appAuthCollQuery = new NeutralQuery();
                 appAuthCollQuery.addCriteria(new NeutralCriteria("applicationId", "=", app.getEntityId()));
                 appAuthCollQuery.addCriteria(new NeutralCriteria("edorgs", NeutralCriteria.CRITERIA_IN, edOrgs));
@@ -80,7 +84,7 @@ public class ApplicationAuthorizationValidator {
                     } else {
                         //query approved edorgs
                         List<String> approvedDistricts = new ArrayList<String>((List<String>) app.getBody().get("authorized_ed_orgs"));
-                        List<String> myDistricts = helper.getDistricts(principal.getEntity());
+                        List<String> myDistricts = helper.getDistricts(edOrgs);
                         approvedDistricts.retainAll(myDistricts);
                         return !approvedDistricts.isEmpty();
                     }
@@ -104,6 +108,12 @@ public class ApplicationAuthorizationValidator {
         Boolean value = (Boolean) app.getBody().get("admin_visible");
         return value != null && value.booleanValue();
     }
+    
+    private boolean isOperatorApproved(Entity app) {
+        Map<String, Object> registration = (Map<String, Object>) app.getBody().get("registration");
+        String value = (String) registration.get("status");
+        return value.equals(ApplicationResource.STATUS_APPROVED);
+    }
 
     /**
      * Return a list of edorgs authorized to use the app, or null if the application is approved for all edorgs
@@ -113,12 +123,12 @@ public class ApplicationAuthorizationValidator {
     public Set<String> getAuthorizingEdOrgsForApp(String clientId) {
         //This is called before the SLIPrincipal has been set, so use TenantContext to get tenant rather than SLIPrincipal on SecurityContext
         Entity app = repo.findOne("application", new NeutralQuery(new NeutralCriteria("client_id", "=", clientId)));
-        
+
         if (isAuthorizedForAllEdorgs(app)) {
             debug("App {} is authorized for all edorgs", clientId);
             return null;
         }
-        
+
         NeutralQuery appAuthCollQuery = new NeutralQuery(new NeutralCriteria("applicationId", "=", app.getEntityId()));
         Entity authEntry = repo.findOne("applicationAuthorization", appAuthCollQuery);
         if (authEntry != null) {

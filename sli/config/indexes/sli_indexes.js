@@ -44,3 +44,5 @@ db["userSession"].ensureIndex({"body.expiration":1,"body.hardLogout":1,"body.app
 db["userSession"].ensureIndex({"body.hardLogout":1,"body.expiration":1});  //api
 db["userSession"].ensureIndex({"body.principal.externalId":1});  //api
 db["userSession"].ensureIndex({"body.appSession.token":1});  //token
+
+db["bulkExtractFiles"].ensureIndex({"body.tenantId":1}); //bulk extract

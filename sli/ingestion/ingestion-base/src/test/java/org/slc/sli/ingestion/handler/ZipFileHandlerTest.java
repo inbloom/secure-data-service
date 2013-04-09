@@ -16,6 +16,9 @@
 
 package org.slc.sli.ingestion.handler;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -43,8 +47,9 @@ public class ZipFileHandlerTest {
     private ZipFileHandler zipHandler;
 
     @Test
-    public void testZipHandling() {
-        FileResource zip = new FileResource("src/test/resources/zip/ValidZip.zip");
+    public void testZipHandling() throws FileNotFoundException {
+        File f = IngestionTest.getFile("zip/ValidZip.zip");
+        FileResource zip = new FileResource(f.getAbsolutePath());
 
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
@@ -56,8 +61,9 @@ public class ZipFileHandlerTest {
     }
 
     @Test
-    public void testAbsenceOfZipHandling() {
-        FileResource zip = new FileResource("src/test/resources/zip/NoControlFile.zip");
+    public void testAbsenceOfZipHandling() throws FileNotFoundException {
+        File f = IngestionTest.getFile("zip/NoControlFile.zip");
+        FileResource zip = new FileResource(f.getAbsolutePath());
 
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
@@ -69,8 +75,9 @@ public class ZipFileHandlerTest {
     }
 
     @Test
-    public void testIOExceptionHandling() {
-        FileResource zip = new FileResource("src/test/resources/zip/NoControlFile2.zip");
+    public void testIOExceptionHandling() throws FileNotFoundException {
+        File f = IngestionTest.getFile("zip/NoControlFile.zip");
+        FileResource zip = new FileResource(new File(f.getParentFile(), "NoControlFile2.zip").getAbsolutePath());
 
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();

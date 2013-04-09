@@ -1,9 +1,7 @@
 @RALLY_US215
-@derp
 Feature: User sees information in databrowser for certain districts
 
-
-	Background:
+Background:
   Given that databrowser has been authorized for all ed orgs
 
 Scenario: An Educator is denied access because they are not an administrator
@@ -38,8 +36,7 @@ Scenario: The Educator role is given the Admin flag so an Educator gets access
     When I navigate to see the teachers in the school "Sunset Central High"
     Then I should see that there are "2" teachers 
 
-@DE2510
-@wip
+@DE_2510
 Scenario: An IT Admin in Daybreak and Sunset sees the Daybreak data but not the Sunset data
     Given I remove the application authorizations in sunset
     And I have an open web browser
@@ -52,7 +49,7 @@ Scenario: An IT Admin in Daybreak and Sunset sees the Daybreak data but not the 
     When I navigate to see the teachers in the school "Daybreak Central High"
     Then I should see that there are "2" teachers 
     When I navigate to see the teachers in the school "Sunset Central High"
-    Then I see a "You do not have access to view this." alert box
+    Then I should see a message that I am forbidden
 
 Scenario: Put data back
   Given that databrowser has been authorized for all ed orgs

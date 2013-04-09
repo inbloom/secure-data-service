@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<xs:schema attributeFormDefault='qualified'
-	elementFormDefault='qualified' xmlns:sli='http://slc-sli/ed-org/0.1'
-	xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+<xs:schema attributeFormDefault='qualified' elementFormDefault='qualified' xmlns:sli='http://slc-sli/ed-org/0.1' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
 
-	<xs:include schemaLocation='SimpleTypes.xsd' />
+	<xs:include schemaLocation='SimpleTypes.xsd'/>
 
 	<!-- This file contains the complex types for the SLI database schema representation. -->
 	<xs:complexType name='assessment'>
@@ -35,26 +33,31 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='assessmentFamilyHierarchyName'
-				type='xs:string'>
-				<xs:annotation>
-					<xs:documentation>
-						A hierarchical name for the assessment
-						using '.'
-						separators.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs='unbounded' name='assessmentIdentificationCode'
-				type='assessmentIdentificationCode'>
+            <xs:element maxOccurs='1' minOccurs='0' name='assessmentFamilyHierarchyName' type='xs:string'>
+                <xs:annotation>
+                    <xs:documentation>Hierarchical name for the assessment using '.' separators.  This field constructed from AssessmentFamily information and is read-only.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs='1' minOccurs='0' name='assessmentFamilyReference' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Reference to the assessment family associated with this
+                        assessment.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+			<xs:element maxOccurs='unbounded' name='assessmentIdentificationCode' type='assessmentIdentificationCode'>
 				<xs:annotation>
 					<xs:documentation>
 						A unique number or alphanumeric code
@@ -65,7 +68,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -85,7 +88,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -103,7 +106,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -130,12 +133,11 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='lowestGradeLevelAssessed'
-				type='gradeLevelType'>
+			<xs:element minOccurs='0' name='lowestGradeLevelAssessed' type='gradeLevelType'>
 				<xs:annotation>
 					<xs:documentation>
 						The lowest grade assessed when the
@@ -150,12 +152,11 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='assessmentPerformanceLevel' type='assessmentPerformanceLevel'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='assessmentPerformanceLevel' type='assessmentPerformanceLevel'>
 				<xs:annotation>
 					<xs:documentation>
 						Definition of the performance levels and the
@@ -171,7 +172,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -190,7 +191,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -205,7 +206,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -217,7 +218,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -231,7 +232,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -244,7 +245,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -257,7 +258,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -268,12 +269,25 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs='0' name='assessmentPeriodDescriptor'
-				type='assessmentPeriodDescriptor'>
+            </xs:element>
+            <!--  this is a 'virtual' element that only exists for superdoc processing -->
+            <xs:element minOccurs='0' name='assessmentPeriodDescriptorId' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Reference to the assessment period descriptor </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessmentPeriodDescriptor</sli:ReferenceType>
+                        <sli:hidden>true</sli:hidden>
+                        <sli:associationKey>true</sli:associationKey>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+
+			<xs:element minOccurs='0' name='assessmentPeriodDescriptor' type='assessmentPeriodDescriptor'>
 				<xs:annotation>
 					<xs:documentation>
 						The period or window in which an assessment
@@ -284,13 +298,14 @@
 						and "End of Year."
 					</xs:documentation>
 					<xs:appinfo>
+                        <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+                        <sli:CollectionType>assessmentPeriodDescriptor</sli:CollectionType>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='objectiveAssessment' type='objectiveAssessment'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='objectiveAssessment' type='objectiveAssessment'>
 				<xs:annotation>
 					<xs:documentation>
 						Subsets of the assessment that address
@@ -299,12 +314,11 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='assessmentItem' type='assessmentItem'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='assessmentItem' type='assessmentItem'>
 				<xs:annotation>
 					<xs:documentation>
 						Individual test items, if appropriate.
@@ -313,18 +327,160 @@
                                                 <sli:hidden>true</sli:hidden>
 						<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 						<sli:CollectionType>assessmentItem</sli:CollectionType>
-						<sli:WriteEnforcement>
-							<sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
-						</sli:WriteEnforcement>
-						<sli:ReadEnforcement>
-							<sli:allowedBy>READ_GENERAL</sli:allowedBy>
-						</sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+    <xs:complexType name='assessmentFamily'>
+        <xs:annotation>
+            <xs:documentation>This entity represents a logical grouping or association of
+                assessments that share a common purpose, heritage, or content standard. There may be
+                hierarchies of Assessment Families. Characteristics (e.g., Academic Subject)
+                specified for AssessmentFamilies, by convention, are inherited by the Assessments
+                associated with the AssessmentFamily. </xs:documentation>
+            <xs:appinfo>
+                <sli:CollectionType>assessmentFamily</sli:CollectionType>
+                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name='assessmentFamilyTitle' type='assessmentTitle'>
+                <xs:annotation>
+                    <xs:documentation>The title or name of the assessment family. </xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs='unbounded' name='assessmentFamilyIdentificationCode' type='assessmentIdentificationCode'>
+                <xs:annotation>
+                    <xs:documentation>A unique number or alphanumeric code assigned to an assessment
+                        by a school, school system, a state, or other agency or
+                        entity.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs='0' name='assessmentCategory' type='assessmentCategoryType'>
+                <xs:annotation>
+                    <xs:documentation>The category of an assessment based on format and content. For
+                        example: Achievement test, Advanced placement test, Alternate
+                        assessment/grade-level standards, Attitudinal test, Cognitive and perceptual
+                        skills test, etc. </xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs='0' name='academicSubject' type='academicSubjectType'>
+                <xs:annotation>
+                    <xs:documentation>The description of the content or subject area (e.g., arts,
+                        mathematics, reading, stenography, or a foreign language) of an assessment
+                        family.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs='0' name='gradeLevelAssessed' type='gradeLevelType'>
+                <xs:annotation>
+                    <xs:documentation>The typical grade level for which an assessment family is
+                        designed. If the assessment spans a range of grades, then this attribute
+                        holds the highest grade assessed. If only one grade level is assessed then
+                        only this attribute is used. For example: Adult, Prekindergarten, First
+                        grade, Second grade, etc.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs='0' name='lowestGradeLevelAssessed' type='gradeLevelType'>
+                <xs:annotation>
+                    <xs:documentation>If the assessment spans a range of grades, then this attribute
+                        holds the lowest grade assessed. If only one grade level is assessed, then
+                        this attribute is omitted.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs='0' name='contentStandard' type='contentStandardType'>
+                <xs:annotation>
+                    <xs:documentation>An indication as to whether an assessment conforms to a
+                        standard. For example: Local standard, Statewide standard, Regional standard
+                        Association standard, etc.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs='0' name='version' type='version'>
+                <xs:annotation>
+                    <xs:documentation>The version identifier for the assessment family. </xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs='0' name='revisionDate' type='xs:date'>
+                <xs:annotation>
+                    <xs:documentation>The month, day, and year that the conceptual design for the
+                        assessment family was most recently revised substantially. </xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs='0' name='nomenclature' type='nomenclature'>
+                <xs:annotation>
+                    <xs:documentation>Reflects the specific nomenclature used for this level of
+                        AssessmentFamily.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs='unbounded' minOccurs='0' name='assessmentPeriods' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>The periods or windows defined in which an assessment is
+                        supposed to be administered.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessmentPeriodDescriptor</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs='0' name='assessmentFamilyReference' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>References the higher level AssessmentFamily this one belongs
+                        to.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessmentFamily</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 	<xs:complexType name='assessmentIdentificationCode'>
 		<xs:annotation>
 			<xs:documentation>A unique number or alphanumeric code assigned to an
@@ -340,8 +496,8 @@
 						or entity.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -352,20 +508,19 @@
 						agencies to refer to an assessment.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='assigningOrganizationCode'
-				type='identificationCode'>
+			<xs:element minOccurs='0' name='assigningOrganizationCode' type='identificationCode'>
 				<xs:annotation>
 					<xs:documentation>The organization code or name assigning the
 						assessment identification code.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -380,7 +535,7 @@
 		</xs:annotation>
 		<xs:sequence>
             <!--  this is a 'virtual' element that only exists for superdoc processing -->
-            <xs:element minOccurs='0' name='assessmentId' type='reference'>
+            <xs:element minOccurs='1' name='assessmentId' type='reference'>
                 <xs:annotation>
                     <xs:documentation>Reference to the assessment taken by the
                         student.
@@ -390,8 +545,8 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:associationKey>true</sli:associationKey>
                         <sli:hidden>true</sli:hidden>
-                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -408,8 +563,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -423,8 +578,8 @@
 						....
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -434,8 +589,8 @@
 						assessment items are correct and scored at the maximum.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -444,20 +599,19 @@
 					<xs:documentation>The correct response for the assessment item.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='learningStandards' type='reference'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='learningStandards' type='reference'>
 				<xs:annotation>
 					<xs:documentation>Learning Standard tested by this item.
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>learningStandard</sli:ReferenceType>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -467,8 +621,8 @@
 						AssessmentItem.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -494,8 +648,8 @@
 						assessment.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -508,8 +662,8 @@
 						cut score. More than one type of reporting method may be used.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -519,8 +673,8 @@
 						level of performance.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -530,8 +684,8 @@
 						performance.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -685,8 +839,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='generationCodeSuffix'
-				type='generationCodeSuffixType'>
+			<xs:element minOccurs='0' name='generationCodeSuffix' type='generationCodeSuffixType'>
 				<xs:annotation>
 					<xs:documentation>An appendage, if any, used to denote an
 						individual's
@@ -707,8 +860,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='verification'
-				type='personalInformationVerificationType'>
+			<xs:element minOccurs='0' name='verification' type='personalInformationVerificationType'>
 				<xs:annotation>
 					<xs:documentation>The evidence presented to verify one's personal
 						identity; for
@@ -752,8 +904,8 @@
 								Independent or Charter
 							</xs:documentation>
 							<xs:appinfo>
-								<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-								<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+								<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+								<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -768,13 +920,12 @@
 								charter school.
 							</xs:documentation>
 							<xs:appinfo>
-								<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-								<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                                <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                                <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element minOccurs='0' name='localEducationAgencyReference'
-						type='reference'>
+					<xs:element minOccurs='0' name='localEducationAgencyReference' type='reference'>
 						<xs:annotation>
 							<xs:documentation>For subdistricts, the LEA the subdistrict
 								is a
@@ -782,21 +933,20 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-								<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-								<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                                <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                                <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element minOccurs='0' name='educationServiceCenterReference'
-						type='reference'>
+					<xs:element minOccurs='0' name='educationServiceCenterReference' type='reference'>
 						<xs:annotation>
 							<xs:documentation>The ESC of which the LEA is an organizational
 								component.
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-								<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-								<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                                <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                                <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -816,7 +966,7 @@
 		</xs:annotation>
 		<xs:sequence>
             <!--  this is a 'virtual' element that only exists for superdoc processing -->
-            <xs:element minOccurs='0' name='assessmentId' type='reference'>
+            <xs:element minOccurs='1' name='assessmentId' type='reference'>
                 <xs:annotation>
                     <xs:documentation>Reference to the assessment
                     </xs:documentation>
@@ -825,13 +975,13 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:hidden>true</sli:hidden>
                         <sli:associationKey>true</sli:associationKey>
-                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <!--  this is a 'virtual' element that only exists for superdoc processing -->
-            <xs:element minOccurs='0' maxOccurs="unbounded" name='subObjectiveAssessment' type='reference'>
+            <xs:element maxOccurs='unbounded' minOccurs='0' name='subObjectiveAssessment' type='reference'>
                 <xs:annotation>
                     <xs:documentation>Reference to the sub objective assessment
                     </xs:documentation>
@@ -840,13 +990,13 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:hidden>true</sli:hidden>
                         <sli:associationKey>true</sli:associationKey>
-                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <!--  this is a 'virtual' element that only exists for superdoc processing -->
-            <xs:element minOccurs='0' maxOccurs="unbounded" name='assessmentItemRefs' type='reference'>
+            <xs:element maxOccurs='unbounded' minOccurs='0' name='assessmentItemRefs' type='reference'>
                 <xs:annotation>
                     <xs:documentation>Reference to the sub objective assessment
                     </xs:documentation>
@@ -855,8 +1005,8 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:hidden>true</sli:hidden>
                         <sli:associationKey>true</sli:associationKey>
-                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -872,8 +1022,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -883,13 +1033,12 @@
 						assessment items that are correct and scored at the maximum.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='assessmentPerformanceLevel' type='assessmentPerformanceLevel'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='assessmentPerformanceLevel' type='assessmentPerformanceLevel'>
 				<xs:annotation>
 					<xs:documentation>Definition of the performance levels and the
 						associated cut scores. Three styles are supported:
@@ -905,8 +1054,8 @@
 						scores
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -916,8 +1065,8 @@
 						objective.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -928,37 +1077,34 @@
 						level of ObjectiveAssessment.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='assessmentItem' type='assessmentItem'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='assessmentItem' type='assessmentItem'>
 				<xs:annotation>
 					<xs:documentation>References individual test items, if
 						appropriate.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='learningObjectives' type='reference'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='learningObjectives' type='reference'>
 				<xs:annotation>
 					<xs:documentation>References to a learning objective
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>learningObjective</sli:ReferenceType>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='objectiveAssessments' type='objectiveAssessment'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='objectiveAssessments' type='objectiveAssessment'>
 				<xs:annotation>
 					<xs:documentation>
 						Subsets of the assessment that address
@@ -968,8 +1114,8 @@
 					<xs:appinfo>
                         <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                         <sli:CollectionType>objectiveAssessment</sli:CollectionType>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1030,8 +1176,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='generationCodeSuffix'
-				type='generationCodeSuffixType'>
+			<xs:element minOccurs='0' name='generationCodeSuffix' type='generationCodeSuffixType'>
 				<xs:annotation>
 					<xs:documentation>An appendage, if any, used to denote an
 						individual's
@@ -1094,8 +1239,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='otherName'
-				type='otherName'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='otherName' type='otherName'>
 				<xs:annotation>
 					<xs:documentation>
 						Other names (e.g., alias, nickname, previous
@@ -1120,8 +1264,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='address'
-				type='address'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='address' type='address'>
 				<xs:annotation>
 					<xs:documentation>Parent's address, if different from student
 						address.
@@ -1134,8 +1277,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='telephone'
-				type='telephone'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='telephone' type='telephone'>
 				<xs:annotation>
 					<xs:documentation>
 						The 10-digit telephone number, including the
@@ -1150,8 +1292,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='electronicMail' type='electronicMail'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='electronicMail' type='electronicMail'>
 				<xs:annotation>
 					<xs:documentation>
 						The numbers, letters, and symbols used to
@@ -1338,8 +1479,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='educationalEnvironment'
-				type='educationalEnvironmentType'>
+			<xs:element minOccurs='0' name='educationalEnvironment' type='educationalEnvironmentType'>
 				<xs:annotation>
 					<xs:documentation>The setting where the restraint was exercised.
 					</xs:documentation>
@@ -1371,8 +1511,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='programReference' type='reference'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='programReference' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The special education program associated with the
 						restraint event.
@@ -1405,8 +1544,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='restraintEventReason' type='restraintEventReasonItemType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='restraintEventReason' type='restraintEventReasonItemType'>
 				<xs:annotation>
 					<xs:documentation>The categorization of the circumstances or reason
 						for the restraint.
@@ -1451,8 +1589,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1465,19 +1603,18 @@
 						part, the value of this section attribute should be 1.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base='xs:int'>
-						<xs:minInclusive value='1' />
-						<xs:maxInclusive value='8' />
+						<xs:minInclusive value='1'/>
+						<xs:maxInclusive value='8'/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element minOccurs='0' name='educationalEnvironment'
-				type='educationalEnvironmentType'>
+			<xs:element minOccurs='0' name='educationalEnvironment' type='educationalEnvironmentType'>
 				<xs:annotation>
 					<xs:documentation>The setting in which a child receives education
 						and related services; for example:
@@ -1491,8 +1628,8 @@
 						....
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1512,8 +1649,8 @@
 						...
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1534,8 +1671,8 @@
 						....
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1559,8 +1696,8 @@
 						(SCED).
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1571,40 +1708,37 @@
 					<xs:appinfo>
 						<sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<!-- obtain location information via SectionBellScheduleAssocation -->
-			<xs:element maxOccurs='1' minOccurs='0' name='sessionId'
-				type='reference'>
+			<xs:element maxOccurs='1' minOccurs='0' name='sessionId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The session associated with the section. This
 						reference is required.
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>session</sli:ReferenceType>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='programReference' type='reference'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='programReference' type='reference'>
 				<xs:annotation>
 					<xs:documentation>Optional reference to program (e.g., CTE, etc.)
 						the section is associated with.
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>program</sli:ReferenceType>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='1' minOccurs='1' name='courseOfferingId'
-				type='reference'>
+			<xs:element maxOccurs='1' minOccurs='1' name='courseOfferingId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The course offering associated with the section.
 						This
@@ -1612,21 +1746,20 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>courseOffering</sli:ReferenceType>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='assessmentReferences' type='reference'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='assessmentReferences' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The assessment(s) which the section is associated
 						with
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>assessment</sli:ReferenceType>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1724,8 +1857,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' name='gradingPeriodReference'
-				type='reference'>
+			<xs:element maxOccurs='unbounded' name='gradingPeriodReference' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The grading periods that take place during
 						the
@@ -1835,7 +1967,6 @@
 				educational activity groups.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>educationOrganization</sli:CollectionType>
 				<sli:schemaVersion>1</sli:schemaVersion>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
@@ -1844,19 +1975,17 @@
 		<xs:complexContent>
 			<xs:extension base='educationOrganization'>
 				<xs:sequence>
-					<xs:element maxOccurs='unbounded' minOccurs='0'
-						name='gradesOffered' type='gradeLevelType'>
+					<xs:element maxOccurs='unbounded' minOccurs='0' name='gradesOffered' type='gradeLevelType'>
 						<xs:annotation>
 							<xs:documentation>The grade levels served at the school.
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-								<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+								<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element maxOccurs='unbounded' minOccurs='0'
-						name='schoolCategories' type='schoolCategoryItemType'>
+					<xs:element maxOccurs='unbounded' minOccurs='0' name='schoolCategories' type='schoolCategoryItemType'>
 						<xs:annotation>
 							<xs:documentation>The one or more categories of school. For
 								example:
@@ -1864,7 +1993,7 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-								<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+								<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -1877,7 +2006,7 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-								<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+								<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -1895,24 +2024,22 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-								<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+								<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element minOccurs='0' name='titleIPartASchoolDesignation'
-						type='titleIPartASchoolDesignationType'>
+					<xs:element minOccurs='0' name='titleIPartASchoolDesignation' type='titleIPartASchoolDesignationType'>
 						<xs:annotation>
 							<xs:documentation>Denotes the Title I Part A designation for the
 								school.
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-								<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+								<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element minOccurs='0'
-						name='magnetSpecialProgramEmphasisSchool' type='magnetSpecialProgramEmphasisSchoolType'>
+					<xs:element minOccurs='0' name='magnetSpecialProgramEmphasisSchool' type='magnetSpecialProgramEmphasisSchoolType'>
 						<xs:annotation>
 							<xs:documentation>A school that has been designed: 1) to attract
 								students of different racial/ethnic backgrounds for the purpose
@@ -1927,12 +2054,11 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-								<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+								<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element minOccurs='0' name='administrativeFundingControl'
-						type='administrativeFundingControlType'>
+					<xs:element minOccurs='0' name='administrativeFundingControl' type='administrativeFundingControlType'>
 						<xs:annotation>
 							<xs:documentation>The type of education institution as
 								classified
@@ -1941,7 +2067,7 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-								<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+								<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -2246,8 +2372,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='assigningOrganizationCode'
-				type='identificationCode'>
+			<xs:element minOccurs='0' name='assigningOrganizationCode' type='identificationCode'>
 				<xs:annotation>
 					<xs:documentation>The organization code or name assigning the staff
 						Identification
@@ -2504,8 +2629,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='staffIdentificationCode' type='staffIdentificationCode'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='staffIdentificationCode' type='staffIdentificationCode'>
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned
 						to a
@@ -2530,8 +2654,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='otherName'
-				type='otherName'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='otherName' type='otherName'>
 				<xs:annotation>
 					<xs:documentation>Other names (e.g., alias, nickname, previous
 						legal
@@ -2564,8 +2687,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='address'
-				type='address'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='address' type='address'>
 				<xs:annotation>
 					<xs:documentation>The set of elements that describes an address,
 						including the street address, city, state, and ZIP code.
@@ -2576,8 +2698,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='telephone'
-				type='telephone'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='telephone' type='telephone'>
 				<xs:annotation>
 					<xs:documentation>The 10-digit telephone number, including the
 						area
@@ -2589,8 +2710,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='electronicMail' type='electronicMail'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='electronicMail' type='electronicMail'>
 				<xs:annotation>
 					<xs:documentation>The numbers, letters, and symbols used to
 						identify an
@@ -2604,8 +2724,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name='hispanicLatinoEthnicity' nillable='true'
-				type='xs:boolean'>
+			<xs:element name='hispanicLatinoEthnicity' nillable='true' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>An indication that the individual traces his or
 						her
@@ -2639,8 +2758,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='race'
-				type='raceItemType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='race' type='raceItemType'>
 				<xs:annotation>
 					<xs:documentation>The general racial category which most clearly
 						reflects the individual's recognition of his or her community or
@@ -2669,8 +2787,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='yearsOfPriorProfessionalExperience'
-				type='xs:int'>
+			<xs:element minOccurs='0' name='yearsOfPriorProfessionalExperience' type='xs:int'>
 				<xs:annotation>
 					<xs:documentation>The total number of years that an individual
 						has
@@ -2684,8 +2801,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='yearsOfPriorTeachingExperience'
-				type='xs:int'>
+			<xs:element minOccurs='0' name='yearsOfPriorTeachingExperience' type='xs:int'>
 				<xs:annotation>
 					<xs:documentation>The total number of years that an individual
 						has
@@ -2698,8 +2814,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='credentials'
-				type='credential'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='credentials' type='credential'>
 				<xs:annotation>
 					<xs:documentation>The legal document or authorization giving
 						authorization to perform teaching assignment services.
@@ -2742,7 +2857,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base='educationOrganization' />
+			<xs:extension base='educationOrganization'/>
 		</xs:complexContent>
 	</xs:complexType>
 
@@ -2786,8 +2901,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='studentIdentificationCode' type='studentIdentificationCode'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='studentIdentificationCode' type='studentIdentificationCode'>
 				<xs:annotation>
 					<xs:documentation>A coding scheme that is used for identification
 						and
@@ -2811,8 +2925,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='otherName'
-				type='otherName'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='otherName' type='otherName'>
 				<xs:annotation>
 					<xs:documentation>Other names (e.g., alias, nickname, previous
 						legal
@@ -2851,8 +2964,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='address'
-				type='address'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='address' type='address'>
 				<xs:annotation>
 					<xs:documentation>The set of elements that describes an address,
 						including the street address, city, state, and ZIP code.
@@ -2865,8 +2977,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='telephone'
-				type='telephone'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='telephone' type='telephone'>
 				<xs:annotation>
 					<xs:documentation>The 10-digit telephone number, including the
 						area
@@ -2879,8 +2990,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='electronicMail' type='electronicMail'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='electronicMail' type='electronicMail'>
 				<xs:annotation>
 					<xs:documentation>The numbers, letters, and symbols used to
 						identify an
@@ -2906,8 +3016,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name='hispanicLatinoEthnicity' nillable='true'
-				type='xs:boolean'>
+			<xs:element name='hispanicLatinoEthnicity' nillable='true' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>An indication that the individual traces his or
 						her
@@ -2942,8 +3051,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='race'
-				type='raceItemType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='race' type='raceItemType'>
 				<xs:annotation>
 					<xs:documentation>The general racial category which most clearly
 						reflects the individual's recognition of his or her community or
@@ -2958,8 +3066,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='economicDisadvantaged'
-				type='xs:boolean'>
+			<xs:element minOccurs='0' name='economicDisadvantaged' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>An indication of inadequate financial condition
 						of an
@@ -2975,8 +3082,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='schoolFoodServicesEligibility'
-				type='schoolFoodServicesEligibilityType'>
+			<xs:element minOccurs='0' name='schoolFoodServicesEligibility' type='schoolFoodServicesEligibilityType'>
 				<xs:annotation>
 					<xs:documentation>An indication of a student's level of
 						eligibility
@@ -2990,8 +3096,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='studentCharacteristics' type='studentCharacteristic'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='studentCharacteristics' type='studentCharacteristic'>
 				<xs:annotation>
 					<xs:documentation>Reflects important characteristics of the
 						student's
@@ -3008,8 +3113,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='limitedEnglishProficiency'
-				type='limitedEnglishProficiencyType'>
+			<xs:element minOccurs='0' name='limitedEnglishProficiency' type='limitedEnglishProficiencyType'>
 				<xs:annotation>
 					<xs:documentation>An indication that the student has been
 						identified as
@@ -3023,8 +3127,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='languages'
-				type='languageItemType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='languages' type='languageItemType'>
 				<xs:annotation>
 					<xs:documentation>Language(s) the individual uses to communicate
 					</xs:documentation>
@@ -3034,8 +3137,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='homeLanguages' type='languageItemType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='homeLanguages' type='languageItemType'>
 				<xs:annotation>
 					<xs:documentation>The language or dialect routinely spoken in an
 						individual's home. This language or dialect may or may not be an
@@ -3047,8 +3149,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='disabilities'
-				type='disability'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='disabilities' type='disability'>
 				<xs:annotation>
 					<xs:documentation>The disability condition(s) that best describes
 						an
@@ -3060,8 +3161,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='section504Disabilities' type='section504DisabilityItemType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='section504Disabilities' type='section504DisabilityItemType'>
 				<xs:annotation>
 					<xs:documentation>A categorization of the disabilities associated
 						with a
@@ -3089,8 +3189,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='programParticipations' type='programParticipation'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='programParticipations' type='programParticipation'>
 				<xs:annotation>
 					<xs:documentation>Key programs the student is participating in or
 						receives services.
@@ -3113,8 +3212,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='cohortYears'
-				type='cohortYear'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='cohortYears' type='cohortYear'>
 				<xs:annotation>
 					<xs:documentation>The type and year of a cohort (e.g., 9th grade)
 						the
@@ -3128,8 +3226,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='studentIndicators' type='studentIndicator'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='studentIndicators' type='studentIndicator'>
 				<xs:annotation>
 					<xs:documentation>Indicator(s) or metric(s) computed for the
 						student
@@ -3156,8 +3253,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='1' minOccurs='0' name='gradeLevel'
-				type='gradeLevelType'>
+			<xs:element maxOccurs='1' minOccurs='0' name='gradeLevel' type='gradeLevelType'>
 				<xs:annotation>
 					<xs:documentation>Current grade level</xs:documentation>
 					<xs:appinfo>
@@ -3166,8 +3262,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='1' minOccurs='0' name='schoolId'
-				type='xs:string'>
+			<xs:element maxOccurs='1' minOccurs='0' name='schoolId' type='xs:string'>
 				<xs:annotation>
 					<xs:documentation>Current school</xs:documentation>
 					<xs:appinfo>
@@ -3223,8 +3318,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='cumulativeCreditsEarned'
-				type='credits'>
+			<xs:element minOccurs='0' name='cumulativeCreditsEarned' type='credits'>
 				<xs:annotation>
 					<xs:documentation>The cumulative number of credits
 						an individual
@@ -3245,8 +3339,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='cumulativeCreditsAttempted'
-				type='credits'>
+			<xs:element minOccurs='0' name='cumulativeCreditsAttempted' type='credits'>
 				<xs:annotation>
 					<xs:documentation>The cumulative number of credits
 						an individual
@@ -3266,8 +3359,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='cumulativeGradePointsEarned'
-				type='xs:double'>
+			<xs:element minOccurs='0' name='cumulativeGradePointsEarned' type='xs:double'>
 				<xs:annotation>
 					<xs:documentation>The cumulative number of grade
 						points an
@@ -3284,8 +3376,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='cumulativeGradePointAverage'
-				type='xs:double'>
+			<xs:element minOccurs='0' name='cumulativeGradePointAverage' type='xs:double'>
 				<xs:annotation>
 					<xs:documentation>A measure
 						of average performance in all courses
@@ -3352,8 +3443,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='academicHonors' type='academicHonor'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='academicHonors' type='academicHonor'>
 				<xs:annotation>
 					<xs:documentation>Academic distinctions earned by or
 						awarded to the
@@ -3365,8 +3455,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='recognitions'
-				type='recognition'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='recognitions' type='recognition'>
 				<xs:annotation>
 					<xs:documentation>Recognitions
 						given to the student for
@@ -3380,8 +3469,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='projectedGraduationDate'
-				type='xs:date'>
+			<xs:element minOccurs='0' name='projectedGraduationDate' type='xs:date'>
 				<xs:annotation>
 					<xs:documentation>The month and year the student is
 						projected to
@@ -3394,8 +3482,7 @@
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='reportCards'
-				type='reference'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='reportCards' type='reference'>
 				<xs:annotation>
 					<xs:documentation>Report cards for the student.</xs:documentation>
 					<xs:appinfo>
@@ -3406,6 +3493,15 @@
 				</xs:annotation>
 			</xs:element>
 
+      <xs:element name='schoolYear' type='schoolYearType'>
+        <xs:annotation>
+          <xs:appinfo>
+              <sli:naturalKey>true</sli:naturalKey>
+            <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+            <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -3436,8 +3532,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='administrationEndDate'
-				type='xs:date'>
+			<xs:element minOccurs='0' name='administrationEndDate' type='xs:date'>
 				<xs:annotation>
 					<xs:documentation>Assessment Administration End Date, if
 						administered over multiple days.
@@ -3460,8 +3555,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='administrationLanguage'
-				type='languageItemType'>
+			<xs:element minOccurs='0' name='administrationLanguage' type='languageItemType'>
 				<xs:annotation>
 					<xs:documentation>The language in which an assessment is written
 						and/or administered.
@@ -3472,8 +3566,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='administrationEnvironment'
-				type='administrationEnvironmentType'>
+			<xs:element minOccurs='0' name='administrationEnvironment' type='administrationEnvironmentType'>
 				<xs:annotation>
 					<xs:documentation>The environment in which the test was
 						administered. For example:
@@ -3488,8 +3581,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='specialAccommodations' type='specialAccommodationItemType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='specialAccommodations' type='specialAccommodationItemType'>
 				<xs:annotation>
 					<xs:documentation>The specific type of special variation used in
 						how an examination is presented, how it is administered, or how
@@ -3512,8 +3604,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='linguisticAccommodations' type='linguisticAccommodationItemType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='linguisticAccommodations' type='linguisticAccommodationItemType'>
 				<xs:annotation>
 					<xs:documentation>Linguistic accommodations used with the student
 						for the test. For example:
@@ -3564,8 +3655,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='scoreResults'
-				type='scoreResult'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='scoreResults' type='scoreResult'>
 				<xs:annotation>
 					<xs:documentation>A meaningful score or statistical expression of
 						the performance of an individual. The results can be expressed as
@@ -3577,8 +3667,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='gradeLevelWhenAssessed'
-				type='gradeLevelType'>
+			<xs:element minOccurs='0' name='gradeLevelWhenAssessed' type='gradeLevelType'>
 				<xs:annotation>
 					<xs:documentation>The grade level of a student when assessed.
 					</xs:documentation>
@@ -3588,8 +3677,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='performanceLevelDescriptors' type='performanceLevelDescriptor'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='performanceLevelDescriptors' type='performanceLevelDescriptor'>
 				<xs:annotation>
 					<xs:documentation>This descriptor defines various levels or
 						thresholds for performance on the assessment.
@@ -3600,21 +3688,27 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-                        name='studentObjectiveAssessments' type='subdoc_studentObjectiveAssessment'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='studentObjectiveAssessments' type='subdoc_studentObjectiveAssessment'>
                 <xs:annotation>
                     <xs:documentation>The score and or performance level(s) earned for
                         each objective assessment by the student.
                     </xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element maxOccurs='unbounded' minOccurs='0'
-				name='studentAssessmentItems' type='subdoc_studentAssessmentItem'>
+            <xs:element maxOccurs='unbounded' minOccurs='0' name='studentAssessmentItems' type='subdoc_studentAssessmentItem'>
 				<xs:annotation>
 					<xs:documentation>This entity represents the student's responses
 						to
 						assessment items.
 					</xs:documentation>
+					<xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name='studentId' type='reference'>
@@ -3752,6 +3846,10 @@
 				assessment item and the item-level scores such as correct,
 				incorrect, or met standard.
 			</xs:documentation>
+			<xs:appinfo>
+                <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element minOccurs='0' name='assessmentResponse' type='assessmentResponse'>
@@ -3966,8 +4064,7 @@
 		<xs:complexContent>
 			<xs:extension base='studentProgramAssociation'>
 				<xs:sequence>
-					<xs:element maxOccurs='unbounded' name='cteProgram'
-						type='CTEProgram'>
+					<xs:element maxOccurs='unbounded' name='cteProgram' type='CTEProgram'>
 						<xs:annotation>
 							<xs:documentation>The career cluster representing the career path
 								of the Vocational/Career Tech concentrator.
@@ -4042,8 +4139,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='behaviors'
-				type='behaviorDescriptorType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='behaviors' type='behaviorDescriptorType'>
 				<xs:annotation>
 					<xs:documentation>Categories of student-specific behavior coded
 						for
@@ -4056,8 +4152,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='secondaryBehaviors' type='secondaryBehavior'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='secondaryBehaviors' type='secondaryBehavior'>
 				<xs:annotation>
 					<xs:documentation>Supplemental student-specific categorization
 						about an incident
@@ -4110,8 +4205,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='assigningOrganizationCode'
-				type='identificationCode'>
+			<xs:element minOccurs='0' name='assigningOrganizationCode' type='identificationCode'>
 				<xs:annotation>
 					<xs:documentation>The organization code or name assigning the
 						student Identification
@@ -4233,8 +4327,7 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-			<xs:element maxOccurs='unbounded' name='scoreResults'
-				type='scoreResult'>
+			<xs:element maxOccurs='unbounded' name='scoreResults' type='scoreResult'>
 				<xs:annotation>
 					<xs:documentation>A meaningful score or statistical expression of
 						the performance of an individual. The results can be expressed
@@ -4247,8 +4340,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='performanceLevelDescriptors' type='performanceLevelDescriptor'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='performanceLevelDescriptors' type='performanceLevelDescriptor'>
 				<xs:annotation>
 					<xs:documentation>This descriptor defines various levels or
 						thresholds for performance on the assessment.
@@ -4282,10 +4374,13 @@
 			<xs:documentation>This entity holds the score and or performance
 				levels earned for an objective assessment by a student.
 			</xs:documentation>
+			<xs:appinfo>
+                <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element maxOccurs='unbounded' name='scoreResults'
-				type='scoreResult'>
+			<xs:element maxOccurs='unbounded' name='scoreResults' type='scoreResult'>
 				<xs:annotation>
 					<xs:documentation>A meaningful score or statistical expression of
 						the performance of an individual. The results can be expressed
@@ -4298,8 +4393,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='performanceLevelDescriptors' type='performanceLevelDescriptor'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='performanceLevelDescriptors' type='performanceLevelDescriptor'>
 				<xs:annotation>
 					<xs:documentation>This descriptor defines various levels or
 						thresholds for performance on the assessment.
@@ -4378,8 +4472,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='primaryContactStatus'
-				type='xs:boolean'>
+			<xs:element minOccurs='0' name='primaryContactStatus' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>
 						Indicator of whether the person is a primary
@@ -4403,8 +4496,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='emergencyContactStatus'
-				type='xs:boolean'>
+			<xs:element minOccurs='0' name='emergencyContactStatus' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>
 						Indicator of whether the person is a designated
@@ -4484,8 +4576,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='services'
-				type='serviceDescriptorType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='services' type='serviceDescriptorType'>
 				<xs:annotation>
 					<xs:documentation>
 						Indicates the services being provided to the
@@ -4737,8 +4828,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='repeatGradeIndicator'
-				type='xs:boolean'>
+			<xs:element minOccurs='0' name='repeatGradeIndicator' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>An indicator of whether the student is enrolling
 						to repeat a
@@ -4762,8 +4852,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='schoolChoiceTransfer'
-				type='xs:boolean'>
+			<xs:element minOccurs='0' name='schoolChoiceTransfer' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>An indication of whether students transferred in
 						or out of the
@@ -4812,8 +4901,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='educationalPlans' type='educationalPlanItemType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='educationalPlans' type='educationalPlanItemType'>
 				<xs:annotation>
 					<xs:documentation>The type of Education Plan(s) the student is
 						following, if
@@ -4923,7 +5011,7 @@
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base='gradeEarned'>
-						<xs:maxLength value='20' />
+						<xs:maxLength value='20'/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -4995,8 +5083,7 @@
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element minOccurs='0' name='educationalEnvironment'
-						type='educationalEnvironmentType'>
+					<xs:element minOccurs='0' name='educationalEnvironment' type='educationalEnvironmentType'>
 						<xs:annotation>
 							<xs:documentation>The setting in which a child receives special
 								education and related services.
@@ -5007,8 +5094,7 @@
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element minOccurs='0' name='specialEducationHoursPerWeek'
-						type='xs:double'>
+					<xs:element minOccurs='0' name='specialEducationHoursPerWeek' type='xs:double'>
 						<xs:annotation>
 							<xs:documentation>The number of hours per week for special
 								education instruction and therapy
@@ -5067,8 +5153,7 @@
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element minOccurs='0' name='lastEvaluationDate'
-						type='xs:date'>
+					<xs:element minOccurs='0' name='lastEvaluationDate' type='xs:date'>
 						<xs:annotation>
 							<xs:documentation>The date of the last special education
 								evaluation.
@@ -5166,8 +5251,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='additionalCreditsEarned' type='additionalCredits'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='additionalCreditsEarned' type='additionalCredits'>
 				<xs:annotation>
 					<xs:documentation>'The number of additional credits a student
 						attempted and could earn for successfully completing a given
@@ -5212,12 +5296,11 @@
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base='gradeEarned'>
-						<xs:maxLength value='20' />
+						<xs:maxLength value='20'/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element minOccurs='0' name='finalNumericGradeEarned'
-				type='xs:integer'>
+			<xs:element minOccurs='0' name='finalNumericGradeEarned' type='xs:integer'>
 				<xs:annotation>
 					<xs:documentation>The final indicator of student performance in a
 						class as submitted by the instructor.
@@ -5265,8 +5348,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='performanceBaseConversion'
-				type='performanceBaseType'>
+			<xs:element minOccurs='0' name='performanceBaseConversion' type='performanceBaseType'>
 				<xs:annotation>
 					<xs:documentation>A conversion of the level to a standard set of
 						performance levels.
@@ -5290,8 +5372,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' name='educationOrganizationReference'
-				type='reference'>
+			<xs:element maxOccurs='unbounded' name='educationOrganizationReference' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The educational organization associated with the
 						CourseTranscript
@@ -5316,8 +5397,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='1' minOccurs='0' name='studentId'
-				type='reference'>
+			<xs:element maxOccurs='1' minOccurs='0' name='studentId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>Association to a student for the current course
 						transcript.
@@ -5349,8 +5429,7 @@
 		<xs:complexContent>
 			<xs:extension base='staff'>
 				<xs:sequence>
-					<xs:element minOccurs='0' name='teacherUniqueStateId'
-						type='uniqueStateIdentifier'>
+					<xs:element minOccurs='0' name='teacherUniqueStateId' type='uniqueStateIdentifier'>
 						<xs:annotation>
 							<xs:documentation>An ID number maintained by the state that
 								uniquely
@@ -5363,8 +5442,7 @@
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element minOccurs='0' name='highlyQualifiedTeacher'
-						type='xs:boolean'>
+					<xs:element minOccurs='0' name='highlyQualifiedTeacher' type='xs:boolean'>
 						<xs:annotation>
 							<xs:documentation>An indication of whether a teacher is
 								classified as highly qualified for his/her assignment according
@@ -5438,8 +5516,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='instructionalGradeLevels' type='gradeLevelType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='instructionalGradeLevels' type='gradeLevelType'>
 				<xs:annotation>
 					<xs:documentation>The set of grade levels for which the
 						individual's assignment
@@ -5451,8 +5528,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='academicSubjects' type='academicSubjectType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='academicSubjects' type='academicSubjectType'>
 				<xs:annotation>
 					<xs:documentation>The teaching field taught by an individual, for
 						example
@@ -5550,8 +5626,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='highlyQualifiedTeacher'
-				type='xs:boolean'>
+			<xs:element minOccurs='0' name='highlyQualifiedTeacher' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>An indication of whether a teacher is classified
 						as highly
@@ -5602,8 +5677,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='primaryTelephoneNumberIndicator'
-				type='xs:boolean'>
+			<xs:element minOccurs='0' name='primaryTelephoneNumberIndicator' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>An indication that the telephone number should be
 						used as the
@@ -5692,8 +5766,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' name='disciplines'
-				type='disciplineDescriptorType'>
+			<xs:element maxOccurs='unbounded' name='disciplines' type='disciplineDescriptorType'>
 				<xs:annotation>
 					<xs:documentation>Type of action or removal from the classroom
 						used
@@ -5720,8 +5793,7 @@
                     </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='disciplineActionLength'
-				type='xs:integer'>
+			<xs:element minOccurs='0' name='disciplineActionLength' type='xs:integer'>
 				<xs:annotation>
 					<xs:documentation>The length of time in days for the Discipline
 						Action
@@ -5733,8 +5805,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='actualDisciplineActionLength'
-				type='xs:integer'>
+			<xs:element minOccurs='0' name='actualDisciplineActionLength' type='xs:integer'>
 				<xs:annotation>
 					<xs:documentation>Indicates the actual length in days of a
 						student’s
@@ -5746,8 +5817,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0'
-				name='disciplineActionLengthDifferenceReason' type='disciplineActionLengthDifferenceReasonType'>
+			<xs:element minOccurs='0' name='disciplineActionLengthDifferenceReason' type='disciplineActionLengthDifferenceReasonType'>
 				<xs:annotation>
 					<xs:documentation>Indicates the reason for the difference, if
 						any,
@@ -5773,8 +5843,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' name='disciplineIncidentId'
-				type='reference'>
+			<xs:element maxOccurs='unbounded' name='disciplineIncidentId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>Reference to the DisciplineIncident(s)
 						associated
@@ -5788,8 +5857,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='staffId'
-				type='reference'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='staffId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The staff responsible for enforcing the
 						discipline
@@ -5841,7 +5909,6 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>educationOrganization</sli:CollectionType>
-				<sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
 			</xs:appinfo>
@@ -5856,12 +5923,11 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='educationOrgIdentificationCode' type='educationOrgIdentificationCode'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='educationOrgIdentificationCode' type='educationOrgIdentificationCode'>
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned
 						to
@@ -5871,7 +5937,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5882,23 +5948,21 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='shortNameOfInstitution'
-				type='nameOfInstitution'>
+			<xs:element minOccurs='0' name='shortNameOfInstitution' type='nameOfInstitution'>
 				<xs:annotation>
 					<xs:documentation>A short name for the institution.
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' name='organizationCategories'
-				type='educationOrganizationCategoryType'>
+			<xs:element maxOccurs='unbounded' name='organizationCategories' type='educationOrganizationCategoryType'>
 				<xs:annotation>
 					<xs:documentation>The classification of the education agency
 						within
@@ -5910,7 +5974,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5922,12 +5986,11 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='telephone'
-				type='institutionTelephone'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='telephone' type='institutionTelephone'>
 				<xs:annotation>
 					<xs:documentation>The 10-digit telephone number, including the
 						area
@@ -5935,7 +5998,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5947,7 +6010,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5958,12 +6021,11 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='accountabilityRatings' type='accountabilityRating'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='accountabilityRatings' type='accountabilityRating'>
 				<xs:annotation>
 					<xs:documentation>The accountability ratings assessed for the
 						education
@@ -5971,12 +6033,11 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='programReference' type='reference'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='programReference' type='reference'>
 				<xs:annotation>
 					<xs:documentation>References to programs offered at the education
 						organization.
@@ -5984,7 +6045,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>program</sli:ReferenceType>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5995,12 +6056,11 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='parentEducationAgencyReference'
-				type='reference'>
+			<xs:element minOccurs='0' name='parentEducationAgencyReference' type='reference'>
 				<xs:annotation>
 					<xs:documentation>Reference to the parent Education Organization
 						in
@@ -6010,7 +6070,7 @@
 						<sli:SelfReference>true</sli:SelfReference>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6035,8 +6095,8 @@
 						or entity.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6047,8 +6107,8 @@
 						code.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6073,13 +6133,12 @@
 						Education Agency (SEA). Also known as the State LEA ID.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' name='educationOrgIdentificationCode'
-				type='educationOrgIdentificationCode'>
+			<xs:element maxOccurs='unbounded' name='educationOrgIdentificationCode' type='educationOrgIdentificationCode'>
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to
 						an education
@@ -6087,8 +6146,8 @@
 						other agency or entity.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6223,7 +6282,7 @@
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base='xs:double'>
-						<xs:minInclusive value='0' />
+						<xs:minInclusive value='0'/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -6262,12 +6321,11 @@
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base='streetNumberName'>
-						<xs:maxLength value='40' />
+						<xs:maxLength value='40'/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element minOccurs='0' name='apartmentRoomSuiteNumber'
-				type='apartmentRoomSuiteNumber'>
+			<xs:element minOccurs='0' name='apartmentRoomSuiteNumber' type='apartmentRoomSuiteNumber'>
 				<xs:annotation>
 					<xs:documentation>The apartment, room, or suite number of an
 						address.
@@ -6446,8 +6504,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='academicSubject' type='academicSubjectType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='academicSubject' type='academicSubjectType'>
 				<xs:annotation>
 					<xs:documentation>The description of the content or subject area
 						(e.g., arts,
@@ -6512,8 +6569,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' name='calendarDateReference'
-				type='reference'>
+			<xs:element maxOccurs='unbounded' name='calendarDateReference' type='reference'>
 				<xs:annotation>
 					<xs:documentation>Days associated with the grading period.
 					</xs:documentation>
@@ -6592,8 +6648,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='credentialExpirationDate'
-				type='xs:date'>
+			<xs:element minOccurs='0' name='credentialExpirationDate' type='xs:date'>
 				<xs:annotation>
 					<xs:documentation>The month, day, and year on which an active
 						credential held by
@@ -6605,8 +6660,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='teachingCredentialBasis'
-				type='teachingCredentialBasisType'>
+			<xs:element minOccurs='0' name='teachingCredentialBasis' type='teachingCredentialBasisType'>
 				<xs:annotation>
 					<xs:documentation>An indication of the pre-determined criteria for
 						granting the
@@ -6674,7 +6728,7 @@
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base='xs:double'>
-						<xs:minInclusive value='0' />
+						<xs:minInclusive value='0'/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -6818,8 +6872,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='primaryCTEProgramIndicator'
-				type='xs:boolean'>
+			<xs:element minOccurs='0' name='primaryCTEProgramIndicator' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>A Boolean indicator of whether this CTE program,
 						is the student’s primary CTE program.
@@ -6830,8 +6883,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='cteProgramCompletionIndicator'
-				type='xs:boolean'>
+			<xs:element minOccurs='0' name='cteProgramCompletionIndicator' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>A Boolean indicator of whether the student has
 						completed the CTE program.
@@ -6926,8 +6978,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='academicHonors' type='academicHonor'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='academicHonors' type='academicHonor'>
 				<xs:annotation>
 					<xs:documentation>
 						Academic distinctions earned by or awarded to
@@ -6940,8 +6991,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='recognitions'
-				type='recognition'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='recognitions' type='recognition'>
 				<xs:annotation>
 					<xs:documentation>
 						Recognitions given to the student for
@@ -6987,7 +7037,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6999,7 +7049,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7010,7 +7060,7 @@
 					<xs:appinfo>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7023,7 +7073,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7036,12 +7086,11 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='learningStandards' type='reference'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='learningStandards' type='reference'>
 				<xs:annotation>
 					<xs:documentation>Learning standard(s) included in this
 						objective.
@@ -7049,12 +7098,11 @@
 					<xs:appinfo>
 						<sli:ReferenceType>learningStandard</sli:ReferenceType>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='1' minOccurs='0'
-				name='parentLearningObjective' type='reference'>
+			<xs:element maxOccurs='1' minOccurs='0' name='parentLearningObjective' type='reference'>
 				<xs:annotation>
 					<xs:documentation>Parent learning objective this is a
 						sub-objective
@@ -7063,7 +7111,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>learningObjective</sli:ReferenceType>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7125,7 +7173,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7137,7 +7185,7 @@
 					<xs:appinfo>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7149,7 +7197,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7160,7 +7208,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7170,7 +7218,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7181,7 +7229,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7318,8 +7366,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='feederRelationshipDescription'
-				type='description'>
+			<xs:element minOccurs='0' name='feederRelationshipDescription' type='description'>
 				<xs:annotation>
 					<xs:documentation>Describes the relationship from the feeder school
 						to the
@@ -7366,7 +7413,7 @@
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base='gradeEarned'>
-						<xs:maxLength value='20' />
+						<xs:maxLength value='20'/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -7407,8 +7454,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='performanceBaseConversion'
-				type='performanceBaseType'>
+			<xs:element minOccurs='0' name='performanceBaseConversion' type='performanceBaseType'>
 				<xs:annotation>
 					<xs:documentation>A conversion of the level to a standard set of
 						performance levels.
@@ -7426,24 +7472,58 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name='studentId' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Student id associated to the student-section association
+                        with which the grade is awarded.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>student</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name='sectionId' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Section id associated to the student-section association
+                        with which the grade is awarded.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>section</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 			<xs:element minOccurs='0' name='gradingPeriodId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>Identifies the grading period for the grade.
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+      <xs:element name='schoolYear' type='schoolYearType'>
+        <xs:annotation>
+          <xs:appinfo>
+            <sli:naturalKey>true</sli:naturalKey>
+            <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+            <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -7533,6 +7613,31 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+
+            <xs:element maxOccurs='unbounded' minOccurs='0' name='learningStandards' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Identifies the grading period for the grade.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>learningStandard</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element maxOccurs='unbounded' minOccurs='0' name='learningObjectives' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Identifies the grading period for the grade.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>learningObjective</sli:ReferenceType>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+
 		</xs:sequence>
 	</xs:complexType>
 
@@ -7603,22 +7708,21 @@
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base='xs:int'>
-						<xs:minInclusive value='0' />
+						<xs:minInclusive value='0'/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' name='calendarDateReference'
-				type='reference'>
-				<xs:annotation>
-					<xs:documentation>Days associated with the grading period.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>calendarDate</sli:ReferenceType>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='calendarDateReference' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Days associated with the grading period.</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>calendarDate</sli:ReferenceType>
+                            <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                            <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
+                        </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+			
 		</xs:sequence>
 	</xs:complexType>
 
@@ -7699,12 +7803,12 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
-					<xs:restriction base='graduationPlanType' />
+					<xs:restriction base='graduationPlanType'/>
 				</xs:simpleType>
 			</xs:element>
 			<xs:element minOccurs='0' name='individualPlan' type='xs:boolean'>
@@ -7713,8 +7817,8 @@
 						tailored for an individual.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7725,13 +7829,12 @@
 						under this plan.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='creditsBySubject' type='creditsBySubject'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='creditsBySubject' type='creditsBySubject'>
 				<xs:annotation>
 					<xs:documentation>The total credits required in subject to
 						graduate.
@@ -7740,13 +7843,12 @@
 						are eligible to meet subject credit requirements.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='creditsByCourse' type='creditsByCourse'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='creditsByCourse' type='creditsByCourse'>
 				<xs:annotation>
 					<xs:documentation>The total credits required to graduation by
 						taking a
@@ -7754,13 +7856,12 @@
 						courses.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='educationOrganizationId'
-				type='reference'>
+			<xs:element minOccurs='0' name='educationOrganizationId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>
 						For standard plans defined by an education
@@ -7771,8 +7872,8 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7799,8 +7900,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='institutionTelephoneNumberType'
-				type='institutionTelephoneNumberType'>
+			<xs:element minOccurs='0' name='institutionTelephoneNumberType' type='institutionTelephoneNumberType'>
 				<xs:annotation>
 					<xs:documentation>The type of communication number listed for an
 						individual or
@@ -7932,8 +8032,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='programId'
-				type='reference'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='programId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>
 						The (optional) program associated with this
@@ -8032,8 +8131,8 @@
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base='xs:int'>
-						<xs:minInclusive value='1' />
-						<xs:maxInclusive value='8' />
+						<xs:minInclusive value='1'/>
+						<xs:maxInclusive value='8'/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -8072,8 +8171,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='courseLevelCharacteristics' type='courseLevelCharacteristicItemType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='courseLevelCharacteristics' type='courseLevelCharacteristicItemType'>
 				<xs:annotation>
 					<xs:documentation>Specification of the specific program or
 						designation associated with the course. For example: Ap, IB, Dual
@@ -8085,8 +8183,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='gradesOffered' type='gradeLevelType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='gradesOffered' type='gradeLevelType'>
 				<xs:annotation>
 					<xs:documentation>The grade levels in which the course is offered.
 					</xs:documentation>
@@ -8130,8 +8227,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='highSchoolCourseRequirement'
-				type='xs:boolean'>
+			<xs:element minOccurs='0' name='highSchoolCourseRequirement' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>An indication that this course may satisfy high
 						school graduation requirements in the course's subject area.
@@ -8142,8 +8238,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='courseGPAApplicability'
-				type='courseGPAApplicabilityType'>
+			<xs:element minOccurs='0' name='courseGPAApplicability' type='courseGPAApplicabilityType'>
 				<xs:annotation>
 					<xs:documentation>An indicator of whether or not this course being
 						described is included in the computation of the student’s Grade
@@ -8167,8 +8262,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='minimumAvailableCredit'
-				type='credits'>
+			<xs:element minOccurs='0' name='minimumAvailableCredit' type='credits'>
 				<xs:annotation>
 					<xs:documentation>The minimum amount of credit available to a
 						student who successfully completes the course
@@ -8179,8 +8273,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='maximumAvailableCredit'
-				type='credits'>
+			<xs:element minOccurs='0' name='maximumAvailableCredit' type='credits'>
 				<xs:annotation>
 					<xs:documentation>The maximum amount of credit available to a
 						student who successfully completes the course
@@ -8262,8 +8355,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='assigningOrganizationCode'
-				type='identificationCode'>
+			<xs:element minOccurs='0' name='assigningOrganizationCode' type='identificationCode'>
 				<xs:annotation>
 					<xs:documentation>The organization code or name assigning the staff
 						Identification Code.
@@ -8326,6 +8418,11 @@
 				an assessment is supposed to be administered (e.g., Beginning of
 				Year, Middle of Year, End of Year).
 			</xs:documentation>
+            <xs:appinfo>
+                <sli:CollectionType>assessmentPeriodDescriptor</sli:CollectionType>
+                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name='codeValue' type='codeValue'>
@@ -8334,8 +8431,9 @@
 						an Assessment Period.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:naturalKey>true</sli:naturalKey>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -8345,8 +8443,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -8356,8 +8454,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -8367,8 +8465,8 @@
 						administered.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
                         <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
@@ -8379,8 +8477,8 @@
 						administered.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
                         <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
@@ -8430,8 +8528,11 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-      <xs:element name='schoolYear' type='schoolYearType' >
+      <xs:element name='schoolYear' type='schoolYearType'>
         <xs:annotation>
+            <xs:documentation>
+                The identifier for the school year.
+            </xs:documentation>
           <xs:appinfo>
             <sli:naturalKey>true</sli:naturalKey>
             <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
@@ -8439,7 +8540,7 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element maxOccurs='unbounded' minOccurs='0' name='attendanceEvent' type='attendanceEvent' />
+      <xs:element maxOccurs='unbounded' minOccurs='0' name='attendanceEvent' type='attendanceEvent'/>
     </xs:sequence>
 	</xs:complexType>
 
@@ -8461,11 +8562,13 @@
           <xs:appinfo>
             <sli:beginDate>yes</sli:beginDate>
             <sli:endDate>yes</sli:endDate>
+            <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+            <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-			<xs:element name='event' type='attendanceEventCategoryType' />
-			<xs:element minOccurs='0' name='reason' type='attendanceEventReason' />
+			<xs:element name='event' type='attendanceEventCategoryType'/>
+			<xs:element minOccurs='0' name='reason' type='attendanceEventReason'/>
 		</xs:sequence>
 	</xs:complexType>
 	<!-- <xs:complexType name="bellSchedule"> <xs:annotation> <xs:documentation>BellSchedule 
@@ -8538,8 +8641,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' name='educationOrganizationId'
-				type='reference'>
+			<xs:element maxOccurs='unbounded' name='educationOrganizationId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The Education Organization associated with the
 						behavior codes.
@@ -8597,8 +8699,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' name='educationOrganizationId'
-				type='reference'>
+			<xs:element maxOccurs='unbounded' name='educationOrganizationId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The Education Organization associated with the
 						discipline codes.
@@ -8721,8 +8822,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' name='behaviors'
-				type='behaviorDescriptorType'>
+			<xs:element maxOccurs='unbounded' name='behaviors' type='behaviorDescriptorType'>
 				<xs:annotation>
 					<xs:documentation>Categories of behavior coded for use in
 						describing an
@@ -8734,8 +8834,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='secondaryBehaviors' type='secondaryBehavior'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='secondaryBehaviors' type='secondaryBehavior'>
 				<xs:annotation>
 					<xs:documentation>Supplemental categorization about an incident
 					</xs:documentation>
@@ -8745,8 +8844,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='weapons'
-				type='weaponItemType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='weapons' type='weaponItemType'>
 				<xs:annotation>
 					<xs:documentation>Identifies the type of weapon used during an
 						incident.
@@ -8762,8 +8860,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='reportedToLawEnforcement'
-				type='xs:boolean'>
+			<xs:element minOccurs='0' name='reportedToLawEnforcement' type='xs:boolean'>
 				<xs:annotation>
 					<xs:documentation>Indicator of whether the incident was reported
 						to
@@ -8845,8 +8942,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='stateOfBirthAbbreviation'
-				type='stateAbbreviationType'>
+			<xs:element minOccurs='0' name='stateOfBirthAbbreviation' type='stateAbbreviationType'>
 				<xs:annotation>
 					<xs:documentation>The abbreviation for the name of the state
 						(within the United
@@ -9050,8 +9146,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9065,8 +9161,8 @@
 						local agencies.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9080,20 +9176,19 @@
 						Federal, State, ESC, District, School, Private Org, etc.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='services'
-				type='serviceDescriptorType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='services' type='serviceDescriptorType'>
 				<xs:annotation>
 					<xs:documentation>Defines the services provided by this program to
 						students.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9180,8 +9275,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='recognitionDescription'
-				type='recognitionDescription'>
+			<xs:element minOccurs='0' name='recognitionDescription' type='recognitionDescription'>
 				<xs:annotation>
 					<xs:documentation>
 						A description of the type of academic
@@ -9195,8 +9289,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='recognitionAwardDate'
-				type='xs:date'>
+			<xs:element minOccurs='0' name='recognitionAwardDate' type='xs:date'>
 				<xs:annotation>
 					<xs:documentation>The date the recognition was awarded or earned.
 					</xs:documentation>
@@ -9216,8 +9309,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='weapon'
-				type='weaponItemType'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='weapon' type='weaponItemType'>
 				<xs:annotation>
 					<xs:documentation>Zero or more selection of the weapon(s).
 					</xs:documentation>
@@ -9236,8 +9328,8 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name='schoolYear' type='schoolYearType' />
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='attendanceEvent' type='attendanceEvent' />
+			<xs:element name='schoolYear' type='schoolYearType'/>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='attendanceEvent' type='attendanceEvent'/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -9254,8 +9346,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='grades'
-				type='reference'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='grades' type='reference'>
 				<xs:annotation>
 					<xs:documentation>Grades for the classes attended by the student
 						for this grading period.
@@ -9267,8 +9358,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='studentCompetencyId' type='reference'>
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='studentCompetencyId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The student competency evaluations associated for
 						this grading period.
@@ -9314,8 +9404,8 @@
 					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
-					<xs:restriction base='xs:int'>
-						<xs:minInclusive value='0' />
+					<xs:restriction base='xs:double'>
+						<xs:minInclusive value='0'/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -9330,8 +9420,8 @@
 					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
-					<xs:restriction base='xs:int'>
-						<xs:minInclusive value='0' />
+					<xs:restriction base='xs:double'>
+						<xs:minInclusive value='0'/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -9347,7 +9437,7 @@
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base='xs:int'>
-						<xs:minInclusive value='0' />
+						<xs:minInclusive value='0'/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -9377,6 +9467,15 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+      <xs:element name='schoolYear' type='schoolYearType'>
+        <xs:annotation>
+          <xs:appinfo>
+              <sli:naturalKey>true</sli:naturalKey>
+            <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+            <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -9415,8 +9514,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs='0' name='performanceBaseConversion'
-				type='performanceBaseType'>
+			<xs:element minOccurs='0' name='performanceBaseConversion' type='performanceBaseType'>
 				<xs:annotation>
 					<xs:documentation>A conversion of the level to a standard set of
 						competency levels.
@@ -9676,8 +9774,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9687,8 +9785,8 @@
 						objective.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9699,8 +9797,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9710,8 +9808,8 @@
 						objective is targeted,
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9722,8 +9820,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9735,8 +9833,7 @@
 			<xs:documentation>TODO: Placeholder documentation</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element maxOccurs='unbounded' minOccurs='0' name='links'
-				type='links' />
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='links' type='links'/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -9745,8 +9842,8 @@
 			<xs:documentation>TODO: Placeholder documentation</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name='rel' type='xs:string' />
-			<xs:element name='href' type='xs:string' />
+			<xs:element name='rel' type='xs:string'/>
+			<xs:element name='href' type='xs:string'/>
 		</xs:sequence>
 	</xs:complexType>
 

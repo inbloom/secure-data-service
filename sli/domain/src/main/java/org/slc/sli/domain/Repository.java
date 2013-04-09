@@ -16,14 +16,15 @@
 
 package org.slc.sli.domain;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
+
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 /**
  * Define the object repository interface that provides basic CRUD and field
@@ -153,6 +154,24 @@ public interface Repository<T> {
     public boolean doUpdate(String collection, NeutralQuery query, Update update);
 
     /**
+     * @param entityType
+     *            the type of the entity being deleted
+     * @param collectionName
+     *            the name of the collection to delete from, assumed to be entityType if null
+     * @param id
+     *            the global unique id of the object
+     * @param cascade
+     *            true iff the delete is authorized to recursively delete referring objects
+     * @param dryrun
+     *            true iff the operation is a "dry run" that is meant simply to test and count the effects of the recursion, as an indication of whether it "would succeed"
+     * @param maxObjects
+     *            the largest number of objects that can be affected by the operation (not including inaccessible objects) without being considered a failure
+     * @param access
+     *            if non-null, an implementer of AccessibiltyCheck whose check methods (accessibilityCheck) will be called on all objects in the cascade.
+     */
+    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access);
+
+    /**
      * @param collectionName
      *            the name of the collection to delete from
      * @param id
@@ -260,4 +279,12 @@ public interface Repository<T> {
      * @return
      */
     public abstract T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update);
+
+    /**
+     * Get DB cursor for the collection
+     * @param collectionName
+     * @param query TODO
+     * @return
+     */
+    public Iterator<T> findEach(String collectionName, Query query);
 }

@@ -6,10 +6,11 @@
         {
             "StudentIdentity":
             {
-                "StudentUniqueStateId":"100000000"
+                "StudentUniqueStateId":{"_value":"100000000"}
             }
         },
         "StudentCompetencyReference":
+        [
         {
             "StudentCompetencyIdentity":
             {
@@ -17,15 +18,15 @@
                 {
                     "StudentCompetencyObjectiveIdentity":
                     {
-                        "StudentCompetencyObjectiveId":"student competency objective id"
+                        "StudentCompetencyObjectiveId":{"_value":"student competency objective id"}
                     }
                 },
-                "CodeValue": "code",
+                "CodeValue":{"_value":"code"},
                 "StudentSectionAssociationReference":
                 {
                     "StudentSectionAssociationIdentity":
                     {
-                        "BeginDate":"2011-09-01",
+                        "BeginDate":{"_value":"2011-09-01"},
                         "SectionReference":
                         {
                             "SectionIdentity":
@@ -34,22 +35,23 @@
                                 {
                                     "EducationalOrgIdentity":
                                     {
-                                        "StateOrganizationId":"this school"
+                                        "StateOrganizationId":{"_value":"this school"}
                                     }
                                 },
-                                "UniqueSectionCode":"this section"
+                                "UniqueSectionCode":{"_value":"this section"}
                             }
                         },
                         "StudentReference":
                         {
                             "StudentIdentity":
                             {
-                                "StudentUniqueStateId":"100000000"
+                                "StudentUniqueStateId":{"_value":"100000000"}
                             }
                         }
                     }
                 }
             }
         }
+        ]
     }
 }

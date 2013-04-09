@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-
-xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
-xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
-xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
-xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
-http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
-http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
-
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
     <json:reader rootName="json" />
 
     <core:filterSettings type="SAX" readerPoolSize="5" />
@@ -24,56 +23,56 @@ http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks
     </jb:bean>
 
     <jb:bean beanId="courseBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="courseTitle" data="attributes courseTitle" />
-        <jb:value property="numberOfParts" data="attributes numberOfParts" />
+        <jb:value property="courseTitle" data="attributes CourseTitle _value" />
+        <jb:value property="numberOfParts" data="attributes NumberOfParts _value" />
         <jb:wiring property="courseCode" beanIdRef="courseCodeTypeArray" />
-        <jb:value property="courseLevel" data="attributes courseLevel" />
+        <jb:value property="courseLevel" data="attributes CourseLevel _value" />
         <jb:wiring property="courseLevelCharacteristics" beanIdRef="CourseLevelCharacteristicsArray" />
         <jb:wiring property="gradesOffered" beanIdRef="gradesOfferedArray" />
-        <jb:value property="subjectArea" data="attributes subjectArea" />
-        <jb:value property="courseDescription" data="attributes courseDescription" />
-        <jb:value property="dateCourseAdopted" data="attributes dateCourseAdopted" />
-        <jb:value property="highSchoolCourseRequirement" data="attributes highSchoolCourseRequirement" />
-        <jb:value property="courseGPAApplicability" data="attributes courseGPAApplicability" />
-        <jb:value property="courseDefinedBy" data="attributes courseDefinedBy" />
+        <jb:value property="subjectArea" data="attributes SubjectArea _value" />
+        <jb:value property="courseDescription" data="attributes CourseDescription _value" />
+        <jb:value property="dateCourseAdopted" data="attributes DateCourseAdopted _value" />
+        <jb:value property="highSchoolCourseRequirement" data="attributes HighSchoolCourseRequirement _value" />
+        <jb:value property="courseGPAApplicability" data="attributes CourseGPAApplicability _value" />
+        <jb:value property="courseDefinedBy" data="attributes CourseDefinedBy _value" />
         <jb:wiring property="minimumAvailableCredit" beanIdRef="MinimumAvailableCreditType" />
         <jb:wiring property="maximumAvailableCredit" beanIdRef="MaximumAvailableCreditType" />
-        <jb:value property="careerPathway" data="attributes careerPathway" />
+        <jb:value property="careerPathway" data="attributes CareerPathway _value" />
         <jb:value property="schoolId" data="attributes EducationOrganizationReference" />
-        <jb:value property="uniqueCourseId" data="attributes uniqueCourseId" />
+        <jb:value property="uniqueCourseId" data="attributes UniqueCourseId _value" />
     </jb:bean>
 
-    <jb:bean beanId="gradesOfferedArray" class="java.util.ArrayList" createOnElement="attributes gradesOffered">
-      <jb:value data="attributes gradesOffered element" />
+    <jb:bean beanId="gradesOfferedArray" class="java.util.ArrayList" createOnElement="attributes GradesOffered">
+      <jb:value data="attributes GradesOffered GradeLevel element _value" />
     </jb:bean>
 
     <jb:bean beanId="courseCodeTypeArray" class="java.util.ArrayList" createOnElement="attributes">
         <jb:wiring beanIdRef="courseCodeType" />
     </jb:bean>
 
-    <jb:bean beanId="courseCodeType" class="java.util.HashMap" createOnElement="attributes courseCode element">
-        <jb:value property="ID" data="attributes courseCode element ID" />
-        <jb:value property="identificationSystem" data="attributes courseCode element identificationSystem" />
-        <jb:value property="assigningOrganizationCode" data="attributes courseCode element assigningOrganizationCode" />
+    <jb:bean beanId="courseCodeType" class="java.util.HashMap" createOnElement="attributes CourseCode element">
+        <jb:value property="ID" data="attributes CourseCode element ID _value" />
+        <jb:value property="identificationSystem" data="attributes CourseCode element a_IdentificationSystem" />
+        <jb:value property="assigningOrganizationCode" data="attributes CourseCode element a_AssigningOrganizationCode" />
     </jb:bean>
 
 
-       <jb:bean beanId="CourseLevelCharacteristicsArray" class="java.util.ArrayList" createOnElement="attributes">
-            <jb:value data="attributes courseLevelCharacteristics element" />
+       <jb:bean beanId="CourseLevelCharacteristicsArray" class="java.util.ArrayList" createOnElement="attributes CourseLevelCharacteristics">
+            <jb:value data="attributes CourseLevelCharacteristics CourseLevelCharacteristic element _value" />
         </jb:bean>
 
 
-        <jb:bean beanId="MinimumAvailableCreditType" class="java.util.HashMap" createOnElement="attributes minimumAvailableCredit">
-            <jb:value property="credit" data="attributes minimumAvailableCredit credit" />
-            <jb:value property="creditType" data="attributes minimumAvailableCredit creditType" />
-            <jb:value property="creditConversion" data="attributes minimumAvailableCredit creditConversion" />
+        <jb:bean beanId="MinimumAvailableCreditType" class="java.util.HashMap" createOnElement="attributes MinimumAvailableCredit">
+            <jb:value property="credit" data="attributes MinimumAvailableCredit Credit _value" />
+            <jb:value property="creditType" data="attributes MinimumAvailableCredit a_CreditType" />
+            <jb:value property="creditConversion" data="attributes MinimumAvailableCredit a_CreditConversion" />
         </jb:bean>
 
 
-        <jb:bean beanId="MaximumAvailableCreditType" class="java.util.HashMap" createOnElement="attributes maximumAvailableCredit">
-            <jb:value property="credit" data="attributes maximumAvailableCredit credit" />
-            <jb:value property="creditType" data="attributes maximumAvailableCredit creditType" />
-            <jb:value property="creditConversion" data="attributes maximumAvailableCredit creditConversion" />
+        <jb:bean beanId="MaximumAvailableCreditType" class="java.util.HashMap" createOnElement="attributes MaximumAvailableCredit">
+            <jb:value property="credit" data="attributes MaximumAvailableCredit Credit _value" />
+            <jb:value property="creditType" data="attributes MaximumAvailableCredit a_CreditType"/>
+            <jb:value property="creditConversion" data="attributes MaximumAvailableCredit a_CreditConversion" />
         </jb:bean>
 
 </smooks-resource-list>

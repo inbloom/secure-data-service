@@ -21,15 +21,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -53,7 +54,6 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
  * @author npandey
  *
  */
-@Component
 public class PurgeProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PURGE_PROCESSOR;
@@ -62,30 +62,19 @@ public class PurgeProcessor implements Processor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PurgeProcessor.class);
 
-    @Autowired
     private MongoTemplate mongoTemplate;
 
-    @Autowired
     private BatchJobDAO batchJobDAO;
 
-    @Autowired
-    private AbstractMessageReport databaseMessageReport;
+    private AbstractMessageReport messageReport;
 
     private List<String> excludeCollections;
 
     private ReportStats reportStats = null;
 
-    @Autowired
-    @Value("${sli.sandbox.enabled}")
     private boolean sandboxEnabled;
 
-    public MongoTemplate getMongoTemplate() {
-        return mongoTemplate;
-    }
-
-    public void setMongoTemplate(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
-    }
+    private int purgeBatchSize;
 
     public List<String> getExcludeCollections() {
         return excludeCollections;
@@ -144,6 +133,7 @@ public class PurgeProcessor implements Processor {
         while (iter.hasNext()) {
             collectionName = iter.next();
             if (!isExcludedCollection(collectionName)) {
+                LOGGER.info("Purging collection: {}", collectionName);
                 // Remove edorgs and apps if in sandbox mode or purge-keep-edorgs was not specified.
                 if (collectionName.equalsIgnoreCase("educationOrganization")) {
                     if (sandboxEnabled || (job.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
@@ -160,7 +150,6 @@ public class PurgeProcessor implements Processor {
             }
         }
 
-        batchJobDAO.removeRecordHashByTenant(tenantId);
         exchange.setProperty("purge.complete", "Purge process completed successfully.");
         LOGGER.info("Purge process complete.");
 
@@ -209,11 +198,31 @@ public class PurgeProcessor implements Processor {
 
     private void removeTenantCollection(Query searchTenantId, String collectionName) {
         TenantContext.setIsSystemCall(false);
-        mongoTemplate.remove(searchTenantId, collectionName);
+
+        while(true) {
+            LOGGER.debug("{}: Fetching ids", collectionName);
+            DBCursor cursor = mongoTemplate.getCollection(collectionName).find(new BasicDBObject(), new BasicDBObject("_id", "1")).limit(purgeBatchSize);
+            LOGGER.debug("{}: Completed fetching ids", collectionName);
+
+            if(cursor !=null && cursor.size() != 0) {
+                List<Object> entitiesToRemove = new ArrayList<Object>();
+                while(cursor.hasNext()) {
+                    entitiesToRemove.add(cursor.next().get("_id"));
+                }
+
+                DBObject inQuery = new BasicDBObject("_id", new BasicDBObject("$in", entitiesToRemove));
+
+                LOGGER.debug("{}: Starting removal of records", collectionName);
+                mongoTemplate.getCollection(collectionName).remove(inQuery);
+                LOGGER.debug("{}: Completed removing records for this batch", collectionName);
+            } else {
+               break;
+            }
+        }
     }
 
     private void handleNoTenantId(String batchJobId) {
-        databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
+        messageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
                 CoreMessageCode.CORE_0035);
     }
 
@@ -221,7 +230,7 @@ public class PurgeProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         exchange.setProperty("purge.complete", "Errors encountered during purge process");
 
-        databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
+        messageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
                 CoreMessageCode.CORE_0036, exception.toString());
     }
 
@@ -238,5 +247,41 @@ public class PurgeProcessor implements Processor {
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOGGER.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+    }
+
+    public MongoTemplate getMongoTemplate() {
+        return mongoTemplate;
+    }
+
+    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
+
+    public BatchJobDAO getBatchJobDAO() {
+        return batchJobDAO;
+    }
+
+    public AbstractMessageReport getMessageReport() {
+        return messageReport;
+    }
+
+    public boolean isSandboxEnabled() {
+        return sandboxEnabled;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
+    }
+
+    public void setMessageReport(AbstractMessageReport messageReport) {
+        this.messageReport = messageReport;
+    }
+
+    public void setSandboxEnabled(boolean sandboxEnabled) {
+        this.sandboxEnabled = sandboxEnabled;
+    }
+
+    public void setPurgeBatchSize(int purgeBatchSize) {
+        this.purgeBatchSize = purgeBatchSize;
     }
 }

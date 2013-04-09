@@ -2,12 +2,12 @@
 "recordType":"graduationPlan",
 "attributes":
 {
-    "EducationOrganizationReference":
-    {
-        "EducationalOrgIdentity":
-        {
-            "StateOrganizationId":"testSchoolId"
-        }
-    }
+	"EducationOrganizationReference":
+	{
+		"EducationalOrgIdentity":
+		{
+			"StateOrganizationId":{"_value":"testSchoolId"}
+		}
+	}
 }
 }

@@ -30,9 +30,13 @@
     {{#nomenclature}}
     <Nomenclature>{{nomenclature}}</Nomenclature>
     {{/nomenclature}}
-    {{#assessmentPeriod}}
-    <AssessmentPeriod>{{assessmentPeriod}}</AssessmentPeriod>
-    {{/assessmentPeriod}}
+    {{#assessmentPeriods}}
+    <AssessmentPeriods>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>{{codeValue}}</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriods>
+    {{/assessmentPeriods}}
     {{> Partials/_assessment_family_reference}}
 </AssessmentFamily>
 {{/entity}}

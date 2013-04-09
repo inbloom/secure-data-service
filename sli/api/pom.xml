@@ -1,24 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.slc.sli</groupId>
-		<artifactId>sli</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</parent>
-	<artifactId>api</artifactId>
-	<packaging>war</packaging>
-	<name>API</name>
-	<description>API</description>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.slc.sli</groupId>
+        <artifactId>sli</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>api</artifactId>
+    <packaging>war</packaging>
+    <name>API</name>
+    <description>API</description>
 
-	<properties>
-		<sli.home>${project.parent.basedir}</sli.home>
-		<sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
-		<sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
-	</properties>
+    <properties>
+        <sli.home>${project.parent.basedir}</sli.home>
+        <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
+        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
+    </properties>
 
-	<dependencies>
-		<dependency>
+    <dependencies>
+        <dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-core</artifactId>
 			<version>5.7.0</version>
@@ -34,266 +34,277 @@
 			<version>2.6.3</version>
 		</dependency>
 		<dependency>
-			<groupId>org.reflections</groupId>
-			<artifactId>reflections</artifactId>
-			<version>0.9.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slc.sli.common</groupId>
-			<artifactId>sli-common</artifactId>
-		</dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli.common</groupId>
+            <artifactId>sli-common</artifactId>
+        </dependency>
 
 
-		<dependency>
-			<groupId>org.slc.sli.domain</groupId>
-			<artifactId>domain</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.slc.sli.domain</groupId>
+            <artifactId>domain</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.slc.sli.domain</groupId>
-			<artifactId>domain</artifactId>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.slc.sli.domain</groupId>
+            <artifactId>domain</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>uml</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>uml</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>xmi</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>xmi</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>rest</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>rest</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>wadl</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>wadl</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.slc.sli.common</groupId>
-			<artifactId>common-encrypt</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.slc.sli.common</groupId>
+            <artifactId>common-encrypt</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.slc.sli</groupId>
-			<artifactId>encryption-tool</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.slc.sli</groupId>
+            <artifactId>encryption-tool</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.slc.sli.dal</groupId>
-			<artifactId>dal</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.slc.sli.dal</groupId>
+            <artifactId>dal</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom</artifactId>
-			<version>1.1</version>
-		</dependency>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1</version>
+        </dependency>
 
-		<!-- Spring Context dependency -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-		</dependency>
+        <!-- Spring Context dependency -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
 
-		<!-- Spring Beans dependency -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-		</dependency>
+        <!-- Spring Beans dependency -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
 
-		<!-- Spring Security Core dependency -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-		</dependency>
+        <!-- Spring Security Core dependency -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-taglibs</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+        </dependency>
 
-		<!-- Spring Security Config dependency -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-		</dependency>
+        <!-- Spring Security Config dependency -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
 
-		<!-- Spring Security Web dependency -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-		</dependency>
+        <!-- Spring Security Web dependency -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
 
-		<!-- Spring/Jersey dependency -->
-		<dependency>
-			<groupId>com.sun.jersey.contribs</groupId>
-			<artifactId>jersey-spring</artifactId>
-		</dependency>
+        <!-- Spring/Jersey dependency -->
+        <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-spring</artifactId>
+        </dependency>
 
-		<!-- Spring Test dependency -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <!-- Spring Test dependency -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- JSTL -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-		</dependency>
+        <!-- JSTL -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
 
-		<!-- Java Servlet dependency -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
+        <!-- Java Servlet dependency -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jsp-api</artifactId>
-			<scope>provided</scope>
-			<version>2.0</version>
-		</dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jsp-api</artifactId>
+            <scope>provided</scope>
+            <version>2.0</version>
+        </dependency>
 
-		<!-- Jersey (JAX-RS) Server Linking dependency -->
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-server-linking</artifactId>
-		</dependency>
+        <!-- Jersey (JAX-RS) Server Linking dependency -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server-linking</artifactId>
+        </dependency>
 
-		<!-- Codehaus Jackson JAX-RS dependency -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-jaxrs</artifactId>
-		</dependency>
+        <!-- Codehaus Jackson JAX-RS dependency -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+        </dependency>
 
-		<!-- Apache Commons Lang dependency -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
+        <!-- Apache Commons Lang dependency -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-json</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>com.fasterxml</groupId>
-			<artifactId>jackson-xml-databind</artifactId>
-			<version>0.6.1</version>
-		</dependency>
+        <dependency>
+            <groupId>com.fasterxml</groupId>
+            <artifactId>jackson-xml-databind</artifactId>
+            <version>0.6.1</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.sun.jersey.contribs</groupId>
-			<artifactId>maven-wadl-plugin</artifactId>
-			<version>1.0.1</version>
-		</dependency>
+        <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>maven-wadl-plugin</artifactId>
+            <version>1.0.1</version>
+        </dependency>
 
-		<!-- OAuth 2.0 Provider Dependency -->
-		<dependency>
-			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth2</artifactId>
-			<version>1.0.0.M5</version>
-		</dependency>
+        <!-- OAuth 2.0 Provider Dependency -->
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>1.0.0.M5</version>
+        </dependency>
 
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>1.0.2</version>
-		</dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0.2</version>
+        </dependency>
 
-		<dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xercesImpl</artifactId>
-			<version>2.10.0</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.10.0</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>2.2.2</version>
-		</dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>2.2.2</version>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-validator</groupId>
-			<artifactId>commons-validator</artifactId>
-			<version>1.4.0</version>
-		</dependency>
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.4.0</version>
+        </dependency>
 
-		<dependency>
-			<groupId>oro</groupId>
-			<artifactId>oro</artifactId>
-			<version>2.0.8</version>
-		</dependency>
+        <dependency>
+            <groupId>oro</groupId>
+            <artifactId>oro</artifactId>
+            <version>2.0.8</version>
+        </dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
 
-	<build>
-		<finalName>api</finalName>
-		<plugins>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1.1</version>
-				<configuration>
-					<attachClasses>true</attachClasses>
-					<classesClassifier>classes</classesClassifier>
-				</configuration>
-			</plugin>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>aspectj-maven-plugin</artifactId>
-			</plugin>
 
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>${maven.jetty.version}</version>
-				<configuration>
-					<scanIntervalSeconds>5</scanIntervalSeconds>
-					<systemProperties>
-						<systemProperty>
-							<name>sli.conf</name>
-							<value>${sli.conf}</value>
-						</systemProperty>
-						<systemProperty>
-							<name>sli.env</name>
-							<value>${sli.env}</value>
-						</systemProperty>
-						<systemProperty>
-							<name>sli.encryption.keyStore</name>
-							<value>${sli.encryption.keyStore}</value>
-						</systemProperty>
-						<systemProperty>
-							<name>sli.encryption.properties</name>
-							<value>${sli.encryption.properties}</value>
-						</systemProperty>
-					</systemProperties>
+    </dependencies>
 
-					<contextPath>api</contextPath>
-					<connectors>
+    <build>
+        <finalName>api</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <attachClasses>true</attachClasses>
+                    <classesClassifier>classes</classesClassifier>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>${maven.jetty.version}</version>
+                <configuration>
+                    <scanIntervalSeconds>5</scanIntervalSeconds>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>sli.conf</name>
+                            <value>${sli.conf}</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <name>sli.env</name>
+                            <value>${sli.env}</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <name>sli.encryption.keyStore</name>
+                            <value>${sli.encryption.keyStore}</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <name>sli.encryption.properties</name>
+                            <value>${sli.encryption.properties}</value>
+                        </systemProperty>
+                    </systemProperties>
+
+                    <contextPath>api</contextPath>
+                    <connectors>
 						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-							<port>8080</port>
-							<maxIdleTime>60000</maxIdleTime>
+                            <port>8080</port>
+                            <maxIdleTime>60000</maxIdleTime>
 							<!-- increase header buffer size to support our aggressive linking 
 								strategy -->
-							<headerBufferSize>16384</headerBufferSize>
-						</connector>
-					</connectors>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+                            <headerBufferSize>16384</headerBufferSize>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

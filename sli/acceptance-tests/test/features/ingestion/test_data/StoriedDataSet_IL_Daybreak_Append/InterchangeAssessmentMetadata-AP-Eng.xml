@@ -13,35 +13,30 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Extremely well qualified</Description>
-                <CodeValue>5</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Well qualified</Description>
-                <CodeValue>4</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Qualified</Description>
-                <CodeValue>3</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Possibly qualified</Description>
-                <CodeValue>2</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>No recommendation</Description>
-                <CodeValue>1</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
@@ -67,35 +62,30 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Extremely well qualified</Description>
-                <CodeValue>5</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Well qualified</Description>
-                <CodeValue>4</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Qualified</Description>
-                <CodeValue>3</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>Possibly qualified</Description>
-                <CodeValue>2</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
         <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <Description>No recommendation</Description>
-                <CodeValue>1</CodeValue>
             </PerformanceLevel>
             <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
         </AssessmentPerformanceLevel>
@@ -303,9 +293,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		<Version>1</Version>
 		<RevisionDate>2005-01-12</RevisionDate>
 		<MaxRawScore>122</MaxRawScore>
-		<AssessmentPeriod>
-			<CodeValue>BOY</CodeValue>
-		</AssessmentPeriod>
+<AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>BOY</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
               <AssessmentFamilyTitle>READ 2.0 Kindergarten</AssessmentFamilyTitle>
@@ -334,9 +322,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<MaxRawScore>122</MaxRawScore>
-		<AssessmentPeriod>
-			<CodeValue>MOY</CodeValue>
-		</AssessmentPeriod>
+<AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>MOY</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
               <AssessmentFamilyTitle>READ 2.0 Kindergarten</AssessmentFamilyTitle>
@@ -365,9 +351,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		<Version>1</Version>
 		<RevisionDate>2005-05-12</RevisionDate>
 		<MaxRawScore>122</MaxRawScore>
-		<AssessmentPeriod>
-			<CodeValue>EOY</CodeValue>
-		</AssessmentPeriod>
+<AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>EOY</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
               <AssessmentFamilyTitle>READ 2.0 Kindergarten</AssessmentFamilyTitle>

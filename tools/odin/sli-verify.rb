@@ -35,7 +35,7 @@ end
 @dbname = Digest::SHA1.hexdigest ARGV[0]
 @db = Mongo::Connection.new('localhost').db(@dbname)
 
-@ignored_entities = ["AssessmentFamily", "BehaviorDescriptor", "DisciplineDescriptor", "AssessmentPeriodDescriptor"]
+@ignored_entities = ["BehaviorDescriptor", "DisciplineDescriptor"]
 
 def where_stored(entity_type)
   case entity_type
@@ -45,6 +45,12 @@ def where_stored(entity_type)
     {collection: 'assessment', subdoc: ['objectiveAssessment']}
   when "AttendanceEvent"
     {collection: 'attendance', subdoc: ['body', 'attendanceEvent']}
+  when "Grade"
+    {collection: 'yearlyTranscript', subdoc: ['grade']}
+  when "ReportCard"
+    {collection: 'yearlyTranscript', subdoc: ['reportCard']}
+  when "StudentAcademicRecord"
+    {collection: 'yearlyTranscript', subdoc: ['studentAcademicRecord']}
   when "GradebookEntry"
     {collection: 'section', subdoc: ['gradebookEntry']}
   when "LocalEducationAgency"
@@ -62,13 +68,13 @@ def where_stored(entity_type)
   when 'StudentObjectiveAssessment'
     {collection: 'studentAssessment', subdoc: ['studentObjectiveAssessment']}
   when 'StudentCohortAssociation'
-    {collection: 'cohort', subdoc: ['studentCohortAssociation']}
+    {collection: 'student', subdoc: ['studentCohortAssociation']}
   when 'StudentDisciplineIncidentAssociation'
     {collection: 'student', subdoc: ['studentDisciplineIncidentAssociation']}
   when 'StudentParentAssociation'
     {collection: 'student', subdoc: ['studentParentAssociation']}
   when 'StudentProgramAssociation'
-    {collection: 'program', subdoc: ['studentProgramAssociation']}
+    {collection: 'student', subdoc: ['studentProgramAssociation']}
   when 'StudentSectionAssociation'
     {collection: 'section', subdoc: ['studentSectionAssociation']}
   when "Teacher"

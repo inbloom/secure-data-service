@@ -18,14 +18,14 @@ package org.slc.sli.api.security.context;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,8 +33,12 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  *
@@ -254,6 +258,16 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     /*
      * (non-Javadoc)
      *
+     * @see org.slc.sli.domain.Repository#safeDelete(...)
+     */
+    @Override
+    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        return repo.safeDelete(collectionName, null, id, cascade, dryrun, maxObjects, access);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
      * @see org.slc.sli.domain.Repository#delete(java.lang.String, java.lang.String)
      */
     @Override
@@ -367,6 +381,11 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     @Override
     public T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
+
+    @Override
+    public Iterator<T> findEach(String collectionName, Query query) {
         return null;
     }
 }

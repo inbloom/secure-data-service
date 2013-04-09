@@ -25,6 +25,15 @@ import java.util.List;
 import java.util.Set;
 
 import org.mockito.Mockito;
+import org.slc.sli.api.init.RoleInitializer;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -34,16 +43,6 @@ import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 
 /**
  * Simple class for injecting a security context for unit tests.
@@ -97,7 +96,7 @@ public class SecurityContextInjector {
         principal.setEdOrg(ED_ORG_ID);
         principal.setEdOrgId(ED_ORG_ID);
         setSecurityContext(principal, new HashSet<GrantedAuthority>(Arrays.asList(
-                Right.WRITE_GENERAL, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_RESTRICTED, Right.READ_PUBLIC)));
+                Right.WRITE_GENERAL, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_RESTRICTED, Right.READ_PUBLIC, Right.WRITE_PUBLIC)));
     }
 
     public void setAccessAllAdminContext() {
@@ -317,10 +316,20 @@ public class SecurityContextInjector {
 
         debug("assembling authentication token");
         PreAuthenticatedAuthenticationToken authenticationToken = getAuthenticationToken(token, principal, isAdminRealm);
+        ClientToken clientToken = new ClientToken("BOOP", null, null, null, null);
+        OAuth2Authentication auth = new OAuth2Authentication(clientToken, authenticationToken);
 
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        SecurityUtil.getSLIPrincipal().setAuthorizingEdOrgs(new HashSet<String>(Arrays.asList(principal.getEdOrg())));
 
         return principal;
+    }
+
+    public void addToAuthorizingEdOrgs(String edOrgId) {
+        SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+        Set<String> authorizing = principal.getAuthorizingEdOrgs();
+        authorizing.add(edOrgId);
+        principal.setAuthorizingEdOrgs(authorizing);
     }
 
     private SLIPrincipal setSecurityContext(SLIPrincipal principal, Set<GrantedAuthority> rights) {
@@ -330,6 +339,7 @@ public class SecurityContextInjector {
         PreAuthenticatedAuthenticationToken authenticationToken = getAuthenticationToken(token, principal, rights);
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        SecurityUtil.getSLIPrincipal().setAuthorizingEdOrgs(new HashSet<String>(Arrays.asList(principal.getEdOrg())));
 
         return principal;
     }

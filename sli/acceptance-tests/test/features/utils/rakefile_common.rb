@@ -18,6 +18,7 @@ limitations under the License.
 
 require 'ldapstorage'
 require 'digest/sha1'
+require 'yaml'
 
 def cleanUpLdapUser(user_email)
   ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
@@ -73,6 +74,24 @@ def allLeaAllowAppForTenant(appName, tenantName)
   enable_NOTABLESCAN()
 end
 
+def randomizeRcProdTenant()
+  PropLoader.update('tenant', "#{PropLoader.getProps['tenant']}_#{Time.now.to_i}")
+end
+
+def randomizeRcSandboxTenant()
+  email = PropLoader.getProps['developer_sb_email_imap_registration_user_email']
+  email2 = PropLoader.getProps['developer2_sb_email_imap_registration_user_email']
+  
+  emailParts = email.split("@")
+  randomEmail = "#{emailParts[0]}+#{Random.rand(1000)}"+"@"+"#{emailParts[1]}"
+  PropLoader.update('developer_sb_email_imap_registration_user_email', randomEmail)
+  PropLoader.update('sandbox_tenant', randomEmail)
+  
+  email2Parts = email2.split("@")
+  randomEmail2 = "#{email2Parts[0]}+#{Random.rand(1000)}"+"@"+"#{email2Parts[1]}"
+  PropLoader.update('developer2_sb_email_imap_registration_user_email', randomEmail2)
+end
+
 def convertTenantIdToDbName(tenantId)
   return Digest::SHA1.hexdigest tenantId
 end
@@ -80,11 +99,17 @@ end
 
 class PropLoader
   @@yml = YAML.load_file(File.join(File.dirname(__FILE__),'properties.yml'))
-  @@modified=false
+  #@@modified=false
 
   def self.getProps
-    self.updateHash() unless @@modified
+    #self.updateHash() unless @@modified
+    self.updateHash()
     return @@yml
+  end
+
+  def self.update(key, val)
+    #@@yml[key] = val
+    ENV[key] = val
   end
 
   private
@@ -93,7 +118,7 @@ class PropLoader
     @@yml.each do |key, value|
       @@yml[key] = ENV[key] if ENV[key]
     end
-    @@modified=true
+    #@@modified=true
   end
 end
 

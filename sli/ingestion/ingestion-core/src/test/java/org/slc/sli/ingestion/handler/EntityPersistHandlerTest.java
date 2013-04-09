@@ -48,6 +48,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -128,6 +129,7 @@ public class EntityPersistHandlerTest {
 
     }
 
+
     /**
      * @author tshewchuk 2/6/2010 (PI3 US811)
      * @author tke 3/15/2012, modified be consistent with the new IdNormalization strategy.
@@ -171,6 +173,39 @@ public class EntityPersistHandlerTest {
         Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());
     }
 
+    @Test
+    public void testCreateAndDeleteStudentEntity() {
+        MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
+
+        // Student search.
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + REGION_ID_FIELD, NeutralCriteria.OPERATOR_EQUAL,
+                REGION_ID, false));
+        query.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, NeutralCriteria.OPERATOR_EQUAL,
+                STUDENT_ID, false));
+        // Create a new student entity with entity ID, and test creating it in the data store.
+        SimpleEntity studentEntity = createStudentEntity(true);
+
+        List<Entity> le = new ArrayList<Entity>();
+        le.add(studentEntity);
+        when(entityRepository.findAll(eq("student"), any(NeutralQuery.class))).thenReturn(le);
+        when(entityRepository.updateWithRetries(studentEntity.getType(), studentEntity, totalRetries)).thenReturn(true);
+
+        entityPersistHandler.setEntityRepository(entityRepository);
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats();
+        entityPersistHandler.handle(studentEntity, errorReport, reportStats);
+
+        verify(entityRepository).updateWithRetries(studentEntity.getType(), studentEntity, totalRetries);
+
+        studentEntity.setAction( ActionVerb.CASCADE_DELETE);
+        entityPersistHandler.handle( studentEntity, errorReport, reportStats);
+        verify(entityRepository).safeDelete( "student", "student", studentEntity.getEntityId(), true, false, null, null);
+
+
+        Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());
+    }
+
     /**
      * @author tshewchuk 2/6/2010 (PI3 US811)
      *         Added testing of record DB lookup and update, and support for association entities.
@@ -204,9 +239,13 @@ public class EntityPersistHandlerTest {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
         DummyMessageReport errorReport = mock(DummyMessageReport.class);
         Mockito.doCallRealMethod().when(errorReport)
-                .error(Mockito.any(ReportStats.class), Matchers.any(Source.class),
-                        Mockito.any(CoreMessageCode.class), Mockito.anyString()
-                        , Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.any(), Mockito.any());
+        .error(Mockito.any(ReportStats.class), Matchers.any(Source.class),
+                Mockito.any(CoreMessageCode.class), Mockito.anyString()
+                , Mockito.anyString(), Mockito.anyString(), Mockito.anyObject(), Mockito.any());
+        Mockito.doCallRealMethod().when(errorReport)
+        .error(Mockito.any(Throwable.class), Mockito.any(ReportStats.class), Matchers.any(Source.class),
+                Mockito.any(CoreMessageCode.class), Mockito.anyString()
+                , Mockito.anyString(), Mockito.anyString(), Mockito.anyObject(), Mockito.any());
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -229,8 +268,8 @@ public class EntityPersistHandlerTest {
 
         Assert.assertTrue("Error report should contain errors", reportStats.hasErrors());
         Mockito.verify(errorReport, Mockito.times(1)).error(Matchers.any(ReportStats.class),
-                Matchers.any(Source.class), Matchers.eq(CoreMessageCode.CORE_0006), Matchers.any(String.class),
-                Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.any(), Matchers.any());
+                Matchers.any(Source.class), Matchers.eq(CoreMessageCode.CORE_0006), Matchers.anyString(),
+                Matchers.anyString(), Matchers.anyString(), Matchers.anyObject(), Matchers.any());
     }
 
     /**
@@ -318,6 +357,7 @@ public class EntityPersistHandlerTest {
         Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());
     }
 
+
     @Test
     public void testHandleFailedValidation() {
         /*
@@ -339,6 +379,7 @@ public class EntityPersistHandlerTest {
         expectedMetaData.put(REGION_ID_FIELD, REGION_ID);
         expectedMetaData.put(EXTERNAL_ID_FIELD, STUDENT_ID);
         when(mockedEntity.getMetaData()).thenReturn(expectedMetaData);
+        when(mockedEntity.getAction()).thenReturn(ActionVerb.NONE);
 
         entityPersistHandler.handle(mockedEntity, report, reportStats);
 

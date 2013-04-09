@@ -10,6 +10,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | assessmentFamily                          |
+     | assessmentPeriodDescriptor                |
      | attendance                                |
      | calendarDate                              |
      | cohort                                    |
@@ -60,12 +62,15 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | teacher                                   |
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
+     | yearlyTranscript                          |
 When zip file is scp to ingestion landing zone
   And a batch job for file "SmallSampleDataSet.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 19|
+     | assessmentFamily                         |                 38|
+     | assessmentPeriodDescriptor               |                  2|
      | attendance                               |                 75|
      | calendarDate                             |                556|
      | cohort                                   |                  3|
@@ -114,8 +119,9 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|
-    And I should see "Processed 10095 records." in the resulting batch job file
+    And correct number of records should be ingested for "SmallSampleDataSet.zip"
     And I should not see an error log file created
 	And I should not see a warning log file created
+	#And there are no mismatches when executing "SmallSampleDataSet/expectedCounts.js" on tenant "Midgar"
 
 

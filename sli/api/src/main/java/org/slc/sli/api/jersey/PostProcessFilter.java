@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.jersey;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.List;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.WriteConcern;
+import javax.ws.rs.core.Response.Status;
+
 import com.sun.jersey.api.uri.UriTemplate;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerResponse;
@@ -37,15 +37,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextValidator;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
-
 /**
  * Post Processing filter
+ * Validates context to serviced request
  * Outputs time elapsed for request
  * Cleans up security context
  *
@@ -56,9 +60,17 @@ import org.slc.sli.domain.Repository;
 public class PostProcessFilter implements ContainerResponseFilter {
 
     private static final int LONG_REQUEST = 1000;
+
+    private static final String GET = ResourceMethod.GET.toString();
+
     private DateTimeFormatter dateFormatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
-    private  DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss.SSSZ").toFormatter();
     
+    @Autowired
+    private ContextValidator contextValidator;
+
+    @Autowired
+    private EdOrgHelper edOrgHelper;
+
     @Autowired
     private SecurityCachingStrategy securityCachingStrategy;
 
@@ -78,9 +90,15 @@ public class PostProcessFilter implements ContainerResponseFilter {
     @Autowired
     private MongoStat mongoStat;
 
-    @SuppressWarnings("unchecked")
     @Override
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
+        if (isRead(request.getMethod()) && isSuccessfulRead(response.getStatus())) {
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+            principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
+            contextValidator.validateContextToUri(request, principal);
+        }
+
         SecurityContextHolder.clearContext();
 
         if ("true".equals(apiPerformanceTracking)) {
@@ -101,8 +119,29 @@ public class PostProcessFilter implements ContainerResponseFilter {
         //        body.put("requestedPath", request.getProperties().get("requestedPath"));
         //        body.put("executedPath", request.getPath());
 
-
         return response;
+    }
+
+    /**
+     * Returns true if the request is a read operation.
+     *
+     * @param request
+     *            Request to be checked.
+     * @return True if the request method is a GET, false otherwise.
+     */
+    private boolean isRead(String operation) {
+        return operation.equals(GET);
+    }
+
+    /**
+     * Returns true if the response dictates a successful read.
+     *
+     * @param status
+     *            Reponse status.
+     * @return True if the response status is 'OK', false otherwise.
+     */
+    private boolean isSuccessfulRead(int status) {
+        return status == Status.OK.getStatusCode();
     }
 
     private void printElapsed(ContainerRequest request) {
@@ -121,10 +160,13 @@ public class PostProcessFilter implements ContainerResponseFilter {
             securityCachingStrategy.expire();
         }
     }
+
+    static long bucket = 0;
     private void logApiDataToDb(ContainerRequest request, ContainerResponse response) {
         long startTime = (Long) request.getProperties().get("startTime");
         long endTime = System.currentTimeMillis(); 
         long elapsed = endTime - startTime;
+        long startBucket = bucket;
 
         Map<String, Object> body = new HashMap<String, Object>();
 
@@ -181,7 +223,35 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("endTime", endTime);
             body.put("responseTime", String.valueOf(elapsed));
             body.put("dbHitCount", mongoStat.getDbHitCount());
-            body.put("stats", mongoStat.getStats()); 
+
+            // break stats up into multiple 1k stat documents.
+            List<String> stats = mongoStat.getStats();
+            List<String> statsBucket = new ArrayList<String>();
+            for (int i=0; i < stats.size(); ++i) {
+                statsBucket.add(stats.get(i));
+                if (((i+1) % 1000) == 0) {
+                    Map<String, Object> statDoc = new HashMap<String, Object>();
+                    statDoc.put("id", Long.toString(bucket++));
+                    statDoc.put("stats", statsBucket);
+                    perfRepo.create("apiResponseStat", statDoc, "apiResponseStat");
+                    statsBucket.clear();
+                }
+            }
+
+            if (!statsBucket.isEmpty()) {
+                Map<String, Object> statDoc = new HashMap<String, Object>();
+                statDoc.put("id", Long.toString(bucket++));
+                statDoc.put("stats", statsBucket);
+                perfRepo.create("apiResponseStat", statDoc, "apiResponseStat");
+                statsBucket.clear();
+            }
+
+            ArrayList<String> tmp = new ArrayList<String>();
+            for (long i = startBucket; i < bucket; ++i) {
+                tmp.add(Long.toString(i));
+            }
+
+            body.put("stats", tmp);
             perfRepo.create("apiResponse", body, "apiResponse");
         }
 

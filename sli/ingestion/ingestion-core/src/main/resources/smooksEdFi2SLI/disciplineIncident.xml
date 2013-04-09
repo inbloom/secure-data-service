@@ -23,76 +23,54 @@
   </jb:bean>
 
   <jb:bean beanId="disciplineIncidentBody" class="java.util.HashMap" createOnElement="attributes">
-    <jb:value property="incidentIdentifier" data="attributes IncidentIdentifier" />
-    <jb:value property="incidentDate" data="attributes IncidentDate" />
-    <jb:value property="incidentTime" data="attributes IncidentTime" />
-    <jb:value property="incidentLocation" data="attributes IncidentLocation" />
-    <jb:value property="reporterDescription" data="attributes ReporterDescription" />
-    <jb:value property="reporterName" data="attributes ReporterName" />
-    <jb:wiring property="behaviors" beanIdRef="DisciplineIncident_BehaviorsArray" />
-    <jb:wiring property="secondaryBehaviors" beanIdRef="DisciplineIncident_SecondaryBehaviorsArray" />
-    <jb:wiring property="weapons" beanIdRef="DisciplineIncident_WeaponsArray" />
-    <jb:value property="reportedToLawEnforcement" data="attributes ReportedToLawEnforcement" decoder="Boolean" />
-    <jb:value property="caseNumber" data="attributes CaseNumber" />
+    <jb:value property="incidentIdentifier" data="attributes IncidentIdentifier _value" />
+    <jb:value property="incidentDate" data="attributes IncidentDate _value" />
+    <jb:value property="incidentTime" data="attributes IncidentTime _value" />
+    <jb:value property="incidentLocation" data="attributes IncidentLocation _value" />
+    <jb:value property="reporterDescription" data="attributes ReporterDescription _value" />
+    <jb:value property="reporterName" data="attributes ReporterName _value" />
+    <jb:wiring property="behaviors" beanIdRef="Behaviors" />
+    <jb:wiring property="secondaryBehaviors" beanIdRef="SecondaryBehaviors" />
+    <jb:wiring property="weapons" beanIdRef="Weapons" />
+    <jb:value property="reportedToLawEnforcement" data="attributes ReportedToLawEnforcement _value" decoder="Boolean" />
+    <jb:value property="caseNumber" data="attributes CaseNumber _value" />
     <jb:value property="schoolId" data="attributes SchoolReference" />
     <jb:value property="staffId" data="attributes StaffReference" />
   </jb:bean>
 
-  <!-- DisciplineIncident supporting objects: Behaviors -->
-
-  <jb:bean beanId="DisciplineIncident_BehaviorsArray"
-    class="java.util.ArrayList"
-    createOnElement="attributes">
-    <jb:wiring beanIdRef="DisciplineIncident_Behaviors" />
+  <jb:bean beanId="Behaviors" class="java.util.ArrayList" createOnElement="attributes Behaviors">
+    <jb:wiring beanIdRef="BehaviorDescriptorType" />
   </jb:bean>
 
-  <jb:bean beanId="DisciplineIncident_Behaviors"
-  	class="java.util.ArrayList"
-  	createOnElement="behaviors element">
-  	<jb:wiring beanIdRef="DisciplineIncident_Behaviors_CodeValue" />
-  	<jb:wiring beanIdRef="DisciplineIncident_Behaviors_ShortDescription" />
-  	<jb:wiring beanIdRef="DisciplineIncident_Behaviors_Description" />
+  <jb:bean beanId="BehaviorDescriptorType" class="java.util.ArrayList" createOnElement="attributes Behaviors element">
+  	<jb:wiring beanIdRef="CodeValue" />
+  	<jb:wiring beanIdRef="ShortDescription" />
+  	<jb:wiring beanIdRef="Description" />
   </jb:bean>
 
-  <jb:bean beanId="DisciplineIncident_Behaviors_CodeValue"
-  	class="java.util.HashMap"
-  	createOnElement="behaviors element element codeValue">
-    <jb:value property="codeValue" data="Behaviors element element CodeValue" />
+  <jb:bean beanId="CodeValue" class="java.util.HashMap" createOnElement="attributes Behaviors element CodeValue">
+    <jb:value property="codeValue" data="Behaviors element CodeValue _value" />
   </jb:bean>
 
-  <jb:bean beanId="DisciplineIncident_Behaviors_ShortDescription"
-  	class="java.util.HashMap"
-  	createOnElement="behaviors element element shortDescription">
-    <jb:value property="shortDescription" data="Behaviors element element ShortDescription" />
+  <jb:bean beanId="ShortDescription" class="java.util.HashMap" createOnElement="Behaviors element ShortDescription">
+    <jb:value property="shortDescription" data="Behaviors element ShortDescription _value" />
   </jb:bean>
 
-  <jb:bean beanId="DisciplineIncident_Behaviors_Description"
-  	class="java.util.HashMap"
-  	createOnElement="behaviors element element description">
-    <jb:value property="description" data="Behaviors element element Description" />
+  <jb:bean beanId="Description" class="java.util.HashMap" createOnElement="Behaviors element Description">
+    <jb:value property="description" data="Behaviors element Description _value" />
   </jb:bean>
 
-  <!-- DisciplineIncident supporting objects: SecondaryBehaviors -->
-
-  <jb:bean beanId="DisciplineIncident_SecondaryBehaviorsArray"
-    class="java.util.ArrayList"
-    createOnElement="attributes">
-    <jb:wiring beanIdRef="DisciplineIncident_SecondaryBehaviors" />
+  <jb:bean beanId="SecondaryBehaviors" class="java.util.ArrayList" createOnElement="attributes SecondaryBehaviors">
+    <jb:wiring beanIdRef="SecondaryBehavior" />
   </jb:bean>
 
-  <jb:bean beanId="DisciplineIncident_SecondaryBehaviors"
-  	class="java.util.HashMap"
-  	createOnElement="secondaryBehaviors element">
-    <jb:value property="behaviorCategory" data="SecondaryBehaviors element BehaviorCategory" />
-    <jb:value property="secondaryBehavior" data="SecondaryBehaviors element SecondaryBehavior" />
+  <jb:bean beanId="SecondaryBehavior" class="java.util.HashMap" createOnElement="attributes SecondaryBehaviors element">
+    <jb:value property="behaviorCategory" data="SecondaryBehaviors element a_BehaviorCategory" />
+    <jb:value property="secondaryBehavior" data="SecondaryBehaviors element SecondaryBehavior _value" />
   </jb:bean>
 
-  <!-- DisciplineIncident supporting objects: Weapons -->
-
-  <jb:bean beanId="DisciplineIncident_WeaponsArray"
-    class="java.util.ArrayList"
-    createOnElement="attributes">
-    <jb:value data="Weapons Weapon element" />
+  <jb:bean beanId="Weapons" class="java.util.ArrayList" createOnElement="attributes Weapons">
+    <jb:value data="attributes Weapons Weapon element _value" />
   </jb:bean>
 
 </smooks-resource-list>

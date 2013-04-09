@@ -33,9 +33,16 @@ CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 TENANT_COLLECTION = [convertTenantIdToDbName("Midgar"), convertTenantIdToDbName("Hyrule"), convertTenantIdToDbName("Security"), convertTenantIdToDbName("Other"), convertTenantIdToDbName("Zork"), convertTenantIdToDbName("SLI"), convertTenantIdToDbName("T1"), convertTenantIdToDbName("T2"), convertTenantIdToDbName("T3"), convertTenantIdToDbName("mreynolds"), convertTenantIdToDbName("chaos_mokey_org"), convertTenantIdToDbName("fakedev_zork_net")]
 
 IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
-
+  
 #######################################################
 
+if ENV['HEADLESS'] 
+  puts "Headless environment"
+  require 'headless'
+  headless = Headless.new
+  headless.start
+end  
+  
 $SUCCESS=true
 $failures = Hash.new
 
@@ -59,10 +66,7 @@ $collectionSet = ["student",
                   "studentParentAssociation",
                   "attendance",
                   "program",
-                  "studentAcademicRecord",
-                  "grade",
                   "studentCompetency",
-                  "reportCard",
                   "cohort",
                   "courseOffering",
                   "learningObjective",
@@ -75,7 +79,8 @@ $collectionSet = ["student",
                   "disciplineAction",
                   "disciplineIncident",
                   "studentDisciplineIncidentAssociation",
-                  "graduationPlan"]
+                  "graduationPlan",
+                  "yearlyTranscript"]
 
 #######################################################################################################
 # Helper defs
@@ -561,7 +566,7 @@ end
 # This task is used as an entry point to run the smoke tests,
 # a suite of tests that will run quickly but only catch 80% or less of real failures
 desc "Run Smoke Tests"
-task :smokeTests => [:apiSmokeTests, :ingestionSmokeTests, :dashboardSmokeTests, :databrowserSmokeTests, :adminSmokeTests] do
+task :smokeTests => [:apiSmokeTests, :ingestionSmokeTests, :dashboardSmokeTests, :bulkExtractSmokeTests, :adminSmokeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -576,7 +581,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :migrationTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :migrationTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests, :runAssmtSearchIndexer ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -630,7 +635,9 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1SelectorTests,
                      :longLivedSessionTests,
                      :apiVersionTests,
-                     :apiV1GranularAccessTests] do
+                     :apiV1GranularAccessTests,
+                     :apiV1YearlyTranscriptTests,
+                     :bulkExtract] do                     
   displayFailureReport()
 end
 
@@ -638,7 +645,26 @@ task :apiV1EntitySecurityTests do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/context_security")
+end
 
+desc "Run API Tests using Odin ingested data"
+task :apiOdinTests => [:apiOdinGenerate, :apiOdinIngestion, :apiOdinSuperAssessment, :apiOdinSearchAssessment] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run API V1 Super Assessment acceptance tests"
+task :apiSuperAssessmentTests => [:apiOdinSuperAssessment] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################
@@ -662,14 +688,17 @@ task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
   end
 end
 
-desc "Run Reset and Change Password Selenium Tests"
-task :resetAndChangePasswordTests => [:realmInit] do
-  runTests("test/features/admintools/reset_change_password.feature")
-end
-
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:provisionIntegrationTests, :preloadResourceTests, :realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
-                          :resetAndChangePasswordTests, :sandboxUserAdminTests, :samtEmailNotificationTests, :adminWebTests] do
+task :adminToolsTests => [
+        :provisionIntegrationTests,
+        :preloadResourceTests,
+        :realmInit,
+        :accountApprovalInterfaceTests,
+        :accountApprovalTests,
+        :onboardingIntegrationTests,
+        :sandboxUserAdminTests,
+        :samtEmailNotificationTests,
+        :adminWebTests] do
   Rake::Task["importSandboxData"].execute
   Rake::Task["realmInit"].execute
   displayFailureReport()
@@ -711,19 +740,20 @@ end
 # Dashboard tests start
 ############################################################
 desc "Run Dashboard Tests"
-task :dashboardTests => [:dashboardPopWidgetTests,
-                         :dashboardK3ViewTests,
-                         :dashboardHSViewTests,
-                         :dashboardUserBasedViewTests,
-                         :dashboardIntegratedTests,
-                         :dashboardLoginTests,
-                         :dashboardStudentProfileTests,
-                         :dashboardAttendance,
-                         :dashboardStudentHistoricalDataTests,
-                         :dashboardStudentContactInfoLiveTests,
-                         :dashboardStudentGradebookEntryTests,
-                         :dashboardHTMLEscapeTests,
-                         :dashboardQunitTests] do
+task :dashboardTests => [
+        :dashboardPopWidgetTests,
+        :dashboardK3ViewTests,
+        :dashboardHSViewTests,
+        :dashboardUserBasedViewTests,
+        :dashboardIntegratedTests,
+        :dashboardLoginTests,
+        :dashboardStudentProfileTests,
+        :dashboardAttendance,
+        :dashboardStudentHistoricalDataTests,
+        :dashboardStudentContactInfoLiveTests,
+        :dashboardStudentGradebookEntryTests,
+        :dashboardHTMLEscapeTests,
+        :dashboardQunitTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -740,24 +770,25 @@ end
 # Dashboard SDS tests start
 ############################################################
 desc "Run Dashboard Tests against SDS"
-task :dashboardSdsTests => [:runSearchBulkExtract,
-                         :dashboardSdsUploadConfigTests,
-                         :dashboardSdsCoreStudentsTests,
-                         :dashboardSdsContactInfoTests,
-                         :dashboardSdsLoginTests,
-                         :dashboardSdsHSViewTests,
-                         :dashboardSdsK3ViewTests,
-                         :dashboardSdsPopWidgetTests,
-                         :dashboardSdsStudentProfileTests,
-                         :dashboardSdsUserBasedViewsTests,
-                         :dashboardSdsAttendanceTests,
-                         :dashboardStudentSearchTests,
-                         :dashboardSdsTranscriptPanelTests,
-                         :dashboardAssessmentTests,
-                         :dashboardSdsSectionProfileTests,
-                         :dashboardSdsTeacherProfileTests,
-                         :dashboardSdsAttendanceCalendarTests,
-                         :dashboardSdsDashboardBuilderTests] do
+task :dashboardSdsTests => [
+        :runSearchBulkExtract,
+        :dashboardSdsUploadConfigTests,
+        :dashboardSdsCoreStudentsTests,
+        :dashboardSdsContactInfoTests,
+        :dashboardSdsLoginTests,
+        :dashboardSdsHSViewTests,
+        :dashboardSdsK3ViewTests,
+        :dashboardSdsPopWidgetTests,
+        :dashboardSdsStudentProfileTests,
+        :dashboardSdsUserBasedViewsTests,
+        :dashboardSdsAttendanceTests,
+        :dashboardStudentSearchTests,
+        :dashboardSdsTranscriptPanelTests,
+        :dashboardAssessmentTests,
+        :dashboardSdsSectionProfileTests,
+        :dashboardSdsTeacherProfileTests,
+        :dashboardSdsAttendanceCalendarTests,
+        :dashboardSdsDashboardBuilderTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -774,20 +805,50 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-#task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionLearningObjectiveTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
-#                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionCourseTranscriptTests, :ingestionProgramTest, :ingestionCohortTest,
-#                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-#                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
-#                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
-#                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
-#                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-#                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
-task :ingestionTests => [:loadDefaultIngestionTenants, :IngestionIndexValidationTest, :ingestionTenantPurgeTests, :ingestionJobFailOnMissingIndexTest, :ingestionDbSpinupTest,  :ingestionDupDetectTest, :ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
-                         :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionBatchJobTest, :ingestionIgnoreIDRefsTest,
-                         :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
-                         :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest, :ingestionUniqueSectionCodeTest, :ingestionSecurityEventTest] do
+task :ingestionTests => [
+        :loadDefaultIngestionTenants,
+        :IngestionIndexValidationTest,
+        :ingestionDeletionTests,
+        :ingestionTenantPurgeTests,
+        :ingestionJobFailOnMissingIndexTest,
+        :ingestionDbSpinupTest,
+        :ingestionDupDetectTest,
+        :ingestionAcceptanceSdsTest,
+        :ingestionConcurrentTenantTest,
+        :ingestionLearningObjectiveTest,
+        :ingestionNegativeTests,
+        :ingestionAttendanceTests,
+        :ingestionCommonCoreTest,
+        :ingestionEncryptionTests,
+        :ingestionPropagatedTest,
+        :ingestionidNamespaceTest,
+        :ingestionSmooksVerificationTests,
+        :ingestionXsdValidationTest,
+        :ingestionOfflineSimpleTest,
+        :ingestionBatchJobTest,
+        :ingestionIgnoreIDRefsTest,
+        :ingestionIndexTest,
+        :ingestionTenantTest,
+        :ingestionBlacklistValidationTests,
+        :ingestionXXETest,
+        :ingestionCompetencyLevelDescriptorTest,
+        :ingestionDryRunTest,
+        :ingestionComplexObjectArrayIdRefTest,
+        :ingestionHealthCheckTest,
+        :ingestionSmallSampleDataSet,
+        :ingestionMediumSampleDataSet,
+        :partialTransformedIngestionTest,
+        :partialIngestionTest,
+        :ingestionDeltaTest,
+        :ingestionPreloading,
+        :ingestionJeffCoOnboardingTest,
+        :ingestionSuperDocTests,
+        :ingestionSubdocTests,
+        :ingestionErrorWarnCountTest,
+        :ingestionRevertDataTest,
+        :ingestionUniqueSectionCodeTest,
+        :ingestionSecurityEventTest
+  ] do
 
   displayFailureReport()
   if $SUCCESS
@@ -800,16 +861,49 @@ end
 
 desc "Run High Priority Emma Ingestion Acceptances Tests"
     #New or tests modified this sprint, or tests that have recently failed
-    task :highPriority => [:loadDefaultIngestionTenants, :ingestionPreloading, :ingestionDeltaTest] do
+    task :highPriority => [
+        :loadDefaultIngestionTenants,
+        :ingestionPreloading,
+        :ingestionDeltaTest] do
 end
 
 desc "Run Normal Priority Emma Ingestion Acceptances Tests"
-    task :normalPriority => [:loadDefaultIngestionTenants, :IngestionIndexValidationTest, :ingestionDbSpinupTest, :ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
-        :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest,
-        :ingestionBatchJobTest, :ingestionIgnoreIDRefsTest, :ingestionTenantPurgeTests,
-        :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-        :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionJeffCoOnboardingTest,
-        :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest, :ingestionUniqueSectionCodeTest, :ingestionDupDetectTest] do
+    task :normalPriority => [
+        :loadDefaultIngestionTenants,
+        :IngestionIndexValidationTest,
+        :ingestionDbSpinupTest,
+        :ingestionAcceptanceSdsTest,
+        :ingestionConcurrentTenantTest,
+        :ingestionLearningObjectiveTest,
+        :ingestionNegativeTests,
+        :ingestionAttendanceTests,
+        :ingestionCommonCoreTest,
+        :ingestionEncryptionTests,
+        :ingestionidNamespaceTest,
+        :ingestionSmooksVerificationTests,
+        :ingestionXsdValidationTest,
+        :ingestionBatchJobTest,
+        :ingestionIgnoreIDRefsTest,
+        :ingestionTenantPurgeTests,
+        :ingestionIndexTest,
+        :ingestionTenantTest,
+        :ingestionBlacklistValidationTests,
+        :ingestionXXETest,
+        :ingestionCompetencyLevelDescriptorTest,
+        :ingestionDryRunTest,
+        :ingestionComplexObjectArrayIdRefTest,
+        :ingestionHealthCheckTest,
+        :ingestionSmallSampleDataSet,
+        :ingestionMediumSampleDataSet,
+        :partialTransformedIngestionTest,
+        :partialIngestionTest,
+        :ingestionJeffCoOnboardingTest,
+        :ingestionSuperDocTests,
+        :ingestionSubdocTests,
+        :ingestionErrorWarnCountTest,
+        :ingestionRevertDataTest,
+        :ingestionUniqueSectionCodeTest,
+        :ingestionDupDetectTest] do
 end
 
 desc "Run Emma Ingestion Acceptances Tests"
@@ -856,7 +950,13 @@ end
 # List Attendance Endpoint tests start
 ############################################################
 desc "Run List Attendance Endpoint tests"
-task :listAttendanceEndPoint => [:loadDefaultIngestionTenants, :odin10k1GenerateTests, :ingestOdin10k1DataSet, :realmInit, :v1ListAttendanceEndpointTests] do
+task :listAttendanceEndPoint => [
+        :loadDefaultIngestionTenants,
+        :odin10k1GenerateTests,
+        :ingestOdin10k1DataSet,
+        :realmInit,
+        :v1ListAttendanceEndpointTests] do
+
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1012,18 +1112,19 @@ end
 # SIF tests start
 ############################################################
 desc "Run SIF Tests"
-task :sifTests => [:sifSchoolInfoTest,
-                   :sifLEAInfoTest,
-                   :sifStudentSchoolEnrollmentTest,
-                   :sifStudentLEARelationshipTest,
-                   :sifStaffPersonalTest,
-                   :sifEmployeePersonalTest,
-                   :sifEmploymentRecordTest,
-                   :sifStaffAssignmentTest,
-                   :sifSmokeTests,
-                   :sifIntegratedTest,
-                   :sifEmployeeAssignmentTest
-                   ] do
+task :sifTests => [
+        :sifSchoolInfoTest,
+        :sifLEAInfoTest,
+        :sifStudentSchoolEnrollmentTest,
+        :sifStudentLEARelationshipTest,
+        :sifStaffPersonalTest,
+        :sifEmployeePersonalTest,
+        :sifEmploymentRecordTest,
+        :sifStaffAssignmentTest,
+        :sifSmokeTests,
+        :sifIntegratedTest,
+        :sifEmployeeAssignmentTest
+        ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1094,10 +1195,8 @@ task :importSecuredData do
     "cohort" => "secured/cohort.json",
     "course" => "secured/course.json",
     "courseTranscript" => "secured/courseTranscript.json",
-    "grade" => "secured/grade.json",
     "educationOrganization" => "secured/educationOrganization.json",
     "program" => "secured/program.json",
-    "reportCard" => "secured/reportCard.json",
     "section" => "secured/section.json",
     "session" => "secured/session.json",
     "staff" => "secured/staff.json",
@@ -1107,11 +1206,11 @@ task :importSecuredData do
     "student" => "secured/student.json",
     "studentAssessment" => "secured/studentAssessment.json",
     "studentCompetency" => "secured/studentCompetency.json",
-    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
     "studentGradebookEntry" => "secured/studentGradebookEntry.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
     "parent" => "secured/parent.json",
+    "yearlyTranscript" => "secured/yearlyTranscript.json"
   ]
 
    tenant = {
@@ -1170,6 +1269,8 @@ task :importSandboxMidgarData do
     "parent" => "Midgar_data/parent_fixture.json",
     "staff" => "Midgar_data/staff_fixture.json",
     "assessment" => "Midgar_data/assessment_fixture.json",
+    "assessmentFamily" => "Midgar_data/assessmentFamily_fixture.json",
+    "assessmentPeriodDescriptor" => "Midgar_data/assessmentPeriodDescriptor_fixture.json",
     "studentAssessment" => "Midgar_data/studentAssessment_fixture.json",
     "attendance" => "Midgar_data/attendance_fixture.json",
     "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",
@@ -1187,17 +1288,15 @@ task :importSandboxMidgarData do
     "cohort" => "Midgar_data/cohort_fixture.json",
     "staffCohortAssociation" => "Midgar_data/staffCohortAssociation_fixture.json",
     "staffProgramAssociation" => "Midgar_data/staffProgramAssociation_fixture.json",
-    "studentAcademicRecord" => "Midgar_data/studentAcademicRecord_fixture.json",
     "learningStandard" => "Midgar_data/learningStandard_fixture.json",
     "learningObjective" => "Midgar_data/learningObjective_fixture.json",
-    "grade" => "Midgar_data/grade_fixture.json",
     "studentCompetency" => "Midgar_data/studentCompetency_fixture.json",
     "gradingPeriod" => "Midgar_data/gradingPeriod_fixture.json",
     "adminDelegation" => "Midgar_data/adminDelegation_fixture.json",
-    "reportCard" => "Midgar_data/reportCard_fixture.json",
     "graduationPlan" => "Midgar_data/graduationPlan_fixture.json",
     "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json",
-    "competencyLevelDescriptor" => "Midgar_data/competencyLevelDescriptor_fixture.json"
+    "competencyLevelDescriptor" => "Midgar_data/competencyLevelDescriptor_fixture.json",
+    "yearlyTranscript" => "Midgar_data/yearlyTranscript_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
@@ -1212,12 +1311,14 @@ task :importSandboxHyruleData do
     "student" => "Hyrule_data/student_fixture.json",
     "staff" => "Hyrule_data/staff_fixture.json",
     "assessment" => "Hyrule_data/assessment_fixture.json",
+    "assessmentFamily" => "Hyrule_data/assessmentFamily_fixture.json",
+    "assessmentPeriodDescriptor" => "Hyrule_data/assessmentPeriodDescriptor_fixture.json",
     "studentSchoolAssociation" => "Hyrule_data/studentSchoolAssociation_fixture.json",
     "teacherSchoolAssociation" => "Hyrule_data/teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "Hyrule_data/educationOrganization_fixture.json",
     "staffEducationOrganizationAssociation" => "Hyrule_data/staffEducationOrganizationAssociation_fixture.json",
     "gradingPeriod" => "Hyrule_data/gradingPeriod_fixture.json",
-    "reportCard" => "Hyrule_data/reportCard_fixture.json"
+    "yearlyTranscript" => "Hyrule_data/yearlyTranscript_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
@@ -1226,6 +1327,8 @@ desc "Import Sandbox Test Data"
 task :importSandboxData do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   Rake::Task["importSandboxMidgarData"].execute
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
+  Rake::Task["importDevAccountData"].execute
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   Rake::Task["importSandboxHyruleData"].execute
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
@@ -1233,6 +1336,7 @@ task :importSandboxData do
   if TODROP
     Rake::Task["runDbIndexingScript"].execute
   end
+  Rake::Task["runSearchBulkExtract"].execute
 end
 
 
@@ -1263,16 +1367,14 @@ task :importMigrationData do
     "cohort" => "migration_data/cohort_fixture.json",
     "staffCohortAssociation" => "migration_data/staffCohortAssociation_fixture.json",
     "staffProgramAssociation" => "migration_data/staffProgramAssociation_fixture.json",
-    "studentAcademicRecord" => "migration_data/studentAcademicRecord_fixture.json",
     "learningStandard" => "migration_data/learningStandard_fixture.json",
     "learningObjective" => "migration_data/learningObjective_fixture.json",
-    "grade" => "migration_data/grade_fixture.json",
     "studentCompetency" => "migration_data/studentCompetency_fixture.json",
     "gradingPeriod" => "migration_data/gradingPeriod_fixture.json",
-    "reportCard" => "migration_data/reportCard_fixture.json",
     "graduationPlan" => "migration_data/graduationPlan_fixture.json",
     "studentCompetencyObjective" => "migration_data/studentCompetencyObjective_fixture.json",
-    "competencyLevelDescriptor" => "migration_data/competencyLevelDescriptor_fixture.json"
+    "competencyLevelDescriptor" => "migration_data/competencyLevelDescriptor_fixture.json",
+    "yearlyTranscript" => "migration_data/yearlyTranscript_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
@@ -1287,6 +1389,22 @@ task :importZorkSandboxData do
 
    ]
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
+  setMultipleFixtureFiles(testHash)
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
+end
+
+desc "Import developer email Test Data"
+task :importDevAccountData do
+  testHash = Hash[
+    "educationOrganization" => "developer-email_data/educationOrganization_fixture.json",
+   ]
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
+  setMultipleFixtureFiles(testHash)
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "slcdeveloper")
   setMultipleFixtureFiles(testHash)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
@@ -1313,10 +1431,28 @@ task :importChaosSandboxData do
   end
 end
 
+desc "Import Sandbox Test Data"
+task :importPurgeData do
+  tenantTestHash = Hash[
+    "educationOrganization" => "PurgeFixtureData/educationOrganization_fixture.json",
+    "applicationAuthorization" => "PurgeFixtureData/applicationAuthorization_Hyrule_fixture.json",
+    "customRole" => "PurgeFixtureData/customRole_Hyrule_fixture.json"
+   ]
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+  setMultipleFixtureFiles(tenantTestHash)
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
+end
+
 desc "Import Unified Data Set"
 task :importUnifiedData => [:realmInit] do
   testHash = Hash[
     "assessment" => "unified_data/uds_assessment.json",
+    "assessmentFamily" => "unified_data/uds_assessmentFamily.json",
+    "assessmentPeriodDescriptor" => "unified_data/uds_assessmentPeriodDescriptor.json",
     "studentAssessment" => "unified_data/uds_studentAssessment_fixture.json",
     "attendance" => "unified_data/uds_attendance.json",
     "course" => "unified_data/uds_course.json",

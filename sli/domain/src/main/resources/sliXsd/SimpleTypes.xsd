@@ -7,7 +7,7 @@
 	<!-- This file contains the simple types for the SLI database schema representation. -->
 
     <xs:simpleType name="environmentType">
-        <xs:annotation>/
+        <xs:annotation>
             <xs:documentation>Type of environment a user account could access
             </xs:documentation>
         </xs:annotation>
@@ -2733,6 +2733,7 @@
 			<xs:enumeration value="Migratory" />
 			<xs:enumeration value="Parent in Military" />
 			<xs:enumeration value="Pregnant" />
+            <xs:enumeration value="Section 504 Handicapped"/>
 			<xs:enumeration value="Single Parent" />
 			<xs:enumeration value="Unaccompanied Youth" />
 			<xs:enumeration value="Unschooled Asylee" />

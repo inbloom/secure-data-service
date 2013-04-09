@@ -18,7 +18,7 @@ package org.slc.sli.api.jersey;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 import org.slc.sli.domain.QueryParseException;
@@ -116,7 +116,7 @@ public class DateSearchFilter implements ContainerRequestFilter {
 
         Matcher m = ID_REPLACEMENT_PATTERN.matcher(requestPath);
 
-        if (m.find()){
+        if (m.matches()){
             // transform requestPath from "v1.x/foo/2344,3453,5345/bar" to "v1.x/foo/{id}/bar"
             requestPath = m.group(1) + PathConstants.ID_PLACEHOLDER + m.group(2);
         }

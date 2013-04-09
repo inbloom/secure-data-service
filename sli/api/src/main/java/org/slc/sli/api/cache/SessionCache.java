@@ -26,9 +26,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * JMS Replicated session cache
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 public class SessionCache {
@@ -65,10 +65,12 @@ public class SessionCache {
         // Init Cache
         Configuration c = new Configuration();
         c.setName("sessionManager");
-        manager = new CacheManager(c);
+        manager = CacheManager.create(c);
         CacheConfiguration config = new CacheConfiguration();
         config.eternal(false).name(CACHE_NAME).maxEntriesLocalHeap(MAX_ENTRIES).memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LRU).timeToIdleSeconds(TIME_TO_IDLE).timeToLiveSeconds(TIME_TO_LIVE);
-        manager.addCache(new Cache(config));
+        if (!manager.cacheExists(CACHE_NAME)) {
+            manager.addCache(new Cache(config));
+        }
         sessions = manager.getCache(CACHE_NAME);
 
         // Init JMS replication
@@ -80,6 +82,7 @@ public class SessionCache {
         tp = jmsSession.createPublisher(topic);
 
         listener = new Thread() { // Thread created once upon container startup
+            @Override
             public void run() {
                 try {
                     MessageConsumer consumer = jmsSession.createConsumer(topic);
@@ -142,7 +145,7 @@ public class SessionCache {
             error("Failed to replicate session cache entry", e);
         }
     }
-    
+
     public void clear() {
         this.sessions.removeAll();
     }

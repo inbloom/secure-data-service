@@ -20,31 +20,27 @@ Scenario: Student Ed-Fi XSD Validation
 
     Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | student                     | 4     |
+        | student                     | 2     |
     And I check to find if record is in collection:
     | collectionName            | expectedRecordCount | searchParameter                    | searchValue           | searchType        |
     | student                   | 1                   | body.studentUniqueStateId          | 530425896             | string            |
     | student                   | 1                   | body.studentUniqueStateId          | 814202099             | string            |
-    | student                   | 1                   | body.studentUniqueStateId          | 162849670             | string            |
-    | student                   | 1                   | body.studentUniqueStateId          | 489503728             | string            |
-    | student                   | 2                   | body.schoolFoodServicesEligibility | Reduced price         | string            |
-    | student                   | 2                   | body.schoolFoodServicesEligibility | Full price            | string            |
-    | student                   | 3                   | body.limitedEnglishProficiency     | NotLimited            | string            |
+    | student                   | 1                   | body.schoolFoodServicesEligibility | Reduced price         | string            |
+    | student                   | 1                   | body.schoolFoodServicesEligibility | Full price            | string            |
+    | student                   | 2                   | body.limitedEnglishProficiency     | NotLimited            | string            |
 
     Then I should see "Processed 4 records." in the resulting batch job file
-    And I should see "InterchangeStudent.xml records considered: 4" in the resulting batch job file
-    And I should see "InterchangeStudent.xml records ingested successfully: 4" in the resulting batch job file
-    And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records considered for processing: 2" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records ingested successfully: 2" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records not considered for processing: 2" in the resulting batch job file
 
-    And I should see "BASE_0017" in the resulting warning log file
-    And I should see "InterchangeStudent.xml:line-56,column-28" in the resulting warning log file
-    And I should see "cvc-complex-type.2.4.a: Invalid content was found starting with element 'EconomicDisadvantaged'. One of '{" in the resulting warning log file
+    And I should see "BASE_0027" in the resulting error log file
+    And I should see "InterchangeStudent.xml:line-56,column-28" in the resulting error log file
+    And I should see "cvc-complex-type.2.4.a: Invalid content was found starting with element 'EconomicDisadvantaged'. One of '{" in the resulting error log file
 
-    And I should see "BASE_0017" in the resulting warning log file
-    And I should see "InterchangeStudent.xml:line-87,column-60" in the resulting warning log file
-    And I should see "cvc-type.3.1.3: The value '' of element 'LimitedEnglishProficiency' is not valid." in the resulting warning log file
-
-    And I should not see an error log file created
+    And I should see "BASE_0027" in the resulting error log file
+    And I should see "InterchangeStudent.xml:line-87,column-60" in the resulting error log file
+    And I should see "cvc-type.3.1.3: The value '' of element 'LimitedEnglishProficiency' is not valid." in the resulting error log file
 
 Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> under <StudentGradebookEntry>
 
@@ -84,8 +80,8 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
       | studentGradebookEntry       | 1                   | body.dateFulfilled                 | 2011-09-16            | string            |
 
     Then I should see "Processed 292 records." in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered for processing: 2" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 2" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records failed processing: 0" in the resulting batch job file
 
     And I should not see an error log file created

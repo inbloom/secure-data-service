@@ -69,7 +69,6 @@ public class CommandProcessor {
     @Handler
     public void processCommand(Exchange exch) throws Exception {
         String command = exch.getIn().getBody().toString();
-
         LOG.info("Received: " + command);
         String[] chunks = command.split("\\|");
 

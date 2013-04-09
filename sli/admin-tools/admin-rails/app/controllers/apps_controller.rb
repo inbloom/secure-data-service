@@ -135,6 +135,7 @@ class AppsController < ApplicationController
     @app.vendor = dev_info[:vendor]
     @app.is_admin = boolean_fix @app.is_admin
     @app.installed = boolean_fix @app.installed
+    @app.isBulkExtract = boolean_fix @app.isBulkExtract
     logger.debug{"Application is valid? #{@app.valid?}"}
     respond_to do |format|
       if @app.save
@@ -160,6 +161,7 @@ class AppsController < ApplicationController
     logger.debug("App params are #{params[:app].inspect}")
     params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
     params[:app][:installed] = boolean_fix params[:app][:installed]
+    params[:app][:isBulkExtract] = boolean_fix params[:app][:isBulkExtract]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
     params[:app].delete_if {|key, value| ["administration_url", "image_url", "application_url", "redirect_uri"].include? key and value.length == 0 }
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
@@ -206,24 +208,24 @@ class AppsController < ApplicationController
     @results = []
 
     state_ed_orgs.each do |ed_org|
-      current = {"name" => ed_org.nameOfInstitution, "state" => ed_org.address[0].stateAbbreviation }
+      current = {"name" => ed_org.nameOfInstitution, "sea_id" => ed_org.id }
       @results.push current
     end
-    @results.sort! {|x, y| x["state"] <=> y["state"]}
+    @results.sort! {|x, y| x["name"] <=> y["name"]}
   end
 
   def get_local_edorgs
-    state = params[:state]
+    sea_id = params[:sea_id]
     @results = []
     count = 0
-    local = EducationOrganization.find(:all, :params => {"organizationCategories" => "Local Education Agency", "address.stateAbbreviation" => state, "limit" => 0})
+    local = EducationOrganization.find(:all, :params => {"organizationCategories" => "Local Education Agency", "parentEducationAgencyReference" => sea_id, "limit" => 0})
     until local.count == 0
       count += local.count
       local.each do |lea|
         temp = {"name" => lea.nameOfInstitution, "id" => lea.id}
         @results.push temp
       end
-      local = EducationOrganization.find(:all, :params => {"organizationCategories" => "Local Education Agency", "address.stateAbbreviation" => state, "offset" => count, "limit" => 0})
+      local = EducationOrganization.find(:all, :params => {"organizationCategories" => "Local Education Agency", "parentEducationAgencyReference" => sea_id, "offset" => count, "limit" => 0})
     end
     @results.sort! {|x, y| x["name"] <=> y["name"]}
     render :partial => "lea_list", :locals => {:results => @results, :sea => params[:state]}

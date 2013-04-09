@@ -17,11 +17,7 @@
 
 package org.slc.sli.validation.schema;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
@@ -221,4 +217,14 @@ public class ListSchema extends NeutralSchema {
         return list.get(0).getAnnotation(type);
     }
 
+
+    public Map<String, NeutralSchema> getFields() {
+        Map<String, NeutralSchema> fields = new LinkedHashMap<String, NeutralSchema>();
+        if (list != null) {
+            for(NeutralSchema schema:list) {
+                fields.put(schema.getType(), schema);
+            }
+        }
+        return fields;
+    }
 }

@@ -6,21 +6,21 @@
     {
         "StudentIdentity":
         {
-            "StudentUniqueStateId":"100000000"
+            "StudentUniqueStateId":{"_value":"100000000"}
         }
     },
     "ResponsibilitySchoolReference":
     {
         "EducationalOrgIdentity":
         {
-            "StateOrganizationId":"someResponsibilitySchoolReference"
+            "StateOrganizationId":{"_value":"someResponsibilitySchoolReference"}
         }
     },
     "AssignmentSchoolReference":
     {
         "EducationalOrgIdentity":
         {
-            "StateOrganizationId":"someAssignmentSchoolReference"
+            "StateOrganizationId":{"_value":"someAssignmentSchoolReference"}
         }
     },
     "DisciplineIncidentReference":
@@ -32,10 +32,10 @@
                 {
                     "EducationalOrgIdentity":
                     {
-                        "StateOrganizationId":"testSchoolId"
+                        "StateOrganizationId":{"_value":"testSchoolId"}
                     }
                },
-               "IncidentIdentifier":"theIncident"
+               "IncidentIdentifier":{"_value":"theIncident"}
             }
         }
     ],
@@ -43,7 +43,7 @@
     {
         "StaffIdentity":
         {
-            "StaffUniqueStateId":"jjackson"
+            "StaffUniqueStateId":{"_value":"jjackson"}
         }
     }
 }

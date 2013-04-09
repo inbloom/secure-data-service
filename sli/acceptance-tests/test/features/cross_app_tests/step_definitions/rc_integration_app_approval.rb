@@ -114,3 +114,17 @@ end
 Then /^I enter "(.*?)" in the Redirect Endpoint field$/ do |url|
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys url
 end
+
+
+Then /^I request and download a bulk extract file$/ do
+  restHttpGet("/bulk/extract/tenant", "application/x-tar", @sessionId)
+  assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
+  @filePath = OUTPUT_DIRECTORY + "/extract.tar"
+  @unpackDir = File.dirname(@filePath) + '/unpack'
+  if (!File.exists?("extract"))
+      FileUtils.mkdir("extract")
+  end
+  File.open(@filePath, 'w') {|f| f.write(@res.body) }
+
+  assert(File.exists?(@filePath), "Bulk Extract file was unable to be download to: #{@filePath.to_s}")
+end

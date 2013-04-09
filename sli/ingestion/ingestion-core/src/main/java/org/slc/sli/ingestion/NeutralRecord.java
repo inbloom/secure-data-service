@@ -39,6 +39,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
+
 import org.slc.sli.ingestion.reporting.ElementSource;
 
 /**
@@ -49,6 +50,14 @@ import org.slc.sli.ingestion.reporting.ElementSource;
 public class NeutralRecord implements Cloneable, Resource, ElementSource {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
+
+
+    public static final String KEY_ACTION = "Action";
+    public static final String KEY_DATA = "DataType";
+
+    public static final String TYPE_ENTITY = "Entity";
+    public static final String TYPE_REFERENCE = "Reference";
+
 
     /**
      * stores an Id value uniquely identifying the record within the data store.
@@ -111,11 +120,6 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
     private String sourceFile;
 
     /**
-     * The location in source file of the record
-     */
-    private int locationInSourceFile;
-
-    /**
      * The line number in source file of the record when the element is processed in visitBefore()
      */
     private int visitBeforeLineNumber;
@@ -141,6 +145,7 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
      * stores a mapping that captures contextual information regarding the record.
      */
     private Map<String, Object> metaData;
+
 
     /**
      * Default constructor
@@ -313,14 +318,6 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
         this.sourceFile = sourceFile;
     }
 
-    public int getLocationInSourceFile() {
-        return locationInSourceFile;
-    }
-
-    public void setLocationInSourceFile(int locationInSourceFile) {
-        this.locationInSourceFile = locationInSourceFile;
-    }
-
     @Override
     public String getElementType() {
         return recordType;
@@ -398,7 +395,6 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
         result = prime * result + (int) (creationTime ^ (creationTime >>> 32));
         result = prime * result + ((localId == null) ? 0 : localId.hashCode());
         result = prime * result + ((localParentIds == null) ? 0 : localParentIds.hashCode());
-        result = prime * result + locationInSourceFile;
         result = prime * result + ((metaData == null) ? 0 : metaData.hashCode());
         result = prime * result + ((recordId == null) ? 0 : recordId.hashCode());
         result = prime * result + ((recordType == null) ? 0 : recordType.hashCode());
@@ -460,9 +456,6 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
         } else if (!localParentIds.equals(other.localParentIds)) {
             return false;
         }
-        if (locationInSourceFile != other.locationInSourceFile) {
-            return false;
-        }
         if (metaData == null) {
             if (other.metaData != null) {
                 return false;
@@ -518,6 +511,7 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
      *
      * @return The cloned object, taking care to handle composite members such as maps.
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object clone() {
         NeutralRecord result = null;
@@ -536,4 +530,26 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
     public String getResourceId() {
         return getSourceFile();
     }
+
+    public ActionVerb getActionVerb() {
+        String name = (String) this.metaData.get( KEY_ACTION);
+        ActionVerb verb = ActionVerb.NONE;
+        if( name != null ) {
+            verb = ActionVerb.valueOf( name );
+        }
+        return verb;
+    }
+
+    public void setActionVerb(ActionVerb action) {
+        this.metaData.put( KEY_ACTION, action.toString());
+        //this.actionVerb = action;
+    }
+
+
+    public void setDataType( String dataType ) {
+        this.metaData.put( KEY_DATA, dataType);
+        //this.actionVerb = action;
+    }
+
+
 }

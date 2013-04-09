@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -107,7 +107,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition assessment = factory.makeEntity(EntityNames.ASSESSMENT, ResourceNames.ASSESSMENTS)
                 .buildAndRegister(this);
         factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES)
-                .withTreatments(new AttendanceTreatment()).buildAndRegister(this);
+                .buildAndRegister(this);
+        factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.YEARLY_ATTENDANCES)
+                .buildAndRegister(this);
         // factory.makeEntity(EntityNames.BELL_SCHEDULE,
         // ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
         EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).supportsAggregates()

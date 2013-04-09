@@ -9,6 +9,12 @@ task :adminRightsTests do
   runTests("test/features/admintools/sli_admin_authorization.feature")
 end
 
+desc "Run Admin Bulk Extract Tests"
+task :adminBulkExtractTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/bulkExtract.feature")
+end
+
 desc "Run Admin Tool Smoke Tests"
 task :adminWebTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -19,6 +25,11 @@ desc "Run Admin Tool Smoke Tests"
 task :adminRealmTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools/edit_realms.feature")
+end
+
+desc "Run Reset and Change Password Selenium Tests"
+task :resetAndChangePasswordTests => [:realmInit] do
+  runTests("test/features/admintools/reset_change_password.feature")
 end
 
 desc "Run custom Roles Tests"

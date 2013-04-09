@@ -17,9 +17,15 @@
 package org.slc.sli.validation;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
+
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -27,8 +33,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Mock entity repository for testing purposes
@@ -108,6 +115,12 @@ public class DummyEntityRepository implements Repository<Entity> {
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+    	// TODO Auto-generated method stub
+    	return null;
     }
 
     @Override
@@ -232,6 +245,12 @@ public class DummyEntityRepository implements Repository<Entity> {
 
     @Override
     public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
+
+    @Override
+    public Iterator<Entity> findEach(String collectionName, Query query) {
+        // TODO Auto-generated method stub
         return null;
     }
 }

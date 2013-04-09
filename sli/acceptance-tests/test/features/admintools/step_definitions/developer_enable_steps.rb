@@ -93,12 +93,26 @@ Then /^I can see the on\-boarded states\/districts$/ do
 end
 
 Then /^I can see the on\-boarded states$/ do
-  assert(@driver.find_elements(:css, 'div#state-menu select option').count > 1, "At least one state should exist")
+  attempts = 0
+  found = false
+  options = nil
+  while attempts < 5 && found == false
+    if attempts > 1
+      puts "DEBUG: elements.to_s #{options}"
+      puts "DEBUG: select box:  #{@driver.find_elements(:css, 'div#state-menu select')}"
+      puts "Did not find any states in select menu.  Retrying..."
+      sleep(2)
+    end
+    attempts += 1
+    options = @driver.find_elements(:css, 'div#state-menu select option')
+    found = true if options.count > 1
+  end
+  assert(found, "At least one state should exist")
 end
 
-When /^I select a state$/ do
+When /^I select the state "([^"]*)"$/ do |arg1|
   options = @driver.find_elements(:css, 'div#state-menu select option')
-  step "I select the \"#{options[1].text}\""
+  step "I select the \"#{arg1}\""
 end
 
 Then /^I see all of the Districts$/ do
@@ -155,7 +169,16 @@ end
 
 private
 def get_app(name="Testing App")
-  @driver.find_element(:xpath, "//tr/td[text()='#{name}']/..")
+  rows = @driver.find_elements(:xpath, ".//tbody/tr")
+  results = []
+  for row in rows
+    appName = row.find_elements(:xpath, 'td')
+    fixedName = appName[0].text.sub(/Bulk Extract application request/,"").strip
+    if fixedName == name
+      return row      
+    end
+  end
+  return nil
 end
 def check_app(arg1)
   @test_app = get_app(arg1)

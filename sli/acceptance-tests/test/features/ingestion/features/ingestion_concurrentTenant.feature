@@ -8,6 +8,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
     And the following collections are empty in datastore:
         | collectionName              |
         | assessment                  |
+        | assessmentFamily            |
+        | assessmentPeriodDescriptor  |
         | attendance                  |
         | calendarDate                |
         | cohort                      |
@@ -53,6 +55,8 @@ When zip files are scped to the ingestion landing zone
   Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 19    |
+        | assessmentFamily            | 38    |
+        | assessmentPeriodDescriptor  | 2     |
         | attendance                  | 75    |
         | calendarDate                | 1112  |
         | cohort                      | 3     |
@@ -93,3 +97,5 @@ When zip files are scped to the ingestion landing zone
         | teacherSchoolAssociation    | 19    |
         | teacherSectionAssociation   | 27    |
    Then I should not see an error log file created
+   And I should not see a warning log file created
+

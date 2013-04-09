@@ -1,7 +1,7 @@
 street: ["North Street", "South Lane", "East Rd", "West Blvd", "Oak Street", "Braeburn Lane", "Elm Street", "Cherry Rd", "Martin Luther King Jr Blvd", "Marks Ct"]
-city: "New York"
-state: "NY"
-postalCode: "10292"
+city: "Chicago"
+state: "IL"
+postalCode: "60601"
 sex: ["Male", "Female"]
 emailSuffix: "@fakemail.com"
 maleNames: [

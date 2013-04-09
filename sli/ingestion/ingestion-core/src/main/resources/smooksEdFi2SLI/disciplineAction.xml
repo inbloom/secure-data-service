@@ -23,70 +23,52 @@
   </jb:bean>
 
   <jb:bean beanId="disciplineActionBody" class="java.util.HashMap" createOnElement="attributes">
-    <jb:wiring property="disciplines" beanIdRef="disciplineAction_disciplinesArray" />
-    <jb:value property="disciplineActionIdentifier" data="attributes disciplineActionIdentifier" />
-    <jb:value property="disciplineDate" data="attributes disciplineDate" />
-    <jb:value property="disciplineActionLength" data="attributes disciplineActionLength" decoder="Integer"/>
-    <jb:value property="actualDisciplineActionLength" data="attributes actualDisciplineActionLength" decoder="Integer"/>
-    <jb:value property="disciplineActionLengthDifferenceReason" data="attributes disciplineActionLengthDifferenceReason" />
-    <jb:wiring property="studentId" beanIdRef="disciplineAction_studentIdArray" />
-    <!-- jb:wiring property="disciplineIncidentReferenceSchoolId" beanIdRef="disciplineAction_disciplineIncidentReferenceSchoolIdArray" /-->
-    <jb:wiring property="disciplineIncidentId" beanIdRef="disciplineAction_disciplineIncidentIdArray" />
-    <jb:wiring property="staffId" beanIdRef="disciplineAction_staffIdArray" />
+    <jb:value property="disciplineActionIdentifier" data="attributes DisciplineActionIdentifier _value" />
+    <jb:wiring property="disciplines" beanIdRef="Disciplines" />
+    <jb:value property="disciplineDate" data="attributes DisciplineDate _value" />
+    <jb:value property="disciplineActionLength" data="attributes DisciplineActionLength _value" decoder="Integer"/>
+    <jb:value property="actualDisciplineActionLength" data="attributes ActualDisciplineActionLength _value" decoder="Integer"/>
+    <jb:value property="disciplineActionLengthDifferenceReason" data="attributes DisciplineActionLengthDifferenceReason _value" />
+    <jb:wiring property="studentId" beanIdRef="StudentReferences" />
+    <jb:wiring property="disciplineIncidentId" beanIdRef="DisciplineIncidentReferences" />
+    <jb:wiring property="staffId" beanIdRef="StaffReferences" />
     <jb:value property="responsibilitySchoolId" data="attributes ResponsibilitySchoolReference" />
     <jb:value property="assignmentSchoolId" data="attributes AssignmentSchoolReference" />
   </jb:bean>
 
-  <!-- DisciplineAction wiring for disciplines -->
-  <jb:bean beanId="disciplineAction_disciplinesArray" class="java.util.ArrayList"
-  	createOnElement="attributes">
-    <jb:wiring beanIdRef="disciplineAction_disciplines" />
+  <jb:bean beanId="Disciplines" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:wiring beanIdRef="DisciplineDescriptorType" />
   </jb:bean>
 
-  <jb:bean beanId="disciplineAction_disciplines" class="java.util.ArrayList"
-  	createOnElement="disciplines element">
-  	<jb:wiring beanIdRef="disciplineAction_disciplines_codeValue" />
-  	<jb:wiring beanIdRef="disciplineAction_disciplines_shortDescription" />
-  	<jb:wiring beanIdRef="disciplineAction_disciplines_description" />
+  <jb:bean beanId="DisciplineDescriptorType" class="java.util.ArrayList" createOnElement="attributes Disciplines element">
+  	<jb:wiring beanIdRef="CodeValue" />
+  	<jb:wiring beanIdRef="ShortDescription" />
+  	<jb:wiring beanIdRef="Description" />
+  </jb:bean>
+  
+    <jb:bean beanId="CodeValue" class="java.util.HashMap" createOnElement="attributes Disciplines element element CodeValue">
+    <jb:value property="codeValue" data="attributes Disciplines element element CodeValue _value" />
   </jb:bean>
 
-  <jb:bean beanId="disciplineAction_disciplines_codeValue" class="java.util.HashMap"
-  	createOnElement="disciplines element element codeValue">
-    <jb:value property="codeValue" data="disciplines element element codeValue" />
+  <jb:bean beanId="ShortDescription" class="java.util.HashMap" createOnElement="attributes Disciplines element element ShortDescription">
+    <jb:value property="ShortDescription" data="attributes Disciplines element element ShortDescription _value" />
   </jb:bean>
 
-  <jb:bean beanId="disciplineAction_disciplines_shortDescription" class="java.util.HashMap"
-  	createOnElement="disciplines element element shortDescription">
-    <jb:value property="shortDescription" data="disciplines element element shortDescription" />
+  <jb:bean beanId="Description" class="java.util.HashMap" createOnElement="attributes Disciplines element element Description">
+    <jb:value property="description" data="attributes Disciplines element element Description _value" />
   </jb:bean>
 
-  <jb:bean beanId="disciplineAction_disciplines_description" class="java.util.HashMap"
-  	createOnElement="disciplines element element description">
-    <jb:value property="description" data="disciplines element element description" />
-  </jb:bean>
-
-  <!-- DisciplineAction wiring for studentId -->
-  <jb:bean beanId="disciplineAction_studentIdArray" class="java.util.ArrayList"
-  	createOnElement="attributes">
+  <jb:bean beanId="StudentReferences" class="java.util.ArrayList" createOnElement="attributes StudentReference">
     <jb:value data="attributes StudentReference element" />
   </jb:bean>
 
-  <!-- DisciplineAction wiring for disciplineIncidentReferenceSchoolId, EdFi model, unused yet -->
-  <jb:bean beanId="disciplineAction_disciplineIncidentReferenceSchoolIdArray" class="java.util.ArrayList"
-  	createOnElement="attributes">
-    <jb:value data="attributes disciplineIncidentReferenceSchoolId element" />
-  </jb:bean>
-
-  <!-- DisciplineAction wiring for disciplineIncidentId, Current SLI model as on 04/26/2012 -->
-  <jb:bean beanId="disciplineAction_disciplineIncidentIdArray" class="java.util.ArrayList"
-  	createOnElement="attributes">
+  <jb:bean beanId="DisciplineIncidentReferences" class="java.util.ArrayList" createOnElement="attributes DisciplineIncidentReference">
     <jb:value data="attributes DisciplineIncidentReference element" />
   </jb:bean>
 
-  <!-- DisciplineAction wiring for staffId -->
-  <jb:bean beanId="disciplineAction_staffIdArray" class="java.util.ArrayList"
-  	createOnElement="attributes">
+  <jb:bean beanId="StaffReferences" class="java.util.ArrayList" createOnElement="attributes StaffReference">
     <jb:value data="attributes StaffReference element" />
   </jb:bean>
+  
 
 </smooks-resource-list>

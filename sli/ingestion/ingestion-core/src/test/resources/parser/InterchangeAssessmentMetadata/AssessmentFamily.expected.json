@@ -15,19 +15,18 @@
   "RevisionDate":{"_value":"2014-05-09"},
   "Nomenclature":{"_value":"Kfr87Oas"},
   "AssessmentPeriods":[{
-    "a_id":"ID003",
-    "a_ref":"ID003",
-    "CodeValue":{"_value":"WPhxGcxrV"}
+    "AssessmentPeriodDescriptorIdentity":{
+      "AssessmentPeriodDescriptorCodeValue":{"_value":"WPhxGcxrV"}
+    }
   }],
   "AssessmentFamilyReference":{
-    "a_id":"ID005",
-    "a_ref":"ID002",
     "AssessmentFamilyIdentity":{
-      "AssessmentFamilyIdentificationCode":[{
-        "a_IdentificationSystem":"District",
-        "a_AssigningOrganizationCode":"u.zXl85h0sKc9w9DUEiQLUX1s5H8Bs",
-        "ID":{"_value":"kkG3hnH"}
-      }]
+        "AssessmentFamilyTitle" : {
+            "_value":"Test"
+        },
+        "Version" : {
+            "_value":1
+        }
     }
   }
 }

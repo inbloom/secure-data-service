@@ -40,6 +40,7 @@ public class ContainerDocumentTest {
         final ContainerDocument testDocument = ContainerDocument.builder()
                 .forCollection("testCollection")
                 .forField("testField")
+                .persistAs("testCollection")
                 .withParent(parentKeys).build();
 
         assertEquals("testCollection", testDocument.getCollectionName());

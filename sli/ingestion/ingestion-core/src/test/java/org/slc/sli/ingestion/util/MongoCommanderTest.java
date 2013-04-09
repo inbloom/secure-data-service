@@ -33,12 +33,9 @@ import com.mongodb.DBObject;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author tke
@@ -122,7 +119,7 @@ public class MongoCommanderTest {
 
     @Test
     public void testEnsureIndexes() {
-        String result = MongoCommander.ensureIndexes("tenantDB_indexes.txt", dbName, mockedMongoTemplate);
+        String result = MongoCommander.ensureIndexes("mongoTestIndexes.txt", dbName, mockedMongoTemplate);
         assertNull(result);
 
         for (String collection : shardCollections) {

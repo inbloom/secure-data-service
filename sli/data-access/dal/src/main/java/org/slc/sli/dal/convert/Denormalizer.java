@@ -29,6 +29,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
+import com.mongodb.util.JSON;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -37,6 +38,8 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 
 
@@ -72,6 +75,28 @@ public class Denormalizer {
                         .using(referenceKeys).withCache(cachedReferenceKey).idKey(idKey).register();
             }
         }
+    }
+
+    // Go through and delete references to given entity type from appropriate collections
+    // that were inserted as a result of de-normalization.
+    public boolean deleteDenormalizedReferences(String entityType, String id) {
+
+    	// Remove security-related edOrg IDs added to "student" collection in the schools[] array
+    	if (    entityType.equals("educationOrganization")
+    	     || entityType.equals("localEducationAgency")
+    	     || entityType.equals("stateEducationAgency")
+    	     || entityType.equals("school")
+    	     || entityType.equals("educationServiceCenter") ) {
+
+    		// Constructing from JSON strings will work only because IDs are hex, else we would have quoting issues.
+    		String query_json = "{ 'schools.edOrgs': '" + id + "' }";
+    		String update_json = "{ $pull: { 'schools': { 'edOrgs' : '" + id + "'}}}";
+    		DBObject query = (DBObject) JSON.parse(query_json);
+    		DBObject update = (DBObject) JSON.parse(update_json);
+    		TenantContext.setIsSystemCall(false);
+    		return template.getCollection("student").update(query, update, false, true, WriteConcern.SAFE).getLastError().ok();
+    	}
+    	return true;
     }
 
     /**
@@ -392,6 +417,11 @@ public class Denormalizer {
 
         private boolean bulkUpdate(DBObject parentQuery, List<Entity> newEntities) {
             return doUpdate(parentQuery, newEntities);
+        }
+
+        public CascadeResult safeDelete(Entity providedEntity, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        	CascadeResult result = new CascadeResult();
+        	return result;
         }
 
         public boolean delete(Entity providedEntity, String id) {

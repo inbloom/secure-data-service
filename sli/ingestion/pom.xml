@@ -48,7 +48,6 @@
         <version>${junit-addons.version}</version>
         <scope>test</scope>
       </dependency>
-
     </dependencies>
 
   </dependencyManagement>

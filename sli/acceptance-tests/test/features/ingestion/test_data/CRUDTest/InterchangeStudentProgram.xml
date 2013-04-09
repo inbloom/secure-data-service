@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentProgram xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-StudentProgram.xsd">
+
+  <!-- Illustrative use of DELETE -->
+  <Action ActionType="DELETE" Cascade="true">
+	
+	<StudentProgramAssociation>
+
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>100000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		
+		<ProgramReference>
+			<ProgramIdentity>
+				<ProgramId>ACC-TEST-PROG-1</ProgramId>
+			</ProgramIdentity>
+		</ProgramReference>
+	    
+	    <BeginDate>2011-01-01</BeginDate>
+		
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		
+	</StudentProgramAssociation>
+
+
+</Action>
+
+</InterchangeStudentProgram>

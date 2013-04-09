@@ -16,13 +16,15 @@
 
 package org.slc.sli.ingestion.transformation.normalization.did;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.common.domain.ContainerDocument;
+import org.slc.sli.common.domain.ContainerDocumentHolder;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,6 @@ import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
  *
  * @author jtully
  * @author vmcglaughlin
- *
  */
 public class DeterministicIdResolver implements BatchJobStage {
 
@@ -58,15 +59,18 @@ public class DeterministicIdResolver implements BatchJobStage {
     @Autowired
     private DidEntityConfigReader didConfigReader;
 
+    @Autowired
+    private ContainerDocumentHolder containerDocumentHolder;
+
     private static final Logger LOG = LoggerFactory.getLogger(DeterministicIdResolver.class);
 
     private static final String BODY_PATH = "body.";
     private static final String PATH_SEPARATOR = "\\.";
-
+    private static final String REF_PREFIX = "DiDResolved_";
     private static final String STAGE_NAME = "Deterministic Id Resolution";
 
     public void resolveInternalIds(NeutralRecordEntity entity, String tenantId, AbstractMessageReport report,
-            ReportStats reportStats) {
+                                   ReportStats reportStats) {
 
         DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 
@@ -129,10 +133,19 @@ public class DeterministicIdResolver implements BatchJobStage {
 
         // resolve and set all the parentNodes
         for (Map<String, Object> node : parentNodes) {
-            Object resolvedRef = resolveReference(node.get(refObjName), didRefSource.isOptional(), didRefConfig,
+
+            //Getting delete to work. Should be reworked.
+            boolean isDelete = false;
+            String action = (String)entity.getMetaData().get("Action");
+            if(action != null && action.equals("DELETE")) {
+                isDelete = true;
+            }
+
+            Object resolvedRef = resolveReference(entity, node.get(refObjName), isDelete?true:didRefSource.isOptional(), didRefConfig,
                     tenantId);
             if (resolvedRef != null) {
                 node.put(refObjName, resolvedRef);
+                entity.getBody().put(REF_PREFIX + refObjName, resolvedRef);
             }
         }
     }
@@ -144,7 +157,7 @@ public class DeterministicIdResolver implements BatchJobStage {
      */
     @SuppressWarnings("unchecked")
     private void extractReferenceParentNodes(List<Map<String, Object>> parentNodes, Map<String, Object> curNode,
-            String[] pathParts, int level) throws IdResolutionException {
+                                             String[] pathParts, int level) throws IdResolutionException {
         String nextNodeName = pathParts[level];
         if (level >= pathParts.length - 1) {
             parentNodes.add(curNode);
@@ -163,8 +176,8 @@ public class DeterministicIdResolver implements BatchJobStage {
         }
     }
 
-    private Object resolveReference(Object referenceObject, boolean isOptional, DidRefConfig didRefConfig,
-            String tenantId) throws IdResolutionException {
+    private Object resolveReference(Entity entity, Object referenceObject, boolean isOptional, DidRefConfig didRefConfig,
+                                    String tenantId) throws IdResolutionException {
 
         String refType = didRefConfig.getEntityType();
 
@@ -185,7 +198,7 @@ public class DeterministicIdResolver implements BatchJobStage {
 
             for (Object reference : refList) {
                 @SuppressWarnings("unchecked")
-                String uuid = getId((Map<String, Object>) reference, tenantId, didRefConfig);
+                String uuid = getId(entity, (Map<String, Object>) reference, tenantId, didRefConfig);
                 if (uuid != null && !uuid.isEmpty()) {
                     uuidList.add(uuid);
                 } else {
@@ -198,42 +211,41 @@ public class DeterministicIdResolver implements BatchJobStage {
             @SuppressWarnings("unchecked")
             Map<String, Object> reference = (Map<String, Object>) referenceObject;
 
-            String uuid = getId(reference, tenantId, didRefConfig);
+            String uuid = getId(entity, reference, tenantId, didRefConfig);
             if (uuid != null && !uuid.isEmpty()) {
                 return uuid;
             } else {
                 throw new IdResolutionException("Null or empty deterministic id generated", refType, uuid);
             }
+        } else if (referenceObject instanceof String) {
+            //Reference already resolved
+            return referenceObject;
         } else {
             throw new IdResolutionException("Unsupported reference object type", refType, null);
         }
     }
 
-    private Object getProperty(Object bean, String sourceRefPath) throws IdResolutionException {
+    private Object getProperty(Object bean, String sourceRefPath) {
         Object referenceObject;
         try {
             referenceObject = PropertyUtils.getProperty(bean, sourceRefPath);
-        } catch (IllegalArgumentException e) {
-            throw new IdResolutionException("Unable to pull reference object from entity", sourceRefPath, null, e);
-        } catch (IllegalAccessException e) {
-            throw new IdResolutionException("Unable to pull reference object from entity", sourceRefPath, null, e);
-        } catch (InvocationTargetException e) {
-            throw new IdResolutionException("Unable to pull reference object from entity", sourceRefPath, null, e);
-        } catch (NoSuchMethodException e) {
-            throw new IdResolutionException("Unable to pull reference object from entity", sourceRefPath, null, e);
+        } catch (Exception e) {
+            //It should not throw exception here, since the property can be optional.
+            LOG.debug("Unable to pull reference object from entity. Field: {} not defined", sourceRefPath);
+            referenceObject = null;
         }
 
         return referenceObject;
     }
 
     private void handleException(NeutralRecordEntity entity, String sourceRefPath, String entityType,
-            String referenceType, Exception e, AbstractMessageReport report, ReportStats reportStats) {
+                                 String referenceType, Exception e, AbstractMessageReport report, ReportStats reportStats) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
         report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0009, entityType, referenceType, sourceRefPath);
     }
 
     // function which, given reference type map (source object) and refConfig, return a did
-    private String getId(Map<String, Object> reference, String tenantId, DidRefConfig didRefConfig)
+    private String getId(Entity entity, Map<String, Object> reference, String tenantId, DidRefConfig didRefConfig)
             throws IdResolutionException {
         if (didRefConfig.getEntityType() == null || didRefConfig.getEntityType().isEmpty()) {
             return null;
@@ -264,7 +276,9 @@ public class DeterministicIdResolver implements BatchJobStage {
                     if (nestedRef instanceof Map) {
                         @SuppressWarnings("unchecked")
                         Map<String, Object> nestedRefMap = (Map<String, Object>) nestedRef;
-                        value = getId(nestedRefMap, tenantId, keyFieldDef.getRefConfig());
+                        value = getId(entity, nestedRefMap, tenantId, keyFieldDef.getRefConfig());
+                    } else if (nestedRef instanceof String) {
+                        value = nestedRef;
                     } else {
                         throw new IdResolutionException("Non-map value found from entity",
                                 keyFieldDef.getValueSource(), "");
@@ -281,6 +295,47 @@ public class DeterministicIdResolver implements BatchJobStage {
                 naturalKeys.put(fieldName, value == null ? "" : value.toString());
             }
         }
+        if (didRefConfig.getExternalKeyFields() != null) {
+            for (KeyFieldDef keyFieldDef : didRefConfig.getExternalKeyFields()) {
+                // populate naturalKeys
+                Object value = null;
+                if (keyFieldDef.getRefConfig() != null) {
+                    Object externalRef = getProperty(entity.getBody(), keyFieldDef.getValueSource());
+
+                    if (externalRef == null) {
+                        if (!keyFieldDef.isOptional()) {
+                            throw new IdResolutionException("No value found for required reference",
+                                    keyFieldDef.getValueSource(), "");
+                        } else {
+                            // since it's an optional field, replace it with "" in the natural key list
+                            value = "";
+                        }
+                        // otherwise, continue to end of loop with null 'value'
+                    } else {
+                        if (externalRef instanceof Map) {
+                            @SuppressWarnings("unchecked")
+                            Map<String, Object> nestedRefMap = (Map<String, Object>) externalRef;
+                            value = getId(entity, nestedRefMap, tenantId, keyFieldDef.getRefConfig());
+                        } else if (externalRef instanceof String) {
+                            value = externalRef;
+                        } else {
+                            throw new IdResolutionException("Non-map value found from entity",
+                                    keyFieldDef.getValueSource(), "");
+                        }
+                    }
+
+                } else {
+                    value = getProperty(reference, keyFieldDef.getValueSource());
+                }
+
+                String fieldName = keyFieldDef.getKeyFieldName();
+                // don't add null or empty keys to the naturalKeys map
+                if (fieldName != null && !fieldName.isEmpty() && (value != null || keyFieldDef.isOptional())) {
+                    naturalKeys.put(fieldName, value == null ? "" : value.toString());
+                }
+            }
+        }
+
 
         // no natural keys found
         if (naturalKeys.isEmpty()) {
@@ -293,8 +348,29 @@ public class DeterministicIdResolver implements BatchJobStage {
         if (EmbeddedDocumentRelations.getSubDocuments().contains(entityType)) {
             String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entityType);
             parentId = naturalKeys.get(parentKey);
-            if(parentId == null) {
+            if (parentId == null) {
                 throw new IdResolutionException("Subdoc must have a parent reference", didRefConfig.getEntityType(), null);
+            }
+        } else if (containerDocumentHolder.isContainerDocument(entityType)) {
+            ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entityType);
+            if (containerDocument.isContainerSubdoc()) {
+
+                final List<String> parentKeys = containerDocument.getParentNaturalKeys();
+
+                final Map<String, String> naturalKeyMap = new HashMap<String, String>();
+                for (final String parentKey : parentKeys) {
+                    String value = "";
+                    if (naturalKeys.containsKey(parentKey)) {
+                        value = naturalKeys.get(parentKey);
+                    }
+                    naturalKeyMap.put(parentKey, value);
+                }
+
+                String parentEntityType = containerDocument.getCollectionToPersist();
+                parentId = uuidGeneratorStrategy.generateId(new NaturalKeyDescriptor(naturalKeyMap, tenantId, parentEntityType, null));
+                if (parentId == null) {
+                    throw new IdResolutionException("Container doc must have a parent reference", didRefConfig.getEntityType(), null);
+                }
             }
         }
 

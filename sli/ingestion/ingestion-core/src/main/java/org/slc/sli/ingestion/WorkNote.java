@@ -28,7 +28,6 @@ public class WorkNote implements Serializable {
     private static final long serialVersionUID = 5462350263804401592L;
 
     private final String batchJobId;
-    private final String tenantId;
     private final boolean hasErrors;
 
 
@@ -38,9 +37,8 @@ public class WorkNote implements Serializable {
      * @param batchJobId
      * @param tenantId
      */
-    public WorkNote(String batchJobId, String tenantId, boolean hasErrors) {
+    public WorkNote(String batchJobId, boolean hasErrors) {
         this.batchJobId = batchJobId;
-        this.tenantId = tenantId;
         this.hasErrors = hasErrors;
     }
 
@@ -53,14 +51,6 @@ public class WorkNote implements Serializable {
         return batchJobId;
     }
 
-    /**
-     * Gets the tenant id.
-     *
-     * @return String representing tenant id.
-     */
-    public String getTenantId() {
-        return tenantId;
-    }
 
     /**
      * {@inheritDoc}
@@ -70,7 +60,6 @@ public class WorkNote implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((batchJobId == null) ? 0 : batchJobId.hashCode());
-        result = prime * result + ((tenantId == null) ? 0 : tenantId.hashCode());
         return result;
     }
 
@@ -96,13 +85,6 @@ public class WorkNote implements Serializable {
         } else if (!batchJobId.equals(other.batchJobId)) {
             return false;
         }
-        if (tenantId == null) {
-            if (other.tenantId != null) {
-                return false;
-            }
-        } else if (!tenantId.equals(other.tenantId)) {
-            return false;
-        }
         return true;
     }
 
@@ -118,7 +100,7 @@ public class WorkNote implements Serializable {
      */
     @Override
     public String toString() {
-        return "SLIWorkNote [batchJobId=" + batchJobId + ", tenantId=" + tenantId + "]";
+        return "SLIWorkNote [batchJobId=" + batchJobId + ", hasErrors=" + hasErrors + "]";
     }
 
 }

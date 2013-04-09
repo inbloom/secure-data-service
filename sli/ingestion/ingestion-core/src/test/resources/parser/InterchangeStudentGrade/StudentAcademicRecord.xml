@@ -80,6 +80,7 @@
                         <BeginDate>2013-12-03</BeginDate>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
+                <SchoolYear>2013-2014</SchoolYear>
             </ReportCardIdentity>
         </ReportCardReference>
         <ReportCardReference>
@@ -100,6 +101,7 @@
                         <BeginDate>2013-03-03</BeginDate>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
+                <SchoolYear>2013-2014</SchoolYear>
             </ReportCardIdentity>
         </ReportCardReference>
         <DiplomaReference>
@@ -113,5 +115,6 @@
                 <DiplomaType>Post graduate certificate (grade 13)</DiplomaType>
             </DiplomaIdentity>
         </DiplomaReference>
+        <SchoolYear>2010-2011</SchoolYear>
     </StudentAcademicRecord>
 </InterchangeStudentGrade>

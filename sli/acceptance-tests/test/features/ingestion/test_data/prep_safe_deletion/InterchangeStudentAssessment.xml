@@ -1,0 +1,83 @@
+<?xml version="1.0" ?>
+<InterchangeStudentAssessment xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
+    <StudentAssessment>
+        <AdministrationDate>2011-05-01</AdministrationDate>
+        <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+        <SerialNumber>2</SerialNumber>
+        <AdministrationLanguage>English</AdministrationLanguage>
+        <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+        <RetestIndicator>Primary Administration</RetestIndicator>
+        <ScoreResults AssessmentReportingMethod="Scale score">
+            <Result>81</Result>
+        </ScoreResults>
+        <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>Grade 7 2011 State Reading</AssessmentTitle>
+                <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </StudentAssessment>
+    
+    <StudentObjectiveAssessment>
+        <ScoreResults AssessmentReportingMethod="Scale score">
+            <Result>18</Result>
+        </ScoreResults>
+        <StudentAssessmentReference>
+            <StudentAssessmentIdentity>
+                <AdministrationDate>2011-05-01</AdministrationDate>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <AssessmentReference>
+                    <AssessmentIdentity>
+                        <AssessmentTitle>Grade 7 2011 State Reading</AssessmentTitle>
+                        <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+                        <Version>1</Version>
+                    </AssessmentIdentity>
+                </AssessmentReference>
+            </StudentAssessmentIdentity>
+        </StudentAssessmentReference>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>ACT-Reading-SocialStudies</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
+    </StudentObjectiveAssessment>
+    
+    <StudentAssessmentItem>
+        <AssessmentResponse>True</AssessmentResponse>
+        <AssessmentItemResult>Correct</AssessmentItemResult>
+        <RawScoreResult>5</RawScoreResult>
+        <StudentAssessmentReference>
+            <StudentAssessmentIdentity>
+                <AdministrationDate>2011-05-01</AdministrationDate>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <AssessmentReference>
+                    <AssessmentIdentity>
+                        <AssessmentTitle>Grade 7 2011 State Reading</AssessmentTitle>
+                        <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+                        <Version>1</Version>
+                    </AssessmentIdentity>
+                </AssessmentReference>
+            </StudentAssessmentIdentity>
+        </StudentAssessmentReference>
+        <AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+    </StudentAssessmentItem>
+</InterchangeStudentAssessment>

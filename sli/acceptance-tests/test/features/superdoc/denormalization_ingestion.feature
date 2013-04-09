@@ -11,6 +11,8 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     And the following collections are empty in datastore:
       | collectionName                        |
       | assessment                            |
+      | assessmentFamily                      |
+      | assessmentPeriodDescriptor            |
       | recordHash                            |
       | attendance                            |
       | calendarDate                          |
@@ -56,6 +58,8 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     Then I should see following map of entry counts in the corresponding collections:
       | collectionName                        | count |
       | assessment                            | 19    |
+      | assessmentFamily                      | 38    |
+      | assessmentPeriodDescriptor            | 2     |
       | attendance                            | 75    |
       | calendarDate                          | 556   |
       | cohort                                | 3     |
@@ -95,14 +99,11 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | courseTranscript                      | 196   |
       | teacherSchoolAssociation              | 3     |
       | teacherSectionAssociation             | 11    |
-    And I should see "Processed 10107 records." in the resulting batch job file
+    And I should see "Processed 10147 records." in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
-    # Reference should be inserted
-     When I look at "<INGESTED STUDENT ID>" in the "student"
-     Then I should find "<STUDENTASSESSMENT REFERENCE ID>" in "studentAssessment"
+    And I should not see a warning log file created
 
-@wip
   Scenario: Post new data and check if references are denormalized correctly to Super Docs
     # Pre-ingest check
     When I look at "<INGESTED MATT SOLLARS>" in the "student"
@@ -132,12 +133,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     And I should see "Processed 6 records." in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
+    And I should not see a warning log file created
     # Check if references are inserted
     When I look at "<INGESTED MATT SOLLARS>" in the "student"
     Then I should find "<INGESTED 7TH GRADE ENGLISH SEC 5>" in "section"
-    And I should find "<INGESTED ACC TEST PROG 2>" in "program"
-    And I should find "<INGESTED MATT SOLLARS ACC-TEST-COH-4>" in "cohort"
-
-    When I look at "<INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH>" in the "studentSchoolAssociation"
-    Then I should find "<INGESTED SUMMER 2012 EAST BREAK JUNIOR HIGH>" in "sessions"
-

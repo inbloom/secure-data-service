@@ -103,6 +103,9 @@ public interface BatchJobDAO {
     void updateRecordHash(RecordHash rh, String newHashValues)
             throws DataAccessResourceFailureException;
 
+    void removeRecordHash( RecordHash rh )
+        throws DataAccessResourceFailureException;
+
     void removeRecordHashByTenant(String tenantId);
 
     public RecordHash findRecordHash(String tenantId, String recordId);
@@ -115,4 +118,5 @@ public interface BatchJobDAO {
 
     public boolean isDryRun(String jobId);
 
+    public String getDuplicateDetectionMode(String jobId);
 }

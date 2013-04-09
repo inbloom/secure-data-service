@@ -23,34 +23,32 @@
     </jb:bean>
 
     <jb:bean beanId="programBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="programId" data="attributes programId" />
-        <jb:value property="programType" data="attributes programType" />
-        <jb:value property="programSponsor" data="attributes programSponsor" />
-        <jb:wiring property="services" beanIdRef="ServiceDescriptorTypeArray" />
+        <jb:value property="programId" data="attributes ProgramId _value" />
+        <jb:value property="programType" data="attributes ProgramType _value" />
+        <jb:value property="programSponsor" data="attributes ProgramSponsor _value" />
+        <jb:wiring property="services" beanIdRef="Services" />
     </jb:bean>
 
-    <jb:bean beanId="ServiceDescriptorTypeArray" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:wiring beanIdRef="ServiceDescriptorType" />
+    <jb:bean beanId="Services" class="java.util.ArrayList" createOnElement="attributes Services">
+        <jb:wiring beanIdRef="ServiceDescriptor" />
     </jb:bean>
 
-    <jb:bean beanId="ServiceDescriptorType" class="java.util.ArrayList" createOnElement="services element">
-  	    <jb:wiring beanIdRef="Program_Services_CodeValue" />
-  	    <jb:wiring beanIdRef="Program_Services_ShortDescription" />
-  	    <jb:wiring beanIdRef="Program_Services_Description" />
+    <jb:bean beanId="ServiceDescriptor" class="java.util.ArrayList" createOnElement="attributes Services element">
+  	    <jb:wiring beanIdRef="CodeValue" />
+  	    <jb:wiring beanIdRef="ShortDescription" />
+  	    <jb:wiring beanIdRef="Description" />
     </jb:bean>
 
-  <jb:bean beanId="Program_Services_CodeValue" class="java.util.HashMap" createOnElement="services element element codeValue">
-    <jb:value property="codeValue" data="services element element codeValue" />
+  <jb:bean beanId="CodeValue" class="java.util.HashMap" createOnElement="attributes Services element CodeValue">
+    <jb:value property="codeValue" data="attributes Services element CodeValue _value" />
   </jb:bean>
 
-  <jb:bean beanId="Program_Services_ShortDescription"
-  	class="java.util.HashMap"
-  	createOnElement="services element element shortDescription">
-    <jb:value property="shortDescription" data="services element element shortDescription" />
+  <jb:bean beanId="ShortDescription" class="java.util.HashMap" createOnElement="attributes Services element ShortDescription">
+    <jb:value property="shortDescription" data="attributes Services element ShortDescription _value" />
   </jb:bean>
 
-  <jb:bean beanId="Program_Services_Description" class="java.util.HashMap" createOnElement="services element element description">
-    <jb:value property="description" data="services element element description" />
+  <jb:bean beanId="Description" class="java.util.HashMap" createOnElement="attributes Services element Description">
+    <jb:value property="description" data="attributes Services element Description _value" />
   </jb:bean>
 
 </smooks-resource-list>

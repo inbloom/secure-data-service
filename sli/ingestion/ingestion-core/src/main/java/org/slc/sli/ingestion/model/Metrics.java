@@ -18,6 +18,8 @@ package org.slc.sli.ingestion.model;
 
 import java.util.Map;
 
+import org.slc.sli.ingestion.ActionVerb;
+
 /**
  * Model for metrics of an ingestion job
  *
@@ -30,11 +32,16 @@ public class Metrics {
     private long recordCount;
     private long errorCount;
     private Map<String, Long> duplicateCounts;
+    private long validationErrorCount;
+    private long deletedCount;
+    private long deletedChildCount;
 
     public static Metrics newInstance(String resourceId) {
         Metrics metrics = new Metrics(resourceId);
         metrics.setRecordCount(0);
         metrics.setErrorCount(0);
+        metrics.setValidationErrorCount(0);
+        metrics.setDeletedCount(0);
         return metrics;
     }
 
@@ -50,8 +57,25 @@ public class Metrics {
         this.resourceId = resourceId;
         this.recordCount = recordCount;
         this.errorCount = errorCount;
+        this.deletedCount = 0;
     }
 
+    public Metrics( String resourceId, long recordCount, long errorCount, long deletedCount) {
+        this.resourceId = resourceId;
+        this.recordCount = recordCount;
+        this.errorCount = errorCount;
+        this.deletedCount = deletedCount;
+
+    }
+
+    public Metrics( String resourceId, long recordCount, long errorCount, long deletedCount, long deletedChildCount) {
+        this.resourceId = resourceId;
+        this.recordCount = recordCount;
+        this.errorCount = errorCount;
+        this.deletedCount = deletedCount;
+        this.deletedChildCount = deletedChildCount;
+
+    }
     public String getResourceId() {
         return resourceId;
     }
@@ -66,6 +90,13 @@ public class Metrics {
 
     public void setRecordCount(long recordCount) {
         this.recordCount = recordCount;
+    }
+
+    public void setRecordCount(long recordCount, ActionVerb action) {
+        this.recordCount = recordCount;
+        if( action.doDelete() ) {
+            this.deletedCount = recordCount;
+        }
     }
 
     public long getErrorCount() {
@@ -97,4 +128,28 @@ public class Metrics {
         this.duplicateCounts = duplicateCounts;
     }
 
+    public long getValidationErrorCount() {
+        return validationErrorCount;
+    }
+
+    public void setValidationErrorCount(long validationErrorCount) {
+        this.validationErrorCount = validationErrorCount;
+    }
+
+    public long getDeletedCount() {
+        return deletedCount;
+    }
+
+    public void setDeletedCount(long deletedCount) {
+        this.deletedCount = deletedCount;
+    }
+    
+    public long getDeletedChildCount() {
+    	return deletedChildCount;
+    }
+    
+    public void setDeletedChildCount(long deletedChildCount) {
+    	this.deletedChildCount = deletedChildCount;
+    }
+    
 }

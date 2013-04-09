@@ -23,12 +23,12 @@
   </jb:bean>
 
   <jb:bean beanId="teacherSectionAssociationBody" class="java.util.HashMap" createOnElement="attributes">
-    <jb:value property="sectionId" data="attributes SectionReference" />
     <jb:value property="teacherId" data="attributes TeacherReference" />
-    <jb:value property="beginDate" data="attributes beginDate" />
-    <jb:value property="endDate" data="attributes endDate" />
-    <jb:value property="highlyQualifiedTeacher" data="attributes highlyQualifiedTeacher" decoder="Boolean" />
-    <jb:value property="classroomPosition" data="attributes classroomPosition" />
+    <jb:value property="sectionId" data="attributes SectionReference" />
+    <jb:value property="classroomPosition" data="attributes ClassroomPosition _value" />
+    <jb:value property="beginDate" data="attributes BeginDate _value" />
+    <jb:value property="endDate" data="attributes EndDate _value" />
+    <jb:value property="highlyQualifiedTeacher" data="attributes HighlyQualifiedTeacher _value" decoder="Boolean" />
   </jb:bean>
 
 </smooks-resource-list>

@@ -43,7 +43,10 @@ Given /^I have an open web browser$/ do
     #if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
     #  Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
     #end
-    @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
+      if ENV['HEADLESS'] and RUBY_PLATFORM.include? "darwin"
+        Selenium::WebDriver::Firefox::Binary.path="/opt/local/bin/firefox-x11"  
+      end
+      @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
   end
   
   reset_timeouts_to_default

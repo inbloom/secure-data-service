@@ -50,14 +50,11 @@
     <RevisionDate>2011-03-12</RevisionDate>
     <MaxRawScore>450</MaxRawScore>
     <Nomenclature>Nomenclature?</Nomenclature>
-    <AssessmentPeriod></AssessmentPeriod>
-    <ObjectiveAssessmentReference></ObjectiveAssessmentReference>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
         <AssessmentFamilyTitle>StateTest Writing for Grade 8</AssessmentFamilyTitle>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
-    <SectionReference></SectionReference>
   </Assessment>
   
   <AssessmentFamily>

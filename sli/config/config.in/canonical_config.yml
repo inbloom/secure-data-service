@@ -204,6 +204,10 @@ default:
         sli.ingestion.queue.parser.concurrentConsumers: 8
         sli.ingestion.queue.parser.uriOptions:
 
+        sli.ingestion.parser.batch.size: 1000
+
+        sli.ingestion.purge.batch.size: 30000
+
         sli.ingestion.nodeType: standalone
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
@@ -432,11 +436,16 @@ default:
         sli.search.indexer.extract.schedule: 0 0 0 ? * SUN
         sli.search.indexer.extract.runOnStartup: false
         sli.search.indexer.service.port: 10024
-        sli.search.indexer.broker.uri : vm:(localhost:(stomp://localhost:61613,tcp://localhost:61616)?persistent=false&tempUsage=1073741824)?marshal=false&waitForStart=1
+        sli.search.indexer.broker.uri: tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}
         sli.search.indexer.queue.name: search
         sli.search.indexer.sarje.sub.topic: /topic/oplog_subscribe
         sli.search.indexer.sarje.sub.req.queue: /queue/subscription/poll
         sli.search.indexer.env: local
+
+        # bulk extract
+        sli.bulk.extract.output.directory: extract
+        sli.bulk.extract.log.path: logs
+        sli.bulk.extract.log.level: INFO
 
 acceptance-tests:
     api:

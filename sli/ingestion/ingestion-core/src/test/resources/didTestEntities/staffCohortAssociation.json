@@ -2,26 +2,26 @@
 "recordType":"staffCohortAssociation",
 "attributes":
 {
-    "StaffReference":
-    {
-        "StaffIdentity":
-        {
-            "StaffUniqueStateId":"jjackson"
-        }
-    },
-    "CohortReference":
-    {
-        "CohortIdentity":
-        {
-            "CohortIdentifier":"ACC-TEST-COH-1",
-            "EducationalOrgReference":
-            {
-                "EducationalOrgIdentity":
-                {
-                    "StateOrganizationId":"STANDARD-SEA"
-                }
-            }
-        }
-    }
+	"StaffReference":
+	{
+		"StaffIdentity":
+		{
+			"StaffUniqueStateId":{"_value":"jjackson"}
+		}
+	},
+	"CohortReference":
+	{
+		"CohortIdentity":
+		{
+			"CohortIdentifier":{"_value":"ACC-TEST-COH-1"},
+			"EducationalOrgReference":
+			{
+				"EducationalOrgIdentity":
+				{
+					"StateOrganizationId":{"_value":"STANDARD-SEA"}
+				}
+			}
+		}
+	}
 }
 }

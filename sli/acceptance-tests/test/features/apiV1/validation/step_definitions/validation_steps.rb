@@ -84,6 +84,10 @@ Given /^I create a valid base level school object$/ do
   end
 end
 
+Given /^I create a valid base level school object without parent education organization reference$/ do
+  @result = CreateEntityHash.createBaseSchoolRandomId()
+end
+
 Given /^I create a blank json object$/ do
   @result = Hash[]
 end
@@ -256,6 +260,11 @@ end
 
 Then /^the error message should contain "([^\"]*)"$/ do |string|
   assert(@res.body.to_s.include?(string), "Response does not contain the specified string")
+end
+
+Given /^I post a null document$/ do
+  @format = "application/json"
+  restHttpPost("/v1/students", nil)
 end
 
 # Entity data for POST and PUT validation

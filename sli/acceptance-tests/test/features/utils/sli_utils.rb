@@ -139,6 +139,10 @@ $SESSION_MAP = {
                                     
 }
 
+$CASCADE_DELETE_REFERENCE_MAP = {
+
+}
+
 def convertTenantIdToDbName(tenantId)
   db_name = Digest::SHA1.hexdigest tenantId
   puts "Tenant: #{tenantId} DB: #{db_name}"
@@ -224,8 +228,8 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
   urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
+  puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
   @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
-
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
@@ -498,6 +502,7 @@ module DataProvider
       "description" => "Prints hello world.",
       "name" => "Hello World",
       "is_admin" => true,
+      "isBulkExtract" => false,
       "behavior" => "Full Window App",
       "administration_url" => "https://slidev.org/admin",
       "image_url" => "https://slidev.org/img",
@@ -588,6 +593,12 @@ module EntityProvider
       assert( expected.size == response.size )
       expected.zip(response).each { |ex, res| verify_entities_match(ex, res) }
     else
+      if (expected == "true" or expected == "false")
+        expected = (expected == "true")
+      end
+      if (response == "true" or response == "false")
+        response = (response == "true")
+      end
       assert( expected == response )
     end
   end
@@ -630,4 +641,29 @@ def assertWithPolling(msg, total_wait_sec, &blk)
   }
 
   assert(yield, msg) unless passed
+end
+
+
+### Retries the passed code block if any exception is thrown.
+def retryOnFailure(naptime = 2, retries = 5, &block)
+  attempts = 1
+  while attempts < retries
+    if attempts > 1
+      puts "Previous attempt failed. Attempt #{attempts}/#{retries}"
+      sleep(naptime)
+    end
+    begin
+      yield
+    rescue SystemExit, Interrupt
+      raise
+    rescue Exception => e
+      if attempts < retries
+        raise e
+      else
+        puts e
+        puts e.backtrace.join("\n")
+      end
+    end
+    attempts += 1
+  end
 end

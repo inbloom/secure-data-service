@@ -22,6 +22,9 @@ require 'json'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
+require_relative '../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
+require_relative '../../apiV1/long_lived_session/step_definitions/token_generator_steps.rb'
+
 Transform /rights "(.*?)"/ do |arg1|
   # Default rights for SLI Default roles  
   rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Educator"
@@ -37,7 +40,8 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE"] if arg1 == "Read General Public and Aggregate"
   rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Read Restricted, Write Restricted and Write General"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Read General, Read Restricted, Write Restricted and Write General"
-
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "BULK_EXTRACT"] if arg1 == "Bulk IT Administrator"
+  rights = ["BULK_EXTRACT"] if arg1 == "BULK_EXTRACT"
   rights = [] if arg1 == "none"
   rights
 end
@@ -58,6 +62,10 @@ Transform /staff "(.*?)"/ do |user|
   result = "teachers/e9ca4497-e1e5-4fc4-ac7b-24badbad998b" if user == "stweed"
   result = "staff/527406fd-0f6c-43b7-9dab-fab504c87c7f" if user == "jvasquez"
   result
+end
+
+Then /^I should not see right "(.*?)" on any existing role$/ do |arg1|
+  assert(@driver.page_source.index(arg1) == nil, "ALL YOUR RITE ARE BELONG TO BALROG")
 end
 
 When /^I navigate to the Custom Role Mapping Page$/ do
@@ -111,6 +119,7 @@ Then /^the group "([^"]*)" contains the "([^"]*)" (rights "[^"]*")$/ do |title, 
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
 
   assertWithWait("Expected #{rights.size} roles, but saw #{group.find_elements(:class, css_class).size} in group #{title}") {group.find_elements(:class, css_class).size == rights.size}
+  puts "Group is currently #{group}"
   rights.each do |right|
     group.find_elements(:xpath, "//span[text()='#{right}']")
   end
@@ -326,7 +335,7 @@ Then /^the user "(.*?)" in tenant "(.*?)" can access the API with self (rights "
   checkRights(user, tenant, rights, true)
 end
 
-def checkRights(user, tenant, rights, isSelf) 
+def checkRights(user, tenant, rights, isSelf)
   for num in 0..5
     begin 
        sleep 1
@@ -357,7 +366,7 @@ def checkRights(user, tenant, rights, isSelf)
       end 
       #If we get this far the test probably succeeded
       break
-    rescue => e
+    rescue MiniTest::Assertion, StandardError => e
       raise e if num == 5
     end
   end

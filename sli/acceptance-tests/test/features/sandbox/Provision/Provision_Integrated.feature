@@ -121,7 +121,7 @@ When the developer provision a "sandbox" Landing zone with edorg is "<SANDBOX_ED
 Then the directory structure for the landing zone is stored in ldap
 Then the user gets an error message
 
-@sandbox @auto-prov-ingest
+@sandbox @auto-prov-ingest 
 Scenario: As a developer I can use the provisioning tool to pre-populate my tenant with a sample data set
 Given there is an sandbox account in ldap
 And the account has a tenantId "<DEVELOPER_EMAIL>"
@@ -146,7 +146,7 @@ Then "5" seconds have elapsed
 And I go to my landing zone
 Then a batch job log has been created
 And I should not see an error log file created
-And I should see "Processed 10095 records." in the resulting batch job file
+And correct number of records should be ingested for "SmallSampleDataSet.zip"
 Then "10" seconds have elapsed
 And I clean the landing zone
 And user's landing zone is still provisioned from the prior preloading of "Small Dataset"

@@ -40,8 +40,8 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
@@ -51,6 +51,7 @@ import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.FullSuperDoc;
@@ -72,10 +73,9 @@ import org.slc.sli.validation.ValidationError.ErrorType;
  */
 @Scope("prototype")
 @Component("basicService")
-public class BasicService implements EntityService {
+public class BasicService implements EntityService, AccessibilityCheck {
 
     private static final String ADMIN_SPHERE = "Admin";
-    private static final String PUBLIC_SPHERE = "Public";
 
     private static final int MAX_RESULT_SIZE = 0;
 
@@ -125,6 +125,20 @@ public class BasicService implements EntityService {
         return getRepo().count(collectionName, neutralQuery);
     }
 
+    @Override
+    public List<String> create(List<EntityBody> content) {
+        List<String> entityIds = new ArrayList<String>();
+        for(EntityBody entityBody: content) {
+            entityIds.add(create(entityBody));
+        }
+        if (entityIds.size() != content.size()) {
+            for (String id : entityIds) {
+                delete(id);
+            }
+        }
+        return entityIds;
+    }
+
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
      *
@@ -138,6 +152,7 @@ public class BasicService implements EntityService {
         checkFieldAccess(neutralQuery, false);
 
         NeutralQuery nq = neutralQuery;
+        injectSecurity(nq);
         Iterable<Entity> entities = repo.findAll(collectionName, nq);
 
         List<String> results = new ArrayList<String>();
@@ -147,6 +162,7 @@ public class BasicService implements EntityService {
         return results;
     }
 
+    
     @Override
     public String create(EntityBody content) {
         checkAccess(false, false, content);
@@ -154,29 +170,20 @@ public class BasicService implements EntityService {
         checkReferences(content);
 
         List<String> entityIds = new ArrayList<String>();
-        List<EntityBody> sanitizedBodies= sanitizeEntityBody(content);
+       sanitizeEntityBody(content);
         // ideally we should validate everything first before actually persisting
-        try {
-            for (EntityBody body : sanitizedBodies) {
-                Entity entity = getRepo().create(defn.getType(), body, createMetadata(), collectionName);
-                if (entity != null) {
-                    entityIds.add(entity.getEntityId());
-                }
-            }
-        } finally {
-            if (entityIds.size() != sanitizedBodies.size()) {
-                for (String id : entityIds) {
-                    delete(id);
-                }
-            }
+        Entity entity = getRepo().create(defn.getType(), content, createMetadata(), collectionName);
+        if (entity != null) {
+            entityIds.add(entity.getEntityId());
         }
 
-        return StringUtils.join(entityIds.toArray(), ",");
+        return entity.getEntityId();
     }
 
     private void checkAccess(boolean isRead, boolean isSelf, EntityBody content) {
         SecurityUtil.ensureAuthenticated();
         Set<Right> neededRights = new HashSet<Right>();
+
         if (isRead || content == null) {
             neededRights.addAll(provider.getAllFieldRights(defn.getType(), isRead));
         } else {
@@ -186,11 +193,6 @@ public class BasicService implements EntityService {
 
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             neededRights = new HashSet<Right>(Arrays.asList(Right.ADMIN_ACCESS));
-        }
-        if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            if (neededRights.contains(Right.READ_GENERAL)) {
-                neededRights = new HashSet<Right>(Arrays.asList(Right.READ_PUBLIC));
-            }
         }
 
         if (auths.contains(Right.FULL_ACCESS)) {
@@ -223,6 +225,27 @@ public class BasicService implements EntityService {
         checkAccess(isRead, isSelf(entityId), content);
     }
 
+    /*
+     * Check routine for interface
+     * @see org.slc.sli.domain.AccessibilityCheck#accessibilityCheck(java.lang.String)
+     */
+    @Override
+	public boolean accessibilityCheck(String id) {
+    	try {
+    		checkAccess(false, id, null);
+    	}
+    	catch( AccessDeniedException e) {
+    		return false;
+    	}
+    	return true;
+    }
+
+    // This will be replaced by a call to:
+    //     getRepo().safeDelete(collectionName, id, true, false, 0, this);
+    // I.e., cascade=true, dryrun=false, max=0=unlimited, access check = this service
+    //
+    // Future "enhanced" versions of delete exposed to the API can call safeDelete()
+    // with different combinations of parameters
 
     @Override
     public void delete(String id) {
@@ -256,32 +279,21 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
 
-        List<EntityBody> sanitizedBodies = sanitizeEntityBody(content);
-        if (sanitizedBodies.size() > 1 && defn.getResourceName().equals(ResourceNames.ATTENDANCES)) {
-            // the entity body is split, i.e. multiple schoolYears
-            ArrayList<ValidationError> errors = new ArrayList<ValidationError>();
-            // need better errror message
-            errors.add(new ValidationError(ErrorType.TOO_MANY_CHOICES, "schoolYearAttendance"
-                    , content.get("schoolYearAttendance"), new String[] { "Single schoolYearAttendance" }));
-            debug("Error: entity body is split when updating {}, id={}", entity.getType(), entity.getEntityId());
-            throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
-        }
+        sanitizeEntityBody(content);
 
         boolean success = false;
-        for (EntityBody sanitized : sanitizedBodies) {
-            if (entity.getBody().equals(sanitized)) {
-                info("No change detected to {}", id);
-                return false;
-            }
-
-            checkReferences(content);
-
-            info("new body is {}", sanitized);
-            entity.getBody().clear();
-            entity.getBody().putAll(sanitized);
-
-            success = repo.update(collectionName, entity, FullSuperDoc.isFullSuperdoc(entity));
+        if (entity.getBody().equals(content)) {
+            info("No change detected to {}", id);
+            return false;
         }
+
+        checkReferences(content);
+
+        info("new body is {}", content);
+        entity.getBody().clear();
+        entity.getBody().putAll(content);
+
+        success = repo.update(collectionName, entity, FullSuperDoc.isFullSuperdoc(entity));
         return success;
     }
 
@@ -298,15 +310,14 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
 
-        List<EntityBody> sanitizedBodies = sanitizeEntityBody(content);
-        for (EntityBody sanitized : sanitizedBodies) {
-            info("patch value(s): ", sanitized);
+        sanitizeEntityBody(content);
 
-            // don't check references until things are combined
-            checkReferences(sanitized);
+        info("patch value(s): ", content);
 
-            repo.patch(defn.getType(), collectionName, id, sanitized);
-        }
+        // don't check references until things are combined
+        checkReferences(content);
+
+        repo.patch(defn.getType(), collectionName, id, content);
 
         return true;
     }
@@ -387,6 +398,7 @@ public class BasicService implements EntityService {
             // add the ids requested
             nq.addCriteria(new NeutralCriteria("_id", "in", idList));
 
+            injectSecurity(nq);
             Iterable<Entity> entities = repo.findAll(collectionName, nq);
 
             List<EntityBody> results = new ArrayList<EntityBody>();
@@ -406,6 +418,7 @@ public class BasicService implements EntityService {
         checkAccess(true, isSelf, null);
         checkFieldAccess(neutralQuery, isSelf);
 
+        injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
         List<EntityBody> results = new ArrayList<EntityBody>();
@@ -429,6 +442,7 @@ public class BasicService implements EntityService {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
 
+        injectSecurity(query);
         Iterable<Entity> entities = repo.findAll(collectionName, query);
 
         if (entities != null && entities.iterator().hasNext()) {
@@ -543,7 +557,14 @@ public class BasicService implements EntityService {
             debug("Field {} is referencing {}", fieldName, entityType);
             @SuppressWarnings("unchecked")
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
+            
             EntityDefinition def = definitionStore.lookupByEntityType(entityType);
+            if (def == null) {
+                debug("Invalid reference field: {} does not have an entity definition registered", fieldName);
+                ValidationError error = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, fieldName, value, null);
+                throw new EntityValidationException(null, null, Arrays.asList(error));
+            }
+            
             try {
                 contextValidator.validateContextToEntities(def, ids, true);
             } catch (AccessDeniedException e) {
@@ -606,14 +627,12 @@ public class BasicService implements EntityService {
      * @param content
      * @return
      */
-    private List<EntityBody> sanitizeEntityBody(EntityBody content) {
-        // A list because attendance entity document might be split
-        List<EntityBody> sanitized = new ArrayList<EntityBody>();
-        sanitized.add(new EntityBody(content));
+    private EntityBody sanitizeEntityBody(EntityBody content) {
+
         for (Treatment treatment : treatments) {
-            sanitized = treatment.toStored(sanitized, defn);
+            treatment.toStored(content, defn);
         }
-        return sanitized;
+        return content;
     }
 
     /**
@@ -814,14 +833,14 @@ public class BasicService implements EntityService {
                 String fieldName = entry.getKey();
                 Object value = entry.getValue();
 
-                String fieldPath = prefix.replaceAll("^.", "") + fieldName;
+                String fieldPath = prefix + fieldName;
                 Set<Right> neededRights = getNeededRights(fieldPath);
 
                 SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
                 if(isSelf((String) eb.get("id"))) {
                     auths.addAll(principal.getSelfRights());
                 }
-                if (!intersection(auths, neededRights)) {
+                if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
                     toRemove.add(fieldName);
                 } else if (value instanceof Map) {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
@@ -848,12 +867,6 @@ public class BasicService implements EntityService {
             neededRights.add(Right.ADMIN_ACCESS);
         }
 
-        if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            if (neededRights.contains(Right.READ_GENERAL)) {
-                neededRights.add(Right.READ_PUBLIC);
-            }
-        }
-
         return neededRights;
     }
 
@@ -873,13 +886,13 @@ public class BasicService implements EntityService {
                 auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
             }
 
-
             if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
                 for (NeutralCriteria criteria : query.getCriteria()) {
                     // get the needed rights for the field
                     Set<Right> neededRights = getNeededRights(criteria.getKey());
 
-                    if (!intersection(auths, neededRights)) {
+                    if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
+                    	debug("Denied user searching on field {}", criteria.getKey());
                         throw new QueryParseException("Cannot search on restricted field", criteria.getKey());
                     }
                 }
@@ -942,20 +955,28 @@ public class BasicService implements EntityService {
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             toReturn.add(Right.ADMIN_ACCESS);
         } else {
-            for (Map.Entry<String, Object> entry : eb.entrySet()) {
-                String fieldName = entry.getKey();
-                Object value = entry.getValue();
+			for (Map.Entry<String, Object> entry : eb.entrySet()) {
+				String fieldName = entry.getKey();
+				Object value = entry.getValue();
 
-                if (value instanceof Map) {
-                    filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
-                } else {
-                    String fieldPath = prefix + fieldName;
-                    Set<Right> neededRights = provider.getRequiredWriteLevels(defn.getType(), fieldPath);
-                    debug("Field {} requires {}", fieldPath, neededRights);
-                    toReturn.addAll(neededRights);
-                }
-            }
-        }
+				List<Object> list = null;
+				if (value instanceof List) {
+					list = (List<Object>) value;
+				} else {
+					list = Collections.singletonList(value);
+				}
+
+				for (Object obj : list) {
+					String fieldPath = prefix + fieldName;
+					Set<Right> neededRights = provider.getRequiredWriteLevels(defn.getType(), fieldPath);
+					if (neededRights.isEmpty() && obj instanceof Map) {
+						neededRights.addAll(determineWriteAccess((Map<String, Object>) obj, prefix + "." + fieldName + "."));	// Mixing recursion and iteration, very bad
+					}
+					debug("Field {} requires {}", fieldPath, neededRights);
+					toReturn.addAll(neededRights);
+				}
+			}
+		}
 
         return toReturn;
     }
@@ -1025,4 +1046,14 @@ public class BasicService implements EntityService {
     public boolean collectionExists(String collection) {
         return getRepo().collectionExists(collection);
     }
+    
+    private void injectSecurity(NeutralQuery nq) {
+        SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
+        List<NeutralQuery> obligations = prince.getObligation(this.collectionName);
+        
+        for (NeutralQuery obligation : obligations) {
+            nq.addOrQuery(obligation);
+        }
+    }
+
 }

@@ -25,16 +25,21 @@
     <jb:bean beanId="studentSchoolAssociationBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="studentId" data="attributes StudentReference"/>
         <jb:value property="schoolId" data="attributes SchoolReference" />
-        <jb:value property="schoolYear" data="attributes SchoolYear" />
-        <jb:value property="entryDate" data="attributes EntryDate" />
-        <jb:value property="entryGradeLevel" data="attributes EntryGradeLevel"/>
-        <jb:value property="entryType" data="attributes EntryType"/>
-        <jb:value property="repeatGradeIndicator" data="attributes RepeatGradeIndicator" decoder="Boolean"/>
-        <jb:value property="classOf" data="attributes ClassOf" />
-        <jb:value property="schoolChoiceTransfer" data="attributes SchoolChoiceTransfer" decoder="Boolean"/>
-        <jb:value property="exitWithdrawDate" data="attributes ExitWithdrawDate" />
-        <jb:value property="exitWithdrawType" data="attributes ExitWithdrawType" />
+        <jb:value property="schoolYear" data="attributes SchoolYear _value" />
+        <jb:value property="entryDate" data="attributes EntryDate _value" />
+        <jb:value property="entryGradeLevel" data="attributes EntryGradeLevel _value"/>
+        <jb:value property="entryType" data="attributes EntryType _value"/>
+        <jb:value property="repeatGradeIndicator" data="attributes RepeatGradeIndicator _value" decoder="Boolean"/>
+        <jb:value property="classOf" data="attributes ClassOf _value" />
+        <jb:value property="schoolChoiceTransfer" data="attributes SchoolChoiceTransfer _value" decoder="Boolean"/>
+        <jb:value property="exitWithdrawDate" data="attributes ExitWithdrawDate _value" />
+        <jb:value property="exitWithdrawType" data="attributes ExitWithdrawType _value" />
+        <jb:wiring property="educationalPlans" beanIdRef="EducationPlans"/>
         <jb:value property="graduationPlanId" data="attributes GraduationPlanReference" />
+    </jb:bean>
+    
+    <jb:bean beanId="EducationPlans" class="java.util.ArrayList" createOnElement="attributes EducationalPlans">
+        <jb:value data="attributes EducationalPlans element _value"/>
     </jb:bean>
 
 </smooks-resource-list>

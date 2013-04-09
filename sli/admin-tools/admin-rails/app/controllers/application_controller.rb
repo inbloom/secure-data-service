@@ -175,6 +175,7 @@ class ApplicationController < ActionController::Base
     session[:last_name] = check["last_name"]
     session[:vendor] = check["vendor"]
     session[:tenant_id] = get_tenant()
+    session[:rights] = check["rights"]
   end
 
 end

@@ -24,6 +24,6 @@ And I check to find if record is in collection:
 
   And I should see "Processed 6 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "readingLevelAssessmentMetadata.xml records considered: 6" in the resulting batch job file
+  And I should see "readingLevelAssessmentMetadata.xml records considered for processing: 6" in the resulting batch job file
   And I should see "readingLevelAssessmentMetadata.xml records ingested successfully: 6" in the resulting batch job file
-  And I should see "readingLevelAssessmentMetadata.xml records failed: 0" in the resulting batch job file
+  And I should see "readingLevelAssessmentMetadata.xml records failed processing: 0" in the resulting batch job file

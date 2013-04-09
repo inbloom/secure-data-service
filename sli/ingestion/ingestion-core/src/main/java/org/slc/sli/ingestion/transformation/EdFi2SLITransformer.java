@@ -32,6 +32,7 @@ import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.BatchJobStage;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -168,7 +169,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             // Entity exists in data store.
             Entity matched = match.iterator().next();
             entity.setEntityId(matched.getEntityId());
+            ActionVerb save = entity.getAction();
             entity.getMetaData().putAll(matched.getMetaData());
+            entity.setAction( save );
         }
     }
 
@@ -199,7 +202,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 message.append("\n" + "       Field      " + fieldName);
             }
             report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0010, entity.getType(),
-                    Long.toString(entity.getRecordNumber()), message.toString());
+                    message.toString());
             return null;
         } catch (NoNaturalKeysDefinedException e) {
             LOG.error(e.getMessage(), e);
@@ -208,14 +211,17 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
             // Okay for embedded entities
-            LOG.error("Unable to find natural key fields" + "       Entity     " + entity.getType() + "\n"
-                    + "       Instance   " + entity.getRecordNumber());
+            LOG.error("Unable to find natural keys fields for Entity: {} at line {} column {}",
+                    new Object[] { entity.getType(), entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber() });
 
             query = createEntityLookupQueryFromKeyFields(entity, entityConfig, report, reportStats);
         } else {
             query = new Query();
             String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
             query.addCriteria(Criteria.where(ID).is(entityId));
+            if( entity.getAction().doDelete()) {
+                entity.setUUID( entityId );
+            }
         }
 
         return query;

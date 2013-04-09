@@ -145,7 +145,7 @@ public abstract class NeutralSchema {
         this.fields = fields;
     }
 
-    public final Map<String, NeutralSchema> getFields() {
+    public Map<String, NeutralSchema> getFields() {
         if (fields == null) {
             fields = new LinkedHashMap<String, NeutralSchema>();
         }

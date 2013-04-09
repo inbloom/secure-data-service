@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
     <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -19,6 +19,7 @@
                 <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
             </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
     </StudentAcademicRecord>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -60,9 +61,9 @@
                         <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
                     </SessionIdentity>
                 </SessionReference>
+                <SchoolYear>2009-2010</SchoolYear>
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
-        <GradeType>Final</GradeType>
     </CourseTranscript>
     <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -83,6 +84,7 @@
                 <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
             </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
     </StudentAcademicRecord>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -109,24 +111,24 @@
         </EducationOrganizationReference>
         <StudentAcademicRecordReference>
             <StudentAcademicRecordIdentity>
-            <StudentReference>
-                <StudentIdentity>
-                    <StudentUniqueStateId>900000021</StudentUniqueStateId>
-                </StudentIdentity>
-            </StudentReference>
-            <SessionReference>
-                <SessionIdentity>
-                    <EducationalOrgReference>
-                        <EducationalOrgIdentity>
-                            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-                        </EducationalOrgIdentity>
-                    </EducationalOrgReference>
-                    <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
-                </SessionIdentity>
-            </SessionReference>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>900000021</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <SchoolYear>2009-2010</SchoolYear>
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
-        <GradeType>Final</GradeType>
     </CourseTranscript>
     <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -147,6 +149,7 @@
                 <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
             </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
     </StudentAcademicRecord>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -173,24 +176,24 @@
         </EducationOrganizationReference>
         <StudentAcademicRecordReference>
             <StudentAcademicRecordIdentity>
-            <StudentReference>
-                <StudentIdentity>
-                    <StudentUniqueStateId>900000021</StudentUniqueStateId>
-                </StudentIdentity>
-            </StudentReference>
-            <SessionReference>
-                <SessionIdentity>
-                    <EducationalOrgReference>
-                        <EducationalOrgIdentity>
-                            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-                        </EducationalOrgIdentity>
-                    </EducationalOrgReference>
-                    <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
-                </SessionIdentity>
-            </SessionReference>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>900000021</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <SchoolYear>2009-2010</SchoolYear>
             </StudentAcademicRecordIdentity>
         </StudentAcademicRecordReference>
-        <GradeType>Final</GradeType>
     </CourseTranscript>
     <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
@@ -211,6 +214,7 @@
                 <SessionName>Spring 2011 Daybreak Central High</SessionName>
             </SessionIdentity>
         </SessionReference>
+        <SchoolYear>2009-2010</SchoolYear>
     </StudentAcademicRecord>
     <CourseTranscript>
         <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -252,8 +256,8 @@
                         <SessionName>Spring 2011 Daybreak Central High</SessionName>
                     </SessionIdentity>
                 </SessionReference>
-            </StudentAcademicRecordIdentity>
-        </StudentAcademicRecordReference>
-        <GradeType>Final</GradeType>
-    </CourseTranscript>
+                <SchoolYear>2009-2010</SchoolYear>
+      </StudentAcademicRecordIdentity>
+    </StudentAcademicRecordReference>
+  </CourseTranscript>
 </InterchangeStudentGrade>

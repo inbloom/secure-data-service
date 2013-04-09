@@ -25,10 +25,10 @@
     <jb:bean beanId="studentSectionAssociationBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="studentId" data="attributes StudentReference"/>
         <jb:value property="sectionId" data="attributes SectionReference" />
-        <jb:value property="beginDate" data="attributes beginDate" />
-        <jb:value property="endDate" data="attributes endDate" />
-        <jb:value property="homeroomIndicator" data="attributes homeroomIndicator" decoder="Boolean" />
-        <jb:value property="repeatIdentifier" data="attributes repeatIdentifier" />
+        <jb:value property="beginDate" data="attributes BeginDate _value" />
+        <jb:value property="endDate" data="attributes EndDate _value" />
+        <jb:value property="homeroomIndicator" data="attributes HomeroomIndicator _value" decoder="Boolean" />
+        <jb:value property="repeatIdentifier" data="attributes RepeatIdentifier _value" />
     </jb:bean>
 
 </smooks-resource-list>
