@@ -6,7 +6,9 @@ Feature:  RC Integration Tests
 Background:
 Given I have an open web browser
 
+@ci
 Scenario: Operator triggers a bulk extract
+   Given the extraction zone is empty
    When the operator triggers a bulk extract for tenant "<SANDBOX_TENANT>"
 
 Scenario: App developer Registers, Approves, and Enables a new Installed app and Full window web app. Educators and IT Administrators can see the apps.
@@ -27,6 +29,8 @@ When I entered the name "NotTheAppYoureLookingFor" into the field titled "Name"
 And I entered the name "Best.  Description.  Ever." into the field titled "Description"
 And I entered the name "0.0" into the field titled "Version"
 And I make my app an installed app
+And I check Bulk Extract
+And I enter a public key
 And I click on the button Submit
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
@@ -93,7 +97,7 @@ And under My Applications, I see the following apps: "inBloom Dashboards;Schlemi
 And under My Applications, I click on "Schlemiel"
 Then my current url is "http://www.google.com/"	
 
-
+@ci
 Scenario: App makes an api call to retrieve a bulk extract
 #Bulk Extract 
 #Get a session to trigger a bulk extract
@@ -110,3 +114,45 @@ Then I should receive a json response containing my authorization token
 
 #Get bulk extract tar file
 Then I request and download a bulk extract file
+And there is a metadata file in the extract
+And the extract contains a file for each of the following entities:
+   |  entityType                            |
+   |  assessment                            |
+   |  attendance                            |
+   |  cohort                                |
+   |  course                                |
+   |  courseTranscript                      |
+   |  courseOffering                        |
+   |  disciplineIncident                    |
+   |  disciplineAction                      |
+   |  educationOrganization                 |
+   |  grade                                 |
+   |  gradebookEntry                        |
+   |  gradingPeriod                         |
+   |  learningObjective                     |
+   |  learningStandard                      |
+   |  parent                                |
+   |  program                               |
+   |  reportCard                            |
+   |  school                                |
+   |  section                               |
+   |  session                               |
+   |  staff                                 |
+   |  staffCohortAssociation                |
+   |  staffEducationOrganizationAssociation |
+   |  staffProgramAssociation               |
+   |  student                               |
+   |  studentAcademicRecord                 |
+   |  studentAssessment                     |
+   |  studentCohortAssociation              |
+   |  studentCompetency                     |
+   |  studentCompetencyObjective            |
+   |  studentDisciplineIncidentAssociation  |
+   |  studentProgramAssociation             |
+   |  studentGradebookEntry                 |
+   |  studentSchoolAssociation              |
+   |  studentSectionAssociation             |
+   |  studentParentAssociation              |
+   |  teacher                               |
+   |  teacherSchoolAssociation              |
+   |  teacherSectionAssociation             |

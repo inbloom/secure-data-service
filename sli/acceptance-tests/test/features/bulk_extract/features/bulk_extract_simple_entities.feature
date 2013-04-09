@@ -10,10 +10,11 @@ Scenario Outline: Verify simple entities were correctly extracted
    
 	Examples:
     | entity                                | user       | role             | realm       | tenant |
-	| cohort                                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+    | attendance                            | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| competencyLevelDescriptor             | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| course                                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| courseOffering                        | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| courseTranscript                      | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| disciplineIncident                    | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| disciplineAction                      | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| gradingPeriod                         | jstevenson | IT Administrator | IL-Daybreak | Midgar |
@@ -23,8 +24,10 @@ Scenario Outline: Verify simple entities were correctly extracted
 	| parent                                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| session                               | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| staffEducationOrganizationAssociation | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+	| staffCohortAssociation                | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| staffProgramAssociation               | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| studentCompetency                     | jstevenson | IT Administrator | IL-Daybreak | Midgar |
+    | studentGradebookEntry                 | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| studentCompetencyObjective            | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| studentSchoolAssociation              | jstevenson | IT Administrator | IL-Daybreak | Midgar |
 	| teacherSchoolAssociation              | jstevenson | IT Administrator | IL-Daybreak | Midgar |

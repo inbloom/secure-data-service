@@ -15,7 +15,10 @@ DATABASE_NAME = PropLoader.getProps['sli_database_name']
 DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
 ENCRYPTED_ENTITIES = ['student', 'parent']
+COMBINED_ENTITIES = ['assessment', 'studentAssessment']
+
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
+MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
 
 require 'zip/zip'
 require 'archive/tar/minitar'
@@ -23,6 +26,7 @@ require 'zlib'
 require 'open3'
 require 'openssl'
 include Archive::Tar
+require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 
 ############################################################
@@ -134,9 +138,10 @@ puts runShellCommand(command)
 end
 
 Given /^the extraction zone is empty$/ do
-    assert(Dir.exists?(OUTPUT_DIRECTORY), "Bulk Extract output directory #{OUTPUT_DIRECTORY} does not exist")
-    puts OUTPUT_DIRECTORY
-    FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
+    if (Dir.exists?(OUTPUT_DIRECTORY))
+      puts OUTPUT_DIRECTORY
+      FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
+    end
 end
 
 Given /^I have delta bulk extract files generated for today$/ do
@@ -169,7 +174,7 @@ When /^I retrieve the path to the extract file for the tenant "(.*?)"$/ do |tena
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
 
-  match =  @coll.find_one("body.tenantId" => tenant)
+  match =  @coll.find_one({"_id" => tenant, "body.tenantId" => tenant})
 
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
@@ -206,8 +211,7 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
 	end
 
   fileList = Dir.entries(@unpackDir)
-# Had to comment this next line out.  Different servers contain different numbers of records.
-#	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
+	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
 end
 
 When /^a "(.*?)" extract file exists$/ do |collection|
@@ -217,17 +221,33 @@ When /^a "(.*?)" extract file exists$/ do |collection|
 end
 
 When /^a the correct number of "(.*?)" was extracted from the database$/ do |collection|
+  disable_NOTABLESCAN()
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
-	count = @tenantDb.collection(collection).count()
+
+	case collection
+	when "school"
+	  count = @tenantDb.collection("educationOrganization").find({"type" => "school" } ).count()
+	when "teacher"
+	  count = @tenantDb.collection("staff").find({"type" => "teacher" } ).count()
+	else
+    parentCollection = subDocParent(collection)
+	  if(parentCollection == nil)
+      count = @tenantDb.collection(collection).count()
+    else 
+      count = @tenantDb.collection(parentCollection).aggregate([ {"$match" => {"#{collection}" => {"$exists" => true}}}, {"$unwind" => "$#{collection}"}]).size
+    end
+	end
 
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
-    puts "Counts Expected: " + count.to_s + " Actual: " + records.size.to_s
+    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
     assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
   }
+  enable_NOTABLESCAN()
 end
 
 When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
+  disable_NOTABLESCAN()
 	Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extractFile|
 	records = JSON.parse(extractFile.read)
 	uniqueRecords = Hash.new
@@ -240,6 +260,7 @@ When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
 
 		compareRecords(mongoRecord, jsonRecord)
 	end
+  enable_NOTABLESCAN()
 }
 end
 
@@ -278,7 +299,14 @@ end
 
 def getMongoRecordFromJson(jsonRecord)
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant)) 
-	collection = jsonRecord['entityType']
+	case jsonRecord['entityType']
+	when "stateEducationAgency", "localEducationAgency", "school"
+	  collection = "educationOrganization"
+	when "teacher"
+	  collection = "staff"
+	else
+    collection = jsonRecord['entityType']
+	end
 	parent = subDocParent(collection)
 	if (parent == nil)
         return @tenantDb.collection(collection).find_one("_id" => jsonRecord['id'])
@@ -293,16 +321,28 @@ def getMongoRecordFromJson(jsonRecord)
 end
 
 def	compareRecords(mongoRecord, jsonRecord)
-	assert(mongoRecord['_id']==jsonRecord['id'], "Record Ids do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
-	assert(mongoRecord['type']==jsonRecord['entityType'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
+	if !MUTLI_ENTITY_COLLS.include?(jsonRecord['entityType'])
+	  assert(mongoRecord['type']==jsonRecord['entityType'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
+	end
 	jsonRecord.delete('id')
 	jsonRecord.delete('entityType')
 
     if (ENCRYPTED_ENTITIES.include?(mongoRecord['type'])) 
         compareEncryptedRecords(mongoRecord, jsonRecord)
-    else
+    elsif(mongoRecord['type'] == 'attendance')
+      compareAttendances(mongoRecord, jsonRecord)
+    elsif (!COMBINED_ENTITIES.include?(mongoRecord['type']))
 	    assert(mongoRecord['body'].eql?(jsonRecord), "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
     end
+end
+
+def compareAttendances(mongoRecord, jsonRecord)
+      assert(mongoRecord['body']['attendanceEvent']==jsonRecord['schoolYearAttendance'][0]['attendanceEvent'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
+      assert(mongoRecord['body']['schoolYear']==jsonRecord['schoolYearAttendance'][0]['schoolYear'], "Record types do not match for records \nMONGORecord:\n" + mongoRecord.to_s + "\nJSONRecord:\n" + jsonRecord.to_s)
+      jsonRecord.delete('schoolYearAttendance')
+      mongoRecord['body'].delete('schoolYear')
+      mongoRecord['body'].delete('attendanceEvent')
+      assert(mongoRecord['body'].eql?(jsonRecord), "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
 end
 
 def compareEncryptedRecords(mongoRecord, jsonRecord)
@@ -349,35 +389,26 @@ def entityToUri(entity)
 end
 
 def compareToApi(collection, collFile)
-#  case collection
-#  when "student", "competencyLevelDescriptor", "course", "courseOffering", 
-#    "gradingPeriod", "graduationPlan", "learningObjective", "learningStandard","parent", "session",
-#    "studentCompetencyObjective"
-    found = false
+  found = false
     
-    collFile.each do |extractRecord|
+  collFile.each do |extractRecord|
     
-      id = extractRecord["id"]
+    id = extractRecord["id"]
       
-      #Make API call and get JSON for the collection
-      @format = "application/vnd.slc+json"
-      uri = entityToUri(collection)
-      restHttpGet("/v1/#{uri}/#{id}")
-      assert(@res != nil, "Response from rest-client GET is nil")
-      if @res.code == 200
-        apiRecord = JSON.parse(@res.body)
-        assert(apiRecord != nil, "Result of JSON parsing is nil")    
-        apiRecord.delete("links")     
-        assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.")
-        found = true
-        break
-      end
-    
+    #Make API call and get JSON for the collection
+    @format = "application/vnd.slc+json"
+    uri = entityToUri(collection)
+    restHttpGet("/v1/#{uri}/#{id}")
+    assert(@res != nil, "Response from rest-client GET is nil")
+    if @res.code == 200
+      apiRecord = JSON.parse(@res.body)
+      assert(apiRecord != nil, "Result of JSON parsing is nil")    
+      apiRecord.delete("links")
+      assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.\nExtractRecord:\n" +extractRecord.to_s + "\nAPIRecord:\n" + apiRecord.to_s)
+      found = true
     end
+  end
     
-    assert(found, "No API records for #{collection} were fetched successfully.")
-#  else
-#    assert(false,"API URI for #{collection} not configured")
-#  end
+  assert(found, "No API records for #{collection} were fetched successfully.")
 end
 

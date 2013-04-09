@@ -66,6 +66,240 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 ERROR_REPORT_MISSING_STRING_PREFIX = "#?"
 ERROR_REPORT_MISSING_STRING_SUFFIX = "?#"
 
+$CASCADE_DELETE_REFERENCE_MAP = {
+                "academicHonor_diploma" => "updated",
+                "academicHonor_studentAcademicRecord" => "updated",
+                "accountabilityRating_educationOrganization" => "updated",
+                "accountabilityRating_localEducationAgency" => "updated",
+                "accountabilityRating_school" => "updated",
+                "accountabilityRating_stateEducationAgency" => "updated",
+                "additionalCredits_courseTranscript" => "updated",
+                "address_educationOrganization" => "checked",
+                "address_localEducationAgency" => "checked",
+                "address_parent" => "updated",
+                "address_school" => "checked",
+                "address_staff" => "updated",
+                "address_stateEducationAgency" => "checked",
+                "address_student" => "updated",
+                "address_teacher" => "updated",
+                "assessment_assessmentItem" => "updated",
+                "assessment_objectiveAssessment" => "updated",
+                "assessment_section" => "updated",
+                "assessment_studentAssessment" => "deleted",
+                "assessmentIdentificationCode_assessment" => "checked",
+                "assessmentFamily_assessment" => "updated",
+                "assessmentItem_assessment" => "updated",
+                "assessmentItem_objectiveAssessment" => "updated",
+                "assessmentItem_objectiveAssessment" => "updated",
+                "assessmentItem_studentAssessmentItem" => "deleted",
+                "assessmentItem_subdoc_studentAssessmentItem" => "deleted",
+                "assessmentPerformanceLevel_assessment" => "updated",
+                "assessmentPerformanceLevel_objectiveAssessment" => "updated",
+                "assessmentPeriodDescriptor_assessment" => "updated",
+                "attendanceEvent_attendance" => "updated",
+                "attendanceEvent_schoolYearAttendanceType" => "updated",
+                "behaviorDescriptorType_disciplineIncident" => "checked",
+                "behaviorDescriptorType_studentDisciplineIncidentAssociation" => "updated",
+                "birthData_student" => "deleted",
+                "calendarDate_gradingPeriod" => "checked",
+                "classRanking_studentAcademicRecord" => "updated",
+                "cohort_staffCohortAssociation" => "deleted",
+                "cohort_studentCohortAssociation" => "deleted",
+                "cohortYear_student" => "updated",
+                "competencyLevelDescriptor_studentCompetency" => "deleted",
+                "course_courseOffering" => "deleted",
+                "course_courseTranscript" => "deleted",
+                "courseCode_course" => "checked",
+                "courseCode_creditsByCourse" => "checked",
+                "courseOffering_section" => "deleted",
+                "credential_staff" => "updated",
+                "credential_teacher" => "updated",
+                "credentialFieldDescriptor_credential" => "deleted",
+                "credits_course" => "updated",
+                "credits_course" => "updated",
+                "credits_courseTranscript" => "updated",
+                "credits_courseTranscript" => "deleted",
+                "credits_creditsByCourse" => "deleted",
+                "credits_creditsBySubject" => "deleted",
+                "credits_graduationPlan" => "deleted",
+                "credits_section" => "updated",
+                "credits_studentAcademicRecord" => "updated",
+                "credits_studentAcademicRecord" => "updated",
+                "creditsByCourse_graduationPlan" => "updated",
+                "creditsBySubject_graduationPlan" => "updated",
+                "CTEProgram_studentCTEProgramAssociation" => "checked",
+                "disability_student" => "updated",
+                "disciplineDescriptorType_disciplineAction" => "checked",
+                "disciplineIncident_disciplineAction" => "checked",
+                "disciplineIncident_studentDisciplineIncidentAssociation" => "deleted",
+                "educationOrganization_behaviorDescriptor" => "checked",
+                "educationOrganization_calendarDate" => "deleted",
+                "educationOrganization_cohort" => "deleted",
+                "educationOrganization_course" => "deleted",
+                "educationOrganization_courseTranscript" => "checked",
+                "educationOrganization_disciplineDescriptor" => "checked",
+                "educationOrganization_educationOrganization" => "updated",
+                "educationOrganization_gradingPeriodIdentityType" => "deleted",
+                "educationOrganization_graduationPlan" => "updated",
+                "educationOrganization_localEducationAgency" => "updated",
+                "educationOrganization_localEducationAgency" => "updated",
+                "educationOrganization_localEducationAgency" => "updated",
+                "educationOrganization_postSecondaryEvent" => "updated",
+                "educationOrganization_school" => "updated",
+                "educationOrganization_session" => "deleted",
+                "educationOrganization_staffEducationOrganizationAssociation" => "deleted",
+                "educationOrganization_stateEducationAgency" => "updated",
+                "educationOrganization_studentCompetencyObjective" => "deleted",
+                "educationOrganization_studentCTEProgramAssociation" => "deleted",
+                "educationOrganization_studentProgramAssociation" => "deleted",
+                "educationOrganization_studentSpecialEdProgramAssociation" => "deleted",
+                "educationOrgIdentificationCode_educationalOrgIdentityType" => "checked",
+                "educationOrgIdentificationCode_educationOrganization" => "updated",
+                "educationOrgIdentificationCode_localEducationAgency" => "updated",
+                "educationOrgIdentificationCode_school" => "updated",
+                "educationOrgIdentificationCode_stateEducationAgency" => "updated",
+                "electronicMail_parent" => "updated",
+                "electronicMail_staff" => "updated",
+                "electronicMail_student" => "updated",
+                "electronicMail_teacher" => "updated",
+                "grade_reportCard" => "updated",
+                "gradebookEntry_studentGradebookEntry" => "deleted",
+                "gradingPeriod_grade" => "updated",
+                "gradingPeriod_gradebookEntry" => "updated",
+                "gradingPeriod_reportCard" => "deleted",
+                "gradingPeriod_session" => "checked",
+                "gradingPeriodIdentityType_gradingPeriod" => "deleted",
+                "graduationPlan_studentSchoolAssociation" => "updated",
+                "institutionTelephone_educationOrganization" => "updated",
+                "institutionTelephone_localEducationAgency" => "updated",
+                "institutionTelephone_school" => "updated",
+                "institutionTelephone_stateEducationAgency" => "updated",
+                "learningObjective_gradebookEntry" => "updated",
+                "learningObjective_learningObjective" => "updated",
+                "learningObjective_objectiveAssessment" => "updated",
+                "learningObjective_studentCompetencyObjectiveReference" => "deleted",
+                "learningStandard_assessmentItem" => "updated",
+                "learningStandard_gradebookEntry" => "updated",
+                "learningStandard_learningObjective" => "updated",
+                "learningStandardId_learningObjective" => "updated",
+                "learningStandardId_learningObjectiveIdentityType" => "deleted",
+                "learningStandardId_learningStandard" => "deleted",
+                "learningStandardId_learningStandardIdentityType" => "updated",
+                "learningStyles_student" => "updated",
+                "links_home" => "updated",
+                "name_parent" => "deleted",
+                "name_staff" => "deleted",
+                "name_student" => "deleted",
+                "name_teacher" => "deleted",
+                "objectiveAssessment_assessment" => "updated",
+                "objectiveAssessment_objectiveAssessment" => "updated",
+                "objectiveAssessment_objectiveAssessment" => "updated",
+                "objectiveAssessment_studentObjectiveAssessment" => "deleted",
+                "objectiveAssessment_subdoc_studentObjectiveAssessment" => "deleted",
+                "otherName_parent" => "updated",
+                "otherName_staff" => "updated",
+                "otherName_student" => "updated",
+                "otherName_teacher" => "updated",
+                "parent_studentParentAssociation" => "deleted",
+                "parent_student" => "updated",
+                "performanceLevelDescriptor_assessmentPerformanceLevel" => "deleted",
+                "performanceLevelDescriptor_studentAssessment" => "updated",
+                "performanceLevelDescriptor_studentObjectiveAssessment" => "updated",
+                "performanceLevelDescriptor_subdoc_studentObjectiveAssessment" => "updated",
+                "program_cohort" => "updated",
+                "program_educationOrganization" => "updated",
+                "program_localEducationAgency" => "updated",
+                "program_restraintEvent" => "updated",
+                "program_school" => "updated",
+                "program_section" => "updated",
+                "program_staffProgramAssociation" => "deleted",
+                "program_stateEducationAgency" => "updated",
+                "program_studentCTEProgramAssociation" => "deleted",
+                "program_studentProgramAssociation" => "deleted",
+                "program_studentSpecialEdProgramAssociation" => "deleted",
+                "programParticipation_student" => "updated",
+                "recognition_diploma" => "updated",
+                "recognition_studentAcademicRecord" => "updated",
+                "reportCard_studentAcademicRecord" => "updated",
+                "reportCard_yearlyTranscript" => "updated",
+                "restraintEventReasonsType_restraintEvent" => "deleted",
+                "school_attendance" => "deleted",
+                "school_courseOffering" => "deleted",
+                "school_disciplineAction" => "confused",
+                "school_disciplineIncident" => "deleted",
+                "school_restraintEvent" => "deleted",
+                "school_section" => "deleted",
+                "school_studentSchoolAssociation" => "deleted",
+                "school_teacherSchoolAssociation" => "deleted",
+                "scoreResult_studentAssessment" => "updated",
+                "scoreResult_studentObjectiveAssessment" => "checked",
+                "scoreResult_subdoc_studentObjectiveAssessment" => "checked",
+                "secondaryBehavior_disciplineIncident" => "updated",
+                "secondaryBehavior_studentDisciplineIncidentAssociation" => "updated",
+                "section_grade" => "deleted",
+                "section_gradebookEntry" => "deleted",
+                "section_studentGradebookEntry" => "deleted",
+                "section_studentSectionAssociation" => "deleted",
+                "section_teacherSectionAssociation" => "deleted",
+                "serviceDescriptorType_program" => "updated",
+                "serviceDescriptorType_studentCTEProgramAssociation" => "updated",
+                "serviceDescriptorType_studentProgramAssociation" => "updated",
+                "serviceDescriptorType_studentSpecialEdProgramAssociation" => "updated",
+                "session_courseOffering" => "deleted",
+                "session_section" => "deleted",
+                "session_studentAcademicRecord" => "deleted",
+                "staff_disciplineAction" => "updated",
+                "staff_disciplineIncident" => "updated",
+                "staff_staffCohortAssociation" => "deleted",
+                "staff_staffEducationOrganizationAssociation" => "deleted",
+                "staff_staffProgramAssociation" => "deleted",
+                "staffIdentificationCode_staff" => "updated",
+                "staffIdentificationCode_teacher" => "updated",
+                "student_attendance" => "deleted",
+                "student_courseTranscript" => "updated",
+                "student_disciplineAction" => "checked",
+                "student_grade" => "deleted",
+                "student_postSecondaryEvent" => "deleted",
+                "student_reportCard" => "deleted",
+                "student_restraintEvent" => "deleted",
+                "student_studentAcademicRecord" => "deleted",
+                "student_studentAssessment" => "deleted",
+                "student_studentCohortAssociation" => "deleted",
+                "student_studentCTEProgramAssociation" => "deleted",
+                "student_studentDisciplineIncidentAssociation" => "deleted",
+                "student_studentGradebookEntry" => "deleted",
+                "student_studentParentAssociation" => "deleted",
+                "student_studentProgramAssociation" => "deleted",
+                "student_studentSchoolAssociation" => "deleted",
+                "student_studentSectionAssociation" => "deleted",
+                "student_studentSpecialEdProgramAssociation" => "deleted",
+                "studentAcademicRecord_courseTranscript" => "deleted",
+                "studentAssessment_studentAssessmentItem" => "deleted",
+                "studentAssessment_studentObjectiveAssessment" => "deleted",
+                "studentCharacteristic_student" => "updated",
+                "studentCompetency_reportCard" => "updated",
+                "studentCompetencyObjective_studentCompetencyObjectiveReference" => "deleted",
+                "studentCompetencyObjectiveReference_studentCompetency" => "deleted",
+                "studentIdentificationCode_student" => "updated",
+                "studentIndicator_student" => "updated",
+                "studentSectionAssociation_grade" => "deleted",
+                "studentSectionAssociation_studentCompetency" => "deleted",
+                "studentSectionAssociation_studentGradebookEntry" => "deleted",
+                "subdoc_studentAssessmentItem_studentAssessment" => "updated",
+                "subdoc_studentObjectiveAssessment_studentAssessment" => "updated",
+                "teacher_teacherSchoolAssociation" => "deleted",
+                "teacher_teacherSectionAssociation" => "deleted",
+                "telephone_parent" => "updated",
+                "telephone_staff" => "updated",
+                "telephone_student" => "updated",
+                "telephone_teacher" => "updated",
+}
+
+updated = Set.new
+deleted = Set.new
+checked = Set.new
+
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -506,7 +740,7 @@ def processPayloadFile(file_name)
       payload_file = entries[2]
       md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
       if entries[3] != md5.to_s
-        puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"
+        puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template} to #{md5.to_s}"
       end
       # swap out the md5 unless we encounter the special all zero md5 used for unhappy path tests
       entries[3] = md5 unless entries[3] == "00000000000000000000000000000000"
@@ -1296,7 +1530,7 @@ end
 
 def checkForBatchJobLog(landing_zone, should_has_log = true)
   puts "checkForBatchJobLog"
-  intervalTime = 3 #seconds
+  intervalTime = 1 #seconds
                    #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   sleep(intervalTime)
@@ -1649,39 +1883,25 @@ def cleanupSubDoc(superdocs, subdoc)
   end
 end
 
-def subDocParent(collectionName)
-  case collectionName
-    when "studentSectionAssociation"
-      "section"
-    when "gradebookEntry"
-      "section"
-    when "teacherSectionAssociation"
-      "section"
-    when "studentProgramAssociation"
-      "program"
-    when "studentParentAssociation"
-      "student"
-    when "studentCohortAssociation"
-      "cohort"
-    when "studentDisciplineIncidentAssociation"
-      "student"
-    when "studentAssessmentItem"
-      "studentAssessment"
-    when "assessmentItem"
-      "assessment"
-    when "objectiveAssessment"
-      "assessment"
-    when "studentObjectiveAssessment"
-      "studentAssessment"
-    when "reportCard"
-      "yearlyTranscript"
-    when "studentAcademicRecord"
-      "yearlyTranscript"
-    when "grade"
-      "yearlyTranscript"
-    else
-      nil
-  end
+$subDocEntity2ParentType = {
+    "studentSectionAssociation" => "section",
+    "gradebookEntry" => "section",
+    "teacherSectionAssociation" => "section",
+    "studentProgramAssociation" => "student",
+    "studentParentAssociation" => "student",
+    "studentCohortAssociation" => "student",
+    "studentDisciplineIncidentAssociation" => "student",
+    "studentAssessmentItem" => "studentAssessment",
+    "assessmentItem" => "assessment",
+    "objectiveAssessment" => "assessment",
+    "studentObjectiveAssessment" => "studentAssessment",
+    "reportCard" => "yearlyTranscript",
+    "studentAcademicRecord" => "yearlyTranscript",
+    "grade" => "yearlyTranscript"
+}
+
+def subDocParent(subDocType)
+    return $subDocEntity2ParentType[subDocType]
 end
 
 def subDocCount(parent, subdoc, opts=nil, key=nil, match_value=nil)
@@ -3118,6 +3338,178 @@ Then /^I check the number of records in collection:/ do |table|
   enable_NOTABLESCAN()   
 end
 
+@original_count
+@after_count
+
+def dumpDb(tenant)
+     `rm -rf temp/*|wc -l`
+     `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
+end
+
+def cleanUpDbDump
+     `rm -rf temp/*`
+end
+
+Then /^I should not see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+       dumpDb(tenant)
+       output = `grep #{id} ./temp/*`
+       assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
+
+end
+
+Then /^I should not see any entity mandatorily referring to "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+   @after_count = `grep id ./temp/*|wc -l`
+   puts "after_count = " + @after_count
+      if(deleted.length()>0)
+          deleted.each do |id|
+              puts id
+              output = `grep #{id} ./temp/*`
+              assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
+          end
+      end
+
+end
+
+def check_record_in_collection(table,db_name,found)
+    @db   = @conn[db_name]
+    for i in 0..deleted.length-1
+        recordId = deleted[i]
+        subdoc_parent = subDocParent table
+        if subdoc_parent
+           @entity_count = runSubDocQuery(subdoc_parent, table, "string", "_id", recordId)
+        else
+           @entity_collection = @db.collection(table)
+           @entity_count = @entity_collection.find({"$and" => [{"_id" => recordId}]}).count().to_s
+           if found
+             assert(@entity_count!=0, "ID: #{recordId} not found in tenant database")
+           else
+             assert(@entity_count==0, "ID: #{recordId} found in tenant database")
+           end
+        end
+    end
+end
+
+Then /^I should see entities optionally referring to "(.*?)" be updated in the "(.*?)" database$/ do |id, tenant|
+        count = @after_count.to_i + deleted.length()
+        #puts count
+        #puts @original_count.to_i
+        #assert(@original_count.to_i==count, "Some records which should not be deleted are deleted.")
+
+        if(updated.length()>0)
+             updated.each do |id|
+                 puts id
+                 output = `grep #{id} ./temp/*`
+                 assert($?.to_i==0, "ID: #{id} not found in tenant database: #{output}")
+             end
+        end
+        cleanUpDbDump
+end
+
+Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the "(.*?)" database$/ do |entityType, id, tenant|
+    #Step 1: pass in the entity type to be searched
+
+    dumpDb(tenant)
+    @original_count = `grep id ./temp/*|wc -l`
+    puts "original_count = " + @original_count
+    export_data = './temp/*'
+    output = `grep #{id} ./temp/* |awk -F: '{print ""; f=$1; print $0;}'`
+    #puts "output = " + output
+    output_lines = output.split(/[\r\n]+/)
+
+    for i in 1..output_lines.length-1
+        puts i
+        entry =  output_lines[i]
+        #Step 2: get the child type
+        filename = entry.split(':')[0]
+        child_type = filename.split('_')[2].split('.')[0]
+        puts entityType+"_"+child_type
+
+        #Step 3: get child id
+        child_id = entry.split(',')[0].split(':')[2]
+        puts child_id
+        if(child_id.rindex(id))
+              deleted.add(child_id)
+              puts "add self"
+        else
+            #Step 4: search the table for type [deleted, updated, checked]
+             type = $CASCADE_DELETE_REFERENCE_MAP[entityType+"_"+child_type]
+             puts "add refering type"
+            if(type != nil)
+                puts entityType+"_"+child_type
+                puts "type = "+type
+                    case type
+                    when 'updated'
+                        updated.add(child_id)
+                        puts id
+                        puts child_id+" added to update"
+                    when 'deleted'
+                        puts id
+                        deleted.add(child_id)
+                        puts child_id+" added to delete"
+                    when 'confused'
+                        if /\"responsibilitySchoolId\" \: \"#{id}\"/.match(entry)
+                              puts entry
+                              deleted.add(child_id)
+                              puts "add to deleted"
+                        elsif /\"assignmentSchoolId\" \: \"#{id}\"/.match(entry)
+                              puts entry
+                              updated.add(child_id)
+                              puts "add to udpated"
+                        else
+                        end
+                    when 'checked'
+                        checked.add(child_id)
+                        puts "entry = " + entry
+                        puts /\[\s*\"#{id}\"\s*\]/.match(entry)
+                        puts /\s*\[\s*\{[^\}]*\"#{id}[^\}]*\"\}\s*\]\s*/.match(entry)
+                        if /\[\s*\"#{id}\"\s*\]/.match(entry) || /\s*\[\s*\{[^\}]*\"#{id}[^\}]*\"\}\s*\]\s*/.match(entry)
+                            deleted.add(child_id)
+                            puts child_id+" added to delete"
+                        else
+                            updated.add(child_id)
+                            puts child_id+" added to update"
+                         end
+                    end
+            end
+        end
+    end
+    puts "deleted = {"
+    puts deleted.length()
+    if(deleted.length()>0)
+        deleted.each do |d1|
+            puts d1
+        end
+    end
+    puts "}"
+    puts "updated = {"
+    puts updated.length()
+    if(updated.length()>0)
+        updated.each do |d1|
+            puts d1
+        end
+    end
+    puts "}"
+    puts "checked = {"
+    puts checked.length()
+    if(checked.length()>0)
+        checked.each do |d1|
+            puts d1
+        end
+    end
+    puts "}"
+    cleanUpDbDump
+end
+
+
+Then /^I should see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+  `rm -rf temp/*`
+  `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
+  output = `grep #{id} ./temp/*`
+  assert($?.to_i==0, "ID: #{id} not found in tenant database: #{output}")
+  `rm -rf temp/*`
+end
+
+
 
 Then /^all attendance entities should should have the expected structure./ do
   @db = @conn[@ingestion_db_name]
@@ -3136,12 +3528,174 @@ Then /^all attendance entities should should have the expected structure./ do
       end
     end
   end
+end
 
+Then /^a query on attendance of for studentId "(.*?)", schoolYear "(.*?)" and date "(.*?)" on the "(.*?)" tenant has a count of "(.*?)"$/ do |student, year, date, tenant, count|
+    disable_NOTABLESCAN()
+    @db = @conn[convertTenantIdToDbName(tenant)]
+    @coll = @db['attendance']
+    entity_count = @coll.find({"body.studentId" => student, "body.schoolYear" => year, "body.attendanceEvent.date" => date}).count()
+    assert(entity_count.to_i==count.to_i, "Count mismatch. Actual count is #{entity_count}")
+    enable_NOTABLESCAN()
 end
 
 Then /^correct number of records should be ingested for "(.*?)"$/ do |dataSet|
     correct_count = getCorrectCountForDataset(dataSet)
     step "I should see \"Processed #{correct_count} records.\" in the resulting batch job file"
+end
+
+$savedQueries = {}
+Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. And I save this query as "([^"]*)"/ do |count, collection, tenant, queryName, table|
+    @db         = @conn[convertTenantIdToDbName(tenant)]
+    @coll       = @db[collection]
+    condArray   = table.rows()
+    condHash    = Hash[*condArray.flatten]
+    condHash.each do |field, value|
+        if value =~ /float\((.*?)\)/
+	    condHash[field] = $1.to_f
+	elsif value =~ /int\((.*)\)/
+	    condHash[field] = $1.to_i
+	end
+    end
+    $savedQueries[queryName] = {"criteria"=>condHash, "collection"=>collection, "tenant"=>tenant};
+    disable_NOTABLESCAN()
+    recordCnt   = @coll.find(condHash).count()
+    enable_NOTABLESCAN()
+    assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{condHash}!");
+end
+
+Then /I re-execute saved query "([^"]*)" to get "([^"]*)" records/ do |queryName, count|
+    q             = $savedQueries[queryName]
+    criteria      = q["criteria"]
+    collection    = q["collection"]
+    tenant        = q["tenant"]
+
+    #puts "Re-executing #{criteria} with #{collection}, #{tenant}"
+
+    @db         = @conn[convertTenantIdToDbName(tenant)]
+    @coll       = @db[collection]
+    disable_NOTABLESCAN()
+    recordCnt   = @coll.find(criteria).count()
+    enable_NOTABLESCAN()
+    assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{criteria}!");
+end
+
+
+Then /^the data from "(.*?)" is imported$/ do |directory|
+    Dir.foreach(directory) {|x|
+        db=x.split("_")[1].to_s
+        coll=x.split("_")[2].to_s.split(".")[0].to_s
+        if x != "." && x != ".."
+            `mongoimport --db #{db} --collection #{coll} #{directory}/#{x}`
+        end
+    }
+end
+
+Then /^the data from tenant "(.*?)"is exported to "(.*?)"$/ do |tenant, directory|
+  `./exportMongoDb.sh #{convertTenantIdToDbName(tenant)} #{directory} 2>&1 /dev/null`
+end
+
+Given /^the "(.*?)" tenant db is empty$/ do |tenant|
+     tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+     coll_names = tenant_db.collection_names
+     coll_to_skip = ["system.indexes",
+                     "system.js",
+                     "system.profile",
+                     "system.namespaces",
+                     "system.users",
+                     "tenant",
+                     "securityEvent",
+                     "realm",
+                     "application",
+                     "roles",
+                     "customRole"]
+     disable_NOTABLESCAN
+     coll_names.each do |coll|
+        if !coll_to_skip.include?(coll)
+            tenant_db["#{coll}"].remove
+#            assert(tenant_db["#{coll}"].count == 0, "#{coll} is not empty.")
+        end
+     end
+     enable_NOTABLESCAN
+end
+
+def getEntityCounts(tenant)
+    entityCounts = {}
+     tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+     coll_names = tenant_db.collection_names
+     coll_to_skip = ["system.indexes",
+                     "system.js",
+                     "system.profile",
+                     "system.namespaces",
+                     "system.users",
+                     "tenant",
+                     "securityEvent",
+                     "realm",
+                     "application",
+                     "roles",
+                     "applicationAuthorization",
+                     "custom_entities",
+                     "customRole",
+                     "adminDelegation"]
+     disable_NOTABLESCAN
+     # Add straight collection counts
+     coll_names.each do |coll|
+        if !coll_to_skip.include?(coll)
+            count = tenant_db[coll].count().to_i
+            entityCounts[coll] = count
+#            puts "#{coll} #{count}"
+        end
+    end
+    #Add subdoc entity counts
+    subDocEntities = $subDocEntity2ParentType.keys
+    subDocEntities.each do |subDocEntity|
+        parent = $subDocEntity2ParentType[subDocEntity]
+        count = subDocCount(parent, subDocEntity)
+        entityCounts[subDocEntity] = count
+#        puts "#{subDocEntity} #{count}"
+    end
+    enable_NOTABLESCAN
+    return entityCounts
+end
+
+And /I save the collection counts in "([^"]*)" tenant/ do |tenant|
+    @db         = @conn[convertTenantIdToDbName(tenant)]
+    @beforeEntityCounts = getEntityCounts(tenant)
+end
+
+And /I see that collections counts have changed as follows in tenant "([^"]*)"/ do |tenant, table|
+    @db         = @conn[convertTenantIdToDbName(tenant)]
+    condArray   = table.rows()
+    condHash    = Hash[*condArray.flatten]
+    afterEntityCounts = getEntityCounts(tenant)
+    entityCountDeltas = {}
+    unionOfEntities = @beforeEntityCounts.keys | afterEntityCounts.keys
+    unionOfEntities.each do |entityType|
+        # check for missing entity types
+        assert(afterEntityCounts.has_key?(entityType), "Collection #{entityType} has been deleted.")
+        new   = afterEntityCounts[entityType].to_i;
+
+        if (new != 0)
+            assert(@beforeEntityCounts.has_key?(entityType), "Collection #{entityType} has been created.")
+        end
+
+        old   = @beforeEntityCounts[entityType].to_i;
+        actualDelta = new - old
+
+        # build a map of delta values per entity
+        entityCountDeltas[entityType] = new - old
+
+        # check if a delta is expected and if so whether it is correct
+        if (condHash.has_key?(entityType))
+            condDelta = condHash[entityType]
+            operation = condDelta[0,1]   # + or -
+            expectedDelta = condHash[entityType].to_i
+            assert(actualDelta == expectedDelta, "The change in count for #{entityType} was #{actualDelta}. It was expected to be #{expectedDelta}.")
+        else
+            assert(old == new, "The change in count for #{entityType} was #{actualDelta}. It was expected to be 0.")
+        end
+    end
+    condHash.each_key { |key| assert(unionOfEntities.include?(key), "Delta check of non-existing entity \"#{key}\"") }
 end
 
 ############################################################

@@ -1,5 +1,6 @@
 Feature: A bulk extract is triggered for the student entity
 
+@smoke
 Scenario: Verify a student was correctly extracted
    When I retrieve the path to the extract file for the tenant "Midgar"
    And a "student" extract file exists

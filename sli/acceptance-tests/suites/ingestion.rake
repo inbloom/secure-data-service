@@ -174,6 +174,7 @@ end
 desc "Run Ingestion Smoke Tests"
 task :ingestionSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
+  Rake::Task["multipleOrphansDeleteTest"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].invoke
 end
 
@@ -276,6 +277,323 @@ end
 desc "Run Ingestion Propagated Data Set Test"
 task :ingestionPropagatedTest do
   runTests("test/features/ingestion/features/ingestion_PropagatedDataSet.feature")
+end
+
+desc "Run Ingestion Deletion Tests"
+  task :ingestionDeletionTests => [
+        :multipleOrphansDeleteTest,
+        :errorsOnUnsupportedDeleteRequestsTest,
+        :ingestionCascadingDeletionBroadAssessmentFamilyTest,
+        :ingestionCascadingDeletionBroadAssessmentItemFromAssessmentMetadataTest,
+        :ingestionCascadingDeletionBroadAssessmentItemFromStudentAssessmentTest,
+        :ingestionCascadingDeletionBroadAssessmentPeriodDescriptorTest,
+        :ingestionCascadingDeletionBroadAssessmentTest,
+        :ingestionCascadingDeletionBroadAttendanceEventTest,
+        :ingestionCascadingDeletionBroadCalendarDateTest,
+        :ingestionCascadingDeletionBroadCohortTest,
+        :ingestionCascadingDeletionBroadCompetencyLevelDescriptorInStudentGradesTest,
+        :ingestionCascadingDeletionBroadCompetencyLevelDescriptorTest,
+        :ingestionCascadingDeletionBroadCourseOfferingTest,
+        :ingestionCascadingDeletionBroadCourseTest,
+        :ingestionCascadingDeletionBroadCourseTranscriptTest,
+        :ingestionCascadingDeletionBroadDisciplineActionTest,
+        :ingestionCascadingDeletionBroadDisciplineIncidentTest,
+        :ingestionCascadingDeletionBroadGradebookEntryTest,
+        :ingestionCascadingDeletionBroadGradeTest,
+        :ingestionCascadingDeletionBroadGradingPeriodTest,
+        :ingestionCascadingDeletionBroadGraduationPlanTest,
+        :ingestionCascadingDeletionBroadLearningObjectiveFromStudentGradesTest,
+        :ingestionCascadingDeletionBroadLearningObjectiveTest,
+        :ingestionCascadingDeletionBroadLearningStandardTest,
+        :ingestionCascadingDeletionBroadLEATest,
+        :ingestionCascadingDeletionBroadObjectiveAssessmentFromAssessmentMetadataTest,
+        :ingestionCascadingDeletionBroadObjectiveAssessmentFromStudentAssessmentTest,
+        :ingestionCascadingDeletionBroadParentTest,
+        :ingestionCascadingDeletionBroadProgramTest,
+        :ingestionCascadingDeletionBroadReportCardTest,
+        :ingestionCascadingDeletionBroadSchoolTest,
+        :ingestionCascadingDeletionBroadSEATest,
+        :ingestionCascadingDeletionBroadSectionTest,
+        :ingestionCascadingDeletionBroadSessionTest,
+        :ingestionCascadingDeletionBroadStaffCohortAssociationTest,
+        :ingestionCascadingDeletionBroadStaffEducationOrgAssignmentAssociationTest,
+        :ingestionCascadingDeletionBroadStaffProgramAssociationTest,
+        :ingestionCascadingDeletionBroadStaffTest,
+        :ingestionCascadingDeletionBroadStudentAcademicRecordTest,
+        :ingestionCascadingDeletionBroadStudentAssessmentTest,
+        :ingestionCascadingDeletionBroadStudentCohortAssociationTest,
+        :ingestionCascadingDeletionBroadStudentCompetencyObjectiveTest,
+        :ingestionCascadingDeletionBroadStudentCompetencyTest,
+        :ingestionCascadingDeletionBroadStudentDisciplineIncidentAssociationTest,
+        :ingestionCascadingDeletionBroadStudentGradebookEntryTest,
+        :ingestionCascadingDeletionBroadStudentParentAssociationTest,
+        :ingestionCascadingDeletionBroadStudentProgramAssociationTest,
+        :ingestionCascadingDeletionBroadStudentSchoolAssociationTest,
+        :ingestionCascadingDeletionBroadStudentSectionAssociationTest,
+        :ingestionCascadingDeletionBroadTeacherSchoolAssociationTest,
+        :ingestionCascadingDeletionBroadTeacherSectionAssociationTest,
+        :ingestionCascadingDeletionBroadTeacherTest,
+        :ingestionCascadingDeletionSchoolTest,
+        :ingestionCascadingDeletionSectionTest,
+        :ingestionCascadingDeletionStudentTest,
+        :ingestionCascadingDeletionTeacherTest,
+        :ingestionLeafStudentDelete,
+        :ingestionCascadingDeletionReportCardNotFoundTest,
+        :ingestionCascadingDeleteReportTest,
+        ] do
+
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Cascading Deletion Report Test"
+task :ingestionCascadingDeleteReportTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_deleteReport.feature")
+end
+
+desc "Run Leaf Student Deletion Test"
+task :ingestionLeafStudentDelete do
+  runTests("test/features/ingestion/features/ingestion_leaf_student_delete.feature")
+end
+
+task :ingestionCascadingDeletionStudentTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_student.feature")
+end
+
+task :ingestionCascadingDeletionSectionTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_section.feature")
+end
+
+task :ingestionCascadingDeletionSchoolTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_school.feature")
+end
+
+task :ingestionCascadingDeletionBroadSEATest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_SEA_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadLEATest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_LEA_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadProgramTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_program_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadSectionTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_section_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadAssessmentTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_assessment_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadAssessmentItemFromAssessmentMetadataTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_assessmentItemFromAssessmentMetadata_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadAssessmentItemFromStudentAssessmentTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_assessmentItemFromStudentAssessment_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadAssessmentFamilyTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_AssessmentFamily_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentAssessmentTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentAssessment_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadObjectiveAssessmentFromAssessmentMetadataTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_objectiveAssessmentFromAssessmentMetadata_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadAssessmentPeriodDescriptorTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_AssessmentPeriodDescriptor_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadLearningObjectiveTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_LearningObjective_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadLearningStandardTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_LearningStandard_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadCourseTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_course_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStaffTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_staff_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStaffEducationOrgAssignmentAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_StaffEducationOrgAssignmentAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadTeacherTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_teacher_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStaffProgramAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_StaffProgramAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadTeacherSchoolAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_TeacherSchoolAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadTeacherSectionAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_TeacherSectionAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadCourseOfferingTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_CourseOffering_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadCompetencyLevelDescriptorTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_competencyLevelDescriptor_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadParentTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_parent_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentParentAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentParentAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadSessionTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_session_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadGradingPeriodTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_gradingPeriod_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadCalendarDateTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_calendarDate_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentProgramAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentProgramAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadAttendanceEventTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_attendanceEvent_delete.feature")
+end
+
+task :ingestionCascadingDeletionTeacherTest do
+  runTests("test/features/ingestion/features/ingestion_cascadingDelete_teacher.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentSchoolAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentSchoolAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentSectionAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentSectionAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadGraduationPlanTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_graduationPlan_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadDisciplineIncidentTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_disciplineIncident_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadDisciplineActionTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_disciplineAction_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentDisciplineIncidentAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentDisciplineIncidentAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadCohortTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_cohort_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentCohortAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentCohortAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStaffCohortAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_staffCohortAssociation_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentCompetencyObjectiveTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentCompetencyObjective_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentCompetencyTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentCompetency_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentAcademicRecordTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentAcademicRecord_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadGradeTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_grade_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadCourseTranscriptTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_courseTranscript_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadReportCardTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_reportCard_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadGradebookEntryTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_gradebookEntry_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentGradebookEntryTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentGradebookEntry_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadCompetencyLevelDescriptorInStudentGradesTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_competencyLevelDescriptorInStudentGrades_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadLearningObjectiveFromStudentGradesTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_learningObjectiveFromStudentGrades_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadObjectiveAssessmentFromStudentAssessmentTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_objectiveAssessmentFromStudentAssessment_delete.feature")
+end
+
+task :ingestionCascadingDeletionReportCardNotFoundTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_reportCardNotFound_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_student_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadSchoolTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_school_delete.feature")
+end
+
+task :ingestBroadSetOfTypesAndExportData do
+  runTests("test/features/ingestion/features/ingestion_BroadSetOfTypes.feature")
+end
+
+task :errorsOnUnsupportedDeleteRequestsTest do
+  runTests("test/features/ingestion/features/error_on_unsupported_delete.feature")
+end
+
+task :multipleOrphansDeleteTest do
+  runTests("test/features/ingestion/features/multiple_orphans_deletion.feature")
 end
 
 ############################################################

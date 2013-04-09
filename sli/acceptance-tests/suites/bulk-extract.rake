@@ -24,16 +24,17 @@ end
 
 desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSetup do
-  Rake::Task["ingestionSmokeTests"].execute
   Rake::Task["bulkExtractCleanup"].execute
+  Rake::Task["ingestionSmokeTests"].execute
   @tags = ["~@wip", "~@sandbox"]
 
 end
 
 desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSmokeTests do
-  Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+  Rake::Task["bulkExtractTriggerTest"].execute
+  Rake::Task["bulkExtractStudentTest"].execute  
 end
 
 desc "Trigger ingestion and extract of the ingestion"
@@ -52,6 +53,20 @@ desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSimpleEntitiesTest do
   Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
   runTests("test/features/bulk_extract/features/bulk_extract_simple_entities.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
+desc "Trigger ingestion and extract of the ingestion"
+task :bulkExtractEdorgStaffTest do
+  Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
+  runTests("test/features/bulk_extract/features/bulk_extract_edorg_staff.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
+desc "Trigger ingestion and extract of the ingestion"
+task :bulkExtractSuperdocTest do
+  Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
+  runTests("test/features/bulk_extract/features/bulk_extract_superdoc.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
@@ -76,7 +91,9 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractSetup"].execute
   Rake::Task["addBootstrapAppAuths"].execute
   Rake::Task["bulkExtractTriggerTest"].execute
-  Rake::Task["bulkExtractStudentTest"].execute
+  Rake::Task["bulkExtractSimpleEntitiesTest"].execute
+  Rake::Task["bulkExtractSuperdocTest"].execute  
+  Rake::Task["bulkExtractEdorgStaffTest"].execute
   Rake::Task["bulkExtractIntegrationTest"].execute
   Rake::Task["bulkExtractDeltasTest"].execute
   Rake::Task["bulkExtractSchedulerTest"].execute

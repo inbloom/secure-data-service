@@ -16,8 +16,33 @@
 
 package org.slc.sli.api.resources;
 
-import com.sun.jersey.core.spi.factory.ResponseImpl;
-import com.sun.jersey.core.util.Base64;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.lang.reflect.Method;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -40,36 +65,15 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.lang.reflect.Method;
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.when;
+import com.sun.jersey.core.spi.factory.ResponseImpl;
+import com.sun.jersey.core.util.Base64;
 
 /**
  * Test for support BulkExtract
@@ -109,6 +113,13 @@ public class BulkExtractTest {
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
+        Map<String, Object> appBody = new HashMap<String, Object>();
+        appBody.put("isBulkExtract", true);
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(appBody);
+        when(mockMongoEntityRepository.findOne(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -129,7 +140,35 @@ public class BulkExtractTest {
     }
 
     @Test
-    public void testGetFileError() throws Exception {
+    public void testGetSampleExtract() throws Exception {
+        injector.setEducatorContext();
+
+        ResponseImpl res = (ResponseImpl) bulkExtract.get();
+        assertEquals(200, res.getStatus());
+        MultivaluedMap<String, Object> headers = res.getMetadata();
+        assertNotNull(headers);
+        assertTrue(headers.containsKey("content-disposition"));
+        assertTrue(headers.containsKey("last-modified"));
+        String header = (String) headers.getFirst("content-disposition");
+        assertNotNull(header);
+        assertTrue(header.startsWith("attachment"));
+        assertTrue(header.indexOf("sample-extract.tar") > 0);
+
+        Object entity = res.getEntity();
+        assertNotNull(entity);
+        StreamingOutput out = (StreamingOutput) entity;
+        File file = new File("out.zip");
+        FileOutputStream os = new FileOutputStream(file);
+        out.write(os);
+        os.flush();
+        assertTrue(file.exists());
+
+        assertEquals(798669192L, FileUtils.checksumCRC32(file));
+        FileUtils.deleteQuietly(file);
+    }
+
+    @Test
+    public void testGetTenantFileError() throws Exception {
         injector.setEducatorContext();
         Entity mockEntity = Mockito.mock(Entity.class);
         Map<String, Object> mockBody = Mockito.mock(Map.class);
@@ -137,7 +176,7 @@ public class BulkExtractTest {
         Mockito.when(mockBody.get(Mockito.anyString())).thenReturn(PUBLIC_KEY);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
-        ResponseImpl res = (ResponseImpl) bulkExtract.get();
+        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant();
         assertEquals(404, res.getStatus());
     }
 
@@ -252,5 +291,30 @@ public class BulkExtractTest {
         } finally {
             f.delete();
         }
+    }
+
+    @Test(expected = AccessDeniedException.class)
+    public void testAppHasNoDefinedRestriction() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        bulkExtract.getTenant();
+    }
+
+    @Test(expected = AccessDeniedException.class)
+    public void testAppIsNotBeepApp() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", false);
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        bulkExtract.getTenant();
     }
 }

@@ -309,7 +309,7 @@ Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2
 end
 
 When /^I clicked Save$/ do
-  @form.find_element(:name, 'commit').click
+  @driver.find_element(:name, 'commit').click
 end
 
 Then /^the info for "([^"]*)" was updated$/ do |arg1|
@@ -400,18 +400,7 @@ Then /^a notification email is sent to "([^"]*)"$/ do |email|
 end
 
 When /^I click on the In Progress button$/ do
-  @mongo_ids = []
-  db = Mongo::Connection.new[convertTenantIdToDbName('developer-email@slidev.org')]['educationOrganization']
-
-  ed_org = build_edorg("Some State", "developer-email@slidev.org")
-  ed_org[:body][:organizationCategories] = ["State Education Agency"]
-  @mongo_ids << db.insert(ed_org)
-  ed_org = build_edorg("Some District", "developer-email@slidev.org", @mongo_ids.first, "WaffleDistrict", true)
-  @mongo_ids << db.insert(ed_org)
-  ed_org = build_edorg("Some School", "developer-email@slidev.org", @mongo_ids[1], "WaffleSchool", false)
-  @mongo_ids << db.insert(ed_org, opts = {:safe => true})
   step 'I clicked on the button Edit for the application "NewApp"'
-  db.remove()
 end
 
 Then /^I can see the ed\-orgs I want to approve for my application$/ do
@@ -427,6 +416,19 @@ And /^I can delete "(.*?)"$/ do |app_name|
     step "I got warning message saying 'You are trying to remove this application from inBloom. By doing so, you will prevent any active user to access it. Do you want to continue?'"
     step "I click 'Yes'"
     step "the application named \"#{app_name}\" is removed from the SLI"
+end
+
+Then /^I have enabled "(.*?)"$/ do |arg1|
+  client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[11]').text
+  assert(client_id == 'true', "Expected 'true', got #{client_id}")
+end
+
+When /^I enter a public key$/ do
+  @driver.find_element(:name, 'app[public_key]').send_keys "PUBLIC_KEYPUBLIC_KEYPUBLIC_KEYPUBLIC_KEY"
+end
+
+Then /^I check Bulk Extract$/ do
+  @driver.find_element(:id, 'app_isBulkExtract').click
 end
 
 private

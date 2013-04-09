@@ -17,34 +17,21 @@ package org.slc.sli.bulk.extract.extractor;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.bulk.extract.files.DataExtractFile;
-import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.treatment.TreatmentApplicator;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
+import org.slc.sli.bulk.extract.files.EntityWriterManager;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 
 /**
@@ -57,63 +44,9 @@ public class EntityExtractor{
 
     private static final Logger LOG = LoggerFactory.getLogger(EntityExtractor.class);
 
-    private final List<String> entities = new ArrayList<String>();
-
-    private List<String> excludedCollections;
-
-    private List<String> yearlyTranscriptSubdocs;
-
     private Repository<Entity> entityRepository;
 
-    private TreatmentApplicator applicator;
-
-    private class ArchiveEntry {
-        private long noOfRecords = 0;
-        private DataExtractFile dataFile = null;
-        private OutputStream outputStream = null;
-        private final JsonFactory jsonFactory = new JsonFactory();
-        private JsonGenerator jsonGenerator = null;
-        private final ObjectMapper mapper = new ObjectMapper();
-
-        public ArchiveEntry(String collectionName, ExtractFile archiveFile) throws FileNotFoundException, IOException {
-            dataFile = archiveFile.getDataFileEntry(collectionName);
-            outputStream = dataFile.getOutputStream();
-            jsonGenerator = jsonFactory.createJsonGenerator(outputStream);
-            jsonGenerator.writeStartArray();
-        }
-
-        public void incrementNoOfRecords() {
-            noOfRecords++;
-        }
-
-        public void writeValue(Entity entity) throws JsonGenerationException, JsonMappingException, IOException {
-            mapper.writeValue(jsonGenerator, entity.getBody());
-        }
-
-        public void flush() throws JsonGenerationException, IOException {
-            jsonGenerator.writeEndArray();
-            jsonGenerator.flush();
-        }
-
-        public void closeDatafile() {
-            if (dataFile != null) {
-                dataFile.close();
-            }
-        }
-
-        public long getNoOfRecords() {
-            return noOfRecords;
-        }
-    };
-
-    public EntityExtractor() throws IllegalArgumentException, IllegalAccessException {
-        Field[] fields = EntityNames.class.getFields();
-        for (Field field : fields) {
-            if (Modifier.isStatic(field.getModifiers())) {
-                entities.add(field.get(null).toString());
-            }
-        }
-    }
+    private EntityWriterManager writer;
 
     /**
      * extract all the records of entity.
@@ -126,168 +59,120 @@ public class EntityExtractor{
      *          Name of the entity to be extracted
      */
     public void extractEntities(String tenant, ExtractFile archiveFile, String collectionName) {
-
-        Map<String, ArchiveEntry> archiveEntries = new HashMap<String, ArchiveEntry>();
-        Query query = new Query();
         try {
             TenantContext.setTenantId(tenant);
-            //            DBCursor cursor = entityRepository.getCollection(collectionName).find(query.getQueryObject());
-            Iterator<Entity> cursor = entityRepository.findEach(collectionName, query);
-
+            Iterator<Entity> cursor = entityRepository.findEach(collectionName, new Query());
             if (cursor.hasNext()) {
                 LOG.info("Extracting from " + collectionName);
+                CollectionWrittenRecord collectionRecord = new CollectionWrittenRecord(collectionName);
 
                 while (cursor.hasNext()) {
-                    //                    DBObject record = cursor.next();
                     Entity entity = cursor.next();
 
-                    // Write entity to archive.
-                    //                    Entity entity = MongoEntity.fromDBObject(record);
-                    if (entities.contains(entity.getType())) {
-                        if (!archiveEntries.containsKey(entity.getType())) {
-                            archiveEntries.put(entity.getType(), new ArchiveEntry(entity.getType(), archiveFile));
-                        }
-                        writeRecord(archiveEntries.get(entity.getType()), entity);
-                    } else if (entities.contains(collectionName)) {  // Remove condition to include all collections.
-                        if (!archiveEntries.containsKey(collectionName)) {
-                            archiveEntries.put(collectionName, new ArchiveEntry(collectionName, archiveFile));
-                        }
-                        writeRecord(archiveEntries.get(collectionName), entity);
-                    }
+                    write(entity, archiveFile, collectionRecord);
 
-                    // Write subdocs to archive.
-                    Map<String, List<Entity>> subdocs = entity.getEmbeddedData();
-                    //                    if (collectionName.equals("yearlyTranscript")) {  // Yearly Transcript subdocs are a special case.
-                    //                        addYearlyTranscriptSubdocs(subdocs, record);
-                    //                    }
-                    for (String subdocName : subdocs.keySet()) {
-                        if (entities.contains(subdocName)) {
-                            if (!archiveEntries.containsKey(subdocName)) {
-                                archiveEntries.put(subdocName, new ArchiveEntry(subdocName, archiveFile));
-                            }
-                            for (Entity subdoc : subdocs.get(subdocName)) {
-                                writeRecord(archiveEntries.get(subdocName), subdoc);
-                            }
-                        }
-                    }
                 }
 
-                for (String entity : archiveEntries.keySet()) {
-                    archiveEntries.get(entity).flush();
-                    LOG.info("Finished extracting {} records for " + entity,
-                            archiveEntries.get(entity).getNoOfRecords());
-                }
+                LOG.info("Finished extracting " + collectionRecord.toString());
             }
-
         } catch (IOException e) {
             LOG.error("Error while extracting from " + collectionName, e);
-        } finally {
-            TenantContext.setTenantId(null);
-            for (String entity : archiveEntries.keySet()) {
-                archiveEntries.get(entity).closeDatafile();
-            }
         }
     }
 
     /**
-     * Add yearly transcript subdocs to list.
-     * @param subdocs list
-     * @param record
+     * Writes an entity to a file.
+     * @param entity entity
+     * @param archiveFile archiveFile
+     * @param collectionRecord collectionRecord
+     * @throws FileNotFoundException FileNotFoundException
+     * @throws IOException IOException
      */
-    @SuppressWarnings("unchecked")
-    private void addYearlyTranscriptSubdocs(Map<String, List<Entity>> subdocs, DBObject record) {
-        for (String ytSubdoc : yearlyTranscriptSubdocs) {
-            if (record.keySet().contains(ytSubdoc)) {
-                List<DBObject> values = (List<DBObject>) record.get(ytSubdoc);
-                List<Entity> subEntityList = new ArrayList<Entity>();
-                for (DBObject subEntity : values) {
-                    subEntityList.add(MongoEntity.fromDBObject(subEntity));
+    private void write(Entity entity, ExtractFile archiveFile, CollectionWrittenRecord collectionRecord)
+            throws FileNotFoundException, IOException {
+        writer.write(entity, archiveFile);
+        collectionRecord.incrementNumberOfEntitiesWritten();
+        //Write subdocs
+        writeEmbeddedDocs(entity.getEmbeddedData(), archiveFile, collectionRecord);
+
+        //Write container data
+        writeEmbeddedDocs(entity.getContainerData(), archiveFile, collectionRecord);
+    }
+
+
+    /**
+     * Write collection of an entity's embedded documents to their respective archives.
+     * @param docs - embedded documents within an entity
+     * @param archiveEntries - collection of archive entries, one per subdoc type
+     * @param archiveFile - file containing archives to be written to
+     * @param collectionRecord collectionRecord
+     */
+    private void writeEmbeddedDocs(Map<String, List<Entity>> docs, ExtractFile archiveFile,
+            CollectionWrittenRecord collectionRecord) throws FileNotFoundException, IOException {
+        for (String docName : docs.keySet()) {
+                for (Entity doc : docs.get(docName)) {
+                    writer.write(doc, archiveFile);
                 }
-                subdocs.put(ytSubdoc, subEntityList);
-            }
+                collectionRecord.addEmbeddedDocWrittenRecord(docName, docs.get(docName).size());
         }
-    }
-
-
-    /**
-     * Write record to archive entry.
-     * @param archive entry
-     * @param record
-     */
-    private void writeRecord(ArchiveEntry archiveEntry, Entity record) throws JsonGenerationException, JsonMappingException, IOException {
-        // Assessment and StudentAssessment entities are special cases.
-        if (record.getType().equals("assessment") || record.getType().equals("studentAssessment")) {
-            Map<String, List<Entity>> subdocs = record.getEmbeddedData();
-            for (Map.Entry<String, List<Entity>> subdoc : subdocs.entrySet()) {
-                List<Map<String, Object>> subdocList = new ArrayList<Map<String, Object>>();
-                for (Entity subdocItem : subdoc.getValue()) {
-                    subdocList.add(subdocItem.getBody());
-                }
-                record.getBody().put(subdoc.getKey(), subdocList);
-            }
-        }
-
-        Entity treated = applicator.apply(record);
-        archiveEntry.writeValue(treated);
-        archiveEntry.incrementNoOfRecords();
-    }
-
-    /**
-     * set excluded collections.
-     * @param excluded collections
-     */
-    public void setExcludedCollections(List<String> excludedCollections) {
-        this.excludedCollections = excludedCollections;
-    }
-
-    /**
-     * set excluded collections.
-     * @param excluded collections
-     */
-    public void setYearlyTranscriptSubdocs(List<String> yearlyTranscriptSubdocs) {
-        this.yearlyTranscriptSubdocs = yearlyTranscriptSubdocs;
     }
 
     /**
      * set entity repository.
-     * @param entityRepository entity repository
+     * @param entityRepository - extractor entity repository
      */
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
 
     /**
-     * get applicator.
-     * @return treatment applicator
+     * Set writer.
+     * @param writer - writer the entity to a file
      */
-    public TreatmentApplicator getApplicator() {
-        return applicator;
+    public void setWriter(EntityWriterManager writer) {
+        this.writer = writer;
     }
 
     /**
-     * set applicator.
-     * @param applicator applicator
+     * A helper class to record number of writtens entities, including embedded docs
+     *
+     * @author slee
+     *
      */
-    public void setApplicator(TreatmentApplicator applicator) {
-        this.applicator = applicator;
-    }
+    private class CollectionWrittenRecord {
+        final String collectionName;
+        long numberOfEntitiesWritten;
+        Map<String, Long> embeddedDocWrittenRecords = new HashMap<String, Long>();
 
-    /**
-     * Get collection names for a tenant.
-     * @param tenant tenant
-     * @return collection names
-     */
-    public List<String> getCollectionNames(String tenant) {
-        TenantContext.setTenantId(tenant);
-        List<DBCollection> collections = entityRepository.getCollections(false);
-        List<String> collectionNames = new ArrayList<String>();
-        for (DBCollection collection : collections) {
-            if (!excludedCollections.contains(collection.getName())) {
-                collectionNames.add(collection.getName());
-            }
+        CollectionWrittenRecord(String name) {
+            this.collectionName = name;
         }
-        TenantContext.setTenantId(null);
-        return collectionNames;
+
+        void addEmbeddedDocWrittenRecord(String docName, long records) {
+            long total = records;
+            if (embeddedDocWrittenRecords.containsKey(docName)) {
+                total = records + embeddedDocWrittenRecords.get(docName);
+            }
+            embeddedDocWrittenRecords.put(docName, total);
+        }
+
+        void incrementNumberOfEntitiesWritten() {
+            ++numberOfEntitiesWritten;
+        }
+
+        @Override
+        public String toString() {
+            Object[] collArguments = { collectionName, new Long(numberOfEntitiesWritten)};
+            StringBuffer sb = new StringBuffer(MessageFormat.format("{1,number,#} records for {0}", collArguments));
+            
+            for (Map.Entry<String, Long> entry : embeddedDocWrittenRecords.entrySet()) {
+                Object[] embeddedArguments = { entry.getKey(), entry.getValue()};
+                sb.append(MessageFormat.format("\n\t{1,number,#} embedded records for {0}", embeddedArguments));
+            }
+
+            return sb.toString();
+        }
     }
 
 }
+

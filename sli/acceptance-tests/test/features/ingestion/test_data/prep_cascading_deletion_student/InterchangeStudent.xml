@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+
+	<Student>
+        <StudentUniqueStateId>CAP0-D0-HSch0-stu78</StudentUniqueStateId>
+        <Name Verification="Birth certificate">
+            <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+            <FirstName>Tammie</FirstName>
+            <MiddleName>Luisa</MiddleName>
+            <LastSurname>Jennings</LastSurname>
+            <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+        </Name>
+        <OtherName OtherNameType="Previous Legal Name">
+            <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+            <FirstName>Tia</FirstName>
+            <MiddleName>Kaitlin</MiddleName>
+            <LastSurname>Carpenter</LastSurname>
+        </OtherName>
+        <OtherName OtherNameType="Alias">
+            <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+            <FirstName>Daisy</FirstName>
+            <MiddleName>Natalie</MiddleName>
+            <LastSurname>Welch</LastSurname>
+        </OtherName>
+        <Sex>Female</Sex>
+        <BirthData>
+            <BirthDate>2011-03-04</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>Broadway Street</StreetNumberName>
+            <ApartmentRoomSuiteNumber>361</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>2511</BuildingSiteNumber>
+            <City>EAST SYRACUSE</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>22234</PostalCode>
+            <NameOfCounty>Onondaga</NameOfCounty>
+            <CountyFIPSCode>    </CountyFIPSCode>
+            <Latitude>51</Latitude>
+            <Longitude>174</Longitude>
+            <BeginDate>2010-03-04</BeginDate>
+            <EndDate>2012-03-04</EndDate>
+        </Address>
+        <Address AddressType="Home">
+            <StreetNumberName>Adams Street</StreetNumberName>
+            <ApartmentRoomSuiteNumber>18</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>2856</BuildingSiteNumber>
+            <City>BELLVALE</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>22234</PostalCode>
+            <NameOfCounty>Orange</NameOfCounty>
+            <CountyFIPSCode>    </CountyFIPSCode>
+            <Latitude>44</Latitude>
+            <Longitude>8</Longitude>
+            <BeginDate>2010-03-04</BeginDate>
+            <EndDate>2012-03-04</EndDate>
+        </Address>
+        <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+            <TelephoneNumber>123-456-7890</TelephoneNumber>
+        </Telephone>
+        <Telephone PrimaryTelephoneNumberIndicator="true" TelephoneNumberType="Home">
+            <TelephoneNumber>123-456-7890</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>test@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>test@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ProfileThumbnail>StudentPicture.jpg</ProfileThumbnail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+        <Race>
+            <RacialCategory>White</RacialCategory>
+            <RacialCategory>Black - African American</RacialCategory>
+        </Race>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+        <StudentCharacteristics>
+            <Characteristic>Foster Care</Characteristic>
+            <BeginDate>2011-03-04</BeginDate>
+            <EndDate>2011-03-04</EndDate>
+        </StudentCharacteristics>
+        <StudentCharacteristics>
+            <Characteristic>Foster Care</Characteristic>
+            <BeginDate>2011-03-04</BeginDate>
+            <EndDate>2011-03-04</EndDate>
+        </StudentCharacteristics>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Languages>
+            <Language>English</Language>
+            <Language>Arabic</Language>
+        </Languages>
+        <HomeLanguages>
+            <Language>English</Language>
+            <Language>Arabic</Language>
+        </HomeLanguages>
+        <Disabilities>
+            <Disability>Developmental Delay</Disability>
+        </Disabilities>
+        <Disabilities>
+            <Disability>Developmental Delay</Disability>
+        </Disabilities>
+        <Section504Disabilities>
+            <Section504Disability>Medical Condition</Section504Disability>
+        </Section504Disabilities>
+        <DisplacementStatus>Military Deployment</DisplacementStatus>
+        <ProgramParticipations>
+            <Program>Athletics</Program>
+            <BeginDate>2011-03-04</BeginDate>
+            <EndDate>2012-03-04</EndDate>
+        </ProgramParticipations>
+        <ProgramParticipations>
+            <Program>Athletics</Program>
+            <BeginDate>2011-03-04</BeginDate>
+            <EndDate>2012-03-04</EndDate>
+        </ProgramParticipations>
+        <LearningStyles>
+            <VisualLearning>50</VisualLearning>
+            <AuditoryLearning>25</AuditoryLearning>
+            <TactileLearning>25</TactileLearning>
+        </LearningStyles>
+        <CohortYears CohortYearType="Eleventh grade">
+            <SchoolYear>2011-2012</SchoolYear>
+        </CohortYears>
+        <CohortYears CohortYearType="Eleventh grade">
+            <SchoolYear>2011-2012</SchoolYear>
+        </CohortYears>
+        <StudentIndicators>
+            <IndicatorName>IndicatorName</IndicatorName>
+            <Indicator>This is a student indicator</Indicator>
+            <BeginDate>2011-03-04</BeginDate>
+            <EndDate>2012-03-04</EndDate>
+        </StudentIndicators>
+        <StudentIndicators>
+            <IndicatorName>IndicatorName</IndicatorName>
+            <Indicator>This is a student indicator</Indicator>
+            <BeginDate>2011-03-04</BeginDate>
+            <EndDate>2012-03-04</EndDate>
+        </StudentIndicators>
+        <LoginId>StudentLoginID</LoginId>
+    </Student>
+    
+</InterchangeStudentParent>
