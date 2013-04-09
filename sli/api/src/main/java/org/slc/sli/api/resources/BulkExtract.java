@@ -156,21 +156,24 @@ public class BulkExtract {
      */
     private Response getExtractResponse(String deltaDate) throws Exception {
         final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
-        ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate);
-        if (bulkExtractFileEntity == null) {
-            // return 404 if no bulk extract support for that tenant
-            LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
-            return Response.status(Status.NOT_FOUND).build();
+        try {
+            ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate);
+            if (bulkExtractFileEntity == null) {
+                // return 404 if no bulk extract support for that tenant
+                LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
+                return Response.status(Status.NOT_FOUND).build();
+            }
+            final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
+            if (bulkExtractFile == null || !bulkExtractFile.exists()) {
+                // return 404 if the bulk extract file is missing
+                LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
+                return Response.status(Status.NOT_FOUND).build();
+            }
+            return getExtractResponse(bulkExtractFile, bulkExtractFileEntity.getLastModified());
+        } catch (IllegalArgumentException e) {
+            LOG.info("Unable to parse delta Date " + deltaDate, e);
+            return Response.status(Status.BAD_REQUEST).build();
         }
-
-        final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
-        if (bulkExtractFile == null || !bulkExtractFile.exists()) {
-            // return 404 if the bulk extract file is missing
-            LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
-            return Response.status(Status.NOT_FOUND).build();
-        }
-
-        return getExtractResponse(bulkExtractFile, bulkExtractFileEntity.getLastModified());
     }
 
     /**
