@@ -73,7 +73,8 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
     // Internal state of the processor
     protected ThreadLocal<ParserState> state = new ThreadLocal<ParserState>();
-    protected ThreadLocal<Integer> ignoredRecordcount = new ThreadLocal<Integer>();
+    protected ThreadLocal<Integer> ignoredRecordCount = new ThreadLocal<Integer>();
+    protected ThreadLocal<Integer> processedRecordCount = new ThreadLocal<Integer>();
 
     @Override
     protected void process(Exchange exchange, ProcessorArgs<FileEntryWorkNote> args) {
@@ -89,7 +90,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             Resource xsdSchema = xsdSelector.provideXsdResource(args.workNote.getFileEntry());
 
             parse(input, xsdSchema, args.reportStats, source);
-            metrics.setValidationErrorCount(ignoredRecordcount.get());
+            metrics.setValidationErrorCount(ignoredRecordCount.get());
 
         } catch (IOException e) {
             getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0061);
@@ -101,7 +102,8 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         } finally {
             IOUtils.closeQuietly(input);
 
-            if (validData) {
+
+            if (validData  ) {
                 sendDataBatch();
             }
 
@@ -112,6 +114,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             args.stage.addMetrics(metrics);
         }
     }
+
 
     protected void parse(InputStream input, Resource xsdSchema, ReportStats reportStats, Source source)
             throws SAXException, IOException, XmlParseException {
@@ -132,14 +135,17 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
         state.set(newState);
 
-        ignoredRecordcount.set(0);
+        ignoredRecordCount.set(0);
+        processedRecordCount.set(0);
     }
 
     /**
      * Clean the internal state for the job.
      */
     private void cleanUpState() {
-        state.set(null);
+        state.remove();
+        processedRecordCount.remove();
+        ignoredRecordCount.remove();
     }
 
     private NewBatchJob refreshjob(String id) {
@@ -157,7 +163,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
     @Override
     public void ignored() {
-        ignoredRecordcount.set(ignoredRecordcount.get() + 1);
+        ignoredRecordCount.set(ignoredRecordCount.get() + 1);
     }
 
     public void sendDataBatch() {
@@ -168,6 +174,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
                     false);
 
             producer.sendBodyAndHeaders(workNote, s.getOriginalExchange().getIn().getHeaders());
+            processedRecordCount.set( processedRecordCount.get() + s.getDataBatch().size());
 
             s.resetDataBatch();
         }
