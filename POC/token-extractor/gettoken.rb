@@ -8,16 +8,20 @@ require 'uri'
 
 
 @log = Logger.new(STDOUT)
-@log.level = 2
+@log.level = 3
 
 def main()
   profile = ARGV[0]
   user = ARGV[1]
   if ARGV.length>2
-    role = ARGV[2]
+    roleOrPassword = ARGV[2]
   else
-    role = "IT Administrator"
+    roleOrPassword = "IT Administrator"
   end
+  if ARGV.length>3
+    realm = ARGV[3]
+  end
+
   puts "Using profile: #{profile}"
   profiles = nil
   open('profiles.json', 'r') { |f| profiles = JSON.load(f) }
@@ -29,6 +33,8 @@ def main()
   secret=profiles[profile]["secret"]
   redirectUrl=profiles[profile]["redirect_uri"]
   server=profiles[profile]["server"]
+  mode=profiles[profile]["mode"]
+
   puts "Server is: #{server}"
 
   if server == "local"
@@ -42,15 +48,28 @@ def main()
     sidpUrl="https://#{server}-sidp.slidev.org/sliidp"
   end
 
+  if mode == "prod"
+    authUser = user
+    authPassword = roleOrPassword
+    user = nil
+    role = nil
+  else #sandbox
+    realm = nil
+    role = roleOrPassword
+  end
+
   puts "API: #{apiUrl}"
   puts "SIDP: #{sidpUrl}"
   puts "Client ID: #{clientId}"
   puts "Secret: #{secret}"
   puts "Auth User: #{authUser}"
+  puts "Auth Password: #{authPassword}"
   puts "User: #{user}"
   puts "Role: #{role}"
+  puts "Realm: #{realm}"
+  puts "Mode: #{mode}"
 
-  result = startAuth(apiUrl, redirectUrl, clientId)
+  result = startAuth(apiUrl, redirectUrl, clientId, realm)
   samlResponse = sidpLogin(sidpUrl, result['samlRequest'], result['realm'], authUser, authPassword, user, role)
   code = postSaml(apiUrl, samlResponse)
   token = getToken(apiUrl, code, redirectUrl, clientId, secret)
@@ -67,9 +86,12 @@ def checkHttpResponse(response)
   end
 end
 
-def startAuth(api, redirectUrl, clientId)
+def startAuth(api, redirectUrl, clientId, realm)
   @log.info "Starting Auth process..."
   url = "#{api}/oauth/authorize?response_type=code&redirect_uri=#{redirectUrl}&client_id=#{clientId}"
+  if realm != nil
+    url = url +"&Realm=#{realm}"
+  end
   @log.info "Connecting to API: [#{url}]"
   result = Curl::Easy.http_get(url) do |curl|
     curl.follow_location = false
@@ -137,9 +159,10 @@ end
 
 if ARGV.length < 2
   puts "Incorrect usage!"
-  puts "ruby gettoken.rb <profile> <user> <role>"
+  puts "ruby gettoken.rb <profile> <user> <role or password> <realm>"
   puts "<profile> is the name of a profile defined in profiles.json"
-  puts "<role> is optional, if not specied then IT Administator is used"
+  puts "<role or password> is role for sandbox which is optional, if not specied then IT Administator is used. For prod mode you must pass the user's password"
+  puts "<realm> Not used for sandbox, but for prod is required. The realm the user authenticates with."
   exit()
 end
 
