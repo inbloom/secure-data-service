@@ -142,6 +142,10 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
 
         if (action.doDelete()) {
+            boolean isForceDelete = action.isForceDelete();
+            if(isForceDelete) {
+                LOG.info("Force deleting");
+            }
             // find out about dryrun
             Boolean dryrun = Boolean.FALSE;
             Integer max = (maxDeleteObjects == 0) ? null : maxDeleteObjects;

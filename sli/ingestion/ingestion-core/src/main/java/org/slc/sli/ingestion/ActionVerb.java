@@ -16,6 +16,7 @@
 package org.slc.sli.ingestion;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Various Action Types that will be allowed in the schema
@@ -29,6 +30,7 @@ public enum ActionVerb implements Serializable {
 
     private final boolean isCascade;
     private final String text;
+    private Map<String, String> attributes;
 
     private ActionVerb(String word) {
         this.text = word;
@@ -52,4 +54,20 @@ public enum ActionVerb implements Serializable {
         return ( this == DELETE || this == CASCADE_DELETE ) ? true : false ;
     }
 
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
+    }
+
+    public boolean isForceDelete() {
+        String force = attributes.get("Force");
+        if(force != null && force.equals("true")) {
+            return true;
+        }    else {
+            return false;
+        }
+    }
 }
