@@ -63,11 +63,24 @@ public enum ActionVerb implements Serializable {
         this.attributes = attributes;
     }
 
-    public boolean isForceDelete() {
+    public boolean doForceDelete() {
         String force = attributes.get("Force");
-        if(force != null && force.equals("true")) {
+        if (force == null) {
+            return true;    // default
+        } else if (force.equals("true")) {
             return true;
-        }    else {
+        } else {
+            return false;
+        }
+    }
+
+    public boolean doLogViolations() {
+        String logViolations = attributes.get("LogViolations");
+        if (logViolations == null) {
+            return true;    // default
+        } else if (logViolations.equals("true")) {
+            return true;
+        } else {
             return false;
         }
     }

@@ -16,8 +16,7 @@
 
 package org.slc.sli.ingestion.handler;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -38,16 +37,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
+import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
@@ -191,6 +187,11 @@ public class EntityPersistHandlerTest {
         when(entityRepository.findAll(eq("student"), any(NeutralQuery.class))).thenReturn(le);
         when(entityRepository.updateWithRetries(studentEntity.getType(), studentEntity, totalRetries)).thenReturn(true);
 
+        // Mock the return from safeDelete
+        CascadeResult mockCascadeResult = new CascadeResult();
+        mockCascadeResult.setStatus(CascadeResult.Status.SUCCESS);
+        when(entityRepository.safeDelete(eq("student"), eq(studentEntity.getEntityId()), anyBoolean(), anyBoolean(), anyBoolean(), anyBoolean(), anyInt(), any(AccessibilityCheck.class))).thenReturn(mockCascadeResult);
+
         entityPersistHandler.setEntityRepository(entityRepository);
         AbstractMessageReport errorReport = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
@@ -200,7 +201,7 @@ public class EntityPersistHandlerTest {
 
         studentEntity.setAction( ActionVerb.CASCADE_DELETE);
         entityPersistHandler.handle( studentEntity, errorReport, reportStats);
-        verify(entityRepository).safeDelete( "student", "student", studentEntity.getEntityId(), true, false, null, null);
+        verify(entityRepository).safeDelete( "student", studentEntity.getEntityId(), true, false, true, true, null, null);
 
 
         Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());

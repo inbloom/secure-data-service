@@ -215,7 +215,6 @@ Scenario: Delete Orphan School Reference with cascade = false
         | recordHash                                |        -1|
         | custom_entities                           |        -3|
 
-@wip
 Scenario: Delete School with cascade = false and force = true, log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -268,7 +267,7 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
-    And I should see "CORE_0066" in the resulting warn log file for "InterchangeEducationOrganization.xml"
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
     And I re-execute saved query "school" to get "0" records
     And I re-execute saved query "attendance" to get "11" records
     And I re-execute saved query "cohort" to get "3" records
@@ -286,7 +285,6 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
         | educationOrganization                     |        -1|
         | recordHash                                |        -1|
 
-@wip
 Scenario: Delete School with cascade = false and force = true, log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -339,7 +337,7 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
-    And I should see "CORE_0066" in the resulting warn log file for "InterchangeEducationOrganization.xml"
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
     And I re-execute saved query "school" to get "0" records
     And I re-execute saved query "attendance" to get "11" records
     And I re-execute saved query "cohort" to get "3" records
@@ -357,7 +355,6 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
         | educationOrganization                     |        -1|
         | recordHash                                |        -1|
 
-@wip
 Scenario: Delete School with cascade = false and force = true, log violations = false, non-entity specific test
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty

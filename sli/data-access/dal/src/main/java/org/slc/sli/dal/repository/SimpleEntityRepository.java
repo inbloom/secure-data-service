@@ -100,9 +100,9 @@ public class SimpleEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
-        // TODO Auto-generated method stub
-        return null;
+    public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        throw new UnsupportedOperationException("SimpleEntityRepository.safeDelete not implemented");
     }
 
     @Override
