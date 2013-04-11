@@ -3338,6 +3338,35 @@ Then /^I check the number of records in collection:/ do |table|
   enable_NOTABLESCAN()   
 end
 
+Then /^I check the number of elements in array of collection:/ do |table|
+  
+  disable_NOTABLESCAN()
+  @db = @conn[@ingestion_db_name]
+  @result = "true"
+  
+  table.hashes.map do |row|
+      coll = row["collectionName"]
+      param = row["field"]
+      value = row["value"]
+      parentList = row["searchContainer"]
+
+    @entity_collection = @db.collection(coll)
+    
+    @entity_count = @entity_collection.aggregate( [ {"$match" => {"#{param}" => "#{value}"}},{"$unwind"=> "$#{parentList}"}]).size
+    
+    if @entity_count.to_s != row["expectedRecordCount"].to_s
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
+
+    puts "#{red}There are " + @entity_count.to_s + " in "+ row["collectionName"] + " collection for record with " + row["searchContainer"] + " . Expected: " + row["expectedRecordCount"].to_s+"#{reset}"
+  end
+  
+  assert(@result == "true", "Some entities were not stored.")
+  enable_NOTABLESCAN()   
+end
+
 @original_count
 @after_count
 
