@@ -16,6 +16,7 @@
 package org.slc.sli.ingestion;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -30,7 +31,7 @@ public enum ActionVerb implements Serializable {
 
     private final boolean isCascade;
     private final String text;
-    private Map<String, String> attributes;
+    private Map<String, String> attributes = new HashMap<String, String>();
 
     private ActionVerb(String word) {
         this.text = word;
