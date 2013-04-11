@@ -119,7 +119,6 @@ Scenario: Delete Orphan Calendar Date Reference with cascade = false
 	|calendarDate                           |        -1|
 	|recordHash                             |        -1|
 
-  @wip
   Scenario: Delete Calendar Date with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -141,7 +140,7 @@ Scenario: Delete Orphan Calendar Date Reference with cascade = false
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
-    #And I should see "CORE_0066" in the resulting warn log file for "InterchangeEducationOrgCalendar.xml"
+    #And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrgCalendar.xml"
     And I re-execute saved query "calendarDate" to get "0" records
     And I re-execute saved query "gradingPeriod" to get "2" records
     And I see that collections counts have changed as follows in tenant "Midgar"
@@ -149,7 +148,6 @@ Scenario: Delete Orphan Calendar Date Reference with cascade = false
       |calendarDate                           |   -1       |
       |recordHash                             |   -1       |
 
-  @wip
   Scenario: Delete Calendar Date Reference with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -171,7 +169,7 @@ Scenario: Delete Orphan Calendar Date Reference with cascade = false
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
-    #And I should see "CORE_0066" in the resulting warn log file for "InterchangeEducationOrgCalendar.xml"
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrgCalendar.xml"
     And I re-execute saved query "calendarDate" to get "0" records
     And I re-execute saved query "gradingPeriod" to get "2" records
     And I see that collections counts have changed as follows in tenant "Midgar"

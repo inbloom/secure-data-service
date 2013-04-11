@@ -131,7 +131,6 @@ Scenario: Delete Orphan GradingPeriod Reference with cascade = false
         |gradingPeriod|  -1|
         |recordHash   |  -1|
 
-  @wip
   Scenario: Delete Grading Period with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -153,7 +152,7 @@ Scenario: Delete Orphan GradingPeriod Reference with cascade = false
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
-    #And I should see "CORE_0066" in the resulting warn log file for "InterchangeEducationOrgCalendar.xml"
+	And I should not see a warning log file created
     And I should not see a warning log file created
     And I re-execute saved query "gradingPeriod" to get "0" records
     And I re-execute saved query "session" to get "1" records
@@ -162,7 +161,6 @@ Scenario: Delete Orphan GradingPeriod Reference with cascade = false
       |gradingPeriod|  -1 |
       |recordHash   |  -1 |
 
-  @wip
   Scenario: Delete Grading Period Reference with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -184,7 +182,7 @@ Scenario: Delete Orphan GradingPeriod Reference with cascade = false
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
-   # And I should see "CORE_0066" in the resulting warn log file for "InterchangeEducationOrgCalendar.xml"
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrgCalendar.xml"
     And I re-execute saved query "gradingPeriod" to get "0" records
     And I re-execute saved query "session" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"
