@@ -38,9 +38,7 @@
             </ProgramReference>
             <EducationOrganizationPeerReference>
                 <EducationalOrgIdentity>
-                    <StateOrganizationId>
-                        STANDARD-SEA peer ref
-                    </StateOrganizationId>
+                    <StateOrganizationId>STANDARD-SEA peer ref</StateOrganizationId>
                 </EducationalOrgIdentity>
             </EducationOrganizationPeerReference>
         </StateEducationAgency>
