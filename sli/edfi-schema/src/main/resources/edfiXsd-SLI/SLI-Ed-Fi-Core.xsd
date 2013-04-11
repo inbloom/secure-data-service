@@ -43,7 +43,8 @@
   		<xs:element name="GraduationPlanReference" type="SLC-GraduationPlanReferenceType"/>
   		<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType"/>
   		<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType"/>
-  		<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType"/>
+  		<xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType"/>
+	  	<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType"/>
   		<xs:element name="ParentReference" type="SLC-ParentReferenceType"/>
   		<xs:element name="ProgramReference" type="SLC-ProgramReferenceType"/>
   		<xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType"/>
@@ -51,6 +52,7 @@
   		<xs:element name="SectionReference" type="SLC-SectionReferenceType"/>
   		<xs:element name="SessionReference" type="SLC-SessionReferenceType"/>
   		<xs:element name="StaffReference" type="SLC-StaffReferenceType"/>
+	  	<xs:element name="StateEducationAgencyReference" type="SLC-EducationalOrgReferenceType"/>
   		<xs:element name="StudentAcademicRecordReference" type="SLC-StudentAcademicRecordReferenceType"/>
   		<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType"/>
   		<xs:element name="StudentCompetencyObjectiveReference" type="SLC-StudentCompetencyObjectiveReferenceType"/>
@@ -1681,7 +1683,8 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-	</xs:complexType><xs:complexType name="SLC-AssessmentPeriodDescriptorReferenceType">
+	</xs:complexType>
+	<xs:complexType name="SLC-AssessmentPeriodDescriptorReferenceType">
 		<xs:annotation>
 			<xs:documentation>Changed to use a required SLC identity type.</xs:documentation>
 			<xs:appinfo>
@@ -1692,7 +1695,8 @@
 		<xs:sequence>
             <xs:element name="AssessmentPeriodDescriptorIdentity" type="SLC-AssessmentPeriodDescriptorIdentityType"/>
 		</xs:sequence>
-	</xs:complexType><xs:complexType name="SLC-AssessmentReferenceType">
+	</xs:complexType>
+	<xs:complexType name="SLC-AssessmentReferenceType">
 		<xs:annotation>
 			<xs:documentation>Changed to use a required SLC identity type.</xs:documentation>
 			<xs:appinfo>
@@ -1704,6 +1708,51 @@
 			<xs:extension base="ReferenceType">
 				<xs:sequence>
 					<xs:element name="AssessmentIdentity" type="SLC-AssessmentIdentityType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-AttendanceEventIdentityType">
+		<xs:annotation>
+            <xs:documentation>SLC addition.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			
+			<xs:element name="EventDate" type="xs:date">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>date</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StudentReference" type="SLC-StudentReferenceType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>studentId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>schoolId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>			
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-AttendanceEventReferenceType">
+		<xs:annotation>
+			<xs:documentation>SLC addition.</xs:documentation>
+			<xs:appinfo>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>assessmentEvent</sli:refType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="AttendanceEventIdentity" type="SLC-AttendanceEventIdentityType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1779,6 +1828,32 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-CompetencyLevelDescriptorIdentityType">
+		<xs:annotation>
+			<xs:documentation>SLC addition.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CompetencyLevelDescriptorCodeValue" type="CodeValue">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>codeValue</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-CompetencyLevelDescriptorReferenceType">
+		<xs:annotation>
+			<xs:documentation>SLC addition.</xs:documentation>
+			<xs:appinfo>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>competencyLevelDescriptor</sli:refType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CompetencyLevelDescriptorIdentity" type="SLC-CompetencyLevelDescriptorIdentityType"/>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-CohortIdentityType">
 		<xs:annotation>
@@ -1891,6 +1966,46 @@
 			<xs:element name="CourseIdentity" type="SLC-CourseIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="SLC-CourseTranscriptIdentityType">
+		<xs:annotation>
+			<xs:documentation>SLC addition.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CourseAttemptResult" type="CourseAttemptResultType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>courseAttemptResult</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CourseReference" type="SLC-CourseReferenceType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>courseId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StudentAcademicRecordReference" type="SLC-StudentAcademicRecordReferenceType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>studentAcademicRecord</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-CourseTranscriptReferenceType">
+		<xs:annotation>
+			<xs:documentation>SLC addition.</xs:documentation>
+			<xs:appinfo>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>courseTranscript</sli:refType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CourseTranscriptIdentity" type="SLC-CourseTranscriptIdentityType"/>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="SLC-DiplomaIdentityType">
 		<xs:annotation>
             <xs:documentation>New SLC identity type for Diploma, using natural keys
@@ -1927,6 +2042,39 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="DiplomaIdentity" type="SLC-DiplomaIdentityType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-DisciplineActionIdentityType">
+		<xs:annotation>
+			<xs:documentation>SLC addition.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DisciplineActionIdentifier" type="DisciplineActionIdentifier">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>disciplineActionIdentifier</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ResponsibilitySchoolReference" type="SLC-EducationalOrgReferenceType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>responsibilitySchoolId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-DisciplineActionReferenceType">
+		<xs:annotation>
+			<xs:appinfo>
+				<xs:documentation>SLC addition.</xs:documentation>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>disciplineAction</sli:refType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DisciplineActionIdentityType" type="SLC-DisciplineActionIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-DisciplineIncidentIdentityType">
@@ -2566,6 +2714,39 @@
 			<xs:element name="StudentAssessmentIdentity" type="SLC-StudentAssessmentIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="SLC-StudentAssessmentItemIdentityType">
+		<xs:annotation>
+			<xs:documentation>New SLC identity type for StudentAssessmentItem.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>studentAssessmentId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AssessmentItemReference" type="SLC-AssessmentItemReferenceType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>assessmentItemId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-StudentAssessmentItemReferenceType">
+		<xs:annotation>
+			<xs:documentation>New SLC natural reference type for StudentAssessmentItem.</xs:documentation>
+			<xs:appinfo>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>studentAssessmentItem</sli:refType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StudentAssessmentItemIdentityType" type="SLC-StudentAssessmentItemIdentityType"/>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="SLC-StudentCompetencyIdentityType">
 		<xs:annotation>
             <xs:documentation>New SLC identity type for StudentCompetency. Contains an embedded
@@ -2643,6 +2824,45 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="StudentCompetencyIdentity" type="SLC-StudentCompetencyIdentityType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-StudentGradebookEntryIdentityType">
+		<xs:annotation>
+            <xs:documentation>New SLC identity type for StudentGradebookEntry.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>		
+			<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType">
+				<xs:annotation>
+					<xs:documentation/>
+					<xs:appinfo>
+						<sli:keyFieldName>studentSectionAssociationId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GradebookEntryReference" type="SLC-GradebookEntryReferenceType">
+				<xs:annotation>
+					<xs:documentation/>
+					<xs:appinfo>
+						<sli:keyFieldName>gradebookEntryId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-StudentGradebookEntryReferenceType">
+		<xs:annotation>
+			<xs:documentation>New SLC natural reference type for StudentGradebookEntry.</xs:documentation>
+			<xs:appinfo>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>studentGradebookEntry</sli:refType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StudentGradebookEntryIdentity" type="SLC-StudentGradebookEntryIdentityType">
+				<xs:annotation>
+					<xs:documentation/>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentIdentityType">
