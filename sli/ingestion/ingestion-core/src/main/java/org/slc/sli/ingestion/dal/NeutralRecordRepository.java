@@ -37,6 +37,9 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.repository.MongoQueryConverter;
 import org.slc.sli.dal.repository.MongoRepository;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 
@@ -264,6 +267,13 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
     @Override
     public Iterator<NeutralRecord> findEach(String collectionName, Query query) {
+        return null;
+    }
+
+    @Override
+    public CascadeResult safeDelete(Entity entity, String collectionName, String id, Boolean cascade, Boolean dryrun,
+            Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
         return null;
     }
 }

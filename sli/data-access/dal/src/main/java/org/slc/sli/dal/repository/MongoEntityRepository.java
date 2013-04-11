@@ -489,6 +489,35 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return result;
     }
 
+    @Override
+    public CascadeResult safeDelete(Entity entity, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        String entityType = entity.getEntityId();
+        // LOG.info("*** DELETING object '" + id + "' of type '" + collectionName + "'");
+        DELETION_LOG.info("Delete request for entity:" + entityType + " collection: " + collectionName + " _id:" + id + " cascade: " + cascade + " dryrun: " + dryrun);
+        CascadeResult result = null;
+        Set<String> deletedIds = new HashSet<String>();
+
+        // Always do a dryrun first
+        result = safeDeleteHelper(entityType, collectionName, id, cascade, Boolean.TRUE, maxObjects, access, 1, deletedIds);
+
+        if (result.getStatus() == CascadeResult.Status.SUCCESS) {
+            if (maxObjects != null && result.getnObjects() > maxObjects) {
+                // We have exceeded max affected objects
+                String message = "Maximum affected objects exceeded when deleting custom entities for entity with id " + id + " and type " + entityType;
+                result.setStatus(CascadeResult.Status.MAX_OBJECTS_EXCEEDED);
+            } else if (! dryrun) {
+                // Do the actual deletes with some confidence
+                deletedIds.clear();
+                result = safeDeleteHelper(entityType, collectionName, id, cascade, Boolean.FALSE, maxObjects, access, 1, deletedIds);
+                result.setDeletedIds(deletedIds);
+
+                // Delete denormalized stuff
+                denormalizer.deleteDenormalizedReferences(entityType, id);
+            }
+        }
+
+        return result;
+    }
     /**
      *  Recursive helper used to cascade deletes to referencing entities
      *

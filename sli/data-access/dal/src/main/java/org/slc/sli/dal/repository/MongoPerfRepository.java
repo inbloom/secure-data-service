@@ -32,7 +32,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.dal.convert.IdConverter;
-
 import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.MongoEntity;
@@ -222,6 +221,13 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
 
     @Override
     public Iterator<Entity> findEach(String collectionName, Query query) {
+        return null;
+    }
+
+    @Override
+    public CascadeResult safeDelete(org.slc.sli.domain.Entity entity, String collectionName, String id,
+            Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
         return null;
     }
 }
