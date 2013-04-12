@@ -61,25 +61,28 @@ public class BulkExtractMongoDA {
      * @param tenantId tenant id
      * @param path  path to the extracted file.
      * @param date  the date when the bulk extract was created
+     * @param appId the id for the application
      */
-    public void updateDBRecord(String tenantId, String path, Date date) {
-        updateDBRecord(tenantId, path, date, false);
+    public void updateDBRecord(String tenantId, String path, String appId, Date date) {
+        updateDBRecord(tenantId, path, appId, date, false);
     }
 
     /** Insert a new record is the tenant doesn't exist. Update if existed
      * @param tenantId tenant id
      * @param path  path to the extracted file.
      * @param date  the date when the bulk extract was created
+     * @param appId the id for the application
      * @param isDelta TODO
      */
-    public void updateDBRecord(String tenantId, String path, Date date, boolean isDelta) {
+    public void updateDBRecord(String tenantId, String path, String appId, Date date,  boolean isDelta) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(TENANT_ID, tenantId);
         body.put(FILE_PATH, path);
         body.put(DATE, date);
         body.put(IS_DELTA, Boolean.toString(isDelta));
+        body.put(APP_ID, appId);
 
-        BulkExtractEntity bulkExtractEntity = new BulkExtractEntity(body, tenantId);
+        BulkExtractEntity bulkExtractEntity = new BulkExtractEntity(body, tenantId + "-" + appId);
 
         entityRepository.update(BULK_EXTRACT_COLLECTION, bulkExtractEntity, false);
 
@@ -98,10 +101,8 @@ public class BulkExtractMongoDA {
             Entity app = cursor.next();
             String appId = (String) app.getBody().get(APP_ID);
             appKeys.putAll(getClientIdAndPublicKey(appId));
-            LOG.info("app: {}, key: {}", appId, getClientIdAndPublicKey(appId).get(appId));
         }
 
-        LOG.info("appKeys size is {}", appKeys.size());
         return appKeys;
     }
 

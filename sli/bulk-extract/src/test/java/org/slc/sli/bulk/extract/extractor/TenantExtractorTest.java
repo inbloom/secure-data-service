@@ -76,7 +76,7 @@ public class TenantExtractorTest {
         Map<String, File> files = new HashMap<String, File>();
         files.put("test", file);
         ManifestFile metadataFile = Mockito.mock(ManifestFile.class);
-        Mockito.doNothing().when(metadataFile).generateMetaFile(Mockito.any(DateTime.class));
+        Mockito.doNothing().when(metadataFile).generateMetaFile(Matchers.any(DateTime.class));
 
         archiveFile = Mockito.mock(ExtractFile.class);
         Mockito.doNothing().when(archiveFile).generateArchive();
@@ -106,7 +106,7 @@ public class TenantExtractorTest {
             Mockito.verify(ex, Mockito.times(1)).extractEntities("Midgar", archiveFile, collection);
         }
 
-        Mockito.verify(bulkExtractMongoDA, Mockito.times(1)).updateDBRecord(Matchers.anyString(), Matchers.anyString(), Matchers.any(Date.class), Mockito.eq(false));
+        Mockito.verify(bulkExtractMongoDA, Mockito.times(1)).updateDBRecord(Matchers.anyString(), Matchers.anyString(),Matchers.anyString(), Matchers.any(Date.class), Matchers.eq(false));
     }
 
 
