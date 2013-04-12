@@ -215,7 +215,7 @@ Scenario: Delete Orphan School Reference with cascade = false
         | recordHash                                |        -1|
         | custom_entities                           |        -3|
 
-Scenario: Delete School with cascade = false and force = true, log violations = true
+Scenario: Delete School with cascade = false, logViolations = true and default settings (Confirm that by default force = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -285,7 +285,7 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
         | educationOrganization                     |        -1|
         | recordHash                                |        -1|
 
-Scenario: Delete School with cascade = false and force = true, log violations = true
+Scenario: Delete School with force = true, logViolations = true and default settings (Confirm that by default cascade = false)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported

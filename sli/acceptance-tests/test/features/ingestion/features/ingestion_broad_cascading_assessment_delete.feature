@@ -140,8 +140,7 @@ Scenario: Delete Orphan Assessment Reference with cascade = false
 	|collection                        |delta|
 	|assessment                        |    -1|
 
-@wip 
-Scenario: Delete Assessment with cascade = false, force = true, logviolations = true
+Scenario: Delete Assessment with cascade = false, force = true, logViolations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -177,10 +176,9 @@ Scenario: Delete Assessment with cascade = false, force = true, logviolations = 
 	|collection                        |delta|
 	|assessment                        |   -1|
 	|assessmentItem                    |   -1|
-	|objectiveAssessment               |   -1|
-	|recordHash                        |   -3|	
+	|objectiveAssessment               |   -4|
+	
 
-@wip
 Scenario: Delete Assessment Reference with cascade = false, force = true, logviolations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -217,5 +215,4 @@ Scenario: Delete Assessment Reference with cascade = false, force = true, logvio
 	|collection                        |delta|
 	|assessment                        |   -1|
 	|assessmentItem                    |   -1|
-	|objectiveAssessment               |   -1|
-	|recordHash                        |   -3|	
+	|objectiveAssessment               |   -4|
