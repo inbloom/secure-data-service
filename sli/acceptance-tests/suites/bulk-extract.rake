@@ -23,16 +23,18 @@ task :bulkExtractCleanup do
 end
 
 desc "Trigger ingestion and extract of the ingestion"
-task :bulkExtractSetup do
+task :bulkExtractSetup => [:realmInit] do
   Rake::Task["bulkExtractCleanup"].execute
   Rake::Task["ingestionSmokeTests"].execute
+  Rake::Task["addBootstrapAppAuths"].execute
+  allLeaAllowApp("SDK Sample")  
   @tags = ["~@wip", "~@sandbox"]
 
 end
 
 desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSmokeTests do
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC      
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractStudentTest"].execute  
 end
@@ -84,12 +86,11 @@ task :bulkExtractDeltasTest do
 end
 
 desc "Run RC E2E Tests in Production mode"
-task :bulkExtractTests => [:realmInit] do
+task :bulkExtractTests do
   CLEAN_EXTRACT_LOC = false
   TRIGGER_NEW_EXTRACT = false
 
   Rake::Task["bulkExtractSetup"].execute
-  Rake::Task["addBootstrapAppAuths"].execute
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractSimpleEntitiesTest"].execute
   Rake::Task["bulkExtractSuperdocTest"].execute  

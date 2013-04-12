@@ -201,6 +201,25 @@ When /^I retrieve the path to the extract file for the tenant "(.*?)"$/ do |tena
 
 end
 
+When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+  @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb = @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+
+  match =  @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId})
+
+  assert(match !=nil, "Database was not updated with bulk extract file location")
+  
+  @filePath = match['body']['path']
+  @unpackDir = File.dirname(@filePath) + '/unpack'
+  @tenant = tenant
+  
+  file = File.open(@filepath, 'rb') {|f| f.read}
+  decryptFile(file)
+  File.open(@filePath, 'w') {|f| f.write(@plain) }  
+
+end
+
 When /^I verify that an extract tar file was created for the tenant "(.*?)"$/ do |tenant|
 
 	puts "Extract FilePath: #{@filePath}"
@@ -429,3 +448,28 @@ def compareToApi(collection, collFile)
   assert(found, "No API records for #{collection} were fetched successfully.")
 end
 
+def decryptFile(file)
+  private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
+  assert(file.length >= 512)
+  encryptediv = file[0,256] 
+  encryptedsecret = file[256,256]
+  encryptedmessage = file[512,file.length - 512]
+ 
+  decrypted_iv = private_key.private_decrypt(encryptediv)
+  decrypted_secret = private_key.private_decrypt(encryptedsecret)
+ 
+  aes = OpenSSL::Cipher.new('AES-128-CBC')
+  aes.decrypt
+  aes.key = decrypted_secret
+  aes.iv = decrypted_iv
+  @plain = aes.update(encryptedmessage) + aes.final
+  if $SLI_DEBUG 
+    puts("Final is #{aes.final}")
+    puts("IV is #{encryptediv}")
+    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
+    puts("Encrypted message is #{encryptedmessage}")
+    puts("Cipher is #{aes}")
+    puts("Plain text length is #{@plain.length} and it is #{@plain}")
+    puts "length #{@res.body.length}"
+  end
+end
