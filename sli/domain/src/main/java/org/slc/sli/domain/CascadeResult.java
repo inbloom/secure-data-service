@@ -44,7 +44,8 @@ public class CascadeResult {
     private int	   depth;			// Furthest depth examined
     private Status status;			// Current/overall status of the operation
 
-    private List<CascadeResultError> errors;   // list of errors encountered during safe delete
+    private List<CascadeResultError> errors;     // list of errors encountered during safe delete
+    private List<CascadeResultError> warnings;   // list of warnings encountered during safe delete (non-fatal)
 
     private Set<String> deletedIds;                       // ids of deleted entities - would have been for dryrun
     private Set<String> referenceFieldPatchedIds;         // ids of entities with reference fields patched - would have been for dryrun
@@ -78,12 +79,18 @@ public class CascadeResult {
         referenceFieldPatchedIds = new HashSet<String>();
         referenceFieldRemovedIds = new HashSet<String>();
         errors = new ArrayList<CascadeResultError>();
+        warnings = new ArrayList<CascadeResultError>();
     }
 
     public boolean addError(int errorDepth, String message, CascadeResultError.ErrorType errorType, String objectType, String objectId) {
         status = Status.ERROR;    // set the overall result status to ERROR if any error is encountered
         CascadeResultError error = new CascadeResultError(errorDepth, message, errorType, objectType, objectId);
         return errors.add(error);
+    }
+
+    public boolean addWarning(int warningDepth, String message, CascadeResultError.ErrorType warningType, String objectType, String objectId) {
+        CascadeResultError warning = new CascadeResultError(warningDepth, message, warningType, objectType, objectId);
+        return warnings.add(warning);
     }
 
     public List<CascadeResultError> getErrors() {
@@ -96,6 +103,10 @@ public class CascadeResult {
 
     public void setDeletedIds(Set<String> deletedIds) {
         this.deletedIds = deletedIds;
+    }
+
+    public List<CascadeResultError> getWarnings() {
+        return warnings;
     }
 
     public Set<String> getReferenceFieldPatchedIds() {
