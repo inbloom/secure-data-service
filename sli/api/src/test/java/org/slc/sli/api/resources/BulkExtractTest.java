@@ -43,6 +43,9 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 
+import com.sun.jersey.core.spi.factory.ResponseImpl;
+import com.sun.jersey.core.util.Base64;
+
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -57,13 +60,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
@@ -72,8 +68,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import com.sun.jersey.core.spi.factory.ResponseImpl;
-import com.sun.jersey.core.util.Base64;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Test for support BulkExtract
@@ -143,7 +144,7 @@ public class BulkExtractTest {
     public void testGetSampleExtract() throws Exception {
         injector.setEducatorContext();
 
-        ResponseImpl res = (ResponseImpl) bulkExtract.get();
+        ResponseImpl res = (ResponseImpl) bulkExtract.get(null);
         assertEquals(200, res.getStatus());
         MultivaluedMap<String, Object> headers = res.getMetadata();
         assertNotNull(headers);
@@ -180,7 +181,7 @@ public class BulkExtractTest {
         Mockito.when(mockBody.get("date")).thenReturn("2013-05-04");
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
-        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant();
+        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant(null);
         assertEquals(404, res.getStatus());
     }
 
@@ -215,7 +216,7 @@ public class BulkExtractTest {
       }
 
 
-      Response res = bulkExtract.getDelta(null);
+      Response res = bulkExtract.getDelta(null, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -306,7 +307,7 @@ public class BulkExtractTest {
         when(mockEntity.getBody()).thenReturn(body);
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        bulkExtract.getTenant();
+        bulkExtract.getTenant(null);
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -319,6 +320,6 @@ public class BulkExtractTest {
         when(mockEntity.getBody()).thenReturn(body);
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        bulkExtract.getTenant();
+        bulkExtract.getTenant(null);
     }
 }

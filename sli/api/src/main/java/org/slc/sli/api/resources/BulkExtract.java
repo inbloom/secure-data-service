@@ -43,6 +43,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -52,14 +54,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +62,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * The Bulk Extract Endpoints.
@@ -108,7 +111,7 @@ public class BulkExtract {
     @GET
     @Path("extract")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response get() throws Exception {
+    public Response get(@Context HttpHeaders headers) throws Exception {
         LOG.info("Received request to stream sample bulk extract...");
 
         final InputStream is = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
@@ -141,7 +144,7 @@ public class BulkExtract {
     @GET
     @Path("extract/tenant")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getTenant() throws Exception {
+    public Response getTenant(@Context HttpHeaders headers) throws Exception {
         info("Received request to stream tenant bulk extract...");
         checkApplicationAuthorization(null);
 
@@ -161,7 +164,7 @@ public class BulkExtract {
     @GET
     @Path("deltas/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getDelta(@PathParam("date") String date) throws Exception {
+    public Response getDelta(@Context HttpHeaders headers, @PathParam("date") String date) throws Exception {
         LOG.info("Retrieving delta bulk extract");
         return getExtractResponse(date);
     }
