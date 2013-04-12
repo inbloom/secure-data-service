@@ -54,9 +54,9 @@ public class BulkExtractMongoDATest {
 
         final String tenantId = "tenantID";
         final String path = "/test/bulkExtract";
+        final String app = "testApp";
 
-
-        bulkExtractMongoDA.updateDBRecord(tenantId, path, new Date(), false);
+        bulkExtractMongoDA.updateDBRecord(tenantId, path, app, new Date(), false);
 
         Mockito.verify(mongoEntityRepository, Mockito.times(1)).update(Matchers.eq(BulkExtractMongoDA.BULK_EXTRACT_COLLECTION), Matchers.any(BulkExtractEntity.class), Matchers.eq(false));
 

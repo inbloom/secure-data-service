@@ -22,22 +22,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.InvalidKeyException;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.Map;
 import java.util.Set;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.CipherOutputStream;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -50,8 +37,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
@@ -178,8 +164,14 @@ public class BulkExtract {
      * @throws Exception
      */
     private Response getExtractResponse(String deltaDate) throws Exception {
-        final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
-        ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate);
+
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Entity application = getApplication(auth);
+
+        String appId = (String) application.getBody().get("_id");
+
+        ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate, appId);
+
         if (bulkExtractFileEntity == null) {
             // return 404 if no bulk extract support for that tenant
             LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
@@ -197,29 +189,11 @@ public class BulkExtract {
         String lastModified = bulkExtractFileEntity.getLastModified();
 
         try {
-        	final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             final InputStream is = new FileInputStream(bulkExtractFile);
             StreamingOutput out = new StreamingOutput() {
-                @Override
-                public void write(OutputStream output) throws IOException, WebApplicationException {
-                    int n;
-                    byte[] buffer = new byte[1024];
-
-                    byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
-                    byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
-
-                    PublicKey publicKey = getApplicationPublicKey(auth);
-                    byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
-                    byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
-
-                    output.write(encryptedIV);
-                    output.write(encryptedSecret);
-
-                    CipherOutputStream stream = new CipherOutputStream(output, cipherSecretKeyPair.getLeft());
-                    while ((n = is.read(buffer)) > -1) {
-                        stream.write(buffer, 0, n);
-                    }
-                    stream.close();
+            @Override
+            public void write(OutputStream output) throws IOException, WebApplicationException {
+                IOUtils.copyLarge(is, output);
                 }
             };
             ResponseBuilder builder = Response.ok(out);
@@ -231,9 +205,7 @@ public class BulkExtract {
         }
     }
 
-    private PublicKey getApplicationPublicKey(Authentication authentication) throws IOException {
-        PublicKey publicKey = null;
-
+    private Entity getApplication(Authentication authentication) {
         if (!(authentication instanceof OAuth2Authentication)) {
             throw new AccessDeniedException("Not logged in with valid oauth context");
         }
@@ -245,43 +217,29 @@ public class BulkExtract {
         final Entity entity = mongoEntityRepository.findOne(EntityNames.APPLICATION, query);
 
         if(entity == null) {
-        	throw new AccessDeniedException("Could not find application with client_id=" + clientId);
+            throw new AccessDeniedException("Could not find application with client_id=" + clientId);
         } else if (entity.getBody().get("public_key") == null) {
-            throw new AccessDeniedException("Missing public_key attribute on application entity. client_id=" + clientId);
-        }
-
-        String key = (String) entity.getBody().get("public_key");
-
-
-
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.decodeBase64(key));
-        try {
-            KeyFactory kf = KeyFactory.getInstance("RSA");
-            publicKey = kf.generatePublic(spec);
-        } catch (NoSuchAlgorithmException e) {
-            LOG.error("Exception: NoSuchAlgorithmException {}", e);
-            throw new IOException(e);
-        } catch (InvalidKeySpecException e) {
-            LOG.error("Exception: InvalidKeySpecException {}", e);
-            throw new IOException(e);
-        }
-
-        return publicKey;
-}
+          throw new AccessDeniedException("Missing public_key attribute on application entity. client_id=" + clientId);
+      }
+        return entity;
+    }
 
     /**
      * Get the bulk extract file
      *
      * @param deltaDate
      *            the date of the delta, or null to retrieve a full extract
+     * @param appId
      * @return
      */
-    private ExtractFile getBulkExtractFile(String deltaDate) {
+    private ExtractFile getBulkExtractFile(String deltaDate, String appId) {
         boolean isDelta = deltaDate != null;
         initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
         query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
+        query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
+
         if (isDelta) {
             DateTime d = ISODateTimeFormat.basicDate().parseDateTime(deltaDate);
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.toDate()));
@@ -297,27 +255,6 @@ public class BulkExtract {
                 .get(BULK_EXTRACT_FILE_PATH).toString());
     }
 
-    private byte[] encryptDataWithRSAPublicKey(byte[] rawData, PublicKey publicKey) {
-        byte[] encryptedData = null;
-
-        try {
-            Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-            encryptedData = cipher.doFinal(rawData);
-        } catch (NoSuchAlgorithmException e) {
-            LOG.error("Exception: NoSuchAlgorithmException {}", e);
-        } catch (NoSuchPaddingException e) {
-            LOG.error("Exception: NoSuchPaddingException {}", e);
-        } catch (InvalidKeyException e) {
-            LOG.error("Exception: InvalidKeyException {}", e);
-        } catch (BadPaddingException e) {
-            LOG.error("Exception: BadPaddingException {}", e);
-        } catch (IllegalBlockSizeException e) {
-            LOG.error("Exception: IllegalBlockSizeException {}", e);
-        }
-
-        return encryptedData;
-    }
 
     /**
      * @throws AccessDeniedException
@@ -347,15 +284,6 @@ public class BulkExtract {
      */
     public void setMongoEntityRepository(Repository<Entity> mongoEntityRepository) {
         this.mongoEntityRepository = mongoEntityRepository;
-    }
-
-    private Pair<Cipher, SecretKey> getCiphers() throws Exception {
-        SecretKey secret = KeyGenerator.getInstance("AES").generateKey();
-
-        Cipher encrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        encrypt.init(Cipher.ENCRYPT_MODE, secret);
-
-        return Pair.of(encrypt, secret);
     }
 
     /**
