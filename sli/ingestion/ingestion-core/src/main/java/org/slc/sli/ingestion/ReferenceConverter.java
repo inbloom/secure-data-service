@@ -36,7 +36,10 @@ public enum ReferenceConverter {
     STAFF( "StaffReference", "staff"),
     STUDENT( "StudentReference", "student" ),
     STUDENTASSESSMENT("StudentAssessmentReference","studentAssessment"),
-    TEACHER("TeacherReference","teacher");
+    TEACHER("TeacherReference","teacher"),
+    STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociationReference","staffEducationOrgAssignmentAssociation"),
+    TEACHERSCHOOlASSOCIATION("TeacherSchoolAssociationReference","teacherSchoolAssociation"),
+    TEACHERSECTIONASSOCIATION("TeacherSectionAssociationReference","teacherSectionAssociation");
 
 
     /*

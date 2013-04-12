@@ -20,8 +20,8 @@ Scenario: Delete Teacher  with cascade
 	And I should not see "fe472294f0e40fd428b1a67b9765360004562bab_id" in the "Midgar" database
     And I should not see any entity mandatorily referring to "fe472294f0e40fd428b1a67b9765360004562bab_id" in the "Midgar" database
 	And I should see entities optionally referring to "fe472294f0e40fd428b1a67b9765360004562bab_id" be updated in the "Midgar" database	
-	
-Scenario: Delete Teacher with cascade = false	
+
+Scenario: Delete Teacher with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -64,8 +64,8 @@ Scenario: Delete Teacher with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta  |
       |staff                                  |   0  |
-	
-	
+
+
 	Scenario: Delete Orphan Teacher with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -86,8 +86,8 @@ Scenario: Delete Teacher with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | staff                                     |        -1|       
-        | recordHash                                |        -1| 
-        
+        | recordHash                                |        -1|
+
 
   Scenario: Delete Orphan Teacher Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -109,4 +109,92 @@ Scenario: Delete Teacher with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | staff                                     |        -1|
-        | recordHash                                |        -1| 
+        | recordHash                                |        -1|
+
+  Scenario: Delete Teacher with cascade = false, force = "true"
+    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And the "Midgar" tenant db is empty
+    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
+    Then there exist "1" "staff" records like below in "Midgar" tenant. And I save this query as "StaffQ"
+      |field                                        |value                                         |
+      |_id                                          |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "1" "disciplineAction" records like below in "Midgar" tenant. And I save this query as "DisciplineActionQ"
+      |field                                        |value                                         |
+      |body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "4" "disciplineIncident" records like below in "Midgar" tenant. And I save this query as "DisciplineIncidentQ"
+      |field                                        |value                                         |
+      |body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "1" "staffCohortAssociation" records like below in "Midgar" tenant. And I save this query as "StaffCohortAssociationQ"
+      |field                                        |value                                         |
+      |body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "1" "staffProgramAssociation" records like below in "Midgar" tenant. And I save this query as "StaffProgramAssociationQ"
+      |field                                        |value                                         |
+      |body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "1" "teacherSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "teacherSchoolAssociationQ"
+      |field                                        |value                                         |
+      |body.teacherId                               |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "teacherSectionAssociationQ"
+      |field                                        |value                                         |
+      |teacherSectionAssociation.body.teacherId     |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    And I save the collection counts in "Midgar" tenant
+    And I post "ForceTeacherDelete.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "ForceTeacherDelete.zip" is completed in database
+    And I should see "Processed 1 records." in the resulting batch job file
+    And I should not see an error log file created
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeStaffAssociation.xml"
+    And I re-execute saved query "StaffQ" to get "0" records
+    And I re-execute saved query "DisciplineActionQ" to get "1" records
+    And I re-execute saved query "DisciplineIncidentQ" to get "4" records
+    And I re-execute saved query "StaffCohortAssociationQ" to get "1" records
+    And I re-execute saved query "StaffProgramAssociationQ" to get "1" records
+    And I re-execute saved query "teacherSchoolAssociationQ" to get "1" records
+    And I re-execute saved query "teacherSectionAssociationQ" to get "1" records
+    And I see that collections counts have changed as follows in tenant "Midgar"
+      |collection                             |delta|
+      |staff                                  |   -1|
+      |recordHash                             |   -1|
+
+  Scenario: Delete Teacher Reference with cascade = false, force = "true"
+    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And the "Midgar" tenant db is empty
+    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
+    Then there exist "1" "staff" records like below in "Midgar" tenant. And I save this query as "StaffQ"
+      |field                                        |value                                         |
+      |_id                                          |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "1" "disciplineAction" records like below in "Midgar" tenant. And I save this query as "DisciplineActionQ"
+      |field                                        |value                                         |
+      |body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "4" "disciplineIncident" records like below in "Midgar" tenant. And I save this query as "DisciplineIncidentQ"
+      |field                                        |value                                         |
+      |body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "1" "staffCohortAssociation" records like below in "Midgar" tenant. And I save this query as "StaffCohortAssociationQ"
+      |field                                        |value                                         |
+      |body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "1" "staffProgramAssociation" records like below in "Midgar" tenant. And I save this query as "StaffProgramAssociationQ"
+      |field                                        |value                                         |
+      |body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "1" "teacherSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "teacherSchoolAssociationQ"
+      |field                                        |value                                         |
+      |body.teacherId                               |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "teacherSectionAssociationQ"
+      |field                                        |value                                         |
+      |teacherSectionAssociation.body.teacherId     |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    And I save the collection counts in "Midgar" tenant
+    And I post "ForceTeacherRefDelete.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "ForceTeacherRefDelete.zip" is completed in database
+    And I should see "Processed 1 records." in the resulting batch job file
+    And I should not see an error log file created
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeStaffAssociation.xml"
+    And I re-execute saved query "StaffQ" to get "0" records
+    And I re-execute saved query "DisciplineActionQ" to get "1" records
+    And I re-execute saved query "DisciplineIncidentQ" to get "4" records
+    And I re-execute saved query "StaffCohortAssociationQ" to get "1" records
+    And I re-execute saved query "StaffProgramAssociationQ" to get "1" records
+    And I re-execute saved query "teacherSchoolAssociationQ" to get "1" records
+    And I re-execute saved query "teacherSectionAssociationQ" to get "1" records
+    And I see that collections counts have changed as follows in tenant "Midgar"
+      |collection                             |delta|
+      |staff                                  |   -1|
+      |recordHash                             |   -1|
