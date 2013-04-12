@@ -27,6 +27,10 @@ When /^I make API call to retrieve sampled bulk extract file$/ do
   restHttpGet("/bulk/extract")
 end
 
+When /^I make API call to retrieve sampled bulk extract file headers$/ do
+  restHttpHead("/bulk/extract")
+end
+
 When /^I make bulk extract API call$/ do
   restHttpGet("/bulk/extract/tenant")
 end
@@ -127,9 +131,27 @@ When /^the return code is 200 I get expected tar downloaded$/ do
     end
 end
 
+When /^the return code is 200$/ do
+    if @res.code == 200
+	   puts "@res.headers: #{@res.headers}"
+	   puts "@res.code: #{@res.code}"
+	
+	   EXPECTED_CONTENT_TYPE = 'application/x-tar'
+	   @content_disposition = @res.headers[:content_disposition]
+	   @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
+	   @last_modified = @res.headers[:last_modified]
+	
+	   puts "content-disposition: #{@content_disposition}"
+	   puts "download file name: #{@zip_file_name}"
+	   puts "last-modified: #{@last_modified}"
+	
+	   assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
+    end
+end
+
 Then /^I check the http response headers$/ do  
 
-  if @is_sampled_file
+  if @zip_file_name == "sample-extract.tar"
     EXPECTED_LAST_MODIFIED = "Not Specified"
     assert(@res.headers[:last_modified].to_s==EXPECTED_LAST_MODIFIED, "Last Modified date is wrong! Actual: #{@res.headers[:last_modified]} Expected: #{EXPECTED_LAST_MODIFIED}" )
   elsif @res.code == 200

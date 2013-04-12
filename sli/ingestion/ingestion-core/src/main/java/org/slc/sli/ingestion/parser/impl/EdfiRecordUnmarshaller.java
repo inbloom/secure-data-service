@@ -68,6 +68,8 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     private static final String ACTION_TYPE = "ActionType";
     private static final String CASCADE = "Cascade";
     private static final String ACTION = "Action";
+    private static final String FORCE = "Force";
+    private static final String LOG_VIOLATIONS = "LogViolations";
 
     private TypeProvider typeProvider;
 
@@ -254,6 +256,16 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
                  */
                 doAction = ActionVerb.NONE;
                 LOG.warn("Could not get ActionVerb for {}", action);
+            }
+            Map<String, String> actionAttributes = new HashMap<String, String>();
+            doAction.setAttributes(actionAttributes);
+            String force = attributes.getValue(FORCE);
+            String logViolations = attributes.getValue(LOG_VIOLATIONS);
+            if(force != null) {
+                actionAttributes.put(FORCE, force);
+            }
+            if(logViolations != null) {
+                actionAttributes.put(LOG_VIOLATIONS, logViolations);
             }
         }
 
