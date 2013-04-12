@@ -285,7 +285,7 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
         | educationOrganization                     |        -1|
         | recordHash                                |        -1|
 
-Scenario: Delete School with cascade = false and force = true, log violations = true
+Scenario: Delete School Ref with cascade = false and force = true, log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported

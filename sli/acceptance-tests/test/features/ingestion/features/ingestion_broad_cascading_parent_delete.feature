@@ -20,7 +20,7 @@ Scenario: Delete Parent with cascade
     And I should not see any entity mandatorily referring to "1b4aa93f01d11ad51072f3992583861ed080f15c_id" in the "Midgar" database
 	And I should see entities optionally referring to "1b4aa93f01d11ad51072f3992583861ed080f15c_id" be updated in the "Midgar" database
 	
-
+@wip
 Scenario: Delete Parent with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -45,7 +45,7 @@ Scenario: Delete Parent with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | educationOrganization                     |         0|
-
+@wip
 Scenario: Delete Parent with cascade = false with ref
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -70,7 +70,7 @@ Scenario: Delete Parent with cascade = false with ref
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | educationOrganization                     |         0|
-       
+ @wip      
 Scenario: Delete Orphan Parent with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -93,7 +93,7 @@ Scenario: Delete Orphan Parent with cascade = false
         | parent                                    |        -1|       
         | recordHash                                |        -1|
 
-
+@wip
 Scenario: Delete Orphan Parent Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -115,7 +115,7 @@ Scenario: Delete Orphan Parent Reference with cascade = false
         | collection                                |     delta|
         | parent                                    |        -1|       
         | recordHash                                |        -1|
-  @wip      
+      
  Scenario: Delete Parent with cascade = false and force = true, log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -137,14 +137,14 @@ Scenario: Delete Orphan Parent Reference with cascade = false
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
-     And I should see "CORE_0066" in the resulting error log file
-   	And I should not see a warning log file created
-    And I re-execute saved query "parent" to get "1" records 
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentParent.xml"
+   	And I should not see an error log file created
+    And I re-execute saved query "parent" to get "0" records 
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | parent                                    |        -1|       
         | recordHash                                |        -1|
-   @wip     
+        
    Scenario: Delete Parent with Ref cascade = false and force = true, log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -164,11 +164,10 @@ Scenario: Delete Orphan Parent Reference with cascade = false
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
-    And I should see "All records processed successfully." in the resulting batch job file
-    And I should see "Processed 1 records." in the resulting batch job file
-     And I should see "CORE_0066" in the resulting error log file
-   	And I should not see a warning log file created
-    And I re-execute saved query "parent" to get "1" records 
+     And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentParent.xml"
+   	And I should not see an error log file created
+    And I re-execute saved query "parent" to get "0" records 
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | parent                                    |        -1|       
