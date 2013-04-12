@@ -271,8 +271,8 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     @Override
-    public CascadeResult safeDelete(Entity entity, String collectionName, String id, Boolean cascade, Boolean dryrun,
-            Integer maxObjects, AccessibilityCheck access) {
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
         // TODO Auto-generated method stub
         return null;
     }
