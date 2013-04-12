@@ -233,6 +233,26 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+
+def restTls(url, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into GET was nil")
+
+  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path('../keys/certificate.crt', __FILE__)
+  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path('../keys/privateKey.key', __FILE__)
+
+  urlHeader = makeUrlAndHeaders('get',url,sessionId,format)
+
+  puts urlHeader[:url]
+  puts urlHeader[:headers]
+  
+  @res = RestClient::Request.execute(:method => :get, :url => urlHeader[:url], :headers => urlHeader[:headers]) {|response, request, result| response }
+#, :ssl_client_cert => client_cert, :ssl_client_key => private_key
+  #puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
+
+
 def restHttpGetAbs(url, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into GET was nil")
