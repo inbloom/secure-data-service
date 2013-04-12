@@ -15,9 +15,11 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -27,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 
 /**
  * Bulk extractor to extract data for a tenant.
@@ -57,6 +60,10 @@ public class TenantExtractor{
      */
     public void execute(String tenant, ExtractFile extractFile, DateTime startTime) {
         Set<String> uniqueCollections = new HashSet<String>(entitiesToCollections.values());
+
+        TenantContext.setTenantId(tenant);
+        Map<String, String> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
+        extractFile.setClientKeys(appPublicKeys);
         for (String collection : uniqueCollections) {
             entityExtractor.extractEntities(tenant, extractFile, collection);
             extractFile.closeWriters();
@@ -71,11 +78,13 @@ public class TenantExtractor{
 
         try {
             extractFile.generateArchive();
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.error("Error generating archive file: {}", e.getMessage());
         }
 
-        bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime.toDate(), false);
+        for(Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
+            bulkExtractMongoDA.updateDBRecord(tenant + "-" + archiveFile.getKey(), archiveFile.getValue().getAbsolutePath(), startTime.toDate(), false);
+        }
     }
 
     /**

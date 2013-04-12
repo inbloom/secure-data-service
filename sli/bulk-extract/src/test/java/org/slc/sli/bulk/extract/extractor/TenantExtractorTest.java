@@ -19,7 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -27,12 +29,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
 
 /**
@@ -70,12 +73,14 @@ public class TenantExtractorTest {
         collections.add("staffEducationOrganizationAssociation");
 
         File file = Mockito.mock(File.class);
+        Map<String, File> files = new HashMap<String, File>();
+        files.put("test", file);
         ManifestFile metadataFile = Mockito.mock(ManifestFile.class);
         Mockito.doNothing().when(metadataFile).generateMetaFile(Mockito.any(DateTime.class));
 
         archiveFile = Mockito.mock(ExtractFile.class);
         Mockito.doNothing().when(archiveFile).generateArchive();
-        Mockito.when(archiveFile.getArchiveFile()).thenReturn(file);
+        Mockito.when(archiveFile.getArchiveFiles()).thenReturn(files);
         Mockito.when(archiveFile.getManifestFile()).thenReturn(metadataFile);
         Mockito.when(file.getAbsolutePath()).thenReturn(extractDir+"/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a");
 

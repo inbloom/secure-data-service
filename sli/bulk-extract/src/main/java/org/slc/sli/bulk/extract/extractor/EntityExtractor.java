@@ -29,7 +29,6 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
@@ -60,7 +59,6 @@ public class EntityExtractor{
      */
     public void extractEntities(String tenant, ExtractFile archiveFile, String collectionName) {
         try {
-            TenantContext.setTenantId(tenant);
             Iterator<Entity> cursor = entityRepository.findEach(collectionName, new Query());
             if (cursor.hasNext()) {
                 LOG.info("Extracting from " + collectionName);
@@ -164,7 +162,7 @@ public class EntityExtractor{
         public String toString() {
             Object[] collArguments = { collectionName, new Long(numberOfEntitiesWritten)};
             StringBuffer sb = new StringBuffer(MessageFormat.format("{1,number,#} records for {0}", collArguments));
-            
+
             for (Map.Entry<String, Long> entry : embeddedDocWrittenRecords.entrySet()) {
                 Object[] embeddedArguments = { entry.getKey(), entry.getValue()};
                 sb.append(MessageFormat.format("\n\t{1,number,#} embedded records for {0}", embeddedArguments));
