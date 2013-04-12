@@ -16,7 +16,7 @@
 
 package org.slc.sli.bulk.extract.context.resolver;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +47,11 @@ public class EdOrgContextResolverFactory {
      * belong to anybody
      */
     private static class NullContextResolver implements ContextResolver {
-        
+      
         // No op null resolver
         @Override
         public Set<String> findGoverningLEA(Entity entity) {
-            return new HashSet<String>();
+            return Collections.emptySet();
         }
         
     }
