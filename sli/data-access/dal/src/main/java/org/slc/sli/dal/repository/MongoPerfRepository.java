@@ -25,6 +25,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
+import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -32,12 +33,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.dal.convert.IdConverter;
-
-import org.slc.sli.domain.AccessibilityCheck;
-import org.slc.sli.domain.CascadeResult;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -223,6 +218,13 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
 
     @Override
     public Iterator<Entity> findEach(String collectionName, Query query) {
+        return null;
+    }
+
+    @Override
+    public CascadeResult safeDelete(org.slc.sli.domain.Entity entity, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
         return null;
     }
 }

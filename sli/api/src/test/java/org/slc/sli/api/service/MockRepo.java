@@ -37,8 +37,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
@@ -683,6 +683,13 @@ public class MockRepo implements Repository<Entity> {
 
     @Override
     public Iterator<Entity> findEach(String collectionName, Query query) {
+        return null;
+    }
+
+    @Override
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+            Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
         return null;
     }
 }

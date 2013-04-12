@@ -171,7 +171,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             id = entity.getUUID();
         }
 
-        CascadeResult result = entityRepository.safeDelete(entity.getType(), id,
+        CascadeResult result = entityRepository.safeDelete(entity, id,
                 action.doCascade(), dryrun, action.doForceDelete(), action.doLogViolations(), max, null);
 
         // TODO pass in the reportStats and record the delete stats there rather than modify the entity

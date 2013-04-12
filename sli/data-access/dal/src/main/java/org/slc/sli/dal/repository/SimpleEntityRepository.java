@@ -202,4 +202,11 @@ public class SimpleEntityRepository implements Repository<Entity> {
     public Iterator<Entity> findEach(String collectionName, Query query) {
         return null;
     }
+
+    @Override
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
