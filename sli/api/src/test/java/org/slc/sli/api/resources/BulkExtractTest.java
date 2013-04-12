@@ -23,6 +23,7 @@ import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
@@ -109,23 +110,6 @@ public class BulkExtractTest {
 
     }
 
-//    @SuppressWarnings("unchecked")
-//    @Test
-//    public void testCiphers() throws Exception {
-//        Method m = BulkExtract.class.getDeclaredMethod("getCiphers", new Class<?>[] {});
-//        m.setAccessible(true);
-//        Pair<Cipher, SecretKey> pair = (Pair<Cipher, SecretKey>) m.invoke(this.bulkExtract, new Object[] {});
-//        Assert.assertNotNull(pair);
-//
-//        Cipher enc = pair.getLeft();
-//        byte[] bytes = enc.doFinal(EXPECTED_STRING.getBytes("UTF-8"));
-//
-//        SecretKeySpec key = new SecretKeySpec(pair.getRight().getEncoded(),"AES");
-//        Cipher dec2 = Cipher.getInstance("AES/CBC/PKCS5Padding");
-//        dec2.init(Cipher.DECRYPT_MODE, key,new IvParameterSpec(enc.getIV()));
-//        Assert.assertEquals(EXPECTED_STRING, StringUtils.newStringUtf8(dec2.doFinal(bytes)));
-//    }
-
     @Test
     public void testGetSampleExtract() throws Exception {
         injector.setEducatorContext();
@@ -186,13 +170,14 @@ public class BulkExtractTest {
                   .thenReturn(mockEntity);
       }
 
+      File tmpDir = FileUtils.getTempDirectory();
 
       { //mock bulk extract entity
           Entity mockEntity = Mockito.mock(Entity.class);
           Map<String, Object> mockBody = Mockito.mock(Map.class);
           Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
 
-          File tmpDir = FileUtils.getTempDirectory();
+
           File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
 
           FileUtils.writeStringToFile(inputFile, BULK_DATA);
@@ -201,7 +186,6 @@ public class BulkExtractTest {
           Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
                   .thenReturn(mockEntity);
       }
-
 
       Response res = bulkExtract.getDelta(null, null);
       assertEquals(200, res.getStatus());
@@ -216,6 +200,15 @@ public class BulkExtractTest {
 
       Object entity = res.getEntity();
       assertNotNull(entity);
+
+      StreamingOutput out = (StreamingOutput) entity;
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      out.write(os);
+      os.flush();
+      byte[] responseData = os.toByteArray();
+      String s = new String(responseData);
+
+      assertEquals(BULK_DATA, s);
   }
 
     @Test
