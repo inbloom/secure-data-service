@@ -289,9 +289,9 @@ public class BulkExtractTest {
                 public void describeTo(Description arg0) {
                 }
             }))).thenReturn(e);
-            Response r = bulkExtract.getDelta("20130331");
+            Response r = bulkExtract.getDelta(null, "20130331");
             assertEquals(200, r.getStatus());
-            Response notExisting = bulkExtract.getDelta("20130401");
+            Response notExisting = bulkExtract.getDelta(null, "20130401");
             assertEquals(404, notExisting.getStatus());
         } finally {
             f.delete();
