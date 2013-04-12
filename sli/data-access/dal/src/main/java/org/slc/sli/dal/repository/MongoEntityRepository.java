@@ -125,6 +125,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Autowired
     protected SliSchemaVersionValidatorProvider schemaVersionValidatorProvider;
 
+    @Autowired
+    private DeltaJournal journal;
+
     @Override
     public void afterPropertiesSet() {
         setWriteConcern(writeConcern);
@@ -142,6 +145,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     protected String getRecordId(Entity entity) {
         return entity.getEntityId();
+    }
+
+    private List<String> getIds(List<Entity> entities) {
+        List<String> ids = new ArrayList<String>(entities.size());
+        for(Entity entity: entities) {
+            ids.add(entity.getEntityId());
+        }
+        return ids;
     }
 
     @Override
@@ -319,6 +330,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
+        List<Entity> results;
 
         for (Entity entity : records) {
             this.schemaVersionValidatorProvider.getSliSchemaVersionValidator().insertVersionInformation(entity);
@@ -331,10 +343,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 denormalizer.denormalization(collectionName).insert(records);
             }
 
-            return records;
+            results = records;
         } else if (containerDocumentAccessor.isContainerDocument(collectionName)) {
             containerDocumentAccessor.insert(records);
-            return records;
+            results = records;
         } else {
             List<Entity> persist = new ArrayList<Entity>();
 
@@ -345,7 +357,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 persist.add(entity);
             }
 
-            List<Entity> results = super.insert(persist, collectionName);
+            results = super.insert(persist, collectionName);
 
             if (denormalizer.isDenormalizedDoc(collectionName)) {
                 denormalizer.denormalization(collectionName).insert(records);
@@ -353,9 +365,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             if (denormalizer.isCached(collectionName)) {
                 denormalizer.addToCache(results, collectionName);
             }
-
-            return results;
         }
+        journal.journal(getIds(results), collectionName, false);
+        return results;
     }
 
     @Override
@@ -1138,4 +1150,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         return template.findEach(query, Entity.class, collectionName);
     }
+
+    @Override
+    public Entity insert(Entity record, String collectionName) {
+        journal.journal(record.getEntityId(), collectionName, false);
+        return super.insert(record, collectionName);
+    }
+
+
 }

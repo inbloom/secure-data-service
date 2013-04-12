@@ -84,7 +84,7 @@
   </bean>
 
   <bean id="journalTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
-    <constructor-arg ref="mongoPerfDbFactory" />
+    <constructor-arg ref="sliMongoDbFactory" />
     <property name="writeConcern"> <util:constant static-field="com.mongodb.WriteConcern.NORMAL"></util:constant> </property>
   </bean>
 

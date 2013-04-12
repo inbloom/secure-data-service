@@ -15,10 +15,13 @@
  */
 package org.slc.sli.dal.repository;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -33,22 +36,34 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class DeltaJournal {
+
+    @Value("${deltasEnabled:false}")
+    private boolean isEnabled;
+
     public static final String DELTA_COLLECTION = "deltas";
     @Autowired
     @Qualifier("journalTemplate")
     private MongoTemplate template;
 
-    public void journal(String id, String collection, boolean isDelete) {
-        Date now = new Date();
-        Update update = new Update();
-        update.set("t", now);
-        update.set("c", collection);
-        if(isDelete){
-            update.set("d", now);
-        } else {
-            update.set("u", now);
+    public void journal(List<String> ids, String collection, boolean isDelete) {
+        if (isEnabled) {
+            Date now = new Date();
+            Update update = new Update();
+            update.set("t", now);
+            update.set("c", collection);
+            if (isDelete) {
+                update.set("d", now);
+            } else {
+                update.set("u", now);
+            }
+            for (String id : ids) {
+                template.upsert(Query.query(Criteria.where("_id").is(id)), update, DELTA_COLLECTION);
+            }
         }
-        template.upsert(Query.query(Criteria.where("_id").is(id)), update, DELTA_COLLECTION);
+    }
+
+    public void journal(String id, String collection, boolean isDelete) {
+        journal(Arrays.asList(id), collection, isDelete);
     }
 
 }
