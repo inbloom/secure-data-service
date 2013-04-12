@@ -149,7 +149,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             if( id == null ) {
                 id = entity.getUUID();
             }
-            CascadeResult result = entityRepository.safeDelete(entity.getType(), collectionName, id,
+            CascadeResult result = entityRepository.safeDelete(entity, collectionName, id,
                     action.doCascade(), dryrun, max, null);
 
             // Check the return from safeDelete
