@@ -126,7 +126,7 @@ Scenario: Delete Orphan Course Reference with cascade = false
         | course                                    |        -1|
         | recordHash                                |      	 -1|
 
-Scenario: Delete Course with cascade = false, force = true and log violations = true
+Scenario: Delete Course with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -160,7 +160,7 @@ Scenario: Delete Course with cascade = false, force = true and log violations = 
         | course                                    |        -1|
         | recordHash                                |      	 -1|
 
-Scenario: Delete Course Ref with cascade = false, force = true and log violations = true
+Scenario: Delete Course Ref with cascade = false and default settings (Confirm that by default force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
