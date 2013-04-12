@@ -119,7 +119,7 @@ Scenario: Delete Orphan Calendar Date Reference with cascade = false
 	|calendarDate                           |        -1|
 	|recordHash                             |        -1|
 
-  Scenario: Delete Calendar Date with cascade = false, force = true
+  Scenario: Delete Calendar Date with cascade = false, force = true and default settings (Confirm that by default logViolations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -148,7 +148,7 @@ Scenario: Delete Orphan Calendar Date Reference with cascade = false
       |calendarDate                           |   -1       |
       |recordHash                             |   -1       |
 
-  Scenario: Delete Calendar Date Reference with cascade = false, force = true
+  Scenario: Delete Calendar Date Reference with force = true and default settings (Confirm that by default cascade = false and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported

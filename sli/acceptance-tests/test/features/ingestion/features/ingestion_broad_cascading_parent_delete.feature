@@ -20,7 +20,7 @@ Scenario: Delete Parent with cascade
     And I should not see any entity mandatorily referring to "1b4aa93f01d11ad51072f3992583861ed080f15c_id" in the "Midgar" database
 	And I should see entities optionally referring to "1b4aa93f01d11ad51072f3992583861ed080f15c_id" be updated in the "Midgar" database
 	
-@wip
+
 Scenario: Delete Parent with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -45,7 +45,7 @@ Scenario: Delete Parent with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | educationOrganization                     |         0|
-@wip
+
 Scenario: Delete Parent with cascade = false with ref
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -70,7 +70,7 @@ Scenario: Delete Parent with cascade = false with ref
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | educationOrganization                     |         0|
- @wip      
+      
 Scenario: Delete Orphan Parent with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -93,7 +93,7 @@ Scenario: Delete Orphan Parent with cascade = false
         | parent                                    |        -1|       
         | recordHash                                |        -1|
 
-@wip
+
 Scenario: Delete Orphan Parent Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty

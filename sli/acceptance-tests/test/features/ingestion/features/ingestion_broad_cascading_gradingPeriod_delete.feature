@@ -161,7 +161,7 @@ Scenario: Delete Orphan GradingPeriod Reference with cascade = false
       |gradingPeriod|  -1 |
       |recordHash   |  -1 |
 
-  Scenario: Delete Grading Period Reference with cascade = false, force = true
+  Scenario: Delete Grading Period Reference with logViolations = true and default settings (Confirm that by default cascade = false, force = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
