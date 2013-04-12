@@ -135,64 +135,55 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             }
         }
 
-        ActionVerb action = ActionVerb.NONE;
+        entity.removeAction();
+        if (entity.getEntityId() != null) {
 
-        if (entity.getMetaData() != null) {
-            action = entity.getAction();
-        }
-
-        if (action.doDelete()) {
-            boolean isForceDelete = action.isForceDelete();
-            if(isForceDelete) {
-                LOG.info("Force deleting");
+            if (!entityRepository.updateWithRetries(collectionName, entity, totalRetries)) {
+                // TODO: exception should be replace with some logic.
+                throw new RuntimeException("Record was not updated properly.");
             }
-            // find out about dryrun
-            Boolean dryrun = Boolean.FALSE;
-            Integer max = (maxDeleteObjects == 0) ? null : maxDeleteObjects;
-            String id = entity.getEntityId();
-            if( id == null ) {
-                id = entity.getUUID();
-            }
-            CascadeResult result = entityRepository.safeDelete(entity.getType(), collectionName, id,
-                    action.doCascade(), dryrun, max, null);
-
-            // Check the return from safeDelete
-            if (result == null) {
-                return null;  // the entity is returned on failure
-            }
-
-            // Set the objects affected in the entity for reporting
-            entity.setDeleteAffectedCount(String.valueOf(result.getnObjects()));
-
-
-            if (result.getStatus() != CascadeResult.Status.SUCCESS) {
-                // error during safe delete
-                throw new SafeDeleteException(result.getStatus(), id, entity.getType(), result.getErrors());
-            }
-
-            // Remove any affected entities, including children, from the recordHash
-            // TODO XXX HACK comment this out for now since we are not supporting cascade delete yet
-            // and DIds don't always match up between recordHash and the db
-//            cleanupRecordHash( result );
 
             return entity;
 
         } else {
-            entity.removeAction();
-            if (entity.getEntityId() != null) {
-
-                if (!entityRepository.updateWithRetries(collectionName, entity, totalRetries)) {
-                    // TODO: exception should be replace with some logic.
-                    throw new RuntimeException("Record was not updated properly.");
-                }
-
-                return entity;
-
-            } else {
-                return entityRepository.createWithRetries(entity.getType(), null, entity.getBody(),
-                        entity.getMetaData(), collectionName, totalRetries);
-            }
+            return entityRepository.createWithRetries(entity.getType(), null, entity.getBody(),
+                    entity.getMetaData(), collectionName, totalRetries);
         }
+    }
+
+    /**
+     * Persist entity in the data store.
+     *
+     * @param entity
+     *            Entity to be persisted
+     * @return Persisted entity
+     * @throws EntityValidationException
+     *             Validation Exception
+     */
+    private CascadeResult delete(SimpleEntity entity) throws EntityValidationException {
+        ActionVerb action = entity.getAction();
+
+        // find out about dryrun
+        boolean dryrun = false;
+        Integer max = (maxDeleteObjects == 0) ? null : maxDeleteObjects;
+        String id = entity.getEntityId();
+        if (id == null) {
+            id = entity.getUUID();
+        }
+
+        CascadeResult result = entityRepository.safeDelete(entity, id,
+                action.doCascade(), dryrun, action.doForceDelete(), action.doLogViolations(), max, null);
+
+        // TODO pass in the reportStats and record the delete stats there rather than modify the entity
+        // Set the objects affected in the entity for reporting
+        entity.setDeleteAffectedCount(String.valueOf(result.getnObjects()));
+
+        // Remove any affected entities, including children, from the recordHash
+        // TODO XXX HACK comment this out for now since we are not supporting cascade delete yet
+        // and DIds don't always match up between recordHash and the db
+//            cleanupRecordHash( result );
+
+        return result;
     }
 
     private boolean  cleanupRecordHash( CascadeResult cascade ) {
@@ -235,6 +226,14 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         return res;
     }
 
+    /**
+     * Persist a list of entities
+     *
+     * @param entities          the entities to persist
+     * @param report
+     * @param reportStats
+     * @return                  the list of entities that FAILED to persist (note this differs logically from the single item persist() which returns the persisted entity)
+     */
     private List<Entity> persist(List<SimpleEntity> entities, AbstractMessageReport report, ReportStats reportStats) {
         List<Entity> failed = new ArrayList<Entity>();
         List<Entity> queued = new ArrayList<Entity>();
@@ -245,14 +244,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         for (SimpleEntity entity : entities) {
 
             if (entity.getAction().doDelete()) {
-                try {
-                    if (persist(entity) == null) {
-                        LOG.error("Delete failed for entity: {}", entity.getType());
-                        failed.add(entity);
-                    }
-                } catch (SafeDeleteException ex) {
-                    LOG.info("Error deleting entity type {} id {} with entityPersistentHandler", entity.getType(), entity.getEntityId());
-                    reportSafeDeleteErrors(ex.getStatus(), ex.getErrors(), entity, report, reportStats, new ElementSourceImpl(entity));
+                CascadeResult result = delete(entity);
+
+                // Log errors and warning to report files
+                reportDeleteResults(entity, result, report, reportStats, new ElementSourceImpl(entity));
+
+                if (result.getStatus() != CascadeResult.Status.SUCCESS) {
                     failed.add(entity);
                 }
             } else {
@@ -371,14 +368,15 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         return collectionName;
     }
 
-    private void reportSafeDeleteErrors(CascadeResult.Status status, List<CascadeResultError> errors, SimpleEntity entity, AbstractMessageReport report,
-                              ReportStats reportStats, Source source) {
+    private void reportDeleteResults(SimpleEntity entity, CascadeResult result, AbstractMessageReport report,
+                                        ReportStats reportStats, Source source) {
 
-        if (status == CascadeResult.Status.MAX_OBJECTS_EXCEEDED) {
+        // Log errors
+        if (result.getStatus() == CascadeResult.Status.MAX_OBJECTS_EXCEEDED) {
             report.error(reportStats, source, CoreMessageCode.CORE_0067, entity.getType(), entity.getEntityId());
         }
 
-        for (CascadeResultError err : errors) {
+        for (CascadeResultError err : result.getErrors()) {
             switch (err.getErrorType()) {
                 case DELETE_ERROR:
                     String id = (entity.getEntityId() == null) ? entity.getUUID() : entity.getEntityId();
@@ -411,6 +409,16 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 case MAX_DEPTH_EXCEEDED:
                     report.error(reportStats, source, CoreMessageCode.CORE_0064, entity.getType(), entity.getEntityId(),
                             err.getDepth());
+                    break;
+            }
+        }
+
+        // Log warnings
+        for (CascadeResultError warn : result.getWarnings()) {
+            switch (warn.getErrorType()) {
+                case CHILD_DATA_EXISTS:
+                    report.warning(reportStats, source, CoreMessageCode.CORE_0066, warn.getObjectType(), warn.getObjectId(),
+                            warn.getDepth(), entity.getType(), entity.getEntityId());
                     break;
             }
         }
@@ -476,19 +484,33 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Override
     protected Entity doHandling(SimpleEntity item, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
-        try {
-            return persist(item);
-        } catch (SafeDeleteException ex) {
-            LOG.error("Exception deleting record with entityPersistentHandler", ex);
-            reportSafeDeleteErrors(ex.getStatus(), ex.getErrors(), item, report, reportStats, new ElementSourceImpl(item));
-        } catch (EntityValidationException ex) {
-            LOG.error("Exception persisting record with entityPersistentHandler", ex);
-            reportErrors(ex.getValidationErrors(), item, report, reportStats, new ElementSourceImpl(item));
-        } catch (DuplicateKeyException ex) {
-            reportWarnings(ex.getMostSpecificCause().getMessage(), item.getType(), item.getSourceFile(), report,
-                    reportStats, new ElementSourceImpl(item));
+        ActionVerb action = ActionVerb.NONE;
+
+        if (item.getMetaData() != null) {
+            action = item.getAction();
         }
-        return null;
+
+        if (action.doDelete()) {
+            CascadeResult result = delete(item);
+
+            // Log errors and warning to report files
+            reportDeleteResults(item, result, report, reportStats, new ElementSourceImpl(item));
+
+            if (result.getStatus() == CascadeResult.Status.SUCCESS) {
+                return item;  // success
+            }
+        } else {
+            try {
+                return persist(item);
+            } catch (EntityValidationException ex) {
+                LOG.error("Exception persisting record with entityPersistentHandler", ex);
+                reportErrors(ex.getValidationErrors(), item, report, reportStats, new ElementSourceImpl(item));
+            } catch (DuplicateKeyException ex) {
+                reportWarnings(ex.getMostSpecificCause().getMessage(), item.getType(), item.getSourceFile(), report,
+                        reportStats, new ElementSourceImpl(item));
+            }
+        }
+        return null;  // fail
     }
 
     @Override
