@@ -200,7 +200,7 @@ public class EntityPersistHandlerTest {
 
         studentEntity.setAction( ActionVerb.CASCADE_DELETE);
         entityPersistHandler.handle( studentEntity, errorReport, reportStats);
-        verify(entityRepository).safeDelete( "student", "student", studentEntity.getEntityId(), true, false, null, null);
+        verify(entityRepository).safeDelete( studentEntity, "student", studentEntity.getEntityId(), true, false, null, null);
 
 
         Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());
