@@ -262,8 +262,9 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      * @see org.slc.sli.domain.Repository#safeDelete(...)
      */
     @Override
-    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
-        return repo.safeDelete(collectionName, null, id, cascade, dryrun, maxObjects, access);
+    public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        return repo.safeDelete(entityType, id, cascade, dryrun, forced, logViolations, maxObjects, access);
     }
 
     /*
@@ -391,7 +392,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     }
 
     @Override
-    public CascadeResult safeDelete(Entity entity, String collectionName, String id, Boolean cascade, Boolean dryrun,
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun, boolean force, boolean logViolations,
             Integer maxObjects, AccessibilityCheck access) {
         // TODO Auto-generated method stub
         return null;

@@ -4,7 +4,7 @@
 
   
   <!-- Illustrative use of DELETE -->
-  <Action ActionType="DELETE" Cascade="false">
+  <Action ActionType="DELETE" Cascade="false" Force="false">
       <Student>
           <StudentUniqueStateId>Student-1</StudentUniqueStateId>
           <StudentIdentificationCode IdentificationSystem="Local" AssigningOrganizationCode="School">

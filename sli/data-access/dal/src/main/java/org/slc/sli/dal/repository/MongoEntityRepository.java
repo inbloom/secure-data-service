@@ -461,15 +461,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+    public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun,
+                                    boolean force, boolean logViolations, Integer maxObjects, AccessibilityCheck access) {
 
-        // LOG.info("*** DELETING object '" + id + "' of type '" + collectionName + "'");
-        DELETION_LOG.info("Delete request for entity: " + entityType + " collection: " + collectionName + " _id: " + id + " cascade: " + cascade + " dryrun: " + dryrun);
+    	// LOG.info("*** DELETING object '" + id + "' of type '" + entityType + "'");
+        DELETION_LOG.info("Delete request for entity: " + entityType + " _id: " + id + " cascade: " + cascade + " dryrun: " + dryrun);
         CascadeResult result = null;
         Set<String> deletedIds = new HashSet<String>();
 
         // Always do a dryrun first
-        result = safeDeleteHelper(entityType, collectionName, id, cascade, Boolean.TRUE, maxObjects, access, 1, deletedIds);
+        result = safeDeleteHelper(entityType, id, cascade, true, force, logViolations, maxObjects, access, 1, deletedIds);
 
         if (result.getStatus() == CascadeResult.Status.SUCCESS) {
             if (maxObjects != null && result.getnObjects() > maxObjects) {
@@ -481,7 +482,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             } else if (! dryrun) {
                 // Do the actual deletes with some confidence
                 deletedIds.clear();
-                result = safeDeleteHelper(entityType, collectionName, id, cascade, Boolean.FALSE, maxObjects, access, 1, deletedIds);
+                result = safeDeleteHelper(entityType, id, cascade, false, force, logViolations, maxObjects, access, 1, deletedIds);
                 result.setDeletedIds(deletedIds);
 
                 // Delete denormalized stuff
@@ -493,15 +494,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public CascadeResult safeDelete(Entity entity, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun,
+                                    boolean force, boolean logViolations, Integer maxObjects, AccessibilityCheck access) {
         String entityType = entity.getType();
         if (!entityType.equals("attendance")) {
-            return safeDelete(entityType, collectionName, id, cascade, dryrun, maxObjects, access);
+            return safeDelete(entityType, id, cascade, dryrun, force, logViolations, maxObjects, access);
         }
 
         // Attendance is a special case.
         // LOG.info("*** DELETING object '" + id + "' of type '" + collectionName + "'");
-        DELETION_LOG.info("Delete request for entity: " + entityType + " collection: " + collectionName + " _id: " + id + " cascade: " + cascade + " dryrun: " + dryrun);
+        DELETION_LOG.info("Delete request for entity: " + entityType + " _id: " + id + " cascade: " + cascade + " dryrun: " + dryrun);
 
         // First check if Attendance record is in the DB.
         Entity found = findById(entityType, id);
@@ -572,17 +574,19 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
      *  Recursive helper used to cascade deletes to referencing entities
      *
      * @param entityType        type of the entity to delete
-     * @param collectionName    DEPRECATED - the collection name from which to delete, entityType if null
      * @param id                id of the entity to delete
      * @param cascade           delete related entities if true
      * @param dryrun            only delete if true
+     * @param force            true iff the operation should delete the entity whether or not it is referred to by other entities
+     * @param logViolations     true iff the operation should log referential integrity violation information
      * @param maxObjects        if the number of entities that will be deleted is > maxObjects, no deletes will be done
      * @param access            callback used to determine whether we have rights to delete an entity
      * @param depth             the depth of cascading the current entity is at - used to determine result.depth
      * @param deletedIds        Used to store deleted (or would be deleted if dryrun == true) for number objects
      * @return
      */
-    private CascadeResult safeDeleteHelper(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun,
+    private CascadeResult safeDeleteHelper(String entityType, String id, boolean cascade, boolean dryrun,
+                                           boolean force, boolean logViolations,
                                            Integer maxObjects, AccessibilityCheck access, int depth, Set<String> deletedIds) {
         CascadeResult result = new CascadeResult();
         String repositoryEntityType = getEntityRepositoryType(entityType);
@@ -656,11 +660,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                     continue;  // skip to the next referencing entity
                 }
 
-                // Non-cascade handling
+                // Non-cascade or Forced handling
                 if (!cascade) {
                     // There is a child when there shouldn't be
                     String message = "Child reference of entity type " + referenceEntityType + " id " + referencerId + " exists for entity type " + entityType + " id " + id;
-                    result.addError(depth + 1, message, CascadeResultError.ErrorType.CHILD_DATA_EXISTS, referenceEntityType, referencerId);
+                    if (!force) {
+                        result.addError(depth + 1, message, CascadeResultError.ErrorType.CHILD_DATA_EXISTS, referenceEntityType, referencerId);
+                    } else if (logViolations) {
+                        result.addWarning(depth + 1, message, CascadeResultError.ErrorType.CHILD_DATA_EXISTS, referenceEntityType, referencerId);
+                    }
                     continue;
                 }
 
@@ -687,8 +695,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                     // 2. it is a required field and it is the last reference in a list of references
 
                     DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Required" + referentPath + "Invoking cascading deletion of " + referent);
-                    CascadeResult recursiveResult = safeDeleteHelper(referenceEntityType, null, referencerId,
-                            cascade, dryrun, maxObjects, access, depth + 1, deletedIds);
+                    CascadeResult recursiveResult = safeDeleteHelper(referenceEntityType, referencerId,
+                            cascade, dryrun, force, logViolations, maxObjects, access, depth + 1, deletedIds);
                     DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + recursiveResult.getStatus().name() + " Cascading deletion of " + referent);
 
                     // Update the overall result depth if necessary

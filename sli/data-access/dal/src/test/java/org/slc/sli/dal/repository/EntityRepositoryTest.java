@@ -70,7 +70,8 @@ public class EntityRepositoryTest {
 
     @Before
     public void setUp() {
-        TenantContext.setTenantId("SLIUnitTest");
+//        TenantContext.setTenantId("SLIUnitTest");
+        TenantContext.setTenantId("Midgar");
     }
 
     @Resource(name = "mongoEntityRepository")
@@ -127,97 +128,54 @@ public class EntityRepositoryTest {
 
     @Test
     public void testSafeDelete() {
-        // testSafeDeleteHelper(collectionName, overridingId, cascade, dryrun,
-        // maxObjects, access, leafDataOnly,
-        // leafDataOnly, expectedNObjects, expectedDepth, expectedStatus)
+//        testSafeDeleteHelper(collectionName, overridingId, cascade, dryrun, forced, logViolations,maxObjects, access, leafDataOnly,
+//                leafDataOnly, expectedNObjects, expectedDepth, expectedStatus, expectedErrorType, expectedWarningType)
 
         // Test leaf node delete success : cascade=false and dryrun=false
-        testSafeDeleteHelper("gradingPeriod", null, false, false, null, access, true, 1, 1,
-                CascadeResult.Status.SUCCESS, null);
+        testSafeDeleteHelper("gradingPeriod", null, false, false, false, false, null, access, true, 1, 1, CascadeResult.Status.SUCCESS, null, null);
 
         // Test leaf node delete failure : cascade=false and dryrun=false
-        testSafeDeleteHelper("gradingPeriod", null, false, false, null, access, false, 0, 1,
-                CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS);
+        testSafeDeleteHelper("gradingPeriod", null, false, false, false, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS, null);
 
         // Test cascade=false and dryrun=true
-        testSafeDeleteHelper("gradingPeriod", null, false, true, null, access, false, 0, 1,
-                CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS);
+        testSafeDeleteHelper("gradingPeriod", null, false, true, false, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS, null);
 
         // Test cascade=true and dryrun=true
-        testSafeDeleteHelper("gradingPeriod", null, true, true, null, access, false, 4, 2,
-                CascadeResult.Status.SUCCESS, null);
+        testSafeDeleteHelper("gradingPeriod", null, true, true, false, false, null, access, false, 4, 2, CascadeResult.Status.SUCCESS, null, null);
 
         // Test cascade=true and dryrun=false
-        testSafeDeleteHelper("gradingPeriod", null, true, false, null, access, false, 4, 2,
-                CascadeResult.Status.SUCCESS, null);
+        testSafeDeleteHelper("gradingPeriod", null, true, false, false, false, null, access, false, 4, 2, CascadeResult.Status.SUCCESS, null, null);
 
         // Test maxobjects
-        testSafeDeleteHelper("gradingPeriod", null, true, false, 2, access, false, 4, 2,
-                CascadeResult.Status.MAX_OBJECTS_EXCEEDED, null);
+        testSafeDeleteHelper("gradingPeriod", null, true, false, false, false, 2, access, false, 4, 2, CascadeResult.Status.MAX_OBJECTS_EXCEEDED, null, null);
 
         // Test access denied
-        testSafeDeleteHelper("gradingPeriod", null, true, false, null, accessDenied, false, 0, 1,
-                CascadeResult.Status.ERROR, CascadeResultError.ErrorType.ACCESS_DENIED);
+        testSafeDeleteHelper("gradingPeriod", null, true, false, false, false, null, accessDenied, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.ACCESS_DENIED, null);
 
         // Test deletion from a non-existent collection
-        testSafeDeleteHelper("nonexistentCollection", null, true, false, null, access, false, 0, 1,
-                CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DELETE_ERROR);
+        testSafeDeleteHelper("nonexistentCollection", null, true, false, false, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DELETE_ERROR, null);
 
         // Test deletion of a non-existent id
-        testSafeDeleteHelper("gradingPeriod", "noMatchId", true, false, null, access, false, 0, 1,
-                CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DELETE_ERROR);
+        testSafeDeleteHelper("gradingPeriod", "noMatchId", true, false, false, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DELETE_ERROR, null);
 
+        // Test leaf forced delete
+        testSafeDeleteHelper("gradingPeriod", null, false, false, true, true, null, access, true, 1, 1, CascadeResult.Status.SUCCESS, null, null);
+
+        // Test forced delete with children
+        testSafeDeleteHelper("gradingPeriod", null, false, false, true, false, null, access, false, 1, 1, CascadeResult.Status.SUCCESS, null, null);
+
+        // Test forced delete with logViolations
+        testSafeDeleteHelper("gradingPeriod", null, false, false, true, true, null, access, false, 1, 1, CascadeResult.Status.SUCCESS, null, CascadeResultError.ErrorType.CHILD_DATA_EXISTS);
     }
 
-    public void testSafeSessionDelete() {
-        // testSafeDeleteHelper(collectionName, overridingId, cascade, dryrun,
-        // maxObjects, access, leafDataOnly,
-        // leafDataOnly, expectedNObjects, expectedDepth, expectedStatus)
-
-        // Test leaf node delete success : cascade=false and dryrun=false
-        testSafeDeleteHelper("session", null, false, false, null, access, true, 1, 1,
-                CascadeResult.Status.SUCCESS, null);
-
-        // Test leaf node delete failure : cascade=false and dryrun=false
-        testSafeDeleteHelper("session", null, false, false, null, access, false, 0, 1,
-                CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS);
-
-        // Test cascade=false and dryrun=true
-        testSafeDeleteHelper("session", null, false, true, null, access, false, 0, 1,
-                CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS);
-
-        // Test cascade=true and dryrun=true
-        testSafeDeleteHelper("session", null, true, true, null, access, false, 4, 2,
-                CascadeResult.Status.SUCCESS, null);
-
-        // Test cascade=true and dryrun=false
-        testSafeDeleteHelper("session", null, true, false, null, access, false, 4, 2,
-                CascadeResult.Status.SUCCESS, null);
-
-        // Test maxobjects
-        testSafeDeleteHelper("session", null, true, false, 2, access, false, 4, 2,
-                CascadeResult.Status.MAX_OBJECTS_EXCEEDED, null);
-
-        // Test access denied
-        testSafeDeleteHelper("session", null, true, false, null, accessDenied, false, 2, 2,
-                CascadeResult.Status.ERROR, CascadeResultError.ErrorType.ACCESS_DENIED);
-
-        // Test deletion from a non-existent collection
-        testSafeDeleteHelper("nonexistentCollection", null, true, false, null, access, false, 0, 1,
-                CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DATABASE_ERROR);
-
-        // Test deletion of a non-existent id
-        testSafeDeleteHelper("session", "noMatchId", true, false, null, access, false, 0, 1,
-                CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DATABASE_ERROR);
-
-    }
-
-    private void testSafeDeleteHelper(String collectionName, String overridingId, boolean cascade,
-            boolean dryrun, Integer maxObjects, AccessibilityCheck access, boolean leafDataOnly,
-            int expectedNObjects, int expectedDepth, CascadeResult.Status expectedStatus,
-            CascadeResultError.ErrorType expectedErrorType) {
+    private void testSafeDeleteHelper(String entityType, String overridingId,
+            boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+            Integer maxObjects, AccessibilityCheck access,
+            boolean leafDataOnly,int expectedNObjects, int expectedDepth,
+            CascadeResult.Status expectedStatus,
+            CascadeResultError.ErrorType expectedErrorType, CascadeResultError.ErrorType expectedWarningType) {
         System.out.println("Testing safeDelete: ");
-        System.out.println("   entity type             : " + collectionName);
+        System.out.println("   entity type             : " + entityType);
         System.out.println("   override id             : " + overridingId);
         System.out.println("   cascade                 : " + cascade);
         System.out.println("   dryrun                  : " + dryrun);
@@ -234,8 +192,7 @@ public class EntityRepositoryTest {
             idToDelete = overridingId;
         }
 
-        result = repository.safeDelete(collectionName, null, idToDelete, cascade, dryrun,
-                maxObjects, access);
+        result = repository.safeDelete(entityType, idToDelete, cascade, dryrun, forced, logViolations, maxObjects, access);
 
         // check for at least one instance of the expected error type
         boolean errorMatchFound = false;
@@ -255,11 +212,30 @@ public class EntityRepositoryTest {
             System.out.println(error);
         }
 
-        // verify expected results
+        // check for at least one instance of the expected warning type
+        boolean warningMatchFound = false;
+        List<CascadeResultError> warnings = result.getWarnings();
+        if (expectedWarningType == null && warnings != null && warnings.size() == 0) {
+            warningMatchFound = true;
+        } else {
+            for(CascadeResultError warning : warnings) {
+                if (warning.getErrorType() == expectedWarningType) {
+                    warningMatchFound = true;
+                    break;
+                }
+            }
+        }
+
+        for(CascadeResultError warning : result.getWarnings()) {
+            System.out.println(warning);
+        }
+
+        //   verify expected results
         assertEquals(expectedNObjects, result.getnObjects());
         assertEquals(expectedDepth, result.getDepth());
         assertEquals(expectedStatus, result.getStatus());
         assertTrue(errorMatchFound);
+        assertTrue(warningMatchFound);
     }
 
     private String prepareSafeDeleteGradingPeriodData(boolean justLeaf) {
@@ -382,7 +358,6 @@ public class EntityRepositoryTest {
         repository.create("session", sessionMap);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testSafeDeleteAttendanceEvents() {
         // Setup.
@@ -408,7 +383,7 @@ public class EntityRepositoryTest {
         Entity bogusDeleteAssessment1 = createDeleteAttendanceEntity("Excused: sick",
                 "Excused Absence", "2012-04-18");
         CascadeResult bogusDeleteResult1 = repository.safeDelete(bogusDeleteAssessment1,
-                "attendance", bogusAttendanceRecordId, false, false, 1, null);
+                bogusAttendanceRecordId, false, false, false, false, 1, null);
         attendanceRecord1 = getAttendanceRecord(attendanceRecordId);
         Assert.assertEquals("Delete result should be error", CascadeResult.Status.ERROR,
                 bogusDeleteResult1.getStatus());
@@ -421,7 +396,7 @@ public class EntityRepositoryTest {
         Entity bogusDeleteAssessment2 = createDeleteAttendanceEntity("Excused: dead",
                 "Excused Absence", "2012-04-18");
         CascadeResult bogusDeleteResult2 = repository.safeDelete(bogusDeleteAssessment2,
-                "attendance", attendanceRecordId, false, false, 1, null);
+                attendanceRecordId, false, false, false, false, 1, null);
         attendanceRecord1 = getAttendanceRecord(attendanceRecordId);
         Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
                 bogusDeleteResult2.getStatus());
@@ -433,8 +408,8 @@ public class EntityRepositoryTest {
         attendanceEvents.remove(attendanceEvent1);
         Entity deleteAssessment1 = createDeleteAttendanceEntity("Excused: sick", "Excused Absence",
                 "2012-04-18");
-        CascadeResult deleteResult1 = repository.safeDelete(deleteAssessment1, "attendance",
-                attendanceRecordId, false, false, 1, null);
+        CascadeResult deleteResult1 = repository.safeDelete(deleteAssessment1,
+                attendanceRecordId, false, false, false, false, 1, null);
         Entity attendanceRecord2 = getAttendanceRecord(attendanceRecordId);
         Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
                 deleteResult1.getStatus());
@@ -445,8 +420,8 @@ public class EntityRepositoryTest {
         // Delete last attendanceEvent, removing attendance record from DB.
         Entity deleteAssessment2 = createDeleteAttendanceEntity("Missed school bus", "Tardy",
                 "2011-10-26");
-        CascadeResult deleteResult2 = repository.safeDelete(deleteAssessment2, "attendance",
-                attendanceRecordId, false, false, 1, null);
+        CascadeResult deleteResult2 = repository.safeDelete(deleteAssessment2,
+                attendanceRecordId, false, false, false, false, 1, null);
         Entity attendanceRecord3 = getAttendanceRecord(attendanceRecordId);
         Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
                 deleteResult2.getStatus());
