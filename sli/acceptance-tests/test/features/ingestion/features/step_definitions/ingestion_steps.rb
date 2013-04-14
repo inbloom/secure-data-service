@@ -1917,7 +1917,7 @@ def subDocCount(parent, subdoc, opts=nil, key=nil, match_value=nil)
       if key == nil and match_value == nil and opts==nil
         total += subdocInMainSize + subdocInBodySize
       else
-        array = subdocInMain + subdocInBody
+        array = (subdocInMain != nil)? subdocInMain : subdocInBody
         array.each do |sub|
           @contains = true
           if (key != nil && match_value != nil)
