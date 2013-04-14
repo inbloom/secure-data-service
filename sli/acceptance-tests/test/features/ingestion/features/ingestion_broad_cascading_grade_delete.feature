@@ -94,7 +94,7 @@ Scenario: Delete Orphan Grade without cascade using body
         |grade                  |   -1|
         |recordHash             |   -1|
 
-@wip
+
 Scenario: Delete Orphan Grade without cascade using reference
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
