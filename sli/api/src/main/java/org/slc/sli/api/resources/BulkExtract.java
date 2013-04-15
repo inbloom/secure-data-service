@@ -18,14 +18,12 @@ package org.slc.sli.api.resources;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -142,7 +140,7 @@ public class BulkExtract {
         info("Received request to stream tenant bulk extract...");
         checkApplicationAuthorization(null);
 
-        return getExtractResponse(null);
+        return getExtractResponse(headers, null);
     }
 
     /**
@@ -160,59 +158,8 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@Context HttpHeaders headers, @PathParam("date") String date) throws Exception {
         LOG.info("Retrieving delta bulk extract");
-        return getExtractResponse(date);
+        return getExtractResponse(headers, date);
     }
-
-    /**
-     * Get the bulk extract response
-     *
-     * @param deltaDate
-     *            the date of the delta, or null to get the full extract
-     * @return the jax-rs response to send back.
-     * @throws Exception
-     */
-    private Response getExtractResponse(String deltaDate) throws Exception {
-
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Entity application = getApplication(auth);
-
-        String appId = application.getEntityId();
-
-        ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate, appId);
-
-        if (bulkExtractFileEntity == null) {
-            // return 404 if no bulk extract support for that tenant
-            LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
-            return Response.status(Status.NOT_FOUND).build();
-        }
-
-        final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
-        if (bulkExtractFile == null || !bulkExtractFile.exists()) {
-            // return 404 if the bulk extract file is missing
-            LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
-            return Response.status(Status.NOT_FOUND).build();
-        }
-
-        String fileName = bulkExtractFile.getName();
-        String lastModified = bulkExtractFileEntity.getLastModified();
-
-        try {
-            final InputStream is = new FileInputStream(bulkExtractFile);
-            StreamingOutput out = new StreamingOutput() {
-            @Override
-            public void write(OutputStream output) throws IOException, WebApplicationException {
-                IOUtils.copyLarge(is, output);
-                }
-            };
-            ResponseBuilder builder = Response.ok(out);
-            builder.header("content-disposition", "attachment; filename = " + fileName);
-            builder.header("last-modified", lastModified);
-            return builder.build();
-        } catch (FileNotFoundException e) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-    }
-
 
     /**
      * Get the bulk extract response
@@ -246,7 +193,8 @@ public class BulkExtract {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        return getExtractResponse(headers, bulkExtractFile, bulkExtractFile.lastModified());
+        return getExtractResponse(headers, bulkExtractFile, bulkExtractFile.lastModified(),
+                bulkExtractFileEntity.getLastModified());
 
     }
 
@@ -259,16 +207,15 @@ public class BulkExtract {
      *          The bulk extract file to return
      * @param fileName
      *          The name for a bulk extract file
-     * @param lastModifiedTime
+     * @param lastModified
      *          The last modified date time
      * @return
      *          Response with the bulk extract file
      * @throws ParseException
      */
     private Response getExtractResponse(final HttpHeaders headers,
-            final File bulkExtractFile, final long lastModifiedTime) {
+            final File bulkExtractFile, final long lastModifiedTime, final String lastModified) {
 
-        String lastModified = lastModifiedTime <=0 ? "Not Specified" : new Date(lastModifiedTime).toString();
         String fileName = bulkExtractFile.getName();
         long fileLength = bulkExtractFile.length();
         String eTag = fileName + "_" + fileLength + "_" + lastModified;
@@ -439,7 +386,7 @@ public class BulkExtract {
     }
 
     private String getRequestHeader(HttpHeaders headers, String name) {
-        List<String> list = headers.getRequestHeader(name);
+        List<String> list = headers==null ? null : headers.getRequestHeader(name);
         return list==null || list.isEmpty() ? null : list.get(0);
     }
 
