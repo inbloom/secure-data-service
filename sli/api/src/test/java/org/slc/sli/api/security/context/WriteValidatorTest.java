@@ -172,6 +172,19 @@ public class WriteValidatorTest {
     }
 
     @Test
+    public void testValidUpdateWithNoEdorgId() {
+        EntityBody entityBody = new EntityBody();
+        entityBody.put("key", "value");
+        
+        existingSection.getBody().put(ParameterConstants.SCHOOL_ID, ED_ORG_B);
+
+        when(uriInfo.getPathSegments()).thenReturn(putPath);
+
+        writeValidator.validateWriteRequest(entityBody, uriInfo, principal);
+    }
+
+    
+    @Test
     public void testValidDelete() {
         existingSection.getBody().put(ParameterConstants.SCHOOL_ID, ED_ORG_B);
         when(uriInfo.getPathSegments()).thenReturn(putPath);
