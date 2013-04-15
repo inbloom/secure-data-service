@@ -53,7 +53,7 @@ Scenario: Delete StudentAssessment with cascade
       | studentObjectiveAssessment       |   -1|
 #studentAssessmentItem.studentObjectiveAssessment.studentAssessment This relationship is missing from Odin data
 
-  @wip
+
 Scenario: Delete StudentAssessment with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -162,9 +162,9 @@ Scenario: Delete StudentAssessment with cascade = false, force = true and log vi
       | studentAssessment                |   -1|
       | studentAssessmentItem            |   -2|
       | studentObjectiveAssessment       |   -1|
-      #| recordHash                       |   -1|
+      #| recordHash                       |   -1| record Hash is not supported for StudentAssessment
 
-@wip
+
 Scenario: Delete StudentAssessment Ref with cascade = false, force = true and log violations = true
   Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And the "Midgar" tenant db is empty
@@ -198,4 +198,4 @@ Scenario: Delete StudentAssessment Ref with cascade = false, force = true and lo
       | studentAssessment                |   -1|
       | studentAssessmentItem            |   -2|
       | studentObjectiveAssessment       |   -1|
-      | recordHash                       |   -1|  
+      #| recordHash                       |   -1|  
