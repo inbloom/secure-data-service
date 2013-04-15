@@ -44,7 +44,9 @@ public enum ReferenceConverter {
     TEACHER("TeacherReference","teacher"),
     TEACHERSCHOOlASSOCIATION("TeacherSchoolAssociationReference","teacherSchoolAssociation"),
     TEACHERSECTIONASSOCIATION("TeacherSectionAssociationReference","teacherSectionAssociation"),
+    STUDENTCOHORTASSOCIATIONREFERENCE("StudentCohortAssociationReference","studentCohortAssociation"),
     LEARNINGOBJECTIVE("LearningObjectiveReference","learningObjective");
+
 
 
     /*
