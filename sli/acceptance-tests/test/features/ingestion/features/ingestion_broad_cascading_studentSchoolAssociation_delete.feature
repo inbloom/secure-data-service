@@ -132,7 +132,7 @@ Scenario: Delete Student School Association with cascade = false, force = true a
         |recordHash                 |   -1|
 
 @wip
-Scenario: Delete Student School Association with cascade = false, force = true and log violations = true
+Scenario: Delete Student School Association Ref with cascade = false, force = true and log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
