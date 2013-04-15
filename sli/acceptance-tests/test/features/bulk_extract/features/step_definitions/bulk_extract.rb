@@ -19,6 +19,13 @@ require_relative '../../../ingestion/features/step_definitions/ingestion_steps.r
 require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb' #This is for the decryption step
+require 'zip/zip'
+require 'archive/tar/minitar'
+require 'zlib'
+require 'open3'
+require 'openssl'
+include Archive::Tar
 
 SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_script'])
 TRIGGER_SCRIPT_DIRECTORY = File.expand_path(PropLoader.getProps['bulk_extract_script_directory'])
@@ -37,14 +44,7 @@ COMBINED_ENTITIES = ['assessment', 'studentAssessment']
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
 
-require 'zip/zip'
-require 'archive/tar/minitar'
-require 'zlib'
-require 'open3'
-require 'openssl'
-include Archive::Tar
-require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
-require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb' #This is for the decryption step
+
 
 ############################################################
 # Scheduler
@@ -162,13 +162,16 @@ Given /^the extraction zone is empty$/ do
 end
 
 Given /^I have delta bulk extract files generated for today$/ do
+  @pre_generated = "#{File.dirname(__FILE__)}/../../test_data/deltas/Midgar_delta_1.tar"
+  encryptFile = File.dirname(@pre_generated)+File.basename(@pre_generated,".tar")+"encrypted.tar"
+  encrypt(@pre_generated,encryptFile)  
   bulk_delta_file_entry = {
     _id: "Midgar_delta-19cca28d-7357-4044-8df9-caad4b1c8ee4",
     body: {
       tenantId: "Midgar",
       isDelta: "true",
       applicationId: "19cca28d-7357-4044-8df9-caad4b1c8ee4",
-      path: "#{File.dirname(__FILE__)}/../../test_data/deltas/Midgar_delta_1.tar",
+      path: "#{encryptFile}",
       date: Time.now
     },
     metaData: {
@@ -176,7 +179,6 @@ Given /^I have delta bulk extract files generated for today$/ do
     },
     type: "bulkExtractEntity"
   }
-  @pre_generated = "#{File.dirname(__FILE__)}/../../test_data/deltas/Midgar_delta_1.tar"
   @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb ||= @conn.db(DATABASE_NAME)
   @coll ||= @sliDb.collection("bulkExtractFiles")
