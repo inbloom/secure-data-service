@@ -18,17 +18,22 @@ package org.slc.sli.api.resources;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidKeyException;
+import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Map;
 import java.util.Set;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
@@ -38,13 +43,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -52,12 +58,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -103,11 +111,26 @@ public class BulkExtract {
     @GET
     @Path("extract")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response get() throws Exception {
+    public Response get(@Context HttpHeaders headers) throws Exception {
         LOG.info("Received request to stream sample bulk extract...");
-        InputStream input = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
 
-        return getExtractResponse(input, SAMPLED_FILE_NAME, "Not Specified");
+        final InputStream is = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
+
+        StreamingOutput out = new StreamingOutput() {
+            @Override
+            public void write(OutputStream output) throws IOException, WebApplicationException {
+                int n;
+                byte[] buffer = new byte[1024];
+                while ((n = is.read(buffer)) > -1) {
+                    output.write(buffer, 0, n);
+                }
+            }
+        };
+
+        ResponseBuilder builder = Response.ok(out);
+        builder.header("content-disposition", "attachment; filename = " + SAMPLED_FILE_NAME);
+        builder.header("last-modified", "Not Specified");
+        return builder.build();
     }
 
     /**
@@ -121,7 +144,7 @@ public class BulkExtract {
     @GET
     @Path("extract/tenant")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getTenant() throws Exception {
+    public Response getTenant(@Context HttpHeaders headers) throws Exception {
         info("Received request to stream tenant bulk extract...");
         checkApplicationAuthorization(null);
 
@@ -141,7 +164,7 @@ public class BulkExtract {
     @GET
     @Path("deltas/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getDelta(@PathParam("date") String date) throws Exception {
+    public Response getDelta(@Context HttpHeaders headers, @PathParam("date") String date) throws Exception {
         LOG.info("Retrieving delta bulk extract");
         return getExtractResponse(date);
     }
@@ -170,100 +193,81 @@ public class BulkExtract {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        return getExtractResponse(bulkExtractFile, bulkExtractFileEntity.getLastModified());
-    }
+        String fileName = bulkExtractFile.getName();
+        String lastModified = bulkExtractFileEntity.getLastModified();
 
-    /**
-     * Get the bulk extract response
-     *
-     * @param output
-     *          The StreamingOutput that represents a bulk extract file to return
-     * @param fileName
-     *          The name for a bulk extract file
-     * @param lastModified
-     *          The last modified date time stamp
-     * @return
-     *          Response with the bulk extract file
-     */
-    private Response getExtractResponse(StreamingOutput output, final String fileName, final String lastModified) {
-        ResponseBuilder builder = Response.ok(output)
-                .header("content-disposition", "attachment; filename = " + fileName)
-                .header(HttpHeaders.LAST_MODIFIED, lastModified);
+        try {
+        	final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            final InputStream is = new FileInputStream(bulkExtractFile);
+            StreamingOutput out = new StreamingOutput() {
+                @Override
+                public void write(OutputStream output) throws IOException, WebApplicationException {
+                    int n;
+                    byte[] buffer = new byte[1024];
 
-        return builder.build();
-    }
+                    byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+                    byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
 
-    /**
-     * Get the bulk extract response
-     *
-     * @param input
-     *          The InputStream that represents a bulk extract file to return
-     * @param fileName
-     *          The name for a bulk extract file
-     * @param lastModified
-     *          The last modified date time stamp
-     * @return
-     *          Response with the bulk extract file
-     */
-    private Response getExtractResponse(final InputStream input, final String fileName, final String lastModified) {
-        StreamingOutput out = new StreamingOutput() {
-            @Override
-            public void write(OutputStream output) throws IOException, WebApplicationException {
-                BulkExtract.this.write(input, output);
-            }
-        };
+                    PublicKey publicKey = getApplicationPublicKey(auth);
+                    byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+                    byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
 
-        return getExtractResponse(out, fileName, lastModified);
-    }
+                    output.write(encryptedIV);
+                    output.write(encryptedSecret);
 
-    /**
-     * Get the bulk extract response
-     *
-     * @param bulkExtractFile
-     *          The bulk extract file to return
-     * @param fileName
-     *          The name for a bulk extract file
-     * @param lastModified
-     *          The last modified date time stamp
-     * @return
-     *          Response with the bulk extract file
-     */
-    private Response getExtractResponse(final File bulkExtractFile, final String lastModified) {
-        StreamingOutput out = new StreamingOutput() {
-            @Override
-            public void write(OutputStream output) throws IOException, WebApplicationException {
-                InputStream input = null;
-                try {
-                    input = new FileInputStream(bulkExtractFile);
-                    BulkExtract.this.write(input, output);
-                } finally {
-                    IOUtils.closeQuietly(input);
+                    CipherOutputStream stream = new CipherOutputStream(output, cipherSecretKeyPair.getLeft());
+                    while ((n = is.read(buffer)) > -1) {
+                        stream.write(buffer, 0, n);
+                    }
+                    stream.close();
                 }
-            }
-        };
-
-        return getExtractResponse(out, bulkExtractFile.getName(), lastModified);
+            };
+            ResponseBuilder builder = Response.ok(out);
+            builder.header("content-disposition", "attachment; filename = " + fileName);
+            builder.header("last-modified", lastModified);
+            return builder.build();
+        } catch (FileNotFoundException e) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
     }
 
-    private void write(InputStream input, OutputStream output) throws IOException {
-        // byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
-        // byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
-        // PublicKey publicKey = null; //TODO get public key
-        // try {
-        // publicKey =
-        // KeyPairGenerator.getInstance("RSA").generateKeyPair().getPublic();
-        // } catch (NoSuchAlgorithmException e) {
-        // LOG.error("Exception: NoSuchAlgorithmException {}", e);
-        // tq:q }
-        // byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
-        // byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
-        //
-        // output.write(encryptedIV);
-        // output.write(encryptedSecret.length);
-        // output.write(encryptedSecret);
+    private PublicKey getApplicationPublicKey(Authentication authentication) throws IOException {
+        PublicKey publicKey = null;
 
-        IOUtils.copyLarge(input, output);
-    }
+        if (!(authentication instanceof OAuth2Authentication)) {
+            throw new AccessDeniedException("Not logged in with valid oauth context");
+        }
+        final OAuth2Authentication oauth = (OAuth2Authentication) authentication;
+
+        final String clientId = oauth.getClientAuthentication().getClientId();
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("client_id", NeutralCriteria.OPERATOR_EQUAL,
+                clientId));
+        final Entity entity = mongoEntityRepository.findOne(EntityNames.APPLICATION, query);
+
+        if(entity == null) {
+        	throw new AccessDeniedException("Could not find application with client_id=" + clientId);
+        } else if (entity.getBody().get("public_key") == null) {
+            throw new AccessDeniedException("Missing public_key attribute on application entity. client_id=" + clientId);
+        }
+
+        String key = (String) entity.getBody().get("public_key");
+
+
+
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.decodeBase64(key));
+        try {
+            KeyFactory kf = KeyFactory.getInstance("RSA");
+            publicKey = kf.generatePublic(spec);
+        } catch (NoSuchAlgorithmException e) {
+            LOG.error("Exception: NoSuchAlgorithmException {}", e);
+            throw new IOException(e);
+        } catch (InvalidKeySpecException e) {
+            LOG.error("Exception: InvalidKeySpecException {}", e);
+            throw new IOException(e);
+        }
+
+        return publicKey;
+}
 
     /**
      * Get the bulk extract file
@@ -283,8 +287,10 @@ public class BulkExtract {
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.toDate()));
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d.plusDays(1).toDate()));
         }
+        debug("Bulk Extract query is {}", query);
         Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
         if (entity == null) {
+        	debug("Could not find a bulk extract entity");
             return null;
         }
         return new ExtractFile(entity.getBody().get(BULK_EXTRACT_DATE).toString(), entity.getBody()
@@ -366,6 +372,7 @@ public class BulkExtract {
             super();
             this.lastModified = lastModified;
             this.fileName = fileName;
+            debug("The file is "  + fileName + " and lastModified is " + lastModified);
         }
 
         public String getLastModified() {
@@ -374,6 +381,7 @@ public class BulkExtract {
 
         public File getBulkExtractFile(ExtractFile bulkExtractFileEntity) {
             File bulkExtractFile = new File(fileName);
+            debug("Length of bulk extract file is " + bulkExtractFile.length());
             return bulkExtractFile;
         }
 

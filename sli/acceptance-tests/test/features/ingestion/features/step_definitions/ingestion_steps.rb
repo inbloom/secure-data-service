@@ -1897,7 +1897,8 @@ $subDocEntity2ParentType = {
     "studentObjectiveAssessment" => "studentAssessment",
     "reportCard" => "yearlyTranscript",
     "studentAcademicRecord" => "yearlyTranscript",
-    "grade" => "yearlyTranscript"
+    "grade" => "yearlyTranscript",
+    "attendanceEvent" => "attendance"
 }
 
 def subDocParent(subDocType)
@@ -1908,11 +1909,15 @@ def subDocCount(parent, subdoc, opts=nil, key=nil, match_value=nil)
   total = 0
   coll = @db.collection(parent)
   coll.find().each do |doc|
-    unless doc[subdoc] == nil
+    subdocInMain = doc[subdoc] rescue nil
+    subdocInMainSize = (subdocInMain == nil)? 0 : subdocInMain.size
+    subdocInBody = doc["body"][subdoc] rescue nil
+    subdocInBodySize = (subdocInBody == nil)? 0 : subdocInBody.size
+    if (subdocInMain != nil) || (subdocInBody != nil)
       if key == nil and match_value == nil and opts==nil
-        total += doc[subdoc].size
+        total += subdocInMainSize + subdocInBodySize
       else
-        array = doc[subdoc]
+        array = (subdocInMain != nil)? subdocInMain : subdocInBody
         array.each do |sub|
           @contains = true
           if (key != nil && match_value != nil)
@@ -3332,6 +3337,35 @@ Then /^I check the number of records in collection:/ do |table|
     end
 
     puts "#{red}There are " + @entity_count.to_s + " in "+ row["collectionName"] + " collection for record with " + row["searchParameter"] + " . Expected: " + row["expectedRecordCount"].to_s+"#{reset}"
+  end
+  
+  assert(@result == "true", "Some entities were not stored.")
+  enable_NOTABLESCAN()   
+end
+
+Then /^I check the number of elements in array of collection:/ do |table|
+  
+  disable_NOTABLESCAN()
+  @db = @conn[@ingestion_db_name]
+  @result = "true"
+  
+  table.hashes.map do |row|
+      coll = row["collectionName"]
+      param = row["field"]
+      value = row["value"]
+      parentList = row["searchContainer"]
+
+    @entity_collection = @db.collection(coll)
+    
+    @entity_count = @entity_collection.aggregate( [ {"$match" => {"#{param}" => "#{value}"}},{"$unwind"=> "$#{parentList}"}]).size
+    
+    if @entity_count.to_s != row["expectedRecordCount"].to_s
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
+
+    puts "#{red}There are " + @entity_count.to_s + " in "+ row["collectionName"] + " collection for record with " + row["searchContainer"] + " . Expected: " + row["expectedRecordCount"].to_s+"#{reset}"
   end
   
   assert(@result == "true", "Some entities were not stored.")

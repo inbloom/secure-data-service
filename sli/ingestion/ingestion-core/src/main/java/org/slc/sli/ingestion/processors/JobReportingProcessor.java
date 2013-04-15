@@ -484,7 +484,7 @@ public class JobReportingProcessor implements Processor {
         for (ResourceEntry resourceEntry : job.getResourceEntries()) {
             if (resourceEntry.getResourceFormat() != null
                     && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())
-                    && resourceEntry.getRecordCount() == 0 && resourceEntry.getErrorCount() == 0) {
+                    && resourceEntry.getRecordCount() == 0 && resourceEntry.getErrorCount() == 0 && resourceEntry.getValidationErrorCount() == 0) {
                 logResourceMetric(resourceEntry, 0, 0, 0, 0, 0, jobReportWriter);
             }
         }

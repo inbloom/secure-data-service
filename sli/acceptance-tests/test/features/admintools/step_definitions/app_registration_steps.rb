@@ -424,7 +424,7 @@ Then /^I have enabled "(.*?)"$/ do |arg1|
 end
 
 When /^I enter a public key$/ do
-  @driver.find_element(:name, 'app[public_key]').send_keys "PUBLIC_KEYPUBLIC_KEYPUBLIC_KEYPUBLIC_KEY"
+  @driver.find_element(:name, 'app[public_key]').send_keys "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw1KLTcuf8OpvbHfwMJksUAXbeaoVqZiK/CRhttWDmlMEs8AubXiSgZCekXeaUqefK544BOgeuNgQmMmo0pLyj/GoGhf/bSZH2tsx1uKneCUm9Oq1g+juw5HmBa14H914tslvriFpJvN0b7q53ZeyAOxuD06l94UMj7wnMiNypEhowIMyVMMCRR9485hC8YsRtGB+f607bB440+d5zjG8HGofzWZoCWGR70gJkkOZhwtLw+njpIhmnjDyknngUsOaX1Gza5Fzuz0QtVc/iVHgiSFSz068XR5+zUmTI3cns6QbGnbsajuaTNQiZUHmQ8LOCddAfZz/7incsD9D9JfbYwIDAQAB"
 end
 
 Then /^I check Bulk Extract$/ do

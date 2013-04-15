@@ -46,8 +46,11 @@ import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ElementSource;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 
 /**
  * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
@@ -65,9 +68,10 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     private static final String ACTION_TYPE = "ActionType";
     private static final String CASCADE = "Cascade";
     private static final String ACTION = "Action";
+    private static final String FORCE = "Force";
+    private static final String LOG_VIOLATIONS = "LogViolations";
 
     private TypeProvider typeProvider;
-
 
     private Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
     private ActionVerb action = ActionVerb.NONE;
@@ -86,34 +90,50 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     /**
      * Constructor.
      *
-     * @param typeProvider XSD Type provider
-     * @param messageReport Message report for validation warning/error reporting
-     * @param reportStats Associated report statistics
-     * @param source Source of the messages
+     * @param typeProvider
+     *            XSD Type provider
+     * @param messageReport
+     *            Message report for validation warning/error reporting
+     * @param reportStats
+     *            Associated report statistics
+     * @param source
+     *            Source of the messages
      */
-    public EdfiRecordUnmarshaller(TypeProvider typeProvider, AbstractMessageReport messageReport, ReportStats reportStats, Source source) {
+    public EdfiRecordUnmarshaller(TypeProvider typeProvider, AbstractMessageReport messageReport,
+            ReportStats reportStats, Source source) {
         super(messageReport, reportStats, source);
         this.typeProvider = typeProvider;
     }
 
     /**
-     * Parser an XML represented by the input stream against provided XSD, reports validation issues and produces output of
+     * Parser an XML represented by the input stream against provided XSD, reports validation issues
+     * and produces output of
      * extracted data via the provided visitor.
      *
-     * @param input XML to validate
-     * @param schemaResource XSD resource
-     * @param typeProvider XSD Type provider
-     * @param visitor Record visitor
-     * @param messageReport Message report for validation warning/error reporting
-     * @param reportStats Associated report statistics
-     * @param source Source of the messages
-     * @throws SAXException If a SAX error occurs during XSD parsing.
-     * @throws IOException If a IO error occurs during XSD/XML parsing.
-     * @throws XmlParseException If a SAX error occurs during XML parsing.
+     * @param input
+     *            XML to validate
+     * @param schemaResource
+     *            XSD resource
+     * @param typeProvider
+     *            XSD Type provider
+     * @param visitor
+     *            Record visitor
+     * @param messageReport
+     *            Message report for validation warning/error reporting
+     * @param reportStats
+     *            Associated report statistics
+     * @param source
+     *            Source of the messages
+     * @throws SAXException
+     *             If a SAX error occurs during XSD parsing.
+     * @throws IOException
+     *             If a IO error occurs during XSD/XML parsing.
+     * @throws XmlParseException
+     *             If a SAX error occurs during XML parsing.
      */
     public static void parse(InputStream input, Resource schemaResource, TypeProvider typeProvider,
             RecordVisitor visitor, AbstractMessageReport messageReport, ReportStats reportStats, Source source)
-                    throws SAXException, IOException, XmlParseException {
+            throws SAXException, IOException, XmlParseException {
 
         EdfiRecordUnmarshaller parser = new EdfiRecordUnmarshaller(typeProvider, messageReport, reportStats, source);
 
@@ -138,11 +158,11 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         elementValue.setLength(0);
 
-        if( ACTION.equals( localName)) {
-            action = getAction( localName, attributes);
+        if (ACTION.equals(localName)) {
+            action = getAction(localName, attributes);
             originalType = null;
         } else if (interchange != null) {
-            parseInterchangeEvent( localName, attributes);
+            parseInterchangeEvent(localName, attributes);
         } else if (localName.startsWith("Interchange")) {
             interchange = localName;
         }
@@ -151,13 +171,12 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
 
-        if( ACTION.equals( localName)) {
+        if (ACTION.equals(localName)) {
             action = ActionVerb.NONE;
             return;
         }
 
-        if( action.doDelete() && ReferenceConverter.isReferenceType( originalType )
-                && originalType.equals( localName)) {
+        if (action.doDelete() && ReferenceConverter.isReferenceType(originalType) && originalType.equals(localName)) {
             return;
         }
 
@@ -195,15 +214,14 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
         boolean isFirst = false;
 
-        if( originalType == null && action.doDelete()) {
+        if (originalType == null && action.doDelete()) {
             originalType = localName;
             isFirst = true;
         }
 
-        if( isFirst &&  ReferenceConverter.isReferenceType( localName ) ) {
+        if (isFirst && ReferenceConverter.isReferenceType(localName)) {
             return;
         }
-
 
         if (complexTypeStack.isEmpty()) {
             initCurrentEntity(localName, attributes, action);
@@ -212,46 +230,54 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         }
     }
 
-
-    private ActionVerb getAction( String localName, Attributes attributes ) {
+    private ActionVerb getAction(String localName, Attributes attributes) {
         String xsdType = typeProvider.getTypeFromInterchange(interchange, localName);
         ActionVerb doAction = ActionVerb.NONE;
 
-        if( typeProvider.isActionType( xsdType) ) {
-            String action = attributes.getValue( ACTION_TYPE);
-            String cascade = attributes.getValue( CASCADE);
-            if( action == null || cascade == null ) {
+        if (typeProvider.isActionType(xsdType)) {
+            String action = attributes.getValue(ACTION_TYPE);
+            String cascade = attributes.getValue(CASCADE);
+            if (action == null || cascade == null) {
                 /*
                  * Shouldn't happen - xsd validation would've failed
                  */
-                LOG.warn("Could not get ActionType or Cascade properties for {}", localName );
+                LOG.warn("Could not get ActionType or Cascade properties for {}", localName);
             }
 
-
             try {
-                doAction = ActionVerb.valueOf( action);
-                if( doAction == ActionVerb.DELETE &&Boolean.parseBoolean( cascade ) ) {
+                doAction = ActionVerb.valueOf(action);
+                if (doAction == ActionVerb.DELETE && Boolean.parseBoolean(cascade)) {
                     doAction = ActionVerb.CASCADE_DELETE;
                 }
 
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 /*
                  * Shouldn't happen - xsd validation would've failed
                  */
                 doAction = ActionVerb.NONE;
-                LOG.warn("Could not get ActionVerb for {}", action );
+                LOG.warn("Could not get ActionVerb for {}", action);
+            }
+            Map<String, String> actionAttributes = new HashMap<String, String>();
+            doAction.setAttributes(actionAttributes);
+            String force = attributes.getValue(FORCE);
+            String logViolations = attributes.getValue(LOG_VIOLATIONS);
+            if(force != null) {
+                actionAttributes.put(FORCE, force);
+            }
+            if(logViolations != null) {
+                actionAttributes.put(LOG_VIOLATIONS, logViolations);
             }
         }
 
-      return ( doAction );
+        return (doAction);
     }
 
-    private void initCurrentEntity(String localName, Attributes attributes, ActionVerb doAction ) {
+    private void initCurrentEntity(String localName, Attributes attributes, ActionVerb doAction) {
         String xsdType = typeProvider.getTypeFromInterchange(interchange, localName, doAction);
 
         RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType, false, doAction);
-        if( originalType != null ) {
-            recordMeta.setOriginalType( originalType );
+        if (originalType != null) {
+            recordMeta.setOriginalType(originalType);
         }
 
         recordMeta.setSourceStartLocation(getCurrentLocation());
@@ -286,8 +312,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     }
 
     private RecordMeta getRecordMetaForEvent(String eventName) {
-        RecordMeta typeMeta = typeProvider
-                .getTypeFromParentType(complexTypeStack.peek().getLeft(), eventName);
+        RecordMeta typeMeta = typeProvider.getTypeFromParentType(complexTypeStack.peek().getLeft(), eventName);
 
         if (typeMeta == null) {
             // the parser must go on building the stack
@@ -318,18 +343,84 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         Pair<RecordMeta, Map<String, Object>> pair = complexTypeStack.pop();
         LOG.debug("Parsed record: {}", pair);
 
+        RecordMetaImpl meta = (RecordMetaImpl) pair.getLeft();
+        boolean validRecord = isValidRecord(meta);
+        if (!validRecord) {
+            currentEntityValid = false;
+        }
+
         if (currentEntityValid) {
-            ((RecordMetaImpl) pair.getLeft()).setSourceEndLocation(getCurrentLocation());
+            meta.setSourceEndLocation(getCurrentLocation());
             originalType = null;
 
             for (RecordVisitor visitor : recordVisitors) {
-                visitor.visit(pair.getLeft(), pair.getRight());
+                visitor.visit(meta, pair.getRight());
             }
         } else {
             for (RecordVisitor visitor : recordVisitors) {
                 visitor.ignored();
             }
         }
+    }
+
+    /*
+     * Cascade delete is not supported now, but we can't change the schema
+     */
+    private boolean isValidRecord(final RecordMeta meta) {
+        boolean status = true;
+        Source elementSource = new ElementSourceImpl(new ElementSource() {
+
+            @Override
+            public String getResourceId() {
+                return source.getResourceId();
+            }
+
+            @Override
+            public int getVisitBeforeLineNumber() {
+                return meta.getSourceStartLocation().getLineNumber();
+            }
+
+            @Override
+            public int getVisitBeforeColumnNumber() {
+                return meta.getSourceStartLocation().getColumnNumber();
+            }
+
+            @Override
+            public String getElementType() {
+                return source.getResourceId();
+            }
+        });
+
+        boolean isDelete = meta.getAction().doDelete();
+        boolean isReference = false;
+
+        if (!isDelete) {
+            return status;
+        }
+
+        if (isDelete && meta.doCascade()) {
+            messageReport.error(reportStats, elementSource, CoreMessageCode.CORE_0072);
+            status = false;
+        }
+
+        // Some deletes are not implemented yet
+        if (isDelete && ReferenceConverter.isReferenceType(originalType)) {
+            if (ReferenceConverter.fromReferenceName(originalType) == null) {
+                messageReport.error(reportStats, elementSource, CoreMessageCode.CORE_0073, originalType);
+                return false;
+            } else {
+                isReference = true;
+            }
+        }
+
+
+        if (isDelete && originalType != null &&  !isReference && !SupportedEntities.isSupportedForDelete(originalType)) {
+            messageReport.error(reportStats, elementSource, CoreMessageCode.CORE_0073, originalType);
+            return false;
+        }
+
+
+        return status;
     }
 
     /**
@@ -375,10 +466,41 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     /**
      * Register a visitor to retrieve extracted data.
      *
-     * @param recordVisitor Record visitor
+     * @param recordVisitor
+     *            Record visitor
      */
     public void addVisitor(RecordVisitor recordVisitor) {
         recordVisitors.add(recordVisitor);
+    }
+
+    /*
+     * We need to disallow deletes of any entities that are not listed here. This should go away
+     * next sprint, as deletes of all
+     * entities will be supported
+     */
+
+    protected static enum SupportedEntities {
+        ASSESSMENTFAMILY("AssessmentFamily"), ASSESSMENT("Assessment"), ATTENDANCEEVENT("AttendanceEvent"), CALENDARDATE("CalendarDate"), COHORT(
+                "Cohort"), COURSEOFFERING("CourseOffering"), COURSE("Course"), GRADE("Grade"), GRADINGPERIOD("GradingPeriod"), PARENT(
+                "Parent"), SCHOOL( "School"), SECTION("Section"), SESSION("Session"), STAFFEDUCATIONORGASSIGNMENTASSOCIATION(
+                "StaffEducationOrgAssignmentAssociation"), STUDENTASSESSMENT("StudentAssessment"), STUDENTCOHORTASSOCIATION(
+                "StudentCohortAssociation"), STUDENT("Student"), STUDENTPARENTASSOCIATION("StudentParentAssociation"), STUDENTSCHOOLASSOCIATION(
+                "StudentSchoolAssociation"), TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociation"), TEACHERSECTIONASSOCIATION(
+                "TeacherSectionAssociation"), TEACHER("Teacher");
+
+        private SupportedEntities(String text) {
+        }
+
+        static boolean isSupportedForDelete(String entityName) {
+            try {
+                SupportedEntities.valueOf(entityName.toUpperCase());
+            } catch (IllegalArgumentException ex) {
+                LOG.warn("Received entity unsupported for deletes: {}", entityName);
+                return false;
+            }
+            return true;
+        }
+
     }
 
 }

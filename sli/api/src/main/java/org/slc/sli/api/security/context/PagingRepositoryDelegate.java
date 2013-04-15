@@ -33,9 +33,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CascadeResult;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -261,8 +262,9 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      * @see org.slc.sli.domain.Repository#safeDelete(...)
      */
     @Override
-    public CascadeResult safeDelete(String entityType, String collectionName, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
-        return repo.safeDelete(collectionName, null, id, cascade, dryrun, maxObjects, access);
+    public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        return repo.safeDelete(entityType, id, cascade, dryrun, forced, logViolations, maxObjects, access);
     }
 
     /*
@@ -386,6 +388,13 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     @Override
     public Iterator<T> findEach(String collectionName, Query query) {
+        return null;
+    }
+
+    @Override
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun, boolean force, boolean logViolations,
+            Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
         return null;
     }
 }

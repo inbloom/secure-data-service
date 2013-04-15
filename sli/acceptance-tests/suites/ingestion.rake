@@ -324,6 +324,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadStaffEducationOrgAssignmentAssociationTest,
         :ingestionCascadingDeletionBroadStaffProgramAssociationTest,
         :ingestionCascadingDeletionBroadStaffTest,
+        :ingestionCascadingDeletionBroadStudentTest,
         :ingestionCascadingDeletionBroadStudentAcademicRecordTest,
         :ingestionCascadingDeletionBroadStudentAssessmentTest,
         :ingestionCascadingDeletionBroadStudentCohortAssociationTest,

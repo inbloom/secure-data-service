@@ -23,9 +23,14 @@ import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +44,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 
 import com.sun.jersey.core.spi.factory.ResponseImpl;
+import com.sun.jersey.core.util.Base64;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
@@ -63,6 +69,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -78,9 +85,12 @@ import org.slc.sli.domain.Repository;
         DirtiesContextTestExecutionListener.class })
 public class BulkExtractTest {
 
-    private static final String FILE_NAME = "mock.tar.gz";
+    private static final String INPUT_FILE_NAME = "mock.in.tar.gz";
+    private static final String OUTPUT_FILE_NAME = "mock.out.tar.gz";
+
 
     private static final String EXPECTED_STRING = "Crypto sux";
+    public static final String BULK_DATA = "12345";
 
     @Autowired
     @InjectMocks
@@ -91,6 +101,15 @@ public class BulkExtractTest {
 
     @Mock
     private Repository<Entity> mockMongoEntityRepository;
+
+    private static final String PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw1KLTcuf8OpvbHfwMJks\n" +
+            "UAXbeaoVqZiK/CRhttWDmlMEs8AubXiSgZCekXeaUqefK544BOgeuNgQmMmo0pLy\n" +
+            "j/GoGhf/bSZH2tsx1uKneCUm9Oq1g+juw5HmBa14H914tslvriFpJvN0b7q53Zey\n" +
+            "AOxuD06l94UMj7wnMiNypEhowIMyVMMCRR9485hC8YsRtGB+f607bB440+d5zjG8\n" +
+            "HGofzWZoCWGR70gJkkOZhwtLw+njpIhmnjDyknngUsOaX1Gza5Fzuz0QtVc/iVHg\n" +
+            "iSFSz068XR5+zUmTI3cns6QbGnbsajuaTNQiZUHmQ8LOCddAfZz/7incsD9D9Jfb\n" +
+            "YwIDAQAB\n";
+    private static final String PRIVATE_KEY = "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDDUotNy5/w6m9sd/AwmSxQBdt5qhWpmIr8JGG21YOaUwSzwC5teJKBkJ6Rd5pSp58rnjgE6B642BCYyajSkvKP8agaF/9tJkfa2zHW4qd4JSb06rWD6O7DkeYFrXgf3Xi2yW+uIWkm83Rvurndl7IA7G4PTqX3hQyPvCcyI3KkSGjAgzJUwwJFH3jzmELxixG0YH5/rTtsHjjT53nOMbwcah/NZmgJYZHvSAmSQ5mHC0vD6eOkiGaeMPKSeeBSw5pfUbNrkXO7PRC1Vz+JUeCJIVLPTrxdHn7NSZMjdyezpBsaduxqO5pM1CJlQeZDws4J10B9nP/uKdywP0P0l9tjAgMBAAECggEACXTko7aZHsvq6yB/c4rm91ThRGm0tMpa6ExGotiBj6Y3UxCZ7tjolvdOhhJ5WUkeTrlRUwN+AUsMuqkA0Hkm30s+7Ux+JGW3EuSL7DB7FTkPQspeUW2kqblVnq7AYyKQ5qCoFJEviyA8YfBzcUQX7S2FQp53MJ2zdv4QE8Bdm5CEPiTjA8F0eOeA8awQfPK3W4JPPZkhVErb9ie0Tj18xARpmI8llI7s6kAU51qmFHvi51l8nqTNCbVxxfRPACT5NUr4qkD2fhaGaFqMekJz8aKvIEUBc37BBe1PmaRvQKZGc+GgpPkJc9xqVEhfihm2HHcfhsA7HvrMeYFd12tDCQKBgQDo2vwqOdYn/L8z9if9B1+qYw/ETJ6OMwXN+1yajpZm7RT+tj4uvsoqo88G/VYIb5ZzaXT7xtLwINEgl8G1PdIKFwScv9fxVOgjuZpPKdJuvplSzqJXSP7Ok/u1SUGmtN3oGbBG8r+N72dvDB1gt4daaZka6VuK8NOJn6BTHxefrQKBgQDWvIf8rWdOwbjJ22P/KB2px8gTCVDCkb+RP63uVxoARJ4tMeIZ2YRTHEZUhKqlvDWPZh+1l2bnzhjIQ/iOHwfiO4oBg6gFqceIdwWQs335z842JKV6lHhlN2vrAdIIc46uwTFs3HEfQKHalVrA4/4eAmmNv4UokWSRfL7xaoKJTwKBgQCAQQV9OIf1VGf39dAGtQYDMjbf9xep2P6MerOByaGbpV/X/4b2dk2h+MGx5t15HgUvIlm1x8gtTNYC7rNZ4WgL+Kuorp4BJbQK4VLV4YIvTznh+0A9dU4reCS+sE/Bw4MqMOP/3/qT8dX1uyV/PPcHXHxg70FloMnS1qIWxlxbrQKBgQCYYUz2p26J2rpws7iwFh2Gn3iA2blveNHCFrgsS67txcOhOqbBxTM7bvMRgts9pOM1ETkrOXcSw5OeeW1mHOsRRULXdD/FVQd89UkDt/uLTEV+8l5jL/yHht6T88TBro7vv7R9FalIjirM2/N8sc1gKkIRDnlFoncFLsqosfZTzQKBgQDhkt/sWJsnMQ4TlcIFDgzmAE3D5YePJW3oN+FBye+6ukB4OZAsF9I7OAF3ibbeVSQ8CXD7BuJFJenFazguD3zydreCsRmuEIkswg2mROsBnci3Jq3omnKsfR8V014PCTaRX39VDCvmTuKSk39zFibioWb74r+jAF6IRUVtu0A4hQ==";
 
     @Before
     public void init() {
@@ -125,7 +144,7 @@ public class BulkExtractTest {
     public void testGetSampleExtract() throws Exception {
         injector.setEducatorContext();
 
-        ResponseImpl res = (ResponseImpl) bulkExtract.get();
+        ResponseImpl res = (ResponseImpl) bulkExtract.get(null);
         assertEquals(200, res.getStatus());
         MultivaluedMap<String, Object> headers = res.getMetadata();
         assertNotNull(headers);
@@ -155,31 +174,49 @@ public class BulkExtractTest {
         Entity mockEntity = Mockito.mock(Entity.class);
         Map<String, Object> mockBody = Mockito.mock(Map.class);
         Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-        Mockito.when(mockBody.get(Mockito.anyString())).thenReturn("");
-        Mockito.when(
-                mockMongoEntityRepository.findOne(eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
+        Mockito.when(mockBody.get("public_key")).thenReturn(PUBLIC_KEY);
+        Mockito.when(mockBody.get("isBulkExtract")).thenReturn(true);
+        Mockito.when(mockBody.containsKey("isBulkExtract")).thenReturn(true);
+        Mockito.when(mockBody.get("path")).thenReturn("/fake/path");
+        Mockito.when(mockBody.get("date")).thenReturn("2013-05-04");
+        Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
-        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant();
+        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant(null);
         assertEquals(404, res.getStatus());
     }
 
   @Test
-  public void testGetTenant() throws Exception {
-      injector.setEducatorContext();
-      Entity mockEntity = Mockito.mock(Entity.class);
-      Map<String, Object> mockBody = Mockito.mock(Map.class);
-      Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
+  public void testGet() throws Exception {
+      injector.setOauthAuthenticationWithEducationRole();
 
-      File tmpDir = FileUtils.getTempDirectory();
-      File file = FileUtils.getFile(tmpDir, FILE_NAME);
-      FileUtils.writeStringToFile(file, "12345");
-      Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(file.getAbsolutePath());
-      Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
-        Mockito.when(
-                mockMongoEntityRepository.findOne(eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
-          .thenReturn(mockEntity);
+      { //mock application entity
+          Entity mockEntity = Mockito.mock(Entity.class);
+          Map<String, Object> mockBody = Mockito.mock(Map.class);
+          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
 
-      ResponseImpl res = (ResponseImpl) bulkExtract.getTenant();
+          Mockito.when(mockBody.get(eq("public_key"))).thenReturn(PUBLIC_KEY);
+          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
+                  .thenReturn(mockEntity);
+      }
+
+
+      { //mock bulk extract entity
+          Entity mockEntity = Mockito.mock(Entity.class);
+          Map<String, Object> mockBody = Mockito.mock(Map.class);
+          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
+
+          File tmpDir = FileUtils.getTempDirectory();
+          File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
+
+          FileUtils.writeStringToFile(inputFile, BULK_DATA);
+          Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
+          Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
+          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
+                  .thenReturn(mockEntity);
+      }
+
+
+      Response res = bulkExtract.getDelta(null, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -188,16 +225,42 @@ public class BulkExtractTest {
       String header = (String) headers.getFirst("content-disposition");
       assertNotNull(header);
       assertTrue(header.startsWith("attachment"));
-      assertTrue(header.indexOf(FILE_NAME) > 0);
+      assertTrue(header.indexOf(INPUT_FILE_NAME) > 0);
 
       Object entity = res.getEntity();
       assertNotNull(entity);
       StreamingOutput out = (StreamingOutput) entity;
-      FileOutputStream os = new FileOutputStream(file);
+
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+
       out.write(os);
       os.flush();
-      assertTrue(file.exists());
-      FileUtils.deleteQuietly(file);
+      byte[] responseData = os.toByteArray();
+      assertTrue(responseData.length >= 256 + 256 + BULK_DATA.length());
+
+      byte[] encodediv = Arrays.copyOfRange(responseData, 0, 256);
+      byte[] encodedsecret = Arrays.copyOfRange(responseData, 256, 512);
+      byte[] message = Arrays.copyOfRange(responseData, 512, responseData.length);
+
+      Cipher decrypt = Cipher.getInstance("RSA");
+      KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+      PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(Base64.decode(PRIVATE_KEY.getBytes()));
+      PrivateKey privateKey = keyFactory.generatePrivate(privateKeySpec);
+      decrypt.init(Cipher.DECRYPT_MODE, privateKey);
+
+      byte[] iv = decrypt.doFinal(encodediv);
+      byte[] secret = decrypt.doFinal(encodedsecret);
+
+      decrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
+      SecretKeySpec key = new SecretKeySpec(secret, "AES");
+      IvParameterSpec ivSpec = new IvParameterSpec(iv);
+      decrypt.init(Cipher.DECRYPT_MODE, key, ivSpec);
+
+      byte[] unencryptedMessage = decrypt.doFinal(message);
+      assertTrue(unencryptedMessage.length == BULK_DATA.length());
+
+      String s = new String(unencryptedMessage);
+      assertTrue(s.equals(BULK_DATA));
   }
 
     @Test
@@ -226,9 +289,9 @@ public class BulkExtractTest {
                 public void describeTo(Description arg0) {
                 }
             }))).thenReturn(e);
-            Response r = bulkExtract.getDelta("20130331");
+            Response r = bulkExtract.getDelta(null, "20130331");
             assertEquals(200, r.getStatus());
-            Response notExisting = bulkExtract.getDelta("20130401");
+            Response notExisting = bulkExtract.getDelta(null, "20130401");
             assertEquals(404, notExisting.getStatus());
         } finally {
             f.delete();
@@ -244,7 +307,7 @@ public class BulkExtractTest {
         when(mockEntity.getBody()).thenReturn(body);
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        bulkExtract.getTenant();
+        bulkExtract.getTenant(null);
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -257,6 +320,6 @@ public class BulkExtractTest {
         when(mockEntity.getBody()).thenReturn(body);
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        bulkExtract.getTenant();
+        bulkExtract.getTenant(null);
     }
 }
