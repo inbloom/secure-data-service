@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DeltaJournal {
 
-    @Value("${deltasEnabled:false}")
+    @Value("${sli.bulk.extract.deltasEnabled:false}")
     private boolean isEnabled;
 
     public static final String DELTA_COLLECTION = "deltas";
