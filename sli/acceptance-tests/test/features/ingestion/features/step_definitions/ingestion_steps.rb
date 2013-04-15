@@ -1897,7 +1897,8 @@ $subDocEntity2ParentType = {
     "studentObjectiveAssessment" => "studentAssessment",
     "reportCard" => "yearlyTranscript",
     "studentAcademicRecord" => "yearlyTranscript",
-    "grade" => "yearlyTranscript"
+    "grade" => "yearlyTranscript",
+    "attendanceEvent" => "attendance"
 }
 
 def subDocParent(subDocType)
@@ -1908,11 +1909,15 @@ def subDocCount(parent, subdoc, opts=nil, key=nil, match_value=nil)
   total = 0
   coll = @db.collection(parent)
   coll.find().each do |doc|
-    unless doc[subdoc] == nil
+    subdocInMain = doc[subdoc] rescue nil
+    subdocInMainSize = (subdocInMain == nil)? 0 : subdocInMain.size
+    subdocInBody = doc["body"][subdoc] rescue nil
+    subdocInBodySize = (subdocInBody == nil)? 0 : subdocInBody.size
+    if (subdocInMain != nil) || (subdocInBody != nil)
       if key == nil and match_value == nil and opts==nil
-        total += doc[subdoc].size
+        total += subdocInMainSize + subdocInBodySize
       else
-        array = doc[subdoc]
+        array = (subdocInMain != nil)? subdocInMain : subdocInBody
         array.each do |sub|
           @contains = true
           if (key != nil && match_value != nil)
