@@ -35,6 +35,10 @@ When /^I make bulk extract API call$/ do
   restHttpGet("/bulk/extract/tenant")
 end
 
+When /^I make a call to the bulk extract end point "(.*?)"$/ do |url|
+  restTls(url)
+end
+
 When /^I make API call to retrieve today's delta file$/ do
   today = Time.now
   restHttpGet("/bulk/deltas/#{today.strftime("%Y%m%d")}")

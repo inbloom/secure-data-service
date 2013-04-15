@@ -38,6 +38,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -54,15 +55,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.stereotype.Component;
-
+import org.slc.sli.api.security.CertificateValidationHelper;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.common.constants.EntityNames;
@@ -71,6 +64,14 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Component;
 
 /**
  * The Bulk Extract Endpoints.
@@ -93,9 +94,12 @@ public class BulkExtract {
 
     @Autowired
     private Repository<Entity> mongoEntityRepository;
+    
+    @Autowired
+    private CertificateValidationHelper validator;
 
     private SLIPrincipal principal;
-
+    
     private void initializePrincipal() {
         this.principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
@@ -111,9 +115,11 @@ public class BulkExtract {
     @GET
     @Path("extract")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response get(@Context HttpHeaders headers) throws Exception {
+    public Response get(@Context HttpHeaders headers, @Context HttpServletRequest request) throws Exception {
         LOG.info("Received request to stream sample bulk extract...");
-
+        
+        this.validator.validateCertificate(request);
+        
         final InputStream is = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
 
         StreamingOutput out = new StreamingOutput() {
@@ -144,9 +150,11 @@ public class BulkExtract {
     @GET
     @Path("extract/tenant")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getTenant(@Context HttpHeaders headers) throws Exception {
+    public Response getTenant(@Context HttpHeaders headers, @Context HttpServletRequest request) throws Exception {
         info("Received request to stream tenant bulk extract...");
         checkApplicationAuthorization(null);
+        
+        this.validator.validateCertificate(request);
 
         return getExtractResponse(null);
     }
@@ -164,8 +172,11 @@ public class BulkExtract {
     @GET
     @Path("deltas/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getDelta(@Context HttpHeaders headers, @PathParam("date") String date) throws Exception {
+    public Response getDelta(@Context HttpHeaders headers, @Context HttpServletRequest request, @PathParam("date") String date) throws Exception {
         LOG.info("Retrieving delta bulk extract");
+        
+        this.validator.validateCertificate(request);
+        
         return getExtractResponse(date);
     }
 
@@ -358,7 +369,11 @@ public class BulkExtract {
         return Pair.of(encrypt, secret);
     }
 
-    /**
+	public void setValidator(CertificateValidationHelper validator) {
+		this.validator = validator;
+	}
+
+	/**
      * Information about the file to extract
      *
      * @author nbrown
@@ -386,5 +401,6 @@ public class BulkExtract {
         }
 
     }
-
+    
+   
 }
