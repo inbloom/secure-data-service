@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import junitx.util.PrivateAccessor;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -109,6 +110,8 @@ public class ExtractFileTest {
     @After
     public void cleanup() {
         FileUtils.deleteQuietly(new File(FILE_NAME + FILE_EXT));
+        String fileName = archiveFile.getFileName(testApp);
+        FileUtils.deleteQuietly(new File(fileName));
     }
 
     /**
@@ -123,14 +126,16 @@ public class ExtractFileTest {
         TarArchiveInputStream tarInputStream = null;
         List<String> names = new ArrayList<String>();
 
+        File decryptedFile = null;
         try {
-            tarInputStream = new TarArchiveInputStream(new FileInputStream(decrypt(new File(fileName))));
+            decryptedFile = decrypt(new File(fileName));
+            tarInputStream = new TarArchiveInputStream(new FileInputStream(decryptedFile));
 
 
-        TarArchiveEntry entry = null;
-        while((entry = tarInputStream.getNextTarEntry())!= null) {
-            names.add(entry.getName());
-        }
+            TarArchiveEntry entry = null;
+            while((entry = tarInputStream.getNextTarEntry())!= null) {
+                names.add(entry.getName());
+            }
         } finally {
             IOUtils.closeQuietly(tarInputStream);
         }
@@ -138,6 +143,7 @@ public class ExtractFileTest {
         Assert.assertEquals(2, names.size());
         Assert.assertTrue("Student extract file not found", names.get(1).contains("student"));
         Assert.assertTrue("Metadata file not found", names.get(0).contains("metadata"));
+        FileUtils.deleteQuietly(decryptedFile);
     }
 
     private static File decrypt(File file) throws Exception {
