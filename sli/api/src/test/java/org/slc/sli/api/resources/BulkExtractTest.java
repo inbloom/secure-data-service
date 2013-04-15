@@ -26,10 +26,16 @@ import static org.mockito.Mockito.when;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
@@ -211,7 +217,108 @@ public class BulkExtractTest {
       assertEquals(BULK_DATA, s);
   }
 
-    @Test
+  @Test
+  public void testGetExtractResponse() throws Exception {
+      injector.setOauthAuthenticationWithEducationRole();
+
+      { //mock application entity
+          Entity mockEntity = Mockito.mock(Entity.class);
+          Map<String, Object> mockBody = Mockito.mock(Map.class);
+          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
+
+          Mockito.when(mockBody.get(eq("public_key"))).thenReturn(PUBLIC_KEY);
+          Mockito.when(mockBody.get(eq("_id"))).thenReturn("abc123_id");
+          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
+                  .thenReturn(mockEntity);
+      }
+
+      File tmpDir = FileUtils.getTempDirectory();
+
+      { //mock bulk extract entity
+          Entity mockEntity = Mockito.mock(Entity.class);
+          Map<String, Object> mockBody = Mockito.mock(Map.class);
+          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
+
+
+          File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
+
+          FileUtils.writeStringToFile(inputFile, BULK_DATA);
+          Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
+          Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
+          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
+                  .thenReturn(mockEntity);
+      }
+
+      HttpHeaders reqHeaders = new HttpHeaders() {
+
+        @Override
+        public MultivaluedMap<String, String> getRequestHeaders() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<String> getRequestHeader(String name) {
+            // TODO Auto-generated method stub
+            return Collections.emptyList();
+        }
+
+        @Override
+        public MediaType getMediaType() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Locale getLanguage() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Map<String, Cookie> getCookies() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<MediaType> getAcceptableMediaTypes() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<Locale> getAcceptableLanguages() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    };
+
+      Response res = bulkExtract.getExtractResponse(reqHeaders, null);
+      assertEquals(200, res.getStatus());
+      MultivaluedMap<String, Object> headers = res.getMetadata();
+      assertNotNull(headers);
+      assertTrue(headers.containsKey("content-disposition"));
+      assertTrue(headers.containsKey("last-modified"));
+      String header = (String) headers.getFirst("content-disposition");
+      assertNotNull(header);
+      assertTrue(header.startsWith("attachment"));
+      assertTrue(header.indexOf(INPUT_FILE_NAME) > 0);
+
+      Object entity = res.getEntity();
+      assertNotNull(entity);
+
+      StreamingOutput out = (StreamingOutput) entity;
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      out.write(os);
+      os.flush();
+      byte[] responseData = os.toByteArray();
+      String s = new String(responseData);
+
+      assertEquals(BULK_DATA, s);
+  }
+
+  @Test
     public void testGetDelta() throws Exception {
         injector.setEducatorContext();
         Map<String, Object> body = new HashMap<String, Object>();
