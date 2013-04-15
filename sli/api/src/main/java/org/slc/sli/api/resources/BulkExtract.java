@@ -51,6 +51,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -91,22 +92,24 @@ public class BulkExtract {
     public static final String BULK_EXTRACT_FILE_PATH = "path";
     public static final String BULK_EXTRACT_DATE = "date";
 
+    private final int BUFFER_SIZE = 1024;
+
     @Autowired
     private Repository<Entity> mongoEntityRepository;
 
     private SLIPrincipal principal;
 
     private void initializePrincipal() {
-        this.principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        this.principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
     }
 
     /**
      * Creates a streaming response for the sample data file.
      *
-     * @return
-     *          A response with the sample extract file
+     * @return A response with the sample extract file
      * @throws Exception
-     *          On Error
+     *             On Error
      */
     @GET
     @Path("extract")
@@ -114,7 +117,8 @@ public class BulkExtract {
     public Response get(@Context HttpHeaders headers) throws Exception {
         LOG.info("Received request to stream sample bulk extract...");
 
-        final InputStream is = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
+        final InputStream is = this.getClass().getResourceAsStream(
+                "/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
 
         StreamingOutput out = new StreamingOutput() {
             @Override
@@ -136,10 +140,9 @@ public class BulkExtract {
     /**
      * Creates a streaming response for the tenant data file.
      *
-     * @return
-     *          A response with the actual extract file
+     * @return A response with the actual extract file
      * @throws Exception
-     *          On Error
+     *             On Error
      */
     @GET
     @Path("extract/tenant")
@@ -156,15 +159,15 @@ public class BulkExtract {
      *
      * @param date
      *            the date of the delta
-     * @return
-     *          A response with a delta extract file.
+     * @return A response with a delta extract file.
      * @throws Exception
-     *          On Error
+     *             On Error
      */
     @GET
     @Path("deltas/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getDelta(@Context HttpHeaders headers, @PathParam("date") String date) throws Exception {
+    public Response getDelta(@Context HttpHeaders headers, @PathParam("date") String date)
+            throws Exception {
         LOG.info("Retrieving delta bulk extract");
         return getExtractResponse(date);
     }
@@ -186,7 +189,8 @@ public class BulkExtract {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
+        final File bulkExtractFile = bulkExtractFileEntity
+                .getBulkExtractFile(bulkExtractFileEntity);
         if (bulkExtractFile == null || !bulkExtractFile.exists()) {
             // return 404 if the bulk extract file is missing
             LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
@@ -197,7 +201,7 @@ public class BulkExtract {
         String lastModified = bulkExtractFileEntity.getLastModified();
 
         try {
-        	final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             final InputStream is = new FileInputStream(bulkExtractFile);
             StreamingOutput out = new StreamingOutput() {
                 @Override
@@ -215,7 +219,8 @@ public class BulkExtract {
                     output.write(encryptedIV);
                     output.write(encryptedSecret);
 
-                    CipherOutputStream stream = new CipherOutputStream(output, cipherSecretKeyPair.getLeft());
+                    CipherOutputStream stream = new CipherOutputStream(output,
+                            cipherSecretKeyPair.getLeft());
                     while ((n = is.read(buffer)) > -1) {
                         stream.write(buffer, 0, n);
                     }
@@ -231,6 +236,43 @@ public class BulkExtract {
         }
     }
 
+    /**
+     * Stream the specified byte range from input stream to output stream.
+     *
+     * @param is - Input stream
+     * @param os - Output stream
+     * @param offset - Input stream offset
+     * @param length - Number of bytes to stream
+     *
+     * @return - Actual number of bytes streamed
+     */
+    private long getByteRange(InputStream is, OutputStream os, long offset, long length) {
+        long bytesStreamed = 0;
+        long bytesLeft = length;
+        int readLength;
+        int bytesRead;
+        byte[] buffer = new byte[BUFFER_SIZE];
+        try {
+            while (bytesLeft > 0) {
+                readLength = (int) ((BUFFER_SIZE > bytesLeft) ? bytesLeft : BUFFER_SIZE);
+                bytesRead = is.read(buffer, 0, readLength);
+                os.write(buffer, 0, bytesRead);
+                bytesStreamed += bytesRead;
+                if (bytesRead < readLength) { // Error!
+                    throw new IOException("Read " + bytesRead + "; expected " + readLength);
+                }
+                bytesLeft -= bytesRead;
+            }
+        } catch (IOException e) {
+            LOG.error("Exception: IOException {}", e);
+        } finally {
+            IOUtils.closeQuietly(is);
+            IOUtils.closeQuietly(os);
+        }
+
+        return bytesStreamed;
+    }
+
     private PublicKey getApplicationPublicKey(Authentication authentication) throws IOException {
         PublicKey publicKey = null;
 
@@ -240,19 +282,18 @@ public class BulkExtract {
         final OAuth2Authentication oauth = (OAuth2Authentication) authentication;
 
         final String clientId = oauth.getClientAuthentication().getClientId();
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("client_id", NeutralCriteria.OPERATOR_EQUAL,
-                clientId));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("client_id",
+                NeutralCriteria.OPERATOR_EQUAL, clientId));
         final Entity entity = mongoEntityRepository.findOne(EntityNames.APPLICATION, query);
 
-        if(entity == null) {
-        	throw new AccessDeniedException("Could not find application with client_id=" + clientId);
+        if (entity == null) {
+            throw new AccessDeniedException("Could not find application with client_id=" + clientId);
         } else if (entity.getBody().get("public_key") == null) {
-            throw new AccessDeniedException("Missing public_key attribute on application entity. client_id=" + clientId);
+            throw new AccessDeniedException(
+                    "Missing public_key attribute on application entity. client_id=" + clientId);
         }
 
         String key = (String) entity.getBody().get("public_key");
-
-
 
         X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.decodeBase64(key));
         try {
@@ -267,7 +308,7 @@ public class BulkExtract {
         }
 
         return publicKey;
-}
+    }
 
     /**
      * Get the bulk extract file
@@ -279,18 +320,20 @@ public class BulkExtract {
     private ExtractFile getBulkExtractFile(String deltaDate) {
         boolean isDelta = deltaDate != null;
         initializePrincipal();
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
-                principal.getTenantId()));
-        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId",
+                NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId()));
+        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean
+                .toString(isDelta)));
         if (isDelta) {
             DateTime d = ISODateTimeFormat.basicDate().parseDateTime(deltaDate);
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.toDate()));
-            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d.plusDays(1).toDate()));
+            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d
+                    .plusDays(1).toDate()));
         }
         debug("Bulk Extract query is {}", query);
         Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
         if (entity == null) {
-        	debug("Could not find a bulk extract entity");
+            debug("Could not find a bulk extract entity");
             return null;
         }
         return new ExtractFile(entity.getBody().get(BULK_EXTRACT_DATE).toString(), entity.getBody()
@@ -323,11 +366,13 @@ public class BulkExtract {
      * @throws AccessDeniedException
      *             if the application is not BEEP enabled
      */
-    private void checkApplicationAuthorization(Set<String> edorgsForExtract) throws AccessDeniedException {
-        OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+    private void checkApplicationAuthorization(Set<String> edorgsForExtract)
+            throws AccessDeniedException {
+        OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext()
+                .getAuthentication();
         String clientId = auth.getClientAuthentication().getClientId();
-        Entity app = this.mongoEntityRepository.findOne("application", new NeutralQuery(new NeutralCriteria(
-                "client_id", NeutralCriteria.OPERATOR_EQUAL, clientId)));
+        Entity app = this.mongoEntityRepository.findOne("application", new NeutralQuery(
+                new NeutralCriteria("client_id", NeutralCriteria.OPERATOR_EQUAL, clientId)));
         Map<String, Object> body = app.getBody();
         if (!body.containsKey("isBulkExtract") || (Boolean) body.get("isBulkExtract") == false) {
             throw new AccessDeniedException("Application is not approved for bulk extract");
@@ -372,7 +417,7 @@ public class BulkExtract {
             super();
             this.lastModified = lastModified;
             this.fileName = fileName;
-            debug("The file is "  + fileName + " and lastModified is " + lastModified);
+            debug("The file is " + fileName + " and lastModified is " + lastModified);
         }
 
         public String getLastModified() {
