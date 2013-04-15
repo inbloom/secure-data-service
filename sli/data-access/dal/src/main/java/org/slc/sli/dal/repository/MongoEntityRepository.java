@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import org.apache.commons.lang.StringUtils;
@@ -464,7 +465,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                                     boolean force, boolean logViolations, Integer maxObjects, AccessibilityCheck access) {
 
     	// LOG.info("*** DELETING object '" + id + "' of type '" + entityType + "'");
-        DELETION_LOG.info("Delete request for entity:" + entityType + " _id:" + id + " cascade: " + cascade + " dryrun: " + dryrun);
+        DELETION_LOG.info("Delete request for entity: " + entityType + " _id: " + id + " cascade: " + cascade + " dryrun: " + dryrun);
         CascadeResult result = null;
         Set<String> deletedIds = new HashSet<String>();
 
@@ -475,6 +476,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             if (maxObjects != null && result.getnObjects() > maxObjects) {
                 // We have exceeded max affected objects
                 String message = "Maximum affected objects exceeded when deleting custom entities for entity with id " + id + " and type " + entityType;
+                DELETION_LOG.error(message);
+
                 result.setStatus(CascadeResult.Status.MAX_OBJECTS_EXCEEDED);
             } else if (! dryrun) {
                 // Do the actual deletes with some confidence
@@ -491,34 +494,82 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun, boolean force, boolean logViolations, Integer maxObjects, AccessibilityCheck access) {
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun,
+                                    boolean force, boolean logViolations, Integer maxObjects, AccessibilityCheck access) {
         String entityType = entity.getType();
+        if (!entityType.equals("attendance")) {
+            return safeDelete(entityType, id, cascade, dryrun, force, logViolations, maxObjects, access);
+        }
+
+        // Attendance is a special case.
         // LOG.info("*** DELETING object '" + id + "' of type '" + collectionName + "'");
-        DELETION_LOG.info("Delete request for entity:" + entityType + " _id:" + id + " cascade: " + cascade + " dryrun: " + dryrun);
-        CascadeResult result = null;
-        Set<String> deletedIds = new HashSet<String>();
+        DELETION_LOG.info("Delete request for entity: " + entityType + " _id: " + id + " cascade: " + cascade + " dryrun: " + dryrun);
 
-        // Always do a dryrun first
-        result = safeDeleteHelper(entityType, id, cascade, true, force, logViolations, maxObjects, access, 1, deletedIds);
+        // First check if Attendance record is in the DB.
+        Entity found = findById(entityType, id);
+        CascadeResult result = new CascadeResult();
+        if (found == null) {
+            String message = "Entity with ID " + id + " not found in collection " + entityType;
+            DELETION_LOG.error(message);
+            result.addError(1, message, CascadeResultError.ErrorType.DELETE_ERROR, entityType, id);
+            return result;
+        }
 
-        if (result.getStatus() == CascadeResult.Status.SUCCESS) {
-            if (maxObjects != null && result.getnObjects() > maxObjects) {
-                // We have exceeded max affected objects
-                String message = "Maximum affected objects exceeded when deleting custom entities for entity with id " + id + " and type " + entityType;
-                result.setStatus(CascadeResult.Status.MAX_OBJECTS_EXCEEDED);
-            } else if (! dryrun) {
-                // Do the actual deletes with some confidence
-                deletedIds.clear();
-                result = safeDeleteHelper(entityType, id, cascade, false, force, logViolations, maxObjects, access, 1, deletedIds);
-                result.setDeletedIds(deletedIds);
-
-                // Delete denormalized stuff
-                denormalizer.deleteDenormalizedReferences(entityType, id);
-            }
+        // Delete the AttendanceEvent embedded within the Attendance entity.
+        boolean deleted = deleteAttendanceEvent(id, entity);
+        if (!deleted) {
+            String message = "Cannot delete attendanceEvent from attendance record with id " + id;
+            DELETION_LOG.error(message);
+            result.addError(1, message, CascadeResultError.ErrorType.DELETE_ERROR, entityType, id);
+            return result;
         }
 
         return result;
     }
+
+    @SuppressWarnings("unchecked")
+    private boolean deleteAttendanceEvent(String attendanceMongoId, Entity attendanceDeleteEntity) {
+        // Ensure that attendance entity contains one and only one attendanceEvent.
+        // NOTE: This logic may need to be changed in the future if more than one attendanceEvent is included.
+        Object attendanceEventField = attendanceDeleteEntity.getBody().get("attendanceEvent");
+        List<Map<String, String>> attendanceEvents = null;
+        if ((attendanceEventField == null) || !(attendanceEventField instanceof List)) {
+            DELETION_LOG.error("Attendance deletion entity does not contain a single AttendanceEvent entry");
+            return false;
+        } else {
+            attendanceEvents = (List<Map<String, String>>) attendanceEventField;
+            if (attendanceEvents.size() != 1) {  // List can only have one entry.
+                DELETION_LOG.error("Attendance deletion entity does not contain a single AttendanceEvent entry");
+                return false;
+            }
+        }
+
+        // Delete the specified attendanceEvent from the database.
+        Map<String, String> attendanceEvent = (Map<String, String>) attendanceEvents.toArray()[0];
+        final BasicDBObject query = new BasicDBObject();
+        query.put("_id", attendanceMongoId);
+        BasicDBObject attendanceEventToDelete = new BasicDBObject("body.attendanceEvent", attendanceEvent);
+        final BasicDBObject update = new BasicDBObject("$pull", attendanceEventToDelete);
+        DBObject result = this.template.getCollection("attendance").findAndModify(query, null, null, false,
+                update, true, false);
+        if (result == null) {
+            return false;
+        }
+
+        // If this was the last attendanceEvent, delete the attendance record as well.
+        List<Map<String, String>> remainingAttendanceEvents = (List<Map<String, String>>)
+                ((Map<String, Object>) result.get("body")).get("attendanceEvent");
+        if (remainingAttendanceEvents.isEmpty()) {
+            boolean deleted = this.delete("attendance", attendanceMongoId);
+            if (!deleted) {
+                DELETION_LOG.error("Could not delete empty Attendance record");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      *  Recursive helper used to cascade deletes to referencing entities
      *

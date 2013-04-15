@@ -17,13 +17,13 @@ Scenario: Multiple Orphans
     And I should see "InterchangeEducationOrganization.xml records failed processing: 2" in the resulting batch job file
     And I should see "CORE_0066" in the resulting error log file for "InterchangeEducationOrganization.xml"
     And I should see "CORE_0071" in the resulting error log file for "InterchangeEducationOrganization.xml"
-    And I should see "CORE_0073" in the resulting error log file for "InterchangeAttendance.xml"
 	And I should not see a warning log file created
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                            |    delta|
         |assessment                             |       -1|
         |assessmentFamily                       |       -1|
-        |attendance                             |        0|
+        |attendance                             |       -1|
+        |attendanceEvent                        |       -1|
         |grade                                  |       -1|
         |student                                |       -1|
         |parent                                 |       -1|
@@ -41,9 +41,10 @@ Scenario: Multiple Orphans
         |studentSchoolAssociation               |       -1|
         |teacherSchoolAssociation               |       -1|
         |teacherSectionAssociation              |       -1|
-        |recordHash                             |      -15|
+        |recordHash                             |      -16|
         |custom_entities                        |       -3|
 
     #grade lives in yearly transcript so -1 for each expected, yearly transcript not record hashed
     #3 assessment types not record hashed
     # school has 3 associated custom entities
+    # attendanceEvent entity deletion is now supported.

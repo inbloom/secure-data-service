@@ -480,9 +480,9 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
      */
 
     protected static enum SupportedEntities {
-        ASSESSMENTFAMILY("AssessmentFamily"), ASSESSMENT("Assessment"), CALENDARDATE("CalendarDate"), COHORT("Cohort"), COURSEOFFERING(
-                "CourseOffering"), COURSE("Course"), GRADE("Grade"), GRADINGPERIOD("GradingPeriod"), PARENT("Parent"), SCHOOL(
-                "School"), SECTION("Section"), SESSION("Session"), STAFFEDUCATIONORGASSIGNMENTASSOCIATION(
+        ASSESSMENTFAMILY("AssessmentFamily"), ASSESSMENT("Assessment"), ATTENDANCEEVENT("AttendanceEvent"), CALENDARDATE("CalendarDate"), COHORT(
+                "Cohort"), COURSEOFFERING("CourseOffering"), COURSE("Course"), GRADE("Grade"), GRADINGPERIOD("GradingPeriod"), PARENT(
+                "Parent"), SCHOOL( "School"), SECTION("Section"), SESSION("Session"), STAFFEDUCATIONORGASSIGNMENTASSOCIATION(
                 "StaffEducationOrgAssignmentAssociation"), STUDENTASSESSMENT("StudentAssessment"), STUDENTCOHORTASSOCIATION(
                 "StudentCohortAssociation"), STUDENT("Student"), STUDENTPARENTASSOCIATION("StudentParentAssociation"), STUDENTSCHOOLASSOCIATION(
                 "StudentSchoolAssociation"), TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociation"), TEACHERSECTIONASSOCIATION(
