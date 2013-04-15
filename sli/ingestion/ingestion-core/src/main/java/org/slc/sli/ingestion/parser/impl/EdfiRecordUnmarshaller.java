@@ -481,13 +481,31 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
      */
 
     protected static enum SupportedEntities {
-        ASSESSMENTFAMILY("AssessmentFamily"), ASSESSMENT("Assessment"), CALENDARDATE("CalendarDate"), COHORT("Cohort"), COURSEOFFERING(
-                "CourseOffering"), COURSE("Course"), GRADE("Grade"), GRADINGPERIOD("GradingPeriod"), PARENT("Parent"), SCHOOL(
-                "School"), SECTION("Section"), SESSION("Session"), STAFFEDUCATIONORGASSIGNMENTASSOCIATION(
-                "StaffEducationOrgAssignmentAssociation"), STUDENTASSESSMENT("StudentAssessment"), STUDENTCOHORTASSOCIATION(
-                "StudentCohortAssociation"), STUDENT("Student"), STUDENTPARENTASSOCIATION("StudentParentAssociation"), STUDENTSCHOOLASSOCIATION(
-                "StudentSchoolAssociation"), TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociation"), TEACHERSECTIONASSOCIATION(
-                "TeacherSectionAssociation"), TEACHER("Teacher"),ASSESSMENTPERIODDESCRIPTOR("AssessmentPeriodDescriptor");
+        ASSESSMENTFAMILY("AssessmentFamily"),
+        ASSESSMENT("Assessment"),
+        ASSESSMENTPERIODDESCRIPTOR("AssessmentPeriodDescriptor"),
+        CALENDARDATE("CalendarDate"),
+        COHORT("Cohort"),
+        COURSE("Course"),
+        COURSEOFFERING("CourseOffering"),
+        GRADE("Grade"),
+        GRADINGPERIOD("GradingPeriod"),
+        LEARNINGOBJECTIVE("LearningObjective"),
+        PARENT("Parent"),
+        SCHOOL("School"),
+        SECTION("Section"),
+        SESSION("Session"),
+        STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociation"),
+        STUDENT("Student"),
+        STUDENTASSESSMENT("StudentAssessment"),
+        STUDENTASSESSMENTITEM("StudentAssessmentItem"),
+        STUDENTCOHORTASSOCIATION("StudentCohortAssociation"),
+        STUDENTOBJECTIVEASSESSMENT("StudentObjectiveAssessment"),
+        STUDENTPARENTASSOCIATION("StudentParentAssociation"),
+        STUDENTSCHOOLASSOCIATION("StudentSchoolAssociation"),
+        TEACHER("Teacher"),
+        TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociation"),
+        TEACHERSECTIONASSOCIATION("TeacherSectionAssociation");
 
         private SupportedEntities(String text) {
         }

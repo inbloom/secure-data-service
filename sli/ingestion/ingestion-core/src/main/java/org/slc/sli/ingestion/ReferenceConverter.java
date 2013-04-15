@@ -36,12 +36,15 @@ public enum ReferenceConverter {
     SECTION("SectionReference","section"),
     SESSION( "SessionReference", "session"),
     STAFF( "StaffReference", "staff"),
+    STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociationReference","staffEducationOrgAssignmentAssociation"),
     STUDENT( "StudentReference", "student" ),
     STUDENTASSESSMENT("StudentAssessmentReference","studentAssessment"),
+    STUDENTASSESSMENTITEM("StudentAssessmentItemReference","studentAssessmentItem"),
+    STUDENTOBJECTIVEASSESSMENT("StudentObjectiveAssessmentReference","studentObjectiveAssessment"),
     TEACHER("TeacherReference","teacher"),
-    STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociationReference","staffEducationOrgAssignmentAssociation"),
     TEACHERSCHOOlASSOCIATION("TeacherSchoolAssociationReference","teacherSchoolAssociation"),
-    TEACHERSECTIONASSOCIATION("TeacherSectionAssociationReference","teacherSectionAssociation");
+    TEACHERSECTIONASSOCIATION("TeacherSectionAssociationReference","teacherSectionAssociation"),
+    LEARNINGOBJECTIVE("LearningObjectiveReference","learningObjective");
 
 
     /*

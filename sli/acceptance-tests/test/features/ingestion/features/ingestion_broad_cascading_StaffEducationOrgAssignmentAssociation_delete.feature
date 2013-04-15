@@ -79,7 +79,8 @@ Scenario: Delete staffEducationOrganizationAssociation with cascade
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
-    #And I should not see a warning log file created. (According to schema, nothing refers to staffEducationOrganizationAssociation)
+    #(According to schema, nothing refers to staffEducationOrganizationAssociation)
+    And I should not see a warning log file created
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                                  |delta|
       |staffEducationOrganizationAssociation        |   -1|
@@ -106,7 +107,8 @@ Scenario: Delete staffEducationOrganizationAssociation with cascade
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
-  #And I should not see a warning log file created. (According to schema, nothing refers to staffEducationOrganizationAssociation)
+    #(According to schema, nothing refers to staffEducationOrganizationAssociation)
+    And I should not see a warning log file created
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                                  |delta|
       |staffEducationOrganizationAssociation        |   -1|

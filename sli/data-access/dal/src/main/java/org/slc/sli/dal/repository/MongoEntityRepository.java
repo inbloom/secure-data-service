@@ -522,11 +522,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     /**
      *  Recursive helper used to cascade deletes to referencing entities
      *
+     *  The only reason this method is not broken up into smaller methods is because it would hide the recursive call
+     *  which I believe would make it more difficult to maintain than its current state
+     *
      * @param entityType        type of the entity to delete
      * @param id                id of the entity to delete
      * @param cascade           delete related entities if true
      * @param dryrun            only delete if true
-     * @param force            true iff the operation should delete the entity whether or not it is referred to by other entities
+     * @param force             true iff the operation should delete the entity whether or not it is referred to by other entities
      * @param logViolations     true iff the operation should log referential integrity violation information
      * @param maxObjects        if the number of entities that will be deleted is > maxObjects, no deletes will be done
      * @param access            callback used to determine whether we have rights to delete an entity
@@ -563,10 +566,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             result.addError(depth, message, CascadeResultError.ErrorType.ACCESS_DENIED, entityType, id);
             return result;
         }
-
-        // Do the cascade part of the delete - clean up the referencers first
-        // Simulate deleting references for dryruns so we can determine if the non-cascade delete is a leaf
-        // based on the number of objects reported by the dryrun
 
         List<SchemaReferencePath> refFields = getAllReferencesTo(entityType);
 
@@ -609,7 +608,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                     continue;  // skip to the next referencing entity
                 }
 
-                // Non-cascade or Forced handling
+                // Non-cascade and Force handling
                 if (!cascade) {
                     // There is a child when there shouldn't be
                     String message = "Child reference of entity type " + referenceEntityType + " id " + referencerId + " exists for entity type " + entityType + " id " + id;
@@ -621,11 +620,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                     continue;
                 }
 
+                // Determine if this is the last value in a list of references
                 boolean isLastValueInReferenceList = false;
                 Map<String, Object> body = entity.getBody();
                 List<?> childRefList = null;
-
-                // Determine if this is the last value in a list of references
                 if (referencingFieldSchemaInfo.isArray()) {
                     childRefList = (List<?>) body.get(referenceField);
                     if (childRefList != null) {
@@ -654,10 +652,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         result.setDepth(recursiveResult.getDepth());
                     }
 
-                        // Accumulate object list in dry run for reporting
-                        if ( dryrun ) {
-                        	idTreeChildList.add(recursiveResult.getIdTree());
-                        }
+                    // Accumulate object list in dry run for reporting
+                    if (dryrun) {
+                        idTreeChildList.add(recursiveResult.getIdTree());
+                    }
 
                     // Update the affected entity counts
                     result.getDeletedIds().addAll(recursiveResult.getDeletedIds());
