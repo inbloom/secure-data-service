@@ -477,6 +477,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
      * We need to disallow deletes of any entities that are not listed here. This should go away
      * next sprint, as deletes of all
      * entities will be supported
+     *
      */
 
     protected static enum SupportedEntities {
