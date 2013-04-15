@@ -32,7 +32,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 /**
-*
+* This is to support Deletes by Reference ( in their current form ): mapping fields in the ReferenceTypes
+* to the corresponding EntityType ( for the cases where field names might be different ), to ensure that all the fields
+* required for the corresponding enitity's natural keys are present.
+* Map is currently defined in deleteHelper/referenceExceptionMap.json
 */
 
 public class ReferenceHelper implements ResourceLoaderAware {
