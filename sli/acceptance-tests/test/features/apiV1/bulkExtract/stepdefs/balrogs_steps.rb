@@ -161,26 +161,33 @@ Then /^I check the http response headers$/ do
     src_coll = @db[coll]
     raise "Could not find #{coll} collection" if src_coll.count == 0
 
-    ref_doc = src_coll.find({"_id" => "Midgar", "body.tenantId" => "Midgar"}).to_a
-    raise "Could not find #{coll} document with _id #{"Midgar"}" if ref_doc.count == 0
+    ref_doc = src_coll.find({"body.tenantId" => "Midgar"}).to_a
+    raise "Could not find #{coll} document with tenant #{"Midgar"}" if ref_doc.count == 0
 
     puts "bulkExtractFiles record: #{ref_doc}"
-
+    
+    found = false
     ref_doc.each do |row|
-      raise "#{coll} document with wrong tenantId" if row['body']['tenantId'] != "Midgar"
+      
+      path = row['body']['path']
+      assert(path != nil, "A mongo record doesn't have data for a bulk extract file's location")
+      
+      file_name = File.basename(path)
+      
+      if file_name == @zip_file_name
 
         dateFromMongo = row['body']['date'].to_datetime.to_time.to_s
         if dateFromMongo != nil
           @last_modified = DateTime.parse(@last_modified).to_time.to_s
           assert(@last_modified==dateFromMongo, "last-modified must be #{dateFromMongo} was #{@last_modified}")
         end
-
-        path = row['body']['path']
-        file_name = path.split('/')[-1] if path.include? '/'
-        if file_name != nil
-          assert(@zip_file_name==file_name, "File Name must be #{file_name} was #{@zip_file_name}")
-        end
+        
+        found = true
+        
+      end
     end
+    
+    assert(found, "A bulk extract with #{@zip_file_name} was not found in the mongo database")
     
   end
 end
