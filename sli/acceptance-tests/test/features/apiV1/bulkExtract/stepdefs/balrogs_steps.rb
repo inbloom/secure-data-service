@@ -15,8 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
+require 'open3'
 require_relative '../../../utils/sli_utils.rb'
+
 $FAKE_FILE_TEXT = "This is a fake tar file"
 
 Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"$/ do |token|
@@ -160,26 +161,33 @@ Then /^I check the http response headers$/ do
     src_coll = @db[coll]
     raise "Could not find #{coll} collection" if src_coll.count == 0
 
-    ref_doc = src_coll.find({"_id" => "Midgar", "body.tenantId" => "Midgar"}).to_a
-    raise "Could not find #{coll} document with _id #{"Midgar"}" if ref_doc.count == 0
+    ref_doc = src_coll.find({"body.tenantId" => "Midgar"}).to_a
+    raise "Could not find #{coll} document with tenant #{"Midgar"}" if ref_doc.count == 0
 
     puts "bulkExtractFiles record: #{ref_doc}"
-
+    
+    found = false
     ref_doc.each do |row|
-      raise "#{coll} document with wrong tenantId" if row['body']['tenantId'] != "Midgar"
+      
+      path = row['body']['path']
+      assert(path != nil, "A mongo record doesn't have data for a bulk extract file's location")
+      
+      file_name = File.basename(path)
+      
+      if file_name == @zip_file_name
 
         dateFromMongo = row['body']['date'].to_datetime.to_time.to_s
         if dateFromMongo != nil
           @last_modified = DateTime.parse(@last_modified).to_time.to_s
           assert(@last_modified==dateFromMongo, "last-modified must be #{dateFromMongo} was #{@last_modified}")
         end
-
-        path = row['body']['path']
-        file_name = path.split('/')[-1] if path.include? '/'
-        if file_name != nil
-          assert(@zip_file_name==file_name, "File Name must be #{file_name} was #{@zip_file_name}")
-        end
+        
+        found = true
+        
+      end
     end
+    
+    assert(found, "A bulk extract with #{@zip_file_name} was not found in the mongo database")
     
   end
 end
@@ -190,7 +198,7 @@ Then /^the response is decrypted$/ do
   encryptediv = @res.body[0,256] 
   encryptedsecret = @res.body[256,256]
   encryptedmessage = @res.body[512,@res.body.length - 512]
- 
+
   decrypted_iv = private_key.private_decrypt(encryptediv)
   decrypted_secret = private_key.private_decrypt(encryptedsecret)
  
@@ -221,16 +229,53 @@ end
 Given /^I set up a fake tar file on the file system and in Mongo$/ do
   File.open("fake.tar", 'w') {|f| f.write($FAKE_FILE_TEXT)}
   puts("Tar file is in #{Dir.pwd}/fake.tar")
+  path = Dir.pwd + "/fake.tar"
+
+  encrypt(path, path)
+
   time = Time.new
   
   db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  appId = getAppId()
   src_coll = db["bulkExtractFiles"]
   @fake_tar_id = SecureRandom.uuid
-  src_coll.insert({"_id" => @fake_tar_id, "body" => {"isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%Y-%m-%d"), "path" => Dir.pwd + "/fake.tar"}})
+  src_coll.insert({"_id" => @fake_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%Y-%m-%d"), "path" => Dir.pwd + "/fake.tar"}})
 end
 
 Then /^I see that the response matches what I put in the fake tar file$/ do
   assert(@plain == $FAKE_FILE_TEXT, "Decrypted text in 'tar' file did not match, expected #{$FAKE_FILE_TEXT} received #{@plain}")
+end
+
+def getAppId()
+  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  userSessionColl = db.collection("userSession")
+  clientId = userSessionColl.find_one({"body.appSession.token" => @sessionId}) ["body"]["appSession"][0]["clientId"]
+  appColl = db.collection("application")
+  appId = appColl.find_one({"body.client_id" => clientId}) ["_id"]
+  return appId
+end
+
+def encrypt(unEncryptedFilePath, decryptedFilePath)
+  unEncryptedFile = File.open(unEncryptedFilePath, "rb")
+  contents = unEncryptedFile.read
+
+  public_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key.pub'
+
+  cipher = OpenSSL::Cipher.new('AES-128-CBC')
+  cipher.encrypt
+  cipher.key = key = cipher.random_key
+  cipher.iv = iv = cipher.random_iv
+  encrypted_key = public_key.public_encrypt(key)
+  encrypted_iv = public_key.public_encrypt(iv)
+
+  encrypted_data = cipher.update(contents) # Encrypt the data.
+  encrypted_data << cipher.final
+
+  File.open(decryptedFilePath, "wb") do |outf|
+    outf << encrypted_iv
+    outf << encrypted_key
+    outf << encrypted_data
+  end
 end
 
 After('@fakeTar') do 
