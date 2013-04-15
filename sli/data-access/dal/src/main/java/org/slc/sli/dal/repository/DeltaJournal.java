@@ -41,13 +41,14 @@ public class DeltaJournal {
     private boolean isEnabled;
 
     public static final String DELTA_COLLECTION = "deltas";
+
     @Autowired
     @Qualifier("journalTemplate")
     private MongoTemplate template;
 
     public void journal(List<String> ids, String collection, boolean isDelete) {
         if (isEnabled) {
-            Date now = new Date();
+            long now = new Date().getTime();
             Update update = new Update();
             update.set("t", now);
             update.set("c", collection);
