@@ -322,6 +322,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadStudentTest,
         :ingestionCascadingDeletionBroadStudentAcademicRecordTest,
         :ingestionCascadingDeletionBroadStudentAssessmentTest,
+        :ingestionCascadingDeletionBroadStudentAssessmentItemTest,
         :ingestionCascadingDeletionBroadStudentCohortAssociationTest,
         :ingestionCascadingDeletionBroadStudentCompetencyObjectiveTest,
         :ingestionCascadingDeletionBroadStudentCompetencyTest,
@@ -390,6 +391,10 @@ end
 
 task :ingestionCascadingDeletionBroadStudentAssessmentTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_studentAssessment_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentAssessmentItemTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentAssessmentItem_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadObjectiveAssessmentFromAssessmentMetadataTest do
