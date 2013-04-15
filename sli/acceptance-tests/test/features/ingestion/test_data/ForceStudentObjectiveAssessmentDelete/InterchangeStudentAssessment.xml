@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+<Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+
+    <StudentObjectiveAssessment>
+        <ScoreResults AssessmentReportingMethod="Scale score">
+            <Result>25</Result>
+        </ScoreResults>
+        <PerformanceLevels>
+            <CodeValue>code1</CodeValue>
+            <PerformanceLevelMet>true</PerformanceLevelMet>
+        </PerformanceLevels>
+        <StudentAssessmentReference>
+            <StudentAssessmentIdentity>
+                <AdministrationDate>2001-09-04</AdministrationDate>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <AssessmentReference>
+                    <AssessmentIdentity>
+                        <AssessmentTitle>2001-Ninth grade Assessment 1</AssessmentTitle>
+                        <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+                    </AssessmentIdentity>
+                </AssessmentReference>
+            </StudentAssessmentIdentity>
+        </StudentAssessmentReference>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
+    </StudentObjectiveAssessment>
+
+    </Action>
+</InterchangeStudentAssessment>
