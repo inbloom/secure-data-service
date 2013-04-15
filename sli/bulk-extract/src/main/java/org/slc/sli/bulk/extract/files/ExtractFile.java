@@ -189,8 +189,13 @@ public class ExtractFile {
         return stream;
     }
 
-    public String getFileName(String app){
-        return app + "-" + archiveName + FILE_EXT;
+    /**
+     * Get the file name of the archive file for a specific app.
+     * @param appId the id of the app
+     * @return the name of the archive file for the app
+     */
+    public String getFileName(String appId){
+        return appId + "-" + archiveName + FILE_EXT;
     }
 
     private PublicKey getApplicationPublicKey(String app) throws IOException {
@@ -272,14 +277,14 @@ public class ExtractFile {
     }
 
 
-    /**
+    /** Get the clientKeys.
      * @return the clientKeys
      */
     public Map<String, String> getClientKeys() {
         return clientKeys;
     }
 
-    /**
+    /** Set clientKey.
      * @param clientKeys the clientKeys to set
      */
     public void setClientKeys(Map<String, String> clientKeys) {
