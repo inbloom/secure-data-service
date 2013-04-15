@@ -186,6 +186,20 @@ end
 # When
 ############################################################
 
+When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+  @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb = @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+
+  match =  @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId})
+  assert(match !=nil, "Database was not updated with bulk extract file location")
+  
+  filePath = match['body']['path']
+  @unpackDir = File.dirname(filePath) + '/unpack'
+  @filePath = File.dirname(filePath) + '/decrypt/' + File.basename(filePath)
+  @tenant = tenant
+end
+
 When /^I retrieve the path to the extract file for the tenant "(.*?)"$/ do |tenant|
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
@@ -207,15 +221,17 @@ When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)
   @coll = @sliDb.collection("bulkExtractFiles")
 
   match =  @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId})
-
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
-  @filePath = match['body']['path']
-  @unpackDir = File.dirname(@filePath) + '/unpack'
+  filePath = match['body']['path']
+  @unpackDir = File.dirname(filePath) + '/unpack'
   @tenant = tenant
   
-  file = File.open(@filepath, 'rb') {|f| f.read}
+  file = File.open(filePath, 'rb') { |f| f.read}
   decryptFile(file)
+  @filePath = File.dirname(filePath) + '/decrypt/' + File.basename(filePath)
+  FileUtils.mkdir_p(File.dirname(@filePath)) if !File.exists?(File.dirname(@filePath))
+  @filePath = File.dirname(filePath) + '/decrypt/' + File.basename(filePath)
   File.open(@filePath, 'w') {|f| f.write(@plain) }  
 
 end
@@ -251,6 +267,7 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
 end
 
 When /^a "(.*?)" extract file exists$/ do |collection|
+  puts @unpackDir
   exists = File.exists?(@unpackDir + "/" + collection + ".json.gz")
 	assert(exists, "Cannot find #{collection}.json file in extracts")
 
