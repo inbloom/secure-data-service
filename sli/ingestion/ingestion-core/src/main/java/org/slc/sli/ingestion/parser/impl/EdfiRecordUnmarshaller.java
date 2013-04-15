@@ -508,7 +508,10 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         STUDENTSCHOOLASSOCIATIONREFERENCE("StudentSchoolAssociationReference"),
         TEACHER("Teacher"),
         TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociation"),
-        TEACHERSECTIONASSOCIATION("TeacherSectionAssociation");
+        TEACHERSECTIONASSOCIATION("TeacherSectionAssociation"),
+        STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociation"),
+        DISCIPLINEINCIDENT("DisciplineIncident"),
+        DISCIPLINEACTION("DisciplineAction");
 
         private SupportedEntities(String text) {
         }

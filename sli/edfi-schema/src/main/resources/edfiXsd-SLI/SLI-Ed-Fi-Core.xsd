@@ -3029,7 +3029,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="DisciplineIncident" type="SLC-DisciplineIncidentReferenceType">
+			<xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>disciplineIncidentId</sli:keyFieldName>
