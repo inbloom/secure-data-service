@@ -16,6 +16,7 @@
 
 package org.slc.sli.ingestion;
 
+//This probably should be read from xsd
 
 /**
  *
@@ -28,6 +29,7 @@ public enum ReferenceConverter {
     COURSE( "CourseReference", "course"),
     COURSEOFFERING( "CourseOfferingReference", "courseOffering"),
     COHORT("CohortReference","cohort"),
+    GRADE( "GradeReference", "grade"),
     GRADINGPERIOD( "GradingPeriodReference", "gradingPeriod"),
     PARENT( "ParentReference", "parent"),
     SCHOOL( "SchoolReference", "school"),

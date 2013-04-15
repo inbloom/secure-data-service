@@ -34,7 +34,7 @@ Scenario: Error When Attempting Cascade Delete, using grade as an example
         | collection |delta|
         |grade       |    0|
 
-
+@wip
 Scenario: Error when attempting safe delete using reference for unsupported entity
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
