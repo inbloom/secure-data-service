@@ -43,12 +43,16 @@ public enum ReferenceConverter {
     STUDENTASSESSMENTITEM("StudentAssessmentItemReference","studentAssessmentItem"),
     STUDENTOBJECTIVEASSESSMENT("StudentObjectiveAssessmentReference","studentObjectiveAssessment"),
     STUDENTSCHOOLASSOCIATIONREFERENCE("StudentSchoolAssociationReference","studentSchoolAssociation"),
+    STUDENTSECTIONASSOCIATIONREFERENCE("StudentSectionAssociationReference","studentSectionAssociation"),
     TEACHER("TeacherReference","teacher"),
     TEACHERSCHOOlASSOCIATION("TeacherSchoolAssociationReference","teacherSchoolAssociation"),
     TEACHERSECTIONASSOCIATION("TeacherSectionAssociationReference","teacherSectionAssociation"),
     STUDENTCOHORTASSOCIATIONREFERENCE("StudentCohortAssociationReference","studentCohortAssociation"),
     LEARNINGOBJECTIVE("LearningObjectiveReference","learningObjective"),
-    OBJECTIVEASSESSMENT("ObjectiveAssessmentReference","objectiveAssessment");
+    OBJECTIVEASSESSMENT("ObjectiveAssessmentReference","objectiveAssessment"),
+    STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociationReference","studentDisciplineIncidentAssociation"),
+    DISCIPLINEINCIDENT("DisciplineIncidentReference", "disciplineIncident"),
+    DISCIPLINEACTION("DisciplineActionReference", "disciplineAction");
 
 
 

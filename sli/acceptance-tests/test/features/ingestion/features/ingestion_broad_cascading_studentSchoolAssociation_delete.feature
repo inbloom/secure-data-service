@@ -131,7 +131,6 @@ Scenario: Delete Student School Association with cascade = false, force = true a
         |studentSchoolAssociation   |   -1|
         |recordHash                 |   -1|
 
-@wip
 Scenario: Delete Student School Association Ref with cascade = false, force = true and log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty

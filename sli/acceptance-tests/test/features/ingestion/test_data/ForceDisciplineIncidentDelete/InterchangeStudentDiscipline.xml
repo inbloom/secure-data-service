@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force = "true">
+        <DisciplineIncident>
+            <IncidentIdentifier>12#0</IncidentIdentifier>
+            <IncidentDate>2003-02-23</IncidentDate>
+            <IncidentTime>10:46:24</IncidentTime>
+            <IncidentLocation>Classroom</IncidentLocation>
+            <ReporterDescription>Parent</ReporterDescription>
+            <ReporterName>Reported Parent Name</ReporterName>
+            <Behaviors>
+                <CodeValue>BE0</CodeValue>
+            </Behaviors>
+            <SecondaryBehaviors BehaviorCategory="State Offense">
+                <SecondaryBehavior>SBE0</SecondaryBehavior>
+            </SecondaryBehaviors>
+            <Weapons>
+                <Weapon>Substance Used as Weapon</Weapon>
+            </Weapons>
+            <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+            <SchoolReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </SchoolReference>
+            <StaffReference>
+                <StaffIdentity>
+                    <StaffUniqueStateId>tech-0000000016</StaffUniqueStateId>
+                </StaffIdentity>
+            </StaffReference>
+        </DisciplineIncident>
+    </Action>
+</InterchangeStudentDiscipline>
