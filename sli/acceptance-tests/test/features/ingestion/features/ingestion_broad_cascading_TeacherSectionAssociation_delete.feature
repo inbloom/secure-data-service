@@ -75,7 +75,8 @@ Scenario: Delete Orphan Teacher Section Association with cascade = false
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
-  #And I should not see a warning log file created. (According to schema, nothing refers to teacherSchoolAssociation)
+    #(According to schema, nothing refers to teacherSectionAssociation)
+    And I should not see a warning log file created
     And I re-execute saved query "teacherSectionAssociation" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                 |delta|
@@ -101,7 +102,8 @@ Scenario: Delete Orphan Teacher Section Association with cascade = false
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
-  #And I should not see a warning log file created. (According to schema, nothing refers to teacherSchoolAssociation)
+    #(According to schema, nothing refers to teacherSchoolAssociation)
+    And I should not see a warning log file created
     And I re-execute saved query "teacherSectionAssociation" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                 |delta|
