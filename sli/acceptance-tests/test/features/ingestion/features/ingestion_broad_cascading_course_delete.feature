@@ -144,7 +144,7 @@ Scenario: Delete Course with default settings (Confirm that by default cascade =
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceCourseDelete.zip" is completed in database
     And a batch job log has been created
-     And I should see "records deleted successfully: 1" in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
