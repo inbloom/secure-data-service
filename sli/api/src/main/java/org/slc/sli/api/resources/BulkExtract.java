@@ -253,13 +253,17 @@ public class BulkExtract {
         int bytesRead;
         byte[] buffer = new byte[BUFFER_SIZE];
         try {
+            long skipped = is.skip(offset);
+            if (skipped < offset) { // Error!
+                throw new IOException("Bytes skipped: " + skipped + "; expected " + offset);
+            }
             while (bytesLeft > 0) {
                 readLength = (int) ((BUFFER_SIZE > bytesLeft) ? bytesLeft : BUFFER_SIZE);
                 bytesRead = is.read(buffer, 0, readLength);
                 os.write(buffer, 0, bytesRead);
                 bytesStreamed += bytesRead;
                 if (bytesRead < readLength) { // Error!
-                    throw new IOException("Read " + bytesRead + "; expected " + readLength);
+                    throw new IOException("Bytes read: " + bytesRead + "; expected " + readLength);
                 }
                 bytesLeft -= bytesRead;
             }
