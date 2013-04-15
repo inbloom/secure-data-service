@@ -168,7 +168,7 @@ public class BulkExtract {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Entity application = getApplication(auth);
 
-        String appId = (String) application.getBody().get("_id");
+        String appId = application.getEntityId();
 
         ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate, appId);
 
@@ -262,9 +262,7 @@ public class BulkExtract {
      */
     private void checkApplicationAuthorization(Set<String> edorgsForExtract) throws AccessDeniedException {
         OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
-        String clientId = auth.getClientAuthentication().getClientId();
-        Entity app = this.mongoEntityRepository.findOne("application", new NeutralQuery(new NeutralCriteria(
-                "client_id", NeutralCriteria.OPERATOR_EQUAL, clientId)));
+        Entity app = getApplication(auth);
         Map<String, Object> body = app.getBody();
         if (!body.containsKey("isBulkExtract") || (Boolean) body.get("isBulkExtract") == false) {
             throw new AccessDeniedException("Application is not approved for bulk extract");
