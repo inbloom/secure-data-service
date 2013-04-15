@@ -495,6 +495,8 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         SCHOOL("School"),
         SECTION("Section"),
         SESSION("Session"),
+        STAFF("Staff"), 
+        STAFFPROGRAMASSOCIATION("StaffProgramAssociation"),
         STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociation"),
         STUDENT("Student"),
         STUDENTASSESSMENT("StudentAssessment"),

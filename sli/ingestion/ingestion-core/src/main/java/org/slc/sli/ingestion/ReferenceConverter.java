@@ -37,6 +37,7 @@ public enum ReferenceConverter {
     SESSION( "SessionReference", "session"),
     STAFF( "StaffReference", "staff"),
     STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociationReference","staffEducationOrgAssignmentAssociation"),
+    STAFFPROGRAMASSOCIATION( "StaffProgramAssociationReference", "staffProgramAssociation"),
     STUDENT( "StudentReference", "student" ),
     STUDENTASSESSMENT("StudentAssessmentReference","studentAssessment"),
     STUDENTASSESSMENTITEM("StudentAssessmentItemReference","studentAssessmentItem"),
