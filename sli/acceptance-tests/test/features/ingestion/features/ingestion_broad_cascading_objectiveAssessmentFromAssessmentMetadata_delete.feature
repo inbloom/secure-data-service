@@ -43,20 +43,20 @@ Scenario: Delete Objective Assessment From Assessment Metadata with cascade = fa
 #objectiveAssessment  objectiveAssessment  subObjectiveAssessment relationship missing
 #objectiveAssessment  studentAssessment    objectiveAssessmentId relationship missing	
 
-
+@wip
 Scenario: Delete Objective Assessment From Assessment Metadata with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "objectiveAssessment"
 	|field                                                           |value                                                                                          |
-	|objectiveAssessment._id                                         |58346902a070426a109f451129eeeb1268daed21_iddadf8836650e994cb05e032558bf46391cb432d2_id         |
+	|objectiveAssessment._id                                         |938404a8790b90361f61ad35e7aa82d1dc97c8e2_idcd64d9ea394bd362cd32c25e4953cd6549ee508d_id         |
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "subobjectiveAssessment"
 	|field                                                           |value                                                                                          |
 	|objectiveAssessment.body.subObjectiveAssessment                 |2001-First grade Assessment 1.OA-0 Sub                                                         |
 	Then there exist "2" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentAssessment"
 	|field                                                           |value                                                                                          |
-	|studentObjectiveAssessment.body.objectiveAssessmentId           |58346902a070426a109f451129eeeb1268daed21_iddadf8836650e994cb05e032558bf46391cb432d2_id         |
+	|studentObjectiveAssessment.body.objectiveAssessmentId           |938404a8790b90361f61ad35e7aa82d1dc97c8e2_idcd64d9ea394bd362cd32c25e4953cd6549ee508d_id         |
 	And I save the collection counts in "Midgar" tenant
 	And I post "SafeObjectiveAssessmentFromAssessmentMetadataDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
@@ -70,7 +70,7 @@ Scenario: Delete Objective Assessment From Assessment Metadata with cascade = fa
    	And I should not see a warning log file created
 	And I re-execute saved query "objectiveAssessment" to get "1" records
 	And I re-execute saved query "subobjectiveAssessment" to get "1" records
-	And I re-execute saved query "studentAssessment" to get "1" records
+	And I re-execute saved query "studentAssessment" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|objectiveAssessment                    |         0|
@@ -84,7 +84,7 @@ Scenario: Delete Orphan Objective Assessment From Assessment Metadata with casca
 
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "objectiveAssessment"
 	|field                                                           |value                                                                                          |
-	|objectiveAssessment._id                                         |58346902a070426a109f451129eeeb1268daed21_idd705e26a138eb9e608e23b4c82fd6257633b7244_id         |
+	|objectiveAssessment._id                                         |b840858f2c106a12f138fe1be69f5959257bc14a_ida863e2e45fbcc39ba32e02c06d32d3e9ac69d578_id         |
 	And I save the collection counts in "Midgar" tenant
 	And I post "OrphanObjectiveAssessmentFromAssessmentMetadataDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
@@ -99,7 +99,9 @@ Scenario: Delete Orphan Objective Assessment From Assessment Metadata with casca
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|objectiveAssessment                    |        -1|
-	|recordHash                             |        -1|
+	|assessment                             |        -1|
+	#|recordHash                             |        -1|
+	
 @wip	
 Scenario: Delete Orphan Objective Assessment Reference From Assessment Metadata with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -107,7 +109,7 @@ Scenario: Delete Orphan Objective Assessment Reference From Assessment Metadata 
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "objectiveAssessment"
 	|field                                                           |value                                                                                          |
-	|objectiveAssessment._id                                         |58346902a070426a109f451129eeeb1268daed21_idd705e26a138eb9e608e23b4c82fd6257633b7244_id         |
+	|objectiveAssessment._id                                         |b840858f2c106a12f138fe1be69f5959257bc14a_ida863e2e45fbcc39ba32e02c06d32d3e9ac69d578_id         |
 	And I save the collection counts in "Midgar" tenant
 	And I post "OrphanObjectiveAssessmentFromAssessmentMetadataRefDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
@@ -122,7 +124,9 @@ Scenario: Delete Orphan Objective Assessment Reference From Assessment Metadata 
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|objectiveAssessment                    |        -1|
-	|recordHash                             |        -1|
+	|assessment                             |        -1|
+	#|recordHash                             |        -1|
+	
 @wip	
 Scenario: Delete Objective Assessment From Assessment Metadata with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -130,13 +134,13 @@ Scenario: Delete Objective Assessment From Assessment Metadata with default sett
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "objectiveAssessment"
 	|field                                                           |value                                                                                          |
-	|objectiveAssessment._id                                         |58346902a070426a109f451129eeeb1268daed21_idd705e26a138eb9e608e23b4c82fd6257633b7244_id         |
-#	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "subobjectiveAssessment"
-#	|field                                                           |value                                                                                          |
-#	|objectiveAssessment.body.subObjectiveAssessment                 |2001-First grade Assessment 1.OA-0                                                             |
-#	Then there exist "1" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentAssessment"
-#	|field                                                           |value                                                                                          |
-#	|studentObjectiveAssessment.body.objectiveAssessmentId           |58346902a070426a109f451129eeeb1268daed21_idd705e26a138eb9e608e23b4c82fd6257633b7244_id         |
+	|objectiveAssessment._id                                         |58346902a070426a109f451129eeeb1268daed21_iddadf8836650e994cb05e032558bf46391cb432d2_id         |
+	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "subobjectiveAssessment"
+	|field                                                           |value                                                                                          |
+	|objectiveAssessment.body.subObjectiveAssessment                 |2001-First grade Assessment 1.OA-0 Sub                                                         |
+	#Then there exist "2" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentAssessment"
+	#|field                                                           |value                                                                                          |
+	#|studentObjectiveAssessment.body.objectiveAssessmentId           |58346902a070426a109f451129eeeb1268daed21_iddadf8836650e994cb05e032558bf46391cb432d2_id         |
     And I post "ForceObjectiveAssessmentFromAssessmentMetadataDelete.zip" file as the payload of the ingestion job
 	And I save the collection counts in "Midgar" tenant
   	When zip file is scp to ingestion landing zone
@@ -151,13 +155,13 @@ Scenario: Delete Objective Assessment From Assessment Metadata with default sett
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I re-execute saved query "objectiveAssessment" to get "0" records
-#	And I re-execute saved query "subobjectiveAssessment" to get "0" records
-#	And I re-execute saved query "studentAssessment" to get "0" records
+	And I re-execute saved query "subobjectiveAssessment" to get "1" records
+#	And I re-execute saved query "studentAssessment" to get "2" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|objectiveAssessment                    |        -1|
 	|recordHash                             |         0|
-	And I should not see "58346902a070426a109f451129eeeb1268daed21_idd705e26a138eb9e608e23b4c82fd6257633b7244_id" in the "Midgar" database
+	
 @wip
 Scenario: Delete Objective Assessment Reference From Assessment Metadata with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -165,17 +169,17 @@ Scenario: Delete Objective Assessment Reference From Assessment Metadata with de
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "objectiveAssessment"
 	|field                                                           |value                                                                                          |
-	|objectiveAssessment._id                                         |58346902a070426a109f451129eeeb1268daed21_idd705e26a138eb9e608e23b4c82fd6257633b7244_id         |
-#	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "subobjectiveAssessment"
-#	|field                                                           |value                                                                                          |
-#	|objectiveAssessment.body.subObjectiveAssessment                 |2001-First grade Assessment 1.OA-0                                                             |
-#	Then there exist "1" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentAssessment"
-#	|field                                                           |value                                                                                          |
-#	|studentObjectiveAssessment.body.objectiveAssessmentId           |58346902a070426a109f451129eeeb1268daed21_idd705e26a138eb9e608e23b4c82fd6257633b7244_id         |
-    And I post "BroadObjectiveAssessmentFromAssessmentMetadataRefDelete.zip" file as the payload of the ingestion job
+	|objectiveAssessment._id                                         |58346902a070426a109f451129eeeb1268daed21_iddadf8836650e994cb05e032558bf46391cb432d2_id         |
+	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "subobjectiveAssessment"
+	|field                                                           |value                                                                                          |
+	|objectiveAssessment.body.subObjectiveAssessment                 |2001-First grade Assessment 1.OA-0 Sub                                                         |
+	#Then there exist "2" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentAssessment"
+	#|field                                                          |value                                                                                          |
+	#|studentObjectiveAssessment.body.objectiveAssessmentId          |58346902a070426a109f451129eeeb1268daed21_iddadf8836650e994cb05e032558bf46391cb432d2_id         |
+    And I post "ForceObjectiveAssessmentFromAssessmentMetadataRefDelete.zip" file as the payload of the ingestion job
 	And I save the collection counts in "Midgar" tenant
   	When zip file is scp to ingestion landing zone
-    And a batch job for file "BroadObjectiveAssessmentFromAssessmentMetadataRefDelete.zip" is completed in database
+    And a batch job for file "ForceObjectiveAssessmentFromAssessmentMetadataRefDelete.zip" is completed in database
 	And I should see "records considered for processing: 1" in the resulting batch job file
 	And I should see "records ingested successfully: 0" in the resulting batch job file
 	And I should see "records deleted successfully: 1" in the resulting batch job file
@@ -186,10 +190,9 @@ Scenario: Delete Objective Assessment Reference From Assessment Metadata with de
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I re-execute saved query "objectiveAssessment" to get "0" records
-#	And I re-execute saved query "subobjectiveAssessment" to get "0" records
-#	And I re-execute saved query "studentAssessment" to get "0" records
+	And I re-execute saved query "subobjectiveAssessment" to get "1" records
+#	And I re-execute saved query "studentAssessment" to get "2" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|objectiveAssessment                    |        -1|
 	|recordHash                             |         0|
-	And I should not see "58346902a070426a109f451129eeeb1268daed21_idd705e26a138eb9e608e23b4c82fd6257633b7244_id" in the "Midgar" database
