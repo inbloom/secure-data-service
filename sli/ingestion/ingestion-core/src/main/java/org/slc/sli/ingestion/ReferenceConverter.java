@@ -26,6 +26,7 @@ public enum ReferenceConverter {
     ASSESSMENT( "AssessmentReference", "assessment"),
     ASSESSMENTITEM("AssessmentItemReference","assessmentItem"),
     ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily"),
+    ATTENDANCEEVENT( "AttendanceEventReference", "attendanceEvent"),
     CALENDAR_DATE( "CalendarDateReference", "calendarDate"),
     COURSE( "CourseReference", "course"),
     COURSEOFFERING( "CourseOfferingReference", "courseOffering"),
