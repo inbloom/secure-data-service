@@ -56,6 +56,8 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     private DeltaRecord nextDelta;
 
     private Iterator<Map<String, Object>> deltaCursor;
+    
+    private long lastDeltaTime;
 
     public enum Operation {
         UPDATE,
@@ -66,7 +68,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         LOG.info(String.format("Generating deltas for tenant: %s", tenant));
         TenantContext.setTenantId(tenant);
         
-        long lastDeltaTime = getLastDeltaRun(tenant);
+        lastDeltaTime = getLastDeltaRun(tenant);
         LOG.info(String.format("creating delta between %d and %d", lastDeltaTime, deltaUptoTime.getMillis()));
         
         deltaCursor = deltaJournal.findDeltaRecordBetween(lastDeltaTime, deltaUptoTime.getMillis());
@@ -76,13 +78,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     private long getLastDeltaRun(String tenant) {
         long lastRun = 0; // assume if we can't find last time it ran, we need to get all the deltas
         
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, tenant));
-        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, "true"));
-        query.setSortBy("body.date");
-        query.setSortOrder(NeutralQuery.SortOrder.descending);
-        query.setIncludeFields(Arrays.asList("body.date"));
-        
-        Iterable<Entity> entities = repo.findAll(BulkExtractMongoDA.BULK_EXTRACT_COLLECTION, query);
+        Iterable<Entity> entities = repo.findAll(BulkExtractMongoDA.BULK_EXTRACT_COLLECTION, queryForLastDeltaTime(tenant));
         if (entities == null) {
             return lastRun;
         }
@@ -99,6 +95,17 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         
     }
     
+    private NeutralQuery queryForLastDeltaTime(String tenant) {
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, tenant));
+        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, "true"));
+        query.setSortBy("body.date");
+        query.setSortOrder(NeutralQuery.SortOrder.descending);
+        query.setIncludeFields(Arrays.asList("body.date"));
+        query.setLimit(1);
+        
+        return query;
+    }
+
     @Override
     public boolean hasNext() {
         return nextDelta != null;
@@ -118,13 +125,23 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
        
         while (deltaCursor.hasNext()) {
             Map<String, Object> delta = deltaCursor.next();
-            long deletedTime = 0;
-            long updatedTime = 0;
+            long deletedTime = -1;
+            long updatedTime = -1;
+
             if (delta.containsKey("d")) {
                 deletedTime = (Long) delta.get("d");
             }
             if (delta.containsKey("u")) {
                 updatedTime = (Long) delta.get("u");
+            }
+            
+            boolean spamDelete = false;
+            Operation op = deletedTime > updatedTime ? Operation.DELETE : Operation.UPDATE;
+            if (op == Operation.UPDATE && deletedTime >= lastDeltaTime) {
+                // this entity's last operation is update, but has a delete that occured within the
+                // delta window which means this entity has been removed from one LEA and possibly
+                // moved to another, need to spam this delete to all
+                spamDelete = true;
             }
 
             String id = (String) delta.get("_id");
@@ -139,7 +156,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             }
             
             if (topLevelGoverningLEA != null && !topLevelGoverningLEA.isEmpty()) {
-                return new DeltaRecord(entity, topLevelGoverningLEA, deletedTime > updatedTime ? Operation.DELETE : Operation.UPDATE);
+                return new DeltaRecord(entity, topLevelGoverningLEA, op, spamDelete); 
             }
         }
         
@@ -156,11 +173,13 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         private Entity entity;
         private Set<String> belongsToLEA;
         private Operation op;
+        private boolean spamDelete;
         
-        DeltaRecord(Entity entity, Set<String> belongsToLEA, Operation op) {
+        DeltaRecord(Entity entity, Set<String> belongsToLEA, Operation op, boolean spamDelete) {
             this.entity = entity;
             this.belongsToLEA = belongsToLEA;
             this.op = op;
+            this.spamDelete = spamDelete;
         }
         
         public Entity getEntity() {
@@ -185,6 +204,14 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         
         public void setOp(Operation op) {
             this.op = op;
+        }
+
+        public boolean isSpamDelete() {
+            return spamDelete;
+        }
+
+        public void setSpamDelete(boolean spamDelete) {
+            this.spamDelete = spamDelete;
         }
     }
 }
