@@ -510,6 +510,17 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return deleted != null;
     }
 
+    public void deleteAll(String collectionName) {
+        // We decided that if TenantId is null, then we will search on blank.
+        // This option may need to be revisted.
+        String tenantId = TenantContext.getTenantId();
+        BasicDBObject obj = new BasicDBObject();
+
+        guideIfTenantAgnostic(collectionName);
+        template.getCollection(collectionName).remove(obj);
+        LOG.debug("delete all objects in collection {}", collectionName);
+    }
+
     protected void logResults(String collectioName, List<T> results) {
         if (results == null) {
             LOG.debug("find objects in collection {} with total numbers is {}", new Object[] { collectioName, 0 });
