@@ -193,29 +193,7 @@ Then /^I check the http response headers$/ do
 end
 
 Then /^the response is decrypted$/ do
-  private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
-  assert(@res.body.length >= 512)
-  encryptediv = @res.body[0,256] 
-  encryptedsecret = @res.body[256,256]
-  encryptedmessage = @res.body[512,@res.body.length - 512]
-
-  decrypted_iv = private_key.private_decrypt(encryptediv)
-  decrypted_secret = private_key.private_decrypt(encryptedsecret)
- 
-  aes = OpenSSL::Cipher.new('AES-128-CBC')
-  aes.decrypt
-  aes.key = decrypted_secret
-  aes.iv = decrypted_iv
-  @plain = aes.update(encryptedmessage) + aes.final
-  if $SLI_DEBUG 
-    puts("Final is #{aes.final}")
-    puts("IV is #{encryptediv}")
-    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
-    puts("Encrypted message is #{encryptedmessage}")
-    puts("Cipher is #{aes}")
-    puts("Plain text length is #{@plain.length} and it is #{@plain}")
-    puts "length #{@res.body.length}"
-  end
+  @plain = decrypt(@res)
 end
 
 
@@ -276,6 +254,34 @@ def encrypt(unEncryptedFilePath, decryptedFilePath)
     outf << encrypted_key
     outf << encrypted_data
   end
+end
+
+def decrypt(content)
+  private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
+  assert(content.body.length >= 512)
+  encryptediv = content.body[0,256] 
+  encryptedsecret = content.body[256,256]
+  encryptedmessage = content.body[512,content.body.length - 512]
+
+  decrypted_iv = private_key.private_decrypt(encryptediv)
+  decrypted_secret = private_key.private_decrypt(encryptedsecret)
+ 
+  aes = OpenSSL::Cipher.new('AES-128-CBC')
+  aes.decrypt
+  aes.key = decrypted_secret
+  aes.iv = decrypted_iv
+  @decrypted = aes.update(encryptedmessage) + aes.final
+
+  if $SLI_DEBUG 
+    puts("Final is #{aes.final}")
+    puts("IV is #{encryptediv}")
+    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
+    puts("Encrypted message is #{encryptedmessage}")
+    puts("Cipher is #{aes}")
+    puts("Plain text length is #{@decrypted.length} and it is #{@decrypted}")
+    puts "length #{content.body.length}"
+  end
+  return @decrypted
 end
 
 After('@fakeTar') do 
