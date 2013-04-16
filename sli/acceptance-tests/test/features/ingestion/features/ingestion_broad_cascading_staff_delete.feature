@@ -122,13 +122,13 @@ Scenario: Delete Staff with cascade = false, force = false
     And I should see "records failed processing: 0" in the resulting batch job file    
     And I should not see an error log file created
     And I should not see a warning log file created
-    And I re-execute saved query "Staff" to get "1" records
+    And I re-execute saved query "Staff" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta  |
       |staff                                  |   -1  |
       |recordHash                             |   -1  |
  
-@wip
+
  Scenario: Delete Orphan Staff Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -145,7 +145,7 @@ Scenario: Delete Staff with cascade = false, force = false
     And I should see "records failed processing: 0" in the resulting batch job file    
     And I should not see an error log file created
     And I should not see a warning log file created
-    And I re-execute saved query "Staff" to get "1" records
+    And I re-execute saved query "Staff" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta  |
       |staff                                  |   -1  |

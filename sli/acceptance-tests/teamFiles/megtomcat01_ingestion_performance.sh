@@ -17,5 +17,6 @@ sh ingestDataset.sh $3 3
 sh log_delete_duration.sh $3
 sh ingestDataset.sh purge.zip 4
 sh log_purge_duration.sh
+tail -8 megtomcat01_logs/auto_perf_results.log| mailx -A wgen -s "Megatron Mini Slirp Performance Testing" Sliders-MegatronDev@wgen.net 2>/dev/null
 echo "Done!"
 

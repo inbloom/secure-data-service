@@ -68,7 +68,6 @@ Scenario: Delete Orphan Student School Association with cascade = false
         |studentSchoolAssociation   |   -1|
         |recordHash                 |   -1|
 
-@wip
 Scenario: Delete Orphan Student School Association Ref with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty

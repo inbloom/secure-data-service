@@ -22,7 +22,7 @@ def main()
     realm = ARGV[3]
   end
 
-  puts "Using profile: #{profile}"
+  
   profiles = nil
   open('profiles.json', 'r') { |f| profiles = JSON.load(f) }
   @log.debug "Profiles: #{profiles}"
@@ -34,8 +34,6 @@ def main()
   redirectUrl=profiles[profile]["redirect_uri"]
   server=profiles[profile]["server"]
   mode=profiles[profile]["mode"]
-
-  puts "Server is: #{server}"
 
   if server == "local"
     apiUrl="http://local.slidev.org:8080/api"
@@ -53,11 +51,16 @@ def main()
     authPassword = roleOrPassword
     user = nil
     role = nil
+    if realm==nil
+      help()
+      exit()
+    end
   else #sandbox
     realm = nil
     role = roleOrPassword
   end
 
+  puts "Using profile: #{profile}"
   puts "API: #{apiUrl}"
   puts "SIDP: #{sidpUrl}"
   puts "Client ID: #{clientId}"
@@ -156,13 +159,16 @@ def getToken(api, code, redirectUrl, clientId, secret)
   return token
 end
 
-
-if ARGV.length < 2
+def help
   puts "Incorrect usage!"
   puts "ruby gettoken.rb <profile> <user> <role or password> <realm>"
-  puts "<profile> is the name of a profile defined in profiles.json"
-  puts "<role or password> is role for sandbox which is optional, if not specied then IT Administator is used. For prod mode you must pass the user's password"
-  puts "<realm> Not used for sandbox, but for prod is required. The realm the user authenticates with."
+  puts "  <profile> is the name of a profile defined in profiles.json"
+  puts "  <role or password> is role for sandbox which is optional, if not specied then IT Administator is used. For prod mode you must pass the user's password"
+  puts "  <realm> Not used for sandbox, but for prod is required. The realm the user authenticates with."
+end
+
+if ARGV.length < 2
+  help()
   exit()
 end
 
