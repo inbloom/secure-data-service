@@ -18,26 +18,16 @@ package org.slc.sli.api.resources;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.InvalidKeyException;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.CipherOutputStream;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -51,8 +41,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slc.sli.api.security.CertificateValidationHelper;
@@ -85,6 +74,9 @@ import org.springframework.stereotype.Component;
 public class BulkExtract {
 
     private static final Logger LOG = LoggerFactory.getLogger(BulkExtract.class);
+    private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
+    private static final String MULTIPART_BOUNDRY_SEP = "--" + MULTIPART_BOUNDARY;
+    private static final String MULTIPART_BOUNDRY_END = MULTIPART_BOUNDRY_SEP + "--";
 
     private static final String SAMPLED_FILE_NAME = "sample-extract.tar";
 
@@ -156,7 +148,7 @@ public class BulkExtract {
         
         this.validator.validateCertificate(request);
 
-        return getExtractResponse(null);
+        return getExtractResponse(headers, null);
     }
 
     /**
@@ -176,21 +168,29 @@ public class BulkExtract {
         LOG.info("Retrieving delta bulk extract");
         
         this.validator.validateCertificate(request);
-        
-        return getExtractResponse(date);
+
+        return getExtractResponse(headers, date);
     }
 
     /**
      * Get the bulk extract response
      *
+     * @param headers
+     *          The http request headers
      * @param deltaDate
      *            the date of the delta, or null to get the full extract
      * @return the jax-rs response to send back.
      * @throws Exception
      */
-    private Response getExtractResponse(String deltaDate) throws Exception {
-        final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
-        ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate);
+    Response getExtractResponse(final HttpHeaders headers, final String deltaDate) throws Exception {
+
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Entity application = getApplication(auth);
+
+        String appId = application.getEntityId();
+
+        ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate, appId);
+
         if (bulkExtractFileEntity == null) {
             // return 404 if no bulk extract support for that tenant
             LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
@@ -204,47 +204,204 @@ public class BulkExtract {
             return Response.status(Status.NOT_FOUND).build();
         }
 
+        return getExtractResponse(headers, bulkExtractFile, bulkExtractFile.lastModified(),
+                bulkExtractFileEntity.getLastModified());
+
+    }
+
+    /**
+     * Get the bulk extract response
+     *
+     * @param headers
+     *          The http request headers
+     * @param bulkExtractFile
+     *          The bulk extract file to return
+     * @param fileName
+     *          The name for a bulk extract file
+     * @param lastModified
+     *          The last modified date time
+     * @return
+     *          Response with the bulk extract file
+     * @throws ParseException
+     */
+    private Response getExtractResponse(final HttpHeaders headers,
+            final File bulkExtractFile, final long lastModifiedTime, final String lastModified) {
+
         String fileName = bulkExtractFile.getName();
-        String lastModified = bulkExtractFileEntity.getLastModified();
+        long fileLength = bulkExtractFile.length();
+        String eTag = fileName + "_" + fileLength + "_" + lastModified;
 
-        try {
-        	final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            final InputStream is = new FileInputStream(bulkExtractFile);
-            StreamingOutput out = new StreamingOutput() {
-                @Override
-                public void write(OutputStream output) throws IOException, WebApplicationException {
-                    int n;
-                    byte[] buffer = new byte[1024];
-
-                    byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
-                    byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
-
-                    PublicKey publicKey = getApplicationPublicKey(auth);
-                    byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
-                    byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
-
-                    output.write(encryptedIV);
-                    output.write(encryptedSecret);
-
-                    CipherOutputStream stream = new CipherOutputStream(output, cipherSecretKeyPair.getLeft());
-                    while ((n = is.read(buffer)) > -1) {
-                        stream.write(buffer, 0, n);
-                    }
-                    stream.close();
-                }
-            };
-            ResponseBuilder builder = Response.ok(out);
-            builder.header("content-disposition", "attachment; filename = " + fileName);
-            builder.header("last-modified", lastModified);
+        /*
+         * Validate request headers for caching
+         */
+        String ifNoneMatch = getRequestHeader(headers, "If-None-Match");
+        if (ifNoneMatch != null && matches(ifNoneMatch, eTag)) {
+            // If-None-Match header should contain "*" or ETag. If so, then return 304.
+            ResponseBuilder builder = Response.status(Status.NOT_MODIFIED)
+                    .header("ETag", eTag);
             return builder.build();
-        } catch (FileNotFoundException e) {
-            return Response.status(Status.NOT_FOUND).build();
+        }
+
+        // If-Modified-Since header is ignored if any If-None-Match header is specified.
+        String ifModifiedSince = getRequestHeader(headers, "If-Modified-Since");
+        long ifModifiedSinceTime = ifModifiedSince==null ? 0 :
+            ISODateTimeFormat.basicDate().parseDateTime(ifModifiedSince).getMillis();
+        if (ifNoneMatch == null && ifModifiedSinceTime > 0 && ifModifiedSinceTime + 1000 > lastModifiedTime) {
+            // If-Modified-Since header should be greater than LastModified. If so, then return 304.
+            ResponseBuilder builder = Response.status(Status.NOT_MODIFIED)
+                    .header("ETag", eTag);
+            return builder.build();
+        }
+
+        /*
+         * Validate request headers for resume
+         */
+        String ifMatch = getRequestHeader(headers, "If-Match");
+        if (ifMatch != null && !matches(ifMatch, eTag)) {
+            // If-Match header should contain "*" or ETag. If not, then return 412.
+            return Response.status(Status.PRECONDITION_FAILED).build();
+        }
+
+        String ifUnmodifiedSince = getRequestHeader(headers, "If-Unmodified-Since");
+        long ifUnmodifiedSinceTime = ifUnmodifiedSince==null ? 0 :
+            ISODateTimeFormat.basicDate().parseDateTime(ifUnmodifiedSince).getMillis();
+        if (ifUnmodifiedSinceTime > 0 && ifUnmodifiedSinceTime + 1000 <= lastModifiedTime) {
+            // If-Unmodified-Since header should be greater than LastModified. If not, then return 412.
+            return Response.status(Status.PRECONDITION_FAILED).build();
+        }
+
+        /*
+         * Validate and process range
+         */
+        // Prepare some variables. The full Range represents the complete file.
+        final Range full = new Range(0, fileLength - 1, fileLength);
+        List<Range> ranges = new ArrayList<Range>();
+
+        // Validate and process Range and If-Range headers.
+        String range = getRequestHeader(headers, "Range");
+        if (range != null) {
+
+            // Range header should match format "bytes=n-n,n-n,n-n...". If not, then return 416.
+            if (!range.matches("^bytes=\\d*-\\d*(,\\d*-\\d*)*$")) {
+                ResponseBuilder builder = Response.status(416)
+                        .header("Content-Range", "bytes */" + fileLength);// Required in 416.
+                return builder.build();
+            }
+
+            // If-Range header should either match ETag or be greater then LastModified. If not,
+            // then return full file.
+            String ifRange = getRequestHeader(headers, "If-Range");
+            if (ifRange != null && !ifRange.equals(eTag)) {
+                long ifRangeTime = ISODateTimeFormat.basicDate().parseDateTime(ifRange).getMillis();
+                if (ifRangeTime > 0 && ifRangeTime + 1000 < lastModifiedTime) {
+                    ranges.add(full);
+                }
+            }
+
+            // If any valid If-Range header, then process each part of byte range.
+            if (ranges.isEmpty()) {
+                for (String part : range.substring(6).split(",")) {
+                    // Assuming a file with fileLength of 100, the following examples returns bytes at:
+                    // 50-80 (50 to 80), 40- (40 to fileLength=100), -20 (fileLength-20=80 to fileLength=100).
+                    long start = sublong(part, 0, part.indexOf("-"));
+                    long end = sublong(part, part.indexOf("-") + 1, part.length());
+
+                    if (start == -1) {
+                        start = fileLength - end;
+                        end = fileLength - 1;
+                    } else if (end == -1 || end > fileLength - 1) {
+                        end = fileLength - 1;
+                    }
+
+                    // Check if Range is syntactically valid. If not, then return 416.
+                    if (start > end) {
+                        ResponseBuilder builder = Response.status(416)
+                                .header("Content-Range", "bytes */" + fileLength);// Required in 416.
+                        return builder.build();
+                    }
+
+                    // Add range.
+                    ranges.add(new Range(start, end, fileLength));
+                }
+            }
+        }
+
+        /*
+         * Prepare and initialize response
+         */
+        boolean fullContent = ranges.isEmpty() || ranges.get(0) == full;
+        ResponseBuilder builder = fullContent ? Response.ok() : Response.status(206);
+
+        builder.header("content-disposition", "attachment; filename = " + fileName)
+               .header("Accept-Ranges", "bytes")
+               .header("ETag", eTag)
+               .header(HttpHeaders.LAST_MODIFIED, lastModified);
+
+        if (fullContent || ranges.size() == 1) {
+            final Range r = fullContent ? full : ranges.get(0);
+            return singlePartExtractResponse(builder, bulkExtractFile, r);
+        } else {
+            return multiPartsExtractResponse(builder, bulkExtractFile, ranges);
         }
     }
 
-    private PublicKey getApplicationPublicKey(Authentication authentication) throws IOException {
-        PublicKey publicKey = null;
+    private Response singlePartExtractResponse(final ResponseBuilder builder,
+            final File bulkExtractFile, final Range r) {
 
+        StreamingOutput out = new StreamingOutput() {
+            @Override
+            public void write(OutputStream output) throws IOException, WebApplicationException {
+                InputStream input = null;
+                try {
+                    input = new FileInputStream(bulkExtractFile);
+                    IOUtils.copyLarge(input, output, r.start, r.length);
+                } finally {
+                    IOUtils.closeQuietly(input);
+                }
+            }
+        };
+
+        builder.entity(out)
+               .header("Content-Range", "bytes " + r.start + "-" + r.end + "/" + r.total)
+               .header("Content-Length", String.valueOf(r.length));
+        return builder.build();
+    }
+
+    private Response multiPartsExtractResponse(final ResponseBuilder builder,
+            final File bulkExtractFile, final List<Range> ranges) {
+
+        StreamingOutput out = new StreamingOutput() {
+            @Override
+            public void write(OutputStream output) throws IOException, WebApplicationException {
+                InputStream input = null;
+                try {
+                    input = new FileInputStream(bulkExtractFile);
+                    // Copy multi part range.
+                    for (Range r : ranges) {
+                        output.write( "\r\n".getBytes() );
+                        output.write( (MULTIPART_BOUNDRY_SEP + "\r\n").getBytes() );
+                        output.write( ("Content-Range: bytes " + r.start + "-" + r.end + "/" + r.total+ "\r\n").getBytes() );
+                        IOUtils.copyLarge(input, output, r.start, r.length);
+                    }
+                    output.write( "\r\n".getBytes() );
+                    output.write( (MULTIPART_BOUNDRY_END + "\r\n").getBytes() );
+                } finally {
+                    IOUtils.closeQuietly(input);
+                }
+            }
+        };
+
+        builder.entity(out)
+               .header("Content-Type", "multipart/byteranges; boundary=" + MULTIPART_BOUNDARY);
+        return builder.build();
+    }
+
+    private String getRequestHeader(HttpHeaders headers, String name) {
+        List<String> list = headers==null ? null : headers.getRequestHeader(name);
+        return list==null || list.isEmpty() ? null : list.get(0);
+    }
+
+    private Entity getApplication(Authentication authentication) {
         if (!(authentication instanceof OAuth2Authentication)) {
             throw new AccessDeniedException("Not logged in with valid oauth context");
         }
@@ -256,43 +413,29 @@ public class BulkExtract {
         final Entity entity = mongoEntityRepository.findOne(EntityNames.APPLICATION, query);
 
         if(entity == null) {
-        	throw new AccessDeniedException("Could not find application with client_id=" + clientId);
+            throw new AccessDeniedException("Could not find application with client_id=" + clientId);
         } else if (entity.getBody().get("public_key") == null) {
-            throw new AccessDeniedException("Missing public_key attribute on application entity. client_id=" + clientId);
-        }
-
-        String key = (String) entity.getBody().get("public_key");
-
-
-
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.decodeBase64(key));
-        try {
-            KeyFactory kf = KeyFactory.getInstance("RSA");
-            publicKey = kf.generatePublic(spec);
-        } catch (NoSuchAlgorithmException e) {
-            LOG.error("Exception: NoSuchAlgorithmException {}", e);
-            throw new IOException(e);
-        } catch (InvalidKeySpecException e) {
-            LOG.error("Exception: InvalidKeySpecException {}", e);
-            throw new IOException(e);
-        }
-
-        return publicKey;
-}
+          throw new AccessDeniedException("Missing public_key attribute on application entity. client_id=" + clientId);
+      }
+        return entity;
+    }
 
     /**
      * Get the bulk extract file
      *
      * @param deltaDate
      *            the date of the delta, or null to retrieve a full extract
+     * @param appId
      * @return
      */
-    private ExtractFile getBulkExtractFile(String deltaDate) {
+    private ExtractFile getBulkExtractFile(String deltaDate, String appId) {
         boolean isDelta = deltaDate != null;
         initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
         query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
+        query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
+
         if (isDelta) {
             DateTime d = ISODateTimeFormat.basicDate().parseDateTime(deltaDate);
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.toDate()));
@@ -308,27 +451,6 @@ public class BulkExtract {
                 .get(BULK_EXTRACT_FILE_PATH).toString());
     }
 
-    private byte[] encryptDataWithRSAPublicKey(byte[] rawData, PublicKey publicKey) {
-        byte[] encryptedData = null;
-
-        try {
-            Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-            encryptedData = cipher.doFinal(rawData);
-        } catch (NoSuchAlgorithmException e) {
-            LOG.error("Exception: NoSuchAlgorithmException {}", e);
-        } catch (NoSuchPaddingException e) {
-            LOG.error("Exception: NoSuchPaddingException {}", e);
-        } catch (InvalidKeyException e) {
-            LOG.error("Exception: InvalidKeyException {}", e);
-        } catch (BadPaddingException e) {
-            LOG.error("Exception: BadPaddingException {}", e);
-        } catch (IllegalBlockSizeException e) {
-            LOG.error("Exception: IllegalBlockSizeException {}", e);
-        }
-
-        return encryptedData;
-    }
 
     /**
      * @throws AccessDeniedException
@@ -336,9 +458,7 @@ public class BulkExtract {
      */
     private void checkApplicationAuthorization(Set<String> edorgsForExtract) throws AccessDeniedException {
         OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
-        String clientId = auth.getClientAuthentication().getClientId();
-        Entity app = this.mongoEntityRepository.findOne("application", new NeutralQuery(new NeutralCriteria(
-                "client_id", NeutralCriteria.OPERATOR_EQUAL, clientId)));
+        Entity app = getApplication(auth);
         Map<String, Object> body = app.getBody();
         if (!body.containsKey("isBulkExtract") || (Boolean) body.get("isBulkExtract") == false) {
             throw new AccessDeniedException("Application is not approved for bulk extract");
@@ -360,13 +480,54 @@ public class BulkExtract {
         this.mongoEntityRepository = mongoEntityRepository;
     }
 
-    private Pair<Cipher, SecretKey> getCiphers() throws Exception {
-        SecretKey secret = KeyGenerator.getInstance("AES").generateKey();
+    /**
+     * Returns true if the given match header matches the given value.
+     * @param matchHeader The match header.
+     * @param toMatch The value to be matched.
+     * @return True if the given match header matches the given value.
+     */
+    private static boolean matches(String matchHeader, String toMatch) {
+        String[] matchValues = matchHeader.split("\\s*,\\s*");
+        Arrays.sort(matchValues);
+        return Arrays.binarySearch(matchValues, toMatch) > -1
+            || Arrays.binarySearch(matchValues, "*") > -1;
+    }
 
-        Cipher encrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        encrypt.init(Cipher.ENCRYPT_MODE, secret);
+    /**
+     * Returns a substring of the given string value from the given begin index to the given end
+     * index as a long. If the substring is empty, then -1 will be returned
+     * @param value The string value to return a substring as long for.
+     * @param beginIndex The begin index of the substring to be returned as long.
+     * @param endIndex The end index of the substring to be returned as long.
+     * @return A substring of the given string value as long or -1 if substring is empty.
+     */
+    private static long sublong(String value, int beginIndex, int endIndex) {
+        String substring = value.substring(beginIndex, endIndex);
+        return (substring.length() > 0) ? Long.parseLong(substring) : -1;
+    }
 
-        return Pair.of(encrypt, secret);
+    /**
+     * Represents a byte range.
+     */
+    private class Range {
+        long start;
+        long end;
+        long length;
+        long total;
+
+        /**
+         * Construct a byte range.
+         * @param start Start of the byte range.
+         * @param end End of the byte range.
+         * @param total Total length of the byte source.
+         */
+        public Range(long start, long end, long total) {
+            this.start = start;
+            this.end = end;
+            this.length = end - start + 1;
+            this.total = total;
+        }
+
     }
 
 	public void setValidator(CertificateValidationHelper validator) {
