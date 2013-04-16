@@ -298,6 +298,31 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
   puts("The generated token is #{@sessionId}") if $SLI_DEBUG
 end
 
+When /^the extract contains no entity files/ do
+  step "the extract contains a file for each of the following entities:",table(%{
+    | entityType |
+  })
+end
+
+When /^I use an invalid tenant to trigger a bulk extract/ do
+  command  = "#{TRIGGER_SCRIPT}"
+  if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
+    command = command + " -Dsli.conf=#{PROPERTIES_FILE}" 
+    puts "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
+  end
+  if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
+    command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}" 
+    puts "Using extra property: -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
+  end
+  if (JAR_FILE !=nil && JAR_FILE != "")
+    command = command + " -f#{JAR_FILE}" 
+    puts "Using extra property:  -f#{JAR_FILE}"
+  end
+  command = command + " -tNoTenantForYou"
+  puts "Running: #{command} "
+  puts runShellCommand(command)
+end
+
 ############################################################
 # Then
 ############################################################
@@ -310,6 +335,15 @@ Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
 }
 end
 
+Then /^the extraction zone should still be empty/ do
+  if File.exists?(OUTPUT_DIRECTORY)
+    entries = Dir.entries(OUTPUT_DIRECTORY)
+    puts "Files in #{OUTPUT_DIRECTORY} are: "
+    entries.each {|x| puts x}
+    assert(entries.size == 2, "Extraction zone is no longer empty.")
+  end
+end
+
 ############################################################
 # Functions
 ############################################################
@@ -319,7 +353,7 @@ def getExtractInfoFromMongo(tenant, appId)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
 
-  match =  @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId})
+  match =  @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => "false"},{"body.isDelta" => false}]})
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
   @encryptFilePath = match['body']['path']
