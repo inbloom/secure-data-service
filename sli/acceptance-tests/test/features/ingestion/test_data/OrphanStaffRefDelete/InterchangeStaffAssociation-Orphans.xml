@@ -5,7 +5,7 @@
   <Action ActionType="DELETE" Cascade="false" Force="false">
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>techer-0000000001</StaffUniqueStateId>
+        <StaffUniqueStateId>Staff-ckoch</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
   </Action>
