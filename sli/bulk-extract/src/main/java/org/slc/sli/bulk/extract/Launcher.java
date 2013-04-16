@@ -16,15 +16,8 @@
 
 package org.slc.sli.bulk.extract;
 
-import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -37,6 +30,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 /**
  * Bulk extract launcher.
  *
@@ -51,6 +49,7 @@ public class Launcher {
     private String baseDirectory;
     private TenantExtractor tenantExtractor;
     private Repository<Entity> repository;
+    private LocalEdOrgExtractor localEdOrgExtractor;
 
     /**
      * Actually execute the extraction.
@@ -65,6 +64,7 @@ public class Launcher {
             extractFile = new ExtractFile(getTenantDirectory(tenant),
                     getArchiveName(tenant, startTime.toDate()));
             tenantExtractor.execute(tenant, extractFile, startTime);
+            localEdOrgExtractor.execute(tenant);
         } else {
             LOG.error("A bulk extract is not being initiated for the tenant {} because the tenant has not been onboarded.", tenant);
         }
@@ -129,42 +129,6 @@ public class Launcher {
     public void setRepository(Repository<Entity> repository) {
         this.repository = repository;
     }
-    
-    /**
-     * A helper function to get the list of approved app ids that have bulk extract enabled
-     * 
-     * @return a set of approved bulk extract app ids
-     */
-    public Set<String> getBulkExctractApps() {
-        NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("isBulkExtract", NeutralCriteria.OPERATOR_EQUAL,
-                true));
-        appQuery.addCriteria(new NeutralCriteria("registration.status", NeutralCriteria.OPERATOR_EQUAL, "APPROVED"));
-        TenantContext.setIsSystemCall(true);
-        Iterable<Entity> apps = repository.findAll("application", appQuery);
-        TenantContext.setIsSystemCall(false);
-        Set<String> appIds = new HashSet<String>();
-        for (Entity app : apps) {
-            appIds.add(app.getEntityId());
-        }
-        return appIds;
-    }
-    
-    /**
-     * Attempts to get all of the LEAs that should have a LEA level extract scheduled.
-     * 
-     * @return a set of the LEA ids that need a bulk extract
-     */
-    @SuppressWarnings("unchecked")
-    public Set<String> getBulkExtractLEAs() {
-        NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.CRITERIA_IN,
-                getBulkExctractApps()));
-        Iterable<Entity> apps = repository.findAll("applicationAuthorization", appQuery);
-        Set<String> edorgIds = new HashSet<String>();
-        for (Entity app : apps) {
-            edorgIds.addAll((Collection<String>) app.getBody().get("edorgs"));
-        }
-        return edorgIds;
-    }
 
     /**
      * Main entry point.
@@ -185,5 +149,13 @@ public class Launcher {
 
         main.execute(tenantId);
 
+    }
+
+    public void setLocalEdOrgExtractor(LocalEdOrgExtractor localEdOrgExtractor) {
+        this.localEdOrgExtractor = localEdOrgExtractor;
+    }
+
+    public LocalEdOrgExtractor getLocalEdOrgExtractor() {
+        return localEdOrgExtractor;
     }
 }
