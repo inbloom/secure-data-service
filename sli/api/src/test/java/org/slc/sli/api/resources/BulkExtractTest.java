@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -48,6 +49,7 @@ import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Variant;
 
+import com.sun.jersey.api.Responses;
 import com.sun.jersey.api.core.ExtendedUriInfo;
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.api.core.HttpRequestContext;
@@ -178,34 +180,8 @@ public class BulkExtractTest {
   @Test
   public void testGet() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
-
-      { //mock application entity
-          Entity mockEntity = Mockito.mock(Entity.class);
-          Map<String, Object> mockBody = Mockito.mock(Map.class);
-          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-
-          Mockito.when(mockBody.get(eq("public_key"))).thenReturn(PUBLIC_KEY);
-          Mockito.when(mockBody.get(eq("_id"))).thenReturn("abc123_id");
-          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
-                  .thenReturn(mockEntity);
-      }
-
-      File tmpDir = FileUtils.getTempDirectory();
-
-      { //mock bulk extract entity
-          Entity mockEntity = Mockito.mock(Entity.class);
-          Map<String, Object> mockBody = Mockito.mock(Map.class);
-          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-
-
-          File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
-
-          FileUtils.writeStringToFile(inputFile, BULK_DATA);
-          Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
-          Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
-          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
-                  .thenReturn(mockEntity);
-      }
+      mockApplicationEntity();
+      mockBulkExtractEntity();
 
       Response res = bulkExtract.getDelta(new HttpContextAdapter(), null);
       assertEquals(200, res.getStatus());
@@ -234,34 +210,8 @@ public class BulkExtractTest {
   @Test
   public void testGetExtractResponse() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
-
-      { //mock application entity
-          Entity mockEntity = Mockito.mock(Entity.class);
-          Map<String, Object> mockBody = Mockito.mock(Map.class);
-          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-
-          Mockito.when(mockBody.get(eq("public_key"))).thenReturn(PUBLIC_KEY);
-          Mockito.when(mockBody.get(eq("_id"))).thenReturn("abc123_id");
-          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
-                  .thenReturn(mockEntity);
-      }
-
-      File tmpDir = FileUtils.getTempDirectory();
-
-      { //mock bulk extract entity
-          Entity mockEntity = Mockito.mock(Entity.class);
-          Map<String, Object> mockBody = Mockito.mock(Map.class);
-          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-
-
-          File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
-
-          FileUtils.writeStringToFile(inputFile, BULK_DATA);
-          Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
-          Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
-          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
-                  .thenReturn(mockEntity);
-      }
+      mockApplicationEntity();
+      mockBulkExtractEntity();
 
       Response res = bulkExtract.getExtractResponse(new HttpRequestContextAdapter(), null);
       assertEquals(200, res.getStatus());
@@ -288,20 +238,28 @@ public class BulkExtractTest {
   }
 
   @Test
+  public void testFailedEvaluatePreconditions() throws Exception {
+      injector.setOauthAuthenticationWithEducationRole();
+      mockApplicationEntity();
+      mockBulkExtractEntity();
+
+      HttpRequestContext context = new HttpRequestContextAdapter() {
+          @Override
+          public ResponseBuilder evaluatePreconditions(Date lastModified, EntityTag eTag) {
+              return Responses.preconditionFailed();
+          }
+      };
+
+      Response res = bulkExtract.getExtractResponse(context, null);
+      assertEquals(412, res.getStatus());
+  }
+
+  @Test
     public void testGetDelta() throws Exception {
         injector.setEducatorContext();
         Map<String, Object> body = new HashMap<String, Object>();
         File f = File.createTempFile("bulkExtract", ".tgz");
-        { //mock application entity
-            Entity mockEntity = Mockito.mock(Entity.class);
-            Map<String, Object> mockBody = Mockito.mock(Map.class);
-            Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-
-            Mockito.when(mockBody.get(eq("public_key"))).thenReturn(PUBLIC_KEY);
-            Mockito.when(mockBody.get(eq("_id"))).thenReturn("abc123_id");
-            Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
-                    .thenReturn(mockEntity);
-        }
+        mockApplicationEntity();
 
         try {
             body.put(BulkExtract.BULK_EXTRACT_FILE_PATH, f.getAbsolutePath());
@@ -356,6 +314,32 @@ public class BulkExtractTest {
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
         bulkExtract.getTenant(null);
+    }
+
+    private void mockApplicationEntity() {
+        Entity mockEntity = Mockito.mock(Entity.class);
+        Map<String, Object> mockBody = Mockito.mock(Map.class);
+        Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
+
+        Mockito.when(mockBody.get(eq("public_key"))).thenReturn(PUBLIC_KEY);
+        Mockito.when(mockBody.get(eq("_id"))).thenReturn("abc123_id");
+        Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockEntity);
+    }
+
+    private void mockBulkExtractEntity() throws IOException {
+        File tmpDir = FileUtils.getTempDirectory();
+        Entity mockEntity = Mockito.mock(Entity.class);
+        Map<String, Object> mockBody = Mockito.mock(Map.class);
+        Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
+
+        File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
+
+        FileUtils.writeStringToFile(inputFile, BULK_DATA);
+        Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
+        Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
+        Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockEntity);
     }
 
     private static class HttpContextAdapter implements HttpContext {
