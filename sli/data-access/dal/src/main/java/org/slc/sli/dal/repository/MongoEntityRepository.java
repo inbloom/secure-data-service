@@ -29,6 +29,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -147,8 +148,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return entity.getEntityId();
     }
 
-    private List<String> getIds(List<Entity> entities) {
-        List<String> ids = new ArrayList<String>(entities.size());
+    private List<String> getIds(Iterable<Entity> entities) {
+        List<String> ids = new ArrayList<String>();
         for (Entity entity : entities) {
             ids.add(entity.getEntityId());
         }
@@ -269,6 +270,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             denormalizer.denormalization(collectionName).doUpdate(updateEntity, update);
         }
 
+        if (journal != null) {
+            journal.journal(id, collectionName, false);
+        }
+
         return result;
     }
 
@@ -291,25 +296,22 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         this.addTimestamps(entity);
         this.schemaVersionValidatorProvider.getSliSchemaVersionValidator().insertVersionInformation(entity);
+        Entity result;
 
         if (subDocs.isSubDoc(collectionName)) {
             validator.validate(entity);
             validator.validateNaturalKeys(entity, true);
             subDocs.subDoc(collectionName).create(entity);
 
-            if (denormalizer.isDenormalizedDoc(collectionName)) {
-                denormalizer.denormalization(collectionName).create(entity);
-            }
-
-            return entity;
+            result = entity;
         } else if (containerDocumentAccessor.isContainerDocument(entity.getType())) {
             validator.validate(entity);
             validator.validateNaturalKeys(entity, true);
             final String createdId = containerDocumentAccessor.insert(entity);
             if (!createdId.isEmpty()) {
-                return new MongoEntity(type, createdId, entity.getBody(), metaData);
+                result = new MongoEntity(type, createdId, entity.getBody(), metaData);
             } else {
-                return entity;
+                result = entity;
             }
         } else {
             SuperdocConverter converter = converterReg.getConverter(collectionName);
@@ -318,14 +320,17 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
             validator.validate(entity);
             validator.validateNaturalKeys(entity, true);
-            Entity result = super.insert(entity, collectionName);
+            result = super.insert(entity, collectionName);
 
-            if (denormalizer.isDenormalizedDoc(collectionName)) {
-                denormalizer.denormalization(collectionName).create(entity);
-            }
-
-            return result;
         }
+        if (denormalizer.isDenormalizedDoc(collectionName)) {
+            denormalizer.denormalization(collectionName).create(entity);
+        }
+        if (journal != null) {
+            journal.journal(result.getEntityId(), collectionName, false);
+        }
+
+        return result;
     }
 
     @Override
@@ -861,7 +866,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean delete(String collectionName, String id) {
-
+        boolean result;
         if (subDocs.isSubDoc(collectionName)) {
             Entity entity = subDocs.subDoc(collectionName).findById(id);
 
@@ -869,23 +874,26 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 denormalizer.denormalization(collectionName).delete(entity, id);
             }
 
-            return subDocs.subDoc(collectionName).delete(entity);
-        }
-
-        if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            result = subDocs.subDoc(collectionName).delete(entity);
+        } else if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
             Entity entity = containerDocumentAccessor.findById(collectionName, id);
             if (entity == null) {
                 LOG.warn("Could not find entity {} in collection {}", id, collectionName);
                 return false;
             }
-            return containerDocumentAccessor.delete(entity);
+            result = containerDocumentAccessor.delete(entity);
+        } else {
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).delete(null, id);
+            }
+            result = super.delete(collectionName, id);
         }
 
-        if (denormalizer.isDenormalizedDoc(collectionName)) {
-            denormalizer.denormalization(collectionName).delete(null, id);
+        if (result && journal != null) {
+            journal.journal(id, collectionName, true);
         }
 
-        return super.delete(collectionName, id);
+        return result;
     }
 
     @Override
@@ -975,6 +983,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     // "special" flag for it hence deleteAssessmentFamilyReference
     private boolean update(String collection, Entity entity, boolean validateNaturalKeys, boolean isSuperdoc,
             boolean deleteAssessmentFamilyReference) {
+        boolean result;
+
         if (validateNaturalKeys) {
             validator.validateNaturalKeys(entity, true);
         }
@@ -995,14 +1005,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             denormalizer.denormalization(collection).create(entity);
         }
         if (subDocs.isSubDoc(collection)) {
-            return subDocs.subDoc(collection).create(entity);
+            result = subDocs.subDoc(collection).create(entity);
+        } else if (containerDocumentAccessor.isContainerDocument(collection)) {
+            result = !containerDocumentAccessor.update(entity).isEmpty();
+        } else {
+            result = super.update(collection, entity, null, isSuperdoc); // body);
         }
-
-        if (containerDocumentAccessor.isContainerDocument(collection)) {
-            return !containerDocumentAccessor.update(entity).isEmpty();
+        if (journal != null) {
+            journal.journal(entity.getEntityId(), collection, false);
         }
-
-        return super.update(collection, entity, null, isSuperdoc); // body);
+        return result;
     }
 
     /**
@@ -1120,6 +1132,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public void deleteAll(String collectionName, NeutralQuery neutralQuery) {
+        if (journal != null) {
+            journal.journal(getIds(findAll(collectionName, neutralQuery)), collectionName, true);
+        }
         if (subDocs.isSubDoc(collectionName)) {
             Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
             subDocs.subDoc(collectionName).deleteAll(query);
@@ -1195,6 +1210,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             journal.journal(record.getEntityId(), collectionName, false);
         }
         return super.insert(record, collectionName);
+    }
+
+    @Override
+    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String collectionName) {
+        WriteResult result = super.updateMulti(query, update, collectionName);
+        if (journal != null) {
+            journal.journal(getIds(findAll(collectionName, query)), collectionName, false);
+        }
+        return result;
     }
 
 }

@@ -225,10 +225,10 @@ end
 #              It is suggested you assert the state of the @res response before returning success from the calling function
 def restHttpHead(id, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
-  assert(sessionId != nil, "Session ID passed into GET was nil")
+  assert(sessionId != nil, "Session ID passed into HEAD was nil")
 
-  urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
-  puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
+  urlHeader = makeUrlAndHeaders('head',id,sessionId,format)
+  puts "HEAD urlHeader: #{urlHeader}" if $SLI_DEBUG
   @res = RestClient.head(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
   puts(@res.code,@res.raw_headers) if $SLI_DEBUG
 end
@@ -253,6 +253,18 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+def restHttpCustomHeadersGet(id, customHeaders, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into GET was nil")
+
+  urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
+  header = urlHeader[:headers]
+  header.merge!(customHeaders)
+  puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
+  puts header
+  @res = RestClient.get(urlHeader[:url], header){|response, request, result| response }
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
 
 def restTls(url, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil

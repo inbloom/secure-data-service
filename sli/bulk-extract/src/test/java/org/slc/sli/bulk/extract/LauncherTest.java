@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.dal.repository.MongoEntityRepository;
@@ -40,6 +41,7 @@ public class LauncherTest {
     Launcher launcher;
     Repository<Entity> repository;
     TenantExtractor tenantExtractor;
+    LocalEdOrgExtractor localEdOrgExtractor;
 
     /**
      * Runs before JUnit tests and does the initiation work for the tests.
@@ -50,8 +52,10 @@ public class LauncherTest {
         launcher = new Launcher();
         repository = Mockito.mock(MongoEntityRepository.class);
         tenantExtractor = Mockito.mock(TenantExtractor.class);
+        localEdOrgExtractor = Mockito.mock(LocalEdOrgExtractor.class);
         launcher.setRepository(repository);
         launcher.setTenantExtractor(tenantExtractor);
+        launcher.setLocalEdOrgExtractor(localEdOrgExtractor);
         launcher.setBaseDirectory("./");
     }
 
