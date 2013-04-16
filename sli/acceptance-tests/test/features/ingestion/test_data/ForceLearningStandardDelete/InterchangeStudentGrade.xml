@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-G3-1</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for reading</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Reading</SubjectArea>
+        <CourseTitle>Reading</CourseTitle>
+    </LearningStandard>
+    
+    </Action>
+    </InterchangeStudentGrade>
