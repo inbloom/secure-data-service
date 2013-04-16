@@ -163,15 +163,13 @@ end
 
 Given /^I have delta bulk extract files generated for today$/ do
   @pre_generated = "#{File.dirname(__FILE__)}/../../test_data/deltas/Midgar_delta_1.tar"
-  encryptFile = File.dirname(@pre_generated)+File.basename(@pre_generated,".tar")+"encrypted.tar"
-  encrypt(@pre_generated,encryptFile)  
   bulk_delta_file_entry = {
     _id: "Midgar_delta-19cca28d-7357-4044-8df9-caad4b1c8ee4",
     body: {
       tenantId: "Midgar",
       isDelta: "true",
       applicationId: "19cca28d-7357-4044-8df9-caad4b1c8ee4",
-      path: "#{encryptFile}",
+      path: "#{@pre_generated}",
       date: Time.now
     },
     metaData: {
