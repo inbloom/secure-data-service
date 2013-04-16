@@ -6,10 +6,7 @@ Feature:  RC Integration Tests
 Background:
 Given I have an open web browser
 
-@ci
-Scenario: Operator triggers a bulk extract
-   Given the extraction zone is empty
-   When the operator triggers a bulk extract for tenant "<SANDBOX_TENANT>"
+
 
 Scenario: App developer Registers, Approves, and Enables a new Installed app and Full window web app. Educators and IT Administrators can see the apps.
 #Installed App
@@ -96,6 +93,11 @@ Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards;Schlemiel"
 And under My Applications, I click on "Schlemiel"
 Then my current url is "http://www.google.com/"	
+
+@ci
+Scenario: Operator triggers a bulk extract
+   Given the extraction zone is empty
+   When the operator triggers a bulk extract for tenant "<SANDBOX_TENANT>"
 
 @ci
 Scenario: App makes an api call to retrieve a bulk extract

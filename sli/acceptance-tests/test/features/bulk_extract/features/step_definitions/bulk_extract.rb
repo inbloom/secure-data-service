@@ -19,6 +19,13 @@ require_relative '../../../ingestion/features/step_definitions/ingestion_steps.r
 require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb' #This is for the decryption step
+require 'zip/zip'
+require 'archive/tar/minitar'
+require 'zlib'
+require 'open3'
+require 'openssl'
+include Archive::Tar
 
 SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_script'])
 TRIGGER_SCRIPT_DIRECTORY = File.expand_path(PropLoader.getProps['bulk_extract_script_directory'])
@@ -37,14 +44,7 @@ COMBINED_ENTITIES = ['assessment', 'studentAssessment']
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
 
-require 'zip/zip'
-require 'archive/tar/minitar'
-require 'zlib'
-require 'open3'
-require 'openssl'
-include Archive::Tar
-require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
-require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb' #This is for the decryption step
+
 
 ############################################################
 # Scheduler
@@ -162,12 +162,16 @@ Given /^the extraction zone is empty$/ do
 end
 
 Given /^I have delta bulk extract files generated for today$/ do
+  @pre_generated = "#{File.dirname(__FILE__)}/../../test_data/deltas/Midgar_delta_1.tar"
+  encryptFile = File.dirname(@pre_generated)+File.basename(@pre_generated,".tar")+"encrypted.tar"
+  encrypt(@pre_generated,encryptFile)  
   bulk_delta_file_entry = {
-    _id: "Midgar_delta",
+    _id: "Midgar_delta-19cca28d-7357-4044-8df9-caad4b1c8ee4",
     body: {
       tenantId: "Midgar",
       isDelta: "true",
-      path: "#{File.dirname(__FILE__)}/../../test_data/deltas/Midgar_delta_1.tar",
+      applicationId: "19cca28d-7357-4044-8df9-caad4b1c8ee4",
+      path: "#{encryptFile}",
       date: Time.now
     },
     metaData: {
@@ -175,7 +179,6 @@ Given /^I have delta bulk extract files generated for today$/ do
     },
     type: "bulkExtractEntity"
   }
-  @pre_generated = "#{File.dirname(__FILE__)}/../../test_data/deltas/Midgar_delta_1.tar"
   @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb ||= @conn.db(DATABASE_NAME)
   @coll ||= @sliDb.collection("bulkExtractFiles")
@@ -186,18 +189,17 @@ end
 # When
 ############################################################
 
-When /^I retrieve the path to the extract file for the tenant "(.*?)"$/ do |tenant|
-  @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
-  @sliDb = @conn.db(DATABASE_NAME)
-  @coll = @sliDb.collection("bulkExtractFiles")
+When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+  getExtractInfoFromMongo(tenant,appId)
+end
 
-  match =  @coll.find_one({"_id" => tenant, "body.tenantId" => tenant})
-
-  assert(match !=nil, "Database was not updated with bulk extract file location")
-
-  @filePath = match['body']['path']
-  @unpackDir = File.dirname(@filePath) + '/unpack'
-  @tenant = tenant
+When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+  getExtractInfoFromMongo(tenant,appId)
+  
+  file = File.open(@encryptFilePath, 'rb') { |f| f.read}
+  decryptFile(file)
+  FileUtils.mkdir_p(File.dirname(@filePath)) if !File.exists?(File.dirname(@filePath))
+  File.open(@filePath, 'w') {|f| f.write(@plain) }  
 
 end
 
@@ -314,6 +316,20 @@ end
 # Functions
 ############################################################
 
+def getExtractInfoFromMongo(tenant, appId)
+  @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb = @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+
+  match =  @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId})
+  assert(match !=nil, "Database was not updated with bulk extract file location")
+  
+  @encryptFilePath = match['body']['path']
+  @unpackDir = File.dirname(@encryptFilePath) + '/unpack'
+  @filePath = File.dirname(@encryptFilePath) + '/decrypt/' + File.basename(@encryptFilePath)
+  @tenant = tenant
+end  
+
 def getMongoRecordFromJson(jsonRecord)
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant)) 
 	case jsonRecord['entityType']
@@ -429,3 +445,28 @@ def compareToApi(collection, collFile)
   assert(found, "No API records for #{collection} were fetched successfully.")
 end
 
+def decryptFile(file)
+  private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
+  assert(file.length >= 512)
+  encryptediv = file[0,256] 
+  encryptedsecret = file[256,256]
+  encryptedmessage = file[512,file.length - 512]
+ 
+  decrypted_iv = private_key.private_decrypt(encryptediv)
+  decrypted_secret = private_key.private_decrypt(encryptedsecret)
+ 
+  aes = OpenSSL::Cipher.new('AES-128-CBC')
+  aes.decrypt
+  aes.key = decrypted_secret
+  aes.iv = decrypted_iv
+  @plain = aes.update(encryptedmessage) + aes.final
+  if $SLI_DEBUG 
+    puts("Final is #{aes.final}")
+    puts("IV is #{encryptediv}")
+    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
+    puts("Encrypted message is #{encryptedmessage}")
+    puts("Cipher is #{aes}")
+    puts("Plain text length is #{@plain.length} and it is #{@plain}")
+    puts "length #{@res.body.length}"
+  end
+end
