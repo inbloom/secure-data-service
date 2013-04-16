@@ -18,10 +18,13 @@ package org.slc.sli.api.resources;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -70,6 +73,9 @@ import org.slc.sli.domain.enums.Right;
 public class BulkExtract {
 
     private static final Logger LOG = LoggerFactory.getLogger(BulkExtract.class);
+    private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
+    private static final String MULTIPART_BOUNDRY_SEP = "--" + MULTIPART_BOUNDARY;
+    private static final String MULTIPART_BOUNDRY_END = MULTIPART_BOUNDRY_SEP + "--";
 
     private static final String SAMPLED_FILE_NAME = "sample-extract.tar";
 
@@ -134,7 +140,7 @@ public class BulkExtract {
         info("Received request to stream tenant bulk extract...");
         checkApplicationAuthorization(null);
 
-        return getExtractResponse(null);
+        return getExtractResponse(headers, null);
     }
 
     /**
@@ -152,18 +158,20 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@Context HttpHeaders headers, @PathParam("date") String date) throws Exception {
         LOG.info("Retrieving delta bulk extract");
-        return getExtractResponse(date);
+        return getExtractResponse(headers, date);
     }
 
     /**
      * Get the bulk extract response
      *
+     * @param headers
+     *          The http request headers
      * @param deltaDate
      *            the date of the delta, or null to get the full extract
      * @return the jax-rs response to send back.
      * @throws Exception
      */
-    private Response getExtractResponse(String deltaDate) throws Exception {
+    Response getExtractResponse(final HttpHeaders headers, final String deltaDate) throws Exception {
 
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Entity application = getApplication(auth);
@@ -185,24 +193,201 @@ public class BulkExtract {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        String fileName = bulkExtractFile.getName();
-        String lastModified = bulkExtractFileEntity.getLastModified();
+        return getExtractResponse(headers, bulkExtractFile, bulkExtractFile.lastModified(),
+                bulkExtractFileEntity.getLastModified());
 
-        try {
-            final InputStream is = new FileInputStream(bulkExtractFile);
-            StreamingOutput out = new StreamingOutput() {
+    }
+
+    /**
+     * Get the bulk extract response
+     *
+     * @param headers
+     *          The http request headers
+     * @param bulkExtractFile
+     *          The bulk extract file to return
+     * @param fileName
+     *          The name for a bulk extract file
+     * @param lastModified
+     *          The last modified date time
+     * @return
+     *          Response with the bulk extract file
+     * @throws ParseException
+     */
+    private Response getExtractResponse(final HttpHeaders headers,
+            final File bulkExtractFile, final long lastModifiedTime, final String lastModified) {
+
+        String fileName = bulkExtractFile.getName();
+        long fileLength = bulkExtractFile.length();
+        String eTag = fileName + "_" + fileLength + "_" + lastModified;
+
+        /*
+         * Validate request headers for caching
+         */
+        String ifNoneMatch = getRequestHeader(headers, "If-None-Match");
+        if (ifNoneMatch != null && matches(ifNoneMatch, eTag)) {
+            // If-None-Match header should contain "*" or ETag. If so, then return 304.
+            ResponseBuilder builder = Response.status(Status.NOT_MODIFIED)
+                    .header("ETag", eTag);
+            return builder.build();
+        }
+
+        // If-Modified-Since header is ignored if any If-None-Match header is specified.
+        String ifModifiedSince = getRequestHeader(headers, "If-Modified-Since");
+        long ifModifiedSinceTime = ifModifiedSince==null ? 0 :
+            ISODateTimeFormat.basicDate().parseDateTime(ifModifiedSince).getMillis();
+        if (ifNoneMatch == null && ifModifiedSinceTime > 0 && ifModifiedSinceTime + 1000 > lastModifiedTime) {
+            // If-Modified-Since header should be greater than LastModified. If so, then return 304.
+            ResponseBuilder builder = Response.status(Status.NOT_MODIFIED)
+                    .header("ETag", eTag);
+            return builder.build();
+        }
+
+        /*
+         * Validate request headers for resume
+         */
+        String ifMatch = getRequestHeader(headers, "If-Match");
+        if (ifMatch != null && !matches(ifMatch, eTag)) {
+            // If-Match header should contain "*" or ETag. If not, then return 412.
+            return Response.status(Status.PRECONDITION_FAILED).build();
+        }
+
+        String ifUnmodifiedSince = getRequestHeader(headers, "If-Unmodified-Since");
+        long ifUnmodifiedSinceTime = ifUnmodifiedSince==null ? 0 :
+            ISODateTimeFormat.basicDate().parseDateTime(ifUnmodifiedSince).getMillis();
+        if (ifUnmodifiedSinceTime > 0 && ifUnmodifiedSinceTime + 1000 <= lastModifiedTime) {
+            // If-Unmodified-Since header should be greater than LastModified. If not, then return 412.
+            return Response.status(Status.PRECONDITION_FAILED).build();
+        }
+
+        /*
+         * Validate and process range
+         */
+        // Prepare some variables. The full Range represents the complete file.
+        final Range full = new Range(0, fileLength - 1, fileLength);
+        List<Range> ranges = new ArrayList<Range>();
+
+        // Validate and process Range and If-Range headers.
+        String range = getRequestHeader(headers, "Range");
+        if (range != null) {
+
+            // Range header should match format "bytes=n-n,n-n,n-n...". If not, then return 416.
+            if (!range.matches("^bytes=\\d*-\\d*(,\\d*-\\d*)*$")) {
+                ResponseBuilder builder = Response.status(416)
+                        .header("Content-Range", "bytes */" + fileLength);// Required in 416.
+                return builder.build();
+            }
+
+            // If-Range header should either match ETag or be greater then LastModified. If not,
+            // then return full file.
+            String ifRange = getRequestHeader(headers, "If-Range");
+            if (ifRange != null && !ifRange.equals(eTag)) {
+                long ifRangeTime = ISODateTimeFormat.basicDate().parseDateTime(ifRange).getMillis();
+                if (ifRangeTime > 0 && ifRangeTime + 1000 < lastModifiedTime) {
+                    ranges.add(full);
+                }
+            }
+
+            // If any valid If-Range header, then process each part of byte range.
+            if (ranges.isEmpty()) {
+                for (String part : range.substring(6).split(",")) {
+                    // Assuming a file with fileLength of 100, the following examples returns bytes at:
+                    // 50-80 (50 to 80), 40- (40 to fileLength=100), -20 (fileLength-20=80 to fileLength=100).
+                    long start = sublong(part, 0, part.indexOf("-"));
+                    long end = sublong(part, part.indexOf("-") + 1, part.length());
+
+                    if (start == -1) {
+                        start = fileLength - end;
+                        end = fileLength - 1;
+                    } else if (end == -1 || end > fileLength - 1) {
+                        end = fileLength - 1;
+                    }
+
+                    // Check if Range is syntactically valid. If not, then return 416.
+                    if (start > end) {
+                        ResponseBuilder builder = Response.status(416)
+                                .header("Content-Range", "bytes */" + fileLength);// Required in 416.
+                        return builder.build();
+                    }
+
+                    // Add range.
+                    ranges.add(new Range(start, end, fileLength));
+                }
+            }
+        }
+
+        /*
+         * Prepare and initialize response
+         */
+        boolean fullContent = ranges.isEmpty() || ranges.get(0) == full;
+        ResponseBuilder builder = fullContent ? Response.ok() : Response.status(206);
+
+        builder.header("content-disposition", "attachment; filename = " + fileName)
+               .header("Accept-Ranges", "bytes")
+               .header("ETag", eTag)
+               .header(HttpHeaders.LAST_MODIFIED, lastModified);
+
+        if (fullContent || ranges.size() == 1) {
+            final Range r = fullContent ? full : ranges.get(0);
+            return singlePartExtractResponse(builder, bulkExtractFile, r);
+        } else {
+            return multiPartsExtractResponse(builder, bulkExtractFile, ranges);
+        }
+    }
+
+    private Response singlePartExtractResponse(final ResponseBuilder builder,
+            final File bulkExtractFile, final Range r) {
+
+        StreamingOutput out = new StreamingOutput() {
             @Override
             public void write(OutputStream output) throws IOException, WebApplicationException {
-                IOUtils.copyLarge(is, output);
+                InputStream input = null;
+                try {
+                    input = new FileInputStream(bulkExtractFile);
+                    IOUtils.copyLarge(input, output, r.start, r.length);
+                } finally {
+                    IOUtils.closeQuietly(input);
                 }
-            };
-            ResponseBuilder builder = Response.ok(out);
-            builder.header("content-disposition", "attachment; filename = " + fileName);
-            builder.header("last-modified", lastModified);
-            return builder.build();
-        } catch (FileNotFoundException e) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
+            }
+        };
+
+        builder.entity(out)
+               .header("Content-Range", "bytes " + r.start + "-" + r.end + "/" + r.total)
+               .header("Content-Length", String.valueOf(r.length));
+        return builder.build();
+    }
+
+    private Response multiPartsExtractResponse(final ResponseBuilder builder,
+            final File bulkExtractFile, final List<Range> ranges) {
+
+        StreamingOutput out = new StreamingOutput() {
+            @Override
+            public void write(OutputStream output) throws IOException, WebApplicationException {
+                InputStream input = null;
+                try {
+                    input = new FileInputStream(bulkExtractFile);
+                    // Copy multi part range.
+                    for (Range r : ranges) {
+                        output.write( "\r\n".getBytes() );
+                        output.write( (MULTIPART_BOUNDRY_SEP + "\r\n").getBytes() );
+                        output.write( ("Content-Range: bytes " + r.start + "-" + r.end + "/" + r.total+ "\r\n").getBytes() );
+                        IOUtils.copyLarge(input, output, r.start, r.length);
+                    }
+                    output.write( "\r\n".getBytes() );
+                    output.write( (MULTIPART_BOUNDRY_END + "\r\n").getBytes() );
+                } finally {
+                    IOUtils.closeQuietly(input);
+                }
+            }
+        };
+
+        builder.entity(out)
+               .header("Content-Type", "multipart/byteranges; boundary=" + MULTIPART_BOUNDARY);
+        return builder.build();
+    }
+
+    private String getRequestHeader(HttpHeaders headers, String name) {
+        List<String> list = headers==null ? null : headers.getRequestHeader(name);
+        return list==null || list.isEmpty() ? null : list.get(0);
     }
 
     private Entity getApplication(Authentication authentication) {
@@ -282,6 +467,56 @@ public class BulkExtract {
      */
     public void setMongoEntityRepository(Repository<Entity> mongoEntityRepository) {
         this.mongoEntityRepository = mongoEntityRepository;
+    }
+
+    /**
+     * Returns true if the given match header matches the given value.
+     * @param matchHeader The match header.
+     * @param toMatch The value to be matched.
+     * @return True if the given match header matches the given value.
+     */
+    private static boolean matches(String matchHeader, String toMatch) {
+        String[] matchValues = matchHeader.split("\\s*,\\s*");
+        Arrays.sort(matchValues);
+        return Arrays.binarySearch(matchValues, toMatch) > -1
+            || Arrays.binarySearch(matchValues, "*") > -1;
+    }
+
+    /**
+     * Returns a substring of the given string value from the given begin index to the given end
+     * index as a long. If the substring is empty, then -1 will be returned
+     * @param value The string value to return a substring as long for.
+     * @param beginIndex The begin index of the substring to be returned as long.
+     * @param endIndex The end index of the substring to be returned as long.
+     * @return A substring of the given string value as long or -1 if substring is empty.
+     */
+    private static long sublong(String value, int beginIndex, int endIndex) {
+        String substring = value.substring(beginIndex, endIndex);
+        return (substring.length() > 0) ? Long.parseLong(substring) : -1;
+    }
+
+    /**
+     * Represents a byte range.
+     */
+    private class Range {
+        long start;
+        long end;
+        long length;
+        long total;
+
+        /**
+         * Construct a byte range.
+         * @param start Start of the byte range.
+         * @param end End of the byte range.
+         * @param total Total length of the byte source.
+         */
+        public Range(long start, long end, long total) {
+            this.start = start;
+            this.end = end;
+            this.length = end - start + 1;
+            this.total = total;
+        }
+
     }
 
     /**

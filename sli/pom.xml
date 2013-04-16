@@ -47,7 +47,7 @@
         <!-- Apache Versions -->
         <commons.cli.version>1.2</commons.cli.version>
         <commons.lang.version>3.0.1</commons.lang.version>
-        <commons.io.version>2.1</commons.io.version>
+        <commons.io.version>2.2</commons.io.version>
         <commons.codec.version>1.6</commons.codec.version>
         <xerces.version>2.4.0</xerces.version>
         <avro.version>1.6.1</avro.version>
