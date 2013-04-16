@@ -480,10 +480,10 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
      */
 
     protected static enum SupportedEntities {
-        ASSESSMENTFAMILY("AssessmentFamily"), ASSESSMENT("Assessment"), CALENDARDATE("CalendarDate"), COHORT("Cohort"), COURSEOFFERING(
-                "CourseOffering"), COURSE("Course"), GRADE("Grade"), GRADINGPERIOD("GradingPeriod"), PARENT("Parent"), SCHOOL(
+        ASSESSMENTFAMILY("AssessmentFamily"), ASSESSMENT("Assessment"), CALENDARDATE("CalendarDate"), COHORT("Cohort"), COMPETENCYLEVELDESCRIPTOR("CompetencyLevelDescriptor"), COURSEOFFERING(
+                "CourseOffering"), COURSE("Course"), GRADE("Grade"), GRADINGPERIOD("GradingPeriod"), LOCALEDUCATIONAGENCY("LocalEducationAgency"), PARENT("Parent"), PROGRAM ("Program"),SCHOOL(
                 "School"), SECTION("Section"), SESSION("Session"), STAFFEDUCATIONORGASSIGNMENTASSOCIATION(
-                "StaffEducationOrgAssignmentAssociation"), STUDENTASSESSMENT("StudentAssessment"), STUDENTCOHORTASSOCIATION(
+                "StaffEducationOrgAssignmentAssociation"), STATEEDUCATIONAGENCY("StateEducationAgency"),STUDENTASSESSMENT("StudentAssessment"), STUDENTCOHORTASSOCIATION(
                 "StudentCohortAssociation"), STUDENT("Student"), STUDENTPARENTASSOCIATION("StudentParentAssociation"), STUDENTSCHOOLASSOCIATION(
                 "StudentSchoolAssociation"), TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociation"), TEACHERSECTIONASSOCIATION(
                 "TeacherSectionAssociation"), TEACHER("Teacher"),ASSESSMENTPERIODDESCRIPTOR("AssessmentPeriodDescriptor");
