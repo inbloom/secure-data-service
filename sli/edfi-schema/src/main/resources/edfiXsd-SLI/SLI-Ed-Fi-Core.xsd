@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ed-fi.org/0100" xmlns:sli="http://slc-sli/ed-org/0.1" targetNamespace="http://ed-fi.org/0100" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:include schemaLocation="../edfiXsd/Ed-Fi-Core.xsd"/>
 
@@ -42,8 +41,7 @@
 			<xs:element name="CourseTranscriptReference" type="SLC-CourseTranscriptReferenceType"/>
 			<xs:element name="DisciplineActionReference" type="SLC-DisciplineActionReferenceType"/>
 			<xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType"/>
-			<xs:element name="GradebookEntryReference" type="SLC-GradebookEntryReferenceType"/><xs:element name="GradeReference" type="SLC-GradeReferenceType"/>
-			
+			<xs:element name="GradebookEntryReference" type="SLC-GradebookEntryReferenceType"/><xs:element name="GradeReference" type="SLC-GradeReferenceType"/>			
 			<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"/>
 			<xs:element name="GraduationPlanReference" type="SLC-GraduationPlanReferenceType"/>
 			<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType"/>
