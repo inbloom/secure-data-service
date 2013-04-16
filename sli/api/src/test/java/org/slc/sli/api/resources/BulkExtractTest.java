@@ -238,6 +238,43 @@ public class BulkExtractTest {
   }
 
   @Test
+  public void testHeadTenant() throws Exception {
+      injector.setOauthAuthenticationWithEducationRole();
+      mockApplicationEntity();
+      mockBulkExtractEntity();
+
+      HttpRequestContext context = new HttpRequestContextAdapter() {
+          @Override
+          public String getMethod() {
+              return "HEAD";
+          }
+      };
+
+      Response res = bulkExtract.getExtractResponse(context, null);
+      assertEquals(200, res.getStatus());
+      MultivaluedMap<String, Object> headers = res.getMetadata();
+      assertNotNull(headers);
+      assertTrue(headers.containsKey("content-disposition"));
+      assertTrue(headers.containsKey("last-modified"));
+      String header = (String) headers.getFirst("content-disposition");
+      assertNotNull(header);
+      assertTrue(header.startsWith("attachment"));
+      assertTrue(header.indexOf(INPUT_FILE_NAME) > 0);
+
+      Object entity = res.getEntity();
+      assertNotNull(entity);
+
+      StreamingOutput out = (StreamingOutput) entity;
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      out.write(os);
+      os.flush();
+      byte[] responseData = os.toByteArray();
+      String s = new String(responseData);
+
+      assertEquals(BULK_DATA, s);
+  }
+
+  @Test
   public void testFailedEvaluatePreconditions() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
       mockApplicationEntity();

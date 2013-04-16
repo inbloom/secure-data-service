@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -222,6 +221,7 @@ public class BulkExtract {
     private Response getExtractResponse(final HttpRequestContext req,
             final File bulkExtractFile, final long lastModifiedTime, final String lastModified) {
 
+        LOG.info("Retrieving bulk extract with method ()", req.getMethod());
         String fileName = bulkExtractFile.getName();
         long fileLength = bulkExtractFile.length();
         String eTag = fileName + "_" + fileLength + "_" + lastModified;
@@ -436,19 +436,6 @@ public class BulkExtract {
      */
     public void setMongoEntityRepository(Repository<Entity> mongoEntityRepository) {
         this.mongoEntityRepository = mongoEntityRepository;
-    }
-
-    /**
-     * Returns true if the given match header matches the given value.
-     * @param matchHeader The match header.
-     * @param toMatch The value to be matched.
-     * @return True if the given match header matches the given value.
-     */
-    private static boolean matches(String matchHeader, String toMatch) {
-        String[] matchValues = matchHeader.split("\\s*,\\s*");
-        Arrays.sort(matchValues);
-        return Arrays.binarySearch(matchValues, toMatch) > -1
-            || Arrays.binarySearch(matchValues, "*") > -1;
     }
 
     /**

@@ -328,7 +328,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             denormalizer.denormalization(collectionName).create(entity);
         }
         if (journal != null) {
-            journal.journal(id, collectionName, false);
+            journal.journal(result.getEntityId(), collectionName, false);
         }
 
         return result;
