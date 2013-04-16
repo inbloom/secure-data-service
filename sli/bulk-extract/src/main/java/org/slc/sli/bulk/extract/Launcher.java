@@ -70,7 +70,7 @@ public class Launcher {
             if (isDelta) {
                 deltaExtractor.execute(tenant, startTime);
             } else {
-            ExtractFile extractFile = null;
+                ExtractFile extractFile = null;
                 extractFile = new ExtractFile(getTenantDirectory(tenant),
                     getArchiveName(tenant, startTime.toDate()));
                 tenantExtractor.execute(tenant, extractFile, startTime);
