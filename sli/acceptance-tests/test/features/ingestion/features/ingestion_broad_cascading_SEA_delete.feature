@@ -133,7 +133,7 @@ Scenario: Delete SEA Ref with cascade = false and force = true, log violations =
 	And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
-	#And I re-execute saved query "educationOrganization" to get "0" records
+	And I re-execute saved query "educationOrganization" to get "0" records
 	And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "2" records
 	And I re-execute saved query "student" to get "0" records
 	And I re-execute saved query "staffEducationOrganizationAssociation" to get "136" records

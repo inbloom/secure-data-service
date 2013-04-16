@@ -157,8 +157,7 @@ Scenario: Delete Orphan CourseOffering Reference with cascade = false
         | collection |delta|
         |courseOffering|   -1|
         |recordHash  |    -1|
-	And I should not see "644c4b7a7ffa3863ec22af9aeef918ef962f6d9c_id" in the "Midgar" database
-	
+
  Scenario: Delete CourseOffering Reference with cascade = false, force = true and log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -188,4 +187,3 @@ Scenario: Delete Orphan CourseOffering Reference with cascade = false
         | collection |delta|
         |courseOffering|   -1|
         |recordHash  |    -1|
-	And I should not see "644c4b7a7ffa3863ec22af9aeef918ef962f6d9c_id" in the "Midgar" database

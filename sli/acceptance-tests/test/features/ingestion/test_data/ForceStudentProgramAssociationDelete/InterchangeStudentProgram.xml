@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<InterchangeStudentProgram xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                           xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentProgram.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true">
+        <StudentProgramAssociation>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>3</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <ProgramReference>
+                <ProgramIdentity>
+                    <ProgramId>2</ProgramId>
+                </ProgramIdentity>
+            </ProgramReference>
+            <Services>
+                <Description>Reading Intervention</Description>
+            </Services>
+            <BeginDate>2002-09-09</BeginDate>
+            <EndDate>2003-06-04</EndDate>
+            <ReasonExited>Received a certificate</ReasonExited>
+            <EducationOrganizationReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationOrganizationReference>
+        </StudentProgramAssociation>
+    </Action>
+</InterchangeStudentProgram>

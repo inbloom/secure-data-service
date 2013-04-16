@@ -62,18 +62,24 @@
     </property>
   </bean>
 
+  <bean id="referenceHelper" class="org.slc.sli.ingestion.ReferenceHelper">
+    <property name="mapFile" value="classpath:deleteHelper/referenceExceptionMap.json" />
+  </bean>
+
   <bean id="edFiParserProcessor" class="org.slc.sli.ingestion.processors.EdFiParserProcessor" parent="ingestionProcessor">
     <property name="batchSize" value="${sli.ingestion.parser.batch.size:1000}" />
     <property name="typeProvider" ref="xsdTypeProvider" />
     <property name="xsdSelector" ref="xsdSelector" />
     <property name="producer" ref="parserEndPoint" />
+    <property name="helper" ref="referenceHelper" />
     <property name="preValidators">
       <util:list value-type="org.slc.sli.ingestion.validation.Validator">
         <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
       </util:list>
     </property>
   </bean>
-  
+
+
   <bean id="deltaHashPurgeProcessor" class="org.slc.sli.ingestion.processors.DeltaHashPurgeProcessor" parent="ingestionProcessor"/>
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
