@@ -24,6 +24,7 @@ package org.slc.sli.ingestion;
 public enum ReferenceConverter {
 
     ASSESSMENT( "AssessmentReference", "assessment"),
+    ASSESSMENTITEM("AssessmentItemReference","assessmentItem"),
     ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily"),
     CALENDAR_DATE( "CalendarDateReference", "calendarDate"),
     COURSE( "CourseReference", "course"),

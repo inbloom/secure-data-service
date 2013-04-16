@@ -483,6 +483,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     protected static enum SupportedEntities {
         ASSESSMENTFAMILY("AssessmentFamily"),
         ASSESSMENT("Assessment"),
+        ASSESSMENTITEM("AssessmentItem"),
         ASSESSMENTPERIODDESCRIPTOR("AssessmentPeriodDescriptor"),
         CALENDARDATE("CalendarDate"),
         COHORT("Cohort"),
