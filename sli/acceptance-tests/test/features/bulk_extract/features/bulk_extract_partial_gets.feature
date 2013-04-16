@@ -6,7 +6,7 @@ Scenario: Get the bulk extract file in chunks
     And I set up a fake tar file on the file system and in Mongo
     And in my list of rights I have BULK_EXTRACT
 	And I know the file length of the extract file
-	When I make HEAD bulk extract API call
+	When I make bulk extract API head call
 	Then I get back a response code of 200
 	And the file length given in the HEAD matches the actual file length
 	

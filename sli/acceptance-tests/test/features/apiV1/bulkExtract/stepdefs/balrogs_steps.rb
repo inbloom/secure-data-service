@@ -44,10 +44,6 @@ When /^I make a ranged bulk extract API call$/ do
   restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
 
-When /^I make HEAD bulk extract API call$/ do
-  restHttpHead("/bulk/extract/tenant")
-end
-
 When /^I make API call to retrieve today's delta file$/ do
   today = Time.now
   restHttpGet("/bulk/deltas/#{today.strftime("%Y%m%d")}")
