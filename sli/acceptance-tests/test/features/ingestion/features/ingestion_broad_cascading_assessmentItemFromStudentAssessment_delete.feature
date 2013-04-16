@@ -89,7 +89,8 @@ Scenario: Delete Orphan Assessment Item from Student Assessment with cascade = f
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
-	|assessment                             |        -1|   #this assessment is empty after deletion.
+	|assessment                             |        -1|   
+#this assessment is empty after deletion.
 	#|recordHash                             |       -1|
 	
 @wip
