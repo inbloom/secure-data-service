@@ -19,6 +19,7 @@ package org.slc.sli.api.resources;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -213,7 +214,14 @@ public class BulkExtractTest {
       mockApplicationEntity();
       mockBulkExtractEntity();
 
-      Response res = bulkExtract.getExtractResponse(new HttpRequestContextAdapter(), null);
+      HttpRequestContext context = new HttpRequestContextAdapter() {
+          @Override
+          public String getMethod() {
+              return "GET";
+          }
+      };
+
+      Response res = bulkExtract.getExtractResponse(context, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -262,16 +270,7 @@ public class BulkExtractTest {
       assertTrue(header.indexOf(INPUT_FILE_NAME) > 0);
 
       Object entity = res.getEntity();
-      assertNotNull(entity);
-
-      StreamingOutput out = (StreamingOutput) entity;
-      ByteArrayOutputStream os = new ByteArrayOutputStream();
-      out.write(os);
-      os.flush();
-      byte[] responseData = os.toByteArray();
-      String s = new String(responseData);
-
-      assertEquals(BULK_DATA, s);
+      assertNull(entity);
   }
 
   @Test
@@ -401,7 +400,12 @@ public class BulkExtractTest {
 
         @Override
         public HttpRequestContext getRequest() {
-            return new HttpRequestContextAdapter();
+            return new HttpRequestContextAdapter() {
+                @Override
+                public String getMethod() {
+                    return "GET";
+                }
+            };
         }
 
         @Override

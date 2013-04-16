@@ -41,6 +41,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
+import com.sun.jersey.api.Responses;
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.api.core.HttpRequestContext;
 
@@ -221,7 +222,7 @@ public class BulkExtract {
     private Response getExtractResponse(final HttpRequestContext req,
             final File bulkExtractFile, final long lastModifiedTime, final String lastModified) {
 
-        LOG.info("Retrieving bulk extract with method ()", req.getMethod());
+        LOG.info("Retrieving bulk extract with method {}", req.getMethod());
         String fileName = bulkExtractFile.getName();
         long fileLength = bulkExtractFile.length();
         String eTag = fileName + "_" + fileLength + "_" + lastModified;
@@ -293,6 +294,7 @@ public class BulkExtract {
          * Prepare and initialize response
          */
         boolean fullContent = ranges.isEmpty() || ranges.get(0) == full;
+        boolean headMethod = req.getMethod().equals("HEAD");
         builder = fullContent ? Response.ok() : Response.status(206);
 
         builder.header("content-disposition", "attachment; filename = " + fileName)
@@ -302,14 +304,21 @@ public class BulkExtract {
 
         if (fullContent || ranges.size() == 1) {
             final Range r = fullContent ? full : ranges.get(0);
-            return singlePartExtractResponse(builder, bulkExtractFile, r);
+            return singlePartExtractResponse(builder, bulkExtractFile, r, headMethod);
         } else {
+
+            if (headMethod) {
+                builder = Responses.methodNotAllowed()
+                        .header("Allow", "GET");
+                return builder.build();
+            }
+
             return multiPartsExtractResponse(builder, bulkExtractFile, ranges);
         }
     }
 
     private Response singlePartExtractResponse(final ResponseBuilder builder,
-            final File bulkExtractFile, final Range r) {
+            final File bulkExtractFile, final Range r, boolean headMethod) {
 
         StreamingOutput out = new StreamingOutput() {
             @Override
@@ -318,15 +327,19 @@ public class BulkExtract {
                 try {
                     input = new FileInputStream(bulkExtractFile);
                     IOUtils.copyLarge(input, output, r.start, r.length);
+                    LOG.info("Retrieving bulk extract with method {}", 3, r.length);
                 } finally {
                     IOUtils.closeQuietly(input);
                 }
             }
         };
 
-        builder.entity(out)
-               .header("Content-Range", "bytes " + r.start + "-" + r.end + "/" + r.total)
+        builder.header("Content-Range", "bytes " + r.start + "-" + r.end + "/" + r.total)
                .header("Content-Length", String.valueOf(r.length));
+        if (!headMethod) {
+            builder.entity(out);
+            LOG.info("Retrieving bulk extract with method {}", 3);
+        }
         return builder.build();
     }
 
