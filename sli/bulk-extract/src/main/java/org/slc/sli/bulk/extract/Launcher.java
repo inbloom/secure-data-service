@@ -139,7 +139,9 @@ public class Launcher {
         NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("isBulkExtract", NeutralCriteria.OPERATOR_EQUAL,
                 true));
         appQuery.addCriteria(new NeutralCriteria("registration.status", NeutralCriteria.OPERATOR_EQUAL, "APPROVED"));
+        TenantContext.setIsSystemCall(true);
         Iterable<Entity> apps = repository.findAll("application", appQuery);
+        TenantContext.setIsSystemCall(false);
         Set<String> appIds = new HashSet<String>();
         for (Entity app : apps) {
             appIds.add(app.getEntityId());
