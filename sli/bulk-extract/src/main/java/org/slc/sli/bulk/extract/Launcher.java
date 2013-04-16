@@ -16,7 +16,19 @@
 
 package org.slc.sli.bulk.extract;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import org.slc.sli.bulk.extract.extractor.DeltaExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
@@ -26,15 +38,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 /**
  * Bulk extract launcher.
  *
@@ -48,8 +51,12 @@ public class Launcher {
 
     private String baseDirectory;
     private TenantExtractor tenantExtractor;
+    @Autowired
+    private DeltaExtractor deltaExtractor;
     private Repository<Entity> repository;
     private LocalEdOrgExtractor localEdOrgExtractor;
+
+    private boolean isDelta = false;
 
     /**
      * Actually execute the extraction.
@@ -60,11 +67,15 @@ public class Launcher {
     public void execute(String tenant) {
         if (tenantExists(tenant)) {
             DateTime startTime = new DateTime();
+            if (isDelta) {
+                deltaExtractor.execute(tenant, startTime);
+            } else {
             ExtractFile extractFile = null;
-            extractFile = new ExtractFile(getTenantDirectory(tenant),
+                extractFile = new ExtractFile(getTenantDirectory(tenant),
                     getArchiveName(tenant, startTime.toDate()));
-            tenantExtractor.execute(tenant, extractFile, startTime);
-            localEdOrgExtractor.execute(tenant);
+                tenantExtractor.execute(tenant, extractFile, startTime);
+                localEdOrgExtractor.execute(tenant);
+            }
         } else {
             LOG.error("A bulk extract is not being initiated for the tenant {} because the tenant has not been onboarded.", tenant);
         }

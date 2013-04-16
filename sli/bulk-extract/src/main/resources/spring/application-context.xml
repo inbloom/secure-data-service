@@ -23,6 +23,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     <context:component-scan base-package="org.slc.sli.common.util.uuid" />
     <context:component-scan base-package="org.slc.sli.common.domain" />
     <context:component-scan base-package="org.slc.sli.validation" />
+    <context:component-scan base-package="org.slc.sli.bulk.extract" />
     <context:annotation-config />
     <tx:annotation-driven />
 

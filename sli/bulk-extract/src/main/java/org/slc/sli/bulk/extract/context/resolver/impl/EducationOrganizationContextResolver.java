@@ -56,11 +56,6 @@ public class EducationOrganizationContextResolver implements ContextResolver {
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> results = new HashSet<String>();
 
-        if (!"educationOrganization".equals(entity.getType())) {
-            LOG.error("Invalid entity type for entity " + entity.getEntityId());
-            return results;
-        }
-        
         if (!(isLEA(entity) || isSchool(entity))) {
             // SEA is not supported
             return results;
