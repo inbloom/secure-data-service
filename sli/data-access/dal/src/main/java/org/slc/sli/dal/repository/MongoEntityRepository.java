@@ -921,7 +921,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean delete(String collectionName, String id) {
-
+        boolean result;
         if (subDocs.isSubDoc(collectionName)) {
             Entity entity = subDocs.subDoc(collectionName).findById(id);
 
@@ -929,23 +929,26 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 denormalizer.denormalization(collectionName).delete(entity, id);
             }
 
-            return subDocs.subDoc(collectionName).delete(entity);
-        }
-
-        if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            result = subDocs.subDoc(collectionName).delete(entity);
+        } else if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
             Entity entity = containerDocumentAccessor.findById(collectionName, id);
             if (entity == null) {
                 LOG.warn("Could not find entity {} in collection {}", id, collectionName);
                 return false;
             }
-            return containerDocumentAccessor.delete(entity);
+            result = containerDocumentAccessor.delete(entity);
+        } else {
+            result = super.delete(collectionName, id);
         }
 
         if (denormalizer.isDenormalizedDoc(collectionName)) {
             denormalizer.denormalization(collectionName).delete(null, id);
         }
+        if (result && journal != null) {
+            journal.journal(id, collectionName, true);
+        }
 
-        return super.delete(collectionName, id);
+        return result;
     }
 
     @Override
@@ -1063,7 +1066,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         } else {
             result = super.update(collection, entity, null, isSuperdoc); // body);
         }
-        if(journal != null){
+        if (journal != null) {
             journal.journal(entity.getEntityId(), collection, false);
         }
         return result;
@@ -1184,6 +1187,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public void deleteAll(String collectionName, NeutralQuery neutralQuery) {
+        if (journal != null) {
+            journal.journal(getIds(findAll(collectionName, neutralQuery)), collectionName, true);
+        }
         if (subDocs.isSubDoc(collectionName)) {
             Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
             subDocs.subDoc(collectionName).deleteAll(query);
@@ -1264,11 +1270,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String collectionName) {
         WriteResult result = super.updateMulti(query, update, collectionName);
-        if(journal != null) {
+        if (journal != null) {
             journal.journal(getIds(findAll(collectionName, query)), collectionName, false);
         }
         return result;
     }
-
 
 }
