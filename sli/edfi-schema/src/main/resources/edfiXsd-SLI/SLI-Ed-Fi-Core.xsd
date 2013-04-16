@@ -3163,6 +3163,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>educationOrganizationReference</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentProgramAssociationReferenceType">

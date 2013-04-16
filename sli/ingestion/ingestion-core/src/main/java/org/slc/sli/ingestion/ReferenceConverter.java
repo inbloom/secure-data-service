@@ -53,7 +53,8 @@ public enum ReferenceConverter {
     OBJECTIVEASSESSMENT("ObjectiveAssessmentReference","objectiveAssessment"),
     STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociationReference","studentDisciplineIncidentAssociation"),
     DISCIPLINEINCIDENT("DisciplineIncidentReference", "disciplineIncident"),
-    DISCIPLINEACTION("DisciplineActionReference", "disciplineAction");
+    DISCIPLINEACTION("DisciplineActionReference", "disciplineAction"),
+    STUDENTPROGRAMASSOCIATIONREFERENCE("StudentProgramAssociationReference","studentProgramAssociation");
 
 
 
