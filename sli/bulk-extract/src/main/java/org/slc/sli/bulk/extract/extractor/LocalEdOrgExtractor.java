@@ -1,5 +1,14 @@
 package org.slc.sli.bulk.extract.extractor;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -8,10 +17,6 @@ import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Creates local ed org tarballs
  */
@@ -19,6 +24,7 @@ public class LocalEdOrgExtractor {
 
     private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
     private Repository<Entity> repository;
+    private Map<String, String> edorgToLEACache;
 
     /**
      * Creates unencrypted LEA bulk extract files if any are needed for the given tenant
@@ -27,6 +33,28 @@ public class LocalEdOrgExtractor {
     public void execute(String tenant) {
         //TODO replace stub do it
         LOG.debug("STUB!");
+        
+        Set<String> leas = getBulkExtractLEAs();
+        edorgToLEACache = getEdorgCache(leas);
+        
+    }
+
+    /**
+     * Returns a map that maps an edorg to it's top level LEA, used as a cache
+     * to speed up extract
+     * 
+     * @param leas
+     * @return
+     */
+    public Map<String, String> getEdorgCache(Set<String> leas) {
+        Map<String, String> cache = new HashMap<String, String>();
+        for (String lea : leas) {
+            Set<String> children = getChildEdOrgs(Arrays.asList(lea));
+            for (String child : children) {
+                cache.put(child, lea);
+            }
+        }
+        return cache;
     }
 
 
@@ -36,7 +64,7 @@ public class LocalEdOrgExtractor {
      *
      * @return a set of approved bulk extract app ids
      */
-    public Set<String> getBulkExctractApps() {
+    public Set<String> getBulkExtractApps() {
         NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("isBulkExtract", NeutralCriteria.OPERATOR_EQUAL,
                 true));
         appQuery.addCriteria(new NeutralCriteria("registration.status", NeutralCriteria.OPERATOR_EQUAL, "APPROVED"));
@@ -49,6 +77,30 @@ public class LocalEdOrgExtractor {
         }
         return appIds;
     }
+    
+    /**
+     * Returns a list of child edorgs given a collection of parents
+     * 
+     * @param edOrgs
+     * @return a set of child edorgs
+     */
+    public Set<String> getChildEdOrgs(Collection<String> edOrgs) {
+        if (edOrgs.isEmpty()) {
+            return new HashSet<String>();
+        }
+        
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
+                NeutralCriteria.CRITERIA_IN, edOrgs));
+        Iterable<Entity> childrenIds = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        Set<String> children = new HashSet<String>();
+        for (Entity child : childrenIds) {
+            children.add(child.getEntityId());
+        }
+        if (!children.isEmpty()) {
+            children.addAll(getChildEdOrgs(children));
+        }
+        return children;
+    }
 
     /**
      * Attempts to get all of the LEAs that should have a LEA level extract scheduled.
@@ -57,15 +109,8 @@ public class LocalEdOrgExtractor {
      */
     @SuppressWarnings("unchecked")
     public Set<String> getBulkExtractLEAs() {
-        // for each tenant
-        // get LEAs
-        // continue if no bulk LEAs are found
-        // start the bulk extract process
-
-
-
         NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.CRITERIA_IN,
-                getBulkExctractApps()));
+                getBulkExtractApps()));
         Iterable<Entity> apps = repository.findAll("applicationAuthorization", appQuery);
         Set<String> edorgIds = new HashSet<String>();
         for (Entity app : apps) {
