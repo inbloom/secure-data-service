@@ -98,7 +98,7 @@ Scenario: Delete Orphan Assessment Item from Assessment Metadata with cascade = 
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
-	|assessment                             |        -1|
+	|assessment                             |        -1|   #this assessment is empty after deletion.
 	#|recordHash                             |       -1|
 	
 @wip
@@ -153,6 +153,7 @@ Scenario: Delete Assessment Item from Assessment Metadata with default settings 
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
 	#|recordHash                             |        -1|
+
 @wip	
 Scenario: Delete Assessment Item Reference from Assessment Metadata with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"

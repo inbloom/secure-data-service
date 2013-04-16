@@ -38,7 +38,7 @@ Scenario: Delete Assessment Item from Student Assessment with cascade = true
 	|assessmentItem                         |        -1|
 	|recordHash                             |         0|
 	And I should not see "58346902a070426a109f451129eeeb1268daed21_id406e5f1c9ff1339aaf93fc8f3fe21ff6fead0439_id" in the "Midgar" database
-
+@wip
 Scenario: Delete Assessment Item from Student Assessment with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -89,7 +89,7 @@ Scenario: Delete Orphan Assessment Item from Student Assessment with cascade = f
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
-	|assessment                             |        -1|
+	|assessment                             |        -1|   #this assessment is empty after deletion.
 	#|recordHash                             |       -1|
 	
 @wip
