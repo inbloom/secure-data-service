@@ -43,7 +43,7 @@ Scenario: Delete Objective Assessment From Assessment Metadata with cascade = fa
 #objectiveAssessment  objectiveAssessment  subObjectiveAssessment relationship missing
 #objectiveAssessment  studentAssessment    objectiveAssessmentId relationship missing	
 
-@wip
+
 Scenario: Delete Objective Assessment From Assessment Metadata with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -70,7 +70,7 @@ Scenario: Delete Objective Assessment From Assessment Metadata with cascade = fa
    	And I should not see a warning log file created
 	And I re-execute saved query "objectiveAssessment" to get "1" records
 	And I re-execute saved query "subobjectiveAssessment" to get "1" records
-	And I re-execute saved query "studentAssessment" to get "0" records
+	And I re-execute saved query "studentAssessment" to get "2" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|objectiveAssessment                    |         0|
