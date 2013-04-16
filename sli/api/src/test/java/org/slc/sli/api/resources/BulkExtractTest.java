@@ -26,20 +26,36 @@ import static org.mockito.Mockito.when;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Collections;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.StreamingOutput;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.Variant;
 
+import com.sun.jersey.api.Responses;
+import com.sun.jersey.api.core.ExtendedUriInfo;
+import com.sun.jersey.api.core.HttpContext;
+import com.sun.jersey.api.core.HttpRequestContext;
+import com.sun.jersey.api.core.HttpResponseContext;
+import com.sun.jersey.api.representation.Form;
+import com.sun.jersey.core.header.QualitySourceMediaType;
 import com.sun.jersey.core.spi.factory.ResponseImpl;
 
 import org.apache.commons.io.FileUtils;
@@ -157,43 +173,17 @@ public class BulkExtractTest {
         Mockito.when(mockBody.get("date")).thenReturn("2013-05-04");
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
-        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant(null);
+        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant(new HttpContextAdapter());
         assertEquals(404, res.getStatus());
     }
 
   @Test
   public void testGet() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
+      mockApplicationEntity();
+      mockBulkExtractEntity();
 
-      { //mock application entity
-          Entity mockEntity = Mockito.mock(Entity.class);
-          Map<String, Object> mockBody = Mockito.mock(Map.class);
-          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-
-          Mockito.when(mockBody.get(eq("public_key"))).thenReturn(PUBLIC_KEY);
-          Mockito.when(mockBody.get(eq("_id"))).thenReturn("abc123_id");
-          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
-                  .thenReturn(mockEntity);
-      }
-
-      File tmpDir = FileUtils.getTempDirectory();
-
-      { //mock bulk extract entity
-          Entity mockEntity = Mockito.mock(Entity.class);
-          Map<String, Object> mockBody = Mockito.mock(Map.class);
-          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-
-
-          File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
-
-          FileUtils.writeStringToFile(inputFile, BULK_DATA);
-          Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
-          Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
-          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
-                  .thenReturn(mockEntity);
-      }
-
-      Response res = bulkExtract.getDelta(null, null);
+      Response res = bulkExtract.getDelta(new HttpContextAdapter(), null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -220,81 +210,10 @@ public class BulkExtractTest {
   @Test
   public void testGetExtractResponse() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
+      mockApplicationEntity();
+      mockBulkExtractEntity();
 
-      { //mock application entity
-          Entity mockEntity = Mockito.mock(Entity.class);
-          Map<String, Object> mockBody = Mockito.mock(Map.class);
-          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-
-          Mockito.when(mockBody.get(eq("public_key"))).thenReturn(PUBLIC_KEY);
-          Mockito.when(mockBody.get(eq("_id"))).thenReturn("abc123_id");
-          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
-                  .thenReturn(mockEntity);
-      }
-
-      File tmpDir = FileUtils.getTempDirectory();
-
-      { //mock bulk extract entity
-          Entity mockEntity = Mockito.mock(Entity.class);
-          Map<String, Object> mockBody = Mockito.mock(Map.class);
-          Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-
-
-          File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
-
-          FileUtils.writeStringToFile(inputFile, BULK_DATA);
-          Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
-          Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
-          Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
-                  .thenReturn(mockEntity);
-      }
-
-      HttpHeaders reqHeaders = new HttpHeaders() {
-
-        @Override
-        public MultivaluedMap<String, String> getRequestHeaders() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public List<String> getRequestHeader(String name) {
-            // TODO Auto-generated method stub
-            return Collections.emptyList();
-        }
-
-        @Override
-        public MediaType getMediaType() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Locale getLanguage() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Map<String, Cookie> getCookies() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public List<MediaType> getAcceptableMediaTypes() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public List<Locale> getAcceptableLanguages() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-    };
-
-      Response res = bulkExtract.getExtractResponse(reqHeaders, null);
+      Response res = bulkExtract.getExtractResponse(new HttpRequestContextAdapter(), null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -319,20 +238,65 @@ public class BulkExtractTest {
   }
 
   @Test
+  public void testHeadTenant() throws Exception {
+      injector.setOauthAuthenticationWithEducationRole();
+      mockApplicationEntity();
+      mockBulkExtractEntity();
+
+      HttpRequestContext context = new HttpRequestContextAdapter() {
+          @Override
+          public String getMethod() {
+              return "HEAD";
+          }
+      };
+
+      Response res = bulkExtract.getExtractResponse(context, null);
+      assertEquals(200, res.getStatus());
+      MultivaluedMap<String, Object> headers = res.getMetadata();
+      assertNotNull(headers);
+      assertTrue(headers.containsKey("content-disposition"));
+      assertTrue(headers.containsKey("last-modified"));
+      String header = (String) headers.getFirst("content-disposition");
+      assertNotNull(header);
+      assertTrue(header.startsWith("attachment"));
+      assertTrue(header.indexOf(INPUT_FILE_NAME) > 0);
+
+      Object entity = res.getEntity();
+      assertNotNull(entity);
+
+      StreamingOutput out = (StreamingOutput) entity;
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      out.write(os);
+      os.flush();
+      byte[] responseData = os.toByteArray();
+      String s = new String(responseData);
+
+      assertEquals(BULK_DATA, s);
+  }
+
+  @Test
+  public void testFailedEvaluatePreconditions() throws Exception {
+      injector.setOauthAuthenticationWithEducationRole();
+      mockApplicationEntity();
+      mockBulkExtractEntity();
+
+      HttpRequestContext context = new HttpRequestContextAdapter() {
+          @Override
+          public ResponseBuilder evaluatePreconditions(Date lastModified, EntityTag eTag) {
+              return Responses.preconditionFailed();
+          }
+      };
+
+      Response res = bulkExtract.getExtractResponse(context, null);
+      assertEquals(412, res.getStatus());
+  }
+
+  @Test
     public void testGetDelta() throws Exception {
         injector.setEducatorContext();
         Map<String, Object> body = new HashMap<String, Object>();
         File f = File.createTempFile("bulkExtract", ".tgz");
-        { //mock application entity
-            Entity mockEntity = Mockito.mock(Entity.class);
-            Map<String, Object> mockBody = Mockito.mock(Map.class);
-            Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-
-            Mockito.when(mockBody.get(eq("public_key"))).thenReturn(PUBLIC_KEY);
-            Mockito.when(mockBody.get(eq("_id"))).thenReturn("abc123_id");
-            Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
-                    .thenReturn(mockEntity);
-        }
+        mockApplicationEntity();
 
         try {
             body.put(BulkExtract.BULK_EXTRACT_FILE_PATH, f.getAbsolutePath());
@@ -355,9 +319,9 @@ public class BulkExtractTest {
                 public void describeTo(Description arg0) {
                 }
             }))).thenReturn(e);
-            Response r = bulkExtract.getDelta(null, "20130331");
+            Response r = bulkExtract.getDelta(new HttpContextAdapter(), "20130331");
             assertEquals(200, r.getStatus());
-            Response notExisting = bulkExtract.getDelta(null, "20130401");
+            Response notExisting = bulkExtract.getDelta(new HttpContextAdapter(), "20130401");
             assertEquals(404, notExisting.getStatus());
         } finally {
             f.delete();
@@ -387,5 +351,304 @@ public class BulkExtractTest {
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
         bulkExtract.getTenant(null);
+    }
+
+    private void mockApplicationEntity() {
+        Entity mockEntity = Mockito.mock(Entity.class);
+        Map<String, Object> mockBody = Mockito.mock(Map.class);
+        Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
+
+        Mockito.when(mockBody.get(eq("public_key"))).thenReturn(PUBLIC_KEY);
+        Mockito.when(mockBody.get(eq("_id"))).thenReturn("abc123_id");
+        Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockEntity);
+    }
+
+    private void mockBulkExtractEntity() throws IOException {
+        File tmpDir = FileUtils.getTempDirectory();
+        Entity mockEntity = Mockito.mock(Entity.class);
+        Map<String, Object> mockBody = Mockito.mock(Map.class);
+        Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
+
+        File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
+
+        FileUtils.writeStringToFile(inputFile, BULK_DATA);
+        Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
+        Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
+        Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockEntity);
+    }
+
+    private static class HttpContextAdapter implements HttpContext {
+
+        @Override
+        public boolean isTracingEnabled() {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public void trace(String message) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public ExtendedUriInfo getUriInfo() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public HttpRequestContext getRequest() {
+            return new HttpRequestContextAdapter();
+        }
+
+        @Override
+        public HttpResponseContext getResponse() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Map<String, Object> getProperties() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+    }
+
+    private static class HttpRequestContextAdapter implements HttpRequestContext {
+
+        @Override
+        public List<String> getRequestHeader(String name) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public MultivaluedMap<String, String> getRequestHeaders() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<MediaType> getAcceptableMediaTypes() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<Locale> getAcceptableLanguages() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public MediaType getMediaType() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Locale getLanguage() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Map<String, Cookie> getCookies() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getMethod() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Variant selectVariant(List<Variant> variants) throws IllegalArgumentException {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ResponseBuilder evaluatePreconditions(EntityTag eTag) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ResponseBuilder evaluatePreconditions(Date lastModified) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ResponseBuilder evaluatePreconditions(Date lastModified, EntityTag eTag) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ResponseBuilder evaluatePreconditions() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Principal getUserPrincipal() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public boolean isUserInRole(String role) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public boolean isSecure() {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public String getAuthenticationScheme() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public boolean isTracingEnabled() {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public void trace(String message) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public URI getBaseUri() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public UriBuilder getBaseUriBuilder() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public URI getRequestUri() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public UriBuilder getRequestUriBuilder() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public URI getAbsolutePath() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public UriBuilder getAbsolutePathBuilder() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getPath() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getPath(boolean decode) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<PathSegment> getPathSegments() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<PathSegment> getPathSegments(boolean decode) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public MultivaluedMap<String, String> getQueryParameters() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public MultivaluedMap<String, String> getQueryParameters(boolean decode) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getHeaderValue(String name) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        @Deprecated
+        public MediaType getAcceptableMediaType(List<MediaType> mediaTypes) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        @Deprecated
+        public List<MediaType> getAcceptableMediaTypes(List<QualitySourceMediaType> priorityMediaTypes) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public MultivaluedMap<String, String> getCookieNameValueMap() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public <T> T getEntity(Class<T> type) throws WebApplicationException {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public <T> T getEntity(Class<T> type, Type genericType, Annotation[] as) throws WebApplicationException {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Form getFormParameters() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 }

@@ -32,6 +32,10 @@ When /^I make API call to retrieve sampled bulk extract file headers$/ do
   restHttpHead("/bulk/extract")
 end
 
+When /^I make bulk extract API head call$/ do
+  restHttpHead("/bulk/extract/tenant")
+end
+
 When /^I make bulk extract API call$/ do
   restHttpGet("/bulk/extract/tenant")
 end

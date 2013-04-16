@@ -29,6 +29,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.bulk.extract.extractor.DeltaExtractor;
+import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -53,6 +54,7 @@ public class Launcher {
     @Autowired
     private DeltaExtractor deltaExtractor;
     private Repository<Entity> repository;
+    private LocalEdOrgExtractor localEdOrgExtractor;
 
     private boolean isDelta = false;
 
@@ -65,14 +67,14 @@ public class Launcher {
     public void execute(String tenant) {
         if (tenantExists(tenant)) {
             DateTime startTime = new DateTime();
-            
             if (isDelta) {
                 deltaExtractor.execute(tenant, startTime);
             } else {
-                ExtractFile extractFile = null;
+            ExtractFile extractFile = null;
                 extractFile = new ExtractFile(getTenantDirectory(tenant),
-                        getArchiveName(tenant, startTime.toDate()));
+                    getArchiveName(tenant, startTime.toDate()));
                 tenantExtractor.execute(tenant, extractFile, startTime);
+                localEdOrgExtractor.execute(tenant);
             }
         } else {
             LOG.error("A bulk extract is not being initiated for the tenant {} because the tenant has not been onboarded.", tenant);
@@ -158,5 +160,13 @@ public class Launcher {
 
         main.execute(tenantId);
 
+    }
+
+    public void setLocalEdOrgExtractor(LocalEdOrgExtractor localEdOrgExtractor) {
+        this.localEdOrgExtractor = localEdOrgExtractor;
+    }
+
+    public LocalEdOrgExtractor getLocalEdOrgExtractor() {
+        return localEdOrgExtractor;
     }
 }
