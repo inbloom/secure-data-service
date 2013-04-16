@@ -14,7 +14,7 @@
                         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                     </EducationalOrgIdentity>
                 </SchoolReference>
-                <entryDate>2001-09-03</entryDate>
+                <EntryDate>2001-09-03</EntryDate>
             </StudentSchoolAssociationIdentity>
         </StudentSchoolAssociationReference>
     </Action>
