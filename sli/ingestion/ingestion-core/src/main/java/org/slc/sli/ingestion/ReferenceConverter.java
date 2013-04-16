@@ -26,6 +26,7 @@ public enum ReferenceConverter {
     ASSESSMENT( "AssessmentReference", "assessment"),
     ASSESSMENTITEM("AssessmentItemReference","assessmentItem"),
     ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily"),
+    ATTENDANCEEVENT( "AttendanceEventReference", "attendanceEvent"),
     CALENDAR_DATE( "CalendarDateReference", "calendarDate"),
     COURSE( "CourseReference", "course"),
     COURSEOFFERING( "CourseOfferingReference", "courseOffering"),
@@ -53,7 +54,8 @@ public enum ReferenceConverter {
     OBJECTIVEASSESSMENT("ObjectiveAssessmentReference","objectiveAssessment"),
     STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociationReference","studentDisciplineIncidentAssociation"),
     DISCIPLINEINCIDENT("DisciplineIncidentReference", "disciplineIncident"),
-    DISCIPLINEACTION("DisciplineActionReference", "disciplineAction");
+    DISCIPLINEACTION("DisciplineActionReference", "disciplineAction"),
+    STUDENTPROGRAMASSOCIATIONREFERENCE("StudentProgramAssociationReference","studentProgramAssociation");
 
 
 
