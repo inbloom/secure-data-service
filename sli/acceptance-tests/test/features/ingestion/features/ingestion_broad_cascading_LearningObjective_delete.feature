@@ -4,6 +4,10 @@ Feature: Safe Deletion and Cascading Deletion
 Background: I have a landing zone route configured
 Given I am using local data store
 
+#learningObjective	gradebookEntry 	learningObjectives	0	N	learningObjective missing!		
+#learningObjective  learningObjective parentLearningObjective  0   1  learningObjective missing!
+#learningObjective  studentCompetency objectiveId.learningObjectiveId 1  1  learningObjective missing!
+
 @wip
 Scenario: Delete LearningObjective with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -15,6 +19,9 @@ Scenario: Delete LearningObjective with cascade
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "assessment"
 	|field                                             |value                                                |
 	|objectiveAssessment.body.learningObjectives       |1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id          |
+	#Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "gradebookEntry"
+	#|field                                             |value                                                |
+	#|gradebookEntry.body.learningObjectives            |03060bce612f6f8992060b766c3d96a33481f810_id          |	
 	And I save the collection counts in "Midgar" tenant
     And I post "BroadLearningObjectiveDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
@@ -35,6 +42,7 @@ Scenario: Delete LearningObjective with cascade = false
 	Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "assessment"
 	|field                                             |value                                                |
 	|objectiveAssessment.body.learningObjectives       |1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id          |
+
 	And I save the collection counts in "Midgar" tenant
     And I post "SafeLearningObjectiveDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
@@ -52,6 +60,7 @@ Scenario: Delete LearningObjective with cascade = false
         | collection                                |     delta|    
         | learningObjective                         |         0| 
         | recordHash                                |      	  0|
+
 
 Scenario: Delete Orphan LearningObjective with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -99,7 +108,7 @@ Scenario: Delete Orphan LearningObjective Ref with cascade = false
         | learningObjective                         |        -1| 
         | recordHash                                |      	 -1|
 	And I should not see "4436e808461d2ccde93e64ebc66cd5036117d01b_id" in the "Midgar" database
-
+	
 	
 Scenario: Delete LearningObjective with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
