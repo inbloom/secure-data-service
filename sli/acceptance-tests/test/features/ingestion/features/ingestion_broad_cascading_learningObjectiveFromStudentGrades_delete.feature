@@ -27,7 +27,8 @@ Scenario: Delete Learning Objective from Student Grades with cascade
 	And I should not see "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id" in the "Midgar" database
     And I should not see any entity mandatorily referring to "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id" in the "Midgar" database
 	And I should see entities optionally referring to "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id" be updated in the "Midgar" database
-	
+
+@wip	
 Scenario: Delete LearningObjective with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -58,7 +59,7 @@ Scenario: Delete LearningObjective with cascade = false
         | collection                                |     delta|    
         | learningObjective                         |         0| 
         | recordHash                                |      	  0|
-
+@wip
 Scenario: Delete Orphan LearningObjective with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -82,7 +83,7 @@ Scenario: Delete Orphan LearningObjective with cascade = false
         | recordHash                                |      	 -1|
 	And I should not see "4436e808461d2ccde93e64ebc66cd5036117d01b_id" in the "Midgar" database
 
-	
+@wip	
 Scenario: Delete Orphan LearningObjective Ref with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -106,7 +107,7 @@ Scenario: Delete Orphan LearningObjective Ref with cascade = false
         | recordHash                                |      	 -1|
 	And I should not see "4436e808461d2ccde93e64ebc66cd5036117d01b_id" in the "Midgar" database
 
-	
+@wip	
 Scenario: Delete LearningObjective with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -140,7 +141,7 @@ Scenario: Delete LearningObjective with default settings (Confirm that by defaul
         | learningObjective                         |        -1| 
         | recordHash                                |      	 -1|
  
-        
+ @wip       
 Scenario: Delete LearningObjective Ref with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
