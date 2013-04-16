@@ -36,6 +36,14 @@ When /^I make bulk extract API call$/ do
   restHttpGet("/bulk/extract/tenant")
 end
 
+When /^I make a ranged bulk extract API call$/ do
+  restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
+end
+
+When /^I make HEAD bulk extract API call$/ do
+  restHttpHead("/bulk/extract/tenant")
+end
+
 When /^I make API call to retrieve today's delta file$/ do
   today = Time.now
   restHttpGet("/bulk/deltas/#{today.strftime("%Y%m%d")}")
@@ -44,6 +52,12 @@ end
 When /^I make API call to retrieve tomorrow's non existing delta files$/ do
   tomorrow = Time.now+24*3600
   restHttpGet("/bulk/deltas/#{tomorrow.strftime("%Y%m%d")}")
+end
+
+When /^I prepare the custom headers for byte range from "([^"]*) to "([^"]*) $/ do |from, to|
+  @customHeaders = {:etag => @etag}
+  @customHeaders.store(:last_modified, @last_modified)
+  @customHeaders.store(:if_range, @etag)
 end
 
 When /^I save the extracted file$/ do
@@ -222,6 +236,20 @@ end
 
 Then /^I see that the response matches what I put in the fake tar file$/ do
   assert(@plain == $FAKE_FILE_TEXT, "Decrypted text in 'tar' file did not match, expected #{$FAKE_FILE_TEXT} received #{@plain}")
+end
+
+When /^I have all the information to make a byte range request$/ do
+  puts "@res.headers: #{@res.headers}"
+  @last_modified = @res.headers[:last_modified]
+  @accept_ranges = @res.headers[:accept_ranges]
+  @etag = @res.headers[:etag]
+  @content_length = @res.headers[:content_length]
+  @content_range = @res.headers[:content_range]
+  assert(@last_modified != nil)
+  assert(@accept_ranges == "bytes")
+  assert(@etag != nil)
+  assert(@content_length != nil)
+  assert(@content_range != nil)
 end
 
 def getAppId()
