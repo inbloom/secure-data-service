@@ -516,7 +516,8 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         OBJECTIVEASSESSMENT("ObjectiveAssessment"),
         STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociation"),
         DISCIPLINEINCIDENT("DisciplineIncident"),
-        DISCIPLINEACTION("DisciplineAction");
+        DISCIPLINEACTION("DisciplineAction"),
+        STUDENTPROGRAMASSOCIATION("StudentProgramAssociation");
 
         private SupportedEntities(String text) {
         }
