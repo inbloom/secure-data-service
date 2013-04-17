@@ -85,7 +85,7 @@ Scenario: Error when attempting safe delete using reference for unsupported enti
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | grade                                     |         0|
-
+@wip
 Scenario: Error when attempting safe delete using full body for unsupported entity
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -102,4 +102,3 @@ Scenario: Error when attempting safe delete using full body for unsupported enti
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | educationOrganization                     |         0|
-

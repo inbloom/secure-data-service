@@ -99,7 +99,7 @@ Scenario: Delete SEA with cascade = false and force = true, log violations = tru
 	 |staffEducationOrganizationAssociation |     0|
 	 |studentProgramAssociation         |         0|
 	 |recordHash                        |        -1|
-	And I should not see "884daa27d806c2d725bc469b273d840493f84b4d_id" in the "Midgar" database
+	
 	
 Scenario: Delete SEA Ref with cascade = false and force = true, log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -144,7 +144,7 @@ Scenario: Delete SEA Ref with cascade = false and force = true, log violations =
 	 |staffEducationOrganizationAssociation |     0|
 	 |studentProgramAssociation         |         0|
 	 |recordHash                        |        -1|
-	And I should not see "884daa27d806c2d725bc469b273d840493f84b4d_id" in the "Midgar" database
+	
 	
 	
 	
