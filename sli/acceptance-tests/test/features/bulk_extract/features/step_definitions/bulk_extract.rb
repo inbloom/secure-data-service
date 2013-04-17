@@ -335,6 +335,15 @@ Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
 }
 end
 
+Then /^I should not see an extract for tenant "(.*?)"/ do |tenant|
+  @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb = @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+
+  match =  @coll.find_one({"body.tenantId" => tenant})
+  assert(!match,"Invalid extract for tenant #{tenant} found")
+end
+
 Then /^the extraction zone should still be empty/ do
   if File.exists?(OUTPUT_DIRECTORY)
     entries = Dir.entries(OUTPUT_DIRECTORY)
