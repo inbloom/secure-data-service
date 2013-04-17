@@ -1682,6 +1682,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>assessmentId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>	
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-AssessmentItemReferenceType">
@@ -1694,7 +1701,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AssessmentItemIdentity" type="SLC-AssessmentItemIdentityType"/>
-		</xs:sequence>
+		</xs:sequence>		
 	</xs:complexType>
 	<xs:complexType name="SLC-AssessmentPeriodDescriptorIdentityType">
 		<xs:annotation>
@@ -2453,6 +2460,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>assessmentId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>	
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-ObjectiveAssessmentReferenceType">

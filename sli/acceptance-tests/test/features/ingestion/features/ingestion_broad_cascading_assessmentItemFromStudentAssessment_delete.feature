@@ -38,7 +38,8 @@ Scenario: Delete Assessment Item from Student Assessment with cascade = true
 	|assessmentItem                         |        -1|
 	|recordHash                             |         0|
 	And I should not see "58346902a070426a109f451129eeeb1268daed21_id406e5f1c9ff1339aaf93fc8f3fe21ff6fead0439_id" in the "Midgar" database
-@wip
+
+
 Scenario: Delete Assessment Item from Student Assessment with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -90,10 +91,10 @@ Scenario: Delete Orphan Assessment Item from Student Assessment with cascade = f
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
 	|assessment                             |        -1|   
-#this assessment is empty after deletion.
+#the body assessment is empty after deletion of assessmentItem, so it is deleted too.
 	#|recordHash                             |       -1|
 	
-@wip
+
 Scenario: Delete Orphan Assessment Item Reference from Student Assessment with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -102,9 +103,9 @@ Scenario: Delete Orphan Assessment Item Reference from Student Assessment with c
 	|field                                                           |value                                                                                          |
 	|assessmentItem._id                                              |773eb0d94a36b66faaeea1d680899b481a385397_id81a3071ab2c71a7a55397a995e678ac4f1c4be85_id          |
 	And I save the collection counts in "Midgar" tenant
-    And I post "OrphanAssessmentItemFromStudentAssessmentRefDelete.zip" file as the payload of the ingestion job
+    And I post "OrphanAssessmentItemRefFromStudentAssessmentDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
-    And a batch job for file "OrphanAssessmentItemFromStudentAssessmentRefDelete.zip" is completed in database
+    And a batch job for file "OrphanAssessmentItemRefFromStudentAssessmentDelete.zip" is completed in database
     And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
@@ -115,6 +116,7 @@ Scenario: Delete Orphan Assessment Item Reference from Student Assessment with c
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
+	|assessment                             |        -1|
 	#|recordHash                             |       -1|
 	
 Scenario: Delete Assessment Item from Student Assessment with default settings (Confirm that by default cascade = false, force = true and log violations = true)
@@ -146,7 +148,7 @@ Scenario: Delete Assessment Item from Student Assessment with default settings (
 	|assessmentItem                         |        -1|
 	#|recordHash                             |        -1|
 
-@wip	
+	
 Scenario: Delete Assessment Item Reference from Student Assessment with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty

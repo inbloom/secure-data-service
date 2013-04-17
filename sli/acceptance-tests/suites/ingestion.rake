@@ -174,7 +174,6 @@ end
 desc "Run Ingestion Smoke Tests"
 task :ingestionSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
-  Rake::Task["multipleOrphansDeleteTest"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].invoke
 end
 
@@ -281,6 +280,7 @@ end
 
 desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
+        :ingestBroadSetOfTypesAndExportData,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
         :ingestionCascadingDeletionBroadAssessmentFamilyTest,
@@ -339,6 +339,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionJetsSharksScenario,
         :ingestionCascadingDeletionReportCardNotFoundTest,
         :ingestionCascadingDeleteReportTest,
+	:ingestionCascadingDeletionReingestTest,
         ] do
 
   displayFailureReport()
@@ -420,6 +421,14 @@ end
 
 task :ingestionCascadingDeletionBroadCourseTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_course_delete.feature")
+end
+
+task :ingestionCascadingDeletionReingestTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_reingest_delete.feature")
+end
+
+task :ingestionCascadingDeletionBlendedTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_blended_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadStaffTest do

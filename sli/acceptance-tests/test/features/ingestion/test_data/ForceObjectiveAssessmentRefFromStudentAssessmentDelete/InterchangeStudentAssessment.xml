@@ -6,8 +6,14 @@
  		<ObjectiveAssessmentReference>
             <ObjectiveAssessmentIdentity>
                 <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 1.OA-1 Sub</ObjectiveAssessmentIdentificationCode>
+                <AssessmentReference>
+                    <AssessmentIdentity>
+                         <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
+                         <GradeLevelAssessed>First grade</GradeLevelAssessed>
+                    </AssessmentIdentity>
+               </AssessmentReference>
             </ObjectiveAssessmentIdentity>
- 		</ObjectiveAssessmentReference>
+ 	  </ObjectiveAssessmentReference>
 
 	</Action>
 </InterchangeStudentAssessment>
