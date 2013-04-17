@@ -253,7 +253,7 @@ public class BulkExtract {
         /*
          * Prepare and initialize response
          */
-        boolean fullContent = ranges.isEmpty() || ranges.get(0) == full;
+        boolean fullContent = ranges.isEmpty() || ranges.get(0) == full || ranges.get(0).sameValue(full);
         boolean headMethod = req.getMethod().equals("HEAD");
         builder = fullContent ? Response.ok() : Response.status(206);
 
@@ -282,7 +282,7 @@ public class BulkExtract {
             final long fileLength, final long lastModifiedTime, final String eTag) {
 
         String range = req.getHeaderValue("Range");
-        if (range != null) {
+        if (range != null && range.length() > 0) {
 
             // Range header should match format "bytes=n-n,n-n,n-n...". If not, then return 416.
             if (!range.matches("^bytes=\\d*-\\d*(,\\d*-\\d*)*$")) {
@@ -496,6 +496,17 @@ public class BulkExtract {
             this.end = end;
             this.length = end - start + 1;
             this.total = total;
+        }
+
+        public boolean sameValue(Range r) {
+            if (r == null) {
+                return false;
+            }
+
+            return r.start == this.start &&
+                    r.end == this.end &&
+                    r.length == this.length &&
+                    r.total == this.total;
         }
 
     }
