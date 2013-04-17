@@ -67,7 +67,7 @@ Scenario: Delete LEA with cascade = false and force = true, log violations = tru
 	 |session							|         0|
 	 |gradingPeriod						|         0|
 	 |recordHash                        |        -1|
-	And I should not see "1b223f577827204a1c7e9c851dba06bea6b031fe_id" in the "Midgar" database
+
     
     
 Scenario: Delete LEA Ref with cascade = false and force = true, log violations = true
@@ -116,7 +116,7 @@ Scenario: Delete LEA Ref with cascade = false and force = true, log violations =
 	 |session							|         0|
 	 |gradingPeriod						|         0|
 	 |recordHash                        |        -1|
-	And I should not see "1b223f577827204a1c7e9c851dba06bea6b031fe_id" in the "Midgar" database
+	
     
         
     

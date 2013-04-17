@@ -40,7 +40,7 @@ public enum ReferenceConverter {
     SECTION("SectionReference","section"),
     SESSION( "SessionReference", "session"),
     STAFF( "StaffReference", "staff"),
-    STATEEdUCATIONAGENCY("StateEducationAgencyReference", "stateEducationAgency" ),
+    STATEEDUCATIONAGENCY("StateEducationAgencyReference", "stateEducationAgency" ),
     STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociationReference","staffEducationOrgAssignmentAssociation"),
     STAFFPROGRAMASSOCIATION( "StaffProgramAssociationReference", "staffProgramAssociation"),
     STUDENT( "StudentReference", "student" ),
@@ -50,7 +50,7 @@ public enum ReferenceConverter {
     STUDENTSCHOOLASSOCIATIONREFERENCE("StudentSchoolAssociationReference","studentSchoolAssociation"),
     STUDENTSECTIONASSOCIATIONREFERENCE("StudentSectionAssociationReference","studentSectionAssociation"),
     TEACHER("TeacherReference","teacher"),
-    TEACHERSCHOOlASSOCIATION("TeacherSchoolAssociationReference","teacherSchoolAssociation"),
+    TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociationReference","teacherSchoolAssociation"),
     TEACHERSECTIONASSOCIATION("TeacherSectionAssociationReference","teacherSectionAssociation"),
     STUDENTCOHORTASSOCIATIONREFERENCE("StudentCohortAssociationReference","studentCohortAssociation"),
     LEARNINGOBJECTIVE("LearningObjectiveReference","learningObjective"),
@@ -59,7 +59,13 @@ public enum ReferenceConverter {
     STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociationReference","studentDisciplineIncidentAssociation"),
     DISCIPLINEINCIDENT("DisciplineIncidentReference", "disciplineIncident"),
     DISCIPLINEACTION("DisciplineActionReference", "disciplineAction"),
-    STUDENTPROGRAMASSOCIATIONREFERENCE("StudentProgramAssociationReference","studentProgramAssociation");
+    STUDENTPROGRAMASSOCIATIONREFERENCE("StudentProgramAssociationReference","studentProgramAssociation"),
+    STUDENTACADEMICRECORD("StudentAcademicRecordReference", "studentAcademicRecord"),
+    COURSETRANSCRIPT("CourseTranscriptReference", "courseTranscript"),
+    REPORTCARD("ReportCardReference", "reportCard"),
+    STUDENTCOMPETENCY("StudentCompetencyReference", "studentCompetency"),
+    GRADEBOOKENTRY("GradebookEntryReference", "gradebookEntry"),
+    STUDENTGRADEBOOKENTRY("StudentGradebookEntryReference", "studentGradebookEntry");
 
 
 

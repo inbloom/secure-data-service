@@ -43,7 +43,7 @@ Scenario: Delete Objective Assessment From Assessment Metadata with cascade = fa
 #objectiveAssessment  objectiveAssessment  subObjectiveAssessment relationship missing
 #objectiveAssessment  studentAssessment    objectiveAssessmentId relationship missing	
 
-
+@wip
 Scenario: Delete Objective Assessment From Assessment Metadata with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -76,7 +76,7 @@ Scenario: Delete Objective Assessment From Assessment Metadata with cascade = fa
 	|objectiveAssessment                    |         0|
 	|recordHash                             |         0|
 	
-@wip
+
 Scenario: Delete Orphan Objective Assessment From Assessment Metadata with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -127,7 +127,7 @@ Scenario: Delete Orphan Objective Assessment Reference From Assessment Metadata 
 	|assessment                             |        -1|
 	#|recordHash                             |        -1|
 	
-@wip	
+	
 Scenario: Delete Objective Assessment From Assessment Metadata with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
