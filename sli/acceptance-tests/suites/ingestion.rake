@@ -427,6 +427,10 @@ task :ingestionCascadingDeletionReingestTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_reingest_delete.feature")
 end
 
+task :ingestionCascadingDeletionBlendedTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_blended_delete.feature")
+end
+
 task :ingestionCascadingDeletionBroadStaffTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_staff_delete.feature")
 end
