@@ -2,13 +2,21 @@
     "ALL":
     {
 	    "EducationOrganizationReference": "EducationalOrgReference",
-            "SchoolReference" :  "EducationalOrgReference",
-            "EducationOrgReference": "EducationalOrgReference"
+        "SchoolReference" :  "EducationalOrgReference",
+        "EducationOrgReference": "EducationalOrgReference"
     },
     "GradeReference":
     {   
-            "StudentReference" : "StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentReference",
+        "StudentReference" : "StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentReference",
 	    "SectionReference" : "StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference",
 	    "SchoolYear" : "SchoolYear"
+    },
+    "AssessmentItemReference":
+    {
+    	"AssessmentItemIdentificationCode" : "IdentificationCode"
+    },
+    "ObjectiveAssessmentReference":
+    {
+    	"ObjectiveAssessmentIdentificationCode" : "IdentificationCode" 
     }
 }

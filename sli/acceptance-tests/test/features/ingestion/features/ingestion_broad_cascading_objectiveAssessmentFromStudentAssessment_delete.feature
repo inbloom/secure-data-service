@@ -44,6 +44,7 @@ Scenario: Delete Objective Assessment From Student Assessment with cascade
 
 #objectiveAssessment  objectiveAssessment  subObjectiveAssessment relationship missing
 #objectiveAssessment  studentAssessment    objectiveAssessmentId relationship missing		
+
 @wip
 Scenario: Delete Objective Assessment From Assessment Metadata with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -103,7 +104,7 @@ Scenario: Delete Orphan Objective Assessment From Assessment Metadata with casca
 	|assessment                             |        -1|
 	#|recordHash                             |        -1|
 	
-@wip	
+	
 Scenario: Delete Orphan Objective Assessment Reference From Assessment Metadata with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -163,7 +164,7 @@ Scenario: Delete Objective Assessment From Assessment Metadata with default sett
 	|objectiveAssessment                    |        -1|
 	|recordHash                             |         0|
 	
-@wip
+
 Scenario: Delete Objective Assessment Reference From Assessment Metadata with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -177,10 +178,10 @@ Scenario: Delete Objective Assessment Reference From Assessment Metadata with de
 	#Then there exist "2" "studentAssessment" records like below in "Midgar" tenant. And I save this query as "studentAssessment"
 	#|field                                                          |value                                                                                          |
 	#|studentObjectiveAssessment.body.objectiveAssessmentId          |58346902a070426a109f451129eeeb1268daed21_iddadf8836650e994cb05e032558bf46391cb432d2_id         |
-    And I post "ForceObjectiveAssessmentFromStudentAssessmentRefDelete.zip" file as the payload of the ingestion job
+    And I post "ForceObjectiveAssessmentRefFromStudentAssessmentDelete.zip" file as the payload of the ingestion job
 	And I save the collection counts in "Midgar" tenant
   	When zip file is scp to ingestion landing zone
-    And a batch job for file "ForceObjectiveAssessmentFromStudentAssessmentRefDelete.zip" is completed in database
+    And a batch job for file "ForceObjectiveAssessmentRefFromStudentAssessmentDelete.zip" is completed in database
 	And I should see "records considered for processing: 1" in the resulting batch job file
 	And I should see "records ingested successfully: 0" in the resulting batch job file
 	And I should see "records deleted successfully: 1" in the resulting batch job file

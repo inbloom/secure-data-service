@@ -76,6 +76,7 @@ Scenario: Delete Assessment Item from Assessment Metadata with cascade = false
 	|collection                        |delta          |
 	|assessmentItem                         |         0|
 	#|recordHash                             |        -1|
+	
 
 Scenario: Delete Orphan Assessment Item from Assessment Metadata with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -99,10 +100,10 @@ Scenario: Delete Orphan Assessment Item from Assessment Metadata with cascade = 
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
 	|assessment                             |        -1|  
-	#this assessment is empty after deletion. 
-	#|recordHash                             |       -1|
+#the body assessment is empty after deletion of assessmentItem, so it is deleted too
+   #|recordHash                             |       -1|
 	
-@wip
+
 Scenario: Delete Orphan Assessment Item Reference from Assessment Metadata with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -124,6 +125,7 @@ Scenario: Delete Orphan Assessment Item Reference from Assessment Metadata with 
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
+	|assessment                             |        -1|
 	#|recordHash                             |       -1|
 	
 Scenario: Delete Assessment Item from Assessment Metadata with default settings (Confirm that by default cascade = false, force = true and log violations = true)
@@ -155,7 +157,7 @@ Scenario: Delete Assessment Item from Assessment Metadata with default settings 
 	|assessmentItem                         |        -1|
 	#|recordHash                             |        -1|
 
-@wip	
+	
 Scenario: Delete Assessment Item Reference from Assessment Metadata with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
