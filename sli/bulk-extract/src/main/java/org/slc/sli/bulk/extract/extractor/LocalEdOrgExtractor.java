@@ -62,16 +62,23 @@ public class LocalEdOrgExtractor {
      *
      * @return a set of approved bulk extract app ids
      */
+    @SuppressWarnings("unchecked")
     public Set<String> getBulkExtractApps() {
+        // Butt-hole table scans prevent us from using a query, so we'll just scan all the apps!
         NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("isBulkExtract", NeutralCriteria.OPERATOR_EQUAL,
                 true));
         appQuery.addCriteria(new NeutralCriteria("registration.status", NeutralCriteria.OPERATOR_EQUAL, "APPROVED"));
         TenantContext.setIsSystemCall(true);
-        Iterable<Entity> apps = repository.findAll("application", appQuery);
+        Iterable<Entity> apps = repository.findAll("application", new NeutralQuery());
         TenantContext.setIsSystemCall(false);
         Set<String> appIds = new HashSet<String>();
         for (Entity app : apps) {
-            appIds.add(app.getEntityId());
+            if (app.getBody().containsKey("isBulkExtract") && (Boolean) app.getBody().get("isBulkExtract") == true) {
+                if (((String) ((Map<String, Object>) app.getBody().get("registration")).get("status"))
+                        .equals("APPROVED")) {
+                    appIds.add(app.getEntityId());
+                }
+            }
         }
         return appIds;
     }
