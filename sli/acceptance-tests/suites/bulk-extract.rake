@@ -98,6 +98,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractSetup"].execute
   Rake::Task["addBootstrapAppAuths"].execute
   allLeaAllowApp("SDK Sample")  
+  authorizeEdorg("SDK Sample")
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractSimpleEntitiesTest"].execute
   Rake::Task["bulkExtractSuperdocTest"].execute  
