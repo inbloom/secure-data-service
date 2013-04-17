@@ -57,7 +57,7 @@ Scenario: Delete StudentParentAssociation with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentParentAssociation                  |        -1|
-        | recordHash                                |        -1|
+#        | recordHash                                |        -1|
         
         
 	Scenario: Delete StudentParentAssociation Ref with cascade = false and force = true, log violations = true
@@ -81,6 +81,6 @@ Scenario: Delete StudentParentAssociation with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentParentAssociation                  |        -1|
-        | recordHash                                |        -1|
+#        | recordHash                                |        -1|
         
 	  

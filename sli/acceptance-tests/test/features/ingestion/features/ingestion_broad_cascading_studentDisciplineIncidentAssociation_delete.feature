@@ -42,7 +42,7 @@ Scenario: Delete Student Discipline Incident Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                                |     delta|
       | studentDisciplineIncidentAssociation      |        -1|
-      | recordHash                                |        -1|
+#      | recordHash                                |        -1|
 
   Scenario: Delete StudentDisciplineIncidentAssociation Reference with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -66,4 +66,4 @@ Scenario: Delete Student Discipline Incident Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                                |     delta|
       | studentDisciplineIncidentAssociation      |        -1|
-      | recordHash                                |        -1|
+#      | recordHash                                |        -1|
