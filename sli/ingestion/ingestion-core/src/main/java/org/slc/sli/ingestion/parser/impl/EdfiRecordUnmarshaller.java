@@ -527,6 +527,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         COURSETRANSCRIPT("CourseTranscript"),
         REPORTCARD("ReportCard"),
         STUDENTCOMPETENCY("StudentCompetency"),
+        STUDENTCOMPETENCYOBJECTIVE("StudentCompetencyObjective"),
         GRADEBOOKENTRY("GradeBookEntry"),
         STUDENTGRADEBOOKENTRY("StudentGradeBookEntry");
 
