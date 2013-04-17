@@ -155,7 +155,9 @@ public class WriteValidator {
         boolean isValid = true;
         if (entitiesNeedingEdOrgWriteValidation.get(entityType) != null) {
             String edOrgId = (String) entityBody.get(entitiesNeedingEdOrgWriteValidation.get(entityType));
-            isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
+            if (edOrgId!=null){ //patch may not send the edorgId and we've already checked edorg writes on the existing entity
+                isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
+            }
         } else if (complexValidationMap.containsKey(entityType)) {
             ComplexValidation validation = complexValidationMap.get(entityType);
             EntityDefinition definition = store.lookupByEntityType(validation.getValidationReferenceType());

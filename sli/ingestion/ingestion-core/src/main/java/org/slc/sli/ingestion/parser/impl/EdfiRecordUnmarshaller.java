@@ -488,19 +488,23 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         ATTENDANCEEVENT("AttendanceEvent"),
         CALENDARDATE("CalendarDate"),
         COHORT("Cohort"),
+        COMPETENCYLEVELDESCRIPTOR("CompetencyLevelDescriptor"),
         COURSE("Course"),
         COURSEOFFERING("CourseOffering"),
         GRADE("Grade"),
         GRADINGPERIOD("GradingPeriod"),
         LEARNINGOBJECTIVE("LearningObjective"),
         LEARNINGSTANDARD("LearningStandard"),
+        LOCALEDUCATIONAGENCY("LocalEducationAgency"),
         PARENT("Parent"),
+        PROGRAM ("Program"),
         SCHOOL("School"),
         SECTION("Section"),
         SESSION("Session"),
         STAFF("Staff"), 
         STAFFPROGRAMASSOCIATION("StaffProgramAssociation"),
         STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociation"),
+        STATEEDUCATIONAGENCY("StateEducationAgency"),
         STUDENT("Student"),
         STUDENTASSESSMENT("StudentAssessment"),
         STUDENTASSESSMENTITEM("StudentAssessmentItem"),
@@ -525,6 +529,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         STUDENTCOMPETENCY("StudentCompetency"),
         GRADEBOOKENTRY("GradeBookEntry"),
         STUDENTGRADEBOOKENTRY("StudentGradeBookEntry");
+
 
         private SupportedEntities(String text) {
         }
