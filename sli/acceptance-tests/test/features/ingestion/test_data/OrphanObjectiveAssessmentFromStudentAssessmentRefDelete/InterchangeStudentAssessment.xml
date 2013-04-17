@@ -5,8 +5,15 @@
 
  		<ObjectiveAssessmentReference>
             <ObjectiveAssessmentIdentity>
-                <ObjectiveAssessmentIdentificationCode>OA-ACT-Reading-SocialStudies</ObjectiveAssessmentIdentificationCode>
+            <ObjectiveAssessmentIdentificationCode>OA-ACT-Reading-SocialStudies</ObjectiveAssessmentIdentificationCode>
+          <AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>OA-Grade 7 2011 State Reading</AssessmentTitle>
+		        <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
             </ObjectiveAssessmentIdentity>
  		</ObjectiveAssessmentReference>
-   </Action>
+    </Action>
     </InterchangeStudentAssessment>

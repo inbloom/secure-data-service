@@ -6,6 +6,12 @@
         <AssessmentItemReference>
             <AssessmentItemIdentity>
                 <AssessmentItemIdentificationCode>2001-First grade Assessment 1#1</AssessmentItemIdentificationCode>
+             <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
             </AssessmentItemIdentity>
         </AssessmentItemReference>
     </Action>

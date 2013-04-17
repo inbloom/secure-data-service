@@ -2,8 +2,8 @@
     "ALL":
     {
 	    "EducationOrganizationReference": "EducationalOrgReference",
-            "SchoolReference" :  "EducationalOrgReference",
-            "EducationOrgReference": "EducationalOrgReference"
+        "SchoolReference" :  "EducationalOrgReference",
+        "EducationOrgReference": "EducationalOrgReference"
     },
     "GradeReference":
     {   
@@ -11,7 +11,16 @@
 	    "SectionReference" : "StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference",
 	    "SchoolYear" : "SchoolYear"
     },
-    "StudentCompetencyReference":{
+    "AssessmentItemReference":
+    {
+    	"AssessmentItemIdentificationCode" : "IdentificationCode"
+    },
+    "ObjectiveAssessmentReference":
+    {
+    	"ObjectiveAssessmentIdentificationCode" : "IdentificationCode" 
+    },
+    "StudentCompetencyReference":
+    {
         "CodeValue":"CompetencyLevel.CodeValue"
     }
 }
