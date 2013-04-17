@@ -165,6 +165,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     
     @Override
     public void remove() {
+        // assume bulk extract is read from secondary only, there is no remove support
         throw new UnsupportedOperationException();
     }
 
