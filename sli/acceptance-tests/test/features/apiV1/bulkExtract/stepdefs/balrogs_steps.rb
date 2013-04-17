@@ -147,51 +147,48 @@ end
 
 
 When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Midgar$/ do
-    @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
-    @coll = "bulkExtractFiles";
-    @src_coll = @db[@coll]
+  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  @coll = "bulkExtractFiles";
+  @src_coll = @db[@coll]
 
-    if @res.code == 404
-  		puts "@res.headers: #{@res.headers}"
-  		puts "@res.code: #{@res.code}"
+  assert(@res.code == 404,"The return code is #{@res.code}. Expected: 404")
+  puts "@res.headers: #{@res.headers}"
+  puts "@res.code: #{@res.code}"
 
-	    if @src_coll.count > 0
-	    		ref_doc = @src_coll.find({"_id" => "Midgar"}).to_a
-    			assert(ref_doc.count == 0, "Return code was: "+@res.code.to_s+" but find #{@coll} document with _id #{"Midgar"}")
-	    end
-    end
+  if @src_coll.count > 0
+    ref_doc = @src_coll.find({"_id" => "Midgar"}).to_a
+    assert(ref_doc.count == 0, "Return code was: "+@res.code.to_s+" but find #{@coll} document with _id #{"Midgar"}")
+  end
 end
 
 When /^the return code is 503 I ensure there is a bulkExtractFiles entry for Midgar$/ do
-    if @res.code == 503
-  		puts "@res.headers: #{@res.headers}"
-  		puts "@res.code: #{@res.code}"
+  assert(@res.code == 503,"The return code is #{@res.code}. Expected: 503")
+  puts "@res.headers: #{@res.headers}"
+  puts "@res.code: #{@res.code}"
 
-	    if @src_coll.count > 0
-	    		ref_doc = @src_coll.find({"_id" => "Midgar"}).to_a
-    			assert(ref_doc.count > 0, "Return code was: "+@res.code.to_s+" but find no #{@coll} document with _id #{"Midgar"}")
-	    end
-    end
+  if @src_coll.count > 0
+    ref_doc = @src_coll.find({"_id" => "Midgar"}).to_a
+    assert(ref_doc.count > 0, "Return code was: "+@res.code.to_s+" but find no #{@coll} document with _id #{"Midgar"}")
+  end
 end
 
 When /^the return code is 200 I get expected tar downloaded$/ do
-	  puts "@res.headers: #{@res.headers}"
-	  puts "@res.code: #{@res.code}"
-    if @res.code == 200
-	   puts "@res.headers: #{@res.headers}"
-	   puts "@res.code: #{@res.code}"
+	puts "@res.headers: #{@res.headers}"
+	puts "@res.code: #{@res.code}"
+  assert(@res.code == 200,"The return code is #{@res.code}. Expected: 200")
+	puts "@res.headers: #{@res.headers}"
+	puts "@res.code: #{@res.code}"
 	
-	   EXPECTED_CONTENT_TYPE = 'application/x-tar'
-	   @content_disposition = @res.headers[:content_disposition]
-	   @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
-	   @last_modified = @res.headers[:last_modified]
+	EXPECTED_CONTENT_TYPE = 'application/x-tar'
+	@content_disposition = @res.headers[:content_disposition]
+	@zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
+	@last_modified = @res.headers[:last_modified]
 	
-	   puts "content-disposition: #{@content_disposition}"
-	   puts "download file name: #{@zip_file_name}"
-	   puts "last-modified: #{@last_modified}"
+	puts "content-disposition: #{@content_disposition}"
+	puts "download file name: #{@zip_file_name}"
+	puts "last-modified: #{@last_modified}"
 	
-	   assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
-    end
+	assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
 end
 
 When /^the return code is 200$/ do
