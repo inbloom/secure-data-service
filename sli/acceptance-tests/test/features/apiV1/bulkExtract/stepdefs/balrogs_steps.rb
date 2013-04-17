@@ -79,27 +79,30 @@ When /^I make API call to retrieve tomorrow's non existing delta files$/ do
 end
 
 When /^I prepare the custom headers for byte range from "(.*?)" to "(.*?)"$/ do |from, to|
-  @customHeaders = {:etag => @etag}
+  @customHeaders = {:if_range => @etag}
   @customHeaders.store(:last_modified, @last_modified)
-  @customHeaders.store(:if_range, @etag)
   if  (to == "end")
     to = ""
   end
   @customHeaders.store(:range, "bytes=" + from + "-" + to)
 end
 
-When /^I prepare the custom headers for the first "(.*?)" bytes$/ do |number_of_bytes|
-  @customHeaders = {:etag => @etag}
+When /^I prepare the custom headers for multiple byte ranges "(.*?)"$/ do |ranges|
+  @customHeaders = {:if_range => @etag}
   @customHeaders.store(:last_modified, @last_modified)
-  @customHeaders.store(:if_range, @etag)
+  @customHeaders.store(:range, "bytes=" + ranges)
+end
+
+When /^I prepare the custom headers for the first "(.*?)" bytes$/ do |number_of_bytes|
+  @customHeaders = {:if_range => @etag}
+  @customHeaders.store(:last_modified, @last_modified)
   to = (number_of_bytes.to_i) -1
   @customHeaders.store(:range, "bytes=0-" + to.to_s)
 end
 
 When /^I prepare the custom headers for the last "(.*?)" bytes$/ do |number_of_bytes|
-  @customHeaders = {:etag => @etag}
+  @customHeaders = {:if_range => @etag}
   @customHeaders.store(:last_modified, @last_modified)
-  @customHeaders.store(:if_range, @etag)
   from = (@content_length.to_i - number_of_bytes.to_i)
   range = from.to_s + "-#{@content_length}"
   @customHeaders.store(:range, "bytes=" + range)
@@ -227,6 +230,22 @@ Then /^I store the file content$/ do
   end
 end
 
+Then /^I process the file content$/ do
+  file = File.open(@path, "rb")
+  original_tar_contents = file.read
+
+  res_content = @res.body.split("\r\n")
+  @received_file = Dir.pwd + "/Final.tar"
+
+  File.open(@received_file, "wb") do |outf|
+    res_content.each { |content|
+      if not ((content.include? "--MULTIPART_BYTERANGES") || (content.include? "Content-Range"))
+        outf << content
+      end
+    }
+  end
+end
+
 Then /^the file is decrypted$/ do
   file = File.open(@received_file, "rb")
   contents = file.read
@@ -267,12 +286,18 @@ Then /^I verify the bytes I have are correct$/ do
   range_start = range.split("-")[0].to_i
   range_end = range.split("-")[1].to_i
   
-  result = compare(range_start, range_end)
+  result = compareWithOriginalFile(@res.body, range_start, range_end)
   assert(result == true)
+end
+
+Then /^the file size is "(.*?)"$/ do |file_size|
+  puts File.size(@received_file)
 end
 
 Then /^I verify I do not have the complete file$/ do
   assert(File.size(@received_file) != File.size(@path))
+  File.delete(@received_file)
+  @received_file = nil
 end
 
 Then /^I check the http response headers$/ do  
@@ -400,12 +425,12 @@ def decrypt(content)
   return @decrypted
 end
 
-def compare(range_start, range_end)
+def compareWithOriginalFile(content, range_start, range_end)
   file = File.open(@path, "rb")
   file_contents = file.read
   range = Range.new(range_start, range_end)
   file_range_content = file_contents[range]
-  if (file_range_content == @res.body)
+  if (file_range_content == content)
     return true
   else
     return false
