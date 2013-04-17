@@ -44,7 +44,6 @@
     <value>studentSchoolAssociation</value>
     <value>courseTranscript</value>
     <value>teacherSchoolAssociation</value>
-    <value>yearlyTranscript</value>
   </util:set>
 </beans>
 
