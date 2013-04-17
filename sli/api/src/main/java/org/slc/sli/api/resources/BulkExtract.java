@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.cert.X509Certificate;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,10 +45,10 @@ import javax.ws.rs.core.StreamingOutput;
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.slc.sli.api.security.CertificateValidationHelper;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -109,8 +110,8 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response get(@Context HttpHeaders headers, @Context HttpServletRequest request) throws Exception {
         LOG.info("Received request to stream sample bulk extract...");
-        
-        this.validator.validateCertificate(request);
+
+        validateRequestCertificate(request);
         
         final InputStream is = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
 
@@ -146,7 +147,7 @@ public class BulkExtract {
         info("Received request to stream tenant bulk extract...");
         checkApplicationAuthorization(null);
         
-        this.validator.validateCertificate(request);
+        validateRequestCertificate(request);
 
         return getExtractResponse(headers, null);
     }
@@ -167,7 +168,7 @@ public class BulkExtract {
     public Response getDelta(@Context HttpHeaders headers, @Context HttpServletRequest request, @PathParam("date") String date) throws Exception {
         LOG.info("Retrieving delta bulk extract");
         
-        this.validator.validateCertificate(request);
+        validateRequestCertificate(request);
 
         return getExtractResponse(headers, date);
     }
@@ -506,6 +507,18 @@ public class BulkExtract {
         return (substring.length() > 0) ? Long.parseLong(substring) : -1;
     }
 
+    private void validateRequestCertificate(HttpServletRequest request) {
+    	X509Certificate[] certs = (X509Certificate[]) request.getAttribute("javax.servlet.request.X509Certificate");
+        OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+        String clientId = auth.getClientAuthentication().getClientId();
+
+        if (null == certs || certs.length < 1) {
+            throw new IllegalArgumentException("App must provide client side X509 Certificate");
+        }
+        
+        this.validator.validateCertificate(certs[0], clientId);
+    }
+    
     /**
      * Represents a byte range.
      */

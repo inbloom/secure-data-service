@@ -23,6 +23,8 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
     <context:component-scan base-package="org.slc.sli.common.util.uuid" />
     <context:component-scan base-package="org.slc.sli.common.domain" />
     <context:component-scan base-package="org.slc.sli.validation" />
+    <context:component-scan base-package="org.slc.sli.common.encrypt.security" />
+    
     <context:annotation-config />
     <tx:annotation-driven />
 
@@ -109,6 +111,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 
     <bean id="bulkExtractMongoDA" class="org.slc.sli.bulk.extract.BulkExtractMongoDA">
          <property name="entityRepository" ref="mongoEntityRepository" />
+         <property name="certHelper" ref="certificateValidationHelper"/>
     </bean>
 
 </beans>

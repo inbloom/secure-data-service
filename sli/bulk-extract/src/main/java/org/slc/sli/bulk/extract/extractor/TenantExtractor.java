@@ -17,6 +17,7 @@ package org.slc.sli.bulk.extract.extractor;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -62,7 +63,7 @@ public class TenantExtractor{
         Set<String> uniqueCollections = new HashSet<String>(entitiesToCollections.values());
 
         TenantContext.setTenantId(tenant);
-        Map<String, String> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
+        Map<String, PublicKey> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
         extractFile.setClientKeys(appPublicKeys);
         for (String collection : uniqueCollections) {
             entityExtractor.extractEntities(tenant, extractFile, collection);

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.security;
+package org.slc.sli.common.encrypt.security;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,11 +26,8 @@ import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
 /**
@@ -40,7 +37,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CertificateValidationHelper {
-    @Value("${sli.security.truststore.path}")
+
+	@Value("${sli.security.truststore.path}")
     private String pathToTruststore;
 
     @Value("${sli.security.truststore.password}")
@@ -61,15 +59,9 @@ public class CertificateValidationHelper {
      * Matches what we have stored for the application
      * @param request
      */
-    public void validateCertificate(HttpServletRequest request) {
-        X509Certificate[] certs = (X509Certificate[]) request.getAttribute("javax.servlet.request.X509Certificate");
-
-        if (null == certs || certs.length < 1) {
-            throw new IllegalArgumentException("App must provide client side X509 Certificate");
-        }
-
-        Certificate storedCert = locateCertificateForApp();
-        if (!storedCert .equals(certs[0])) {
+    public void validateCertificate(X509Certificate requestCert, String clientId) {
+        Certificate storedCert = locateCertificateForApp(clientId);
+        if (!storedCert.equals(requestCert)) {
             throw new IllegalArgumentException("App must provide trusted X509 Certificate");
         }
     }
@@ -79,24 +71,21 @@ public class CertificateValidationHelper {
      * @return
      * @throws KeyStoreException
      */
-    public PublicKey getPublicKeyForApp() throws KeyStoreException {
-        return locateCertificateForApp().getPublicKey();
+    public PublicKey getPublicKeyForApp(String clientId) {
+        return locateCertificateForApp(clientId).getPublicKey();
     }
 
-    private Certificate locateCertificateForApp() {
-        OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
-        String appId = auth.getClientAuthentication().getClientId();
+    private Certificate locateCertificateForApp(String clientId) {
 
         Certificate storedCert;
         try {
-            storedCert = trusted.getCertificate(appId);
+            storedCert = trusted.getCertificate(clientId);
         } catch (KeyStoreException e) {
-            error("Error loading cert from the store", e);
             throw new IllegalStateException("Failed to retrieve stored cert for application", e);
         }
 
         if (null == storedCert) {
-            throw new IllegalStateException("No certificate for app " + appId + " found");
+            throw new IllegalStateException("No certificate for app " + clientId + " found");
         }
         
         return storedCert;

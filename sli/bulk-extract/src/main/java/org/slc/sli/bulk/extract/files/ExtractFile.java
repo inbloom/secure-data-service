@@ -65,7 +65,7 @@ public class ExtractFile {
     private String archiveName = "";
 
 
-    private Map<String, String> clientKeys = null;
+    private Map<String, PublicKey> clientKeys = null;
 
     private static final String FILE_EXT = ".tar";
 
@@ -198,25 +198,9 @@ public class ExtractFile {
         return appId + "-" + archiveName + FILE_EXT;
     }
 
-    private PublicKey getApplicationPublicKey(String app) throws IOException {
-
-        PublicKey publicKey = null;
-        String key = clientKeys.get(app);
-        LOG.info("App : {}, Key: {}", app, key);
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.decodeBase64(key));
-        try {
-            KeyFactory kf = KeyFactory.getInstance("RSA");
-            publicKey = kf.generatePublic(spec);
-        } catch (NoSuchAlgorithmException e) {
-            LOG.error("Exception: NoSuchAlgorithmException {}", e);
-            throw new IOException(e);
-        } catch (InvalidKeySpecException e) {
-            LOG.error("Exception: InvalidKeySpecException {}", e);
-            throw new IOException(e);
-        }
-
-        return publicKey;
-}
+    private PublicKey getApplicationPublicKey(String app) {
+		return clientKeys.get(app);
+	}
 
     private static byte[] encryptDataWithRSAPublicKey(byte[] rawData, PublicKey publicKey) {
         byte[] encryptedData = null;
@@ -280,14 +264,14 @@ public class ExtractFile {
     /** Get the clientKeys.
      * @return the clientKeys
      */
-    public Map<String, String> getClientKeys() {
+    public Map<String, PublicKey> getClientKeys() {
         return clientKeys;
     }
 
     /** Set clientKey.
      * @param clientKeys the clientKeys to set
      */
-    public void setClientKeys(Map<String, String> clientKeys) {
+    public void setClientKeys(Map<String, PublicKey> clientKeys) {
         this.clientKeys = clientKeys;
     }
 

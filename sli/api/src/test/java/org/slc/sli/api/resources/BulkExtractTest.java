@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.security.cert.X509Certificate;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -51,9 +53,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.api.security.CertificateValidationHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -97,6 +99,9 @@ public class BulkExtractTest {
     
     @Mock
     private CertificateValidationHelper helper;
+    
+    @Mock
+    private HttpServletRequest req;
 
     private static final String PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw1KLTcuf8OpvbHfwMJks\n" +
             "UAXbeaoVqZiK/CRhttWDmlMEs8AubXiSgZCekXeaUqefK544BOgeuNgQmMmo0pLy\n" +
@@ -116,13 +121,15 @@ public class BulkExtractTest {
         when(mockEntity.getBody()).thenReturn(appBody);
         when(mockMongoEntityRepository.findOne(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
+        X509Certificate cert = Mockito.mock(X509Certificate.class);
+        when(req.getAttribute("javax.servlet.request.X509Certificate")).thenReturn(new X509Certificate[] {cert});
     }
 
     @Test
     public void testGetSampleExtract() throws Exception {
         injector.setEducatorContext();
 
-        ResponseImpl res = (ResponseImpl) bulkExtract.get(null,null);
+        ResponseImpl res = (ResponseImpl) bulkExtract.get(null,req);
         assertEquals(200, res.getStatus());
         MultivaluedMap<String, Object> headers = res.getMetadata();
         assertNotNull(headers);
@@ -159,7 +166,7 @@ public class BulkExtractTest {
         Mockito.when(mockBody.get("date")).thenReturn("2013-05-04");
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
-        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant(null, null);
+        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant(null, req);
         assertEquals(404, res.getStatus());
     }
 
@@ -195,7 +202,7 @@ public class BulkExtractTest {
                   .thenReturn(mockEntity);
       }
 
-      Response res = bulkExtract.getDelta(null, null, null);
+      Response res = bulkExtract.getDelta(null, req, null);
 
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
@@ -358,9 +365,9 @@ public class BulkExtractTest {
                 public void describeTo(Description arg0) {
                 }
             }))).thenReturn(e);
-            Response r = bulkExtract.getDelta(null, null, "20130331");
+            Response r = bulkExtract.getDelta(null, req, "20130331");
             assertEquals(200, r.getStatus());
-            Response notExisting = bulkExtract.getDelta(null, null, "20130401");
+            Response notExisting = bulkExtract.getDelta(null, req, "20130401");
             assertEquals(404, notExisting.getStatus());
         } finally {
             f.delete();
@@ -376,7 +383,7 @@ public class BulkExtractTest {
         when(mockEntity.getBody()).thenReturn(body);
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        bulkExtract.getTenant(null, null);
+        bulkExtract.getTenant(null, req);
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -389,6 +396,6 @@ public class BulkExtractTest {
         when(mockEntity.getBody()).thenReturn(body);
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        bulkExtract.getTenant(null, null);
+        bulkExtract.getTenant(null, req);
     }
 }

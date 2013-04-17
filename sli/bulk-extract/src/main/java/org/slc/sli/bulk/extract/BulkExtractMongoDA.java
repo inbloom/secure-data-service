@@ -15,20 +15,21 @@
  */
 package org.slc.sli.bulk.extract;
 
+import java.security.PublicKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Query;
-
+import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Mongo access to bulk extract data.
@@ -52,12 +53,11 @@ public class BulkExtractMongoDA {
     private static final String APP_COLLECTION = "application";
     private static final String APP_ID = "applicationId";
     private static final String IS_BULKEXTRACT = "isBulkExtract";
-    private static final String PUB_KEY = "public_key";
 
     private Repository<Entity> entityRepository;
+    private CertificateValidationHelper certHelper;
 
-
-    /** Insert a new record is the tenant doesn't exist. Update if existed
+	/** Insert a new record is the tenant doesn't exist. Update if existed
      * @param tenantId tenant id
      * @param path  path to the extracted file.
      * @param date  the date when the bulk extract was created
@@ -93,8 +93,8 @@ public class BulkExtractMongoDA {
      * Get the public keys for all the bulk extract applications.
      * @return A map from clientId to public key
      */
-    public Map<String, String> getAppPublicKeys() {
-        Map<String, String> appKeys = new HashMap<String, String>();
+    public Map<String, PublicKey> getAppPublicKeys() {
+        Map<String, PublicKey> appKeys = new HashMap<String, PublicKey>();
 
         Iterator<Entity> cursor = entityRepository.findEach(APP_AUTH_COLLECTION, new Query());
         while(cursor.hasNext()){
@@ -107,8 +107,8 @@ public class BulkExtractMongoDA {
     }
 
     @SuppressWarnings("boxing")
-    private Map<String, String> getClientIdAndPublicKey(String appId) {
-        Map<String, String> clientPubKeys = new HashMap<String, String>();
+    private Map<String, PublicKey> getClientIdAndPublicKey(String appId) {
+        Map<String, PublicKey> clientPubKeys = new HashMap<String, PublicKey>();
 
         TenantContext.setIsSystemCall(true);
         Entity app = this.entityRepository.findOne(APP_COLLECTION, new NeutralQuery(new NeutralCriteria(
@@ -119,11 +119,18 @@ public class BulkExtractMongoDA {
             Map<String, Object> body = app.getBody();
             if (body.containsKey(IS_BULKEXTRACT)) {
                 if((Boolean) body.get(IS_BULKEXTRACT)) {
-                    String key = (String)body.get(PUB_KEY);
-                    if(key != null) {
-                        clientPubKeys.put(appId, key);
-                    } else {
-                        LOG.info("App {} doesn't have public key", appId);
+                	String clientId = (String) body.get("client_id");
+                    try {
+                    	PublicKey key = certHelper.getPublicKeyForApp(clientId);
+						if (null != key) {
+							clientPubKeys.put(appId, key);
+						} else {
+							LOG.error("X509 Certificate for alias {} does not contain a public key", clientId);
+						}
+						
+                    } catch (IllegalStateException e) {
+                    	LOG.error("App {} doesn't have X509 Certificate or public key", appId);
+                    	LOG.error("", e);
                     }
                 }
             }
@@ -147,5 +154,15 @@ public class BulkExtractMongoDA {
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
+    
+
+    public CertificateValidationHelper getCertHelper() {
+		return certHelper;
+	}
+
+	public void setCertHelper(CertificateValidationHelper certHelper) {
+		this.certHelper = certHelper;
+	}
+
 
 }

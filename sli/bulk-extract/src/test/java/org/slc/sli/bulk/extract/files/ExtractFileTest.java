@@ -19,21 +19,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junitx.util.PrivateAccessor;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import junit.framework.Assert;
+import junitx.util.PrivateAccessor;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
@@ -44,7 +47,6 @@ import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
 /**
@@ -78,11 +80,15 @@ public class ExtractFileTest {
      *          if a field is not found
      */
     @Before
-    public void init() throws IOException, NoSuchFieldException {
+    public void init() throws Exception {
         archiveFile = new ExtractFile(new File("./"), FILE_NAME);
 
-        Map<String, String> appKey = new HashMap<String, String>();
-        appKey.put(testApp, PUBLIC_KEY);
+        Map<String, PublicKey> appKey = new HashMap<String, PublicKey>();
+		X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.decodeBase64(PUBLIC_KEY));
+		KeyFactory kf = KeyFactory.getInstance("RSA");
+		PublicKey publicKey = kf.generatePublic(spec);
+        
+        appKey.put(testApp, publicKey);
         archiveFile.setClientKeys(appKey);
 
         File parentDir = (File) PrivateAccessor.getField(archiveFile, "tempDir");
