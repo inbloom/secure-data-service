@@ -11,9 +11,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/s
                       <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
                   </LearningObjectiveIdentity>
               </LearningObjectiveReference>
-              <CompetencyLevel>
-                  <CodeValue>Incompetent</CodeValue>
-              </CompetencyLevel>
+              <CodeValue>Incompetent</CodeValue>
               <StudentSectionAssociationReference>
                   <StudentSectionAssociationIdentity>
                       <StudentReference>
