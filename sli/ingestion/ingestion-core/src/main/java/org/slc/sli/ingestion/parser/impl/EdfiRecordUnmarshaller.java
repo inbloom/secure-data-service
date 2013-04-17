@@ -522,7 +522,13 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociation"),
         DISCIPLINEINCIDENT("DisciplineIncident"),
         DISCIPLINEACTION("DisciplineAction"),
-        STUDENTPROGRAMASSOCIATION("StudentProgramAssociation");
+        STUDENTPROGRAMASSOCIATION("StudentProgramAssociation"),
+        STUDENTACADEMICRECORD("StudentAcademicRecord"),
+        COURSETRANSCRIPT("CourseTranscript"),
+        REPORTCARD("ReportCard"),
+        STUDENTCOMPETENCY("StudentCompetency"),
+        GRADEBOOKENTRY("GradeBookEntry"),
+        STUDENTGRADEBOOKENTRY("StudentGradeBookEntry");
 
 
         private SupportedEntities(String text) {

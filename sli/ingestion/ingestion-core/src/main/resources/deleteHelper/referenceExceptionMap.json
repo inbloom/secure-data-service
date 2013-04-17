@@ -11,6 +11,7 @@
 	    "SectionReference" : "StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference",
 	    "SchoolYear" : "SchoolYear"
     },
+<<<<<<< HEAD
     "AssessmentItemReference":
     {
     	"AssessmentItemIdentificationCode" : "IdentificationCode"
@@ -18,5 +19,9 @@
     "ObjectiveAssessmentReference":
     {
     	"ObjectiveAssessmentIdentificationCode" : "IdentificationCode" 
+=======
+    "StudentCompetencyReference":{
+        "CodeValue":"CompetencyLevel.CodeValue"
+>>>>>>> 609168cf6acec7644ddc34a39c75c563a8cf218e
     }
 }
