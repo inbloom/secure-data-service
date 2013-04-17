@@ -339,6 +339,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionJetsSharksScenario,
         :ingestionCascadingDeletionReportCardNotFoundTest,
         :ingestionCascadingDeleteReportTest,
+	:ingestionCascadingDeletionReingestTest,
         ] do
 
   displayFailureReport()
@@ -420,6 +421,10 @@ end
 
 task :ingestionCascadingDeletionBroadCourseTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_course_delete.feature")
+end
+
+task :ingestionCascadingDeletionReingestTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_reingest_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadStaffTest do
