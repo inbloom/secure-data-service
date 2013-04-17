@@ -17,6 +17,8 @@
 package org.slc.sli.ingestion.processors;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -68,21 +70,15 @@ public class PurgeProcessor implements Processor {
 
     private AbstractMessageReport messageReport;
 
-    private List<String> excludeCollections;
+    private final static Set<String> EXCLUDED_COLLECTIONS = new HashSet<String>(Arrays.asList("system.indexes", "system.js",
+            "system.namespaces", "system.profile", "system.users", "tenant", "securityEvent", "realm", "application",
+            "roles", "customRole", "deltas"));
 
     private ReportStats reportStats = null;
 
     private boolean sandboxEnabled;
 
     private int purgeBatchSize;
-
-    public List<String> getExcludeCollections() {
-        return excludeCollections;
-    }
-
-    public void setExcludeCollections(List<String> excludeCollections) {
-        this.excludeCollections = excludeCollections;
-    }
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -188,12 +184,7 @@ public class PurgeProcessor implements Processor {
     }
 
     private boolean isExcludedCollection(String collectionName) {
-        for (String excludedCollectionName : excludeCollections) {
-            if (collectionName.equals(excludedCollectionName)) {
-                return true;
-            }
-        }
-        return false;
+        return EXCLUDED_COLLECTIONS.contains(collectionName);
     }
 
     private void removeTenantCollection(Query searchTenantId, String collectionName) {

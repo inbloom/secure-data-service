@@ -74,6 +74,31 @@ def allLeaAllowAppForTenant(appName, tenantName)
   enable_NOTABLESCAN()
 end
 
+def authorizeEdorg(appName)
+  authorizeEdorgForTenant(appName, 'Midgar')
+end
+
+def authorizeEdorgForTenant(appName, tenantName)
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
+  db = conn[PropLoader.getProps['api_database_name']]
+  appColl = db.collection("application")
+  appId = appColl.find_one({"body.name" => appName})["_id"]
+  puts("The app #{appName} id is #{appId}") if ENV['DEBUG']
+  
+  dbTenant = conn[convertTenantIdToDbName(tenantName)]
+  appAuthColl = dbTenant.collection("applicationAuthorization")
+  
+  puts("The app #{appName} id is #{appId}")
+  neededEdOrgs = appAuthColl.find_one({"body.applicationId" => appId})["body"]["edorgs"]
+  neededEdOrgs.each do |edorg|
+    appColl.update({"_id" => appId}, {"$push" => {"body.authorized_ed_orgs" => edorg}})
+  end
+  
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 def randomizeRcProdTenant()
   PropLoader.update('tenant', "#{PropLoader.getProps['tenant']}_#{Time.now.to_i}")
 end

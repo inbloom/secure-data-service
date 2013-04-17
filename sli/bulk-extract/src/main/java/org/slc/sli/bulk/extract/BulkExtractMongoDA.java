@@ -18,6 +18,7 @@ package org.slc.sli.bulk.extract;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -49,8 +50,12 @@ public class BulkExtractMongoDA {
     private static final String IS_DELTA = "isDelta";
 
     private static final String APP_AUTH_COLLECTION = "applicationAuthorization";
+    private static final String TENANT_EDORG_FIELD = "edorgs";
+    private static final String AUTH_EDORGS_FIELD = "authorized_ed_orgs";
     private static final String APP_COLLECTION = "application";
     private static final String APP_ID = "applicationId";
+    private static final String APP_APPROVE_STATUS = "APPROVED";
+    private static final String REGISTRATION_STATUS_FIELD = "registration.status";
     private static final String IS_BULKEXTRACT = "isBulkExtract";
     private static final String PUB_KEY = "public_key";
 
@@ -93,39 +98,45 @@ public class BulkExtractMongoDA {
      * Get the public keys for all the bulk extract applications.
      * @return A map from clientId to public key
      */
+    @SuppressWarnings("unchecked")
     public Map<String, String> getAppPublicKeys() {
         Map<String, String> appKeys = new HashMap<String, String>();
 
         Iterator<Entity> cursor = entityRepository.findEach(APP_AUTH_COLLECTION, new Query());
         while(cursor.hasNext()){
-            Entity app = cursor.next();
-            String appId = (String) app.getBody().get(APP_ID);
-            appKeys.putAll(getClientIdAndPublicKey(appId));
+            Entity appAuth = cursor.next();
+            String appId = (String) appAuth.getBody().get(APP_ID);
+            List<String> edorgs = (List<String>) appAuth.getBody().get(TENANT_EDORG_FIELD);
+
+            appKeys.putAll(getClientIdAndPublicKey(appId, edorgs));
         }
 
         return appKeys;
     }
 
-    @SuppressWarnings("boxing")
-    private Map<String, String> getClientIdAndPublicKey(String appId) {
+    @SuppressWarnings({ "boxing", "unchecked" })
+    private Map<String, String> getClientIdAndPublicKey(String appId, List<String> edorgs) {
         Map<String, String> clientPubKeys = new HashMap<String, String>();
 
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, appId));
+        query.addCriteria(new NeutralCriteria(REGISTRATION_STATUS_FIELD, NeutralCriteria.OPERATOR_EQUAL, APP_APPROVE_STATUS));
+        query.addCriteria(new NeutralCriteria(IS_BULKEXTRACT, NeutralCriteria.OPERATOR_EQUAL, true));
+
         TenantContext.setIsSystemCall(true);
-        Entity app = this.entityRepository.findOne(APP_COLLECTION, new NeutralQuery(new NeutralCriteria(
-                "_id", NeutralCriteria.OPERATOR_EQUAL, appId)));
+        Entity app = this.entityRepository.findOne(APP_COLLECTION, query);
         TenantContext.setIsSystemCall(false);
 
-        if(app != null){
+        if(app != null) {
             Map<String, Object> body = app.getBody();
-            if (body.containsKey(IS_BULKEXTRACT)) {
-                if((Boolean) body.get(IS_BULKEXTRACT)) {
-                    String key = (String)body.get(PUB_KEY);
-                    if(key != null) {
-                        clientPubKeys.put(appId, key);
-                    } else {
-                        LOG.info("App {} doesn't have public key", appId);
-                    }
-                }
+            edorgs.retainAll((List<String>)body.get(AUTH_EDORGS_FIELD));
+
+            String key = (String)body.get(PUB_KEY);
+            if(edorgs.isEmpty()) {
+                LOG.info("No education organization is authorized, skipping application {}", appId);
+            } else if(key != null) {
+                clientPubKeys.put(appId, key);
+            } else {
+                LOG.info("Application {} doesn't have public key", appId);
             }
         }
 
