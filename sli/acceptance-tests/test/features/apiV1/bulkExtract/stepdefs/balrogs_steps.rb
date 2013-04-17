@@ -195,27 +195,26 @@ When /^the return code is 200 I get expected tar downloaded$/ do
 end
 
 When /^the return code is 200$/ do
-    if @res.code == 200
-	   puts "@res.headers: #{@res.headers}"
-	   puts "@res.code: #{@res.code}"
+  assert(@res.code == 200,"The return code is #{@res.code}. Expected: 200")
+	puts "@res.headers: #{@res.headers}"
+	puts "@res.code: #{@res.code}"
 	
-	   EXPECTED_CONTENT_TYPE = 'application/x-tar'
-	   @content_disposition = @res.headers[:content_disposition]
-	   @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
-	   @last_modified = @res.headers[:last_modified]
+	EXPECTED_CONTENT_TYPE = 'application/x-tar'
+	@content_disposition = @res.headers[:content_disposition]
+	@zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
+	@last_modified = @res.headers[:last_modified]
 	
-	   puts "content-disposition: #{@content_disposition}"
-	   puts "download file name: #{@zip_file_name}"
-	   puts "last-modified: #{@last_modified}"
+	puts "content-disposition: #{@content_disposition}"
+	puts "download file name: #{@zip_file_name}"
+	puts "last-modified: #{@last_modified}"
 	
-	   assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
-    end
+	assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
 end
 
 Then /^I get back a response code of "(.*?)"$/ do |response_code|
   puts "@res.headers: #{@res.headers}"
   puts "@res.code: #{@res.code}"
-  assert(@res.code.to_i == response_code.to_i)
+  assert(@res.code.to_i == response_code.to_i, "The return code is #{@res.code}. Expected: #{response_code}")
 end
 
 Then /^the content length in response header is "(.*?)"$/ do |length|
