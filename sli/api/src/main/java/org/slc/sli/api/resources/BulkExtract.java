@@ -227,6 +227,9 @@ public class BulkExtract {
         long fileLength = bulkExtractFile.length();
         String eTag = fileName + "_" + fileLength + "_" + lastModified;
 
+        /*
+         * Validate request headers for caching and resume
+         */
         @SuppressWarnings("deprecation")
         ResponseBuilder builder = req.evaluatePreconditions(new Date(lastModifiedTime), new EntityTag(eTag));
         if (builder != null) {
@@ -239,17 +242,52 @@ public class BulkExtract {
          */
         // Prepare some variables. The full Range represents the complete file.
         final Range full = new Range(0, fileLength - 1, fileLength);
-        List<Range> ranges = new ArrayList<Range>();
+        final List<Range> ranges = new ArrayList<Range>();
 
-        // Validate and process Range and If-Range headers.
+        builder = processRangeHeader(req, full, ranges, fileLength, lastModifiedTime, eTag);
+        if (builder != null) {
+            // validation fails
+            return builder.build();
+        }
+
+        /*
+         * Prepare and initialize response
+         */
+        boolean fullContent = ranges.isEmpty() || ranges.get(0) == full;
+        boolean headMethod = req.getMethod().equals("HEAD");
+        builder = fullContent ? Response.ok() : Response.status(206);
+
+        builder.header("content-disposition", "attachment; filename = " + fileName)
+               .header("Accept-Ranges", "bytes")
+               .header("ETag", eTag)
+               .header(HttpHeaders.LAST_MODIFIED, lastModified);
+
+        if (fullContent || ranges.size() == 1) {
+            final Range r = fullContent ? full : ranges.get(0);
+            return singlePartExtractResponse(builder, bulkExtractFile, r, headMethod);
+        } else {
+
+            if (headMethod) {
+                builder = Responses.methodNotAllowed()
+                        .header("Allow", "GET");
+                return builder.build();
+            }
+
+            return multiPartsExtractResponse(builder, bulkExtractFile, ranges);
+        }
+    }
+
+    private ResponseBuilder processRangeHeader(final HttpRequestContext req,
+            final Range full, final List<Range> ranges,
+            final long fileLength, final long lastModifiedTime, final String eTag) {
+
         String range = req.getHeaderValue("Range");
         if (range != null) {
 
             // Range header should match format "bytes=n-n,n-n,n-n...". If not, then return 416.
             if (!range.matches("^bytes=\\d*-\\d*(,\\d*-\\d*)*$")) {
-                builder = Response.status(416)
+               return Response.status(416)
                         .header("Content-Range", "bytes */" + fileLength);// Required in 416.
-                return builder.build();
             }
 
             // If-Range header should either match ETag or be greater then LastModified. If not,
@@ -279,9 +317,8 @@ public class BulkExtract {
 
                     // Check if Range is syntactically valid. If not, then return 416.
                     if (start > end) {
-                        builder = Response.status(416)
+                        return Response.status(416)
                                 .header("Content-Range", "bytes */" + fileLength);// Required in 416.
-                        return builder.build();
                     }
 
                     // Add range.
@@ -289,32 +326,7 @@ public class BulkExtract {
                 }
             }
         }
-
-        /*
-         * Prepare and initialize response
-         */
-        boolean fullContent = ranges.isEmpty() || ranges.get(0) == full;
-        boolean headMethod = req.getMethod().equals("HEAD");
-        builder = fullContent ? Response.ok() : Response.status(206);
-
-        builder.header("content-disposition", "attachment; filename = " + fileName)
-               .header("Accept-Ranges", "bytes")
-               .header("ETag", eTag)
-               .header(HttpHeaders.LAST_MODIFIED, lastModified);
-
-        if (fullContent || ranges.size() == 1) {
-            final Range r = fullContent ? full : ranges.get(0);
-            return singlePartExtractResponse(builder, bulkExtractFile, r, headMethod);
-        } else {
-
-            if (headMethod) {
-                builder = Responses.methodNotAllowed()
-                        .header("Allow", "GET");
-                return builder.build();
-            }
-
-            return multiPartsExtractResponse(builder, bulkExtractFile, ranges);
-        }
+        return null;
     }
 
     private Response singlePartExtractResponse(final ResponseBuilder builder,
