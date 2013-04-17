@@ -23,14 +23,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Query;
-
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
 
 
 /**
@@ -46,6 +45,8 @@ public class EntityExtractor{
     private Repository<Entity> entityRepository;
 
     private EntityWriterManager writer;
+    
+    private Query extractionQuery;
 
     /**
      * extract all the records of entity.
@@ -59,7 +60,10 @@ public class EntityExtractor{
      */
     public void extractEntities(String tenant, ExtractFile archiveFile, String collectionName) {
         try {
-            Iterator<Entity> cursor = entityRepository.findEach(collectionName, new Query());
+            if (extractionQuery == null) {
+                extractionQuery = new Query();
+            }
+            Iterator<Entity> cursor = entityRepository.findEach(collectionName, extractionQuery);
             if (cursor.hasNext()) {
                 LOG.info("Extracting from " + collectionName);
                 CollectionWrittenRecord collectionRecord = new CollectionWrittenRecord(collectionName);
@@ -121,6 +125,15 @@ public class EntityExtractor{
      */
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
+    }
+    
+    /**
+     * Sets an optional query to be used in the extraction
+     * 
+     * @param extractionQuery
+     */
+    public void setExtractionQuery(Query extractionQuery) {
+        this.extractionQuery = extractionQuery;
     }
 
     /**
