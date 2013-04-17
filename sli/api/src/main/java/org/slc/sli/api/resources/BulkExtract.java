@@ -44,6 +44,7 @@ import javax.ws.rs.core.StreamingOutput;
 import com.sun.jersey.api.Responses;
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.api.core.HttpRequestContext;
+import com.sun.jersey.core.header.reader.HttpHeaderReader;
 
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
@@ -294,8 +295,12 @@ public class BulkExtract {
             // then return full file.
             String ifRange = req.getHeaderValue("If-Range");
             if (ifRange != null && !ifRange.equals(eTag)) {
-                long ifRangeTime = ISODateTimeFormat.basicDate().parseDateTime(ifRange).getMillis();
-                if (ifRangeTime > 0 && ifRangeTime + 1000 < lastModifiedTime) {
+                try {
+                    long ifRangeTime = HttpHeaderReader.readDate(ifRange).getTime();
+                    if (ifRangeTime > 0 && ifRangeTime + 1000 < lastModifiedTime) {
+                        ranges.add(full);
+                    }
+                } catch (ParseException ignore) {
                     ranges.add(full);
                 }
             }
