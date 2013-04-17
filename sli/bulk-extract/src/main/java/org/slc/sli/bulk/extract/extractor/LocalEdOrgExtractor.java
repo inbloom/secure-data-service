@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -30,7 +32,7 @@ public class LocalEdOrgExtractor {
      * Creates unencrypted LEA bulk extract files if any are needed for the given tenant
      * @param tenant name of tenant to extract
      */
-    public void execute(String tenant) {
+    public void execute(String tenant, ExtractFile file, DateTime startTime) {
         //TODO replace stub do it
         LOG.debug("STUB!");
         
