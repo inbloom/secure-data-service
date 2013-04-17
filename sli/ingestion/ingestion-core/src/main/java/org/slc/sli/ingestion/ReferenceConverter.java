@@ -56,7 +56,13 @@ public enum ReferenceConverter {
     STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociationReference","studentDisciplineIncidentAssociation"),
     DISCIPLINEINCIDENT("DisciplineIncidentReference", "disciplineIncident"),
     DISCIPLINEACTION("DisciplineActionReference", "disciplineAction"),
-    STUDENTPROGRAMASSOCIATIONREFERENCE("StudentProgramAssociationReference","studentProgramAssociation");
+    STUDENTPROGRAMASSOCIATIONREFERENCE("StudentProgramAssociationReference","studentProgramAssociation"),
+    STUDENTACADEMICRECORD("StudentAcademicRecordReference", "studentAcademicRecord"),
+    COURSETRANSCRIPT("CourseTranscriptReference", "courseTranscript"),
+    REPORTCARD("ReportCardReference", "reportCard"),
+    STUDENTCOMPETENCY("StudentCompetencyReference", "studentCompetency"),
+    GRADEBOOKENTRY("GradebookEntryReference", "gradebookEntry"),
+    STUDENTGRADEBOOKENTRY("StudentGradebookEntryReference", "studentGradebookEntry");
 
 
 

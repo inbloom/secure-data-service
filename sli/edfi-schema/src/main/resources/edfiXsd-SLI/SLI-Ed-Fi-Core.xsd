@@ -2966,7 +2966,7 @@
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
-			<xs:element name="CodeValue" type="CodeValue" minOccurs="0">
+            <xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>competencyLevel.codeValue</sli:keyFieldName>
