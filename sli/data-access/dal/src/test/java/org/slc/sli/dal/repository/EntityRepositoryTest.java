@@ -70,8 +70,7 @@ public class EntityRepositoryTest {
 
     @Before
     public void setUp() {
-//        TenantContext.setTenantId("SLIUnitTest");
-        TenantContext.setTenantId("Midgar");
+        TenantContext.setTenantId("SLIUnitTest");
     }
 
     @Resource(name = "mongoEntityRepository")
