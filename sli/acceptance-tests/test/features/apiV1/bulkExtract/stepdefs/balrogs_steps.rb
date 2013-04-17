@@ -236,6 +236,43 @@ end
 Then /^I see that the combined file matches the tar file$/ do
   assert(File.size(@received_file) == File.size(@path))
   File.delete(@received_file)
+  @received_file = nil
+end
+
+Then /^I combine the overlapped parts$/ do
+  #assuming chunks are in order
+  chunk_content = @res.body
+  chunk_length = @res.headers[:content_length]
+  chunk_range = @res.headers[:content_range]
+  range = chunk_range.split("bytes ")[1].split("/")[0]
+  range_start = range.split("-")[0].to_i
+  range_end = range.split("-")[1].to_i
+
+  current_file_size = File.size(@received_file)
+  if (range_end > current_file_size)
+    range_start = current_file_size - range_start
+  end
+
+  nonoverlap_range = Range.new(range_start, range_end)
+  nonoverlap_content = chunk_content[nonoverlap_range]
+  File.open(@received_file, "a") do |outf|
+    outf << nonoverlap_content
+  end
+end
+
+Then /^I verify the bytes I have are correct$/ do
+  chunk_length = @res.headers[:content_length]
+  chunk_range = @res.headers[:content_range]
+  range = chunk_range.split("bytes ")[1].split("/")[0]
+  range_start = range.split("-")[0].to_i
+  range_end = range.split("-")[1].to_i
+  
+  result = compare(range_start, range_end)
+  assert(result == true)
+end
+
+Then /^I verify I do not have the complete file$/ do
+  assert(File.size(@received_file) != File.size(@path))
 end
 
 Then /^I check the http response headers$/ do  
@@ -294,7 +331,6 @@ Then /^I have all the information to make a byte range request$/ do
   @last_modified = @res.headers[:last_modified]
   @accept_ranges = @res.headers[:accept_ranges]
   @etag = @res.headers[:etag]
-  #@content_length = @res.headers[:content_length]
   @content_range = @res.headers[:content_range]
   @content_length = @res.headers[:content_length]
   assert(@last_modified != nil)
@@ -362,6 +398,18 @@ def decrypt(content)
     puts "length #{content.length}"
   end
   return @decrypted
+end
+
+def compare(range_start, range_end)
+  file = File.open(@path, "rb")
+  file_contents = file.read
+  range = Range.new(range_start, range_end)
+  file_range_content = file_contents[range]
+  if (file_range_content == @res.body)
+    return true
+  else
+    return false
+  end
 end
 
 After('@fakeTar') do 

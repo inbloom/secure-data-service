@@ -1,4 +1,3 @@
-@wip
 Feature: Retrieve portions of the bulk extract file through the API and validate
 
 @fakeTar
@@ -60,11 +59,13 @@ Scenario: Get the bulk extract file in chunks
     When I prepare the custom headers for byte range from "30" to "150"
     And I make a ranged bulk extract API call
     Then I get back a response code of "206"
-    And the content length in response header is "120"
+    And the content length in response header is "121"
+    And I store the file content
     And I verify the bytes I have are correct
     And I prepare the custom headers for byte range from "200" to "300"
     When I make a ranged bulk extract API call
     Then I get back a response code of "206"
-    And the content length in response header is "100"
-    Then I verify I don't have the complete file
+    And the content length in response header is "101"
     And I verify the bytes I have are correct
+    And I store the file content
+    And I verify I do not have the complete file
