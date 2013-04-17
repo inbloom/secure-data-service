@@ -35,7 +35,7 @@ public class LocalEdOrgExtractor {
         LOG.debug("STUB!");
         
         Set<String> leas = getBulkExtractLEAs();
-        edorgToLEACache = getEdorgCache(leas);
+        edorgToLEACache = buildEdorgCache(leas);
         
     }
 
@@ -46,7 +46,7 @@ public class LocalEdOrgExtractor {
      * @param leas
      * @return
      */
-    public Map<String, String> getEdorgCache(Set<String> leas) {
+    private Map<String, String> buildEdorgCache(Set<String> leas) {
         Map<String, String> cache = new HashMap<String, String>();
         for (String lea : leas) {
             Set<String> children = getChildEdOrgs(Arrays.asList(lea));
@@ -56,8 +56,6 @@ public class LocalEdOrgExtractor {
         }
         return cache;
     }
-
-
 
     /**
      * A helper function to get the list of approved app ids that have bulk extract enabled
@@ -84,7 +82,7 @@ public class LocalEdOrgExtractor {
      * @param edOrgs
      * @return a set of child edorgs
      */
-    public Set<String> getChildEdOrgs(Collection<String> edOrgs) {
+    private Set<String> getChildEdOrgs(Collection<String> edOrgs) {
         if (edOrgs.isEmpty()) {
             return new HashSet<String>();
         }

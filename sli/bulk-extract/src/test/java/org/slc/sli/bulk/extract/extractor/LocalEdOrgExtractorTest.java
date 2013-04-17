@@ -74,7 +74,7 @@ public class LocalEdOrgExtractorTest {
     }
     
     @Test
-    public void testGetEdorgCache() {
+    public void testBuildEdorgCache() {
         
     }
     
@@ -93,12 +93,15 @@ public class LocalEdOrgExtractorTest {
     
     @Test
     public void getBulkExtractLEAs() {
-        
+        // No LEAs
+        body.put("edorgs", new ArrayList<String>());
+        Mockito.when(repo.findAll(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                new ArrayList<Entity>());
+        Mockito.when(repo.findAll(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(
+                Arrays.asList(mockEntity));
+        Assert.assertTrue(extractor.getBulkExtractLEAs().size() == 0);
+        body.put("edorgs", Arrays.asList("one", "two", "three"));
+        Assert.assertTrue(extractor.getBulkExtractLEAs().size() == 3);
+    }
 
-    }
-    
-    @Test
-    public void getChildEdOrgs() {
-        
-    }
 }
