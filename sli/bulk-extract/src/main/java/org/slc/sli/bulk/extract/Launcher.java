@@ -22,12 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import org.slc.sli.bulk.extract.extractor.DeltaExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
@@ -38,6 +32,11 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * Bulk extract launcher.
  *
@@ -74,7 +73,7 @@ public class Launcher {
                 extractFile = new ExtractFile(getTenantDirectory(tenant),
                     getArchiveName(tenant, startTime.toDate()));
                 tenantExtractor.execute(tenant, extractFile, startTime);
-                localEdOrgExtractor.execute(tenant);
+                localEdOrgExtractor.execute(tenant, extractFile, startTime);
             }
         } else {
             LOG.error("A bulk extract is not being initiated for the tenant {} because the tenant has not been onboarded.", tenant);

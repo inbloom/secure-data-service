@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -30,12 +32,12 @@ public class LocalEdOrgExtractor {
      * Creates unencrypted LEA bulk extract files if any are needed for the given tenant
      * @param tenant name of tenant to extract
      */
-    public void execute(String tenant) {
+    public void execute(String tenant, ExtractFile file, DateTime startTime) {
         //TODO replace stub do it
         LOG.debug("STUB!");
         
         Set<String> leas = getBulkExtractLEAs();
-        edorgToLEACache = getEdorgCache(leas);
+        edorgToLEACache = buildEdorgCache(leas);
         
     }
 
@@ -46,7 +48,7 @@ public class LocalEdOrgExtractor {
      * @param leas
      * @return
      */
-    public Map<String, String> getEdorgCache(Set<String> leas) {
+    private Map<String, String> buildEdorgCache(Set<String> leas) {
         Map<String, String> cache = new HashMap<String, String>();
         for (String lea : leas) {
             Set<String> children = getChildEdOrgs(Arrays.asList(lea));
@@ -57,23 +59,28 @@ public class LocalEdOrgExtractor {
         return cache;
     }
 
-
-
     /**
      * A helper function to get the list of approved app ids that have bulk extract enabled
      *
      * @return a set of approved bulk extract app ids
      */
+    @SuppressWarnings("unchecked")
     public Set<String> getBulkExtractApps() {
+        // Butt-hole table scans prevent us from using a query, so we'll just scan all the apps!
         NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("isBulkExtract", NeutralCriteria.OPERATOR_EQUAL,
                 true));
         appQuery.addCriteria(new NeutralCriteria("registration.status", NeutralCriteria.OPERATOR_EQUAL, "APPROVED"));
         TenantContext.setIsSystemCall(true);
-        Iterable<Entity> apps = repository.findAll("application", appQuery);
+        Iterable<Entity> apps = repository.findAll("application", new NeutralQuery());
         TenantContext.setIsSystemCall(false);
         Set<String> appIds = new HashSet<String>();
         for (Entity app : apps) {
-            appIds.add(app.getEntityId());
+            if (app.getBody().containsKey("isBulkExtract") && (Boolean) app.getBody().get("isBulkExtract") == true) {
+                if (((String) ((Map<String, Object>) app.getBody().get("registration")).get("status"))
+                        .equals("APPROVED")) {
+                    appIds.add(app.getEntityId());
+                }
+            }
         }
         return appIds;
     }
@@ -84,7 +91,7 @@ public class LocalEdOrgExtractor {
      * @param edOrgs
      * @return a set of child edorgs
      */
-    public Set<String> getChildEdOrgs(Collection<String> edOrgs) {
+    private Set<String> getChildEdOrgs(Collection<String> edOrgs) {
         if (edOrgs.isEmpty()) {
             return new HashSet<String>();
         }
