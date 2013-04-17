@@ -174,7 +174,6 @@ end
 desc "Run Ingestion Smoke Tests"
 task :ingestionSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
-  Rake::Task["multipleOrphansDeleteTest"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].invoke
 end
 
@@ -281,6 +280,7 @@ end
 
 desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
+        :ingestBroadSetOfTypesAndExportData,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
         :ingestionCascadingDeletionBroadAssessmentFamilyTest,
