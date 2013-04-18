@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+  <Action ActionType="DELETE" Cascade="false" Force="true">
+    <StudentGradebookEntry>
+      <DateFulfilled>2001-09-05</DateFulfilled>
+      <LetterGradeEarned>D</LetterGradeEarned>
+      <NumericGradeEarned>65</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+          <SectionReference>
+            <SectionIdentity>
+              <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                  <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+              </EducationalOrgReference>
+              <UniqueSectionCode>3</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+          <BeginDate>2001-09-03</BeginDate>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Homework</GradebookEntryType>
+          <DateAssigned>2001-09-04</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                  <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+              </EducationalOrgReference>
+              <UniqueSectionCode>3</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
+    </StudentGradebookEntry>
+  </Action>  
+</InterchangeStudentGrade>

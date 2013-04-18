@@ -477,16 +477,60 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
      * We need to disallow deletes of any entities that are not listed here. This should go away
      * next sprint, as deletes of all
      * entities will be supported
+     *
      */
 
     protected static enum SupportedEntities {
-        ASSESSMENTFAMILY("AssessmentFamily"), ASSESSMENT("Assessment"), ATTENDANCEEVENT("AttendanceEvent"), CALENDARDATE("CalendarDate"), COHORT(
-                "Cohort"), COURSEOFFERING("CourseOffering"), COURSE("Course"), GRADE("Grade"), GRADINGPERIOD("GradingPeriod"), PARENT(
-                "Parent"), SCHOOL( "School"), SECTION("Section"), SESSION("Session"), STAFFEDUCATIONORGASSIGNMENTASSOCIATION(
-                "StaffEducationOrgAssignmentAssociation"), STUDENTASSESSMENT("StudentAssessment"), STUDENTCOHORTASSOCIATION(
-                "StudentCohortAssociation"), STUDENT("Student"), STUDENTPARENTASSOCIATION("StudentParentAssociation"), STUDENTSCHOOLASSOCIATION(
-                "StudentSchoolAssociation"), TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociation"), TEACHERSECTIONASSOCIATION(
-                "TeacherSectionAssociation"), TEACHER("Teacher");
+        ASSESSMENTFAMILY("AssessmentFamily"),
+        ASSESSMENT("Assessment"),
+        ASSESSMENTITEM("AssessmentItem"),
+        ASSESSMENTPERIODDESCRIPTOR("AssessmentPeriodDescriptor"),
+        ATTENDANCEEVENT("AttendanceEvent"),
+        CALENDARDATE("CalendarDate"),
+        COHORT("Cohort"),
+        COMPETENCYLEVELDESCRIPTOR("CompetencyLevelDescriptor"),
+        COURSE("Course"),
+        COURSEOFFERING("CourseOffering"),
+        GRADE("Grade"),
+        GRADINGPERIOD("GradingPeriod"),
+        LEARNINGOBJECTIVE("LearningObjective"),
+        LEARNINGSTANDARD("LearningStandard"),
+        LOCALEDUCATIONAGENCY("LocalEducationAgency"),
+        PARENT("Parent"),
+        PROGRAM ("Program"),
+        SCHOOL("School"),
+        SECTION("Section"),
+        SESSION("Session"),
+        STAFF("Staff"), 
+        STAFFPROGRAMASSOCIATION("StaffProgramAssociation"),
+        STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociation"),
+        STATEEDUCATIONAGENCY("StateEducationAgency"),
+        STUDENT("Student"),
+        STUDENTASSESSMENT("StudentAssessment"),
+        STUDENTASSESSMENTITEM("StudentAssessmentItem"),
+        STUDENTCOHORTASSOCIATION("StudentCohortAssociation"),
+        STUDENTOBJECTIVEASSESSMENT("StudentObjectiveAssessment"),
+        STUDENTPARENTASSOCIATION("StudentParentAssociation"),
+        STUDENTSCHOOLASSOCIATION("StudentSchoolAssociation"),
+        STUDENTSCHOOLASSOCIATIONREFERENCE("StudentSchoolAssociationReference"),
+        STUDENTSECTIONASSOCIATION("StudentSectionAssociation"),
+        STUDENTSECTIONASSOCIATIONREFERENCE("StudentSectionAssociationReference"),
+        TEACHER("Teacher"),
+        TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociation"),
+        TEACHERSECTIONASSOCIATION("TeacherSectionAssociation"),
+        OBJECTIVEASSESSMENT("ObjectiveAssessment"),
+        STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociation"),
+        DISCIPLINEINCIDENT("DisciplineIncident"),
+        DISCIPLINEACTION("DisciplineAction"),
+        STUDENTPROGRAMASSOCIATION("StudentProgramAssociation"),
+        STUDENTACADEMICRECORD("StudentAcademicRecord"),
+        COURSETRANSCRIPT("CourseTranscript"),
+        REPORTCARD("ReportCard"),
+        STUDENTCOMPETENCY("StudentCompetency"),
+        STUDENTCOMPETENCYOBJECTIVE("StudentCompetencyObjective"),
+        GRADEBOOKENTRY("GradeBookEntry"),
+        STUDENTGRADEBOOKENTRY("StudentGradeBookEntry");
+
 
         private SupportedEntities(String text) {
         }

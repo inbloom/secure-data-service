@@ -174,7 +174,6 @@ end
 desc "Run Ingestion Smoke Tests"
 task :ingestionSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
-  Rake::Task["multipleOrphansDeleteTest"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].invoke
 end
 
@@ -281,6 +280,7 @@ end
 
 desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
+        :ingestBroadSetOfTypesAndExportData,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
         :ingestionCascadingDeletionBroadAssessmentFamilyTest,
@@ -322,11 +322,13 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadStudentTest,
         :ingestionCascadingDeletionBroadStudentAcademicRecordTest,
         :ingestionCascadingDeletionBroadStudentAssessmentTest,
+        :ingestionCascadingDeletionBroadStudentAssessmentItemTest,
         :ingestionCascadingDeletionBroadStudentCohortAssociationTest,
         :ingestionCascadingDeletionBroadStudentCompetencyObjectiveTest,
         :ingestionCascadingDeletionBroadStudentCompetencyTest,
         :ingestionCascadingDeletionBroadStudentDisciplineIncidentAssociationTest,
         :ingestionCascadingDeletionBroadStudentGradebookEntryTest,
+        :ingestionCascadingDeletionBroadStudentObjectiveAssessmentTest,
         :ingestionCascadingDeletionBroadStudentParentAssociationTest,
         :ingestionCascadingDeletionBroadStudentProgramAssociationTest,
         :ingestionCascadingDeletionBroadStudentSchoolAssociationTest,
@@ -337,6 +339,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionJetsSharksScenario,
         :ingestionCascadingDeletionReportCardNotFoundTest,
         :ingestionCascadingDeleteReportTest,
+	:ingestionCascadingDeletionReingestTest,
         ] do
 
   displayFailureReport()
@@ -392,6 +395,14 @@ task :ingestionCascadingDeletionBroadStudentAssessmentTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_studentAssessment_delete.feature")
 end
 
+task :ingestionCascadingDeletionBroadStudentAssessmentItemTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentAssessmentItem_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadStudentObjectiveAssessmentTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentObjectiveAssessment_delete.feature")
+end
+
 task :ingestionCascadingDeletionBroadObjectiveAssessmentFromAssessmentMetadataTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_objectiveAssessmentFromAssessmentMetadata_delete.feature")
 end
@@ -410,6 +421,14 @@ end
 
 task :ingestionCascadingDeletionBroadCourseTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_course_delete.feature")
+end
+
+task :ingestionCascadingDeletionReingestTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_reingest_delete.feature")
+end
+
+task :ingestionCascadingDeletionBlendedTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_blended_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadStaffTest do
@@ -574,6 +593,10 @@ end
 
 task :multipleOrphansDeleteTest do
   runTests("test/features/ingestion/features/multiple_orphans_deletion.feature")
+end
+
+task :updateAllMd5s do
+  runTests("test/features/ingestion/features/updateAllMd5s.feature")
 end
 
 ############################################################
