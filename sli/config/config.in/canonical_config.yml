@@ -143,8 +143,6 @@ default:
         sli.mongo.tracking: false
         sli.mongo.tracking.interval.seconds: 5
 
-        sli.bulk.extract.deltasEnabled: true
-
   # Write concerns
 
         sli.ingestion.mongotemplate.writeConcern: SAFE
@@ -1429,8 +1427,6 @@ perf:
         # Health Check credentials
         sli.ingestion.healthcheck.user: admin
         sli.ingestion.healthcheck.pass: admin
-
-        sli.bulk.extract.deltasEnabled: false
 
     ingestion:
         <<: *INGESTION-DEFAULT
