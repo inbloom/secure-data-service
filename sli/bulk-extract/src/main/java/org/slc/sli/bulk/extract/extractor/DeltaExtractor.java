@@ -90,7 +90,6 @@ public class DeltaExtractor {
         ManifestFile metaDataFile;
         for (Map.Entry<String, ExtractFile> entry : appPerLeaExtractFiles.entrySet()) {
             ExtractFile extractFile = entry.getValue();
-            String appLeaCombo = entry.getKey();
             extractFile.closeWriters();
             
             try {
