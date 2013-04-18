@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -375,6 +376,7 @@ public class BulkExtract {
                         output.write( (MULTIPART_BOUNDRY_SEP + "\r\n").getBytes() );
                         output.write( ("Content-Range: bytes " + r.start + "-" + r.end + "/" + r.total+ "\r\n").getBytes() );
                         IOUtils.copyLarge(input, output, r.start, r.length);
+                        LOG.debug("multiPartsExtractResponse\n{}",r);
                     }
                     output.write( "\r\n".getBytes() );
                     output.write( (MULTIPART_BOUNDRY_END + "\r\n").getBytes() );
@@ -514,6 +516,16 @@ public class BulkExtract {
                     r.total == this.total;
         }
 
+        @Override
+        public String toString() {
+            Object[] arguments = {
+                    Long.valueOf(start),
+                    Long.valueOf(end),
+                    Long.valueOf(length),
+                    Long.valueOf(total)
+            };
+            return MessageFormat.format("Range: start={0} end={1} length={2} total={3}", arguments);
+        }
     }
 
     /**
