@@ -43,9 +43,9 @@
 <!--  disabled for us5641
     <value>studentDisciplineIncidentAssociation</value>
     <value>studentParentAssociation</value>
-    <value>studentProgramAssociation</value>
+    <value>studentProgramAssociation</value> -->
     <value>studentSchoolAssociation</value>
-    <value>studentSectionAssociation</value>
+<!--    <value>studentSectionAssociation</value>
 -->
     <value>studentGradebookEntry</value>
     <value>teacher</value>
