@@ -26,7 +26,7 @@
     "LearningStandardReference":
     {
     	"IdentificationCode":"LearningStandardId.IdentificationCode"
-    }
+    },
     "GraduationPlanReference":
     {
         "EducationalOrgReference":"EducationOrganizationReference"
