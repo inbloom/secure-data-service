@@ -11,7 +11,7 @@ if [ ! $out_dir ]; then
 else
         mkdir -p $out_dir
 fi
-find $out_dir -type f -not -name '*custom_entities.json' -delete
+find $out_dir -type f -not -name '*custom_entities.json' -and -not -name '.gitignore' -delete
 tmp_file="fadlfhsdofheinwvw.js"
 echo "print('_ ' + db.getCollectionNames())" > $tmp_file
 cols=`mongo $db $tmp_file | grep '_' | awk '{print $2}' | tr ',' ' '`
