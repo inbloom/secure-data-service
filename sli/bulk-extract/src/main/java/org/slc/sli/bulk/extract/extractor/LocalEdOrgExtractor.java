@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -16,8 +19,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Creates local ed org tarballs
@@ -36,9 +37,22 @@ public class LocalEdOrgExtractor {
         //TODO replace stub do it
         LOG.debug("STUB!");
         
-        Set<String> leas = getBulkExtractLEAs();
+        Set<String> leas = getAllLEAs(getBulkExtractLEAsPerApp());
         edorgToLEACache = buildEdorgCache(leas);
         
+    }
+
+    /**
+     * Attempts to get all of the LEAs that should have a LEA level extract scheduled.
+     *
+     * @return a set of the LEA ids that need a bulk extract
+     */
+    public Set<String> getAllLEAs(Map<String, Set<String>> bulkExtractLEAs) {
+        Set<String> leas = new HashSet<String>();
+        for (Map.Entry<String, Set<String>> entry : bulkExtractLEAs.entrySet()) {
+            leas.addAll(entry.getValue());
+        }
+        return leas;
     }
 
     /**
@@ -110,18 +124,19 @@ public class LocalEdOrgExtractor {
     }
 
     /**
-     * Attempts to get all of the LEAs that should have a LEA level extract scheduled.
+     * Attempts to get all of the LEAs per app that should have a LEA level extract scheduled.
      *
-     * @return a set of the LEA ids that need a bulk extract
+     * @return a set of the LEA ids that need a bulk extract per app
      */
     @SuppressWarnings("unchecked")
-    public Set<String> getBulkExtractLEAs() {
+    public Map<String, Set<String>> getBulkExtractLEAsPerApp() {
         NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.CRITERIA_IN,
                 getBulkExtractApps()));
         Iterable<Entity> apps = repository.findAll("applicationAuthorization", appQuery);
-        Set<String> edorgIds = new HashSet<String>();
+        Map<String, Set<String>> edorgIds = new HashMap<String, Set<String>>();
         for (Entity app : apps) {
-            edorgIds.addAll((Collection<String>) app.getBody().get("edorgs"));
+            Set<String> edorgs = new HashSet<String>((Collection<String>) app.getBody().get("edorgs"));
+            edorgIds.put(app.getEntityId(), edorgs);
         }
         return edorgIds;
     }
@@ -133,4 +148,6 @@ public class LocalEdOrgExtractor {
     public Repository<Entity> getRepository() {
         return repository;
     }
+    
+
 }
