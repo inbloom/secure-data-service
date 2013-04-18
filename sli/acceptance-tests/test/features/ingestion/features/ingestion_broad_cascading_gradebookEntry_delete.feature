@@ -49,7 +49,7 @@ Scenario: Delete Gradebook Entry with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta     |
       |gradebookEntry                         |        -1|
-      |recordHash                             |        -1|
+#      |recordHash                             |        -1|
 
 
   Scenario: Delete Grade Book Entry Reference with cascade = false, force = true
@@ -80,4 +80,4 @@ Scenario: Delete Gradebook Entry with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta     |
       |gradebookEntry                         |        -1|
-      |recordHash                             |        -1|
+#      |recordHash                             |        -1|
