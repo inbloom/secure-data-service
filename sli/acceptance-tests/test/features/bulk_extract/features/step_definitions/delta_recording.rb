@@ -53,6 +53,8 @@ Then /^I see deltas for each (.*?) (.*?) operation$/ do |type, operation|
     @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
     @db = @conn[@ingestion_db_name]
     @coll = @db['deltas']
+    disable_NOTABLESCAN()
     assert_equal(count, @coll.find("c" => type, "u" => {"$exists" => operation == "update"}, "d" => {"$exists" => operation == "delete"}).count)
+    enable_NOTABLESCAN()
   }
 end
