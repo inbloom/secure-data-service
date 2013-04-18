@@ -112,7 +112,11 @@ public class EntityExtractor{
             CollectionWrittenRecord collectionRecord) throws FileNotFoundException, IOException {
         for (String docName : docs.keySet()) {
                 for (Entity doc : docs.get(docName)) {
-                    writer.write(doc, archiveFile);
+                    if(doc != null) {
+                        writer.write(doc, archiveFile);
+                    } else {
+                        LOG.warn("Embedded Doc {} has null value", docName);
+                    }
                 }
                 collectionRecord.addEmbeddedDocWrittenRecord(docName, docs.get(docName).size());
         }
