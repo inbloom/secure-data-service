@@ -1,4 +1,4 @@
-@RALLY_US5180
+@RALLY_US5180 @RALLY_US5614
 Feature: Ingestion delete tests for StudentAssessmentItem
 
 Background: I have a landing zone route configured

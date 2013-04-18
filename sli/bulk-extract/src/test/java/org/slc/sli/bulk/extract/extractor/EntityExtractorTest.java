@@ -93,7 +93,7 @@ public class EntityExtractorTest {
         Mockito.when(cursor.next()).thenReturn(students.get(0), students.get(1));
         Mockito.when(mongoEntityRepository.findEach(Matchers.eq(testEntity), Matchers.any(Query.class))).thenReturn(cursor);
 
-        extractor.extractEntities(testTenant, archiveFile, testEntity);
+        extractor.extractEntities(archiveFile, testEntity);
 
         Mockito.verify(mongoEntityRepository, Mockito.times(1)).findEach("student", new Query());
         Mockito.verify(writer, Mockito.times(2)).write(Mockito.any(Entity.class), Mockito.any(ExtractFile.class));

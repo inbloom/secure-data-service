@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,6 +45,7 @@ import javax.ws.rs.core.StreamingOutput;
 import com.sun.jersey.api.Responses;
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.api.core.HttpRequestContext;
+import com.sun.jersey.core.header.reader.HttpHeaderReader;
 
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
@@ -227,6 +229,9 @@ public class BulkExtract {
         long fileLength = bulkExtractFile.length();
         String eTag = fileName + "_" + fileLength + "_" + lastModified;
 
+        /*
+         * Validate request headers for caching and resume
+         */
         @SuppressWarnings("deprecation")
         ResponseBuilder builder = req.evaluatePreconditions(new Date(lastModifiedTime), new EntityTag(eTag));
         if (builder != null) {
@@ -239,61 +244,18 @@ public class BulkExtract {
          */
         // Prepare some variables. The full Range represents the complete file.
         final Range full = new Range(0, fileLength - 1, fileLength);
-        List<Range> ranges = new ArrayList<Range>();
+        final List<Range> ranges = new ArrayList<Range>();
 
-        // Validate and process Range and If-Range headers.
-        String range = req.getHeaderValue("Range");
-        if (range != null) {
-
-            // Range header should match format "bytes=n-n,n-n,n-n...". If not, then return 416.
-            if (!range.matches("^bytes=\\d*-\\d*(,\\d*-\\d*)*$")) {
-                builder = Response.status(416)
-                        .header("Content-Range", "bytes */" + fileLength);// Required in 416.
-                return builder.build();
-            }
-
-            // If-Range header should either match ETag or be greater then LastModified. If not,
-            // then return full file.
-            String ifRange = req.getHeaderValue("If-Range");
-            if (ifRange != null && !ifRange.equals(eTag)) {
-                long ifRangeTime = ISODateTimeFormat.basicDate().parseDateTime(ifRange).getMillis();
-                if (ifRangeTime > 0 && ifRangeTime + 1000 < lastModifiedTime) {
-                    ranges.add(full);
-                }
-            }
-
-            // If any valid If-Range header, then process each part of byte range.
-            if (ranges.isEmpty()) {
-                for (String part : range.substring(6).split(",")) {
-                    // Assuming a file with fileLength of 100, the following examples returns bytes at:
-                    // 50-80 (50 to 80), 40- (40 to fileLength=100), -20 (fileLength-20=80 to fileLength=100).
-                    long start = sublong(part, 0, part.indexOf("-"));
-                    long end = sublong(part, part.indexOf("-") + 1, part.length());
-
-                    if (start == -1) {
-                        start = fileLength - end;
-                        end = fileLength - 1;
-                    } else if (end == -1 || end > fileLength - 1) {
-                        end = fileLength - 1;
-                    }
-
-                    // Check if Range is syntactically valid. If not, then return 416.
-                    if (start > end) {
-                        builder = Response.status(416)
-                                .header("Content-Range", "bytes */" + fileLength);// Required in 416.
-                        return builder.build();
-                    }
-
-                    // Add range.
-                    ranges.add(new Range(start, end, fileLength));
-                }
-            }
+        builder = processRangeHeader(req, full, ranges, fileLength, lastModifiedTime, eTag);
+        if (builder != null) {
+            // validation fails
+            return builder.build();
         }
 
         /*
          * Prepare and initialize response
          */
-        boolean fullContent = ranges.isEmpty() || ranges.get(0) == full;
+        boolean fullContent = ranges.isEmpty() || ranges.get(0) == full || ranges.get(0).sameValue(full);
         boolean headMethod = req.getMethod().equals("HEAD");
         builder = fullContent ? Response.ok() : Response.status(206);
 
@@ -315,6 +277,62 @@ public class BulkExtract {
 
             return multiPartsExtractResponse(builder, bulkExtractFile, ranges);
         }
+    }
+
+    private ResponseBuilder processRangeHeader(final HttpRequestContext req,
+            final Range full, final List<Range> ranges,
+            final long fileLength, final long lastModifiedTime, final String eTag) {
+
+        String range = req.getHeaderValue("Range");
+        if (range != null && range.length() > 0) {
+
+            // Range header should match format "bytes=n-n,n-n,n-n...". If not, then return 416.
+            if (!range.matches("^bytes=\\d*-\\d*(,\\d*-\\d*)*$")) {
+               return Response.status(416)
+                        .header("Content-Range", "bytes */" + fileLength);// Required in 416.
+            }
+
+            // If-Range header should either match ETag or be greater then LastModified. If not,
+            // then return full file.
+            String ifRange = req.getHeaderValue("If-Range");
+            if (ifRange != null && !ifRange.equals(eTag)) {
+                try {
+                    long ifRangeTime = HttpHeaderReader.readDate(ifRange).getTime();
+                    if (ifRangeTime > 0 && ifRangeTime + 1000 < lastModifiedTime) {
+                        ranges.add(full);
+                    }
+                } catch (ParseException ignore) {
+                    ranges.add(full);
+                }
+            }
+
+            // If any valid If-Range header, then process each part of byte range.
+            if (ranges.isEmpty()) {
+                for (String part : range.substring(6).split(",")) {
+                    // Assuming a file with fileLength of 100, the following examples returns bytes at:
+                    // 50-80 (50 to 80), 40- (40 to fileLength=100), -20 (fileLength-20=80 to fileLength=100).
+                    long start = sublong(part, 0, part.indexOf("-"));
+                    long end = sublong(part, part.indexOf("-") + 1, part.length());
+
+                    if (start == -1) {
+                        start = fileLength - end;
+                        end = fileLength - 1;
+                    } else if (end == -1 || end > fileLength - 1) {
+                        end = fileLength - 1;
+                    }
+
+                    // Check if Range is syntactically valid. If not, then return 416.
+                    if (start > end) {
+                        return Response.status(416)
+                                .header("Content-Range", "bytes */" + fileLength);// Required in 416.
+                    }
+
+                    // Add range.
+                    ranges.add(new Range(start, end, fileLength));
+                }
+            }
+        }
+        return null;
     }
 
     private Response singlePartExtractResponse(final ResponseBuilder builder,
@@ -358,6 +376,7 @@ public class BulkExtract {
                         output.write( (MULTIPART_BOUNDRY_SEP + "\r\n").getBytes() );
                         output.write( ("Content-Range: bytes " + r.start + "-" + r.end + "/" + r.total+ "\r\n").getBytes() );
                         IOUtils.copyLarge(input, output, r.start, r.length);
+                        LOG.debug("multiPartsExtractResponse\n{}",r);
                     }
                     output.write( "\r\n".getBytes() );
                     output.write( (MULTIPART_BOUNDRY_END + "\r\n").getBytes() );
@@ -486,6 +505,27 @@ public class BulkExtract {
             this.total = total;
         }
 
+        public boolean sameValue(Range r) {
+            if (r == null) {
+                return false;
+            }
+
+            return r.start == this.start &&
+                    r.end == this.end &&
+                    r.length == this.length &&
+                    r.total == this.total;
+        }
+
+        @Override
+        public String toString() {
+            Object[] arguments = {
+                    Long.valueOf(start),
+                    Long.valueOf(end),
+                    Long.valueOf(length),
+                    Long.valueOf(total)
+            };
+            return MessageFormat.format("Range: start={0} end={1} length={2} total={3}", arguments);
+        }
     }
 
     /**

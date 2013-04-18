@@ -15,10 +15,12 @@ Feature: Bulk Extraction Works
 #        Then I check the http response headers
         Then the response is decrypted 
         And I see that the response matches what I put in the fake tar file
-
+        
+    @fakeTar
     Scenario: Authorized long-lived session token can head bulk extract
         Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
         And in my list of rights I have BULK_EXTRACT
+        And I set up a fake tar file on the file system and in Mongo
         When I make API call to retrieve sampled bulk extract file headers
         When the return code is 200
         When I make bulk extract API head call

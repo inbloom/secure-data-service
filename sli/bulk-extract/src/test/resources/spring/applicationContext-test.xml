@@ -99,6 +99,9 @@
          <property name="entitiesToCollections" ref="entitiesToCollections" />
          <property name="entityExtractor" ref="entityExtractor" />
     </bean>
+    
+    <bean id="localEdorgExtractor" class="org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor">
+    </bean>
 
     <bean id="launcher" class="org.slc.sli.bulk.extract.Launcher">
         <property name="baseDirectory" value="${sli.bulk.extract.output.directory:extract}" />

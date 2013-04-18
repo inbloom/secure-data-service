@@ -65,7 +65,7 @@ public class TenantExtractor{
         Map<String, String> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
         extractFile.setClientKeys(appPublicKeys);
         for (String collection : uniqueCollections) {
-            entityExtractor.extractEntities(tenant, extractFile, collection);
+            entityExtractor.extractEntities(extractFile, collection);
             extractFile.closeWriters();
         }
 
