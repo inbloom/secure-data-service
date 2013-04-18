@@ -134,10 +134,6 @@ public class ExtractFile {
      *
      */
     public void generateArchive() {
-        if(clientKeys == null || clientKeys.isEmpty()) {
-            LOG.info("No authorized application to extract data.");
-            return;
-        }
 
         TarArchiveOutputStream tarArchiveOutputStream = null;
         MultiOutputStream multiOutputStream = new MultiOutputStream();
