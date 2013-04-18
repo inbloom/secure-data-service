@@ -54,7 +54,7 @@ public enum ReferenceConverter {
     TEACHERSECTIONASSOCIATION("TeacherSectionAssociationReference","teacherSectionAssociation"),
     STUDENTCOHORTASSOCIATIONREFERENCE("StudentCohortAssociationReference","studentCohortAssociation"),
     LEARNINGOBJECTIVE("LearningObjectiveReference","learningObjective"),
-    LEARNINGSTANDARD("LearningStandardReference","LearningStandard"),
+    LEARNINGSTANDARD("LearningStandardReference","learningStandard"),
     OBJECTIVEASSESSMENT("ObjectiveAssessmentReference","objectiveAssessment"),
     STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociationReference","studentDisciplineIncidentAssociation"),
     DISCIPLINEINCIDENT("DisciplineIncidentReference", "disciplineIncident"),

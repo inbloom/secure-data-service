@@ -22,5 +22,9 @@
     "StudentCompetencyReference":
     {
         "CodeValue":"CompetencyLevel.CodeValue"
+    },
+    "LearningStandardReference":
+    {
+    	"IdentificationCode":"LearningStandardId.IdentificationCode"
     }
 }
