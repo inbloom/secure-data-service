@@ -108,6 +108,13 @@ When /^I prepare the custom headers for the last "(.*?)" bytes$/ do |number_of_b
   @customHeaders.store(:range, "bytes=" + range)
 end
 
+When /^I prepare the custom headers with incorrect header$/ do
+  @customHeaders = {:if_range => "xyz"}
+  #@customHeaders = Hash.new
+  @customHeaders.store(:last_modified, @last_modified)
+  @customHeaders.store(:range, "bytes=0-10")
+end
+
 When /^I save the extracted file$/ do
   @filePath = "extract/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'

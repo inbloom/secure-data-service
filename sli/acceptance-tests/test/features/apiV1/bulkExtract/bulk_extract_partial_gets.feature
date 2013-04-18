@@ -99,3 +99,9 @@ Scenario: Get the bulk extract file in chunks
     #And the file size is "544"
     #Then the file is decrypted
     #And I see that the combined file matches the tar file
+
+    #Invalid API Call
+    When I prepare the custom headers with incorrect header
+    And I make a ranged bulk extract API call
+    Then I get back a response code of "200"
+    And the content length in response header is "544"
