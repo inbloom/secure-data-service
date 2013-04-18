@@ -3619,7 +3619,7 @@ Then /^the data from "(.*?)" is imported$/ do |directory|
     Dir.foreach(directory) {|x|
         db=x.split("_")[1].to_s
         coll=x.split("_")[2].to_s.split(".")[0].to_s
-        if x != "." && x != ".."
+        if x != "." && x != ".." && x != ".gitignore"
             #hack - splitting on underscore doesn't work on custom_entities
             if coll=="custom"
                 coll="custom_entities"
@@ -3651,9 +3651,12 @@ Given /^the "(.*?)" tenant db is empty$/ do |tenant|
      coll_names.each do |coll|
         if !coll_to_skip.include?(coll)
             tenant_db["#{coll}"].remove
+            #tenant_db["#{coll}"].drop_indexes
+            #tenant_db["#{coll}"].drop
 #            assert(tenant_db["#{coll}"].count == 0, "#{coll} is not empty.")
         end
      end
+     #step "the tenant indexes are applied to the tenant \"#{tenant}\""
      enable_NOTABLESCAN
 end
 
