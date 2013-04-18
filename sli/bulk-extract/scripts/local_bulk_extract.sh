@@ -27,6 +27,7 @@ function configure {
         DEFAULT_CHECK_KEYSTORE="$ROOT/../data-access/dal/keyStore/ciKeyStore.jks"
         DEFAULT_BULK_EXTRACTOR_JAR="$ROOT/target/bulk-extract-1.0-SNAPSHOT.jar"
         DEFAULT_TENANT="Midgar"
+        IS_DELTA="false"
 
         DEFAULT_MAX_MEMORY="1024m"
         DEFAULT_MIN_MEMORY="1024m"
@@ -79,6 +80,8 @@ function readOption {
    elif [ ${1} == "help" ]; then
       RUN_EXTRACT=0
       RUN_HELP=1
+   elif [ ${1} == "-d" ]; then
+      IS_DELTA="true"
    else
       RUN_EXTRACT=0
       RUN_HELP=1
@@ -107,6 +110,9 @@ function show_help {
    echo "# run bulk-extract with specifying tenant"
    echo "./local_bulk_extract.sh -t<tenant>"
    echo
+   echo "# run delta bulk-extract with specifying tenant"
+   echo "./local_bulk_extract.sh -t<tenant> -d"
+   echo
    echo "# run bulk-extract with specifying path to a jar or tar file"
    echo "./local_bulk_extract.sh -f<filepath>"
    echo
@@ -131,7 +137,7 @@ function run {
     SLI_ENCRYPTION_OPT="-D${SLI_ENCRYPTION_KEYSTORE}=${DEFAULT_CHECK_KEYSTORE}"
     T="$(date +%s)"
     echo "$(date): bulk-extracter Starting with $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT"
-    java -Xms$DEFAULT_MIN_MEMORY -Xmx$DEFAULT_MAX_MEMORY $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT -jar $DEFAULT_BULK_EXTRACTOR_JAR $DEFAULT_TENANT
+    java -Xms$DEFAULT_MIN_MEMORY -Xmx$DEFAULT_MAX_MEMORY $BULK_EXTRACT_OPT $SLI_ENCRYPTION_OPT -jar $DEFAULT_BULK_EXTRACTOR_JAR $DEFAULT_TENANT $IS_DELTA
     stat=$?
     T="$(($(date +%s)-T))"
     echo "$(date): bulk-extracter Finished in $T seconds"

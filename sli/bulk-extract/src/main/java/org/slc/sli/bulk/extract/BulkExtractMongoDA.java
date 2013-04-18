@@ -90,7 +90,12 @@ public class BulkExtractMongoDA {
         body.put(EDORG, edorg);
         body.put(APP_ID, appId);
         
-        String entityId = tenantId + "-" + appId + "-" + edorg + "-" + date.getTime();
+        String entityId;
+        if (isDelta) {
+            entityId = tenantId + "-" + appId + "-" + edorg + "-" + date.getTime();
+        } else {
+            entityId = tenantId + "-" + appId;
+        }
         BulkExtractEntity bulkExtractEntity = new BulkExtractEntity(body, entityId);
 
         entityRepository.update(BULK_EXTRACT_COLLECTION, bulkExtractEntity, false);

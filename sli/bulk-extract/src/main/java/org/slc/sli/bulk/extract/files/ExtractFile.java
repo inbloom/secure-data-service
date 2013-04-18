@@ -215,7 +215,6 @@ public class ExtractFile {
 
         PublicKey publicKey = null;
         String key = clientKeys.get(app);
-        LOG.info("App : {}, Key: {}", app, key);
         X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.decodeBase64(key));
         try {
             KeyFactory kf = KeyFactory.getInstance("RSA");
