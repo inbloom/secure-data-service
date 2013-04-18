@@ -16,22 +16,26 @@
 
 package org.slc.sli.bulk.extract.context.resolver;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
-import org.slc.sli.domain.Entity;
 
 @Component
 public class EdOrgContextResolverFactory {
     
     @Autowired
     EducationOrganizationContextResolver edOrgContextResolver;
-
-    final ContextResolver noOpResolver = new NullContextResolver();
+    
+    // currently only check for educationOrganization. Later
+    // on would need to check against this collection which defines
+    // all entity types that needs to be extracted
+    @Resource
+    Map<String, String> entitiesToCollections;
 
     public ContextResolver getResolver(String entityType) {
         
@@ -39,20 +43,6 @@ public class EdOrgContextResolverFactory {
             return edOrgContextResolver;
         }
 
-        return noOpResolver;
-    }
-
-    /*
-     * no op context resolver that will always say your entity does not
-     * belong to anybody
-     */
-    private static class NullContextResolver implements ContextResolver {
-      
-        // No op null resolver
-        @Override
-        public Set<String> findGoverningLEA(Entity entity) {
-            return Collections.emptySet();
-        }
-        
+        return null;
     }
 }
