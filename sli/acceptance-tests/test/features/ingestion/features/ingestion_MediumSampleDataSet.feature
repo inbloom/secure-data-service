@@ -86,7 +86,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard                            | 3 |
      | parent                                      | 763 |
      | program                                     | 13 |
-     | recordHash                                  | 40488 |
+     | recordHash                                  | 29049 |
      | reportCard                                  | 500 |
      | school                                      | 0 |
      | schoolSessionAssociation                    | 0 |

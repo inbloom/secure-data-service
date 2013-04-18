@@ -42,6 +42,13 @@ public class MultiOutputStream extends OutputStream {
     }
 
     @Override
+    public void write(byte [] buffer, int offset, int len) throws IOException{
+        for(OutputStream stream : outputStreams) {
+            stream.write(buffer, offset, len);
+        }
+    }
+
+    @Override
     public void close() throws IOException{
         for(OutputStream stream : outputStreams) {
             IOUtils.closeQuietly(stream);

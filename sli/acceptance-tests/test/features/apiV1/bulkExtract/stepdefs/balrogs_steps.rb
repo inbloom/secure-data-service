@@ -68,6 +68,29 @@ When /^I make a ranged bulk extract API call$/ do
   restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
 
+When /^I make a concurrent ranged bulk extract API call and store the results$/ do
+  t1=Thread.new{apiCall1()}
+  t2=Thread.new{apiCall2()}
+  t1.join
+  t2.join
+
+  @received_file = Dir.pwd + "/Final.tar"
+  File.open(@received_file, "wb") do |outf|
+    outf << @res2.body
+    outf << @res1.body
+  end
+end
+
+def apiCall1()
+  @customHeaders = makeCustomHeader("101-543")
+  @res1 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
+end
+
+def apiCall2()
+  @customHeaders = makeCustomHeader("0-100")
+  @res2 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
+end
+
 When /^I make API call to retrieve today's delta file$/ do
   today = Time.now
   restHttpGet("/bulk/deltas/#{today.strftime("%Y%m%d")}")
@@ -79,30 +102,30 @@ When /^I make API call to retrieve tomorrow's non existing delta files$/ do
 end
 
 When /^I prepare the custom headers for byte range from "(.*?)" to "(.*?)"$/ do |from, to|
-  @customHeaders = {:etag => @etag}
-  @customHeaders.store(:last_modified, @last_modified)
-  @customHeaders.store(:if_range, @etag)
   if  (to == "end")
     to = ""
   end
-  @customHeaders.store(:range, "bytes=" + from + "-" + to)
+  range = from + "-" + to
+  @customHeaders = makeCustomHeader(range)
+end
+
+When /^I prepare the custom headers for multiple byte ranges "(.*?)"$/ do |ranges|
+  @customHeaders = makeCustomHeader(ranges)
 end
 
 When /^I prepare the custom headers for the first "(.*?)" bytes$/ do |number_of_bytes|
-  @customHeaders = {:etag => @etag}
-  @customHeaders.store(:last_modified, @last_modified)
-  @customHeaders.store(:if_range, @etag)
   to = (number_of_bytes.to_i) -1
-  @customHeaders.store(:range, "bytes=0-" + to.to_s)
+  @customHeaders = makeCustomHeader("0-" + to.to_s)
 end
 
 When /^I prepare the custom headers for the last "(.*?)" bytes$/ do |number_of_bytes|
-  @customHeaders = {:etag => @etag}
-  @customHeaders.store(:last_modified, @last_modified)
-  @customHeaders.store(:if_range, @etag)
   from = (@content_length.to_i - number_of_bytes.to_i)
   range = from.to_s + "-#{@content_length}"
-  @customHeaders.store(:range, "bytes=" + range)
+  @customHeaders = makeCustomHeader(range)
+end
+
+When /^I prepare the custom headers with incorrect etag$/ do
+  @customHeaders = makeCustomHeader("0-10", "xyz")
 end
 
 When /^the If-Match header field is set to "(.*?)"$/ do |value|
@@ -165,75 +188,71 @@ end
 
 
 When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Midgar$/ do
-    @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
-    @coll = "bulkExtractFiles";
-    @src_coll = @db[@coll]
+  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  @coll = "bulkExtractFiles";
+  @src_coll = @db[@coll]
 
-    if @res.code == 404
-  		puts "@res.headers: #{@res.headers}"
-  		puts "@res.code: #{@res.code}"
+  assert(@res.code == 404,"The return code is #{@res.code}. Expected: 404")
+  puts "@res.headers: #{@res.headers}"
+  puts "@res.code: #{@res.code}"
 
-	    if @src_coll.count > 0
-	    		ref_doc = @src_coll.find({"_id" => "Midgar"}).to_a
-    			assert(ref_doc.count == 0, "Return code was: "+@res.code.to_s+" but find #{@coll} document with _id #{"Midgar"}")
-	    end
-    end
+  if @src_coll.count > 0
+    ref_doc = @src_coll.find({"_id" => "Midgar"}).to_a
+    assert(ref_doc.count == 0, "Return code was: "+@res.code.to_s+" but find #{@coll} document with _id #{"Midgar"}")
+  end
 end
 
 When /^the return code is 503 I ensure there is a bulkExtractFiles entry for Midgar$/ do
-    if @res.code == 503
-  		puts "@res.headers: #{@res.headers}"
-  		puts "@res.code: #{@res.code}"
+  assert(@res.code == 503,"The return code is #{@res.code}. Expected: 503")
+  puts "@res.headers: #{@res.headers}"
+  puts "@res.code: #{@res.code}"
 
-	    if @src_coll.count > 0
-	    		ref_doc = @src_coll.find({"_id" => "Midgar"}).to_a
-    			assert(ref_doc.count > 0, "Return code was: "+@res.code.to_s+" but find no #{@coll} document with _id #{"Midgar"}")
-	    end
-    end
+  if @src_coll.count > 0
+    ref_doc = @src_coll.find({"_id" => "Midgar"}).to_a
+    assert(ref_doc.count > 0, "Return code was: "+@res.code.to_s+" but find no #{@coll} document with _id #{"Midgar"}")
+  end
 end
 
 When /^the return code is 200 I get expected tar downloaded$/ do
-	  puts "@res.headers: #{@res.headers}"
-	  puts "@res.code: #{@res.code}"
-    if @res.code == 200
-	   puts "@res.headers: #{@res.headers}"
-	   puts "@res.code: #{@res.code}"
+	puts "@res.headers: #{@res.headers}"
+	puts "@res.code: #{@res.code}"
+  assert(@res.code == 200,"The return code is #{@res.code}. Expected: 200")
+	puts "@res.headers: #{@res.headers}"
+	puts "@res.code: #{@res.code}"
 	
-	   EXPECTED_CONTENT_TYPE = 'application/x-tar'
-	   @content_disposition = @res.headers[:content_disposition]
-	   @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
-	   @last_modified = @res.headers[:last_modified]
+	EXPECTED_CONTENT_TYPE = 'application/x-tar'
+	@content_disposition = @res.headers[:content_disposition]
+	@zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
+	@last_modified = @res.headers[:last_modified]
 	
-	   puts "content-disposition: #{@content_disposition}"
-	   puts "download file name: #{@zip_file_name}"
-	   puts "last-modified: #{@last_modified}"
+	puts "content-disposition: #{@content_disposition}"
+	puts "download file name: #{@zip_file_name}"
+	puts "last-modified: #{@last_modified}"
 	
-	   assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
-    end
+	assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
 end
 
 When /^the return code is 200$/ do
-    if @res.code == 200
-	   puts "@res.headers: #{@res.headers}"
-	   puts "@res.code: #{@res.code}"
+  assert(@res.code == 200,"The return code is #{@res.code}. Expected: 200")
+	puts "@res.headers: #{@res.headers}"
+	puts "@res.code: #{@res.code}"
 	
-	   EXPECTED_CONTENT_TYPE = 'application/x-tar'
-	   @content_disposition = @res.headers[:content_disposition]
-	   @zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
-	   @last_modified = @res.headers[:last_modified]
+	EXPECTED_CONTENT_TYPE = 'application/x-tar'
+	@content_disposition = @res.headers[:content_disposition]
+	@zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
+	@last_modified = @res.headers[:last_modified]
 	
-	   puts "content-disposition: #{@content_disposition}"
-	   puts "download file name: #{@zip_file_name}"
-	   puts "last-modified: #{@last_modified}"
+	puts "content-disposition: #{@content_disposition}"
+	puts "download file name: #{@zip_file_name}"
+	puts "last-modified: #{@last_modified}"
 	
-	   assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
-    end
+	assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
 end
 
 Then /^I get back a response code of "(.*?)"$/ do |response_code|
   puts "@res.headers: #{@res.headers}"
   puts "@res.code: #{@res.code}"
-  assert(@res.code.to_i == response_code.to_i)
+  assert(@res.code.to_i == response_code.to_i, "The return code is #{@res.code}. Expected: #{response_code}")
 end
 
 Then /^the content length in response header is "(.*?)"$/ do |length|
@@ -245,6 +264,22 @@ Then /^I store the file content$/ do
   @received_file = Dir.pwd + "/Final.tar"
   File.open(@received_file, "a") do |outf|
     outf << @res.body
+  end
+end
+
+Then /^I process the file content$/ do
+  file = File.open(@path, "rb")
+  original_tar_contents = file.read
+
+  res_content = @res.body.split("\r\n")
+  @received_file = Dir.pwd + "/Final.tar"
+
+  File.open(@received_file, "wb") do |outf|
+    res_content.each { |content|
+      if not ((content.include? "--MULTIPART_BYTERANGES") || (content.include? "Content-Range"))
+        outf << content
+      end
+    }
   end
 end
 
@@ -288,12 +323,18 @@ Then /^I verify the bytes I have are correct$/ do
   range_start = range.split("-")[0].to_i
   range_end = range.split("-")[1].to_i
   
-  result = compare(range_start, range_end)
+  result = compareWithOriginalFile(@res.body, range_start, range_end)
   assert(result == true)
+end
+
+Then /^the file size is "(.*?)"$/ do |file_size|
+  puts File.size(@received_file)
 end
 
 Then /^I verify I do not have the complete file$/ do
   assert(File.size(@received_file) != File.size(@path))
+  File.delete(@received_file)
+  @received_file = nil
 end
 
 Then /^I check the http response headers$/ do  
@@ -421,16 +462,23 @@ def decrypt(content)
   return @decrypted
 end
 
-def compare(range_start, range_end)
+def compareWithOriginalFile(content, range_start, range_end)
   file = File.open(@path, "rb")
   file_contents = file.read
   range = Range.new(range_start, range_end)
   file_range_content = file_contents[range]
-  if (file_range_content == @res.body)
+  if (file_range_content == content)
     return true
   else
     return false
   end
+end
+
+def makeCustomHeader(range, if_range = @etag, last_modified = @last_modified)
+   header = {:if_range => if_range}
+   header.store(:last_modified, last_modified)
+   header.store(:range, "bytes=" + range)
+   return header
 end
 
 After('@fakeTar') do 

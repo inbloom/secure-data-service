@@ -41,7 +41,7 @@ Scenario: Multiple Orphans
         |studentSchoolAssociation               |       -1|
         |teacherSchoolAssociation               |       -1|
         |teacherSectionAssociation              |       -1|
-        |recordHash                             |      -16|
+        |recordHash                             |      -14|
         |custom_entities                        |       -3|
 
     #grade lives in yearly transcript so -1 for each expected, yearly transcript not record hashed

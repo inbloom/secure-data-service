@@ -57,3 +57,51 @@ Scenario: Delete Program with cascade
 	#school program programReference relationship is missing 
 	#section program programReference relationship is missing
 	#cohort program body.programId relationship is missing
+	
+Scenario: Delete Program with cascade = false and force = true, log violations = true
+	Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And the "Midgar" tenant db is empty
+    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
+			
+	  Then there exist "1" "program" records like below in "Midgar" tenant. And I save this query as "program"
+  
+        |field      |value                                               |
+        |_id        |0064dd5bb3bffd47e93b023585e6591c018ee697_id         |
+    And I save the collection counts in "Midgar" tenant
+    And I post "ForceProgramDelete.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "ForceProgramDelete.zip" is completed in database
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
+    And I should not see an error log file created
+	And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
+    And I re-execute saved query "program" to get "0" records
+    And I see that collections counts have changed as follows in tenant "Midgar"
+        | collection                                |     delta|
+        | program                                   |        -1|
+        | recordHash                                |        -1|
+        
+ Scenario: Delete Program Ref with cascade = false and force = true, log violations = true
+	Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And the "Midgar" tenant db is empty
+    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
+			
+	  Then there exist "1" "program" records like below in "Midgar" tenant. And I save this query as "program"
+  
+        |field      |value                                               |
+        |_id        |0064dd5bb3bffd47e93b023585e6591c018ee697_id         |
+    And I save the collection counts in "Midgar" tenant
+    And I post "ForceProgramRefDelete.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "ForceProgramRefDelete.zip" is completed in database
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
+    And I should not see an error log file created
+	And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
+    And I re-execute saved query "program" to get "0" records
+    And I see that collections counts have changed as follows in tenant "Midgar"
+        | collection                                |     delta|
+        | program                                   |        -1|
+        | recordHash                                |        -1|

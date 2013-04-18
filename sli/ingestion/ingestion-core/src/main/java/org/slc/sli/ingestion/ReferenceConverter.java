@@ -16,6 +16,7 @@
 
 package org.slc.sli.ingestion;
 
+//This probably should be read from xsd
 
 /**
  *
@@ -23,20 +24,49 @@ package org.slc.sli.ingestion;
 public enum ReferenceConverter {
 
     ASSESSMENT( "AssessmentReference", "assessment"),
+    ASSESSMENTITEM("AssessmentItemReference","assessmentItem"),
     ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily"),
+    ATTENDANCEEVENT( "AttendanceEventReference", "attendanceEvent"),
     CALENDAR_DATE( "CalendarDateReference", "calendarDate"),
     COURSE( "CourseReference", "course"),
     COURSEOFFERING( "CourseOfferingReference", "courseOffering"),
     COHORT("CohortReference","cohort"),
+    GRADE( "GradeReference", "grade"),
     GRADINGPERIOD( "GradingPeriodReference", "gradingPeriod"),
+    LOCALEDUCATIONAGENCY( "LocalEducationAgencyReference", "localEducationAgency"),
     PARENT( "ParentReference", "parent"),
+    PROGRAM ( "ProgramReference", "program"),
     SCHOOL( "SchoolReference", "school"),
     SECTION("SectionReference","section"),
     SESSION( "SessionReference", "session"),
     STAFF( "StaffReference", "staff"),
+    STATEEDUCATIONAGENCY("StateEducationAgencyReference", "stateEducationAgency" ),
+    STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociationReference","staffEducationOrgAssignmentAssociation"),
+    STAFFPROGRAMASSOCIATION( "StaffProgramAssociationReference", "staffProgramAssociation"),
     STUDENT( "StudentReference", "student" ),
     STUDENTASSESSMENT("StudentAssessmentReference","studentAssessment"),
-    TEACHER("TeacherReference","teacher");
+    STUDENTASSESSMENTITEM("StudentAssessmentItemReference","studentAssessmentItem"),
+    STUDENTOBJECTIVEASSESSMENT("StudentObjectiveAssessmentReference","studentObjectiveAssessment"),
+    STUDENTSCHOOLASSOCIATIONREFERENCE("StudentSchoolAssociationReference","studentSchoolAssociation"),
+    STUDENTSECTIONASSOCIATIONREFERENCE("StudentSectionAssociationReference","studentSectionAssociation"),
+    TEACHER("TeacherReference","teacher"),
+    TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociationReference","teacherSchoolAssociation"),
+    TEACHERSECTIONASSOCIATION("TeacherSectionAssociationReference","teacherSectionAssociation"),
+    STUDENTCOHORTASSOCIATIONREFERENCE("StudentCohortAssociationReference","studentCohortAssociation"),
+    LEARNINGOBJECTIVE("LearningObjectiveReference","learningObjective"),
+    LEARNINGSTANDARD("LearningStandardReference","learningStandard"),
+    OBJECTIVEASSESSMENT("ObjectiveAssessmentReference","objectiveAssessment"),
+    STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociationReference","studentDisciplineIncidentAssociation"),
+    DISCIPLINEINCIDENT("DisciplineIncidentReference", "disciplineIncident"),
+    DISCIPLINEACTION("DisciplineActionReference", "disciplineAction"),
+    STUDENTPROGRAMASSOCIATIONREFERENCE("StudentProgramAssociationReference","studentProgramAssociation"),
+    STUDENTACADEMICRECORD("StudentAcademicRecordReference", "studentAcademicRecord"),
+    COURSETRANSCRIPT("CourseTranscriptReference", "courseTranscript"),
+    REPORTCARD("ReportCardReference", "reportCard"),
+    STUDENTCOMPETENCY("StudentCompetencyReference", "studentCompetency"),
+    GRADEBOOKENTRY("GradebookEntryReference", "gradebookEntry"),
+    STUDENTGRADEBOOKENTRY("StudentGradebookEntryReference", "studentGradebookEntry");
+
 
 
     /*

@@ -69,3 +69,45 @@ Scenario: Get the bulk extract file in chunks
     And I verify the bytes I have are correct
     And I store the file content
     And I verify I do not have the complete file
+
+    #Invalid/Incomplete range calls
+    When I prepare the custom headers for byte range from "0" to "700"
+    And I make a ranged bulk extract API call
+    Then I get back a response code of "200"
+    And the content length in response header is "544"
+    When I prepare the custom headers for byte range from "550" to "700"
+    And I make a ranged bulk extract API call
+    Then I get back a response code of "416"
+    When I prepare the custom headers for byte range from "50" to "6000"
+    And I make a ranged bulk extract API call
+    Then I get back a response code of "206"
+    And the content length in response header is "494"
+    When I prepare the custom headers for byte range from "500" to "150"
+    And I make a ranged bulk extract API call
+    Then I get back a response code of "416"
+    When I prepare the custom headers for byte range from "" to "544"
+    And I make a ranged bulk extract API call
+    Then I get back a response code of "200"
+    And the content length in response header is "544"
+    
+
+    #Multiple Range
+    #When I prepare the custom headers for multiple byte ranges "0-100,101-543"
+    #And I make a ranged bulk extract API call
+    #Then I get back a response code of "206"
+    #And the content length in response header is "544"
+    #And I process the file content
+    #And the file size is "544"
+    #Then the file is decrypted
+    #And I see that the combined file matches the tar file
+
+    #Invalid API Call
+    When I prepare the custom headers with incorrect etag
+    And I make a ranged bulk extract API call
+    Then I get back a response code of "200"
+    And the content length in response header is "544"
+
+    #Concurrent Call
+    When I make a concurrent ranged bulk extract API call and store the results
+    Then the file is decrypted
+    And I see that the combined file matches the tar file
