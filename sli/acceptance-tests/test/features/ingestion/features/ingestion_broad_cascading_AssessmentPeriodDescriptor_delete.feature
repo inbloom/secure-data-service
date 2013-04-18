@@ -36,7 +36,7 @@ Scenario: Delete AssessmentPeriodDescriptor with cascade
         |recordHash                      |   -1|
 	And I should not see "58cf2613a101803aba61279f7090f7dd990eebc1_id" in the "Midgar" database
 
-Scenario: Delete AssessmentPeriodDescriptor with cascade = false
+Scenario: Safe Delete AssessmentPeriodDescriptor with Cascade = false, Force = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
