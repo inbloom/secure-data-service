@@ -114,37 +114,35 @@ public class DeltaExtractor {
 
     private CollectionWrittenRecord getCollectionRecord(String appId, String lea, String type) {
         String key = appId + "_" + lea + "_" + type;
-        if (appPerLeaCollectionRecords.containsKey(key)) {
-            return appPerLeaCollectionRecords.get(key);
+        if (!appPerLeaCollectionRecords.containsKey(key)) {
+            EntityExtractor.CollectionWrittenRecord collectionRecord = new EntityExtractor.CollectionWrittenRecord(type);
+            appPerLeaCollectionRecords.put(key, collectionRecord);
+            return collectionRecord;
         }
         
-        EntityExtractor.CollectionWrittenRecord collectionRecord = new EntityExtractor.CollectionWrittenRecord(type);
-        appPerLeaCollectionRecords.put(key, collectionRecord);
-        return collectionRecord;
+        return appPerLeaCollectionRecords.get(key);
     }
 
     private ExtractFile getExtractFile(String appId, String lea, String tenant, DateTime deltaUptoTime) {
         String key = appId + "_" + lea;
-        if (appPerLeaExtractFiles.containsKey(key)) {
-            return appPerLeaExtractFiles.get(key);
+        if (!appPerLeaExtractFiles.containsKey(key)) {
+            ExtractFile appPerLeaExtractFile = leaExtractor.getExtractFilePerAppPerLEA(tenant, appId, lea, deltaUptoTime, true);
+            appPerLeaExtractFiles.put(key, appPerLeaExtractFile);
         }
         
-        ExtractFile appPerLeaExtractFile = leaExtractor.getExtractFilePerAppPerLEA(tenant, appId, lea, deltaUptoTime, true);
-        appPerLeaExtractFiles.put(key, appPerLeaExtractFile);
-        return appPerLeaExtractFile;
+        return appPerLeaExtractFiles.get(key);
     }
 
     private Map<String, Set<String>> reverse(Map<String, Set<String>> leasPerApp) {
         Map<String, Set<String>> result = new HashMap<String, Set<String>>();
         for (Map.Entry<String, Set<String>> entry : leasPerApp.entrySet()) {
             for (String lea : entry.getValue()) {
-                if (result.containsKey(lea)) {
-                    result.get(lea).add(entry.getKey());
-                } else {
+                if (!result.containsKey(lea)) {
                     Set<String> apps = new HashSet<String>();
                     apps.add(entry.getKey());
                     result.put(lea, apps);
                 }
+                result.get(lea).add(entry.getKey());
             }
         }
         return result;
