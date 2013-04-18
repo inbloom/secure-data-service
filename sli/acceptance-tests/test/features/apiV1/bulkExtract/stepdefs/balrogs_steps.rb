@@ -41,11 +41,22 @@ Given /^I set up a fake tar file on the file system and in Mongo$/ do
   appId = getAppId()
   src_coll = db["bulkExtractFiles"]
   @fake_tar_id = SecureRandom.uuid
-  src_coll.insert({"_id" => @fake_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%Y-%m-%d"), "path" => Dir.pwd + "/fake.tar"}})
+  src_coll.insert({"_id" => @fake_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%a %b %d %H:%S:%M %Z %Y"), "path" => Dir.pwd + "/fake.tar"}})
+end
+
+Given /^I set up a sample tar file on the file system and in Mongo$/ do
+  @sample_file = File.absolute_path(File.dirname(__FILE__) + '/../test_data/sample.tar')
+  
+  time = Time.new
+  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  appId = getAppId()
+  src_coll = db["bulkExtractFiles"]
+  @sampe_tar_id = SecureRandom.uuid
+  src_coll.insert({"_id" => @sample_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%a %b %d %H:%S:%M %Z %Y"), "path" => @sample_file}})
 end
 
 Given /^I know the file length of the extract file$/ do
-  @file_size = File.size(@path)
+  @file_size = File.size(@sample_file)
 end
 
 When /^I make API call to retrieve sampled bulk extract file$/ do
@@ -64,8 +75,31 @@ When /^I make bulk extract API call$/ do
   restHttpGet("/bulk/extract/tenant")
 end
 
-When /^I make a ranged bulk extract API call$/ do
+When /^I make a custom bulk extract API call$/ do
   restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
+end
+
+When /^I make a concurrent ranged bulk extract API call and store the results$/ do
+  t1=Thread.new{apiCall1()}
+  t2=Thread.new{apiCall2()}
+  t1.join
+  t2.join
+
+  @received_file = Dir.pwd + "/Final.tar"
+  File.open(@received_file, "wb") do |outf|
+    outf << @res2.body
+    outf << @res1.body
+  end
+end
+
+def apiCall1()
+  @customHeaders = makeCustomHeader("200001-")
+  @res1 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
+end
+
+def apiCall2()
+  @customHeaders = makeCustomHeader("0-200000")
+  @res2 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
 
 When /^I make API call to retrieve today's delta file$/ do
@@ -104,6 +138,27 @@ end
 When /^I prepare the custom headers with incorrect etag$/ do
   @customHeaders = makeCustomHeader("0-10", "xyz")
 end
+
+When /^the If-Match header field is set to "(.*?)"$/ do |value|
+  if value == "FILENAME"
+    @customHeaders = {:if_match => "\"#{@etag}\""}
+  else
+    @customHeaders = {:if_match => "\"#{value}\""}
+  end
+
+ end
+
+ When /^the If-Unmodified-Since header field is set to "(.*?)"$/ do |value|
+  date = Date.parse(@last_modified)
+  if value == "BEFORE"
+    @customHeaders = {:if_unmodified_since => "#{date.prev_day.httpdate})"}
+  elsif value == "AFTER"
+    @customHeaders = {:if_unmodified_since => "#{date.next_day.httpdate}"}
+  else 
+    assert(false)
+  end
+
+ end
 
 When /^I save the extracted file$/ do
   @filePath = "extract/extract.tar"
@@ -246,7 +301,7 @@ Then /^the file is decrypted$/ do
 end
 
 Then /^I see that the combined file matches the tar file$/ do
-  assert(File.size(@received_file) == File.size(@path))
+  assert(File.size(@received_file) == File.size(@sample_file))
   File.delete(@received_file)
   @received_file = nil
 end
@@ -288,7 +343,7 @@ Then /^the file size is "(.*?)"$/ do |file_size|
 end
 
 Then /^I verify I do not have the complete file$/ do
-  assert(File.size(@received_file) != File.size(@path))
+  assert(File.size(@received_file) != File.size(@sample_file))
   File.delete(@received_file)
   @received_file = nil
 end
@@ -344,18 +399,18 @@ Then /^I see that the response matches what I put in the fake tar file$/ do
 end
 
 
-Then /^I have all the information to make a byte range request$/ do
+Then /^I have all the information to make a custom bulk extract request$/ do
   puts "@res.headers: #{@res.headers}"
   @last_modified = @res.headers[:last_modified]
   @accept_ranges = @res.headers[:accept_ranges]
   @etag = @res.headers[:etag]
   @content_range = @res.headers[:content_range]
   @content_length = @res.headers[:content_length]
-  assert(@last_modified != nil)
-  assert(@accept_ranges == "bytes")
-  assert(@etag != nil)
-  assert(@content_length = @file_size)
-  assert(@content_range != nil)
+  assert(@last_modified != nil, "Last-Modified header is empty")
+  assert(@accept_ranges == "bytes", "Accept-Ranges header is not bytes")
+  assert(@etag != nil, "ETag header is empty")
+  assert(@content_length = @file_size, "Content-Length header is incorrect")
+  assert(@content_range != nil, "Content-Range header is incorrect")
 end
 
 def getAppId()
@@ -419,7 +474,7 @@ def decrypt(content)
 end
 
 def compareWithOriginalFile(content, range_start, range_end)
-  file = File.open(@path, "rb")
+  file = File.open(@sample_file, "rb")
   file_contents = file.read
   range = Range.new(range_start, range_end)
   file_range_content = file_contents[range]
@@ -451,3 +506,13 @@ After('@fakeTar') do
   conn.close()
 end
 
+After('@sampleTar') do 
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
+  db ||= conn.db('sli')
+  src_coll = db["bulkExtractFiles"]
+  src_coll.remove({"_id" => @sample_tar_id})
+  if(@received_file != nil)
+    File.delete(@received_file)
+  end
+  conn.close()
+end

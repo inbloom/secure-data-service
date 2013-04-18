@@ -32,6 +32,7 @@ import org.slc.sli.bulk.extract.extractor.DeltaExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 /**
@@ -69,9 +70,11 @@ public class Launcher {
                 deltaExtractor.execute(tenant, startTime);
             } else {
                 ExtractFile extractFile = null;
+                TenantContext.setTenantId(tenant);
                 extractFile = new ExtractFile(getTenantDirectory(tenant),
                     getArchiveName(tenant, startTime.toDate()),
                     bulkExtractMongoDA.getAppPublicKeys());
+
                 tenantExtractor.execute(tenant, extractFile, startTime);
                 localEdOrgExtractor.execute(tenant, extractFile, startTime);
             }

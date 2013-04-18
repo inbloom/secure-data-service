@@ -1,36 +1,34 @@
 <?xml version="1.0"?>
 <InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
                               xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
-
     <Action ActionType="DELETE" Cascade="true">
-
         <GraduationPlan>
-            <GraduationPlanType>Distinguished</GraduationPlanType>
+            <GraduationPlanType>Minimum</GraduationPlanType>
             <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
-                <Credit>54</Credit>
+                <Credit>36</Credit>
             </TotalCreditsRequired>
             <CreditsBySubject>
                 <SubjectArea>English Language and Literature</SubjectArea>
                 <Credits CreditConversion="0" CreditType="Semester hour credit">
-                    <Credit>12</Credit>
+                    <Credit>9</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Mathematics</SubjectArea>
                 <Credits CreditConversion="0" CreditType="Semester hour credit">
-                    <Credit>15</Credit>
+                    <Credit>9</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Science</SubjectArea>
                 <Credits CreditConversion="0" CreditType="Semester hour credit">
-                    <Credit>15</Credit>
+                    <Credit>9</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Social Sciences and History</SubjectArea>
                 <Credits CreditConversion="0" CreditType="Semester hour credit">
-                    <Credit>12</Credit>
+                    <Credit>9</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsByCourse>
@@ -38,7 +36,7 @@
                     <ID>English Language and Literature</ID>
                 </CourseCode>
                 <Credits CreditConversion="0" CreditType="Semester hour credit">
-                    <Credit>12</Credit>
+                    <Credit>9</Credit>
                 </Credits>
                 <GradeLevel>Twelfth grade</GradeLevel>
             </CreditsByCourse>
@@ -47,7 +45,7 @@
                     <ID>Mathematics</ID>
                 </CourseCode>
                 <Credits CreditConversion="0" CreditType="Semester hour credit">
-                    <Credit>15</Credit>
+                    <Credit>9</Credit>
                 </Credits>
                 <GradeLevel>Twelfth grade</GradeLevel>
             </CreditsByCourse>
@@ -56,7 +54,7 @@
                     <ID>Science</ID>
                 </CourseCode>
                 <Credits CreditConversion="0" CreditType="Semester hour credit">
-                    <Credit>15</Credit>
+                    <Credit>9</Credit>
                 </Credits>
                 <GradeLevel>Twelfth grade</GradeLevel>
             </CreditsByCourse>
@@ -65,7 +63,7 @@
                     <ID>Social Sciences and History</ID>
                 </CourseCode>
                 <Credits CreditConversion="0" CreditType="Semester hour credit">
-                    <Credit>12</Credit>
+                    <Credit>9</Credit>
                 </Credits>
                 <GradeLevel>Twelfth grade</GradeLevel>
             </CreditsByCourse>
@@ -75,7 +73,6 @@
                 </EducationalOrgIdentity>
             </EducationOrganizationReference>
         </GraduationPlan>
-
     </Action>
 
 </InterchangeStudentEnrollment>
