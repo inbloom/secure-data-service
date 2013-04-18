@@ -58,7 +58,6 @@ Scenario: Delete Student Program Association with cascade
       |collection                             |delta     |
       |studentProgramAssociation              |        -1|
 #      |recordHash                             |        -1|
-    And I should not see "50dc8b12ef9184d88d8c304e635cf5a80d38bf79_idef393993fb4814a0d0b75ec2598cff3481df43f7_id" in the "Midgar" database
 
   Scenario: Delete Student Program Association Reference with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -85,4 +84,3 @@ Scenario: Delete Student Program Association with cascade
       |collection                             |delta     |
       |studentProgramAssociation              |        -1|
 #      |recordHash                             |        -1|
-    And I should not see "50dc8b12ef9184d88d8c304e635cf5a80d38bf79_idef393993fb4814a0d0b75ec2598cff3481df43f7_id" in the "Midgar" database
