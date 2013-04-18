@@ -21,8 +21,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -223,17 +225,23 @@ public class BulkExtract {
      */
     private Response getExtractResponse(final HttpRequestContext req,
             final File bulkExtractFile, final long lastModifiedTime, final String lastModified) {
+        DateFormat format = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
+        Date httpDate = null;
+        try {
+            httpDate = format.parse(lastModified);
+        } catch (ParseException e) {
+            LOG.error("Unable to parse bulk extract Last-Modified date into a HTTP-Date format: {}", e);
+        }
 
         LOG.info("Retrieving bulk extract with method {}", req.getMethod());
         String fileName = bulkExtractFile.getName();
         long fileLength = bulkExtractFile.length();
         String eTag = fileName + "_" + fileLength + "_" + lastModified;
-
         /*
          * Validate request headers for caching and resume
          */
         @SuppressWarnings("deprecation")
-        ResponseBuilder builder = req.evaluatePreconditions(new Date(lastModifiedTime), new EntityTag(eTag));
+        ResponseBuilder builder = req.evaluatePreconditions(httpDate, new EntityTag(eTag));
         if (builder != null) {
             // evaluate fails
             return builder.build();
@@ -262,7 +270,7 @@ public class BulkExtract {
         builder.header("content-disposition", "attachment; filename = " + fileName)
                .header("Accept-Ranges", "bytes")
                .header("ETag", eTag)
-               .header(HttpHeaders.LAST_MODIFIED, lastModified);
+               .header(HttpHeaders.LAST_MODIFIED, httpDate);
 
         if (fullContent || ranges.size() == 1) {
             final Range r = fullContent ? full : ranges.get(0);

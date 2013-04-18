@@ -105,6 +105,27 @@ When /^I prepare the custom headers for the last "(.*?)" bytes$/ do |number_of_b
   @customHeaders.store(:range, "bytes=" + range)
 end
 
+When /^the If-Match header field is set to "(.*?)"$/ do |value|
+  if value == "FILENAME"
+    @customHeaders = {:if_match => "\"#{@etag}\""}
+  else
+    @customHeaders = {:if_match => "\"#{value}\""}
+  end
+
+ end
+
+ When /^the If-Unmodified-Since header field is set to "(.*?)"$/ do |value|
+  date = Date.parse(@last_modified)
+  if value == "BEFORE"
+    @customHeaders = {:if_unmodified_since => "#{date.prev_day.httpdate})"}
+  elsif value == "AFTER"
+    @customHeaders = {:if_unmodified_since => "#{date.next_day.httpdate}"}
+  else 
+    assert(false)
+  end
+
+ end
+
 When /^I save the extracted file$/ do
   @filePath = "extract/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
@@ -333,11 +354,11 @@ Then /^I have all the information to make a byte range request$/ do
   @etag = @res.headers[:etag]
   @content_range = @res.headers[:content_range]
   @content_length = @res.headers[:content_length]
-  assert(@last_modified != nil)
-  assert(@accept_ranges == "bytes")
-  assert(@etag != nil)
-  assert(@content_length = @file_size)
-  assert(@content_range != nil)
+  assert(@last_modified != nil, "Last-Modified header is empty")
+  assert(@accept_ranges == "bytes", "Accept-Ranges header is not bytes")
+  assert(@etag != nil, "ETag header is empty")
+  assert(@content_length = @file_size, "Content-Length header is incorrect")
+  assert(@content_range != nil, "Content-Range header is incorrect")
 end
 
 def getAppId()
@@ -425,4 +446,3 @@ After('@fakeTar') do
   end
   conn.close()
 end
-
