@@ -15,6 +15,7 @@
  */
 package org.slc.sli.bulk.extract.files;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -78,10 +79,13 @@ public class ExtractFile {
      *          parent directory
      * @param archiveName
      *          name of the archive file
+     * @param clientKeys
+     *          Map from application ID to public keys.
      */
-    public ExtractFile(File parentDir, String archiveName) {
+    public ExtractFile(File parentDir, String archiveName, Map<String, String> clientKeys) {
         this.parentDir = parentDir;
         this.archiveName = archiveName;
+        this.clientKeys = clientKeys;
         this.tempDir = new File(parentDir, UUID.randomUUID().toString());
         this.tempDir.mkdir();
     }
@@ -164,27 +168,35 @@ public class ExtractFile {
         }
     }
 
-    private OutputStream getAppStream(String app) throws Exception {
+    private OutputStream getAppStream(String app) {
         File archive = new File(parentDir, getFileName(app));
-        FileOutputStream f = new FileOutputStream(archive);
+        OutputStream f = null;
+        CipherOutputStream stream = null;
 
-        createTarFile(archive);
+        try {
+            f = new BufferedOutputStream(new FileOutputStream(archive));
+            createTarFile(archive);
 
-        archiveFiles.put(app, archive);
+            archiveFiles.put(app, archive);
 
-        final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
+            final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
 
-        byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
-        byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
+            byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+            byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
 
-        PublicKey publicKey = getApplicationPublicKey(app);
-        byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
-        byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
+            PublicKey publicKey = getApplicationPublicKey(app);
+            byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+            byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
 
-        f.write(encryptedIV);
-        f.write(encryptedSecret);
+            f.write(encryptedIV);
+            f.write(encryptedSecret);
 
-        CipherOutputStream stream = new CipherOutputStream(f, cipherSecretKeyPair.getLeft());
+             stream = new CipherOutputStream(f, cipherSecretKeyPair.getLeft());
+
+        } catch(Exception e) {
+            IOUtils.closeQuietly(f);
+            LOG.error("Failed to create CipherOutputStream");
+        }
 
         return stream;
     }

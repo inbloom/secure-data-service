@@ -96,14 +96,14 @@ public class TenantExtractorTest {
 
         String tenant = "Midgar";
         EntityExtractor ex = Mockito.mock(EntityExtractor.class);
-        Mockito.doNothing().when(ex).extractEntities(Matchers.anyString(), Matchers.any(ExtractFile.class), Matchers.anyString());
+        Mockito.doNothing().when(ex).extractEntities(Matchers.any(ExtractFile.class), Matchers.anyString());
 
         tenantExtractor.setEntityExtractor(ex);
 
         tenantExtractor.execute(tenant, archiveFile, new DateTime());
 
         for(String collection : collections) {
-            Mockito.verify(ex, Mockito.times(1)).extractEntities("Midgar", archiveFile, collection);
+            Mockito.verify(ex, Mockito.times(1)).extractEntities(archiveFile, collection);
         }
 
         Mockito.verify(bulkExtractMongoDA, Mockito.times(1)).updateDBRecord(Matchers.anyString(), Matchers.anyString(),Matchers.anyString(), Matchers.any(Date.class), Matchers.eq(false));
