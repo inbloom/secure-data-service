@@ -32,9 +32,9 @@ Scenario: Delete Gradebook Entry with cascade
       |field                                       |value                                                                                 |
       |body.gradebookEntryId                       |60790710e1151aaf11318e0db7394126ed41e5ee_id61affa4eb6aa54e867cff2690a95046f7013abec_id|
     And I save the collection counts in "Midgar" tenant
-    And I post "ForceGradeBookEntryDelete.zip" file as the payload of the ingestion job
+    And I post "ForceGradebookEntryDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "ForceGradeBookEntryDelete.zip" is completed in database
+    And a batch job for file "ForceGradebookEntryDelete.zip" is completed in database
     And I should see "records considered for processing: 1" in the resulting batch job file
     And I should see "records ingested successfully: 0" in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
@@ -49,7 +49,7 @@ Scenario: Delete Gradebook Entry with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta     |
       |gradebookEntry                         |        -1|
-      |recordHash                             |        -1|
+#      |recordHash                             |        -1|
 
 
   Scenario: Delete Grade Book Entry Reference with cascade = false, force = true
@@ -63,9 +63,9 @@ Scenario: Delete Gradebook Entry with cascade
       |field                                       |value                                                                                 |
       |body.gradebookEntryId                       |60790710e1151aaf11318e0db7394126ed41e5ee_id61affa4eb6aa54e867cff2690a95046f7013abec_id|
     And I save the collection counts in "Midgar" tenant
-    And I post "ForceGradeBookEntryRefDelete.zip" file as the payload of the ingestion job
+    And I post "ForceGradebookEntryRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "ForceGradeBookEntryRefDelete.zip" is completed in database
+    And a batch job for file "ForceGradebookEntryRefDelete.zip" is completed in database
     And I should see "records considered for processing: 1" in the resulting batch job file
     And I should see "records ingested successfully: 0" in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
@@ -80,4 +80,4 @@ Scenario: Delete Gradebook Entry with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta     |
       |gradebookEntry                         |        -1|
-      |recordHash                             |        -1|
+#      |recordHash                             |        -1|

@@ -28,9 +28,9 @@ Scenario: Delete Student Gradebook Entry with cascade
       |field                        |value                                      |
       |_id                          |784dd359259b4d9c5434f52a338df796e1af2a9e_id|
     And I save the collection counts in "Midgar" tenant
-    And I post "ForceStudentGradeBookEntryDelete.zip" file as the payload of the ingestion job
+    And I post "ForceStudentGradebookEntryDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "ForceStudentGradeBookEntryDelete.zip" is completed in database
+    And a batch job for file "ForceStudentGradebookEntryDelete.zip" is completed in database
     And I should see "records considered for processing: 1" in the resulting batch job file
     And I should see "records ingested successfully: 0" in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
@@ -54,9 +54,9 @@ Scenario: Delete Student Gradebook Entry with cascade
       |field                        |value                                      |
       |_id                          |784dd359259b4d9c5434f52a338df796e1af2a9e_id|
     And I save the collection counts in "Midgar" tenant
-    And I post "ForceStudentGradeBookEntryRefDelete.zip" file as the payload of the ingestion job
+    And I post "ForceStudentGradebookEntryRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "ForceStudentGradeBookEntryRefDelete.zip" is completed in database
+    And a batch job for file "ForceStudentGradebookEntryRefDelete.zip" is completed in database
     And I should see "records considered for processing: 1" in the resulting batch job file
     And I should see "records ingested successfully: 0" in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file

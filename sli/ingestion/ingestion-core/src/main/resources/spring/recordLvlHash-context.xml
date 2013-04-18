@@ -18,7 +18,7 @@
     <value>disciplineAction</value>
     <value>disciplineIncident</value>
     <value>grade</value>
-    <value>gradebookEntry</value>
+<!--    <value>gradebookEntry</value>     disabled for us5641 -->
     <value>gradingPeriod</value>
     <value>graduationPlan</value>
     <value>learningObjective</value>
@@ -37,18 +37,20 @@
     <value>stateEducationAgency</value>
     <value>student</value>
     <value>studentAcademicRecord</value>
-    <value>studentCohortAssociation</value>
+<!--    <value>studentCohortAssociation</value>    disabled for us5641 -->
     <value>studentCompetency</value>
     <value>studentCompetencyObjective</value>
+<!--  disabled for us5641
     <value>studentDisciplineIncidentAssociation</value>
     <value>studentParentAssociation</value>
-    <value>studentProgramAssociation</value>
+    <value>studentProgramAssociation</value> -->
     <value>studentSchoolAssociation</value>
-    <value>studentSectionAssociation</value>
+<!--    <value>studentSectionAssociation</value>
+-->
     <value>studentGradebookEntry</value>
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
-    <value>teacherSectionAssociation</value>
+<!--    <value>teacherSectionAssociation</value>   disabled for us5641 -->
   </util:set>
 
 </beans>
