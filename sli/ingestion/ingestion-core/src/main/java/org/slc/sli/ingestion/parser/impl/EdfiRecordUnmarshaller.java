@@ -494,6 +494,8 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         COURSEOFFERING("CourseOffering"),
         GRADE("Grade"),
         GRADINGPERIOD("GradingPeriod"),
+        GRADUATIONPLAN("GraduationPlan"),
+        GRADUATIONPLANREFERENCE("GraduationPlanReference"),
         LEARNINGOBJECTIVE("LearningObjective"),
         LEARNINGSTANDARD("LearningStandard"),
         LOCALEDUCATIONAGENCY("LocalEducationAgency"),

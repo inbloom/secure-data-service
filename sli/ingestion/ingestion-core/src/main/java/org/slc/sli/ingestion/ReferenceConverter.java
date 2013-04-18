@@ -65,7 +65,8 @@ public enum ReferenceConverter {
     REPORTCARD("ReportCardReference", "reportCard"),
     STUDENTCOMPETENCY("StudentCompetencyReference", "studentCompetency"),
     GRADEBOOKENTRY("GradebookEntryReference", "gradebookEntry"),
-    STUDENTGRADEBOOKENTRY("StudentGradebookEntryReference", "studentGradebookEntry");
+    STUDENTGRADEBOOKENTRY("StudentGradebookEntryReference", "studentGradebookEntry"),
+    GRADUATIONPLANREFERENCE("GraduationPlanReference", "graduationPlan");
 
 
 
