@@ -87,6 +87,7 @@ end
 desc "Deltas and Deletes"
 task :bulkExtractDeltasTest do
   runTests("test/features/bulk_extract/features/bulk_extract_deltas_api.feature")
+  runTests("test/features/bulk_extract/features/delta_recording.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
