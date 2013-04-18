@@ -83,7 +83,6 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And I should see "InterchangeStaffAssociation.xml staffEducationOrgAssignmentAssociation 13 deltas!" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml teacher 3 deltas!" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml staffProgramAssociation 7 deltas!" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml studentSchoolAssociation 167 deltas!" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml graduationPlan 4 deltas!" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-English.xml learningStandard 954 deltas!" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-Math.xml learningStandard 509 deltas!" in the resulting batch job file
