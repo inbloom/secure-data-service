@@ -595,6 +595,10 @@ task :multipleOrphansDeleteTest do
   runTests("test/features/ingestion/features/multiple_orphans_deletion.feature")
 end
 
+task :updateAllMd5s do
+  runTests("test/features/ingestion/features/updateAllMd5s.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
