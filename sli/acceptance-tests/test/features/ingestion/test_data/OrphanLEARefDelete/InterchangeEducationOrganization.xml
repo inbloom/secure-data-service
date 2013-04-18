@@ -5,7 +5,7 @@
     <Action ActionType="DELETE" Cascade="false" Force="false">
         <LocalEducationAgencyReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>LEA-STANDARD-SEA</StateOrganizationId>
+                <StateOrganizationId>LEA-IL-DAYBREAK</StateOrganizationId>
             </EducationalOrgIdentity>
         </LocalEducationAgencyReference>
     </Action>

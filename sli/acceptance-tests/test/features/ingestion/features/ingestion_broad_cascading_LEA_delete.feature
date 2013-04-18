@@ -47,7 +47,6 @@ Scenario: Delete Orphan LEA with cascade = false and force = false
 	   |educationOrganization             |        -1|
 	   |recordHash                        |        -1|
 
-@wip
 Scenario: Delete Orphan LEA Ref with cascade = false and force = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
