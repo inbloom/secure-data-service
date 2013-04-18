@@ -35,6 +35,7 @@ import org.slc.sli.bulk.extract.delta.DeltaEntityIterator.DeltaRecord;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.DeltaJournal;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -137,8 +138,26 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 updatedTime = (Long) delta.get("u");
             }
             
+            String id = (String) delta.get("_id");
+            if ("null".equals(id) || id == null) {
+                continue;
+            }
+            
+            String collection = (String) delta.get("c");
+            ContextResolver resolver = resolverFactory.getResolver((String) delta.get("c"));
+            if (resolver == null) {
+                // we have no resolver defined for this type, i.e. this type should not be
+                // extracted, do not waste resource to retrieve the mongo entity
+                continue;
+            }
+            
             boolean spamDelete = false;
             Operation op = deletedTime > updatedTime ? Operation.DELETE : Operation.UPDATE;
+            if (op == Operation.DELETE) {
+                Entity deleted = new MongoEntity(collection, id, null, null);
+                return new DeltaRecord(deleted, null, op, false, collection);
+            }
+
             if (op == Operation.UPDATE && deletedTime >= lastDeltaTime) {
                 // this entity's last operation is update, but has a delete that occured within the
                 // delta window which means this entity has been removed from one LEA and possibly
@@ -146,19 +165,8 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 spamDelete = true;
             }
 
-            String id = (String) delta.get("_id");
-            if ("null".equals(id) || id == null) {
-                continue;
-            }
             
-            ContextResolver resolver = resolverFactory.getResolver((String) delta.get("c"));
-            if (resolver == null) {
-                // we have no resolver defined for this type, i.e. this type should not be
-                // extracted, do not waste resource to retrieve the mongo entity
-                continue;
-            }
-            String collection = (String) delta.get("c");
-            Entity entity = repo.findById(collection, (String) delta.get("_id"));
+            Entity entity = repo.findById(collection, id);
             Set<String> topLevelGoverningLEA = null; 
             if (entity != null) {
                 topLevelGoverningLEA = resolver.findGoverningLEA(entity);
