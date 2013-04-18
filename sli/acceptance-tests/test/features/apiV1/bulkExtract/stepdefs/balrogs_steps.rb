@@ -68,6 +68,29 @@ When /^I make a ranged bulk extract API call$/ do
   restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
 
+When /^I make a concurrent ranged bulk extract API call and store the results$/ do
+  t1=Thread.new{apiCall1()}
+  t2=Thread.new{apiCall2()}
+  t1.join
+  t2.join
+
+  @received_file = Dir.pwd + "/Final.tar"
+  File.open(@received_file, "wb") do |outf|
+    outf << @res2.body
+    outf << @res1.body
+  end
+end
+
+def apiCall1()
+  @customHeaders = makeCustomHeader("101-543")
+  @res1 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
+end
+
+def apiCall2()
+  @customHeaders = makeCustomHeader("0-100")
+  @res2 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
+end
+
 When /^I make API call to retrieve today's delta file$/ do
   today = Time.now
   restHttpGet("/bulk/deltas/#{today.strftime("%Y%m%d")}")

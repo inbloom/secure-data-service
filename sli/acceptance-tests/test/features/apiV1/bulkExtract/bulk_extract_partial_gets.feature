@@ -90,6 +90,7 @@ Scenario: Get the bulk extract file in chunks
     Then I get back a response code of "200"
     And the content length in response header is "544"
     
+
     #Multiple Range
     #When I prepare the custom headers for multiple byte ranges "0-100,101-543"
     #And I make a ranged bulk extract API call
@@ -105,3 +106,8 @@ Scenario: Get the bulk extract file in chunks
     And I make a ranged bulk extract API call
     Then I get back a response code of "200"
     And the content length in response header is "544"
+
+    #Concurrent Call
+    When I make a concurrent ranged bulk extract API call and store the results
+    Then the file is decrypted
+    And I see that the combined file matches the tar file
