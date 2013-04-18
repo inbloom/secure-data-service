@@ -18,6 +18,7 @@ package org.slc.sli.bulk.extract.files;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -39,6 +40,18 @@ public class MultiOutputStream extends OutputStream {
         for(OutputStream stream : outputStreams){
             stream.write(data);
         }
+    }
+
+    @Override
+    public void write(byte [] buffer, int offset, int len) throws IOException{
+        if ((offset < 0) || (offset > buffer.length) || (len < 0) ||
+                ((offset + len) > buffer.length) || ((offset + len) < 0)) {
+            throw new IndexOutOfBoundsException();
+        } else if (len == 0) {
+            return;
+        }
+
+        write(Arrays.copyOfRange(buffer, offset, offset + len));
     }
 
     @Override

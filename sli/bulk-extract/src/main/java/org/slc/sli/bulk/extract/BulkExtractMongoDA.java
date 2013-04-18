@@ -39,6 +39,7 @@ import org.slc.sli.domain.Repository;
 public class BulkExtractMongoDA {
     private static final Logger LOG = LoggerFactory.getLogger(BulkExtractMongoDA.class);
 
+    private static final String TENANT = "tenant";
     /**
      * name of bulkExtract collection.
      */
@@ -127,11 +128,11 @@ public class BulkExtractMongoDA {
         TenantContext.setIsSystemCall(false);
 
         if(app != null) {
-            Map<String, Object> body = app.getBody();
-            edorgs.retainAll((List<String>)body.get(AUTH_EDORGS_FIELD));
 
-            String key = (String)body.get(PUB_KEY);
-            if(edorgs.isEmpty()) {
+            List<String> authorizedTenantEdorgs = getAuthorizedTenantEdorgs(app, edorgs);
+
+            String key = (String)app.getBody().get(PUB_KEY);
+            if(authorizedTenantEdorgs.isEmpty()) {
                 LOG.info("No education organization is authorized, skipping application {}", appId);
             } else if(key != null) {
                 clientPubKeys.put(appId, key);
@@ -141,6 +142,31 @@ public class BulkExtractMongoDA {
         }
 
         return clientPubKeys;
+    }
+
+    /**
+     * check if a tenant exists.
+     * @param tenant tenant ID
+     * @return
+     *      true if tenant exists
+     */
+    public boolean tenantExists(String tenant) {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL ,tenant));
+        query.addCriteria(new NeutralCriteria("tenantIsReady", NeutralCriteria.OPERATOR_EQUAL, true));
+        TenantContext.setIsSystemCall(true);
+        Entity tenantEntity = entityRepository.findOne(TENANT, query);
+        TenantContext.setIsSystemCall(false);
+        return tenantEntity != null ? true : false;
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    private static List<String> getAuthorizedTenantEdorgs(Entity app, List<String> tenantEdorgs) {
+        List<String> authorizedTenantEdorgs = (List<String>) app.getBody().get(AUTH_EDORGS_FIELD);
+
+        authorizedTenantEdorgs.retainAll(tenantEdorgs);
+
+        return authorizedTenantEdorgs;
     }
 
     /**
