@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+        
+        <AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>2001-First grade Assessment 1#1</AssessmentItemIdentificationCode>
+             <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+    </Action>
+</InterchangeStudentAssessment>

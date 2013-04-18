@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+    <Action ActionType="DELETE" Cascade="false">
+
+     <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-LO-G3-6</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>LO-Narrative Writing</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LO-LS-G3-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+  
+    </Action>
+</InterchangeStudentGrade>

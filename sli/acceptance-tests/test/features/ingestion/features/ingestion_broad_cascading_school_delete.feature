@@ -95,6 +95,7 @@ Scenario: Delete School with cascade
         | teacherSectionAssociation                 |       -11|                         
     And I should not see "352e8570bd1116d11a72755b987902440045d346_id" in the "Midgar" database
 
+
 Scenario: Delete School with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -215,7 +216,7 @@ Scenario: Delete Orphan School Reference with cascade = false
         | recordHash                                |        -1|
         | custom_entities                           |        -3|
 
-Scenario: Delete School with cascade = false and force = true, log violations = true
+Scenario: Delete School with cascade = false, logViolations = true and default settings (Confirm that by default force = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -255,6 +256,9 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     Then there exist "24" "teacherSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "teacherSchoolAssociation"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |
+    Then there exist "2" "custom_entities" records like below in "Midgar" tenant. And I save this query as "custom_entities"		  
+        |field                                     |value                                      	  	   				   |
+        |metaData.entityId                            |352e8570bd1116d11a72755b987902440045d346_id                                         |
     And I save the collection counts in "Midgar" tenant
     And I post "ForceSchoolDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
@@ -284,8 +288,9 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
         | collection                                |     delta|
         | educationOrganization                     |        -1|
         | recordHash                                |        -1|
+	| custom_entities			    | 	     -2|
 
-Scenario: Delete School with cascade = false and force = true, log violations = true
+Scenario: Delete School with force = true, logViolations = true and default settings (Confirm that by default cascade = false)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -325,6 +330,9 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     Then there exist "24" "teacherSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "teacherSchoolAssociation"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |
+    Then there exist "2" "custom_entities" records like below in "Midgar" tenant. And I save this query as "custom_entities"		  
+        |field                                     |value                                      	  	   				   |
+        |metaData.entityId                            |352e8570bd1116d11a72755b987902440045d346_id                                         |
     And I save the collection counts in "Midgar" tenant
     And I post "ForceSchoolRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
@@ -354,6 +362,7 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
         | collection                                |     delta|
         | educationOrganization                     |        -1|
         | recordHash                                |        -1|
+	| custom_entities			    |        -2|
 
 Scenario: Delete School with cascade = false and force = true, log violations = false, non-entity specific test
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -395,6 +404,9 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     Then there exist "24" "teacherSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "teacherSchoolAssociation"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |
+    Then there exist "2" "custom_entities" records like below in "Midgar" tenant. And I save this query as "custom_entities"		  
+        |field                                     |value                                      	  	   				   |
+        |metaData.entityId                            |352e8570bd1116d11a72755b987902440045d346_id                                         |
     And I save the collection counts in "Midgar" tenant
     And I post "ForceSchoolRefDeleteWithoutLogViolations.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
@@ -424,3 +436,4 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
         | collection                                |     delta|
         | educationOrganization                     |        -1|
         | recordHash                                |        -1|
+	| custom_entities			    | 	     -2|
