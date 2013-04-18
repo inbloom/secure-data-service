@@ -64,7 +64,7 @@ public class Launcher {
         if (bulkExtractMongoDA.tenantExists(tenant)) {
             DateTime startTime = new DateTime();
             if (isDelta) {
-                deltaExtractor.execute(tenant, startTime);
+                deltaExtractor.execute(tenant, startTime, baseDirectory);
             } else {
                 ExtractFile extractFile = null;
                 extractFile = new ExtractFile(getTenantDirectory(tenant),
@@ -78,6 +78,8 @@ public class Launcher {
         }
     }
 
+    // those two methods should be moved to localEdOrgExtractor once we switched to
+    // LEA level extract, for now it's duplicated in both classes.
     private String getArchiveName(String tenant, Date startTime) {
         return tenant + "-" + getTimeStamp(startTime);
     }

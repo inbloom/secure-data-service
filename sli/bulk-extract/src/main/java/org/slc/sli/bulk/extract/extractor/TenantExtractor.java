@@ -83,7 +83,7 @@ public class TenantExtractor{
         }
 
         for(Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
-            bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), archiveFile.getKey(), startTime.toDate(), false);
+            bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), archiveFile.getKey(), startTime.toDate(), false, null);
         }
     }
 

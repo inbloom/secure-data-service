@@ -52,6 +52,7 @@ public class BulkExtractMongoDA {
 
     private static final String APP_AUTH_COLLECTION = "applicationAuthorization";
     private static final String TENANT_EDORG_FIELD = "edorgs";
+    private static final String EDORG = "edorg";
     private static final String AUTH_EDORGS_FIELD = "authorized_ed_orgs";
     private static final String APP_COLLECTION = "application";
     private static final String APP_ID = "applicationId";
@@ -70,7 +71,7 @@ public class BulkExtractMongoDA {
      * @param appId the id for the application
      */
     public void updateDBRecord(String tenantId, String path, String appId, Date date) {
-        updateDBRecord(tenantId, path, appId, date, false);
+        updateDBRecord(tenantId, path, appId, date, false, null);
     }
 
     /** Insert a new record is the tenant doesn't exist. Update if existed
@@ -80,15 +81,17 @@ public class BulkExtractMongoDA {
      * @param appId the id for the application
      * @param isDelta TODO
      */
-    public void updateDBRecord(String tenantId, String path, String appId, Date date,  boolean isDelta) {
+    public void updateDBRecord(String tenantId, String path, String appId, Date date,  boolean isDelta, String edorg) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(TENANT_ID, tenantId);
         body.put(FILE_PATH, path);
         body.put(DATE, date);
         body.put(IS_DELTA, Boolean.toString(isDelta));
+        body.put(EDORG, edorg);
         body.put(APP_ID, appId);
-
-        BulkExtractEntity bulkExtractEntity = new BulkExtractEntity(body, tenantId + "-" + appId);
+        
+        String entityId = tenantId + "-" + appId + "-" + edorg + "-" + date.getTime();
+        BulkExtractEntity bulkExtractEntity = new BulkExtractEntity(body, entityId);
 
         entityRepository.update(BULK_EXTRACT_COLLECTION, bulkExtractEntity, false);
 
@@ -116,7 +119,7 @@ public class BulkExtractMongoDA {
     }
 
     @SuppressWarnings({ "boxing", "unchecked" })
-    private Map<String, String> getClientIdAndPublicKey(String appId, List<String> edorgs) {
+    public Map<String, String> getClientIdAndPublicKey(String appId, List<String> edorgs) {
         Map<String, String> clientPubKeys = new HashMap<String, String>();
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, appId));

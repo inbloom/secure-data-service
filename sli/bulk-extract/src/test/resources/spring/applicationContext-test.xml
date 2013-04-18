@@ -102,10 +102,14 @@
     
     <bean id="localEdorgExtractor" class="org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor">
     </bean>
-
+    
     <bean id="launcher" class="org.slc.sli.bulk.extract.Launcher">
         <property name="baseDirectory" value="${sli.bulk.extract.output.directory:extract}" />
         <property name="tenantExtractor" ref="tenantExtractor" />
+    </bean>
+    
+    <bean id="bulkExtractMongoDA" class="org.slc.sli.bulk.extract.BulkExtractMongoDA">
+         <property name="entityRepository" ref="mongoEntityRepository" />
     </bean>
 
     <context:component-scan base-package="org.slc">

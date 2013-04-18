@@ -89,7 +89,7 @@ public class EntityExtractor{
      * @throws FileNotFoundException FileNotFoundException
      * @throws IOException IOException
      */
-    private void write(Entity entity, ExtractFile archiveFile, CollectionWrittenRecord collectionRecord)
+    public void write(Entity entity, ExtractFile archiveFile, CollectionWrittenRecord collectionRecord)
             throws FileNotFoundException, IOException {
         writer.write(entity, archiveFile);
         collectionRecord.incrementNumberOfEntitiesWritten();
@@ -149,7 +149,7 @@ public class EntityExtractor{
      * @author slee
      *
      */
-    private class CollectionWrittenRecord {
+    public static class CollectionWrittenRecord {
         final String collectionName;
         long numberOfEntitiesWritten;
         Map<String, Long> embeddedDocWrittenRecords = new HashMap<String, Long>();

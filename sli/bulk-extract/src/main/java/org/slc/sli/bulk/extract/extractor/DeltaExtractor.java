@@ -15,14 +15,28 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator.DeltaRecord;
+import org.slc.sli.bulk.extract.delta.DeltaEntityIterator.Operation;
+import org.slc.sli.bulk.extract.extractor.EntityExtractor.CollectionWrittenRecord;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 
 @Component
 public class DeltaExtractor {
@@ -32,12 +46,110 @@ public class DeltaExtractor {
     @Autowired
     DeltaEntityIterator deltaEntityIterator;
 
-    public void execute(String tenant, DateTime deltaUptoTime) {
+    @Autowired
+    LocalEdOrgExtractor leaExtractor;
+    
+    @Autowired
+    EntityExtractor entityExtractor;
+    
+    @Autowired
+    BulkExtractMongoDA bulkExtractMongoDA;
+    
+    private Map<String, ExtractFile> appPerLeaExtractFiles = new HashMap<String, ExtractFile>();
+    private Map<String, EntityExtractor.CollectionWrittenRecord> appPerLeaCollectionRecords = new HashMap<String, EntityExtractor.CollectionWrittenRecord>();
+
+    public void execute(String tenant, DateTime deltaUptoTime, String baseDirectory) {
+        TenantContext.setTenantId(tenant);
+        Map<String, Set<String>> appsPerLEA = reverse(leaExtractor.getBulkExtractLEAsPerApp());
         deltaEntityIterator.init(tenant, deltaUptoTime);
-        
         while (deltaEntityIterator.hasNext()) {
             DeltaRecord delta = deltaEntityIterator.next();
-            LOG.info(String.format("entity %s belongs to: %s has been %s", delta.getEntity().toString(), delta.getBelongsToLEA().toString(), delta.getOp().toString()));
+            for (String lea : delta.getBelongsToLEA()) {
+                // we have apps for this lea
+                if (appsPerLEA.containsKey(lea)) {
+                    for (String appId : appsPerLEA.get(lea)) {
+                        ExtractFile extractFile = getExtractFile(appId, lea, tenant, deltaUptoTime);
+                        EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(appId, lea, delta.getCollection());
+                        try {
+                            // need to do something for delete here
+                            if (delta.getOp() == Operation.UPDATE) {
+                                entityExtractor.write(delta.getEntity(), extractFile, record);
+                            }
+                        } catch (IOException e) {
+                            LOG.error("Error while extracting for " + lea + "with app " + appId, e);
+                        }
+                    }
+                }
+            }
+        }
+        
+        finalizeExtraction(tenant, deltaUptoTime);
+    }
+
+    private void finalizeExtraction(String tenant, DateTime startTime) {
+        ManifestFile metaDataFile;
+        for (Map.Entry<String, ExtractFile> entry : appPerLeaExtractFiles.entrySet()) {
+            ExtractFile extractFile = entry.getValue();
+            String appLeaCombo = entry.getKey();
+            extractFile.closeWriters();
+            
+            try {
+                metaDataFile = extractFile.getManifestFile();
+                metaDataFile.generateMetaFile(startTime);
+            } catch (IOException e) {
+                LOG.error("Error creating metadata file: {}", e.getMessage());
+            }
+            
+            try {
+                extractFile.generateArchive();
+            } catch (Exception e) {
+                LOG.error("Error generating archive file: {}", e.getMessage());
+            }
+            
+            for (Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
+                bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(),
+                        archiveFile.getKey(), startTime.toDate(), true, extractFile.getEdorg());
+            }
         }
     }
+
+    private CollectionWrittenRecord getCollectionRecord(String appId, String lea, String type) {
+        String key = appId + "_" + lea + "_" + type;
+        if (appPerLeaCollectionRecords.containsKey(key)) {
+            return appPerLeaCollectionRecords.get(key);
+        }
+        
+        EntityExtractor.CollectionWrittenRecord collectionRecord = new EntityExtractor.CollectionWrittenRecord(type);
+        appPerLeaCollectionRecords.put(key, collectionRecord);
+        return collectionRecord;
+    }
+
+    private ExtractFile getExtractFile(String appId, String lea, String tenant, DateTime deltaUptoTime) {
+        String key = appId + "_" + lea;
+        if (appPerLeaExtractFiles.containsKey(key)) {
+            return appPerLeaExtractFiles.get(key);
+        }
+        
+        ExtractFile appPerLeaExtractFile = leaExtractor.getExtractFilePerAppPerLEA(tenant, appId, lea, deltaUptoTime, true);
+        appPerLeaExtractFiles.put(key, appPerLeaExtractFile);
+        return appPerLeaExtractFile;
+    }
+
+    private Map<String, Set<String>> reverse(Map<String, Set<String>> leasPerApp) {
+        Map<String, Set<String>> result = new HashMap<String, Set<String>>();
+        for (Map.Entry<String, Set<String>> entry : leasPerApp.entrySet()) {
+            for (String lea : entry.getValue()) {
+                if (result.containsKey(lea)) {
+                    result.get(lea).add(entry.getKey());
+                } else {
+                    Set<String> apps = new HashSet<String>();
+                    apps.add(entry.getKey());
+                    result.put(lea, apps);
+                }
+            }
+        }
+        return result;
+    }
+    
+
 }

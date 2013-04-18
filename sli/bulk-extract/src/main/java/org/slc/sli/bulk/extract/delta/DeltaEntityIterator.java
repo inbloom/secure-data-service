@@ -79,7 +79,9 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     private long getLastDeltaRun(String tenant) {
         long lastRun = 0; // assume if we can't find last time it ran, we need to get all the deltas
         
+        TenantContext.setIsSystemCall(true);
         Iterable<Entity> entities = repo.findAll(BulkExtractMongoDA.BULK_EXTRACT_COLLECTION, queryForLastDeltaTime(tenant));
+        TenantContext.setIsSystemCall(false);
         if (entities == null) {
             return lastRun;
         }
@@ -101,9 +103,8 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, "true"));
         query.setSortBy("body.date");
         query.setSortOrder(NeutralQuery.SortOrder.descending);
-        query.setIncludeFields(Arrays.asList("body.date"));
+        query.setIncludeFields(Arrays.asList("date"));
         query.setLimit(1);
-        
         return query;
     }
 
@@ -156,14 +157,15 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 // extracted, do not waste resource to retrieve the mongo entity
                 continue;
             }
-            Entity entity = repo.findById((String) delta.get("c"), (String) delta.get("_id"));
+            String collection = (String) delta.get("c");
+            Entity entity = repo.findById(collection, (String) delta.get("_id"));
             Set<String> topLevelGoverningLEA = null; 
             if (entity != null) {
                 topLevelGoverningLEA = resolver.findGoverningLEA(entity);
             }
             
             if (topLevelGoverningLEA != null && !topLevelGoverningLEA.isEmpty()) {
-                return new DeltaRecord(entity, topLevelGoverningLEA, op, spamDelete); 
+                return new DeltaRecord(entity, topLevelGoverningLEA, op, spamDelete, collection);
             }
         }
         
@@ -182,12 +184,14 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         private Set<String> belongsToLEA;
         private Operation op;
         private boolean spamDelete;
+        private String collection;
         
-        DeltaRecord(Entity entity, Set<String> belongsToLEA, Operation op, boolean spamDelete) {
+        DeltaRecord(Entity entity, Set<String> belongsToLEA, Operation op, boolean spamDelete, String collection) {
             this.entity = entity;
             this.belongsToLEA = belongsToLEA;
             this.op = op;
             this.spamDelete = spamDelete;
+            this.collection = collection;
         }
         
         public Entity getEntity() {
@@ -220,6 +224,14 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
 
         public void setSpamDelete(boolean spamDelete) {
             this.spamDelete = spamDelete;
+        }
+
+        public String getCollection() {
+            return collection;
+        }
+
+        public void setCollection(String collection) {
+            this.collection = collection;
         }
     }
 }

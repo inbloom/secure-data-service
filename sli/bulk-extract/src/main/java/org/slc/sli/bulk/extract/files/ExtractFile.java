@@ -61,6 +61,7 @@ public class ExtractFile {
     private Map<String, File> archiveFiles = new HashMap<String, File>();
     private Map<String, JsonFileWriter> dataFiles = new HashMap<String, JsonFileWriter>();
     private ManifestFile manifestFile;
+    private String edorg;
 
     private File parentDir;
     private String archiveName = "";
@@ -301,6 +302,25 @@ public class ExtractFile {
      */
     public void setClientKeys(Map<String, String> clientKeys) {
         this.clientKeys = clientKeys;
+    }
+
+    /**
+     * Get edorg
+     * 
+     * @return the edorg this extractFile is responsible
+     */
+    public String getEdorg() {
+        return this.edorg;
+    }
+
+    /**
+     * Set edorg
+     * 
+     * @param the
+     *            edorg this extractFile is responsible
+     */
+    public void setEdorg(String edorg) {
+        this.edorg = edorg;
     }
 
 
