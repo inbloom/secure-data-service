@@ -79,40 +79,30 @@ When /^I make API call to retrieve tomorrow's non existing delta files$/ do
 end
 
 When /^I prepare the custom headers for byte range from "(.*?)" to "(.*?)"$/ do |from, to|
-  @customHeaders = {:if_range => @etag}
-  @customHeaders.store(:last_modified, @last_modified)
   if  (to == "end")
     to = ""
   end
-  @customHeaders.store(:range, "bytes=" + from + "-" + to)
+  range = from + "-" + to
+  @customHeaders = makeCustomHeader(range)
 end
 
 When /^I prepare the custom headers for multiple byte ranges "(.*?)"$/ do |ranges|
-  @customHeaders = {:if_range => @etag}
-  @customHeaders.store(:last_modified, @last_modified)
-  @customHeaders.store(:range, "bytes=" + ranges)
+  @customHeaders = makeCustomHeader(ranges)
 end
 
 When /^I prepare the custom headers for the first "(.*?)" bytes$/ do |number_of_bytes|
-  @customHeaders = {:if_range => @etag}
-  @customHeaders.store(:last_modified, @last_modified)
   to = (number_of_bytes.to_i) -1
-  @customHeaders.store(:range, "bytes=0-" + to.to_s)
+  @customHeaders = makeCustomHeader("0-" + to.to_s)
 end
 
 When /^I prepare the custom headers for the last "(.*?)" bytes$/ do |number_of_bytes|
-  @customHeaders = {:if_range => @etag}
-  @customHeaders.store(:last_modified, @last_modified)
   from = (@content_length.to_i - number_of_bytes.to_i)
   range = from.to_s + "-#{@content_length}"
-  @customHeaders.store(:range, "bytes=" + range)
+  @customHeaders = makeCustomHeader(range)
 end
 
-When /^I prepare the custom headers with incorrect header$/ do
-  @customHeaders = {:if_range => "xyz"}
-  #@customHeaders = Hash.new
-  @customHeaders.store(:last_modified, @last_modified)
-  @customHeaders.store(:range, "bytes=0-10")
+When /^I prepare the custom headers with incorrect etag$/ do
+  @customHeaders = makeCustomHeader("0-10", "xyz")
 end
 
 When /^I save the extracted file$/ do
@@ -438,6 +428,13 @@ def compareWithOriginalFile(content, range_start, range_end)
   else
     return false
   end
+end
+
+def makeCustomHeader(range, if_range = @etag, last_modified = @last_modified)
+   header = {:if_range => if_range}
+   header.store(:last_modified, last_modified)
+   header.store(:range, "bytes=" + range)
+   return header
 end
 
 After('@fakeTar') do 
