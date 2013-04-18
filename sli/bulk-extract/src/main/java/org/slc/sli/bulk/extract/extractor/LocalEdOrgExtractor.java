@@ -1,7 +1,24 @@
+/*
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.bulk.extract.extractor;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -11,10 +28,13 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -28,6 +48,8 @@ public class LocalEdOrgExtractor {
     private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
     private Repository<Entity> repository;
     private Map<String, String> edorgToLEACache;
+    private String baseDirectory;
+    private BulkExtractMongoDA bulkExtractMongoDA;
 
     /**
      * Creates unencrypted LEA bulk extract files if any are needed for the given tenant
@@ -136,7 +158,7 @@ public class LocalEdOrgExtractor {
         Map<String, Set<String>> edorgIds = new HashMap<String, Set<String>>();
         for (Entity app : apps) {
             Set<String> edorgs = new HashSet<String>((Collection<String>) app.getBody().get("edorgs"));
-            edorgIds.put(app.getEntityId(), edorgs);
+            edorgIds.put((String) app.getBody().get("applicationId"), edorgs);
         }
         return edorgIds;
     }
@@ -149,5 +171,49 @@ public class LocalEdOrgExtractor {
         return repository;
     }
     
+    /**
+     * Given the tenant, appId, the LEA id been extracted and a timestamp,
+     * give me an extractFile for this combo
+     * 
+     * @param
+     */
+    public ExtractFile getExtractFilePerAppPerLEA(String tenant, String appId, String edorg, DateTime startTime, boolean isDelta) {
+        ExtractFile extractFile = new ExtractFile(getAppSpecificDirectory(tenant, appId),
+                getArchiveName(edorg, startTime.toDate(), isDelta),
+                bulkExtractMongoDA.getClientIdAndPublicKey(appId, Arrays.asList(edorg)));
+        extractFile.setEdorg(edorg);
+        return extractFile;
+    }
+    
+    private String getArchiveName(String edorg, Date startTime, boolean isDelta) {
+        return edorg + "-" + Launcher.getTimeStamp(startTime) + (isDelta ? "-delta" : "");
+    }
+
+    private File getAppSpecificDirectory(String tenant, String app) {
+        String tenantPath = baseDirectory + File.separator + TenantAwareMongoDbFactory.getTenantDatabaseName(tenant);
+        File appDirectory = new File(tenantPath, app);
+        appDirectory.mkdirs();
+        return appDirectory;
+    }
+    
+    /**
+     * Set base dir.
+     * 
+     * @param baseDirectory
+     *            Base directory of all bulk extract processes
+     */
+    public void setBaseDirectory(String baseDirectory) {
+        this.baseDirectory = baseDirectory;
+    }
+    
+    /**
+     * Set bulkExtractMongoDA.
+     * 
+     * @param bulkExtractMongoDA
+     *            the bulkExtractMongoDA to set
+     */
+    public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
+        this.bulkExtractMongoDA = bulkExtractMongoDA;
+    }
 
 }

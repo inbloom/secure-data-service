@@ -1,0 +1,11 @@
+GEM
+  specs:
+    bson (1.8.2)
+    mongo (1.8.2)
+      bson (~> 1.8.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  mongo

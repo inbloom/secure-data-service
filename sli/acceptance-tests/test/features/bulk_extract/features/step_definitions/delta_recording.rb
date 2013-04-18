@@ -29,9 +29,11 @@ end
 
 When /^I run a small ingestion job$/ do
       steps %Q{
-        Given I am using odin data store 
         And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         When I generate the 10 student data set with optional fields on in the generated directory
+        And I zip generated data under filename OdinSampleDataSet.zip to the new OdinSampleDataSet directory
+        And I copy generated data to the new OdinSampleDataSet directory
+        Given I am using odin data store
         And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
         When zip file is scp to ingestion landing zone
         And a batch job for file "OdinSampleDataSet.zip" is completed in database
@@ -52,8 +54,6 @@ Then /^I see deltas for each (.*?) (.*?) operation$/ do |type, operation|
     @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
     @db = @conn[@ingestion_db_name]
     @coll = @db['deltas']
-    found = 
-    assert_equal(count, @coll.find("c" => type, "u" => {"$exists" => operation == "update"}).count)
-    puts "landing zone is #{@landing_zone_path}"
+    assert_equal(count, @coll.find("c" => type, "u" => {"$exists" => operation == "update"}, "d" => {"$exists" => operation == "delete"}).count)
   }
 end
