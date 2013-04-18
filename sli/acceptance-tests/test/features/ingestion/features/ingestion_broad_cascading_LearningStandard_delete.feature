@@ -76,12 +76,12 @@ Scenario: Delete Orphan LearningStandard with cascade = false
 	|recordHash                             |        -1|
 	And I should not see "c3eb32843ae9613b2ac8d6f9b8b21a4a2b91ac4f_id" in the "Midgar" database
 	
-@wip
+
 Scenario: Delete Orphan LearningStandard Ref with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-	Then there exist "1" "learningStandard" records like below in "Midgar" tenant. And I save this query as "learningObjective"
+	Then there exist "1" "learningStandard" records like below in "Midgar" tenant. And I save this query as "learningStandard"
 	|field                                             |value                                                |
 	|_id                                               |c3eb32843ae9613b2ac8d6f9b8b21a4a2b91ac4f_id          |
 	And I save the collection counts in "Midgar" tenant
@@ -131,7 +131,7 @@ Scenario: Delete LearningStandard with default settings (Confirm that by default
 	|learningStandard                       |        -1|
 	|recordHash                             |        -1|
 	
-@wip
+
 Scenario: Delete LearningStandard Reference with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
