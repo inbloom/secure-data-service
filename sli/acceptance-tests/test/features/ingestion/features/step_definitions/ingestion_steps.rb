@@ -1459,7 +1459,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       end
     end
   else
-    sleep(5) # waiting to check job completion removes race condition (windows-specific)
+    #sleep(5) # waiting to check job completion removes race condition (windows-specific)
     iters.times do |i|
 
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
