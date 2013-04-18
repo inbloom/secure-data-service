@@ -190,7 +190,9 @@ end
 When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(tenant,appId)
 end
-
+When /^I know the file-length of the extract file$/ do
+  @file_size = File.size(@filePath)
+end
 When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(tenant,appId)
   
