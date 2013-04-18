@@ -44,8 +44,19 @@ Given /^I set up a fake tar file on the file system and in Mongo$/ do
   src_coll.insert({"_id" => @fake_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%Y-%m-%d"), "path" => Dir.pwd + "/fake.tar"}})
 end
 
+Given /^I set up a sample tar file on the file system and in Mongo$/ do
+  @sample_file = File.absolute_path(File.dirname(__FILE__) + '/../test_data/sample.tar')
+  
+  time = Time.new
+  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  appId = getAppId()
+  src_coll = db["bulkExtractFiles"]
+  @sampe_tar_id = SecureRandom.uuid
+  src_coll.insert({"_id" => @sample_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%Y-%m-%d"), "path" => @sample_file}})
+end
+
 Given /^I know the file length of the extract file$/ do
-  @file_size = File.size(@path)
+  @file_size = File.size(@sample_file)
 end
 
 When /^I make API call to retrieve sampled bulk extract file$/ do
@@ -82,12 +93,12 @@ When /^I make a concurrent ranged bulk extract API call and store the results$/ 
 end
 
 def apiCall1()
-  @customHeaders = makeCustomHeader("101-543")
+  @customHeaders = makeCustomHeader("200001-")
   @res1 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
 
 def apiCall2()
-  @customHeaders = makeCustomHeader("0-100")
+  @customHeaders = makeCustomHeader("0-200000")
   @res2 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
 
@@ -269,7 +280,7 @@ Then /^the file is decrypted$/ do
 end
 
 Then /^I see that the combined file matches the tar file$/ do
-  assert(File.size(@received_file) == File.size(@path))
+  assert(File.size(@received_file) == File.size(@sample_file))
   File.delete(@received_file)
   @received_file = nil
 end
@@ -311,7 +322,7 @@ Then /^the file size is "(.*?)"$/ do |file_size|
 end
 
 Then /^I verify I do not have the complete file$/ do
-  assert(File.size(@received_file) != File.size(@path))
+  assert(File.size(@received_file) != File.size(@sample_file))
   File.delete(@received_file)
   @received_file = nil
 end
@@ -442,7 +453,7 @@ def decrypt(content)
 end
 
 def compareWithOriginalFile(content, range_start, range_end)
-  file = File.open(@path, "rb")
+  file = File.open(@sample_file, "rb")
   file_contents = file.read
   range = Range.new(range_start, range_end)
   file_range_content = file_contents[range]
@@ -474,3 +485,13 @@ After('@fakeTar') do
   conn.close()
 end
 
+After('@sampleTar') do 
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
+  db ||= conn.db('sli')
+  src_coll = db["bulkExtractFiles"]
+  src_coll.remove({"_id" => @sample_tar_id})
+  if(@received_file != nil)
+    File.delete(@received_file)
+  end
+  conn.close()
+end
