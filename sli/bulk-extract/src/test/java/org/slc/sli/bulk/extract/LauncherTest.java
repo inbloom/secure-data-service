@@ -24,6 +24,7 @@ import org.mockito.Mockito;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.domain.Entity;
 
 /**
  * JUnit test for Launcher class.
@@ -36,6 +37,8 @@ public class LauncherTest {
     BulkExtractMongoDA bulkExtractMongoDA;
     TenantExtractor tenantExtractor;
     LocalEdOrgExtractor localEdOrgExtractor;
+
+    Entity testTenantEntity = TestUtils.makeDummyEntity("tenant", "testTenant", null);
 
     /**
      * Runs before JUnit tests and does the initiation work for the tests.
@@ -62,7 +65,7 @@ public class LauncherTest {
     public void testInvalidTenant() {
         String tenantId = "testTenant";
 
-        Mockito.when(bulkExtractMongoDA.tenantExists(tenantId)).thenReturn(false);
+        Mockito.when(bulkExtractMongoDA.getTenant(tenantId)).thenReturn(null);
 
         launcher.execute(tenantId);
 
@@ -78,7 +81,7 @@ public class LauncherTest {
         Mockito.doNothing().when(tenantExtractor).execute(Mockito.eq(tenantId), Mockito.any(ExtractFile.class), Mockito.any(DateTime.class));
 
 
-        Mockito.when(bulkExtractMongoDA.tenantExists(tenantId)).thenReturn(true);
+        Mockito.when(bulkExtractMongoDA.getTenant(tenantId)).thenReturn(testTenantEntity);
 
         launcher.execute(tenantId);
 

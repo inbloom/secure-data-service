@@ -138,7 +138,8 @@ public class EdfiRecordParser extends DefaultHandler {
 
             vHandler.setFeature("http://apache.org/xml/features/continue-after-fatal-error", false);
 
-            parser.setFeature("http://apache.org/xml/features/validation/id-idref-checking", false);
+            // Commented out the following line, as Java 1.6.0_45 throws an exception on this.
+            //parser.setFeature("http://apache.org/xml/features/validation/id-idref-checking", false);
             parser.setFeature("http://apache.org/xml/features/continue-after-fatal-error", false);
             parser.setFeature("http://xml.org/sax/features/external-general-entities", false);
             parser.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
