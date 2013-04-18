@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                          xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
+
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+
+        <Parent>
+            <ParentUniqueStateId>10-mom</ParentUniqueStateId>
+            <Name>
+                <FirstName>Constance</FirstName>
+                <MiddleName>Corinne</MiddleName>
+                <LastSurname>Boswell</LastSurname>
+            </Name>
+            <OtherName OtherNameType="Alias">
+                <PersonalTitlePrefix>Sister</PersonalTitlePrefix>
+                <FirstName>Noelle</FirstName>
+                <MiddleName>Randi</MiddleName>
+                <LastSurname>Rosales</LastSurname>
+                <GenerationCodeSuffix>VI</GenerationCodeSuffix>
+            </OtherName>
+            <Sex>Female</Sex>
+            <Address AddressType="Home">
+                <StreetNumberName>925 North Street</StreetNumberName>
+                <City>New York</City>
+                <StateAbbreviation>NY</StateAbbreviation>
+                <PostalCode>10292</PostalCode>
+            </Address>
+            <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+                <TelephoneNumber>(784)555-1362</TelephoneNumber>
+            </Telephone>
+            <ElectronicMail EmailAddressType="Home/Personal">
+                <EmailAddress>4843@fakemail.com</EmailAddress>
+            </ElectronicMail>
+            <LoginId>4843@fakemail.com</LoginId>
+        </Parent>
+
+    </Action>
+
+</InterchangeStudentParent>

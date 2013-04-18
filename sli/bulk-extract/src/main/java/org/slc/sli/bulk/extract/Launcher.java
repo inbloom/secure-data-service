@@ -33,6 +33,7 @@ import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
+import org.slc.sli.domain.Entity;
 /**
  * Bulk extract launcher.
  *
@@ -61,7 +62,8 @@ public class Launcher {
      *          Tenant for which extract has been initiated
      */
     public void execute(String tenant) {
-        if (bulkExtractMongoDA.tenantExists(tenant)) {
+        Entity tenantEntity = bulkExtractMongoDA.getTenant(tenant);
+        if (tenantEntity != null) {
             DateTime startTime = new DateTime();
             if (isDelta) {
                 deltaExtractor.execute(tenant, startTime, baseDirectory);

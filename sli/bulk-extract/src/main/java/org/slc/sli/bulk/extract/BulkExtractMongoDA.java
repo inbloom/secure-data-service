@@ -151,16 +151,16 @@ public class BulkExtractMongoDA {
      * check if a tenant exists.
      * @param tenant tenant ID
      * @return
-     *      true if tenant exists
+     *      the tenant entity
      */
-    public boolean tenantExists(String tenant) {
+    public Entity getTenant(String tenant) {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL ,tenant));
         query.addCriteria(new NeutralCriteria("tenantIsReady", NeutralCriteria.OPERATOR_EQUAL, true));
         TenantContext.setIsSystemCall(true);
         Entity tenantEntity = entityRepository.findOne(TENANT, query);
         TenantContext.setIsSystemCall(false);
-        return tenantEntity != null ? true : false;
+        return tenantEntity;
     }
 
     @SuppressWarnings({ "unchecked" })

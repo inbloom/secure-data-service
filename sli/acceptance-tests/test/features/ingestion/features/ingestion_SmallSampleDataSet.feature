@@ -91,7 +91,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard                         |               1499|
      | parent                                   |                  9|
      | program                                  |                  2|
-     | recordHash                               |               9479|
+     | recordHash                               |               8967|
      | reportCard                               |                  2|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                 97|

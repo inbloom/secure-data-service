@@ -169,7 +169,7 @@ public class ExtractFile {
         }
     }
 
-    private OutputStream getAppStream(String app) {
+    private OutputStream getAppStream(String app) throws Exception {
         File archive = new File(parentDir, getFileName(app));
         OutputStream f = null;
         CipherOutputStream stream = null;
@@ -196,7 +196,7 @@ public class ExtractFile {
 
         } catch(Exception e) {
             IOUtils.closeQuietly(f);
-            LOG.error("Failed to create CipherOutputStream");
+            throw e;
         }
 
         return stream;

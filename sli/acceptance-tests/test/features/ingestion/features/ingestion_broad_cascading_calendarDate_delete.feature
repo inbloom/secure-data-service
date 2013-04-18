@@ -119,7 +119,7 @@ Scenario: Delete Orphan Calendar Date Reference with cascade = false
 	|calendarDate                           |        -1|
 	|recordHash                             |        -1|
 
-  Scenario: Delete Calendar Date with cascade = false, force = true
+  Scenario: Delete Calendar Date with cascade = false, force = true and default settings (Confirm that by default logViolations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -140,7 +140,7 @@ Scenario: Delete Orphan Calendar Date Reference with cascade = false
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
-    #And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrgCalendar.xml"
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrgCalendar.xml"
     And I re-execute saved query "calendarDate" to get "0" records
     And I re-execute saved query "gradingPeriod" to get "2" records
     And I see that collections counts have changed as follows in tenant "Midgar"
@@ -148,7 +148,7 @@ Scenario: Delete Orphan Calendar Date Reference with cascade = false
       |calendarDate                           |   -1       |
       |recordHash                             |   -1       |
 
-  Scenario: Delete Calendar Date Reference with cascade = false, force = true
+  Scenario: Delete Calendar Date Reference with force = true and default settings (Confirm that by default cascade = false and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
