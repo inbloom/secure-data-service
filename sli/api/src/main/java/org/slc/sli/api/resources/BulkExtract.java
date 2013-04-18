@@ -21,7 +21,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +47,7 @@ import javax.ws.rs.core.StreamingOutput;
 import com.sun.jersey.api.Responses;
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.api.core.HttpRequestContext;
+import com.sun.jersey.core.header.reader.HttpHeaderReader;
 
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
@@ -79,10 +83,12 @@ public class BulkExtract {
 
     private static final Logger LOG = LoggerFactory.getLogger(BulkExtract.class);
     private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
-    private static final String MULTIPART_BOUNDRY_SEP = "--" + MULTIPART_BOUNDARY;
-    private static final String MULTIPART_BOUNDRY_END = MULTIPART_BOUNDRY_SEP + "--";
+    private static final String MULTIPART_BOUNDARY_SEP = "--" + MULTIPART_BOUNDARY;
+    private static final String MULTIPART_BOUNDARY_END = MULTIPART_BOUNDARY_SEP + "--";
+    private static final String CRLF = "\r\n";
 
     private static final String SAMPLED_FILE_NAME = "sample-extract.tar";
+    private static final String DATE_FORMAT = "EEE MMM d HH:mm:ss z yyyy";
 
     public static final String BULK_EXTRACT_FILES = "bulkExtractFiles";
     public static final String BULK_EXTRACT_FILE_PATH = "path";
@@ -221,14 +227,26 @@ public class BulkExtract {
      */
     private Response getExtractResponse(final HttpRequestContext req,
             final File bulkExtractFile, final long lastModifiedTime, final String lastModified) {
+        DateFormat format = new SimpleDateFormat(DATE_FORMAT);
+        Date httpDate = null;
 
         LOG.info("Retrieving bulk extract with method {}", req.getMethod());
         String fileName = bulkExtractFile.getName();
         long fileLength = bulkExtractFile.length();
         String eTag = fileName + "_" + fileLength + "_" + lastModified;
 
-        @SuppressWarnings("deprecation")
-        ResponseBuilder builder = req.evaluatePreconditions(new Date(lastModifiedTime), new EntityTag(eTag));
+        /*
+         * Validate request headers for caching and resume
+         */
+        ResponseBuilder builder = null;
+        try {
+            httpDate = format.parse(lastModified);
+
+            builder = req.evaluatePreconditions(httpDate, new EntityTag(eTag));
+        } catch (ParseException e) {
+            LOG.error("Unable to parse bulk extract Last-Modified date into a HTTP-Date format: {}", e);
+        }
+
         if (builder != null) {
             // evaluate fails
             return builder.build();
@@ -239,25 +257,64 @@ public class BulkExtract {
          */
         // Prepare some variables. The full Range represents the complete file.
         final Range full = new Range(0, fileLength - 1, fileLength);
-        List<Range> ranges = new ArrayList<Range>();
+        final List<Range> ranges = new ArrayList<Range>();
 
-        // Validate and process Range and If-Range headers.
+        builder = processRangeHeader(req, full, ranges, fileLength, lastModifiedTime, eTag);
+        if (builder != null) {
+            // validation fails
+            return builder.build();
+        }
+
+        /*
+         * Prepare and initialize response
+         */
+        boolean fullContent = ranges.isEmpty() || ranges.get(0) == full || ranges.get(0).sameValue(full);
+        boolean headMethod = req.getMethod().equals("HEAD");
+        builder = fullContent ? Response.ok() : Response.status(206);
+
+        builder.header("content-disposition", "attachment; filename = " + fileName)
+               .header("Accept-Ranges", "bytes")
+               .header("ETag", eTag)
+               .header(HttpHeaders.LAST_MODIFIED, httpDate);
+
+        if (fullContent || ranges.size() == 1) {
+            final Range r = fullContent ? full : ranges.get(0);
+            return singlePartExtractResponse(builder, bulkExtractFile, r, headMethod);
+        } else {
+
+            if (headMethod) {
+                builder = Responses.methodNotAllowed()
+                        .header("Allow", "GET");
+                return builder.build();
+            }
+
+            return multiPartsExtractResponse(builder, bulkExtractFile, ranges);
+        }
+    }
+
+    private ResponseBuilder processRangeHeader(final HttpRequestContext req,
+            final Range full, final List<Range> ranges,
+            final long fileLength, final long lastModifiedTime, final String eTag) {
+
         String range = req.getHeaderValue("Range");
-        if (range != null) {
+        if (range != null && range.length() > 0) {
 
             // Range header should match format "bytes=n-n,n-n,n-n...". If not, then return 416.
             if (!range.matches("^bytes=\\d*-\\d*(,\\d*-\\d*)*$")) {
-                builder = Response.status(416)
+               return Response.status(416)
                         .header("Content-Range", "bytes */" + fileLength);// Required in 416.
-                return builder.build();
             }
 
             // If-Range header should either match ETag or be greater then LastModified. If not,
             // then return full file.
             String ifRange = req.getHeaderValue("If-Range");
             if (ifRange != null && !ifRange.equals(eTag)) {
-                long ifRangeTime = ISODateTimeFormat.basicDate().parseDateTime(ifRange).getMillis();
-                if (ifRangeTime > 0 && ifRangeTime + 1000 < lastModifiedTime) {
+                try {
+                    long ifRangeTime = HttpHeaderReader.readDate(ifRange).getTime();
+                    if (ifRangeTime > 0 && ifRangeTime + 1000 < lastModifiedTime) {
+                        ranges.add(full);
+                    }
+                } catch (ParseException ignore) {
                     ranges.add(full);
                 }
             }
@@ -279,9 +336,8 @@ public class BulkExtract {
 
                     // Check if Range is syntactically valid. If not, then return 416.
                     if (start > end) {
-                        builder = Response.status(416)
+                        return Response.status(416)
                                 .header("Content-Range", "bytes */" + fileLength);// Required in 416.
-                        return builder.build();
                     }
 
                     // Add range.
@@ -289,32 +345,7 @@ public class BulkExtract {
                 }
             }
         }
-
-        /*
-         * Prepare and initialize response
-         */
-        boolean fullContent = ranges.isEmpty() || ranges.get(0) == full;
-        boolean headMethod = req.getMethod().equals("HEAD");
-        builder = fullContent ? Response.ok() : Response.status(206);
-
-        builder.header("content-disposition", "attachment; filename = " + fileName)
-               .header("Accept-Ranges", "bytes")
-               .header("ETag", eTag)
-               .header(HttpHeaders.LAST_MODIFIED, lastModified);
-
-        if (fullContent || ranges.size() == 1) {
-            final Range r = fullContent ? full : ranges.get(0);
-            return singlePartExtractResponse(builder, bulkExtractFile, r, headMethod);
-        } else {
-
-            if (headMethod) {
-                builder = Responses.methodNotAllowed()
-                        .header("Allow", "GET");
-                return builder.build();
-            }
-
-            return multiPartsExtractResponse(builder, bulkExtractFile, ranges);
-        }
+        return null;
     }
 
     private Response singlePartExtractResponse(final ResponseBuilder builder,
@@ -327,7 +358,6 @@ public class BulkExtract {
                 try {
                     input = new FileInputStream(bulkExtractFile);
                     IOUtils.copyLarge(input, output, r.start, r.length);
-                    LOG.info("Retrieving bulk extract with method {}", 3, r.length);
                 } finally {
                     IOUtils.closeQuietly(input);
                 }
@@ -354,22 +384,51 @@ public class BulkExtract {
                     input = new FileInputStream(bulkExtractFile);
                     // Copy multi part range.
                     for (Range r : ranges) {
-                        output.write( "\r\n".getBytes() );
-                        output.write( (MULTIPART_BOUNDRY_SEP + "\r\n").getBytes() );
-                        output.write( ("Content-Range: bytes " + r.start + "-" + r.end + "/" + r.total+ "\r\n").getBytes() );
-                        IOUtils.copyLarge(input, output, r.start, r.length);
+                        BulkExtract.sendByteRange(r, input, output);
                     }
-                    output.write( "\r\n".getBytes() );
-                    output.write( (MULTIPART_BOUNDRY_END + "\r\n").getBytes() );
+                    output.write( (CRLF+ MULTIPART_BOUNDARY_END + CRLF).getBytes() );
+                    LOG.debug(CRLF+ MULTIPART_BOUNDARY_END + CRLF);
                 } finally {
                     IOUtils.closeQuietly(input);
                 }
             }
+
         };
 
+        long contentLength = MULTIPART_BOUNDARY_END.length() + 4;
+        for (Range r : ranges) {
+            contentLength += byteRangeHeader(r).length();
+            contentLength += r.length;
+        }
+
         builder.entity(out)
-               .header("Content-Type", "multipart/byteranges; boundary=" + MULTIPART_BOUNDARY);
+               .header("Content-Type", "multipart/byteranges; boundary=" + MULTIPART_BOUNDARY)
+               .header("Content-Length", String.valueOf(contentLength));
         return builder.build();
+    }
+
+    private static void sendByteRange(Range r, InputStream input, OutputStream output) throws IOException {
+        String rangeHeader = byteRangeHeader(r);
+        output.write( rangeHeader.getBytes() );
+        IOUtils.copyLarge(input, output, r.start, r.length);
+        output.flush();
+        Object[] obj = {
+                rangeHeader,
+                r,
+                new Long(rangeHeader.length()),
+                new Long(r.length)
+        };
+        LOG.debug("multiPartsExtractResponse\n{}\n{}\nheader length={} stream length={}", obj );
+    }
+
+    private static String byteRangeHeader(Range r) {
+        StringBuilder sb = new StringBuilder();
+        // output multi-part boundry separator
+        sb.append( CRLF + MULTIPART_BOUNDARY_SEP + CRLF );
+        // output content type and range size sub-header for this part
+        sb.append( "Content-Type: application/x-tar" + CRLF );
+        sb.append( "Content-Range: bytes " + r.start + "-" + r.end + "/" + r.total+ CRLF );
+        return sb.toString();
     }
 
     private Entity getApplication(Authentication authentication) {
@@ -486,6 +545,27 @@ public class BulkExtract {
             this.total = total;
         }
 
+        public boolean sameValue(Range r) {
+            if (r == null) {
+                return false;
+            }
+
+            return r.start == this.start &&
+                    r.end == this.end &&
+                    r.length == this.length &&
+                    r.total == this.total;
+        }
+
+        @Override
+        public String toString() {
+            Object[] arguments = {
+                    Long.valueOf(start),
+                    Long.valueOf(end),
+                    Long.valueOf(length),
+                    Long.valueOf(total)
+            };
+            return MessageFormat.format("Range: start={0} end={1} length={2} total={3}", arguments);
+        }
     }
 
     /**

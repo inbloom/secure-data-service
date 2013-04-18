@@ -274,6 +274,35 @@ public class BulkExtractTest {
   }
 
   @Test
+  public void testRange() throws Exception {
+      injector.setOauthAuthenticationWithEducationRole();
+      mockApplicationEntity();
+      mockBulkExtractEntity();
+
+      HttpRequestContext failureContext = Mockito.mock(HttpRequestContext.class);
+      Mockito.when(failureContext.getMethod()).thenReturn("HEAD");
+      Mockito.when(failureContext.getHeaderValue("Range")).thenReturn("bytes=0");
+
+      Response failureRes = bulkExtract.getExtractResponse(failureContext, null);
+      assertEquals(416, failureRes.getStatus());
+
+      HttpRequestContext validContext = Mockito.mock(HttpRequestContext.class);
+      Mockito.when(validContext.getMethod()).thenReturn("HEAD");
+      Mockito.when(validContext.getHeaderValue("Range")).thenReturn("bytes=0-5");
+
+      Response validRes = bulkExtract.getExtractResponse(validContext, null);
+      assertEquals(200, validRes.getStatus());
+
+      HttpRequestContext multiRangeContext = Mockito.mock(HttpRequestContext.class);
+      Mockito.when(multiRangeContext.getMethod()).thenReturn("HEAD");
+      Mockito.when(multiRangeContext.getHeaderValue("Range")).thenReturn("bytes=0-5,6-10");
+
+      Response multiRangeRes = bulkExtract.getExtractResponse(validContext, null);
+      assertEquals(200, multiRangeRes.getStatus());
+
+  }
+
+  @Test
   public void testFailedEvaluatePreconditions() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
       mockApplicationEntity();

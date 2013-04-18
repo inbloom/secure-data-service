@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.EdOrgContextResolverFactory;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator.DeltaRecord;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -52,7 +53,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     
     @Autowired
     DeltaJournal deltaJournal;
-
+    
     private DeltaRecord nextDelta;
 
     private Iterator<Map<String, Object>> deltaCursor;
@@ -148,11 +149,17 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             if ("null".equals(id) || id == null) {
                 continue;
             }
-
+            
+            ContextResolver resolver = resolverFactory.getResolver((String) delta.get("c"));
+            if (resolver == null) {
+                // we have no resolver defined for this type, i.e. this type should not be
+                // extracted, do not waste resource to retrieve the mongo entity
+                continue;
+            }
             Entity entity = repo.findById((String) delta.get("c"), (String) delta.get("_id"));
             Set<String> topLevelGoverningLEA = null; 
             if (entity != null) {
-                topLevelGoverningLEA = resolverFactory.getResolver((String) delta.get("c")).findGoverningLEA(entity);
+                topLevelGoverningLEA = resolver.findGoverningLEA(entity);
             }
             
             if (topLevelGoverningLEA != null && !topLevelGoverningLEA.isEmpty()) {
@@ -165,6 +172,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     
     @Override
     public void remove() {
+        // assume bulk extract is read from secondary only, there is no remove support
         throw new UnsupportedOperationException();
     }
 

@@ -190,7 +190,9 @@ end
 When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(tenant,appId)
 end
-
+When /^I know the file-length of the extract file$/ do
+  @file_size = File.size(@filePath)
+end
 When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(tenant,appId)
   
@@ -333,6 +335,15 @@ Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
   assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
   compareToApi(collection, collFile)
 }
+end
+
+Then /^I should not see an extract for tenant "(.*?)"/ do |tenant|
+  @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb = @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+
+  match =  @coll.find_one({"body.tenantId" => tenant})
+  assert(!match,"Invalid extract for tenant #{tenant} found")
 end
 
 Then /^the extraction zone should still be empty/ do

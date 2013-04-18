@@ -264,6 +264,7 @@ def restHttpCustomHeadersGet(id, customHeaders, format = @format, sessionId = @s
   puts header
   @res = RestClient.get(urlHeader[:url], header){|response, request, result| response }
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  return @res
 end
 
 def restTls(url, format = @format, sessionId = @sessionId)
