@@ -9,16 +9,16 @@ Scenario: Get the bulk extract file in chunks
     And I know the file length of the extract file
     When I make bulk extract API head call
     Then I get back a response code of "200"
-    Then I have all the information to make a byte range request
+    Then I have all the information to make a custom bulk extract request
  
     #Consecutive chunks   
     When I prepare the custom headers for byte range from "0" to "100"
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "101"
     And I store the file content
     When I prepare the custom headers for byte range from "101" to "end"
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "443"
     And I store the file content
@@ -28,12 +28,12 @@ Scenario: Get the bulk extract file in chunks
     
     #First n bytes and last n bytes
     When I prepare the custom headers for the first "300" bytes
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "300"
     And I store the file content
     When I prepare the custom headers for the last "244" bytes
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "244"
     And I store the file content
@@ -43,12 +43,12 @@ Scenario: Get the bulk extract file in chunks
 
     #Overlapping chunks
     When I prepare the custom headers for byte range from "0" to "100"
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "101"
     And I store the file content
     When I prepare the custom headers for byte range from "50" to "end"
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "494"
     And I combine the overlapped parts
@@ -57,13 +57,13 @@ Scenario: Get the bulk extract file in chunks
     
     #Disjoint ranges   
     When I prepare the custom headers for byte range from "30" to "150"
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "121"
     And I store the file content
     And I verify the bytes I have are correct
     And I prepare the custom headers for byte range from "200" to "300"
-    When I make a ranged bulk extract API call
+    When I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "101"
     And I verify the bytes I have are correct
@@ -72,27 +72,28 @@ Scenario: Get the bulk extract file in chunks
 
     #Invalid/Incomplete range calls
     When I prepare the custom headers for byte range from "0" to "700"
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "200"
     And the content length in response header is "544"
     When I prepare the custom headers for byte range from "550" to "700"
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "416"
     When I prepare the custom headers for byte range from "50" to "6000"
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "494"
     When I prepare the custom headers for byte range from "500" to "150"
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "416"
     When I prepare the custom headers for byte range from "" to "544"
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "200"
     And the content length in response header is "544"
     
+
     #Multiple Range
     #When I prepare the custom headers for multiple byte ranges "0-100,101-543"
-    #And I make a ranged bulk extract API call
+    #And I make a custom bulk extract API call
     #Then I get back a response code of "206"
     #And the content length in response header is "544"
     #And I process the file content
@@ -102,6 +103,11 @@ Scenario: Get the bulk extract file in chunks
 
     #Invalid API Call
     When I prepare the custom headers with incorrect etag
-    And I make a ranged bulk extract API call
+    And I make a custom bulk extract API call
     Then I get back a response code of "200"
     And the content length in response header is "544"
+
+    #Concurrent Call
+    When I make a concurrent ranged bulk extract API call and store the results
+    Then the file is decrypted
+    And I see that the combined file matches the tar file
