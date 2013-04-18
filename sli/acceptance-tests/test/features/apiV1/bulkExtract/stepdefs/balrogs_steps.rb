@@ -41,7 +41,7 @@ Given /^I set up a fake tar file on the file system and in Mongo$/ do
   appId = getAppId()
   src_coll = db["bulkExtractFiles"]
   @fake_tar_id = SecureRandom.uuid
-  src_coll.insert({"_id" => @fake_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%Y-%m-%d"), "path" => Dir.pwd + "/fake.tar"}})
+  src_coll.insert({"_id" => @fake_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%a %b %d %H:%S:%M %Z %Y"), "path" => Dir.pwd + "/fake.tar"}})
 end
 
 Given /^I know the file length of the extract file$/ do
@@ -64,7 +64,7 @@ When /^I make bulk extract API call$/ do
   restHttpGet("/bulk/extract/tenant")
 end
 
-When /^I make a ranged bulk extract API call$/ do
+When /^I make a custom bulk extract API call$/ do
   restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
 
@@ -388,7 +388,7 @@ Then /^I see that the response matches what I put in the fake tar file$/ do
 end
 
 
-Then /^I have all the information to make a byte range request$/ do
+Then /^I have all the information to make a custom bulk extract request$/ do
   puts "@res.headers: #{@res.headers}"
   @last_modified = @res.headers[:last_modified]
   @accept_ranges = @res.headers[:accept_ranges]

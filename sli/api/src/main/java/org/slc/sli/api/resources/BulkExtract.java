@@ -87,6 +87,7 @@ public class BulkExtract {
     private static final String MULTIPART_BOUNDRY_END = MULTIPART_BOUNDRY_SEP + "--";
 
     private static final String SAMPLED_FILE_NAME = "sample-extract.tar";
+    private static final String DATE_FORMAT = "EEE MMM d HH:mm:ss z yyyy";
 
     public static final String BULK_EXTRACT_FILES = "bulkExtractFiles";
     public static final String BULK_EXTRACT_FILE_PATH = "path";
@@ -225,23 +226,26 @@ public class BulkExtract {
      */
     private Response getExtractResponse(final HttpRequestContext req,
             final File bulkExtractFile, final long lastModifiedTime, final String lastModified) {
-        DateFormat format = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
+        DateFormat format = new SimpleDateFormat(DATE_FORMAT);
         Date httpDate = null;
-        try {
-            httpDate = format.parse(lastModified);
-        } catch (ParseException e) {
-            LOG.error("Unable to parse bulk extract Last-Modified date into a HTTP-Date format: {}", e);
-        }
 
         LOG.info("Retrieving bulk extract with method {}", req.getMethod());
         String fileName = bulkExtractFile.getName();
         long fileLength = bulkExtractFile.length();
         String eTag = fileName + "_" + fileLength + "_" + lastModified;
+
         /*
          * Validate request headers for caching and resume
          */
-        @SuppressWarnings("deprecation")
-        ResponseBuilder builder = req.evaluatePreconditions(httpDate, new EntityTag(eTag));
+        ResponseBuilder builder = null;
+        try {
+            httpDate = format.parse(lastModified);
+
+            builder = req.evaluatePreconditions(httpDate, new EntityTag(eTag));
+        } catch (ParseException e) {
+            LOG.error("Unable to parse bulk extract Last-Modified date into a HTTP-Date format: {}", e);
+        }
+
         if (builder != null) {
             // evaluate fails
             return builder.build();
