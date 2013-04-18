@@ -1,0 +1,1233 @@
+<?xml version="1.0"?>
+<InterchangeStudentProgram xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                           xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentProgram.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true">
+
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>3</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>3</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>2</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Received a certificate</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>2</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Received a certificate</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>2</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Received a certificate</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>2</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>3</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Received a certificate</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Received a certificate</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Received a certificate</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Transfer to regular education</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2001-09-03</BeginDate>
+    <EndDate>2002-05-30</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>2</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Reached maximum age</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+      <Services>
+        
+        
+        <Description>Reading Intervention</Description>
+      </Services>
+    <BeginDate>2002-09-09</BeginDate>
+    <EndDate>2003-06-04</EndDate>
+      <ReasonExited>Discontinued schooling</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+
+    </Action>
+</InterchangeStudentProgram>
