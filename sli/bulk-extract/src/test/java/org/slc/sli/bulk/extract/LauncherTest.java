@@ -67,7 +67,7 @@ public class LauncherTest {
 
         Mockito.when(bulkExtractMongoDA.getTenant(tenantId)).thenReturn(null);
 
-        launcher.execute(tenantId);
+        launcher.execute(tenantId, false);
 
         Mockito.verify(tenantExtractor, Mockito.never()).execute(Mockito.eq("tenant"), Mockito.any(ExtractFile.class), Mockito.any(DateTime.class));
     }
@@ -83,7 +83,7 @@ public class LauncherTest {
 
         Mockito.when(bulkExtractMongoDA.getTenant(tenantId)).thenReturn(testTenantEntity);
 
-        launcher.execute(tenantId);
+        launcher.execute(tenantId, false);
 
         Mockito.verify(tenantExtractor, Mockito.times(1)).execute(Mockito.eq(tenantId), Mockito.any(ExtractFile.class), Mockito.any(DateTime.class));
     }

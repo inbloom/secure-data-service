@@ -21,10 +21,9 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 
 Given /^I have an empty delta collection$/ do
-      steps %Q{
-       Given the following collections are empty in datastore:
-          | deltas |
-      }
+    @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+    @db = @conn[@ingestion_db_name]
+    @db.drop_collection("deltas")
 end
 
 When /^I run a small ingestion job$/ do
@@ -54,6 +53,8 @@ Then /^I see deltas for each (.*?) (.*?) operation$/ do |type, operation|
     @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
     @db = @conn[@ingestion_db_name]
     @coll = @db['deltas']
+    disable_NOTABLESCAN()
     assert_equal(count, @coll.find("c" => type, "u" => {"$exists" => operation == "update"}, "d" => {"$exists" => operation == "delete"}).count)
+    enable_NOTABLESCAN()
   }
 end
