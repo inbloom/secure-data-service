@@ -98,7 +98,7 @@ Scenario: Delete Cohort with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|    
         | cohort                                    |        -1| 
-#        | recordHash                                |      	 -1|
+        | recordHash                                |      	 -1|
 
 	Scenario: Delete Orphan Cohort Ref with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -121,7 +121,7 @@ Scenario: Delete Cohort with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|    
         | cohort                                    |        -1| 
-#        | recordHash                                |      	 -1|
+        | recordHash                                |      	 -1|
 
 
 	Scenario: Delete Cohort with cascade = false, force = true, logviolations = true
