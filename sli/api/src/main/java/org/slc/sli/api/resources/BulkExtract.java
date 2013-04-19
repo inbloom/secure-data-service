@@ -30,7 +30,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -45,14 +44,17 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
-import com.sun.jersey.api.Responses;
-import com.sun.jersey.api.core.HttpContext;
-import com.sun.jersey.api.core.HttpRequestContext;
-import com.sun.jersey.core.header.reader.HttpHeaderReader;
-
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,14 +64,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
+import com.sun.jersey.api.Responses;
+import com.sun.jersey.api.core.HttpContext;
+import com.sun.jersey.api.core.HttpRequestContext;
+import com.sun.jersey.core.header.reader.HttpHeaderReader;
 
 /**
  * The Bulk Extract Endpoints.
@@ -135,6 +133,25 @@ public class BulkExtract {
         builder.header("content-disposition", "attachment; filename = " + SAMPLED_FILE_NAME);
         builder.header("last-modified", "Not Specified");
         return builder.build();
+    }
+    
+    /**
+     * Send an LEA extract
+     * 
+     * @param lea
+     *            The uuid of the lea to get the extract
+     * @return
+     *         A response with a lea tar file
+     * @throws Exception
+     *             On Error
+     */
+    @GET
+    @Path("extract/{leaId}")
+    @RightsAllowed({ Right.BULK_EXTRACT })
+    public Response getLEAExtract(@Context HttpContext context, @PathParam("leaId") String leaId) throws Exception {
+        LOG.info("Retrieving delta bulk extract");
+        checkApplicationAuthorization(leaId);
+        return getExtractResponse(context.getRequest(), null);
     }
 
     /**
@@ -537,7 +554,7 @@ public class BulkExtract {
      * @throws AccessDeniedException
      *             if the application is not BEEP enabled
      */
-    private void checkApplicationAuthorization(Set<String> edorgsForExtract) throws AccessDeniedException {
+    private void checkApplicationAuthorization(String edorgsForExtract) throws AccessDeniedException {
         OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
         Entity app = getApplication(auth);
         Map<String, Object> body = app.getBody();
