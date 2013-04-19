@@ -376,7 +376,21 @@ Scenario: Delete Student with cascade = false and force = true, log violations =
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentParent.xml"
-     And I should not see an error log file created
+    And I should see "Child reference of entity type attendance" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentSchoolAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type grade" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentAcademicRecord" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type reportCard" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentAssessment" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentGradebookEntry" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentSectionAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type disciplineAction" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type courseTranscript" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentDisciplineIncidentAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentCohortAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentParentAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentProgramAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should not see an error log file created
     And I re-execute saved query "student" to get "0" records
     And I re-execute saved query "attendance" to get "2" records
     And I re-execute saved query "disciplineAction" to get "8" records
@@ -478,6 +492,20 @@ Scenario: Delete Student Ref with cascade = false and force = true, log violatio
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type attendance" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentSchoolAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type grade" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentAcademicRecord" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type reportCard" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentAssessment" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentGradebookEntry" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentSectionAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type disciplineAction" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type courseTranscript" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentDisciplineIncidentAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentCohortAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentParentAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentProgramAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
      And I should not see an error log file created
     And I re-execute saved query "student" to get "0" records
     And I re-execute saved query "attendance" to get "2" records
