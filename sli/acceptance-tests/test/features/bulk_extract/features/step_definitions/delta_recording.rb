@@ -54,5 +54,5 @@ end
 
 When /^I run a delete ingestion job$/ do
   ingest_odin("deletes/school_10students")
-  sleep 5
+  sleep 10
 end
