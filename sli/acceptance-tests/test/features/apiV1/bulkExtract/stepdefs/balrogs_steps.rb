@@ -52,6 +52,7 @@ Given /^I set up a sample tar file on the file system and in Mongo$/ do
   appId = getAppId()
   src_coll = db["bulkExtractFiles"]
   @sampe_tar_id = SecureRandom.uuid
+  src_coll.remove({"_id" => @sample_tar_id})
   src_coll.insert({"_id" => @sample_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%a %b %d %H:%S:%M %Z %Y"), "path" => @sample_file}})
 end
 
@@ -142,8 +143,10 @@ end
 When /^the If-Match header field is set to "(.*?)"$/ do |value|
   if value == "FILENAME"
     @customHeaders = {:if_match => "\"#{@etag}\""}
-  else
+  elsif value == "INCORRECT_FILENAME"
     @customHeaders = {:if_match => "\"#{value}\""}
+  else
+    assert(false, "Unsupported value")
   end
 
  end
@@ -155,7 +158,7 @@ When /^the If-Match header field is set to "(.*?)"$/ do |value|
   elsif value == "AFTER"
     @customHeaders = {:if_unmodified_since => "#{date.next_day.httpdate}"}
   else 
-    assert(false)
+    assert(false, "Unsupported value")
   end
 
  end
