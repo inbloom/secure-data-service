@@ -17,10 +17,10 @@
 package org.slc.sli.api.resources;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -354,12 +354,18 @@ public class BulkExtract {
         StreamingOutput out = new StreamingOutput() {
             @Override
             public void write(OutputStream output) throws IOException, WebApplicationException {
-                InputStream input = null;
+                RandomAccessFile raf = null;
                 try {
-                    input = new FileInputStream(bulkExtractFile);
-                    IOUtils.copyLarge(input, output, r.start, r.length);
+                    raf = new RandomAccessFile(bulkExtractFile, "r");
+                    long total = outputRange(raf, output, r.start, r.length);
+
+                    Object[] obj = {
+                            r,
+                            new Long(total)
+                    };
+                    LOG.debug("multiPartsExtractResponse\n{}\nstream length={}", obj);
                 } finally {
-                    IOUtils.closeQuietly(input);
+                    IOUtils.closeQuietly(raf);
                 }
             }
         };
@@ -379,17 +385,17 @@ public class BulkExtract {
         StreamingOutput out = new StreamingOutput() {
             @Override
             public void write(OutputStream output) throws IOException, WebApplicationException {
-                InputStream input = null;
+                RandomAccessFile raf = null;
                 try {
-                    input = new FileInputStream(bulkExtractFile);
+                    raf = new RandomAccessFile(bulkExtractFile, "r");
                     // Copy multi part range.
                     for (Range r : ranges) {
-                        BulkExtract.sendByteRange(r, input, output);
+                        BulkExtract.sendByteRange(r, raf, output);
                     }
                     output.write( (CRLF+ MULTIPART_BOUNDARY_END + CRLF).getBytes() );
                     LOG.debug(CRLF+ MULTIPART_BOUNDARY_END + CRLF);
                 } finally {
-                    IOUtils.closeQuietly(input);
+                    IOUtils.closeQuietly(raf);
                 }
             }
 
@@ -407,16 +413,36 @@ public class BulkExtract {
         return builder.build();
     }
 
-    private static void sendByteRange(Range r, InputStream input, OutputStream output) throws IOException {
+    private static long outputRange(RandomAccessFile raf, OutputStream output, long start, long length) throws IOException {
+
+        raf.seek(start);
+        byte[] buffer = new byte[4*1024];
+        long left = length;
+        long total = 0;
+        int n = -1;
+
+        while ( left > 0 &&
+                (n = raf.read(buffer, 0, (int) Math.min(left, buffer.length))) > -1) {
+            output.write(buffer, 0, n);
+            output.flush();
+            left -= n;
+            total += n;
+        }
+        return total;
+    }
+
+    private static void sendByteRange(Range r, RandomAccessFile raf, OutputStream output) throws IOException {
+
         String rangeHeader = byteRangeHeader(r);
         output.write( rangeHeader.getBytes() );
-        IOUtils.copyLarge(input, output, r.start, r.length);
         output.flush();
+        long total = outputRange(raf, output, r.start, r.length);
+
         Object[] obj = {
                 rangeHeader,
                 r,
                 new Long(rangeHeader.length()),
-                new Long(r.length)
+                new Long(total)
         };
         LOG.debug("multiPartsExtractResponse\n{}\n{}\nheader length={} stream length={}", obj );
     }

@@ -21,17 +21,18 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 
 Given /^I have an empty delta collection$/ do
-      steps %Q{
-       Given the following collections are empty in datastore:
-          | deltas |
-      }
+    @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+    @db = @conn[@ingestion_db_name]
+    @db.drop_collection("deltas")
 end
 
 When /^I run a small ingestion job$/ do
       steps %Q{
-        Given I am using odin data store 
         And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         When I generate the 10 student data set with optional fields on in the generated directory
+        And I zip generated data under filename OdinSampleDataSet.zip to the new OdinSampleDataSet directory
+        And I copy generated data to the new OdinSampleDataSet directory
+        Given I am using odin data store
         And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
         When zip file is scp to ingestion landing zone
         And a batch job for file "OdinSampleDataSet.zip" is completed in database
@@ -52,8 +53,8 @@ Then /^I see deltas for each (.*?) (.*?) operation$/ do |type, operation|
     @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
     @db = @conn[@ingestion_db_name]
     @coll = @db['deltas']
-    found = 
-    assert_equal(count, @coll.find("c" => type, "u" => {"$exists" => operation == "update"}).count)
-    puts "landing zone is #{@landing_zone_path}"
+    disable_NOTABLESCAN()
+    assert_equal(count, @coll.find("c" => type, "u" => {"$exists" => operation == "update"}, "d" => {"$exists" => operation == "delete"}).count)
+    enable_NOTABLESCAN()
   }
 end
