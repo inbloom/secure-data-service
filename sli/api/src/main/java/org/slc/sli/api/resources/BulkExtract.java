@@ -33,11 +33,17 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
-import com.sun.jersey.api.core.HttpContext;
-import com.sun.jersey.api.core.HttpRequestContext;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +53,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
+import com.sun.jersey.api.core.HttpContext;
+import com.sun.jersey.api.core.HttpRequestContext;
 
 /**
  * The Bulk Extract Endpoints.
@@ -180,10 +180,8 @@ public class BulkExtract {
      * @param deltaDate
      *            the date of the delta, or null to get the full extract
      * @return the jax-rs response to send back.
-     * @throws Exception
      */
-    Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId)
-            throws Exception {
+    Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId) {
 
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Entity application = getApplication(auth);
@@ -250,6 +248,9 @@ public class BulkExtract {
         initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
+        if (leaId != null && !leaId.isEmpty()) {
+            query.addCriteria(new NeutralCriteria("edOrgId", NeutralCriteria.OPERATOR_EQUAL, leaId));
+        }
         query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
 
@@ -279,6 +280,14 @@ public class BulkExtract {
         Map<String, Object> body = app.getBody();
         if (!body.containsKey("isBulkExtract") || (Boolean) body.get("isBulkExtract") == false) {
             throw new AccessDeniedException("Application is not approved for bulk extract");
+        }
+        if (edorgsForExtract != null) {
+            NeutralQuery query = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL,
+                    app.getEntityId()));
+            Entity appAuth = mongoEntityRepository.findOne(ApplicationAuthorizationResource.RESOURCE_NAME, query);
+            if (appAuth == null || !((List) appAuth.getBody().get("edOrgs")).contains(edorgsForExtract)) {
+                throw new AccessDeniedException("Application is not authorized for bulk extract");
+            }
         }
     }
 

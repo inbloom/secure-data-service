@@ -32,6 +32,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -373,12 +375,78 @@ public class BulkExtractTest {
         // No BE Field
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("isBulkExtract", false);
+        body.put("public_key", "KEY");
         Entity mockEntity = Mockito.mock(Entity.class);
         when(mockEntity.getBody()).thenReturn(body);
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
         bulkExtract.getTenant(null);
     }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testAppIsNotAuthorizedForLea() throws Exception {
+        injector.setEducatorContext();
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", true);
+        body.put("authorized_ed_orgs", Arrays.asList("ONE"));
+        body.put("public_key", "KEY");
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockEntity.getEntityId()).thenReturn("App1");
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        
+        Map<String, Object> authBody = new HashMap<String, Object>();
+        authBody.put("applicationId", "App1");
+        authBody.put("edOrgs", Arrays.asList("TWO"));
+        Entity mockAuth = Mockito.mock(Entity.class);
+        when(mockAuth.getBody()).thenReturn(authBody);
+        when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockAuth);
+        bulkExtract.getLEAExtract(null, "BLEEP");
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testAppAuthIsEmpty() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", true);
+        body.put("authorized_ed_orgs", Arrays.asList("ONE"));
+        body.put("public_key", "KEY");
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockEntity.getEntityId()).thenReturn("App1");
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+
+        // Empty auth
+        Map<String, Object> authBody = new HashMap<String, Object>();
+        authBody.put("applicationId", "App1");
+        authBody.put("edOrgs", new ArrayList<String>());
+        Entity mockAuth = Mockito.mock(Entity.class);
+        when(mockAuth.getBody()).thenReturn(authBody);
+        when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockAuth);
+        bulkExtract.getLEAExtract(null, "BLEEP");
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testAppHasNoAuthorizedEdorgs() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", true);
+        body.put("authorized_ed_orgs", Arrays.asList());
+        body.put("public_key", "KEY");
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockEntity.getEntityId()).thenReturn("App1");
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        bulkExtract.getLEAExtract(null, "BLEEP");
+    }
+ 
 
     private void mockApplicationEntity() {
         Entity mockEntity = Mockito.mock(Entity.class);
