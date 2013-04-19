@@ -3,16 +3,18 @@
                           xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
     <Action ActionType="DELETE" Cascade="false" Force="false">
         <StudentParentAssociationReference>
-            <StudentReference>
-                <StudentIdentity>
-                    <StudentUniqueStateId>1</StudentUniqueStateId>
-                </StudentIdentity>
-            </StudentReference>
-            <ParentReference>
-                <ParentIdentity>
-                    <ParentUniqueStateId>1-dad</ParentUniqueStateId>
-                </ParentIdentity>
-            </ParentReference>
+            <StudentParentAssociationIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <ParentReference>
+                    <ParentIdentity>
+                        <ParentUniqueStateId>1-dad</ParentUniqueStateId>
+                    </ParentIdentity>
+                </ParentReference>
+            </StudentParentAssociationIdentity>
         </StudentParentAssociationReference>
     </Action>
 </InterchangeStudentParent>
