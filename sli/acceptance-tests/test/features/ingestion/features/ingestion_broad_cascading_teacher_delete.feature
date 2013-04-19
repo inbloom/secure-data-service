@@ -51,7 +51,6 @@ Scenario: Delete Teacher with cascade = false
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeTeacherDelete.zip" is completed in database
     And I should see "Processed 1 records." in the resulting batch job file
-    #And I should not see an error log file created
     And I should not see a warning log file created
     And I re-execute saved query "StaffQ" to get "1" records
     And I re-execute saved query "DisciplineActionQ" to get "1" records

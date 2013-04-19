@@ -4,6 +4,9 @@ Feature: Safe Deletion and Cascading Deletion
 Background: I have a landing zone route configured
 Given I am using local data store
 
+#objectiveAssessment	studentAssessment 	objectiveAssessment	1	1	 missing!		
+
+
 @wip
 Scenario: Delete Objective Assessment From Student Assessment with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
