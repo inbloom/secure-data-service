@@ -174,7 +174,10 @@ public class XsdTypeProvider implements TypeProvider {
     private void addExceptions( String schemaName,  Map<String, String> interchangeElementMap ) {
         if( "InterchangeStudentGrade".equals( schemaName) ) {
             interchangeElementMap.put( "GradeIdentity", "SLC-GradeIdentityType" );
+        } else if( "InterchangeStudentEnrollment".equals( schemaName ) ) {
+            interchangeElementMap.put("GraduationPlanIdentity", "SLC-GraduationPlanIdentityType");
         }
+
 
     }
 

@@ -3386,6 +3386,7 @@ end
 
 Then /^I should not see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
        dumpDb(tenant)
+       `rm -f temp/exp_*_deltas.json`
        output = `grep #{id} ./temp/*`
        assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
 
@@ -3676,7 +3677,8 @@ def getEntityCounts(tenant)
                      "roles",
                      "applicationAuthorization",
                      "customRole",
-                     "adminDelegation"]
+                     "adminDelegation",
+                     "deltas"]
      disable_NOTABLESCAN
      # Add straight collection counts
      coll_names.each do |coll|

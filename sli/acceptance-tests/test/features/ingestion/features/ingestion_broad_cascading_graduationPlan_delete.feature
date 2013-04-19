@@ -77,7 +77,6 @@ Scenario: Safe Delete Graduation Plan Reference (negative test)
         |recordHash                 |    0|
 
 
-@wip
 Scenario: Force Delete Graduation Plan with cascade = false, force = true and log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
