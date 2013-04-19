@@ -50,15 +50,6 @@ import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Variant;
 
-import com.sun.jersey.api.Responses;
-import com.sun.jersey.api.core.ExtendedUriInfo;
-import com.sun.jersey.api.core.HttpContext;
-import com.sun.jersey.api.core.HttpRequestContext;
-import com.sun.jersey.api.core.HttpResponseContext;
-import com.sun.jersey.api.representation.Form;
-import com.sun.jersey.core.header.QualitySourceMediaType;
-import com.sun.jersey.core.spi.factory.ResponseImpl;
-
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -70,6 +61,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
@@ -78,13 +76,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.sun.jersey.api.Responses;
+import com.sun.jersey.api.core.ExtendedUriInfo;
+import com.sun.jersey.api.core.HttpContext;
+import com.sun.jersey.api.core.HttpRequestContext;
+import com.sun.jersey.api.core.HttpResponseContext;
+import com.sun.jersey.api.representation.Form;
+import com.sun.jersey.core.header.QualitySourceMediaType;
+import com.sun.jersey.core.spi.factory.ResponseImpl;
 
 /**
  * Test for support BulkExtract
@@ -221,7 +220,7 @@ public class BulkExtractTest {
           }
       };
 
-      Response res = bulkExtract.getExtractResponse(context, null);
+        Response res = bulkExtract.getExtractResponse(context, null, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -258,7 +257,7 @@ public class BulkExtractTest {
           }
       };
 
-      Response res = bulkExtract.getExtractResponse(context, null);
+        Response res = bulkExtract.getExtractResponse(context, null, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -283,21 +282,21 @@ public class BulkExtractTest {
       Mockito.when(failureContext.getMethod()).thenReturn("HEAD");
       Mockito.when(failureContext.getHeaderValue("Range")).thenReturn("bytes=0");
 
-      Response failureRes = bulkExtract.getExtractResponse(failureContext, null);
+        Response failureRes = bulkExtract.getExtractResponse(failureContext, null, null);
       assertEquals(416, failureRes.getStatus());
 
       HttpRequestContext validContext = Mockito.mock(HttpRequestContext.class);
       Mockito.when(validContext.getMethod()).thenReturn("HEAD");
       Mockito.when(validContext.getHeaderValue("Range")).thenReturn("bytes=0-5");
 
-      Response validRes = bulkExtract.getExtractResponse(validContext, null);
+        Response validRes = bulkExtract.getExtractResponse(validContext, null, null);
       assertEquals(200, validRes.getStatus());
 
       HttpRequestContext multiRangeContext = Mockito.mock(HttpRequestContext.class);
       Mockito.when(multiRangeContext.getMethod()).thenReturn("HEAD");
       Mockito.when(multiRangeContext.getHeaderValue("Range")).thenReturn("bytes=0-5,6-10");
 
-      Response multiRangeRes = bulkExtract.getExtractResponse(validContext, null);
+        Response multiRangeRes = bulkExtract.getExtractResponse(validContext, null, null);
       assertEquals(200, multiRangeRes.getStatus());
 
   }
@@ -315,7 +314,7 @@ public class BulkExtractTest {
           }
       };
 
-      Response res = bulkExtract.getExtractResponse(context, null);
+        Response res = bulkExtract.getExtractResponse(context, null, null);
       assertEquals(412, res.getStatus());
   }
 

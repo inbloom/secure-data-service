@@ -133,7 +133,7 @@ public class BulkExtract {
     public Response getLEAExtract(@Context HttpContext context, @PathParam("leaId") String leaId) throws Exception {
         LOG.info("Retrieving delta bulk extract");
         checkApplicationAuthorization(leaId);
-        return getExtractResponse(context.getRequest(), null);
+        return getExtractResponse(context.getRequest(), null, leaId);
     }
 
     /**
@@ -151,7 +151,7 @@ public class BulkExtract {
         info("Received request to stream tenant bulk extract...");
         checkApplicationAuthorization(null);
 
-        return getExtractResponse(context.getRequest(), null);
+        return getExtractResponse(context.getRequest(), null, null);
     }
 
     /**
@@ -169,7 +169,7 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@Context HttpContext context, @PathParam("date") String date) throws Exception {
         LOG.info("Retrieving delta bulk extract");
-        return getExtractResponse(context.getRequest(), date);
+        return getExtractResponse(context.getRequest(), date, null);
     }
 
     /**
@@ -182,14 +182,15 @@ public class BulkExtract {
      * @return the jax-rs response to send back.
      * @throws Exception
      */
-    Response getExtractResponse(final HttpRequestContext req, final String deltaDate) throws Exception {
+    Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId)
+            throws Exception {
 
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Entity application = getApplication(auth);
 
         String appId = application.getEntityId();
 
-        ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate, appId);
+        ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate, appId, leaId);
 
         if (bulkExtractFileEntity == null) {
             // return 404 if no bulk extract support for that tenant
@@ -236,7 +237,7 @@ public class BulkExtract {
      * @param appId
      * @return
      */
-    private ExtractFile getBulkExtractFile(String deltaDate, String appId) {
+    private ExtractFile getBulkExtractFile(String deltaDate, String appId, String leaId) {
         boolean isDelta = deltaDate != null;
         initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
