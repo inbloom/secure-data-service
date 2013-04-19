@@ -52,6 +52,7 @@ Given /^I set up a sample tar file on the file system and in Mongo$/ do
   appId = getAppId()
   src_coll = db["bulkExtractFiles"]
   @sampe_tar_id = SecureRandom.uuid
+  src_coll.remove({"_id" => @sample_tar_id})
   src_coll.insert({"_id" => @sample_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%a %b %d %H:%S:%M %Z %Y"), "path" => @sample_file}})
 end
 
@@ -65,6 +66,14 @@ end
 
 When /^I make API call to retrieve sampled bulk extract file headers$/ do
   restHttpHead("/bulk/extract")
+end
+
+When /^I make API call to retrieve sampled bulk extract file headers with version "(.*?)"$/ do |version|
+  restHttpHead("/" + version + "/bulk/extract")
+end
+
+When /^I make API call to bulk extract file headers with version "(.*?)"$/ do |version|
+  restHttpHead("/" + version + "/bulk/extract/tenant")
 end
 
 When /^I make bulk extract API head call$/ do
@@ -142,8 +151,10 @@ end
 When /^the If-Match header field is set to "(.*?)"$/ do |value|
   if value == "FILENAME"
     @customHeaders = {:if_match => "\"#{@etag}\""}
-  else
+  elsif value == "INCORRECT_FILENAME"
     @customHeaders = {:if_match => "\"#{value}\""}
+  else
+    assert(false, "Unsupported value")
   end
 
  end
@@ -155,7 +166,7 @@ When /^the If-Match header field is set to "(.*?)"$/ do |value|
   elsif value == "AFTER"
     @customHeaders = {:if_unmodified_since => "#{date.next_day.httpdate}"}
   else 
-    assert(false)
+    assert(false, "Unsupported value")
   end
 
  end
@@ -346,6 +357,14 @@ Then /^I verify I do not have the complete file$/ do
   assert(File.size(@received_file) != File.size(@sample_file))
   File.delete(@received_file)
   @received_file = nil
+end
+
+Then /^I check the version of http response headers$/ do
+  LATEST_API_VERSION = "v1.2"
+
+  returned_version = @res.headers[:x_executedPath].split("/").first
+
+  assert(returned_version==LATEST_API_VERSION, "Returned version is wrong. Actual: #{returned_version} Expected: #{LATEST_API_VERSION}")
 end
 
 Then /^I check the http response headers$/ do  

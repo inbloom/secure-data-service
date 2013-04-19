@@ -192,14 +192,14 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         private Set<String> belongsToLEA;
         private Operation op;
         private boolean spamDelete;
-        private String collection;
+        private String type;
         
-        DeltaRecord(Entity entity, Set<String> belongsToLEA, Operation op, boolean spamDelete, String collection) {
+        DeltaRecord(Entity entity, Set<String> belongsToLEA, Operation op, boolean spamDelete, String type) {
             this.entity = entity;
             this.belongsToLEA = belongsToLEA;
             this.op = op;
             this.spamDelete = spamDelete;
-            this.collection = collection;
+            this.type = type;
         }
         
         public Entity getEntity() {
@@ -214,32 +214,12 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             return op;
         }
         
-        public void setEntity(Entity e) {
-            this.entity = e;
-        }
-        
-        public void setBelongsToLEA(Set<String> belongsToLEA) {
-            this.belongsToLEA = belongsToLEA;
-        }
-        
-        public void setOp(Operation op) {
-            this.op = op;
-        }
-
         public boolean isSpamDelete() {
             return spamDelete;
         }
 
-        public void setSpamDelete(boolean spamDelete) {
-            this.spamDelete = spamDelete;
-        }
-
-        public String getCollection() {
-            return collection;
-        }
-
-        public void setCollection(String collection) {
-            this.collection = collection;
+        public String getType() {
+            return type;
         }
     }
 }
