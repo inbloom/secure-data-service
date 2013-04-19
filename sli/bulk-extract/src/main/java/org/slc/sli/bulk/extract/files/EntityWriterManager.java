@@ -27,9 +27,13 @@ import org.slc.sli.domain.Entity;
 *
 */
 public class EntityWriterManager {
+
+    private final String DELETE = "deleted";
+
     DefaultHashMap<String, EntityWriter> writers;
     Map<String, String> multiFileEntities;
     Map<String, String> entities;
+
 
     /**
      * Write an Entity to a File.
@@ -43,6 +47,17 @@ public class EntityWriterManager {
         writerCollectionFile(entity, archiveFile);
 
         return entity;
+    }
+    
+    /**
+     * Write all delete event to a single file
+     * 
+     * @param entity
+     * @param archiveFile
+     */
+    public void writeDelete(Entity entity, ExtractFile archiveFile) {
+        EntityWriter defaultWriter = writers.getDefault();
+        defaultWriter.write(entity, archiveFile.getDataFileEntry(DELETE));
     }
 
     private void writeEntityFile(Entity entity, ExtractFile archiveFile) {
