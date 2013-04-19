@@ -56,6 +56,14 @@ When /^I make API call to retrieve sampled bulk extract file headers$/ do
   restHttpHead("/bulk/extract")
 end
 
+When /^I make API call to retrieve sampled bulk extract file headers with version "(.*?)"$/ do |version|
+  restHttpHead("/" + version + "/bulk/extract")
+end
+
+When /^I make API call to bulk extract file headers with version "(.*?)"$/ do |version|
+  restHttpHead("/" + version + "/bulk/extract/tenant")
+end
+
 When /^I make bulk extract API head call$/ do
   restHttpHead("/bulk/extract/tenant")
 end
@@ -335,6 +343,14 @@ Then /^I verify I do not have the complete file$/ do
   assert(File.size(@received_file) != File.size(@path))
   File.delete(@received_file)
   @received_file = nil
+end
+
+Then /^I check the version of http response headers$/ do
+  LATEST_API_VERSION = "v1.2"
+
+  returned_version = @res.headers[:x_executedPath].split("/").first
+
+  assert(returned_version==LATEST_API_VERSION, "Returned version is wrong. Actual: #{returned_version} Expected: #{LATEST_API_VERSION}")
 end
 
 Then /^I check the http response headers$/ do  
