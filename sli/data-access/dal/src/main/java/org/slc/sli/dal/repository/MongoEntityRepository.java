@@ -28,8 +28,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -148,8 +148,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return entity.getEntityId();
     }
 
-    private List<String> getIds(List<Entity> entities) {
-        List<String> ids = new ArrayList<String>(entities.size());
+    private List<String> getIds(Iterable<Entity> entities) {
+        List<String> ids = new ArrayList<String>();
         for (Entity entity : entities) {
             ids.add(entity.getEntityId());
         }
@@ -270,6 +270,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             denormalizer.denormalization(collectionName).doUpdate(updateEntity, update);
         }
 
+        if (journal != null) {
+            journal.journal(id, collectionName, false);
+        }
+
         return result;
     }
 
@@ -292,25 +296,22 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         this.addTimestamps(entity);
         this.schemaVersionValidatorProvider.getSliSchemaVersionValidator().insertVersionInformation(entity);
+        Entity result;
 
         if (subDocs.isSubDoc(collectionName)) {
             validator.validate(entity);
             validator.validateNaturalKeys(entity, true);
             subDocs.subDoc(collectionName).create(entity);
 
-            if (denormalizer.isDenormalizedDoc(collectionName)) {
-                denormalizer.denormalization(collectionName).create(entity);
-            }
-
-            return entity;
+            result = entity;
         } else if (containerDocumentAccessor.isContainerDocument(entity.getType())) {
             validator.validate(entity);
             validator.validateNaturalKeys(entity, true);
             final String createdId = containerDocumentAccessor.insert(entity);
             if (!createdId.isEmpty()) {
-                return new MongoEntity(type, createdId, entity.getBody(), metaData);
+                result = new MongoEntity(type, createdId, entity.getBody(), metaData);
             } else {
-                return entity;
+                result = entity;
             }
         } else {
             SuperdocConverter converter = converterReg.getConverter(collectionName);
@@ -319,14 +320,17 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
             validator.validate(entity);
             validator.validateNaturalKeys(entity, true);
-            Entity result = super.insert(entity, collectionName);
+            result = super.insert(entity, collectionName);
 
-            if (denormalizer.isDenormalizedDoc(collectionName)) {
-                denormalizer.denormalization(collectionName).create(entity);
-            }
-
-            return result;
         }
+        if (denormalizer.isDenormalizedDoc(collectionName)) {
+            denormalizer.denormalization(collectionName).create(entity);
+        }
+        if (journal != null) {
+            journal.journal(result.getEntityId(), collectionName, false);
+        }
+
+        return result;
     }
 
     @Override
@@ -512,32 +516,22 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun, boolean force,
-            boolean logViolations, Integer maxObjects, AccessibilityCheck access) {
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun,
+                                    boolean force, boolean logViolations, Integer maxObjects, AccessibilityCheck access) {
         String entityType = entity.getType();
-        if (!entityType.equals("attendance")) {
+        if ((!containerDocumentAccessor.isContainerDocument(entityType)) || containerDocumentAccessor.isContainerSubdoc(entityType)) {
             return safeDelete(entityType, id, cascade, dryrun, force, logViolations, maxObjects, access);
         }
 
-        // Attendance is a special case.
-        // LOG.info("*** DELETING object '" + id + "' of type '" + collectionName + "'");
-        DELETION_LOG.info("Delete request for entity: " + entityType + " _id: " + id + " cascade: " + cascade
-                + " dryrun: " + dryrun);
+        // Container docs without subdocs are special cases.
+        String embeddedDocType = containerDocumentAccessor.getEmbeddedDocType(entityType);
+        DELETION_LOG.info("Delete request for " + embeddedDocType + " from record: " + entityType + " with id: " + entity.getEntityId());
 
-        // First check if Attendance record is in the DB.
-        Entity found = findById(entityType, id);
+        // Delete the subdoc embedded within the container doc entity.
         CascadeResult result = new CascadeResult();
-        if (found == null) {
-            String message = "Entity with ID " + id + " not found in collection " + entityType;
-            DELETION_LOG.error(message);
-            result.addError(1, message, CascadeResultError.ErrorType.DELETE_ERROR, entityType, id);
-            return result;
-        }
-
-        // Delete the AttendanceEvent embedded within the Attendance entity.
-        boolean deleted = deleteAttendanceEvent(id, entity);
+        boolean deleted = containerDocumentAccessor.deleteContainerNonSubDocs(entity);
         if (!deleted) {
-            String message = "Cannot delete attendanceEvent from attendance record with id " + id;
+            String message = "Cannot delete " + embeddedDocType + " from " + entityType + " record with id " + id;
             DELETION_LOG.error(message);
             result.addError(1, message, CascadeResultError.ErrorType.DELETE_ERROR, entityType, id);
             return result;
@@ -546,75 +540,22 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return result;
     }
 
-    @SuppressWarnings("unchecked")
-    private boolean deleteAttendanceEvent(String attendanceMongoId, Entity attendanceDeleteEntity) {
-        // Ensure that attendance entity contains one and only one attendanceEvent.
-        // NOTE: This logic may need to be changed in the future if more than one attendanceEvent is
-        // included.
-        Object attendanceEventField = attendanceDeleteEntity.getBody().get("attendanceEvent");
-        List<Map<String, String>> attendanceEvents = null;
-        if ((attendanceEventField == null) || !(attendanceEventField instanceof List)) {
-            DELETION_LOG.error("Attendance deletion entity does not contain a single AttendanceEvent entry");
-            return false;
-        } else {
-            attendanceEvents = (List<Map<String, String>>) attendanceEventField;
-            if (attendanceEvents.size() != 1) {  // List can only have one entry.
-                DELETION_LOG.error("Attendance deletion entity does not contain a single AttendanceEvent entry");
-                return false;
-            }
-        }
-
-        // Delete the specified attendanceEvent from the database.
-        Map<String, String> attendanceEvent = (Map<String, String>) attendanceEvents.toArray()[0];
-        final BasicDBObject query = new BasicDBObject();
-        query.put("_id", attendanceMongoId);
-        BasicDBObject attendanceEventToDelete = new BasicDBObject("body.attendanceEvent", attendanceEvent);
-        final BasicDBObject update = new BasicDBObject("$pull", attendanceEventToDelete);
-        DBObject result = this.template.getCollection("attendance").findAndModify(query, null, null, false, update,
-                true, false);
-        if (result == null) {
-            return false;
-        }
-
-        // If this was the last attendanceEvent, delete the attendance record as well.
-        List<Map<String, String>> remainingAttendanceEvents = (List<Map<String, String>>) ((Map<String, Object>) result
-                .get("body")).get("attendanceEvent");
-        if (remainingAttendanceEvents.isEmpty()) {
-            boolean deleted = this.delete("attendance", attendanceMongoId);
-            if (!deleted) {
-                DELETION_LOG.error("Could not delete empty Attendance record");
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     /**
      * Recursive helper used to cascade deletes to referencing entities
      *
-     * @param entityType
-     *            type of the entity to delete
-     * @param id
-     *            id of the entity to delete
-     * @param cascade
-     *            delete related entities if true
-     * @param dryrun
-     *            only delete if true
-     * @param force
-     *            true iff the operation should delete the entity whether or not it is referred to
-     *            by other entities
-     * @param logViolations
-     *            true iff the operation should log referential integrity violation information
-     * @param maxObjects
-     *            if the number of entities that will be deleted is > maxObjects, no deletes will be
-     *            done
-     * @param access
-     *            callback used to determine whether we have rights to delete an entity
-     * @param depth
-     *            the depth of cascading the current entity is at - used to determine result.depth
-     * @param deletedIds
-     *            Used to store deleted (or would be deleted if dryrun == true) for number objects
+     *  The only reason this method is not broken up into smaller methods is because it would hide the recursive call
+     *  which I believe would make it more difficult to maintain than its current state
+     *
+     * @param entityType        type of the entity to delete
+     * @param id                id of the entity to delete
+     * @param cascade           delete related entities if true
+     * @param dryrun            only delete if true
+     * @param force             true iff the operation should delete the entity whether or not it is referred to by other entities
+     * @param logViolations     true iff the operation should log referential integrity violation information
+     * @param maxObjects        if the number of entities that will be deleted is > maxObjects, no deletes will be done
+     * @param access            callback used to determine whether we have rights to delete an entity
+     * @param depth             the depth of cascading the current entity is at - used to determine result.depth
+     * @param deletedIds        Used to store deleted (or would be deleted if dryrun == true) for number objects
      * @return
      */
     private CascadeResult safeDeleteHelper(String entityType, String id, boolean cascade, boolean dryrun,
@@ -647,11 +588,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             result.addError(depth, message, CascadeResultError.ErrorType.ACCESS_DENIED, entityType, id);
             return result;
         }
-
-        // Do the cascade part of the delete - clean up the referencers first
-        // Simulate deleting references for dryruns so we can determine if the non-cascade delete is
-        // a leaf
-        // based on the number of objects reported by the dryrun
 
         List<SchemaReferencePath> refFields = getAllReferencesTo(entityType);
 
@@ -699,7 +635,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                     continue;  // skip to the next referencing entity
                 }
 
-                // Non-cascade or Forced handling
+                // Non-cascade and Force handling
                 if (!cascade) {
                     // There is a child when there shouldn't be
                     String message = "Child reference of entity type " + referenceEntityType + " id " + referencerId
@@ -714,11 +650,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                     continue;
                 }
 
+                // Determine if this is the last value in a list of references
                 boolean isLastValueInReferenceList = false;
                 Map<String, Object> body = entity.getBody();
                 List<?> childRefList = null;
-
-                // Determine if this is the last value in a list of references
                 if (referencingFieldSchemaInfo.isArray()) {
                     childRefList = (List<?>) body.get(referenceField);
                     if (childRefList != null) {
@@ -916,7 +851,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean delete(String collectionName, String id) {
-
+        boolean result;
         if (subDocs.isSubDoc(collectionName)) {
             Entity entity = subDocs.subDoc(collectionName).findById(id);
 
@@ -924,23 +859,26 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 denormalizer.denormalization(collectionName).delete(entity, id);
             }
 
-            return subDocs.subDoc(collectionName).delete(entity);
-        }
-
-        if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
+            result = subDocs.subDoc(collectionName).delete(entity);
+        } else if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
             Entity entity = containerDocumentAccessor.findById(collectionName, id);
             if (entity == null) {
                 LOG.warn("Could not find entity {} in collection {}", id, collectionName);
                 return false;
             }
-            return containerDocumentAccessor.delete(entity);
+            result = containerDocumentAccessor.delete(entity);
+        } else {
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).delete(null, id);
+            }
+            result = super.delete(collectionName, id);
         }
 
-        if (denormalizer.isDenormalizedDoc(collectionName)) {
-            denormalizer.denormalization(collectionName).delete(null, id);
+        if (result && journal != null) {
+            journal.journal(id, collectionName, true);
         }
 
-        return super.delete(collectionName, id);
+        return result;
     }
 
     @Override
@@ -1030,6 +968,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     // "special" flag for it hence deleteAssessmentFamilyReference
     private boolean update(String collection, Entity entity, boolean validateNaturalKeys, boolean isSuperdoc,
             boolean deleteAssessmentFamilyReference) {
+        boolean result;
+
         if (validateNaturalKeys) {
             validator.validateNaturalKeys(entity, true);
         }
@@ -1050,14 +990,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             denormalizer.denormalization(collection).create(entity);
         }
         if (subDocs.isSubDoc(collection)) {
-            return subDocs.subDoc(collection).create(entity);
+            result = subDocs.subDoc(collection).create(entity);
+        } else if (containerDocumentAccessor.isContainerDocument(collection)) {
+            result = !containerDocumentAccessor.update(entity).isEmpty();
+        } else {
+            result = super.update(collection, entity, null, isSuperdoc); // body);
         }
-
-        if (containerDocumentAccessor.isContainerDocument(collection)) {
-            return !containerDocumentAccessor.update(entity).isEmpty();
+        if (journal != null) {
+            journal.journal(entity.getEntityId(), collection, false);
         }
-
-        return super.update(collection, entity, null, isSuperdoc); // body);
+        return result;
     }
 
     /**
@@ -1175,6 +1117,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public void deleteAll(String collectionName, NeutralQuery neutralQuery) {
+        if (journal != null) {
+            journal.journal(getIds(findAll(collectionName, neutralQuery)), collectionName, true);
+        }
         if (subDocs.isSubDoc(collectionName)) {
             Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
             subDocs.subDoc(collectionName).deleteAll(query);
@@ -1250,6 +1195,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             journal.journal(record.getEntityId(), collectionName, false);
         }
         return super.insert(record, collectionName);
+    }
+
+    @Override
+    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String collectionName) {
+        WriteResult result = super.updateMulti(query, update, collectionName);
+        if (journal != null) {
+            journal.journal(getIds(findAll(collectionName, query)), collectionName, false);
+        }
+        return result;
     }
 
 }

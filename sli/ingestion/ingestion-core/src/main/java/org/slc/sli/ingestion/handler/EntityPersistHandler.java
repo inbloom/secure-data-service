@@ -171,7 +171,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
 
         CascadeResult result = entityRepository.safeDelete(entity, id,
-                action.doCascade(), dryrun, action.doForceDelete(), action.doLogViolations(), max, null);
+                action.doCascade(), dryrun, entity.doForceDelete(), entity.doLogViolations(), max, null);
 
         // TODO pass in the reportStats and record the delete stats there rather than modify the entity
         // Set the objects affected in the entity for reporting
@@ -375,38 +375,38 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             report.error(reportStats, source, CoreMessageCode.CORE_0067, entity.getType(), entity.getEntityId());
         }
 
+        String id = (entity.getEntityId() == null) ? entity.getUUID() : entity.getEntityId();
         for (CascadeResultError err : result.getErrors()) {
             switch (err.getErrorType()) {
                 case DELETE_ERROR:
-                    String id = (entity.getEntityId() == null) ? entity.getUUID() : entity.getEntityId();
                     if (err.getObjectId().equals(id)) {
-                        report.error(reportStats, source, CoreMessageCode.CORE_0071, entity.getType(), entity.getEntityId());
+                        report.error(reportStats, source, CoreMessageCode.CORE_0071, entity.getType(), id);
                     } else {
                         report.error(reportStats, source, CoreMessageCode.CORE_0070, err.getObjectType(), err.getObjectId(),
-                                err.getDepth(), entity.getType(), entity.getEntityId());
+                                err.getDepth(), entity.getType(), id);
                     }
                     break;
                 case PATCH_ERROR:
                     report.error(reportStats, source, CoreMessageCode.CORE_0069, err.getObjectType(), err.getObjectId(),
-                            err.getDepth(), entity.getType(), entity.getEntityId());
+                            err.getDepth(), entity.getType(), id);
                     break;
                 case UPDATE_ERROR:
                     report.error(reportStats, source, CoreMessageCode.CORE_0068, err.getObjectType(), err.getObjectId(),
-                            err.getDepth(), entity.getType(), entity.getEntityId());
+                            err.getDepth(), entity.getType(), id);
                     break;
                 case DATABASE_ERROR:
                     report.error(reportStats, source, CoreMessageCode.CORE_0061);
                     break;
                 case CHILD_DATA_EXISTS:
                     report.error(reportStats, source, CoreMessageCode.CORE_0066, err.getObjectType(), err.getObjectId(),
-                            err.getDepth(), entity.getType(), entity.getEntityId());
+                            err.getDepth(), entity.getType(), id);
                     break;
                 case ACCESS_DENIED:
                     report.error(reportStats, source, CoreMessageCode.CORE_0065, err.getObjectType(), err.getObjectId(),
-                            err.getDepth(), entity.getType(), entity.getEntityId());
+                            err.getDepth(), entity.getType(), id);
                     break;
                 case MAX_DEPTH_EXCEEDED:
-                    report.error(reportStats, source, CoreMessageCode.CORE_0064, entity.getType(), entity.getEntityId(),
+                    report.error(reportStats, source, CoreMessageCode.CORE_0064, entity.getType(), id,
                             err.getDepth());
                     break;
             }

@@ -20,6 +20,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
+
 /**
  * Support multiple output stream.
  * @author tke
@@ -40,9 +42,16 @@ public class MultiOutputStream extends OutputStream {
     }
 
     @Override
+    public void write(byte [] buffer, int offset, int len) throws IOException{
+        for(OutputStream stream : outputStreams) {
+            stream.write(buffer, offset, len);
+        }
+    }
+
+    @Override
     public void close() throws IOException{
         for(OutputStream stream : outputStreams) {
-            stream.close();
+            IOUtils.closeQuietly(stream);
         }
     }
 
@@ -62,6 +71,13 @@ public class MultiOutputStream extends OutputStream {
      */
     public void addStream(OutputStream outputStream) {
         outputStreams.add(outputStream);
+    }
+
+    @Override
+    public void flush() throws IOException {
+        for(OutputStream stream : outputStreams) {
+            stream.flush();
+        }
     }
 
 }

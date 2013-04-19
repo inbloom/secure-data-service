@@ -358,92 +358,76 @@ public class EntityRepositoryTest {
     }
 
     @Test
-    public void testSafeDeleteAttendanceEvents() {
-        // Setup.
-        List<Map<String, String>> attendanceEvents = new ArrayList<Map<String, String>>();
-        Map<String, String> attendanceEvent1 = new HashMap<String, String>();
-        attendanceEvent1.put("reason", "Excused: sick");
-        attendanceEvent1.put("event", "Excused Absence");
-        attendanceEvent1.put("date", "2012-04-18");
-        attendanceEvents.add(attendanceEvent1);
-        Map<String, String> attendanceEvent2 = new HashMap<String, String>();
-        attendanceEvent2.put("reason", "Missed school bus");
-        attendanceEvent2.put("event", "Tardy");
-        attendanceEvent2.put("date", "2011-10-26");
-        attendanceEvents.add(attendanceEvent2);
-        String attendanceRecordId = insertAttendanceEventData();
-        Entity attendanceRecord1 = getAttendanceRecord(attendanceRecordId);
-        Assert.assertNotNull("Attendance record should exist in DB", attendanceRecord1);
-        Assert.assertEquals("Field attendanceEvent mismatch", attendanceEvents, attendanceRecord1
-                .getBody().get("attendanceEvent"));
-
-        // Test bogus Attendance ID.
+    public void testDeleteAttendanceEventWithBogusId() {
+        // Result is error, and Attendance record should remain unchanged in DB.
+        String attendanceRecordId = insertAttendanceEventData(false);
         String bogusAttendanceRecordId = "123-abc-789-def-e1e10";
-        Entity bogusDeleteAssessment1 = createDeleteAttendanceEntity("Excused: sick",
-                "Excused Absence", "2012-04-18");
-        CascadeResult bogusDeleteResult1 = repository.safeDelete(bogusDeleteAssessment1,
+        Entity bogusDeleteAssessment = createDeleteAttendanceEntity("Excused: sick",
+                "Excused Absence", "2012-04-18", bogusAttendanceRecordId);
+        CascadeResult bogusDeleteResult = repository.safeDelete(bogusDeleteAssessment,
                 bogusAttendanceRecordId, false, false, false, false, 1, null);
-        attendanceRecord1 = getAttendanceRecord(attendanceRecordId);
+        List<Map<String, String>> attendanceEvents = getAttendanceEvents(false);
+        Entity attendanceRecord = getAttendanceRecord(attendanceRecordId);
         Assert.assertEquals("Delete result should be error", CascadeResult.Status.ERROR,
-                bogusDeleteResult1.getStatus());
-        Assert.assertNotNull("Attendance record should exist in DB", attendanceRecord1);
-        Assert.assertEquals("Field attendanceEvent mismatch", attendanceEvents, attendanceRecord1
+                bogusDeleteResult.getStatus());
+        Assert.assertNotNull("Attendance record should exist in DB", attendanceRecord);
+        Assert.assertEquals("Field attendanceEvent mismatch", attendanceEvents, attendanceRecord
                 .getBody().get("attendanceEvent"));
-
-        // Test bogus attendanceEvent deletion.
-        // Result is success, but Attendance record should remain unchanged in DB.
-        Entity bogusDeleteAssessment2 = createDeleteAttendanceEntity("Excused: dead",
-                "Excused Absence", "2012-04-18");
-        CascadeResult bogusDeleteResult2 = repository.safeDelete(bogusDeleteAssessment2,
-                attendanceRecordId, false, false, false, false, 1, null);
-        attendanceRecord1 = getAttendanceRecord(attendanceRecordId);
-        Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
-                bogusDeleteResult2.getStatus());
-        Assert.assertNotNull("Attendance record should exist in DB", attendanceRecord1);
-        Assert.assertEquals("Field attendanceEvent mismatch", attendanceEvents, attendanceRecord1
-                .getBody().get("attendanceEvent"));
-
-        // Delete next to last attendanceEvent, leaving attendance record in DB.
-        attendanceEvents.remove(attendanceEvent1);
-        Entity deleteAssessment1 = createDeleteAttendanceEntity("Excused: sick", "Excused Absence",
-                "2012-04-18");
-        CascadeResult deleteResult1 = repository.safeDelete(deleteAssessment1,
-                attendanceRecordId, false, false, false, false, 1, null);
-        Entity attendanceRecord2 = getAttendanceRecord(attendanceRecordId);
-        Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
-                deleteResult1.getStatus());
-        Assert.assertNotNull("Attendance record should exist in DB", attendanceRecord2);
-        Assert.assertEquals("Field attendanceEvent mismatch", attendanceEvents, attendanceRecord2
-                .getBody().get("attendanceEvent"));
-
-        // Delete last attendanceEvent, removing attendance record from DB.
-        Entity deleteAssessment2 = createDeleteAttendanceEntity("Missed school bus", "Tardy",
-                "2011-10-26");
-        CascadeResult deleteResult2 = repository.safeDelete(deleteAssessment2,
-                attendanceRecordId, false, false, false, false, 1, null);
-        Entity attendanceRecord3 = getAttendanceRecord(attendanceRecordId);
-        Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
-                deleteResult2.getStatus());
-        Assert.assertNull("Attendance record should not exist in DB", attendanceRecord3);
     }
 
-    private String insertAttendanceEventData() {
+    @Test
+    public void testDeleteAttendanceEventWithBogusField() {
+        // Result is success, but Attendance record should remain unchanged in DB.
+        String attendanceRecordId = insertAttendanceEventData(false);
+        Entity bogusDeleteAssessment = createDeleteAttendanceEntity("Excused: dead",
+                "Excused Absence", "2012-04-18", attendanceRecordId);
+        CascadeResult bogusDeleteResult = repository.safeDelete(bogusDeleteAssessment,
+                attendanceRecordId, false, false, false, false, 1, null);
+        List<Map<String, String>> attendanceEvents = getAttendanceEvents(false);
+        Entity attendanceRecord = getAttendanceRecord(attendanceRecordId);
+        Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
+                bogusDeleteResult.getStatus());
+        Assert.assertNotNull("Attendance record should exist in DB", attendanceRecord);
+        Assert.assertEquals("Field attendanceEvent mismatch", attendanceEvents, attendanceRecord
+                .getBody().get("attendanceEvent"));
+    }
+
+    @Test
+    public void testDeleteNextToLastAttendanceEvent() {
+        String attendanceRecordId = insertAttendanceEventData(false);
+        Entity deleteAssessment = createDeleteAttendanceEntity("Excused: sick", "Excused Absence",
+                "2012-04-18", attendanceRecordId);
+        CascadeResult deleteResult1 = repository.safeDelete(deleteAssessment,
+                attendanceRecordId, false, false, false, false, 1, null);
+        List<Map<String, String>> attendanceEvents = getAttendanceEvents(true);
+        Entity attendanceRecord = getAttendanceRecord(attendanceRecordId);
+        Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
+                deleteResult1.getStatus());
+        Assert.assertNotNull("Attendance record should exist in DB", attendanceRecord);
+        Assert.assertEquals("Field attendanceEvent mismatch", attendanceEvents, attendanceRecord
+                .getBody().get("attendanceEvent"));
+    }
+
+    @Test
+    public void testDeleteLastAttendanceEvent() {
+        String attendanceRecordId = insertAttendanceEventData(true);
+        Entity deleteAssessment = createDeleteAttendanceEntity("Missed school bus", "Tardy",
+                "2011-10-26", attendanceRecordId);
+        CascadeResult deleteResult2 = repository.safeDelete(deleteAssessment,
+                attendanceRecordId, false, false, false, false, 1, null);
+        Entity attendanceRecord = getAttendanceRecord(attendanceRecordId);
+        Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
+                deleteResult2.getStatus());
+        Assert.assertNull("Attendance record should not exist in DB", attendanceRecord);
+    }
+
+    private String insertAttendanceEventData(boolean skipFirst) {
         // Clear attendance collection.
         repository.deleteAll("attendance", null);
 
         // Populate the attendance record to be deleted, and add it to the db.
         Map<String, Object> attendanceMap = new HashMap<String, Object>();
-        List<Map<String, String>> attendanceEvents = new ArrayList<Map<String, String>>();
-        Map<String, String> attendanceEvent1 = new HashMap<String, String>();
-        attendanceEvent1.put("reason", "Excused: sick");
-        attendanceEvent1.put("event", "Excused Absence");
-        attendanceEvent1.put("date", "2012-04-18");
-        attendanceEvents.add(attendanceEvent1);
-        Map<String, String> attendanceEvent2 = new HashMap<String, String>();
-        attendanceEvent2.put("reason", "Missed school bus");
-        attendanceEvent2.put("event", "Tardy");
-        attendanceEvent2.put("date", "2011-10-26");
-        attendanceEvents.add(attendanceEvent2);
+        List<Map<String, String>> attendanceEvents = getAttendanceEvents(skipFirst);
         attendanceMap.put("attendanceEvent", attendanceEvents);
         attendanceMap.put("schoolId", "schoolId1");
         attendanceMap.put("schoolYear", "2011-2012");
@@ -460,7 +444,25 @@ public class EntityRepositoryTest {
         return repository.findById("attendance", id);
     }
 
-    private Entity createDeleteAttendanceEntity(String reason, String event, String date) {
+    private List<Map<String, String>> getAttendanceEvents(boolean skipFirst) {
+        List<Map<String, String>> attendanceEvents = new ArrayList<Map<String, String>>();
+        if (!skipFirst) {
+            Map<String, String> attendanceEvent1 = new HashMap<String, String>();
+            attendanceEvent1.put("reason", "Excused: sick");
+            attendanceEvent1.put("event", "Excused Absence");
+            attendanceEvent1.put("date", "2012-04-18");
+            attendanceEvents.add(attendanceEvent1);
+        }
+        Map<String, String> attendanceEvent2 = new HashMap<String, String>();
+        attendanceEvent2.put("reason", "Missed school bus");
+        attendanceEvent2.put("event", "Tardy");
+        attendanceEvent2.put("date", "2011-10-26");
+        attendanceEvents.add(attendanceEvent2);
+
+        return attendanceEvents;
+    }
+
+    private Entity createDeleteAttendanceEntity(String reason, String event, String date, String id) {
         Map<String, Object> attendanceBody = new HashMap<String, Object>();
         List<Map<String, String>> attendanceEvents = new ArrayList<Map<String, String>>();
         Map<String, String> attendanceEvent = new HashMap<String, String>();
@@ -472,7 +474,7 @@ public class EntityRepositoryTest {
         attendanceBody.put("schoolId", "schoolId1");
         attendanceBody.put("schoolYear", "2011-2012");
         attendanceBody.put("studentId", "studentId1");
-        return MongoEntity.create("attendance", attendanceBody);
+        return new MongoEntity("attendance", id, attendanceBody, new HashMap<String, Object>());
     }
 
     @Test

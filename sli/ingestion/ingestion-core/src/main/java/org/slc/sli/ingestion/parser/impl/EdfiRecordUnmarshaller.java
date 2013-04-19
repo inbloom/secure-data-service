@@ -76,6 +76,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     private Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
     private ActionVerb action = ActionVerb.NONE;
     private String originalType = null;
+    private Map<String, String> actionAttributes;
 
     private boolean currentEntityValid = false;
 
@@ -173,6 +174,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
         if (ACTION.equals(localName)) {
             action = ActionVerb.NONE;
+            actionAttributes = null;
             return;
         }
 
@@ -257,8 +259,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
                 doAction = ActionVerb.NONE;
                 LOG.warn("Could not get ActionVerb for {}", action);
             }
-            Map<String, String> actionAttributes = new HashMap<String, String>();
-            doAction.setAttributes(actionAttributes);
+            actionAttributes = new HashMap<String, String>();
             String force = attributes.getValue(FORCE);
             String logViolations = attributes.getValue(LOG_VIOLATIONS);
             if(force != null) {
@@ -275,7 +276,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     private void initCurrentEntity(String localName, Attributes attributes, ActionVerb doAction) {
         String xsdType = typeProvider.getTypeFromInterchange(interchange, localName, doAction);
 
-        RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType, false, doAction);
+        RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType, false, doAction, actionAttributes);
         if (originalType != null) {
             recordMeta.setOriginalType(originalType);
         }
@@ -477,16 +478,63 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
      * We need to disallow deletes of any entities that are not listed here. This should go away
      * next sprint, as deletes of all
      * entities will be supported
+     *
      */
 
     protected static enum SupportedEntities {
-        ASSESSMENTFAMILY("AssessmentFamily"), ASSESSMENT("Assessment"), ATTENDANCEEVENT("AttendanceEvent"), CALENDARDATE("CalendarDate"), COHORT(
-                "Cohort"), COURSEOFFERING("CourseOffering"), COURSE("Course"), GRADE("Grade"), GRADINGPERIOD("GradingPeriod"), PARENT(
-                "Parent"), SCHOOL( "School"), SECTION("Section"), SESSION("Session"), STAFFEDUCATIONORGASSIGNMENTASSOCIATION(
-                "StaffEducationOrgAssignmentAssociation"), STUDENTASSESSMENT("StudentAssessment"), STUDENTCOHORTASSOCIATION(
-                "StudentCohortAssociation"), STUDENT("Student"), STUDENTPARENTASSOCIATION("StudentParentAssociation"), STUDENTSCHOOLASSOCIATION(
-                "StudentSchoolAssociation"), TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociation"), TEACHERSECTIONASSOCIATION(
-                "TeacherSectionAssociation"), TEACHER("Teacher");
+        ASSESSMENT("Assessment"),    	
+        ASSESSMENTFAMILY("AssessmentFamily"),
+        ASSESSMENTITEM("AssessmentItem"),
+        ASSESSMENTPERIODDESCRIPTOR("AssessmentPeriodDescriptor"),
+        ATTENDANCEEVENT("AttendanceEvent"),
+        CALENDARDATE("CalendarDate"),
+        COHORT("Cohort"),
+        COMPETENCYLEVELDESCRIPTOR("CompetencyLevelDescriptor"),
+        COMPETENCYLEVELDESCRIPTORREFERENCE("CompetencyLevelDescriptorReference"),
+        COURSE("Course"),
+        COURSEOFFERING("CourseOffering"),
+        COURSETRANSCRIPT("CourseTranscript"),        
+        DISCIPLINEACTION("DisciplineAction"),
+        DISCIPLINEINCIDENT("DisciplineIncident"),                
+        GRADE("Grade"),
+        GRADEBOOKENTRY("GradeBookEntry"),        
+        GRADINGPERIOD("GradingPeriod"),
+        GRADUATIONPLAN("GraduationPlan"),
+        GRADUATIONPLANREFERENCE("GraduationPlanReference"),
+        LEARNINGOBJECTIVE("LearningObjective"),
+        LEARNINGSTANDARD("LearningStandard"),
+        LOCALEDUCATIONAGENCY("LocalEducationAgency"),
+        OBJECTIVEASSESSMENT("ObjectiveAssessment"),       
+        PARENT("Parent"),
+        PROGRAM ("Program"),
+        REPORTCARD("ReportCard"),        
+        SCHOOL("School"),
+        SECTION("Section"),
+        SESSION("Session"),
+        STAFF("Staff"), 
+        STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociation"),
+        STATEEDUCATIONAGENCY("StateEducationAgency"),
+        STAFFPROGRAMASSOCIATION("StaffProgramAssociation"),        
+        STUDENT("Student"),
+        STUDENTACADEMICRECORD("StudentAcademicRecord"),        
+        STUDENTASSESSMENT("StudentAssessment"),
+        STUDENTASSESSMENTITEM("StudentAssessmentItem"),
+        STUDENTCOHORTASSOCIATION("StudentCohortAssociation"),
+        STUDENTCOMPETENCY("StudentCompetency"),    
+        STUDENTCOMPETENCYOBJECTIVE("StudentCompetencyObjective"),
+        STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociation"),        
+        STUDENTGRADEBOOKENTRY("StudentGradeBookEntry"),                    
+        STUDENTOBJECTIVEASSESSMENT("StudentObjectiveAssessment"),
+        STUDENTPARENTASSOCIATION("StudentParentAssociation"),        
+        STUDENTPROGRAMASSOCIATION("StudentProgramAssociation"),        
+        STUDENTSCHOOLASSOCIATION("StudentSchoolAssociation"),
+        STUDENTSCHOOLASSOCIATIONREFERENCE("StudentSchoolAssociationReference"),
+        STUDENTSECTIONASSOCIATION("StudentSectionAssociation"),
+        STUDENTSECTIONASSOCIATIONREFERENCE("StudentSectionAssociationReference"),
+        TEACHER("Teacher"),
+        TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociation"),
+        TEACHERSECTIONASSOCIATION("TeacherSectionAssociation");
+
 
         private SupportedEntities(String text) {
         }

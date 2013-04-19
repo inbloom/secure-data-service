@@ -160,10 +160,22 @@ public class XsdTypeProvider implements TypeProvider {
             Element interchangeElement = schemaIter.next().getChild( elName, XS_NAMESPACE);
 
             Map<String, String> interchangeElementMap = new HashMap<String, String>();
-            interchangeMap.put(interchangeElement.getAttributeValue(NAME), interchangeElementMap);
+            String xsdName = interchangeElement.getAttributeValue(NAME);
+            interchangeMap.put( xsdName, interchangeElementMap);
 
             buildXsdElementsMap(doc, interchangeElementMap);
+            addExceptions( xsdName, interchangeElementMap);
 
+        }
+
+
+    }
+
+    private void addExceptions( String schemaName,  Map<String, String> interchangeElementMap ) {
+        if( "InterchangeStudentGrade".equals( schemaName) ) {
+            interchangeElementMap.put( "GradeIdentity", "SLC-GradeIdentityType" );
+        } else if( "InterchangeStudentEnrollment".equals( schemaName ) ) {
+            interchangeElementMap.put("GraduationPlanIdentity", "SLC-GraduationPlanIdentityType");
         }
 
 

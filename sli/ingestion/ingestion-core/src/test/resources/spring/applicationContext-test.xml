@@ -23,7 +23,6 @@
     <property name="locations">
       <list>
         <value>file:${sli.conf}</value>
-        <value>classpath:ingestion.properties</value>
 
         <!-- Override with test properties -->
         <value>file:${sli.test.conf}</value>

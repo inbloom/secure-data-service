@@ -15,16 +15,14 @@
  */
 package org.slc.sli.bulk.extract.files;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.InvalidKeyException;
-import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -37,16 +35,14 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Extract's archive file class.
@@ -60,6 +56,7 @@ public class ExtractFile {
     private Map<String, File> archiveFiles = new HashMap<String, File>();
     private Map<String, JsonFileWriter> dataFiles = new HashMap<String, JsonFileWriter>();
     private ManifestFile manifestFile;
+    private String edorg;
 
     private File parentDir;
     private String archiveName = "";
@@ -78,10 +75,13 @@ public class ExtractFile {
      *          parent directory
      * @param archiveName
      *          name of the archive file
+     * @param clientKeys
+     *          Map from application ID to public keys.
      */
-    public ExtractFile(File parentDir, String archiveName) {
+    public ExtractFile(File parentDir, String archiveName, Map<String, PublicKey> clientKeys) {
         this.parentDir = parentDir;
         this.archiveName = archiveName;
+        this.clientKeys = clientKeys;
         this.tempDir = new File(parentDir, UUID.randomUUID().toString());
         this.tempDir.mkdir();
     }
@@ -130,10 +130,6 @@ public class ExtractFile {
      *
      */
     public void generateArchive() {
-        if(clientKeys == null || clientKeys.isEmpty()) {
-            LOG.info("No authorized application to extract data.");
-            return;
-        }
 
         TarArchiveOutputStream tarArchiveOutputStream = null;
         MultiOutputStream multiOutputStream = new MultiOutputStream();
@@ -166,25 +162,33 @@ public class ExtractFile {
 
     private OutputStream getAppStream(String app) throws Exception {
         File archive = new File(parentDir, getFileName(app));
-        FileOutputStream f = new FileOutputStream(archive);
+        OutputStream f = null;
+        CipherOutputStream stream = null;
 
-        createTarFile(archive);
+        try {
+            f = new BufferedOutputStream(new FileOutputStream(archive));
+            createTarFile(archive);
 
-        archiveFiles.put(app, archive);
+            archiveFiles.put(app, archive);
 
-        final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
+            final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
 
-        byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
-        byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
+            byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+            byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
 
-        PublicKey publicKey = getApplicationPublicKey(app);
-        byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
-        byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
+            PublicKey publicKey = getApplicationPublicKey(app);
+            byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+            byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
 
-        f.write(encryptedIV);
-        f.write(encryptedSecret);
+            f.write(encryptedIV);
+            f.write(encryptedSecret);
 
-        CipherOutputStream stream = new CipherOutputStream(f, cipherSecretKeyPair.getLeft());
+             stream = new CipherOutputStream(f, cipherSecretKeyPair.getLeft());
+
+        } catch(Exception e) {
+            IOUtils.closeQuietly(f);
+            throw e;
+        }
 
         return stream;
     }
@@ -273,6 +277,25 @@ public class ExtractFile {
      */
     public void setClientKeys(Map<String, PublicKey> clientKeys) {
         this.clientKeys = clientKeys;
+    }
+
+    /**
+     * Get edorg
+     * 
+     * @return the edorg this extractFile is responsible
+     */
+    public String getEdorg() {
+        return this.edorg;
+    }
+
+    /**
+     * Set edorg
+     * 
+     * @param the
+     *            edorg this extractFile is responsible
+     */
+    public void setEdorg(String edorg) {
+        this.edorg = edorg;
     }
 
 

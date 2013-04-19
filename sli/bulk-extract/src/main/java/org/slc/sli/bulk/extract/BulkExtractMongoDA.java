@@ -19,6 +19,7 @@ import java.security.PublicKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
@@ -39,6 +40,7 @@ import org.springframework.data.mongodb.core.query.Query;
 public class BulkExtractMongoDA {
     private static final Logger LOG = LoggerFactory.getLogger(BulkExtractMongoDA.class);
 
+    private static final String TENANT = "tenant";
     /**
      * name of bulkExtract collection.
      */
@@ -50,8 +52,13 @@ public class BulkExtractMongoDA {
     private static final String IS_DELTA = "isDelta";
 
     private static final String APP_AUTH_COLLECTION = "applicationAuthorization";
+    private static final String TENANT_EDORG_FIELD = "edorgs";
+    private static final String EDORG = "edorg";
+    private static final String AUTH_EDORGS_FIELD = "authorized_ed_orgs";
     private static final String APP_COLLECTION = "application";
     private static final String APP_ID = "applicationId";
+    private static final String APP_APPROVE_STATUS = "APPROVED";
+    private static final String REGISTRATION_STATUS_FIELD = "registration.status";
     private static final String IS_BULKEXTRACT = "isBulkExtract";
 
     private Repository<Entity> entityRepository;
@@ -64,7 +71,7 @@ public class BulkExtractMongoDA {
      * @param appId the id for the application
      */
     public void updateDBRecord(String tenantId, String path, String appId, Date date) {
-        updateDBRecord(tenantId, path, appId, date, false);
+        updateDBRecord(tenantId, path, appId, date, false, null);
     }
 
     /** Insert a new record is the tenant doesn't exist. Update if existed
@@ -74,15 +81,22 @@ public class BulkExtractMongoDA {
      * @param appId the id for the application
      * @param isDelta TODO
      */
-    public void updateDBRecord(String tenantId, String path, String appId, Date date,  boolean isDelta) {
+    public void updateDBRecord(String tenantId, String path, String appId, Date date,  boolean isDelta, String edorg) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(TENANT_ID, tenantId);
         body.put(FILE_PATH, path);
         body.put(DATE, date);
         body.put(IS_DELTA, Boolean.toString(isDelta));
+        body.put(EDORG, edorg);
         body.put(APP_ID, appId);
-
-        BulkExtractEntity bulkExtractEntity = new BulkExtractEntity(body, tenantId + "-" + appId);
+        
+        String entityId;
+        if (isDelta) {
+            entityId = tenantId + "-" + appId + "-" + edorg + "-" + date.getTime();
+        } else {
+            entityId = tenantId + "-" + appId;
+        }
+        BulkExtractEntity bulkExtractEntity = new BulkExtractEntity(body, entityId);
 
         entityRepository.update(BULK_EXTRACT_COLLECTION, bulkExtractEntity, false);
 
@@ -98,21 +112,26 @@ public class BulkExtractMongoDA {
 
         Iterator<Entity> cursor = entityRepository.findEach(APP_AUTH_COLLECTION, new Query());
         while(cursor.hasNext()){
-            Entity app = cursor.next();
-            String appId = (String) app.getBody().get(APP_ID);
-            appKeys.putAll(getClientIdAndPublicKey(appId));
+            Entity appAuth = cursor.next();
+            String appId = (String) appAuth.getBody().get(APP_ID);
+            List<String> edorgs = (List<String>) appAuth.getBody().get(TENANT_EDORG_FIELD);
+
+            appKeys.putAll(getClientIdAndPublicKey(appId, edorgs));
         }
 
         return appKeys;
     }
 
     @SuppressWarnings("boxing")
-    private Map<String, PublicKey> getClientIdAndPublicKey(String appId) {
+    public Map<String, PublicKey> getClientIdAndPublicKey(String appId, List<String> edorgs) {
         Map<String, PublicKey> clientPubKeys = new HashMap<String, PublicKey>();
 
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, appId));
+        query.addCriteria(new NeutralCriteria(REGISTRATION_STATUS_FIELD, NeutralCriteria.OPERATOR_EQUAL, APP_APPROVE_STATUS));
+        query.addCriteria(new NeutralCriteria(IS_BULKEXTRACT, NeutralCriteria.OPERATOR_EQUAL, true));
+
         TenantContext.setIsSystemCall(true);
-        Entity app = this.entityRepository.findOne(APP_COLLECTION, new NeutralQuery(new NeutralCriteria(
-                "_id", NeutralCriteria.OPERATOR_EQUAL, appId)));
+        Entity app = this.entityRepository.findOne(APP_COLLECTION, query);
         TenantContext.setIsSystemCall(false);
 
         if(app != null){
@@ -121,6 +140,12 @@ public class BulkExtractMongoDA {
                 if((Boolean) body.get(IS_BULKEXTRACT)) {
                 	String clientId = (String) body.get("client_id");
                     try {
+                        List<String> authorizedTenantEdorgs = getAuthorizedTenantEdorgs(app, edorgs);
+
+                        if(authorizedTenantEdorgs.isEmpty()) {
+                            LOG.info("No education organization is authorized, skipping application {}", appId);
+                        }
+                    
                     	PublicKey key = certHelper.getPublicKeyForApp(clientId);
 						if (null != key) {
 							clientPubKeys.put(appId, key);
@@ -137,6 +162,31 @@ public class BulkExtractMongoDA {
         }
 
         return clientPubKeys;
+    }
+
+    /**
+     * check if a tenant exists.
+     * @param tenant tenant ID
+     * @return
+     *      the tenant entity
+     */
+    public Entity getTenant(String tenant) {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL ,tenant));
+        query.addCriteria(new NeutralCriteria("tenantIsReady", NeutralCriteria.OPERATOR_EQUAL, true));
+        TenantContext.setIsSystemCall(true);
+        Entity tenantEntity = entityRepository.findOne(TENANT, query);
+        TenantContext.setIsSystemCall(false);
+        return tenantEntity;
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    private static List<String> getAuthorizedTenantEdorgs(Entity app, List<String> tenantEdorgs) {
+        List<String> authorizedTenantEdorgs = (List<String>) app.getBody().get(AUTH_EDORGS_FIELD);
+
+        authorizedTenantEdorgs.retainAll(tenantEdorgs);
+
+        return authorizedTenantEdorgs;
     }
 
     /**

@@ -80,8 +80,16 @@ end
 desc "Deltas and Deletes"
 task :bulkExtractDeltasTest do
   runTests("test/features/bulk_extract/features/bulk_extract_deltas_api.feature")
+  runTests("test/features/bulk_extract/features/delta_recording.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
+
+desc "Negative and Edge Cases"
+task :bulkExtractNegativeTests do
+  runTests("test/features/bulk_extract/features/bulk_extract_neg_and_edge.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
 
 desc "Run RC E2E Tests in Production mode"
 task :bulkExtractTests => [:realmInit] do
@@ -91,6 +99,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractSetup"].execute
   Rake::Task["addBootstrapAppAuths"].execute
   allLeaAllowApp("SDK Sample")  
+  authorizeEdorg("SDK Sample")
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractSimpleEntitiesTest"].execute
   Rake::Task["bulkExtractSuperdocTest"].execute  
@@ -98,6 +107,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractIntegrationTest"].execute
   Rake::Task["bulkExtractDeltasTest"].execute
   Rake::Task["bulkExtractSchedulerTest"].execute
+  Rake::Task["bulkExtractNegativeTests"].execute
   Rake::Task["bulkExtractCleanup"].execute 
   displayFailureReport()
   if $SUCCESS

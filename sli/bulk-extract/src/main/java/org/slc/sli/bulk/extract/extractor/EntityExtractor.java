@@ -47,19 +47,22 @@ public class EntityExtractor{
 
     private EntityWriterManager writer;
 
+    private Query extractionQuery;
+
     /**
      * extract all the records of entity.
      *
-     * @param tenant
-     *          TenantId
      * @param archiveFile
      *          Archive File
      * @param collectionName
      *          Name of the entity to be extracted
      */
-    public void extractEntities(String tenant, ExtractFile archiveFile, String collectionName) {
+    public void extractEntities(ExtractFile archiveFile, String collectionName) {
         try {
-            Iterator<Entity> cursor = entityRepository.findEach(collectionName, new Query());
+            if (extractionQuery == null) {
+                extractionQuery = new Query();
+            }
+            Iterator<Entity> cursor = entityRepository.findEach(collectionName, extractionQuery);
             if (cursor.hasNext()) {
                 LOG.info("Extracting from " + collectionName);
                 CollectionWrittenRecord collectionRecord = new CollectionWrittenRecord(collectionName);
@@ -86,7 +89,7 @@ public class EntityExtractor{
      * @throws FileNotFoundException FileNotFoundException
      * @throws IOException IOException
      */
-    private void write(Entity entity, ExtractFile archiveFile, CollectionWrittenRecord collectionRecord)
+    public void write(Entity entity, ExtractFile archiveFile, CollectionWrittenRecord collectionRecord)
             throws FileNotFoundException, IOException {
         writer.write(entity, archiveFile);
         collectionRecord.incrementNumberOfEntitiesWritten();
@@ -109,7 +112,11 @@ public class EntityExtractor{
             CollectionWrittenRecord collectionRecord) throws FileNotFoundException, IOException {
         for (String docName : docs.keySet()) {
                 for (Entity doc : docs.get(docName)) {
-                    writer.write(doc, archiveFile);
+                    if(doc != null) {
+                        writer.write(doc, archiveFile);
+                    } else {
+                        LOG.warn("Embedded Doc {} has null value", docName);
+                    }
                 }
                 collectionRecord.addEmbeddedDocWrittenRecord(docName, docs.get(docName).size());
         }
@@ -121,6 +128,15 @@ public class EntityExtractor{
      */
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
+    }
+
+    /**
+     * Sets an optional query to be used in the extraction.
+     *
+     * @param extractionQuery
+     */
+    public void setExtractionQuery(Query extractionQuery) {
+        this.extractionQuery = extractionQuery;
     }
 
     /**
@@ -137,7 +153,7 @@ public class EntityExtractor{
      * @author slee
      *
      */
-    private class CollectionWrittenRecord {
+    public static class CollectionWrittenRecord {
         final String collectionName;
         long numberOfEntitiesWritten;
         Map<String, Long> embeddedDocWrittenRecords = new HashMap<String, Long>();
@@ -146,6 +162,7 @@ public class EntityExtractor{
             this.collectionName = name;
         }
 
+        @SuppressWarnings("boxing")
         void addEmbeddedDocWrittenRecord(String docName, long records) {
             long total = records;
             if (embeddedDocWrittenRecords.containsKey(docName)) {

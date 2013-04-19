@@ -40,6 +40,7 @@ DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
 ENCRYPTED_ENTITIES = ['student', 'parent']
 COMBINED_ENTITIES = ['assessment', 'studentAssessment']
+COMBINED_SUB_ENTITIES = ['assessmentItem','objectiveAssessment','studentAssessmentItems','studentObjectiveAssessments']
 
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
@@ -163,15 +164,13 @@ end
 
 Given /^I have delta bulk extract files generated for today$/ do
   @pre_generated = "#{File.dirname(__FILE__)}/../../test_data/deltas/Midgar_delta_1.tar"
-  encryptFile = File.dirname(@pre_generated)+File.basename(@pre_generated,".tar")+"encrypted.tar"
-  encrypt(@pre_generated,encryptFile)  
   bulk_delta_file_entry = {
     _id: "Midgar_delta-19cca28d-7357-4044-8df9-caad4b1c8ee4",
     body: {
       tenantId: "Midgar",
       isDelta: "true",
       applicationId: "19cca28d-7357-4044-8df9-caad4b1c8ee4",
-      path: "#{encryptFile}",
+      path: "#{@pre_generated}",
       date: Time.now
     },
     metaData: {
@@ -192,7 +191,9 @@ end
 When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(tenant,appId)
 end
-
+When /^I know the file-length of the extract file$/ do
+  @file_size = File.size(@filePath)
+end
 When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(tenant,appId)
   
@@ -300,6 +301,31 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
   puts("The generated token is #{@sessionId}") if $SLI_DEBUG
 end
 
+When /^the extract contains no entity files/ do
+  step "the extract contains a file for each of the following entities:",table(%{
+    | entityType |
+  })
+end
+
+When /^I use an invalid tenant to trigger a bulk extract/ do
+  command  = "#{TRIGGER_SCRIPT}"
+  if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
+    command = command + " -Dsli.conf=#{PROPERTIES_FILE}" 
+    puts "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
+  end
+  if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
+    command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}" 
+    puts "Using extra property: -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
+  end
+  if (JAR_FILE !=nil && JAR_FILE != "")
+    command = command + " -f#{JAR_FILE}" 
+    puts "Using extra property:  -f#{JAR_FILE}"
+  end
+  command = command + " -tNoTenantForYou"
+  puts "Running: #{command} "
+  puts runShellCommand(command)
+end
+
 ############################################################
 # Then
 ############################################################
@@ -312,6 +338,24 @@ Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
 }
 end
 
+Then /^I should not see an extract for tenant "(.*?)"/ do |tenant|
+  @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb = @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+
+  match =  @coll.find_one({"body.tenantId" => tenant})
+  assert(!match,"Invalid extract for tenant #{tenant} found")
+end
+
+Then /^the extraction zone should still be empty/ do
+  if File.exists?(OUTPUT_DIRECTORY)
+    entries = Dir.entries(OUTPUT_DIRECTORY)
+    puts "Files in #{OUTPUT_DIRECTORY} are: "
+    entries.each {|x| puts x}
+    assert(entries.size == 2, "Extraction zone is no longer empty.")
+  end
+end
+
 ############################################################
 # Functions
 ############################################################
@@ -321,7 +365,7 @@ def getExtractInfoFromMongo(tenant, appId)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
 
-  match =  @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId})
+  match =  @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => "false"},{"body.isDelta" => false}]})
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
   @encryptFilePath = match['body']['path']
@@ -423,6 +467,7 @@ end
 
 def compareToApi(collection, collFile)
   found = false
+  uri = entityToUri(collection)
     
   collFile.each do |extractRecord|
     
@@ -430,13 +475,26 @@ def compareToApi(collection, collFile)
       
     #Make API call and get JSON for the collection
     @format = "application/vnd.slc+json"
-    uri = entityToUri(collection)
     restHttpGet("/v1/#{uri}/#{id}")
     assert(@res != nil, "Response from rest-client GET is nil")
+    assert(@res.code != 404, "Response from rest-client GET is 404")
     if @res.code == 200
       apiRecord = JSON.parse(@res.body)
       assert(apiRecord != nil, "Result of JSON parsing is nil")    
       apiRecord.delete("links")
+      if COMBINED_ENTITIES.include?(collection)
+        COMBINED_SUB_ENTITIES.each do |entity|
+          if entity.include? "student"
+            identifier = String.new(entity[7..-2])
+            identifier[0] = identifier[0].downcase
+            extractRecord[entity].sort_by! { |hsh| hsh[identifier]["identificationCode"] } if extractRecord.has_key? entity
+            apiRecord[entity].sort_by! { |hsh| hsh[identifier]["identificationCode"] } if apiRecord.has_key? entity
+          else
+            extractRecord[entity].sort_by! { |hsh| hsh["identificationCode"] } if extractRecord.has_key? entity
+            apiRecord[entity].sort_by! { |hsh| hsh["identificationCode"] } if apiRecord.has_key? entity
+          end
+        end
+      end
       assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.\nExtractRecord:\n" +extractRecord.to_s + "\nAPIRecord:\n" + apiRecord.to_s)
       found = true
     end
