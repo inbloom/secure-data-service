@@ -26,6 +26,7 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -266,6 +267,13 @@ public class BulkExtract {
         }
 
         /*
+         * Combine overlapped ranges
+         */
+        if (ranges.size() > 1) {
+            combineOverlapped(ranges);
+        }
+
+        /*
          * Prepare and initialize response
          */
         boolean fullContent = ranges.isEmpty() || ranges.get(0) == full || ranges.get(0).sameValue(full);
@@ -289,6 +297,23 @@ public class BulkExtract {
             }
 
             return multiPartsExtractResponse(builder, bulkExtractFile, ranges);
+        }
+    }
+
+    private void combineOverlapped(final List<Range> ranges) {
+        Collections.sort(ranges);
+
+        for (int i=0; i<ranges.size() - 1; i++) {
+           Range first = ranges.get(i);
+           Range second = ranges.get(i + 1);
+
+           if (!first.hasGap(second)) {
+              first.combine(second);
+              // delete second range
+              ranges.remove(i + 1);
+              // reset loop index
+              i--;
+           }
         }
     }
 
@@ -552,7 +577,7 @@ public class BulkExtract {
     /**
      * Represents a byte range.
      */
-    private class Range {
+    private class Range implements Comparable<Range> {
         long start;
         long end;
         long length;
@@ -570,6 +595,7 @@ public class BulkExtract {
             this.length = end - start + 1;
             this.total = total;
         }
+
 
         public boolean sameValue(Range r) {
             if (r == null) {
@@ -591,6 +617,40 @@ public class BulkExtract {
                     Long.valueOf(total)
             };
             return MessageFormat.format("Range: start={0} end={1} length={2} total={3}", arguments);
+        }
+
+        @Override
+        public int compareTo(Range o) {
+            return (int) (end - o.end);
+        }
+
+        /**
+         * Test if the two ranges has gap, i.e.
+         * not overlapped nor contiguous
+         * @param o the range to test
+         * @return true or false
+         */
+        public boolean hasGap(Range o) {
+            return ((this.end+1) < o.start) || ((o.end+1) < this.start);
+        }
+
+        /**
+         * Combine the range into this range
+         *
+         * @param o the range to combine
+         */
+        void combine(Range o) {
+            if (hasGap(o)) {
+                return;
+            }
+
+            if (this.end < o.end) {
+                this.end = o.end;
+            }
+            if (this.start > o.start) {
+                this.start = o.start;
+            }
+            this.length = this.end - this.start + 1;
         }
     }
 

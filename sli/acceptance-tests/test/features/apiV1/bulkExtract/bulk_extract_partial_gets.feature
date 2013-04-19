@@ -1,6 +1,7 @@
 Feature: Retrieve portions of the bulk extract file through the API and validate
 
-@sampleTar
+#@sampleTar
+@wip
 Scenario: Get the bulk extract file in chunks
 
     Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
