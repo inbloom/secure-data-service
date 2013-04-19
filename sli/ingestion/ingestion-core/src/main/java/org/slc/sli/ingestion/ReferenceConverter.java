@@ -28,7 +28,7 @@ public enum ReferenceConverter {
     ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily"),
     ATTENDANCEEVENT( "AttendanceEventReference", "attendanceEvent"),
     CALENDAR_DATE( "CalendarDateReference", "calendarDate"),
-    COMPETENCYLEVELDESCRIPTOR( "CompetencyLevelDescriptorReference", "course"),    
+    COMPETENCYLEVELDESCRIPTOR( "CompetencyLevelDescriptorReference", "competencyLevelDescriptor"),    
     COURSE( "CourseReference", "course"),
     COURSEOFFERING( "CourseOfferingReference", "courseOffering"),
     COURSETRANSCRIPT("CourseTranscriptReference", "courseTranscript"),    
