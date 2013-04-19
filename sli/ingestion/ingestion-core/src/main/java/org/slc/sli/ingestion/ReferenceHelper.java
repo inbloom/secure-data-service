@@ -70,11 +70,12 @@ public class ReferenceHelper implements ResourceLoaderAware {
                 ObjectMapper mapper = new ObjectMapper();
                 converterMap = mapper.readValue(configIs, new TypeReference<Map<String, Object>>() {
                 });
+                configIs.close();
             } else {
                 LOG.warn("Could not read Reference Converter file {}", mapFile);
 
             }
-            configIs.close();
+
         } catch (JsonGenerationException e) {
             LOG.error(e.getStackTrace().toString());
         } catch (JsonMappingException e) {
