@@ -1,7 +1,6 @@
 require 'mongo'
 require 'fileutils'
 require_relative '../../utils/sli_utils.rb'
-require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 def generate(scenario="10students")
   # run bundle exec rake in the Odin directory
