@@ -1,6 +1,7 @@
 require 'mongo'
 require 'fileutils'
 require_relative '../../utils/sli_utils.rb'
+require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 def generate(scenario="10students")
   # run bundle exec rake in the Odin directory
@@ -97,3 +98,18 @@ Then /^the sli\-verify script completes successfully$/ do
   assert(results.include?("All expected entities found\n"), "verification script failed, results are #{results}")
   enable_NOTABLESCAN
 end
+
+def ingest_odin(scenario)
+  step "I am using preconfigured Ingestion Landing Zone for \"Midgar-Daybreak\""
+  @gen_path = "#{@odin_working_path}generated/"
+  generate(scenario)
+  steps %Q{
+    When I zip generated data under filename OdinSampleDataSet.zip to the new OdinSampleDataSet directory
+    And I copy generated data to the new OdinSampleDataSet directory
+    Given I am using odin data store
+    And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "OdinSampleDataSet.zip" is completed in database
+  }
+end
+

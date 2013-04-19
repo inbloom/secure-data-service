@@ -6,3 +6,5 @@ Feature: Changes to the data result in deltas recorded in the delta collection
     And I have an empty delta collection
     When I run a small ingestion job
     Then I see deltas for each educationOrganization update operation
+    When I run a delete ingestion job
+    Then I see deltas for each educationOrganization delete operation

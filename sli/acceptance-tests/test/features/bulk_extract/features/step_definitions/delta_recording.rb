@@ -15,7 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
@@ -27,16 +26,7 @@ Given /^I have an empty delta collection$/ do
 end
 
 When /^I run a small ingestion job$/ do
-      steps %Q{
-        And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-        When I generate the 10 student data set with optional fields on in the generated directory
-        And I zip generated data under filename OdinSampleDataSet.zip to the new OdinSampleDataSet directory
-        And I copy generated data to the new OdinSampleDataSet directory
-        Given I am using odin data store
-        And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
-        When zip file is scp to ingestion landing zone
-        And a batch job for file "OdinSampleDataSet.zip" is completed in database
-      }
+  ingest_odin("10students")
 end
 
 def getEdfiEntities(type)
@@ -49,12 +39,20 @@ end
 Then /^I see deltas for each (.*?) (.*?) operation$/ do |type, operation|
   File.open("#{@odin_working_path}/generated/manifest.json") {|file|
     manifest = JSON.parse(file.read)
+    manifest.default = 0
     count = getEdfiEntities(type).map{|t| manifest[t]}.reduce(:+)
     @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
     @db = @conn[@ingestion_db_name]
     @coll = @db['deltas']
     disable_NOTABLESCAN()
-    assert_equal(count, @coll.find("c" => type, "u" => {"$exists" => operation == "update"}, "d" => {"$exists" => operation == "delete"}).count)
+    criteria = {"c" => type, "d" => {"$exists" => operation == "delete"}}
+    assert_equal(count, @coll.find(criteria).count)
     enable_NOTABLESCAN()
   }
+end
+
+
+When /^I run a delete ingestion job$/ do
+  ingest_odin("deletes/school_10students")
+  sleep 5
 end
