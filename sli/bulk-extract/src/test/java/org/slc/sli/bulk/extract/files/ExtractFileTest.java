@@ -88,8 +88,8 @@ public class ExtractFileTest {
 		PublicKey publicKey = kf.generatePublic(spec);
         
         appKey.put(testApp, publicKey);
-        archiveFile.setClientKeys(appKey);
         archiveFile = new ExtractFile(new File("./"), FILE_NAME, clientKeys);
+        archiveFile.setClientKeys(appKey);
 
         File parentDir = (File) PrivateAccessor.getField(archiveFile, "tempDir");
 

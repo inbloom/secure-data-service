@@ -90,6 +90,7 @@ public class TenantExtractorTest {
         Mockito.when(file.getAbsolutePath()).thenReturn(extractDir+"/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a");
 
         bulkExtractMongoDA = Mockito.mock(BulkExtractMongoDA.class);
+        Mockito.when(bulkExtractMongoDA.getAppPublicKeys()).thenReturn(clientKeys);
         tenantExtractor.setBulkExtractMongoDA(bulkExtractMongoDA);
     }
 
