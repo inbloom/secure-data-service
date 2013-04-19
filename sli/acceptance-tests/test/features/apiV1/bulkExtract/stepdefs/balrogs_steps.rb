@@ -24,30 +24,18 @@ Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"
   @sessionId=token
 end
 
-When /^I make API call to retrieve sampled bulk extract file$/ do
-  restHttpGet("/bulk/extract")
-end
-
-When /^I make API call to retrieve sampled bulk extract file headers$/ do
-  restHttpHead("/bulk/extract")
-end
-
-When /^I make bulk extract API call$/ do
-  restHttpGet("/bulk/extract/tenant")
-end
-
 When /^I make a call to the bulk extract end point "(.*?)"$/ do |url|
   restTls(url)
 end
 
 When /^I make API call to retrieve today's delta file$/ do
   today = Time.now
-  restHttpGet("/bulk/deltas/#{today.strftime("%Y%m%d")}")
+  step "I make a call to the bulk extract end point \"/bulk/deltas/#{today.strftime("%Y%m%d")}\""
 end
 
 When /^I make API call to retrieve tomorrow's non existing delta files$/ do
   tomorrow = Time.now+24*3600
-  restHttpGet("/bulk/deltas/#{tomorrow.strftime("%Y%m%d")}")
+  step "I make a call to the bulk extract end point \"/bulk/deltas/#{tomorrow.strftime("%Y%m%d")}\""
 end
 
 When /^I save the extracted file$/ do
@@ -197,7 +185,7 @@ Then /^I check the http response headers$/ do
 end
 
 Then /^the response is decrypted$/ do
-  private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
+  private_key = OpenSSL::PKey::RSA.new File.read './test/features/utils/keys/vavedra9ub.key'
   assert(@res.body.length >= 512)
   encryptediv = @res.body[0,256] 
   encryptedsecret = @res.body[256,256]
@@ -263,7 +251,9 @@ def encrypt(unEncryptedFilePath, decryptedFilePath)
   unEncryptedFile = File.open(unEncryptedFilePath, "rb")
   contents = unEncryptedFile.read
 
-  public_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key.pub'
+  certificate = OpenSSL::X509::Certificate.new File.read "./test/features/utils/keys/vavedra9ub.crt"
+
+  public_key = certificate.public_key
 
   cipher = OpenSSL::Cipher.new('AES-128-CBC')
   cipher.encrypt

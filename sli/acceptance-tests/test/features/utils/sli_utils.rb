@@ -256,10 +256,11 @@ end
 
 def restTls(url, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
+  client_id = "vavedra9ub"
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
-  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path('../keys/certificate.crt', __FILE__)
-  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path('../keys/privateKey.key', __FILE__)
+  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
+  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
 
   urlHeader = makeUrlAndHeaders('get',url,sessionId,format)
   

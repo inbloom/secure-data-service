@@ -93,7 +93,7 @@ default:
         sli.api.security.context.paging: 100000
 
         #Used for X509 Certs for Bulk Extract
-        sli.security.truststore.path: ../data-access/dal/keyStore/trustey.jks
+        sli.security.truststore.path: /tmp/trustey.jks
         sli.security.truststore.password: changeit
 
     data-access: &DATA-ACCESS-DEFAULT
