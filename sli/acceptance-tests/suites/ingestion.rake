@@ -283,6 +283,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestBroadSetOfTypesAndExportData,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
+        :ingestionCascadingDeletionBlendedTest,
         :ingestionCascadingDeletionBroadAssessmentFamilyTest,
         :ingestionCascadingDeletionBroadAssessmentItemFromAssessmentMetadataTest,
         :ingestionCascadingDeletionBroadAssessmentItemFromStudentAssessmentTest,

@@ -19,6 +19,8 @@ import javax.xml.stream.Location;
 
 import org.slc.sli.ingestion.ActionVerb;
 
+import java.util.Map;
+
 /**
  * Describes an XML record.
  *
@@ -99,4 +101,7 @@ public interface RecordMeta {
 
     void setOriginalType(String originalType);
 
+    public Map<String, String> getActionAttributes();
+
+    public void setActionAttributes(Map<String, String> actionAttributes);
 }
