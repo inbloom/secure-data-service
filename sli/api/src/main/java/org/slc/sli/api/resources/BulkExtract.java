@@ -194,14 +194,22 @@ public class BulkExtract {
 
         if (bulkExtractFileEntity == null) {
             // return 404 if no bulk extract support for that tenant
-            LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
+            if (leaId != null) {
+                LOG.info("No bulk extract support for lea: {}", leaId);
+            } else {
+                LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
+            }
             return Response.status(Status.NOT_FOUND).build();
         }
 
         final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
         if (bulkExtractFile == null || !bulkExtractFile.exists()) {
             // return 404 if the bulk extract file is missing
-            LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
+            if (leaId != null) {
+                LOG.info("No bulk extract file found for lea: {}", leaId);
+            } else {
+                LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
+            }
             return Response.status(Status.NOT_FOUND).build();
         }
 
