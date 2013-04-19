@@ -53,6 +53,7 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
 
 
     public static final String KEY_ACTION = "Action";
+    public static final String KEY_ACTION_ATTRS = "ActionAttributes";
     public static final String KEY_DATA = "DataType";
 
     public static final String TYPE_ENTITY = "Entity";
@@ -551,5 +552,11 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
         //this.actionVerb = action;
     }
 
+    public Map<String, String> getActionAttributes() {
+        return (Map<String, String>)metaData.get(KEY_ACTION_ATTRS);
+    }
 
+    public void setActionAttributes(Map<String, String> actionAttributes) {
+        metaData.put(KEY_ACTION_ATTRS, actionAttributes);
+    }
 }

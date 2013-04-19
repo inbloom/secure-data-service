@@ -26,7 +26,7 @@
     <jb:wiring property="totalCreditsRequired" beanIdRef="TotalCreditsRequired" />
     <jb:wiring property="creditsBySubject" beanIdRef="CreditsBySubjects" />
     <jb:wiring property="creditsByCourse" beanIdRef="CreditsByCourses" />
-    <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference element" />
+    <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
   </jb:bean>
 
   <jb:bean beanId="TotalCreditsRequired" class="java.util.HashMap" createOnElement="attributes TotalCreditsRequired">

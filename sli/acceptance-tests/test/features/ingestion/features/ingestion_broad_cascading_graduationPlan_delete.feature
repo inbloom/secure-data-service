@@ -46,7 +46,7 @@ Scenario: Safe Delete Graduation Plan (negative test)
         | collection                |delta|
         |recordHash                 |    0|
 
-@wip
+
 Scenario: Safe Delete Graduation Plan Reference (negative test)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -107,7 +107,6 @@ Scenario: Force Delete Graduation Plan with cascade = false, force = true and lo
         | graduationPlan            |   -1|
         | recordHash                |   -1|
 
-@wip
 Scenario: Force Delete Graduation Plan Ref with cascade = false, force = true and log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -160,7 +159,7 @@ Scenario: Safe Delete Orphan Graduation Plan
         |recordHash                 |   -1|
         |graduationPlan             |   -1|
 
-@wip
+
 Scenario: Safe Delete Orphan Graduation Plan Ref
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
