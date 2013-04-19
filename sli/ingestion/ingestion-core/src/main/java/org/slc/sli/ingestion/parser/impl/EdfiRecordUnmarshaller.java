@@ -76,6 +76,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     private Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
     private ActionVerb action = ActionVerb.NONE;
     private String originalType = null;
+    private Map<String, String> actionAttributes;
 
     private boolean currentEntityValid = false;
 
@@ -173,6 +174,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
         if (ACTION.equals(localName)) {
             action = ActionVerb.NONE;
+            actionAttributes = null;
             return;
         }
 
@@ -257,8 +259,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
                 doAction = ActionVerb.NONE;
                 LOG.warn("Could not get ActionVerb for {}", action);
             }
-            Map<String, String> actionAttributes = new HashMap<String, String>();
-            doAction.setAttributes(actionAttributes);
+            actionAttributes = new HashMap<String, String>();
             String force = attributes.getValue(FORCE);
             String logViolations = attributes.getValue(LOG_VIOLATIONS);
             if(force != null) {
@@ -275,7 +276,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     private void initCurrentEntity(String localName, Attributes attributes, ActionVerb doAction) {
         String xsdType = typeProvider.getTypeFromInterchange(interchange, localName, doAction);
 
-        RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType, false, doAction);
+        RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType, false, doAction, actionAttributes);
         if (originalType != null) {
             recordMeta.setOriginalType(originalType);
         }

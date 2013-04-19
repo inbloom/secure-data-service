@@ -1,34 +1,18 @@
 {
-    "ALL":
-    {
-	    "EducationOrganizationReference": "EducationalOrgReference",
-        "SchoolReference" :  "EducationalOrgReference",
+    "ALL": {
+        "EducationOrganizationReference": "EducationalOrgReference",
+        "SchoolReference": "EducationalOrgReference",
         "EducationOrgReference": "EducationalOrgReference"
     },
-    "GradeReference":
-    {   
-        "StudentReference" : "StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentReference",
-	    "SectionReference" : "StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference",
-	    "SchoolYear" : "SchoolYear"
+    "AssessmentItemReference": {"AssessmentItemIdentificationCode": "IdentificationCode"},
+    "CompetencyLevelDescriptorReference": {"CompetencyLevelDescriptorCodeValue": "CodeValue"},
+    "GraduationPlanReference": {"EducationalOrgReference": "EducationOrganizationReference"},
+    "GradeReference": {
+        "StudentReference": "StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentReference",
+        "SectionReference": "StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference",
+        "SchoolYear": "SchoolYear"
     },
-    "AssessmentItemReference":
-    {
-    	"AssessmentItemIdentificationCode" : "IdentificationCode"
-    },
-    "ObjectiveAssessmentReference":
-    {
-    	"ObjectiveAssessmentIdentificationCode" : "IdentificationCode" 
-    },
-    "StudentCompetencyReference":
-    {
-        "CodeValue":"CompetencyLevel.CodeValue"
-    },
-    "LearningStandardReference":
-    {
-    	"IdentificationCode":"LearningStandardId.IdentificationCode"
-    },
-    "GraduationPlanReference":
-    {
-        "EducationalOrgReference":"EducationOrganizationReference"
-    }
+    "LearningStandardReference": {"IdentificationCode": "LearningStandardId.IdentificationCode"},
+    "ObjectiveAssessmentReference": {"ObjectiveAssessmentIdentificationCode": "IdentificationCode"},
+    "StudentCompetencyReference": {"CodeValue": "CompetencyLevel.CodeValue"}
 }
