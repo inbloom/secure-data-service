@@ -33,8 +33,8 @@ Scenario: Error When Attempting Cascade Delete, using grade as an example
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |grade       |    0|
-        
-        Scenario: Error When Attempting Cascade Delete with Force and LogViolations flags on, usig student as an example
+
+Scenario: Error When Attempting Cascade Delete with Force and LogViolations flags on, usig student as an example
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -103,7 +103,6 @@ Scenario: Error when attempting safe delete using full body for unsupported enti
         | collection                                |     delta|
         | educationOrganization                     |         0|
 
-@wip
 Scenario: Error when attempting force delete of not found entity
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
