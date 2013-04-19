@@ -3,10 +3,10 @@
     xmlns="http://ed-fi.org/0100"
     xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
     <Action ActionType="DELETE" Cascade="false" Force="false" LogViolations="true">
-        <CompetencyLevelDescriptor>
-            <CodeValue>Incompetent</CodeValue>
-            <Description>Student does not understand anything</Description>
-            <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-        </CompetencyLevelDescriptor>
+        <CompetencyLevelDescriptorReference>
+            <CompetencyLevelDescriptorIdentity>
+                <CompetencyLevelDescriptorCodeValue>Incompetent</CompetencyLevelDescriptorCodeValue>
+            </CompetencyLevelDescriptorIdentity>
+        </CompetencyLevelDescriptorReference>
     </Action>
 </InterchangeEducationOrganization>
