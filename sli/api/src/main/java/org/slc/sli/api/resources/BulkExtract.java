@@ -17,19 +17,19 @@
 package org.slc.sli.api.resources;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -44,14 +44,17 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
-import com.sun.jersey.api.Responses;
-import com.sun.jersey.api.core.HttpContext;
-import com.sun.jersey.api.core.HttpRequestContext;
-import com.sun.jersey.core.header.reader.HttpHeaderReader;
-
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,14 +64,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
+import com.sun.jersey.api.Responses;
+import com.sun.jersey.api.core.HttpContext;
+import com.sun.jersey.api.core.HttpRequestContext;
+import com.sun.jersey.core.header.reader.HttpHeaderReader;
 
 /**
  * The Bulk Extract Endpoints.
@@ -134,6 +133,25 @@ public class BulkExtract {
         builder.header("content-disposition", "attachment; filename = " + SAMPLED_FILE_NAME);
         builder.header("last-modified", "Not Specified");
         return builder.build();
+    }
+    
+    /**
+     * Send an LEA extract
+     * 
+     * @param lea
+     *            The uuid of the lea to get the extract
+     * @return
+     *         A response with a lea tar file
+     * @throws Exception
+     *             On Error
+     */
+    @GET
+    @Path("extract/{leaId}")
+    @RightsAllowed({ Right.BULK_EXTRACT })
+    public Response getLEAExtract(@Context HttpContext context, @PathParam("leaId") String leaId) throws Exception {
+        LOG.info("Retrieving delta bulk extract");
+        checkApplicationAuthorization(leaId);
+        return getExtractResponse(context.getRequest(), null);
     }
 
     /**
@@ -266,6 +284,13 @@ public class BulkExtract {
         }
 
         /*
+         * Combine overlapped ranges
+         */
+        if (ranges.size() > 1) {
+            combineOverlapped(ranges);
+        }
+
+        /*
          * Prepare and initialize response
          */
         boolean fullContent = ranges.isEmpty() || ranges.get(0) == full || ranges.get(0).sameValue(full);
@@ -289,6 +314,23 @@ public class BulkExtract {
             }
 
             return multiPartsExtractResponse(builder, bulkExtractFile, ranges);
+        }
+    }
+
+    private void combineOverlapped(final List<Range> ranges) {
+        Collections.sort(ranges);
+
+        for (int i=0; i<ranges.size() - 1; i++) {
+           Range first = ranges.get(i);
+           Range second = ranges.get(i + 1);
+
+           if (!first.hasGap(second)) {
+              first.combine(second);
+              // delete second range
+              ranges.remove(i + 1);
+              // reset loop index
+              i--;
+           }
         }
     }
 
@@ -354,12 +396,18 @@ public class BulkExtract {
         StreamingOutput out = new StreamingOutput() {
             @Override
             public void write(OutputStream output) throws IOException, WebApplicationException {
-                InputStream input = null;
+                RandomAccessFile raf = null;
                 try {
-                    input = new FileInputStream(bulkExtractFile);
-                    IOUtils.copyLarge(input, output, r.start, r.length);
+                    raf = new RandomAccessFile(bulkExtractFile, "r");
+                    long total = outputRange(raf, output, r.start, r.length);
+
+                    Object[] obj = {
+                            r,
+                            new Long(total)
+                    };
+                    LOG.debug("multiPartsExtractResponse\n{}\nstream length={}", obj);
                 } finally {
-                    IOUtils.closeQuietly(input);
+                    IOUtils.closeQuietly(raf);
                 }
             }
         };
@@ -379,17 +427,17 @@ public class BulkExtract {
         StreamingOutput out = new StreamingOutput() {
             @Override
             public void write(OutputStream output) throws IOException, WebApplicationException {
-                InputStream input = null;
+                RandomAccessFile raf = null;
                 try {
-                    input = new FileInputStream(bulkExtractFile);
+                    raf = new RandomAccessFile(bulkExtractFile, "r");
                     // Copy multi part range.
                     for (Range r : ranges) {
-                        BulkExtract.sendByteRange(r, input, output);
+                        BulkExtract.sendByteRange(r, raf, output);
                     }
                     output.write( (CRLF+ MULTIPART_BOUNDARY_END + CRLF).getBytes() );
                     LOG.debug(CRLF+ MULTIPART_BOUNDARY_END + CRLF);
                 } finally {
-                    IOUtils.closeQuietly(input);
+                    IOUtils.closeQuietly(raf);
                 }
             }
 
@@ -407,16 +455,36 @@ public class BulkExtract {
         return builder.build();
     }
 
-    private static void sendByteRange(Range r, InputStream input, OutputStream output) throws IOException {
+    private static long outputRange(RandomAccessFile raf, OutputStream output, long start, long length) throws IOException {
+
+        raf.seek(start);
+        byte[] buffer = new byte[4*1024];
+        long left = length;
+        long total = 0;
+        int n = -1;
+
+        while ( left > 0 &&
+                (n = raf.read(buffer, 0, (int) Math.min(left, buffer.length))) > -1) {
+            output.write(buffer, 0, n);
+            output.flush();
+            left -= n;
+            total += n;
+        }
+        return total;
+    }
+
+    private static void sendByteRange(Range r, RandomAccessFile raf, OutputStream output) throws IOException {
+
         String rangeHeader = byteRangeHeader(r);
         output.write( rangeHeader.getBytes() );
-        IOUtils.copyLarge(input, output, r.start, r.length);
         output.flush();
+        long total = outputRange(raf, output, r.start, r.length);
+
         Object[] obj = {
                 rangeHeader,
                 r,
                 new Long(rangeHeader.length()),
-                new Long(r.length)
+                new Long(total)
         };
         LOG.debug("multiPartsExtractResponse\n{}\n{}\nheader length={} stream length={}", obj );
     }
@@ -486,7 +554,7 @@ public class BulkExtract {
      * @throws AccessDeniedException
      *             if the application is not BEEP enabled
      */
-    private void checkApplicationAuthorization(Set<String> edorgsForExtract) throws AccessDeniedException {
+    private void checkApplicationAuthorization(String edorgsForExtract) throws AccessDeniedException {
         OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
         Entity app = getApplication(auth);
         Map<String, Object> body = app.getBody();
@@ -526,7 +594,7 @@ public class BulkExtract {
     /**
      * Represents a byte range.
      */
-    private class Range {
+    private class Range implements Comparable<Range> {
         long start;
         long end;
         long length;
@@ -544,6 +612,7 @@ public class BulkExtract {
             this.length = end - start + 1;
             this.total = total;
         }
+
 
         public boolean sameValue(Range r) {
             if (r == null) {
@@ -565,6 +634,40 @@ public class BulkExtract {
                     Long.valueOf(total)
             };
             return MessageFormat.format("Range: start={0} end={1} length={2} total={3}", arguments);
+        }
+
+        @Override
+        public int compareTo(Range o) {
+            return (int) (end - o.end);
+        }
+
+        /**
+         * Test if the two ranges has gap, i.e.
+         * not overlapped nor contiguous
+         * @param o the range to test
+         * @return true or false
+         */
+        public boolean hasGap(Range o) {
+            return ((this.end+1) < o.start) || ((o.end+1) < this.start);
+        }
+
+        /**
+         * Combine the range into this range
+         *
+         * @param o the range to combine
+         */
+        void combine(Range o) {
+            if (hasGap(o)) {
+                return;
+            }
+
+            if (this.end < o.end) {
+                this.end = o.end;
+            }
+            if (this.start > o.start) {
+                this.start = o.start;
+            }
+            this.length = this.end - this.start + 1;
         }
     }
 

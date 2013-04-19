@@ -51,7 +51,7 @@ public class EntityExtractorTest {
 
     @InjectMocks
     @Autowired
-    private  EntityExtractor extractor;
+    private EntityExtractor extractor;
 
     @Mock
     private MongoEntityRepository mongoEntityRepository;

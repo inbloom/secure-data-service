@@ -42,7 +42,7 @@ import org.slc.sli.domain.Entity;
  *
  */
 public class Launcher {
-    private static final String USAGE = "Usage: bulk-extract <tenant>";
+    private static final String USAGE = "Usage: bulk-extract <tenant> <isDelta>";
     private static final Logger LOG = LoggerFactory.getLogger(Launcher.class);
 
     private String baseDirectory;
@@ -54,20 +54,18 @@ public class Launcher {
 
     private LocalEdOrgExtractor localEdOrgExtractor;
 
-    private boolean isDelta = false;
-
     /**
      * Actually execute the extraction.
      *
      * @param tenant
      *          Tenant for which extract has been initiated
      */
-    public void execute(String tenant) {
+    public void execute(String tenant, boolean isDelta) {
         Entity tenantEntity = bulkExtractMongoDA.getTenant(tenant);
         if (tenantEntity != null) {
             DateTime startTime = new DateTime();
             if (isDelta) {
-                deltaExtractor.execute(tenant, startTime);
+                deltaExtractor.execute(tenant, startTime, baseDirectory);
             } else {
                 ExtractFile extractFile = null;
                 TenantContext.setTenantId(tenant);
@@ -83,6 +81,8 @@ public class Launcher {
         }
     }
 
+    // those two methods should be moved to localEdOrgExtractor once we switched to
+    // LEA level extract, for now it's duplicated in both classes.
     private String getArchiveName(String tenant, Date startTime) {
         return tenant + "-" + getTimeStamp(startTime);
     }
@@ -134,14 +134,15 @@ public class Launcher {
 
         Launcher main = context.getBean(Launcher.class);
 
-        if (args.length != 1) {
+        if (args.length != 2) {
             LOG.error(USAGE);
             return;
         }
 
         String tenantId = args[0];
+        boolean isDelta = Boolean.parseBoolean(args[1]);
 
-        main.execute(tenantId);
+        main.execute(tenantId, isDelta);
 
     }
 

@@ -35,6 +35,7 @@ import java.util.UUID;
 
 import junit.framework.Assert;
 
+import org.elasticsearch.common.collect.ImmutableMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -208,6 +209,10 @@ public class EntityPersistHandlerTest {
         verify(entityRepository).updateWithRetries(studentEntity.getType(), studentEntity, totalRetries);
 
         studentEntity.setAction( ActionVerb.CASCADE_DELETE);
+        studentEntity.setActionAttributes(ImmutableMap.of(
+                "Force"        , "true",
+                "LogViolations", "true"
+        ));
         entityPersistHandler.handle( studentEntity, errorReport, reportStats);
 
         verify(entityRepository).safeDelete(studentEntity, studentEntity.getEntityId(), true, false, true, true, null, null);

@@ -22,13 +22,6 @@ task :bulkExtractCleanup do
   runTests("test/features/bulk_extract/features/bulk_extract_cleanup.feature")
 end
 
-desc "Trigger a bulk extract and validate certain headers work"
-task :bulkExtractHeadersTest do
-  Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
-  runTests("test/features/bulk_extract/features/bulk_extract_headers.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
-end
-
 desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSetup do
   Rake::Task["bulkExtractCleanup"].execute
@@ -87,6 +80,7 @@ end
 desc "Deltas and Deletes"
 task :bulkExtractDeltasTest do
   runTests("test/features/bulk_extract/features/bulk_extract_deltas_api.feature")
+  runTests("test/features/bulk_extract/features/delta_recording.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
@@ -113,7 +107,6 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractIntegrationTest"].execute
   Rake::Task["bulkExtractDeltasTest"].execute
   Rake::Task["bulkExtractSchedulerTest"].execute
-  Rake::Task["bulkExtractHeadersTest"].execute
   Rake::Task["bulkExtractNegativeTests"].execute
   Rake::Task["bulkExtractCleanup"].execute 
   displayFailureReport()
