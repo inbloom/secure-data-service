@@ -209,7 +209,8 @@ public class DeltaExtractor {
                 Entity edorgEntity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, edorg);
                 topLEA.addAll(edorgContextResolver.findGoverningLEA(edorgEntity));
             }
-            result.put(app, topLEA);
+            entry.getValue().retainAll(topLEA);
+            result.put(app, entry.getValue());
         }
 
         return result;

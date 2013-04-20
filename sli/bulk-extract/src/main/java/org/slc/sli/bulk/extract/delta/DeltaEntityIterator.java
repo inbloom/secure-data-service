@@ -194,7 +194,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         private boolean spamDelete;
         private String type;
         
-        DeltaRecord(Entity entity, Set<String> belongsToLEA, Operation op, boolean spamDelete, String type) {
+        public DeltaRecord(Entity entity, Set<String> belongsToLEA, Operation op, boolean spamDelete, String type) {
             this.entity = entity;
             this.belongsToLEA = belongsToLEA;
             this.op = op;
