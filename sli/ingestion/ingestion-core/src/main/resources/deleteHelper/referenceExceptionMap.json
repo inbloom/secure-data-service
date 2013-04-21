@@ -5,6 +5,7 @@
         "EducationOrgReference": "EducationalOrgReference"
     },
     "AssessmentItemReference": {"AssessmentItemIdentificationCode": "IdentificationCode"},
+    "AssessmentPeriodDescriptorReference": {"AssessmentPeriodDescriptorCodeValue": "CodeValue"},
     "CompetencyLevelDescriptorReference": {"CompetencyLevelDescriptorCodeValue": "CodeValue"},
     "GraduationPlanReference": {"EducationalOrgReference": "EducationOrganizationReference"},
     "GradeReference": {

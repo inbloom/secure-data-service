@@ -486,6 +486,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         ASSESSMENTFAMILY("AssessmentFamily"),
         ASSESSMENTITEM("AssessmentItem"),
         ASSESSMENTPERIODDESCRIPTOR("AssessmentPeriodDescriptor"),
+        ASSESSMENTPERIODDESCRIPTORREFERENCE("AssessmentPeriodDescriptorReference"),
         ATTENDANCEEVENT("AttendanceEvent"),
         CALENDARDATE("CalendarDate"),
         COHORT("Cohort"),
