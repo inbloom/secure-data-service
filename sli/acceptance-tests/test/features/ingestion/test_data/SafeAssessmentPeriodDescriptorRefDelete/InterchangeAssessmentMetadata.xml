@@ -4,7 +4,7 @@
     <Action ActionType="DELETE" Cascade="false" Force="false">
         <AssessmentPeriodDescriptorReference>
             <AssessmentPeriodDescriptorIdentity>
-                <AssessmentPeriodDescriptorCodeValue>APD-READ2-BOY-2011</AssessmentPeriodDescriptorCodeValue>
+                <AssessmentPeriodDescriptorCodeValue>BOY-0-2001</AssessmentPeriodDescriptorCodeValue>
             </AssessmentPeriodDescriptorIdentity>
         </AssessmentPeriodDescriptorReference>
     </Action>
