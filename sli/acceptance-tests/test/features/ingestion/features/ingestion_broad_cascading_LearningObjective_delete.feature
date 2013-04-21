@@ -32,7 +32,7 @@ Scenario: Delete LearningObjective with cascade
 	And I should not see "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id" in the "Midgar" database	
 
 
-Scenario: Safe Delete LearningObjective with cascade = false
+Scenario: Safe Delete LearningObjective with Cascade = false, Force = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -61,7 +61,7 @@ Scenario: Safe Delete LearningObjective with cascade = false
         | learningObjective                         |         0| 
         | recordHash                                |      	  0|
 
-Scenario: Safe Delete LearningObjective Reference with cascade = false
+Scenario: Safe Delete LearningObjective by Reference with Cascade = false, Force = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
