@@ -40,7 +40,7 @@ Scenario: Safe Delete Student Section Association (negative test)
     Then there exist "28" "studentGradebookEntry" records like below in "Midgar" tenant. And I save this query as "studentGradebookEntry"
         |field                                   |value                                                                                 |
         |body.studentSectionAssociationId        |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|
-    Then there exist "5" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
+    Then there exist "6" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                   |value                                                                                 |
         |body.studentSectionAssociationId        |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|
     And I post "SafeStudentSectionAssociationDelete.zip" file as the payload of the ingestion job
@@ -58,7 +58,7 @@ Scenario: Safe Delete Student Section Association (negative test)
 	And I re-execute saved query "section" to get "1" records
 	And I re-execute saved query "grade" to get "1" records
 	And I re-execute saved query "studentGradebookEntry" to get "28" records
-	And I re-execute saved query "studentCompetency" to get "5" records
+	And I re-execute saved query "studentCompetency" to get "6" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |recordHash                 |    0|
@@ -77,7 +77,7 @@ Scenario: Safe Delete Student Section Association Reference(negative test)
     Then there exist "28" "studentGradebookEntry" records like below in "Midgar" tenant. And I save this query as "studentGradebookEntry"
         |field                                   |value                                                                                 |
         |body.studentSectionAssociationId        |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|
-    Then there exist "5" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
+    Then there exist "6" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                   |value                                                                                 |
         |body.studentSectionAssociationId        |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|
     And I post "SafeStudentSectionAssociationRefDelete.zip" file as the payload of the ingestion job
@@ -95,7 +95,7 @@ Scenario: Safe Delete Student Section Association Reference(negative test)
 	And I re-execute saved query "section" to get "1" records
 	And I re-execute saved query "grade" to get "1" records
 	And I re-execute saved query "studentGradebookEntry" to get "28" records
-	And I re-execute saved query "studentCompetency" to get "5" records
+	And I re-execute saved query "studentCompetency" to get "6" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |recordHash                 |    0|
@@ -114,7 +114,7 @@ Scenario: Force Delete Student Section Association with cascade = false, force =
     Then there exist "28" "studentGradebookEntry" records like below in "Midgar" tenant. And I save this query as "studentGradebookEntry"
         |field                                   |value                                                                                 |
         |body.studentSectionAssociationId        |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|
-    Then there exist "5" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
+    Then there exist "6" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                   |value                                                                                 |
         |body.studentSectionAssociationId        |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|
     And I post "ForceStudentSectionAssociationDelete.zip" file as the payload of the ingestion job
@@ -132,7 +132,7 @@ Scenario: Force Delete Student Section Association with cascade = false, force =
 	And I re-execute saved query "section" to get "0" records
 	And I re-execute saved query "grade" to get "1" records
 	And I re-execute saved query "studentGradebookEntry" to get "28" records
-	And I re-execute saved query "studentCompetency" to get "5" records
+	And I re-execute saved query "studentCompetency" to get "6" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         #|recordHash                 |   -1|
@@ -152,7 +152,7 @@ Scenario: Force Delete Student Section Association Reference with cascade = fals
     Then there exist "28" "studentGradebookEntry" records like below in "Midgar" tenant. And I save this query as "studentGradebookEntry"
         |field                                   |value                                                                                 |
         |body.studentSectionAssociationId        |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|
-    Then there exist "5" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
+    Then there exist "6" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                   |value                                                                                 |
         |body.studentSectionAssociationId        |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|
     And I post "ForceStudentSectionAssociationRefDelete.zip" file as the payload of the ingestion job
@@ -170,7 +170,7 @@ Scenario: Force Delete Student Section Association Reference with cascade = fals
 	And I re-execute saved query "section" to get "0" records
 	And I re-execute saved query "grade" to get "1" records
 	And I re-execute saved query "studentGradebookEntry" to get "28" records
-	And I re-execute saved query "studentCompetency" to get "5" records
+	And I re-execute saved query "studentCompetency" to get "6" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         #|recordHash                 |   -1|
