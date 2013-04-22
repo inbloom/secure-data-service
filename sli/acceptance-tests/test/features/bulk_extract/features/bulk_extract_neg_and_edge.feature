@@ -1,6 +1,6 @@
 Feature: Check the bulk extractor on negative and edge cases
 
-	Scenario: Run the bulk extractor on an unauthorized tenant
+Scenario: Run the bulk extractor on an unauthorized tenant
 	Given I am using local data store
 	Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
 	And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
@@ -11,6 +11,34 @@ Feature: Check the bulk extractor on negative and edge cases
 	Given I trigger a bulk extract
 	Then I should not see an extract for tenant "Hyrule"
 	
+Scenario: Try accessing the API's bulk extract endpoint with a user that doesn't have the proper rights
+	Given I trigger a bulk extract
+	And I am a valid 'service' user with an authorized long-lived token "9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd"	
+	When I make bulk extract API call
+	Then I get back a response code of "403"
+	
+Scenario: Valid User tries to get a bulk extract before it's been triggered
+	Given the extraction zone is empty
+	And the bulk extract files in the database are scrubbed
+	And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+	And in my list of rights I have BULK_EXTRACT
+	When I make bulk extract API call
+	Then I get back a response code of "404"
+	
+Scenario: Vaiid User tries to POST to bulk extract endpoint
+	Given I trigger a bulk extract
+	And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+	And in my list of rights I have BULK_EXTRACT
+	When I try to POST to the bulk extract endpoint
+	Then I get back a response code of "405"
+	
+Scenario: Valid User tries to get a bulk extract after it's been triggered but is missing from the filesystem
+	Given the extraction zone is empty
+	And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+	And in my list of rights I have BULK_EXTRACT
+	When I make bulk extract API call
+	Then I get back a response code of "404"
+		
 Scenario: Run the bulk extractor on an empty database
 	Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 	And all collections are empty
@@ -19,7 +47,7 @@ Scenario: Run the bulk extractor on an empty database
 	When I retrieve the path to and decrypt the extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
 	And I verify that an extract tar file was created for the tenant "Midgar"
 	And there is a metadata file in the extract	
-	And the extract contains no entity files
+	Then the extract contains no entity files
 
 Scenario: Run the bulk extractor on a non-existing tenant
 	Given the extraction zone is empty

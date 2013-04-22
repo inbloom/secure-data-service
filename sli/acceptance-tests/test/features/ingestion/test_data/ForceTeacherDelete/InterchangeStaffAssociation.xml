@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true">
+	   <Teacher>
+    <StaffUniqueStateId>tech-0000000012</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Medicaid">
+      <ID>2584</ID>
+    </StaffIdentificationCode>
+    <Name>
+      <FirstName>Sal</FirstName>
+      <MiddleName>Charley</MiddleName>
+      <LastSurname>Santiago</LastSurname>
+    </Name>
+    <OtherName OtherNameType="Previous Legal Name">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>Damien</FirstName>
+      <MiddleName>Lance</MiddleName>
+      <LastSurname>Ferrara</LastSurname>
+      <GenerationCodeSuffix>VIII</GenerationCodeSuffix>
+    </OtherName>
+    <Sex>Male</Sex>
+    <BirthDate>1970-07-25</BirthDate>
+    <Address AddressType="Home">
+      <StreetNumberName>258 Cherry Rd</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10292</PostalCode>
+    </Address>
+      <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+        <TelephoneNumber>(946)555-4423</TelephoneNumber>
+      </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>857@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>Hispanic</OldEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>13</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>1</YearsOfPriorTeachingExperience>
+      <Credentials>
+        <CredentialType>Certification</CredentialType>
+        <CredentialField>
+          <Description>Early Childhood Education</Description>
+        </CredentialField>
+        <Level>Junior High (Grade Level 6-8)</Level>
+        <TeachingCredentialType>Temporary</TeachingCredentialType>
+        <CredentialIssuanceDate>2011-11-02</CredentialIssuanceDate>
+        <CredentialExpirationDate>2014-05-13</CredentialExpirationDate>
+        <TeachingCredentialBasis>Master's degree</TeachingCredentialBasis>
+      </Credentials>
+    <LoginId>857@fakemail.com</LoginId>
+  <TeacherUniqueStateId>tech-0000000001</TeacherUniqueStateId>
+  <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </Teacher>
+
+    </Action>
+</InterchangeStaffAssociation>

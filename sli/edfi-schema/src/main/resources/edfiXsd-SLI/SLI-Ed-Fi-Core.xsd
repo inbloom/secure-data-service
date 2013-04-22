@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ed-fi.org/0100" xmlns:sli="http://slc-sli/ed-org/0.1" targetNamespace="http://ed-fi.org/0100" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:include schemaLocation="../edfiXsd/Ed-Fi-Core.xsd"/>
 
@@ -42,8 +41,7 @@
 			<xs:element name="CourseTranscriptReference" type="SLC-CourseTranscriptReferenceType"/>
 			<xs:element name="DisciplineActionReference" type="SLC-DisciplineActionReferenceType"/>
 			<xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType"/>
-			<xs:element name="GradebookEntryReference" type="SLC-GradebookEntryReferenceType"/><xs:element name="GradeReference" type="SLC-GradeReferenceType"/>
-			
+			<xs:element name="GradebookEntryReference" type="SLC-GradebookEntryReferenceType"/><xs:element name="GradeReference" type="SLC-GradeReferenceType"/>			
 			<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"/>
 			<xs:element name="GraduationPlanReference" type="SLC-GraduationPlanReferenceType"/>
 			<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType"/>
@@ -285,7 +283,7 @@
                 SessionReference and SectionReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>attendanceEvent</sli:recordType>
-				<sli:naturalKeys>StudentReference,SchoolReference,SchoolYear</sli:naturalKeys>
+				<sli:naturalKeys>StudentReference,SchoolReference,SchoolYear,EventDate</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -697,7 +695,7 @@
 					<xs:element name="TotalCreditsRequired" type="Credits"/>
 					<xs:element name="CreditsBySubject" type="CreditsBySubject" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="CreditsByCourse" type="CreditsByCourse" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1684,6 +1682,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>assessmentId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>	
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-AssessmentItemReferenceType">
@@ -1696,7 +1701,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AssessmentItemIdentity" type="SLC-AssessmentItemIdentityType"/>
-		</xs:sequence>
+		</xs:sequence>		
 	</xs:complexType>
 	<xs:complexType name="SLC-AssessmentPeriodDescriptorIdentityType">
 		<xs:annotation>
@@ -1746,13 +1751,20 @@
 		</xs:annotation>
 		<xs:sequence>
 
-			<xs:element name="EventDate" type="xs:date">
-				<xs:annotation>
-					<xs:appinfo>
-						<sli:keyFieldName>date</sli:keyFieldName>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
+            <xs:element name="SchoolYear" type="SchoolYearType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>schoolYear</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EventDate" type="xs:date">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>date</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 			<xs:element name="StudentReference" type="SLC-StudentReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
@@ -2448,6 +2460,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>assessmentId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>	
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-ObjectiveAssessmentReferenceType">
@@ -3029,7 +3048,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="DisciplineIncident" type="SLC-DisciplineIncidentReferenceType">
+			<xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>disciplineIncidentId</sli:keyFieldName>
@@ -3163,6 +3182,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>educationOrganizationReference</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentProgramAssociationReferenceType">
@@ -3234,11 +3260,11 @@
 			<xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
-						<sli:keyFieldName>programId</sli:keyFieldName>
+						<sli:keyFieldName>schoolId</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="entryDate" type="xs:date">
+			<xs:element name="EntryDate" type="xs:date">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>entryDate</sli:keyFieldName>

@@ -22,6 +22,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import org.slc.sli.bulk.extract.extractor.DeltaExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
@@ -29,14 +35,6 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * Bulk extract launcher.
  *
@@ -44,18 +42,17 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  */
 public class Launcher {
-    private static final String USAGE = "Usage: bulk-extract <tenant>";
+    private static final String USAGE = "Usage: bulk-extract <tenant> <isDelta>";
     private static final Logger LOG = LoggerFactory.getLogger(Launcher.class);
-    private static final String TENANT = "tenant";
 
     private String baseDirectory;
     private TenantExtractor tenantExtractor;
     @Autowired
     private DeltaExtractor deltaExtractor;
-    private Repository<Entity> repository;
-    private LocalEdOrgExtractor localEdOrgExtractor;
 
-    private boolean isDelta = false;
+    private BulkExtractMongoDA bulkExtractMongoDA;
+
+    private LocalEdOrgExtractor localEdOrgExtractor;
 
     /**
      * Actually execute the extraction.
@@ -63,15 +60,19 @@ public class Launcher {
      * @param tenant
      *          Tenant for which extract has been initiated
      */
-    public void execute(String tenant) {
-        if (tenantExists(tenant)) {
+    public void execute(String tenant, boolean isDelta) {
+        Entity tenantEntity = bulkExtractMongoDA.getTenant(tenant);
+        if (tenantEntity != null) {
             DateTime startTime = new DateTime();
             if (isDelta) {
-                deltaExtractor.execute(tenant, startTime);
+                deltaExtractor.execute(tenant, startTime, baseDirectory);
             } else {
                 ExtractFile extractFile = null;
+                TenantContext.setTenantId(tenant);
                 extractFile = new ExtractFile(getTenantDirectory(tenant),
-                    getArchiveName(tenant, startTime.toDate()));
+                    getArchiveName(tenant, startTime.toDate()),
+                    bulkExtractMongoDA.getAppPublicKeys());
+
                 tenantExtractor.execute(tenant, extractFile, startTime);
                 localEdOrgExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             }
@@ -80,6 +81,8 @@ public class Launcher {
         }
     }
 
+    // those two methods should be moved to localEdOrgExtractor once we switched to
+    // LEA level extract, for now it's duplicated in both classes.
     private String getArchiveName(String tenant, Date startTime) {
         return tenant + "-" + getTimeStamp(startTime);
     }
@@ -88,16 +91,6 @@ public class Launcher {
         File tenantDirectory = new File(baseDirectory, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
         tenantDirectory.mkdirs();
         return tenantDirectory;
-    }
-
-    private boolean tenantExists(String tenant) {
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL ,tenant));
-        query.addCriteria(new NeutralCriteria("tenantIsReady", NeutralCriteria.OPERATOR_EQUAL, true));
-        TenantContext.setIsSystemCall(true);
-        Entity tenantEntity = repository.findOne(TENANT, query);
-        TenantContext.setIsSystemCall(false);
-        return tenantEntity != null ? true : false;
     }
 
     /**
@@ -132,15 +125,6 @@ public class Launcher {
     }
 
     /**
-     * Set repository.
-     * @param repository
-     *      Repository object
-     */
-    public void setRepository(Repository<Entity> repository) {
-        this.repository = repository;
-    }
-
-    /**
      * Main entry point.
      * @param args
      *      input arguments
@@ -150,14 +134,15 @@ public class Launcher {
 
         Launcher main = context.getBean(Launcher.class);
 
-        if (args.length != 1) {
+        if (args.length != 2) {
             LOG.error(USAGE);
             return;
         }
 
         String tenantId = args[0];
+        boolean isDelta = Boolean.parseBoolean(args[1]);
 
-        main.execute(tenantId);
+        main.execute(tenantId, isDelta);
 
     }
 
@@ -167,5 +152,19 @@ public class Launcher {
 
     public LocalEdOrgExtractor getLocalEdOrgExtractor() {
         return localEdOrgExtractor;
+    }
+
+    /** Get bulkExtractMongoDA.
+     * @return the bulkExtractMongoDA
+     */
+    public BulkExtractMongoDA getBulkExtractMongoDA() {
+        return bulkExtractMongoDA;
+    }
+
+    /**Set bulkExtractMongoDA.
+     * @param bulkExtractMongoDA the bulkExtractMongoDA to set
+     */
+    public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
+        this.bulkExtractMongoDA = bulkExtractMongoDA;
     }
 }

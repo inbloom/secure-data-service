@@ -59,8 +59,7 @@ Scenario: Preload Small Sample Data Set
      | teacherSectionAssociation                 |
    And I create a tenant set to preload data set "small" for tenant "Brian"
    And a batch job has completed successfully in the database
-   And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+   Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 19|
      | assessmentFamily                         |                 38|
@@ -85,7 +84,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard                         |               1499|
      | parent                                   |                  9|
      | program                                  |                  2|
-     | recordHash                               |               9479|
+     | recordHash                               |               8967|
      | reportCard                               |                  2|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                 97|
@@ -120,6 +119,5 @@ Scenario: Preload Medium Sample Data Set
    And the tenant database "Sharon" does not exist
    Then I create a tenant set to preload data set "medium" for tenant "Sharon"
    And a batch job has completed successfully in the database
-   And a batch job log has been created
-   And I should not see an error log file created
+      And I should not see an error log file created
    And I should not see a warning log file created

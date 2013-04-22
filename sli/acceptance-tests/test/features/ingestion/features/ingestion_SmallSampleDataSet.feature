@@ -65,8 +65,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | yearlyTranscript                          |
 When zip file is scp to ingestion landing zone
   And a batch job for file "SmallSampleDataSet.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 19|
      | assessmentFamily                         |                 38|
@@ -91,7 +90,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard                         |               1499|
      | parent                                   |                  9|
      | program                                  |                  2|
-     | recordHash                               |               9479|
+     | recordHash                               |               8967|
      | reportCard                               |                  2|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                 97|

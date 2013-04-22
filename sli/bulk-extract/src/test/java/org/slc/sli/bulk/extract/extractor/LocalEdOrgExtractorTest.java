@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,12 +31,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Tests LocalEdOrgExtractorTest
@@ -99,9 +100,9 @@ public class LocalEdOrgExtractorTest {
                 new ArrayList<Entity>());
         Mockito.when(repo.findAll(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(mockEntity));
-        Assert.assertTrue(extractor.getBulkExtractLEAs().size() == 0);
+        Assert.assertTrue(extractor.getAllLEAs(extractor.getBulkExtractLEAsPerApp()).size() == 0);
         body.put("edorgs", Arrays.asList("one", "two", "three"));
-        Assert.assertTrue(extractor.getBulkExtractLEAs().size() == 3);
+        Assert.assertTrue(extractor.getAllLEAs(extractor.getBulkExtractLEAsPerApp()).size() == 3);
     }
 
 }

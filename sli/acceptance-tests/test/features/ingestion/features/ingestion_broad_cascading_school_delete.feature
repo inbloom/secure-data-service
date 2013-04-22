@@ -51,10 +51,9 @@ Scenario: Delete School with cascade
     And I post "BroadSchoolDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "BroadSchoolDelete.zip" is completed in database
-    And a batch job log has been created
-	  And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
-	  And I should not see a warning log file created
+	And I should not see a warning log file created
     And I re-execute saved query "school" to get "0" records
     And I re-execute saved query "attendance" to get "0" records
     And I re-execute saved query "course" to get "0" records
@@ -85,7 +84,7 @@ Scenario: Delete School with cascade
         | staffCohortAssociation                    |       -90|
         | studentCohortAssociation                  |       -13|  
         | studentCompetency                         |       -25|
-        | studentCompetencyObjective                |        -1|  
+        | studentCompetencyObjective                |        -2|
         | studentDisciplineIncidentAssociation      |        -4|  
         | studentGradebookEntry                     |       -31|  
         | studentProgramAssociation                 |        -8|                               
@@ -94,6 +93,7 @@ Scenario: Delete School with cascade
         | teacherSchoolAssociation                  |       -24|         
         | teacherSectionAssociation                 |       -11|                         
     And I should not see "352e8570bd1116d11a72755b987902440045d346_id" in the "Midgar" database
+
 
 Scenario: Delete School with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -126,7 +126,7 @@ Scenario: Delete School with cascade = false
     Then there exist "11" "section" records like below in "Midgar" tenant. And I save this query as "section"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |    
-    Then there exist "1" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
+    Then there exist "2" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
         |field                                     |value                                                                                 |
         |body.educationOrganizationId              |352e8570bd1116d11a72755b987902440045d346_id                                           |
     Then there exist "11" "studentSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "studentSchoolAssociation"
@@ -139,7 +139,6 @@ Scenario: Delete School with cascade = false
     And I post "SafeSchoolDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeSchoolDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
 	And I should see "records deleted successfully: 0" in the resulting batch job file
 	And I should see "records failed processing: 1" in the resulting batch job file
@@ -154,7 +153,7 @@ Scenario: Delete School with cascade = false
     And I re-execute saved query "disciplineAction2" to get "4" records
     And I re-execute saved query "disciplineIncident" to get "23" records
     And I re-execute saved query "section" to get "11" records
-    And I re-execute saved query "studentCompetencyObjective" to get "1" records
+    And I re-execute saved query "studentCompetencyObjective" to get "2" records
     And I re-execute saved query "studentSchoolAssociation" to get "11" records
     And I re-execute saved query "teacherSchoolAssociation" to get "24" records   
     And I see that collections counts have changed as follows in tenant "Midgar"
@@ -175,11 +174,11 @@ Scenario: Delete Orphan School with cascade = false
     And I post "OrphanSchoolDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanSchoolDelete.zip" is completed in database
-	  And I should see "Processed 1 records." in the resulting batch job file
-		And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
-	  And I should not see a warning log file created
+	And I should not see a warning log file created
     And I re-execute saved query "school" to get "0" records
     And I re-execute saved query "custom_entities" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
@@ -215,7 +214,7 @@ Scenario: Delete Orphan School Reference with cascade = false
         | recordHash                                |        -1|
         | custom_entities                           |        -3|
 
-Scenario: Delete School with cascade = false and force = true, log violations = true
+Scenario: Delete School with cascade = false, logViolations = true and default settings (Confirm that by default force = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -246,7 +245,7 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     Then there exist "11" "section" records like below in "Midgar" tenant. And I save this query as "section"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |
-    Then there exist "1" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
+    Then there exist "2" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
         |field                                     |value                                                                                 |
         |body.educationOrganizationId              |352e8570bd1116d11a72755b987902440045d346_id                                           |
     Then there exist "11" "studentSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "studentSchoolAssociation"
@@ -255,11 +254,13 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     Then there exist "24" "teacherSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "teacherSchoolAssociation"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |
+    Then there exist "2" "custom_entities" records like below in "Midgar" tenant. And I save this query as "custom_entities"		  
+        |field                                     |value                                      	  	   				   |
+        |metaData.entityId                            |352e8570bd1116d11a72755b987902440045d346_id                                         |
     And I save the collection counts in "Midgar" tenant
     And I post "ForceSchoolDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceSchoolDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -277,15 +278,16 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     And I re-execute saved query "disciplineAction2" to get "4" records
     And I re-execute saved query "disciplineIncident" to get "23" records
     And I re-execute saved query "section" to get "11" records
-    And I re-execute saved query "studentCompetencyObjective" to get "1" records
+    And I re-execute saved query "studentCompetencyObjective" to get "2" records
     And I re-execute saved query "studentSchoolAssociation" to get "11" records
     And I re-execute saved query "teacherSchoolAssociation" to get "24" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | educationOrganization                     |        -1|
         | recordHash                                |        -1|
+	| custom_entities			    | 	     -2|
 
-Scenario: Delete School with cascade = false and force = true, log violations = true
+Scenario: Delete School with force = true, logViolations = true and default settings (Confirm that by default cascade = false)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -316,7 +318,7 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     Then there exist "11" "section" records like below in "Midgar" tenant. And I save this query as "section"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |
-    Then there exist "1" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
+    Then there exist "2" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
         |field                                     |value                                                                                 |
         |body.educationOrganizationId              |352e8570bd1116d11a72755b987902440045d346_id                                           |
     Then there exist "11" "studentSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "studentSchoolAssociation"
@@ -325,11 +327,13 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     Then there exist "24" "teacherSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "teacherSchoolAssociation"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |
+    Then there exist "2" "custom_entities" records like below in "Midgar" tenant. And I save this query as "custom_entities"		  
+        |field                                     |value                                      	  	   				   |
+        |metaData.entityId                            |352e8570bd1116d11a72755b987902440045d346_id                                         |
     And I save the collection counts in "Midgar" tenant
     And I post "ForceSchoolRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceSchoolRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -347,13 +351,14 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     And I re-execute saved query "disciplineAction2" to get "4" records
     And I re-execute saved query "disciplineIncident" to get "23" records
     And I re-execute saved query "section" to get "11" records
-    And I re-execute saved query "studentCompetencyObjective" to get "1" records
+    And I re-execute saved query "studentCompetencyObjective" to get "2" records
     And I re-execute saved query "studentSchoolAssociation" to get "11" records
     And I re-execute saved query "teacherSchoolAssociation" to get "24" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | educationOrganization                     |        -1|
         | recordHash                                |        -1|
+	| custom_entities			    |        -2|
 
 Scenario: Delete School with cascade = false and force = true, log violations = false, non-entity specific test
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -386,7 +391,7 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     Then there exist "11" "section" records like below in "Midgar" tenant. And I save this query as "section"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |
-    Then there exist "1" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
+    Then there exist "2" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
         |field                                     |value                                                                                 |
         |body.educationOrganizationId              |352e8570bd1116d11a72755b987902440045d346_id                                           |
     Then there exist "11" "studentSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "studentSchoolAssociation"
@@ -395,11 +400,13 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     Then there exist "24" "teacherSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "teacherSchoolAssociation"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |
+    Then there exist "2" "custom_entities" records like below in "Midgar" tenant. And I save this query as "custom_entities"		  
+        |field                                     |value                                      	  	   				   |
+        |metaData.entityId                            |352e8570bd1116d11a72755b987902440045d346_id                                         |
     And I save the collection counts in "Midgar" tenant
     And I post "ForceSchoolRefDeleteWithoutLogViolations.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceSchoolRefDeleteWithoutLogViolations.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -417,10 +424,11 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     And I re-execute saved query "disciplineAction2" to get "4" records
     And I re-execute saved query "disciplineIncident" to get "23" records
     And I re-execute saved query "section" to get "11" records
-    And I re-execute saved query "studentCompetencyObjective" to get "1" records
+    And I re-execute saved query "studentCompetencyObjective" to get "2" records
     And I re-execute saved query "studentSchoolAssociation" to get "11" records
     And I re-execute saved query "teacherSchoolAssociation" to get "24" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | educationOrganization                     |        -1|
         | recordHash                                |        -1|
+	| custom_entities			    | 	     -2|

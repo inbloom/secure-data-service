@@ -15,6 +15,7 @@
  */
 package org.slc.sli.bulk.extract.files;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -60,6 +61,7 @@ public class ExtractFile {
     private Map<String, File> archiveFiles = new HashMap<String, File>();
     private Map<String, JsonFileWriter> dataFiles = new HashMap<String, JsonFileWriter>();
     private ManifestFile manifestFile;
+    private String edorg;
 
     private File parentDir;
     private String archiveName = "";
@@ -78,10 +80,13 @@ public class ExtractFile {
      *          parent directory
      * @param archiveName
      *          name of the archive file
+     * @param clientKeys
+     *          Map from application ID to public keys.
      */
-    public ExtractFile(File parentDir, String archiveName) {
+    public ExtractFile(File parentDir, String archiveName, Map<String, String> clientKeys) {
         this.parentDir = parentDir;
         this.archiveName = archiveName;
+        this.clientKeys = clientKeys;
         this.tempDir = new File(parentDir, UUID.randomUUID().toString());
         this.tempDir.mkdir();
     }
@@ -130,10 +135,6 @@ public class ExtractFile {
      *
      */
     public void generateArchive() {
-        if(clientKeys == null || clientKeys.isEmpty()) {
-            LOG.info("No authorized application to extract data.");
-            return;
-        }
 
         TarArchiveOutputStream tarArchiveOutputStream = null;
         MultiOutputStream multiOutputStream = new MultiOutputStream();
@@ -166,25 +167,33 @@ public class ExtractFile {
 
     private OutputStream getAppStream(String app) throws Exception {
         File archive = new File(parentDir, getFileName(app));
-        FileOutputStream f = new FileOutputStream(archive);
+        OutputStream f = null;
+        CipherOutputStream stream = null;
 
-        createTarFile(archive);
+        try {
+            f = new BufferedOutputStream(new FileOutputStream(archive));
+            createTarFile(archive);
 
-        archiveFiles.put(app, archive);
+            archiveFiles.put(app, archive);
 
-        final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
+            final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
 
-        byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
-        byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
+            byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+            byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
 
-        PublicKey publicKey = getApplicationPublicKey(app);
-        byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
-        byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
+            PublicKey publicKey = getApplicationPublicKey(app);
+            byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+            byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
 
-        f.write(encryptedIV);
-        f.write(encryptedSecret);
+            f.write(encryptedIV);
+            f.write(encryptedSecret);
 
-        CipherOutputStream stream = new CipherOutputStream(f, cipherSecretKeyPair.getLeft());
+             stream = new CipherOutputStream(f, cipherSecretKeyPair.getLeft());
+
+        } catch(Exception e) {
+            IOUtils.closeQuietly(f);
+            throw e;
+        }
 
         return stream;
     }
@@ -202,7 +211,6 @@ public class ExtractFile {
 
         PublicKey publicKey = null;
         String key = clientKeys.get(app);
-        LOG.info("App : {}, Key: {}", app, key);
         X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.decodeBase64(key));
         try {
             KeyFactory kf = KeyFactory.getInstance("RSA");
@@ -289,6 +297,25 @@ public class ExtractFile {
      */
     public void setClientKeys(Map<String, String> clientKeys) {
         this.clientKeys = clientKeys;
+    }
+
+    /**
+     * Get edorg
+     * 
+     * @return the edorg this extractFile is responsible
+     */
+    public String getEdorg() {
+        return this.edorg;
+    }
+
+    /**
+     * Set edorg
+     * 
+     * @param the
+     *            edorg this extractFile is responsible
+     */
+    public void setEdorg(String edorg) {
+        this.edorg = edorg;
     }
 
 

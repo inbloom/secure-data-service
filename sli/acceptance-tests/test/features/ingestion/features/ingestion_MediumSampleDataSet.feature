@@ -60,8 +60,7 @@ Given I post "MediumSampleDataSet.zip" file as the payload of the ingestion job
      | teacherSectionAssociation                 |
 When zip file is scp to ingestion landing zone
   And a batch job for file "MediumSampleDataSet.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                              | count |
      | assessment                                  | 1 |
      | assessmentFamily                            | 1 |
@@ -86,7 +85,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard                            | 3 |
      | parent                                      | 763 |
      | program                                     | 13 |
-     | recordHash                                  | 40488 |
+     | recordHash                                  | 29049 |
      | reportCard                                  | 500 |
      | school                                      | 0 |
      | schoolSessionAssociation                    | 0 |

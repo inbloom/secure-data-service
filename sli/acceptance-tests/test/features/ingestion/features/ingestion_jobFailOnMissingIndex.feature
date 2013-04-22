@@ -24,7 +24,6 @@ Feature: Missing Index Alert
     And I post "TinyDataSet.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone with name "TinyDataSet2.zip"
     And a batch job for file "TinyDataSet2.zip" is completed in database
-    And a batch job log has been created
     And I should see "INFO  Not all records were processed completely due to errors." in the resulting batch job file
     And I should see "CORE_0038" in the resulting error log file
     And I should not see a warning log file created
@@ -34,7 +33,6 @@ Feature: Missing Index Alert
     And I post "TinyDataSet.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone with name "TinyDataSet3.zip"
     And a batch job for file "TinyDataSet3.zip" is completed in database
-    And a batch job log has been created
     And I should see "InterchangeEducationOrganization.xml stateEducationAgency 1 deltas!" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 0 records." in the resulting batch job file

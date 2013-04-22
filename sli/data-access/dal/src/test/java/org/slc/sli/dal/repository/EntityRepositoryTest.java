@@ -131,40 +131,40 @@ public class EntityRepositoryTest {
 //                leafDataOnly, expectedNObjects, expectedDepth, expectedStatus, expectedErrorType, expectedWarningType)
 
         // Test leaf node delete success : cascade=false and dryrun=false
-        testSafeDeleteHelper("gradingPeriod", null, false, false, false, false, null, access, true, 1, 1, CascadeResult.Status.SUCCESS, null, null);
+        testSafeDeleteHelper("gradingPeriod", null, false, false, false, false, null, access, true, 1, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.SUCCESS, null, null);
 
         // Test leaf node delete failure : cascade=false and dryrun=false
-        testSafeDeleteHelper("gradingPeriod", null, false, false, false, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS, null);
+        testSafeDeleteHelper("gradingPeriod", null, false, false, false, false, null, access, false, 0, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS, null);
 
         // Test cascade=false and dryrun=true
-        testSafeDeleteHelper("gradingPeriod", null, false, true, false, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS, null);
+        testSafeDeleteHelper("gradingPeriod", null, false, true, false, false, null, access, false, 0, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS, null);
 
         // Test cascade=true and dryrun=true
-        testSafeDeleteHelper("gradingPeriod", null, true, true, false, false, null, access, false, 4, 2, CascadeResult.Status.SUCCESS, null, null);
+        testSafeDeleteHelper("gradingPeriod", null, true, true, false, false, null, access, false, 4, MongoEntityRepository.DELETE_BASE_DEPTH+1, CascadeResult.Status.SUCCESS, null, null);
 
         // Test cascade=true and dryrun=false
-        testSafeDeleteHelper("gradingPeriod", null, true, false, false, false, null, access, false, 4, 2, CascadeResult.Status.SUCCESS, null, null);
+        testSafeDeleteHelper("gradingPeriod", null, true, false, false, false, null, access, false, 4, MongoEntityRepository.DELETE_BASE_DEPTH+1, CascadeResult.Status.SUCCESS, null, null);
 
         // Test maxobjects
-        testSafeDeleteHelper("gradingPeriod", null, true, false, false, false, 2, access, false, 4, 2, CascadeResult.Status.MAX_OBJECTS_EXCEEDED, null, null);
+        testSafeDeleteHelper("gradingPeriod", null, true, false, false, false, 2, access, false, 4, MongoEntityRepository.DELETE_BASE_DEPTH+1, CascadeResult.Status.MAX_OBJECTS_EXCEEDED, null, null);
 
         // Test access denied
-        testSafeDeleteHelper("gradingPeriod", null, true, false, false, false, null, accessDenied, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.ACCESS_DENIED, null);
+        testSafeDeleteHelper("gradingPeriod", null, true, false, false, false, null, accessDenied, false, 0, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.ACCESS_DENIED, null);
 
         // Test deletion from a non-existent collection
-        testSafeDeleteHelper("nonexistentCollection", null, true, false, false, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DELETE_ERROR, null);
+        testSafeDeleteHelper("nonexistentCollection", null, true, false, false, false, null, access, false, 0, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DELETE_ERROR, null);
 
         // Test deletion of a non-existent id
-        testSafeDeleteHelper("gradingPeriod", "noMatchId", true, false, false, false, null, access, false, 0, 1, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DELETE_ERROR, null);
+        testSafeDeleteHelper("gradingPeriod", "noMatchId", true, false, false, false, null, access, false, 0, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DELETE_ERROR, null);
 
         // Test leaf forced delete
-        testSafeDeleteHelper("gradingPeriod", null, false, false, true, true, null, access, true, 1, 1, CascadeResult.Status.SUCCESS, null, null);
+        testSafeDeleteHelper("gradingPeriod", null, false, false, true, true, null, access, true, 1, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.SUCCESS, null, null);
 
         // Test forced delete with children
-        testSafeDeleteHelper("gradingPeriod", null, false, false, true, false, null, access, false, 1, 1, CascadeResult.Status.SUCCESS, null, null);
+        testSafeDeleteHelper("gradingPeriod", null, false, false, true, false, null, access, false, 1, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.SUCCESS, null, null);
 
         // Test forced delete with logViolations
-        testSafeDeleteHelper("gradingPeriod", null, false, false, true, true, null, access, false, 1, 1, CascadeResult.Status.SUCCESS, null, CascadeResultError.ErrorType.CHILD_DATA_EXISTS);
+        testSafeDeleteHelper("gradingPeriod", null, false, false, true, true, null, access, false, 1, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.SUCCESS, null, CascadeResultError.ErrorType.CHILD_DATA_EXISTS);
     }
 
     private void testSafeDeleteHelper(String entityType, String overridingId,

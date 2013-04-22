@@ -40,6 +40,7 @@ DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
 ENCRYPTED_ENTITIES = ['student', 'parent']
 COMBINED_ENTITIES = ['assessment', 'studentAssessment']
+COMBINED_SUB_ENTITIES = ['assessmentItem','objectiveAssessment','studentAssessmentItems','studentObjectiveAssessments']
 
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
@@ -183,6 +184,12 @@ Given /^I have delta bulk extract files generated for today$/ do
   @coll.save(bulk_delta_file_entry)
 end
 
+Given /^the bulk extract files in the database are scrubbed/ do
+  @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb = @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+  @coll.remove()
+end
 ############################################################
 # When
 ############################################################
@@ -190,7 +197,9 @@ end
 When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(tenant,appId)
 end
-
+When /^I know the file-length of the extract file$/ do
+  @file_size = File.size(@filePath)
+end
 When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(tenant,appId)
   
@@ -298,10 +307,12 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
   puts("The generated token is #{@sessionId}") if $SLI_DEBUG
 end
 
-When /^the extract contains no entity files/ do
-  step "the extract contains a file for each of the following entities:",table(%{
-    | entityType |
-  })
+When /^I try to POST to the bulk extract endpoint/ do
+  hash = {
+    "stuff" => "Random stuff"
+  }
+  @format = "application/vnd.slc+json"  
+  restHttpPost("/bulk/extract/tenant",hash.to_json)
 end
 
 When /^I use an invalid tenant to trigger a bulk extract/ do
@@ -351,6 +362,12 @@ Then /^the extraction zone should still be empty/ do
     entries.each {|x| puts x}
     assert(entries.size == 2, "Extraction zone is no longer empty.")
   end
+end
+
+Then /^the extract contains no entity files/ do
+  step "the extract contains a file for each of the following entities:",table(%{
+    | entityType |
+  })
 end
 
 ############################################################
@@ -464,6 +481,7 @@ end
 
 def compareToApi(collection, collFile)
   found = false
+  uri = entityToUri(collection)
     
   collFile.each do |extractRecord|
     
@@ -471,13 +489,26 @@ def compareToApi(collection, collFile)
       
     #Make API call and get JSON for the collection
     @format = "application/vnd.slc+json"
-    uri = entityToUri(collection)
     restHttpGet("/v1/#{uri}/#{id}")
     assert(@res != nil, "Response from rest-client GET is nil")
+    assert(@res.code != 404, "Response from rest-client GET is 404")
     if @res.code == 200
       apiRecord = JSON.parse(@res.body)
       assert(apiRecord != nil, "Result of JSON parsing is nil")    
       apiRecord.delete("links")
+      if COMBINED_ENTITIES.include?(collection)
+        COMBINED_SUB_ENTITIES.each do |entity|
+          if entity.include? "student"
+            identifier = String.new(entity[7..-2])
+            identifier[0] = identifier[0].downcase
+            extractRecord[entity].sort_by! { |hsh| hsh[identifier]["identificationCode"] } if extractRecord.has_key? entity
+            apiRecord[entity].sort_by! { |hsh| hsh[identifier]["identificationCode"] } if apiRecord.has_key? entity
+          else
+            extractRecord[entity].sort_by! { |hsh| hsh["identificationCode"] } if extractRecord.has_key? entity
+            apiRecord[entity].sort_by! { |hsh| hsh["identificationCode"] } if apiRecord.has_key? entity
+          end
+        end
+      end
       assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.\nExtractRecord:\n" +extractRecord.to_s + "\nAPIRecord:\n" + apiRecord.to_s)
       found = true
     end
