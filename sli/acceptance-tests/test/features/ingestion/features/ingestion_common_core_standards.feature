@@ -74,14 +74,15 @@ Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the in
      | learningObjective                  |
      | learningStandard                   |
      | recordHash                         |
-When zip file is scp to ingestion landing zone
+  And zip file is scp to ingestion landing zone with name "grade12Math2.zip"
+  And a batch job for file "grade12Math2.zip" is completed in database
   Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | learningObjective           | 65     |
      | learningStandard            | 509    |
 Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the ingestion job
-When zip file is scp to ingestion landing zone with name "grade12Math2.zip"
-  And a batch job for file "grade12Math2.zip" is completed in database
+When zip file is scp to ingestion landing zone with name "grade12Math3.zip"
+  And a batch job for file "grade12Math3.zip" is completed in database
   Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | learningObjective           | 65     |
