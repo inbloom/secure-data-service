@@ -8,7 +8,7 @@ Feature: Bulk Extraction Works
         And I set up a fake tar file on the file system and in Mongo
         And in my list of rights I have BULK_EXTRACT
         When I make API call to retrieve sampled bulk extract file
-        When the return code is 200
+        When the return code is 200 I get expected tar downloaded
         Then I check the http response headers
         When I make bulk extract API call
         When the return code is 200 I get expected tar downloaded
@@ -22,9 +22,9 @@ Feature: Bulk Extraction Works
         And in my list of rights I have BULK_EXTRACT
         And I set up a fake tar file on the file system and in Mongo
         When I make API call to retrieve sampled bulk extract file headers
-        When the return code is 200
+        When the return code is 200 I get expected tar downloaded
         When I make bulk extract API head call
-        When the return code is 200
+        When the return code is 200 I get expected tar downloaded
 
     Scenario: Un-Authorized user cannot use the endpoint
         Given I am logged in using "linda.kim" "balrogs" to realm "IL"

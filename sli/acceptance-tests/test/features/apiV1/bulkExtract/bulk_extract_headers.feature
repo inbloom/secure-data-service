@@ -30,3 +30,21 @@ Scenario: Make a bulk extract request using corrent and incorrectly populated he
     When the If-Unmodified-Since header field is set to "BEFORE"
     And I make a custom bulk extract API call
     Then I get back a response code of "412"
+
+    #Make a bulk extract request with correct If-Range time, recieving part of the file
+    When the If-Range header field is set to "VALID_DATE" for range up to "20000"
+    And I make a custom bulk extract API call
+    Then I get back a response code of "206"
+    And the content length in response header is "20000"
+
+    #Make a bulk extract request with incorrect If-Range time, recieving the full file
+    When the If-Range header field is set to "INVALID_DATE" for range up to "20000"
+    And I make a custom bulk extract API call
+    Then I get back a response code of "200"
+    And the content length in response header is "420368"
+
+    #Make a bulk extract request with incorrect If-Range time, recieving the full file
+    When the If-Range header field is set to "INVALID_DATE" for range up to "20000"
+    And I make a custom bulk extract API call
+    Then I get back a response code of "200"
+    And the content length in response header is "420368"
