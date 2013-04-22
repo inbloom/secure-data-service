@@ -223,14 +223,24 @@ end
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using HEAD to retrieve an existing object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpHead(id, format = @format, sessionId = @sessionId)
+def restHttpHead(id, extra_headers = nil, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
+  client_id = "vavedra9ub"
   assert(sessionId != nil, "Session ID passed into HEAD was nil")
 
+  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
+  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
+
   urlHeader = makeUrlAndHeaders('head',id,sessionId,format)
+  
+  header = urlHeader[:headers]
+  header.merge!(extra_headers) if extra_headers !=nil
+  
   puts "HEAD urlHeader: #{urlHeader}" if $SLI_DEBUG
-  @res = RestClient.head(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
-  puts(@res.code,@res.raw_headers) if $SLI_DEBUG
+
+  @res = RestClient::Request.execute(:method => :head, :url => urlHeader[:url], :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
+#, :ssl_client_cert => client_cert, :ssl_client_key => private_key
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
 # Function restHttpGet
@@ -254,16 +264,7 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
 end
 
 def restHttpCustomHeadersGet(id, customHeaders, format = @format, sessionId = @sessionId)
-  # Validate SessionId is not nil
-  assert(sessionId != nil, "Session ID passed into GET was nil")
-
-  urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
-  header = urlHeader[:headers]
-  header.merge!(customHeaders)
-  puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
-  puts header
-  @res = RestClient.get(urlHeader[:url], header){|response, request, result| response }
-  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  restHttpHead(id, customHeaders, format, sessionId)
   return @res
 end
 

@@ -28,6 +28,10 @@ When /^I make a call to the bulk extract end point "(.*?)"$/ do |url|
   restTls(url)
 end
 
+When /^I make a call retrieve the header for the bulk extract end point "(.*?)"$/ do |url|
+  restHttpHead(url)
+end
+
 Given /^in my list of rights I have BULK_EXTRACT$/ do
   #  Explanatory step
 end

@@ -524,7 +524,7 @@ def decryptFile(file, client_id)
     puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
     puts("Encrypted message is #{encryptedmessage}")
     puts("Cipher is #{aes}")
-    puts("Plain text length is #{@plain.length} and it is #{@plain}")
-    puts "length #{@res.body.length}"
+    puts("Plain text length is #{@plain.length} and it is")# #{@plain}")
+    puts "length #{@res.body.length}" if @res != nil
   end
 end

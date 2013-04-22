@@ -151,8 +151,11 @@ public class BulkExtract {
     @GET
     @Path("extract/{leaId}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getLEAExtract(@Context HttpContext context, @PathParam("leaId") String leaId) throws Exception {
+    public Response getLEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("leaId") String leaId) throws Exception {
         LOG.info("Retrieving delta bulk extract");
+        
+        validateRequestCertificate(request);
+        
         checkApplicationAuthorization(leaId);
         return getExtractResponse(context.getRequest(), null);
     }

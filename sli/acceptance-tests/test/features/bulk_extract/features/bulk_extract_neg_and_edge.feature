@@ -14,7 +14,7 @@ Scenario: Run the bulk extractor on an unauthorized tenant
 Scenario: Try accessing the API's bulk extract endpoint with a user that doesn't have the proper rights
 	Given I trigger a bulk extract
 	And I am a valid 'service' user with an authorized long-lived token "9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd"	
-	When I make bulk extract API call
+	When I make a call to the bulk extract end point "/bulk/extract/tenant"
 	Then I get back a response code of "403"
 	
 Scenario: Run the bulk extractor on an empty database
