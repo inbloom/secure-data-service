@@ -10,7 +10,6 @@ Scenario: Delete Discipline Incident with cascade
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
 	And I should see child entities of entityType "disciplineIncident" with id "8270a081d30b82a9ac40a324bde644aaee933c20_id" in the "Midgar" database	
-	
     And I post "BroadDisciplineIncidentDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "BroadDisciplineIncidentDelete.zip" is completed in database
@@ -38,7 +37,6 @@ Scenario: Safe Delete DisciplineIncident with Cascade = false, Force = false
     And I post "SafeDisciplineIncidentDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeDisciplineIncidentDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -71,7 +69,6 @@ Scenario: Safe Delete DisciplineIncident by Ref with Cascade = false, Force = fa
     And I post "SafeDisciplineIncidentRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeDisciplineIncidentRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -104,7 +101,6 @@ Scenario: Safe Delete DisciplineIncident by Ref with Cascade = false, Force = fa
     And I post "ForceDisciplineIncidentDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceDisciplineIncidentDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -137,7 +133,6 @@ Scenario: Safe Delete DisciplineIncident by Ref with Cascade = false, Force = fa
     And I post "ForceDisciplineIncidentDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceDisciplineIncidentDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -170,7 +165,6 @@ Scenario: Safe Delete DisciplineIncident by Ref with Cascade = false, Force = fa
     And I post "ForceDisciplineIncidentRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceDisciplineIncidentRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file

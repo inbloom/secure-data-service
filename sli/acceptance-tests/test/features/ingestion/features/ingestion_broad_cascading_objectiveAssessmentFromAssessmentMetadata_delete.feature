@@ -64,7 +64,6 @@ Scenario: Delete Objective Assessment From Assessment Metadata with cascade = fa
 	And I post "SafeObjectiveAssessmentFromAssessmentMetadataDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "SafeObjectiveAssessmentFromAssessmentMetadataDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -92,7 +91,6 @@ Scenario: Delete Orphan Objective Assessment From Assessment Metadata with casca
 	And I post "OrphanObjectiveAssessmentFromAssessmentMetadataDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanObjectiveAssessmentFromAssessmentMetadataDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -117,7 +115,6 @@ Scenario: Delete Orphan Objective Assessment Reference From Assessment Metadata 
 	And I post "OrphanObjectiveAssessmentRefFromAssessmentMetadataDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanObjectiveAssessmentRefFromAssessmentMetadataDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file

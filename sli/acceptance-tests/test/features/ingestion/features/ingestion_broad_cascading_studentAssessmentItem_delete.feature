@@ -15,7 +15,6 @@ Scenario: Safe delete of StudentAssessmentItem with Cascade = false, Force = fal
     And I post "SafeStudentAssessmentItemDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeStudentAssessmentItemDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -42,7 +41,6 @@ Scenario: Safe delete of StudentAssessmentItem by ref with Cascade = false, Forc
     And I post "SafeStudentAssessmentItemRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeStudentAssessmentItemRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -70,7 +68,6 @@ Scenario: Force delete of StudentAssessmentItem with Cascade = false, Force = tr
     And I post "ForceStudentAssessmentItemDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceStudentAssessmentItemDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -97,7 +94,6 @@ Scenario: Force delete of StudentAssessmentItem by ref with Cascade = false, For
     And I post "ForceStudentAssessmentItemRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceStudentAssessmentItemRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file

@@ -695,7 +695,7 @@
 					<xs:element name="TotalCreditsRequired" type="Credits"/>
 					<xs:element name="CreditsBySubject" type="CreditsBySubject" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="CreditsByCourse" type="CreditsByCourse" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

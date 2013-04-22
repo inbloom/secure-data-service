@@ -85,6 +85,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     private static final int DEL_LOG_IDENT = 4;
 
+    public static final int DELETE_BASE_DEPTH = 0;         // public for unit tests
+
     private static final Logger DELETION_LOG = LoggerFactory.getLogger("CascadingDeletionLog");
 
     @Autowired
@@ -489,7 +491,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Set<String> deletedIds = new HashSet<String>();
 
         // Always do a dryrun first
-        result = safeDeleteHelper(entityType, id, cascade, true, force, logViolations, maxObjects, access, 1,
+        result = safeDeleteHelper(entityType, id, cascade, true, force, logViolations, maxObjects, access, DELETE_BASE_DEPTH,
                 deletedIds);
 
         if (result.getStatus() == CascadeResult.Status.SUCCESS) {
@@ -503,7 +505,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             } else if (!dryrun) {
                 // Do the actual deletes with some confidence
                 deletedIds.clear();
-                result = safeDeleteHelper(entityType, id, cascade, false, force, logViolations, maxObjects, access, 1,
+                result = safeDeleteHelper(entityType, id, cascade, false, force, logViolations, maxObjects, access, DELETE_BASE_DEPTH,
                         deletedIds);
                 result.setDeletedIds(deletedIds);
 
@@ -618,19 +620,20 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                     neutralQuery);
             for (Entity entity : referencingEntities) {
                 // Note we are examining entities one level below our initial depth now
+                int referencingEntityDepth = depth +1;
                 String referencerId = entity.getEntityId();
                 String referent = referenceEntityType + "." + referencerId;
                 String referentPath = referent + "." + referenceField;
                 DELETION_LOG
-                        .info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Handling reference " + referentPath);
+                        .info(StringUtils.repeat(" ", DEL_LOG_IDENT * referencingEntityDepth) + "Handling reference " + referentPath);
 
                 // Check accessibility to this entity
                 // TODO this looks like it will need to take collection as an argument
                 if ((access != null) && !access.accessibilityCheck(referencerId)) {
                     String message = "Access denied for entity type " + referenceEntityType + " with id "
-                            + referencerId + " at depth " + depth;
+                            + referencerId + " at depth " + referencingEntityDepth;
                     LOG.debug(message);
-                    result.addError(depth + 1, message, CascadeResultError.ErrorType.ACCESS_DENIED,
+                    result.addError(referencingEntityDepth, message, CascadeResultError.ErrorType.ACCESS_DENIED,
                             referenceEntityType, referencerId);
                     continue;  // skip to the next referencing entity
                 }
@@ -641,10 +644,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                     String message = "Child reference of entity type " + referenceEntityType + " id " + referencerId
                             + " exists for entity type " + entityType + " id " + id;
                     if (!force) {
-                        result.addError(depth + 1, message, CascadeResultError.ErrorType.CHILD_DATA_EXISTS,
+                        result.addError(referencingEntityDepth, message, CascadeResultError.ErrorType.CHILD_DATA_EXISTS,
                                 referenceEntityType, referencerId);
                     } else if (logViolations) {
-                        result.addWarning(depth + 1, message, CascadeResultError.ErrorType.CHILD_DATA_EXISTS,
+                        result.addWarning(referencingEntityDepth, message, CascadeResultError.ErrorType.CHILD_DATA_EXISTS,
                                 referenceEntityType, referencerId);
                     }
                     continue;
@@ -661,7 +664,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                     } else {
                         String message = "List child ref '" + referentPath + "' to entity type '" + entityType
                                 + "' ID '" + id + "' located child object, but not in child body";
-                        result.addError(depth + 1, message, CascadeResultError.ErrorType.DATABASE_ERROR,
+                        result.addError(referencingEntityDepth, message, CascadeResultError.ErrorType.DATABASE_ERROR,
                                 referenceEntityType, referencerId);
                         return result;  // no reference to remove
                     }
@@ -674,11 +677,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                     // 2. it is a required field and it is the last reference in a list of
                     // references
 
-                    DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Required" + referentPath
+                    DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * referencingEntityDepth) + "Required" + referentPath
                             + "Invoking cascading deletion of " + referent);
                     CascadeResult recursiveResult = safeDeleteHelper(referenceEntityType, referencerId, cascade,
-                            dryrun, force, logViolations, maxObjects, access, depth + 1, deletedIds);
-                    DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth)
+                            dryrun, force, logViolations, maxObjects, access, referencingEntityDepth, deletedIds);
+                    DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * referencingEntityDepth)
                             + recursiveResult.getStatus().name() + " Cascading deletion of " + referent);
 
                     // Update the overall result depth if necessary
@@ -713,14 +716,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                     // 2. it is an optional field and it is the last reference in a list of
                     // references
                     DELETION_LOG
-                            .info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Removing field " + referentPath);
+                            .info(StringUtils.repeat(" ", DEL_LOG_IDENT * referencingEntityDepth) + "Removing field " + referentPath);
 
                     // Make sure child ref is actually in the body for deletion (shoud be, as it was
                     // used to find the child)
                     if (!entity.getBody().containsKey(referencingFieldSchemaInfo.getMappedPath())) {
                         String message = "Single-valued child ref '" + referentPath + "' to entity type '" + entityType
                                 + "' ID '" + id + "' located child object, but not in child body";
-                        result.addError(depth + 1, message, CascadeResultError.ErrorType.DATABASE_ERROR,
+                        result.addError(referencingEntityDepth, message, CascadeResultError.ErrorType.DATABASE_ERROR,
                                 referenceEntityType, referencerId);
                         return result;
                     }
@@ -736,23 +739,23 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         if (!this.update(getEntityRepositoryType(referenceEntityType), entity, true,
                                 FullSuperDoc.isFullSuperdoc(entity), true)) {
                             String message = "Unable to update entity type: " + referenceEntityType + ", entity id: "
-                                    + referencerId + ", field name: " + referenceField + " at depth " + depth;
+                                    + referencerId + ", field name: " + referenceField + " at depth " + referencingEntityDepth;
                             LOG.debug(message);
-                            result.addError(depth + 1, message, CascadeResultError.ErrorType.UPDATE_ERROR,
+                            result.addError(referencingEntityDepth, message, CascadeResultError.ErrorType.UPDATE_ERROR,
                                     referenceEntityType, referencerId);
-                            DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Failed removing field "
+                            DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * referencingEntityDepth) + "Failed removing field "
                                     + referentPath);
                             continue;  // skip to the next referencing entity
                         } else {
                             result.getReferenceFieldRemovedIds().add(entity.getEntityId());
-                            DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Removed field "
+                            DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * referencingEntityDepth) + "Removed field "
                                     + referentPath);
                         }
                     }
                 } else if (referencingFieldSchemaInfo.isArray() && !isLastValueInReferenceList) {
                     // Remove the matching reference from the list of references:
                     // 1. it is NOT the last reference in a list of references
-                    DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Adjusting field "
+                    DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * referencingEntityDepth) + "Adjusting field "
                             + referentPath);
 
                     // Make sure child ref is actually in the body for deletion (should be, as it
@@ -760,7 +763,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                     if (!childRefList.contains(id)) {
                         String message = "Array child ref '" + referentPath + "' to entity type '" + entityType
                                 + "' ID '" + id + "' located child object, but not in child body";
-                        result.addError(depth + 1, message, CascadeResultError.ErrorType.DATABASE_ERROR,
+                        result.addError(referencingEntityDepth, message, CascadeResultError.ErrorType.DATABASE_ERROR,
                                 referenceEntityType, referencerId);
                         return result;
                     }
@@ -778,16 +781,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                             // 1. it is NOT the last reference in a list of references
                             String message = "Database error while patching entity type: " + referenceEntityType
                                     + ", entity id: " + referencerId + ", field name: " + referenceField + " at depth "
-                                    + depth;
+                                    + referencingEntityDepth;
                             LOG.debug(message);
-                            result.addError(depth + 1, message, CascadeResultError.ErrorType.PATCH_ERROR,
+                            result.addError(referencingEntityDepth, message, CascadeResultError.ErrorType.PATCH_ERROR,
                                     referenceEntityType, referencerId);
-                            DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth)
+                            DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * referencingEntityDepth)
                                     + "Failed adjusting field " + referentPath);
                             continue;  // skip to the next referencing entity
                         } else {
                             result.getReferenceFieldPatchedIds().add(referencerId);
-                            DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Adjusted field "
+                            DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * referencingEntityDepth) + "Adjusted field "
                                     + referentPath);
                         }
                     }

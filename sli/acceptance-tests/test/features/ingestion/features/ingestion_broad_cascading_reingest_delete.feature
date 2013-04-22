@@ -40,7 +40,7 @@ Scenario: Delete Student with cascade = false
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentCohortAssociation"
         |field                                     |value                                                                                 |
         |studentCohortAssociation._id              |908404e876dd56458385667fa383509035cd4312_ide3e74d25c695f1e27d2272bcbe12351cd02a78c1_id|
-    Then there exist "5" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
+    Then there exist "6" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                     |value                                                                                 |
         |body.studentSectionAssociationId          |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|  
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentDisciplineIncidentAssociation"
@@ -89,7 +89,7 @@ Scenario: Delete Student with cascade = false
     And I re-execute saved query "studentAssessment" to get "4" records
     And I re-execute saved query "studentAssessmentItem" to get "1" records    
     And I re-execute saved query "studentCohortAssociation" to get "0" records
-    And I re-execute saved query "studentCompetency" to get "5" records
+    And I re-execute saved query "studentCompetency" to get "6" records
     And I re-execute saved query "studentDisciplineIncidentAssociation" to get "0" records
     And I re-execute saved query "studentGradebookEntry" to get "139" records
     And I re-execute saved query "studentObjectiveAssessment1" to get "1" records
