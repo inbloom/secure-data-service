@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Cookie;
@@ -63,6 +64,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
@@ -112,6 +114,9 @@ public class BulkExtractTest {
 
     @Mock
     private Repository<Entity> mockMongoEntityRepository;
+    
+    @Mock
+    private GenericToEdOrgValidator mockValidator;
 
     private static final String PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw1KLTcuf8OpvbHfwMJks\n" +
             "UAXbeaoVqZiK/CRhttWDmlMEs8AubXiSgZCekXeaUqefK544BOgeuNgQmMmo0pLy\n" +
@@ -127,6 +132,9 @@ public class BulkExtractTest {
         MockitoAnnotations.initMocks(this);
         Map<String, Object> appBody = new HashMap<String, Object>();
         appBody.put("isBulkExtract", true);
+        when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class))).thenReturn(true);
+        // Hmm.. this needed?
+        bulkExtract.setEdorgValidator(mockValidator);
         Entity mockEntity = Mockito.mock(Entity.class);
         when(mockEntity.getBody()).thenReturn(appBody);
         when(mockMongoEntityRepository.findOne(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
@@ -444,6 +452,15 @@ public class BulkExtractTest {
         when(mockEntity.getEntityId()).thenReturn("App1");
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
+        bulkExtract.getLEAExtract(null, "BLEEP");
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testUserNotInLEA() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Mockito.when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class)))
+                .thenReturn(false);
         bulkExtract.getLEAExtract(null, "BLEEP");
     }
  

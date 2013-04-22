@@ -20,6 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.GET;
@@ -38,6 +41,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -77,6 +81,9 @@ public class BulkExtract {
 
     @Autowired
     private Repository<Entity> mongoEntityRepository;
+    
+    @Autowired
+    private GenericToEdOrgValidator edorgValidator;
 
     private SLIPrincipal principal;
 
@@ -132,6 +139,9 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getLEAExtract(@Context HttpContext context, @PathParam("leaId") String leaId) throws Exception {
         LOG.info("Retrieving delta bulk extract");
+        if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
+            throw new AccessDeniedException("User is not authorized access this extract");
+        }
         checkApplicationAuthorization(leaId);
         return getExtractResponse(context.getRequest(), null, leaId);
     }
@@ -333,6 +343,15 @@ public class BulkExtract {
             return bulkExtractFile;
         }
 
+    }
+    
+    /**
+     * Setter for our edorg validator
+     * 
+     * @param validator
+     */
+    public void setEdorgValidator(GenericToEdOrgValidator validator) {
+        this.edorgValidator = validator;
     }
 
 }
