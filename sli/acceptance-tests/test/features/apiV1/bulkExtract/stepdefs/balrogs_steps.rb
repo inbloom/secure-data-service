@@ -346,7 +346,7 @@ Then /^I verify the bytes I have are correct$/ do
   range_end = range.split("-")[1].to_i
   
   result = compareWithOriginalFile(@res.body, range_start, range_end)
-  assert(result == true)
+  assert(result,"The bytes don't match the tar file")
 end
 
 Then /^the file size is "(.*?)"$/ do |file_size|
