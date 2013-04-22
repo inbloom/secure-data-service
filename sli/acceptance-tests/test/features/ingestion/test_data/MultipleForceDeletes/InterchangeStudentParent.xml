@@ -7,11 +7,6 @@
                 <ParentUniqueStateId>10-mom</ParentUniqueStateId>
             </ParentIdentity>
         </ParentReference>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>1</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
     </Action>
     <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
         <StudentParentAssociationReference>

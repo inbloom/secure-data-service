@@ -17,6 +17,12 @@ Scenario: Multiple Orphans
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentGrades.xml"
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeMasterSchedule.xml"
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentCohort.xml"
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeStaffAssociation.xml"
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentAssessment.xml"
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentEnrollment.xml"
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentDiscipline.xml"
 	And I should not see an error log file created
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                            |    delta|
@@ -26,25 +32,43 @@ Scenario: Multiple Orphans
         |assessmentPeriodDescriptor             |       -1|
         |attendanceEvent                        |       -1|
         |calendarDate                           |       -1|
+        |cohort                                 |       -1|
         |competencyLevelDescriptor              |       -1|
         |course                                 |       -1|
         |courseOffering                         |       -1|
         |courseTranscript                       |       -1|
         |custom_entities                        |       -2|
+        |disciplineAction                       |       -1|
+        |disciplineIncident                     |       -1|
         |educationOrganization                  |       -3|
         |grade                                  |       -1|
         |gradebookEntry                         |      -25|
         |gradingPeriod                          |       -1|
+        |graduationPlan                         |       -1|
         |learningObjective                      |       -1|
         |learningStandard                       |       -1|
-        |objectiveAssessment                    |       -4|
+        |objectiveAssessment                    |       -5|
+        |parent                                 |       -1|
         |program                                |       -1|
         |reportCard                             |       -1|
         |section                                |       -1|
         |session                                |       -1|
+        |staff                                  |       -2|
+        |staffEducationOrganizationAssociation  |       -1|
+        |staffProgramAssociation                |       -1|
         |studentAcademicRecord                  |       -1|
+        |studentAssessment                      |       -1|
+        |studentAssessmentItem                  |       -3|
+        |studentCohortAssociation               |       -1|
         |studentCompetency                      |       -1|
         |studentCompetencyObjective             |       -1|
-        |studentSectionAssociation              |       -1|
-        |teacherSectionAssociation              |       -2|
-        |recordHash                             |      -20|
+        |studentDisciplineIncidentAssociation   |       -1|
+        |studentGradebookEntry                  |       -1|
+        |studentObjectiveAssessment             |       -2|
+        |studentParentAssociation               |       -1|
+        |studentProgramAssociation              |       -1|
+        |studentSchoolAssociation               |       -1|
+        |studentSectionAssociation              |       -2|
+        |teacherSchoolAssociation               |       -1|
+        |teacherSectionAssociation              |       -3|
+        |recordHash                             |      -31|
