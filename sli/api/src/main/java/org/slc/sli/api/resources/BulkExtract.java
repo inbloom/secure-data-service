@@ -209,7 +209,6 @@ public class BulkExtract {
 
     }
 
-
     private Entity getApplication(Authentication authentication) {
         if (!(authentication instanceof OAuth2Authentication)) {
             throw new AccessDeniedException("Not logged in with valid oauth context");
