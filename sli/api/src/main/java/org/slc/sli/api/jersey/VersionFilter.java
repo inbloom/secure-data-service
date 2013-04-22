@@ -16,16 +16,19 @@
 
 package org.slc.sli.api.jersey;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerRequestFilter;
-import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import java.util.List;
+import java.util.SortedSet;
 
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriBuilder;
-import java.util.List;
-import java.util.SortedSet;
+
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 
 /**
  * Pre-request version filter.
@@ -48,14 +51,23 @@ public class VersionFilter implements ContainerRequestFilter {
 
         if (!segments.isEmpty()) {
             String version = segments.get(0).getPath();
+            boolean isBulkNonVersion = version.equals("bulk");
 
             SortedSet<String> minorVersions = resourceEndPoint.getNameSpaceMappings().get(version);
 
-            if ((minorVersions != null) && !minorVersions.isEmpty()) {
-                //remove the version
-                segments.remove(0);
+            if (isBulkNonVersion || ((minorVersions != null) && !minorVersions.isEmpty())) {
+                if (!isBulkNonVersion) {
+                    //remove the version
+                    segments.remove(0);
+                }
 
-                String newVersion = version + "." + minorVersions.last();
+                String newVersion;
+                // Bulk extract always returns latest API version.
+                if (isBulkNonVersion || ((segments.size() > 1) && segments.get(1).getPath().equals("bulk"))) {
+                    newVersion = getLatestApiVersion();
+                } else {
+                    newVersion = version + "." + minorVersions.last();
+                }
 
                 //add the new version
                 UriBuilder builder = containerRequest.getBaseUriBuilder().path(newVersion);
@@ -78,5 +90,22 @@ public class VersionFilter implements ContainerRequestFilter {
         }
 
         return containerRequest;
+    }
+
+/**
+ * Get the latest API version.
+ *
+ * @return Latest API version
+ */
+    public String getLatestApiVersion() {
+      String latestApiVersion = "";
+      for (String majorVersion : resourceEndPoint.getNameSpaceMappings().keySet()) {
+          String minorVersion = resourceEndPoint.getNameSpaceMappings().get(majorVersion).last();
+          String fullVersion = majorVersion + "." + minorVersion;
+              if (fullVersion.compareToIgnoreCase(latestApiVersion) > 0) {
+                  latestApiVersion = fullVersion;
+              }
+      }
+      return latestApiVersion;
     }
 }

@@ -77,7 +77,7 @@ import org.slc.sli.domain.enums.Right;
  *
  */
 @Component
-@Path("/bulk")
+@Path("{version}/bulk")
 @Produces({ "application/x-tar" })
 public class BulkExtract {
 
