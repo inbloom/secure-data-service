@@ -16,6 +16,7 @@ limitations under the License.
 
 =end
 require 'open3'
+require 'digest/sha1'
 require_relative '../../../utils/sli_utils.rb'
 
 $FAKE_FILE_TEXT = "This is a fake tar file"
@@ -51,7 +52,7 @@ Given /^I set up a sample tar file on the file system and in Mongo$/ do
   db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
   appId = getAppId()
   src_coll = db["bulkExtractFiles"]
-  @sampe_tar_id = SecureRandom.uuid
+  @sample_tar_id = SecureRandom.uuid
   src_coll.remove({"_id" => @sample_tar_id})
   src_coll.insert({"_id" => @sample_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%a %b %d %H:%S:%M %Z %Y"), "path" => @sample_file}})
 end
@@ -156,7 +157,6 @@ When /^the If-Match header field is set to "(.*?)"$/ do |value|
   else
     assert(false, "Unsupported value")
   end
-
  end
 
  When /^the If-Unmodified-Since header field is set to "(.*?)"$/ do |value|
@@ -168,7 +168,18 @@ When /^the If-Match header field is set to "(.*?)"$/ do |value|
   else 
     assert(false, "Unsupported value")
   end
+ end
 
+  When /^the If-Range header field is set to "(.*?)" for range up to "(.*?)"$/ do |value, range|
+  date = Date.parse(@last_modified)
+  to = (range.to_i) -1
+  if value == "VALID_DATE"
+    @customHeaders = makeCustomHeader("0-" + to.to_s, date.next_day.httpdate)
+  elsif value == "INVALID_DATE"
+    @customHeaders = makeCustomHeader("0-" + to.to_s, date.prev_day.httpdate)
+  else 
+    assert(false, "Unsupported value")
+  end
  end
 
 When /^I save the extracted file$/ do
@@ -214,9 +225,9 @@ When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Mi
   @coll = "bulkExtractFiles";
   @src_coll = @db[@coll]
 
-  assert(@res.code == 404,"The return code is #{@res.code}. Expected: 404")
   puts "@res.headers: #{@res.headers}"
   puts "@res.code: #{@res.code}"
+  assert(@res.code == 404,"The return code is #{@res.code}. Expected: 404")
 
   if @src_coll.count > 0
     ref_doc = @src_coll.find({"_id" => "Midgar"}).to_a
@@ -225,9 +236,10 @@ When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Mi
 end
 
 When /^the return code is 503 I ensure there is a bulkExtractFiles entry for Midgar$/ do
-  assert(@res.code == 503,"The return code is #{@res.code}. Expected: 503")
   puts "@res.headers: #{@res.headers}"
   puts "@res.code: #{@res.code}"
+  assert(@res.code == 503,"The return code is #{@res.code}. Expected: 503")
+
 
   if @src_coll.count > 0
     ref_doc = @src_coll.find({"_id" => "Midgar"}).to_a
@@ -239,25 +251,6 @@ When /^the return code is 200 I get expected tar downloaded$/ do
 	puts "@res.headers: #{@res.headers}"
 	puts "@res.code: #{@res.code}"
   assert(@res.code == 200,"The return code is #{@res.code}. Expected: 200")
-	puts "@res.headers: #{@res.headers}"
-	puts "@res.code: #{@res.code}"
-	
-	EXPECTED_CONTENT_TYPE = 'application/x-tar'
-	@content_disposition = @res.headers[:content_disposition]
-	@zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
-	@last_modified = @res.headers[:last_modified]
-	
-	puts "content-disposition: #{@content_disposition}"
-	puts "download file name: #{@zip_file_name}"
-	puts "last-modified: #{@last_modified}"
-	
-	assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
-end
-
-When /^the return code is 200$/ do
-  assert(@res.code == 200,"The return code is #{@res.code}. Expected: 200")
-	puts "@res.headers: #{@res.headers}"
-	puts "@res.code: #{@res.code}"
 	
 	EXPECTED_CONTENT_TYPE = 'application/x-tar'
 	@content_disposition = @res.headers[:content_disposition]
@@ -279,7 +272,7 @@ end
 
 Then /^the content length in response header is "(.*?)"$/ do |length|
   content_length = @res.headers[:content_length]
-  assert(content_length.to_i == length.to_i)
+  assert(content_length.to_i == length.to_i, "Length doesn't match. Content length is: #{content_length} Expected: #{length}")
 end
 
 Then /^I store the file content$/ do
@@ -312,7 +305,14 @@ Then /^the file is decrypted$/ do
 end
 
 Then /^I see that the combined file matches the tar file$/ do
-  assert(File.size(@received_file) == File.size(@sample_file))
+  assert(File.size(@received_file) == File.size(@sample_file), "Combined file isn't the same size as the tar file.")
+  received_contents = File.open(@received_file, 'rb') { |f| f.read}
+  received_hash = Digest::SHA1.hexdigest(received_contents)
+  puts "Hash of combined file is #{received_hash}"
+  sample_contents = File.open(@sample_file, 'rb') { |f| f.read}  
+  sample_hash = Digest::SHA1.hexdigest(sample_contents)
+  puts "Hash of the tar file is #{sample_hash}"
+  assert(received_hash == sample_hash, "Combined file doesn't match the tar file.")
   File.delete(@received_file)
   @received_file = nil
 end
@@ -350,13 +350,42 @@ Then /^I verify the bytes I have are correct$/ do
 end
 
 Then /^the file size is "(.*?)"$/ do |file_size|
-  puts File.size(@received_file)
+  actual_file_size = File.size(@received_file)
+  puts "Actual file size: #{actual_file_size}"
+  assert(file_size == actual_file_size,"Actual file size does not match expected. Actual: #{actual_file_size} Expected: #{file_size}")
 end
 
 Then /^I verify I do not have the complete file$/ do
-  assert(File.size(@received_file) != File.size(@sample_file))
+  assert(File.size(@received_file) < File.size(@sample_file), "Apparently, I do have the complete file")
   File.delete(@received_file)
   @received_file = nil
+end
+
+Then /^I store the contents of the first call$/ do
+  res_content = @res.body.split(%r{--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
+  @content1 = res_content[1].strip()
+  puts @content1.size
+  @content3 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0].strip()
+  puts @content3.size
+end
+
+Then /^I store the contents of the second call$/ do
+  res_content = @res.body.split(%r{--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
+  @content2 = res_content[1].strip()
+  puts @content2.size
+  @content4 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0]
+  puts @content4.size
+end
+
+Then /^I combine the file contents$/ do
+  @received_file = Dir.pwd + "/Final.tar"
+  File.open(@received_file, "wb") do |outf|
+        outf << @content1
+        outf << @content2
+        outf << @content3
+        outf << @content4
+  end
+  puts File.size(@received_file)
 end
 
 Then /^I check the version of http response headers$/ do
@@ -515,7 +544,6 @@ After('@fakeTar') do
 #Given /^I remove the fake tar file and remove its reference in Mongo$/ do
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
   db ||= conn.db('sli')
-  #path = Dir.pwd + "/fake.tar"
   src_coll = db["bulkExtractFiles"]
   src_coll.remove({"_id" => @fake_tar_id})
   File.delete(@path)
