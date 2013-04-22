@@ -148,7 +148,6 @@ When /^the If-Match header field is set to "(.*?)"$/ do |value|
   else
     assert(false, "Unsupported value")
   end
-
  end
 
  When /^the If-Unmodified-Since header field is set to "(.*?)"$/ do |value|
@@ -160,7 +159,18 @@ When /^the If-Match header field is set to "(.*?)"$/ do |value|
   else 
     assert(false, "Unsupported value")
   end
+ end
 
+  When /^the If-Range header field is set to "(.*?)" for range up to "(.*?)"$/ do |value, range|
+  date = Date.parse(@last_modified)
+  to = (range.to_i) -1
+  if value == "VALID_DATE"
+    @customHeaders = makeCustomHeader("0-" + to.to_s, @last_modified)
+  elsif value == "INVALID_DATE"
+    @customHeaders = makeCustomHeader("0-" + to.to_s, date.prev_day.httpdate)
+  else 
+    assert(false, "Unsupported value")
+  end
  end
 
 When /^I save the extracted file$/ do
