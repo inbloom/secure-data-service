@@ -120,7 +120,7 @@ public class FileResource {
         final Range full = new Range(0, fileLength - 1, fileLength);
         final List<Range> ranges = new ArrayList<Range>();
 
-        builder = processRangeHeader(req, full, ranges, fileLength, lastModifiedTime, eTag);
+        builder = processRangeHeader(req, full, ranges, fileLength, httpDate.getTime(), eTag);
         if (builder != null) {
             // validation fails
             return builder.build();

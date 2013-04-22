@@ -346,7 +346,7 @@ Then /^I verify the bytes I have are correct$/ do
   range_end = range.split("-")[1].to_i
   
   result = compareWithOriginalFile(@res.body, range_start, range_end)
-  assert(result == true)
+  assert(result,"The bytes don't match the tar file")
 end
 
 Then /^the file size is "(.*?)"$/ do |file_size|
@@ -391,7 +391,7 @@ end
 Then /^I check the version of http response headers$/ do
   LATEST_API_VERSION = "v1.2"
 
-  returned_version = @res.headers[:x_executedPath].split("/").first
+  returned_version = @res.headers[:x_executedpath].split("/").first
 
   assert(returned_version==LATEST_API_VERSION, "Returned version is wrong. Actual: #{returned_version} Expected: #{LATEST_API_VERSION}")
 end

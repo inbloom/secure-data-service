@@ -47,18 +47,18 @@ Scenario: Validate requests with invalid versions
     And I set up a fake tar file on the file system and in Mongo
     And in my list of rights I have BULK_EXTRACT
     When I make API call to bulk extract file headers with version "v1.3"
-    Then the return code is 404
+    Then I get back a response code of "404"
     When I make API call to bulk extract file headers with version "v2.0"
-    Then the return code is 404
+    Then I get back a response code of "404"
     When I make API call to bulk extract file headers with version "1.3"
-    Then the return code is 404
+    Then I get back a response code of "404"
     When I make API call to bulk extract file headers with version "abc"
-    Then the return code is 404
+    Then I get back a response code of "404"
     When I make API call to retrieve sampled bulk extract file headers with version "v1.3"
-    Then the return code is 404
+    Then I get back a response code of "404"
     When I make API call to retrieve sampled bulk extract file headers with version "v1.0"
-    Then the return code is 404
+    Then I get back a response code of "404"
     When I make API call to retrieve sampled bulk extract file headers with version "1.3"
-    Then the return code is 404
+    Then I get back a response code of "404"
     When I make API call to retrieve sampled bulk extract file headers with version "abc"
-    Then the return code is 404
+    Then I get back a response code of "404"
