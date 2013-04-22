@@ -362,7 +362,7 @@ end
 Then /^I check the version of http response headers$/ do
   LATEST_API_VERSION = "v1.2"
 
-  returned_version = @res.headers[:x_executedPath].split("/").first
+  returned_version = @res.headers[:x_executedpath].split("/").first
 
   assert(returned_version==LATEST_API_VERSION, "Returned version is wrong. Actual: #{returned_version} Expected: #{LATEST_API_VERSION}")
 end
