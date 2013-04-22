@@ -24,15 +24,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/s
             <SectionIdentity>
               <EducationalOrgReference>
                 <EducationalOrgIdentity>
-                  <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </EducationalOrgIdentity>
-              </EducationalOrgReference>
-              <UniqueSectionCode>3</UniqueSectionCode>
-            </SectionIdentity>
-          </SectionReference>
-          <BeginDate>2001-09-03</BeginDate>
-        </StudentSectionAssociationIdentity>
-      </StudentSectionAssociationReference>
-    </StudentCompetency>
-  </Action>  
+            </EducationOrganizationReference>
+        </StudentCompetencyObjective>
+    </Action>
 </InterchangeStudentGrade>

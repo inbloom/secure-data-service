@@ -60,6 +60,7 @@ public enum ReferenceConverter {
     STUDENTASSESSMENTITEM("StudentAssessmentItemReference","studentAssessmentItem"),
     STUDENTCOHORTASSOCIATIONREFERENCE("StudentCohortAssociationReference","studentCohortAssociation"),
     STUDENTCOMPETENCY("StudentCompetencyReference", "studentCompetency"),
+    STUDENTCOMPETENCYOBJECTIVE("StudentCompetencyObjectiveReference", "studentCompetencyObjective"),
     STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociationReference","studentDisciplineIncidentAssociation"),
     STUDENTGRADEBOOKENTRY("StudentGradebookEntryReference", "studentGradebookEntry"),
     STUDENTOBJECTIVEASSESSMENT("StudentObjectiveAssessmentReference","studentObjectiveAssessment"),
