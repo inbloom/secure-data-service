@@ -91,15 +91,25 @@ Scenario: Get the bulk extract file in chunks
     And the content length in response header is "420368"
     
 
-    #Multiple Range
-    #When I prepare the custom headers for multiple byte ranges "0-15000,15001-"
-    #And I make a custom bulk extract API call
-    #Then I get back a response code of "206"
-    #And the content length in response header is "420368"
-    #And I process the file content
-    #And the file size is "420368"
-    #Then the file is decrypted
-    #And I see that the combined file matches the tar file
+    #Multiple Ranges
+    When I prepare the custom headers for multiple byte ranges "0-15000,15001-"
+    And I make a custom bulk extract API call
+    Then I get back a response code of "200"
+    And the content length in response header is "420368"
+    And I store the file content
+    Then the file is decrypted
+    And I see that the combined file matches the tar file
+    When I prepare the custom headers for multiple byte ranges "0-15000,200001-420000"
+    And I make a custom bulk extract API call
+    Then I get back a response code of "206"
+    Then I store the contents of the first call
+    When I prepare the custom headers for multiple byte ranges "15001-200000,420001-"
+    And I make a custom bulk extract API call
+    Then I get back a response code of "206"
+    Then I store the contents of the second call
+    And I combine the file contents
+    And the file is decrypted
+    And I see that the combined file matches the tar file
 
     #Invalid API Call
     When I prepare the custom headers with incorrect etag

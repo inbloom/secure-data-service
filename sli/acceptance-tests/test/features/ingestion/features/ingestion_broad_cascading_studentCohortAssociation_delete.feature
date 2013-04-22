@@ -32,10 +32,9 @@ Scenario: Delete Student Cohort Association with cascade
     And I post "SafeStudentCohortAssociationDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeStudentCohortAssociationDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 0" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 0" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
    	And I should not see a warning log file created
     And I re-execute saved query "studentCohortAssociation" to get "0" records
@@ -56,10 +55,9 @@ Scenario: Delete Student Cohort Association with cascade
     And I post "SafeStudentCohortAssociationRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeStudentCohortAssociationRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I re-execute saved query "studentCohortAssociation" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|    
@@ -77,7 +75,6 @@ Scenario: Delete Student Cohort Association with cascade
     And I post "ForceStudentCohortAssociationDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceStudentCohortAssociationDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -100,7 +97,6 @@ Scenario: Delete Student Cohort Association with cascade
     And I post "ForceStudentCohortAssociationRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceStudentCohortAssociationRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file

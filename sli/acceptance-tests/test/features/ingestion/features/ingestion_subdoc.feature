@@ -15,8 +15,7 @@ Feature: Subdoc Out of Order
     When zip file is scp to ingestion landing zone
     And I am willing to wait upto 60 seconds for ingestion to complete
     And a batch job for file "SubDocOutOfOrder_grade.zip" is completed in database
-    And a batch job log has been created
-    Then I should see following map of entry counts in the corresponding collections:
+        Then I should see following map of entry counts in the corresponding collections:
       | collectionName  | count |
       | section         | 8     |
       | gradebookEntry  | 20    |
@@ -27,8 +26,7 @@ Feature: Subdoc Out of Order
     When zip file is scp to ingestion landing zone
     And I am willing to wait upto 60 seconds for ingestion to complete
     And a batch job for file "SubDocOutOfOrder_section.zip" is completed in database
-    And a batch job log has been created
-    Then I should see following map of entry counts in the corresponding collections:
+        Then I should see following map of entry counts in the corresponding collections:
       | collectionName  | count |
       | section         | 17    |
       | gradebookEntry  | 20    |

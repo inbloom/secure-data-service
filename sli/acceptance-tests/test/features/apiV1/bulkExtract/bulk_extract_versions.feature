@@ -7,10 +7,10 @@ Scenario: Validate backwards compatibility
     And I set up a fake tar file on the file system and in Mongo
     And in my list of rights I have BULK_EXTRACT
     When I make API call to retrieve sampled bulk extract file headers with version ""
-    When the return code is 200
+    When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
     When I make API call to bulk extract file headers with version ""
-    When the return code is 200
+    When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
 
 
@@ -19,10 +19,10 @@ Scenario: Valicate request with only major version
     And I set up a fake tar file on the file system and in Mongo
     And in my list of rights I have BULK_EXTRACT
     When I make API call to retrieve sampled bulk extract file headers with version "v1"
-    When the return code is 200
+    When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
     When I make API call to bulk extract file headers with version "v1"
-    When the return code is 200
+    When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
 
 Scenario: Validate requests with minor versions
@@ -30,16 +30,16 @@ Scenario: Validate requests with minor versions
     And I set up a fake tar file on the file system and in Mongo
     And in my list of rights I have BULK_EXTRACT
     When I make API call to bulk extract file headers with version "v1.1"
-    When the return code is 200
+    When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
     When I make API call to bulk extract file headers with version "v1.2"
-    When the return code is 200
+    When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
     When I make API call to retrieve sampled bulk extract file headers with version "v1.1"
-    When the return code is 200
+    When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
     When I make API call to retrieve sampled bulk extract file headers with version "v1.2"
-    When the return code is 200
+    When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
 
 Scenario: Validate requests with invalid versions

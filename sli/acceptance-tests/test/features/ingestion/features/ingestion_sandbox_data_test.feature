@@ -51,9 +51,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | studentAcademicRecord       |
   When zip file is scp to ingestion landing zone
   And a batch job for file "SmallSampleDataSet.zip" is completed in database
-  And a batch job log has been created
-
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 78    |
         | studentSchoolAssociation    | 167   |
@@ -262,9 +260,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | studentAcademicRecord       |
   When zip file is scp to ingestion landing zone
   And a batch job for file "MediumSampleDataSet.zip" is completed in database
-  And a batch job log has been created
-
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 500   |
         | studentSchoolAssociation    | 500   |
