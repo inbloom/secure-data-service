@@ -7,7 +7,7 @@ browser: "firefox"
 
 admintools_server_url: "http://local.slidev.org:3001"
 minisb_admintools_server_url: "http://ycao-mint.slidev.org:3001"
-api_server_url: "https://local.slidev.org:8080"
+api_server_url: "http://local.slidev.org:8080"
 databrowser_server_url: "http://local.slidev.org:3000"
 
 ingestion_db: "localhost"
