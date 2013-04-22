@@ -1,0 +1,8 @@
+edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata.xml,aca03b20c4182cb809149f5867847b11
+edfi-xml,Attendance,InterchangeAttendance.xml,8afd2d9690ffe1e52b034ea4ef52d767
+edfi-xml,EducationOrgCalendar,InterchangeEducationOrgCalendar.xml,5c2e358ad82e88ae8bce89431d103726
+edfi-xml,StudentGrades,InterchangeStudentGrades.xml,f0ec975589c63d0c5d96b72ccf6f7350
+edfi-xml,MasterSchedule,InterchangeMasterSchedule.xml,f622c41fc63ac5e553e92f26204e8488
+edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,cbdaa3ccf3f0f682aa89123886707126
+
+
