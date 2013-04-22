@@ -32,11 +32,14 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Cookie;
@@ -50,15 +53,6 @@ import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Variant;
 
-import com.sun.jersey.api.Responses;
-import com.sun.jersey.api.core.ExtendedUriInfo;
-import com.sun.jersey.api.core.HttpContext;
-import com.sun.jersey.api.core.HttpRequestContext;
-import com.sun.jersey.api.core.HttpResponseContext;
-import com.sun.jersey.api.representation.Form;
-import com.sun.jersey.core.header.QualitySourceMediaType;
-import com.sun.jersey.core.spi.factory.ResponseImpl;
-
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -70,6 +64,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
@@ -78,13 +80,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.sun.jersey.api.Responses;
+import com.sun.jersey.api.core.ExtendedUriInfo;
+import com.sun.jersey.api.core.HttpContext;
+import com.sun.jersey.api.core.HttpRequestContext;
+import com.sun.jersey.api.core.HttpResponseContext;
+import com.sun.jersey.api.representation.Form;
+import com.sun.jersey.core.header.QualitySourceMediaType;
+import com.sun.jersey.core.spi.factory.ResponseImpl;
 
 /**
  * Test for support BulkExtract
@@ -111,6 +114,9 @@ public class BulkExtractTest {
 
     @Mock
     private Repository<Entity> mockMongoEntityRepository;
+    
+    @Mock
+    private GenericToEdOrgValidator mockValidator;
 
     private static final String PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw1KLTcuf8OpvbHfwMJks\n" +
             "UAXbeaoVqZiK/CRhttWDmlMEs8AubXiSgZCekXeaUqefK544BOgeuNgQmMmo0pLy\n" +
@@ -126,6 +132,9 @@ public class BulkExtractTest {
         MockitoAnnotations.initMocks(this);
         Map<String, Object> appBody = new HashMap<String, Object>();
         appBody.put("isBulkExtract", true);
+        when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class))).thenReturn(true);
+        // Hmm.. this needed?
+        bulkExtract.setEdorgValidator(mockValidator);
         Entity mockEntity = Mockito.mock(Entity.class);
         when(mockEntity.getBody()).thenReturn(appBody);
         when(mockMongoEntityRepository.findOne(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
@@ -221,7 +230,7 @@ public class BulkExtractTest {
           }
       };
 
-      Response res = bulkExtract.getExtractResponse(context, null);
+        Response res = bulkExtract.getExtractResponse(context, null, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -258,7 +267,7 @@ public class BulkExtractTest {
           }
       };
 
-      Response res = bulkExtract.getExtractResponse(context, null);
+        Response res = bulkExtract.getExtractResponse(context, null, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -283,21 +292,21 @@ public class BulkExtractTest {
       Mockito.when(failureContext.getMethod()).thenReturn("HEAD");
       Mockito.when(failureContext.getHeaderValue("Range")).thenReturn("bytes=0");
 
-      Response failureRes = bulkExtract.getExtractResponse(failureContext, null);
+        Response failureRes = bulkExtract.getExtractResponse(failureContext, null, null);
       assertEquals(416, failureRes.getStatus());
 
       HttpRequestContext validContext = Mockito.mock(HttpRequestContext.class);
       Mockito.when(validContext.getMethod()).thenReturn("HEAD");
       Mockito.when(validContext.getHeaderValue("Range")).thenReturn("bytes=0-5");
 
-      Response validRes = bulkExtract.getExtractResponse(validContext, null);
+        Response validRes = bulkExtract.getExtractResponse(validContext, null, null);
       assertEquals(200, validRes.getStatus());
 
       HttpRequestContext multiRangeContext = Mockito.mock(HttpRequestContext.class);
       Mockito.when(multiRangeContext.getMethod()).thenReturn("HEAD");
       Mockito.when(multiRangeContext.getHeaderValue("Range")).thenReturn("bytes=0-5,6-10");
 
-      Response multiRangeRes = bulkExtract.getExtractResponse(validContext, null);
+        Response multiRangeRes = bulkExtract.getExtractResponse(validContext, null, null);
       assertEquals(200, multiRangeRes.getStatus());
 
   }
@@ -315,7 +324,7 @@ public class BulkExtractTest {
           }
       };
 
-      Response res = bulkExtract.getExtractResponse(context, null);
+        Response res = bulkExtract.getExtractResponse(context, null, null);
       assertEquals(412, res.getStatus());
   }
 
@@ -374,12 +383,87 @@ public class BulkExtractTest {
         // No BE Field
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("isBulkExtract", false);
+        body.put("public_key", "KEY");
         Entity mockEntity = Mockito.mock(Entity.class);
         when(mockEntity.getBody()).thenReturn(body);
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
         bulkExtract.getTenant(null);
     }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testAppIsNotAuthorizedForLea() throws Exception {
+        injector.setEducatorContext();
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", true);
+        body.put("authorized_ed_orgs", Arrays.asList("ONE"));
+        body.put("public_key", "KEY");
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockEntity.getEntityId()).thenReturn("App1");
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        
+        Map<String, Object> authBody = new HashMap<String, Object>();
+        authBody.put("applicationId", "App1");
+        authBody.put("edOrgs", Arrays.asList("TWO"));
+        Entity mockAuth = Mockito.mock(Entity.class);
+        when(mockAuth.getBody()).thenReturn(authBody);
+        when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockAuth);
+        bulkExtract.getLEAExtract(null, "BLEEP");
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testAppAuthIsEmpty() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", true);
+        body.put("authorized_ed_orgs", Arrays.asList("ONE"));
+        body.put("public_key", "KEY");
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockEntity.getEntityId()).thenReturn("App1");
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+
+        // Empty auth
+        Map<String, Object> authBody = new HashMap<String, Object>();
+        authBody.put("applicationId", "App1");
+        authBody.put("edOrgs", new ArrayList<String>());
+        Entity mockAuth = Mockito.mock(Entity.class);
+        when(mockAuth.getBody()).thenReturn(authBody);
+        when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockAuth);
+        bulkExtract.getLEAExtract(null, "BLEEP");
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testAppHasNoAuthorizedEdorgs() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", true);
+        body.put("authorized_ed_orgs", Arrays.asList());
+        body.put("public_key", "KEY");
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockEntity.getEntityId()).thenReturn("App1");
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        bulkExtract.getLEAExtract(null, "BLEEP");
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testUserNotInLEA() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Mockito.when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class)))
+                .thenReturn(false);
+        bulkExtract.getLEAExtract(null, "BLEEP");
+    }
+ 
 
     private void mockApplicationEntity() {
         Entity mockEntity = Mockito.mock(Entity.class);
