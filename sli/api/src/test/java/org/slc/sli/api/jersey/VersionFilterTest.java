@@ -142,7 +142,7 @@ public class VersionFilterTest {
         UriBuilder builder = mock(UriBuilder.class);
         when(builder.path(anyString())).thenReturn(builder);
 
-        String latestApiVersion = versionFilter.getLatestApiVersion();
+        String latestApiVersion = versionFilter.getLatestApiVersion("v1.1");
 
         URI uri = new URI("http://api/rest/bulk");
 
@@ -171,7 +171,7 @@ public class VersionFilterTest {
         UriBuilder builder = mock(UriBuilder.class);
         when(builder.path(anyString())).thenReturn(builder);
 
-        String latestApiVersion = versionFilter.getLatestApiVersion();
+        String latestApiVersion = versionFilter.getLatestApiVersion("v1.1");
         String latestApiMajorVersion = latestApiVersion.split("\\.")[0];
 
         URI uri = new URI("http://api/rest/" + latestApiMajorVersion + "/bulk");
@@ -205,7 +205,7 @@ public class VersionFilterTest {
         UriBuilder builder = mock(UriBuilder.class);
         when(builder.path(anyString())).thenReturn(builder);
 
-        String latestApiVersion = versionFilter.getLatestApiVersion();
+        String latestApiVersion = versionFilter.getLatestApiVersion("v1.1");
         String latestApiMajorVersion = latestApiVersion.split("\\.")[0];
 
         URI uri = new URI("http://api/rest/" + latestApiMajorVersion + ".0/bulk");

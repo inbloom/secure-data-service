@@ -55,40 +55,52 @@ public class VersionFilter implements ContainerRequestFilter {
 
             SortedSet<String> minorVersions = resourceEndPoint.getNameSpaceMappings().get(version);
 
-            if (isBulkNonVersion || ((minorVersions != null) && !minorVersions.isEmpty())) {
-                String newVersion;
+            String newVersion = null;
 
+            if(isBulkNonVersion || (segments.size() > 0 && segments.get(1).getPath().equals("bulk"))) {
                 if (!isBulkNonVersion) {
                     //remove the version
                     segments.remove(0);
+                } else {
+                    //there is no version specified in the request for bulk extract
+                    version = "";
                 }
 
                 // Bulk extract always returns latest API version.
-                if ((segments.size() > 0) && segments.get(0).getPath().equals("bulk")) {
-                    newVersion = getLatestApiVersion();
-                } else {
-                    newVersion = version + "." + minorVersions.last();
-                }
+                newVersion = getLatestApiVersion(version);
 
-                //add the new version
-                UriBuilder builder = containerRequest.getBaseUriBuilder().path(newVersion);
-
-                //add the rest of the request
-                for (PathSegment segment : segments) {
-                    builder.path(segment.getPath());
-                }
-
-                if (containerRequest.getRequestUri().getQuery() != null &&
-                        !containerRequest.getRequestUri().getQuery().isEmpty()) {
-                    builder.replaceQuery(containerRequest.getRequestUri().getQuery());
-                }
-
+                updateContainerRequest(containerRequest, segments, newVersion);
                 info("Version Rewrite: {} --> {}", new Object[] { version, newVersion });
 
-                containerRequest.getProperties().put(REQUESTED_PATH, containerRequest.getPath());
-                containerRequest.setUris(containerRequest.getBaseUri(), builder.build());
+            } else if ((minorVersions != null) && !minorVersions.isEmpty()) {
+                segments.remove(0);
+
+                newVersion = version + "." + minorVersions.last();
+
+                updateContainerRequest(containerRequest, segments, newVersion);
+                info("Version Rewrite: {} --> {}", new Object[] { version, newVersion });
             }
         }
+
+        return containerRequest;
+    }
+
+    private ContainerRequest updateContainerRequest(ContainerRequest containerRequest, List<PathSegment> segments, String newVersion) {
+        //add the new version
+        UriBuilder builder = containerRequest.getBaseUriBuilder().path(newVersion);
+
+        //add the rest of the request
+        for (PathSegment segment : segments) {
+            builder.path(segment.getPath());
+        }
+
+        if (containerRequest.getRequestUri().getQuery() != null &&
+                !containerRequest.getRequestUri().getQuery().isEmpty()) {
+            builder.replaceQuery(containerRequest.getRequestUri().getQuery());
+        }
+
+        containerRequest.getProperties().put(REQUESTED_PATH, containerRequest.getPath());
+        containerRequest.setUris(containerRequest.getBaseUri(), builder.build());
 
         return containerRequest;
     }
@@ -98,7 +110,7 @@ public class VersionFilter implements ContainerRequestFilter {
  *
  * @return Latest API version
  */
-    public String getLatestApiVersion() {
+    public String getLatestApiVersion(String requestedVersion) {
       String latestApiVersion = "";
       for (String majorVersion : resourceEndPoint.getNameSpaceMappings().keySet()) {
           String minorVersion = resourceEndPoint.getNameSpaceMappings().get(majorVersion).last();
@@ -107,6 +119,6 @@ public class VersionFilter implements ContainerRequestFilter {
                   latestApiVersion = fullVersion;
               }
       }
-      return latestApiVersion;
+      return requestedVersion.compareToIgnoreCase(latestApiVersion) > 0 ? requestedVersion : latestApiVersion;
     }
 }
