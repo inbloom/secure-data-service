@@ -173,7 +173,7 @@ When /^the If-Match header field is set to "(.*?)"$/ do |value|
   date = Date.parse(@last_modified)
   to = (range.to_i) -1
   if value == "VALID_DATE"
-    @customHeaders = makeCustomHeader("0-" + to.to_s, @last_modified)
+    @customHeaders = makeCustomHeader("0-" + to.to_s, date.next_day.httpdate)
   elsif value == "INVALID_DATE"
     @customHeaders = makeCustomHeader("0-" + to.to_s, date.prev_day.httpdate)
   else 

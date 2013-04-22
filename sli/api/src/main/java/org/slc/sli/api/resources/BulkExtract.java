@@ -44,17 +44,14 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
+import com.sun.jersey.api.Responses;
+import com.sun.jersey.api.core.HttpContext;
+import com.sun.jersey.api.core.HttpRequestContext;
+import com.sun.jersey.core.header.reader.HttpHeaderReader;
+
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,10 +61,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
-import com.sun.jersey.api.Responses;
-import com.sun.jersey.api.core.HttpContext;
-import com.sun.jersey.api.core.HttpRequestContext;
-import com.sun.jersey.core.header.reader.HttpHeaderReader;
+import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * The Bulk Extract Endpoints.
@@ -134,10 +135,10 @@ public class BulkExtract {
         builder.header("last-modified", "Not Specified");
         return builder.build();
     }
-    
+
     /**
      * Send an LEA extract
-     * 
+     *
      * @param lea
      *            The uuid of the lea to get the extract
      * @return
@@ -277,7 +278,7 @@ public class BulkExtract {
         final Range full = new Range(0, fileLength - 1, fileLength);
         final List<Range> ranges = new ArrayList<Range>();
 
-        builder = processRangeHeader(req, full, ranges, fileLength, lastModifiedTime, eTag);
+        builder = processRangeHeader(req, full, ranges, fileLength, httpDate.getTime(), eTag);
         if (builder != null) {
             // validation fails
             return builder.build();
