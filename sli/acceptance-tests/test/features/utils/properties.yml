@@ -35,6 +35,9 @@ activemq_host: "localhost"
 
 #Bulk Extract Configuration
 bulk_extract_script: "../bulk-extract/scripts/local_bulk_extract.sh"
+bulk_extract_delta_script: "../bulk-extract/scripts/local_bulk_extract.sh"
+bulk_extract_delta_properties: "../config/properties/sli.properties"
+bulk_extract_delta_keystore: "../data-access/dal/keyStore/ciKeyStore.jks"
 bulk_extract_output_directory: "extract/"
 bulk_extract_jar_loc: ""
 bulk_extract_properties_file: ""

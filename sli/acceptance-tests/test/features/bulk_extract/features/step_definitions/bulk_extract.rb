@@ -20,6 +20,7 @@ require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb' #This is for the decryption step
+require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 require 'zip/zip'
 require 'archive/tar/minitar'
 require 'zlib'
@@ -31,6 +32,9 @@ SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_
 TRIGGER_SCRIPT_DIRECTORY = File.expand_path(PropLoader.getProps['bulk_extract_script_directory'])
 CRON_OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_cron_output_directory']
 TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
+DELTA_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_delta_script'])
+DELTA_CONFIG = File.expand_path(PropLoader.getProps['bulk_extract_delta_properties'])
+DELTA_KEYSTORE = File.expand_path(PropLoader.getProps['bulk_extract_delta_keystore'])
 OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
 PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
 KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
@@ -183,6 +187,18 @@ Given /^I have delta bulk extract files generated for today$/ do
   @coll.save(bulk_delta_file_entry)
 end
 
+Given /^The bulk extract app has been approved for "([^"]*)" with client id "([^"]*)"$/ do |lea, clientId|
+  @lea = Hash.new
+  @lea["name"] = lea
+  @lea["clientId"] = clientId
+  puts "stubbed out"
+end
+
+Given /^The X509 cert (.*?) has been installed in the trust store and aliased$/ do |cert|
+  @lea["cert"] = cert
+  puts "Stubbed out"
+end
+
 ############################################################
 # When
 ############################################################
@@ -323,6 +339,21 @@ When /^I use an invalid tenant to trigger a bulk extract/ do
   puts runShellCommand(command)
 end
 
+When /^inBloom generates a bulk extract delta file$/ do
+  command = "#{DELTA_SCRIPT} -Dsli.conf=#{DELTA_CONFIG} -Dsli.encryption.keyStore=#{DELTA_KEYSTORE} -d"
+  puts "Calling delta extract script"
+  puts "Command: #{command}"
+  puts runShellCommand(command)
+end
+
+When /^I request the latest bulk extract delta$/ do
+  puts "stubbed out"
+end
+
+When /^I untar and decrypt the tarfile with cert "(.*?)"$/ do |cert|
+  puts "stubbed out"
+end
+
 ############################################################
 # Then
 ############################################################
@@ -353,6 +384,34 @@ Then /^the extraction zone should still be empty/ do
   end
 end
 
+Then /^each extracted "(.*?)" delta matches the mongo entry$/ do |collection|
+  disable_NOTABLESCAN()
+  Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extractFile|
+  records = JSON.parse(extractFile.read)
+  uniqueRecords = Hash.new
+  records.each do |jsonRecord|
+    assert(uniqueRecords[jsonRecord['id']] == nil, "Record was extracted twice \nJSONRecord:\n" + jsonRecord.to_s)
+    uniqueRecords[jsonRecord['id']] = 1
+
+    mongoRecord = getMongoRecordFromJson(jsonRecord)
+    assert(mongoRecord != nil, "MongoRecord not found: " + mongoRecord.to_s)
+
+    compareRecords(mongoRecord, jsonRecord)
+  end
+  enable_NOTABLESCAN()
+}
+end
+
+Then /^The bulk extract tarfile should be empty$/ do
+  puts "stubbed out"
+end
+
+Then /^I should see "(.*?)" entities of type "(.*?)" in the bulk extract tarfile$/ do |count, collection|
+  count = count.to_i
+  puts "stubbed out"
+
+end
+
 ############################################################
 # Functions
 ############################################################
@@ -374,24 +433,25 @@ end
 def getMongoRecordFromJson(jsonRecord)
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant)) 
 	case jsonRecord['entityType']
-	when "stateEducationAgency", "localEducationAgency", "school"
-	  collection = "educationOrganization"
-	when "teacher"
-	  collection = "staff"
-	else
-    collection = jsonRecord['entityType']
-	end
-	parent = subDocParent(collection)
-	if (parent == nil)
-        return @tenantDb.collection(collection).find_one("_id" => jsonRecord['id'])
-    else #Collection is a subdoc, gets record from parent
-    	superdoc = @tenantDb.collection(parent).find_one("#{collection}._id" => jsonRecord['id'])
-    	superdoc[collection].each do |subdoc|
-    		if (subdoc["_id"] == jsonRecord['id'])
-    			return subdoc
-    		end
-    	end
+  	when "stateEducationAgency", "localEducationAgency", "school"
+  	  collection = "educationOrganization"
+  	when "teacher"
+  	  collection = "staff"
+  	else
+      collection = jsonRecord['entityType']
+  end
+  parent = subDocParent(collection)
+  if (parent == nil)
+    return @tenantDb.collection(collection).find_one("_id" => jsonRecord['id'])
+  else
+    #Collection is a subdoc, gets record from parent
+    superdoc = @tenantDb.collection(parent).find_one("#{collection}._id" => jsonRecord['id'])
+    superdoc[collection].each do |subdoc|
+      if (subdoc["_id"] == jsonRecord['id'])
+        return subdoc
+      end
     end
+  end
 end
 
 def	compareRecords(mongoRecord, jsonRecord)
