@@ -7,7 +7,7 @@ Scenario: Make a bulk extract request using corrent and incorrectly populated he
     And I set up a sample tar file on the file system and in Mongo
     And in my list of rights I have BULK_EXTRACT
     And I know the file length of the extract file
-    When I make bulk extract API head call
+    When I make a call retrieve the header for the bulk extract end point "/bulk/extract/tenant"
     Then I get back a response code of "200"
     Then I have all the information to make a custom bulk extract request
 

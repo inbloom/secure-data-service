@@ -501,7 +501,7 @@ def encrypt(unEncryptedFilePath, decryptedFilePath)
 end
 
 def decrypt(content)
-  private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
+  private_key = OpenSSL::PKey::RSA.new File.read './test/features/utils/keys/vavedra9ub.key'
   assert(content.length >= 512)
   encryptediv = content[0,256] 
   encryptedsecret = content[256,256]
