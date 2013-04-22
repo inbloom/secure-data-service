@@ -105,6 +105,9 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 
     <bean id="localEdOrgExtractor" class="org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor">
         <property name="repository" ref="mongoEntityRepository" />
+        <property name="entityExtractor" ref="entityExtractor" />
+        <property name="entitiesToCollections" ref="entitiesToCollections" />
+        <property name="bulkExtractMongoDA" ref="bulkExtractMongoDA" />
     </bean>
 
     <bean id="launcher" class="org.slc.sli.bulk.extract.Launcher">

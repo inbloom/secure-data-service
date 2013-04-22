@@ -73,7 +73,7 @@ public class Launcher {
                 extractFile = new ExtractFile(getTenantDirectory(tenant),
                     getArchiveName(tenant, startTime.toDate()));
                 tenantExtractor.execute(tenant, extractFile, startTime);
-                localEdOrgExtractor.execute(tenant, extractFile, startTime);
+                localEdOrgExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             }
         } else {
             LOG.error("A bulk extract is not being initiated for the tenant {} because the tenant has not been onboarded.", tenant);
