@@ -57,7 +57,6 @@ Scenario: Safe Delete Assessment Item from Student Assessment with Cascade = fal
     And I post "SafeAssessmentItemFromStudentAssessmentDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "SafeAssessmentItemFromStudentAssessmentDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -87,7 +86,6 @@ Scenario: Safe Delete Assessment Item by Reference from Student Assessment with 
     And I post "SafeAssessmentItemRefFromStudentAssessmentDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "SafeAssessmentItemRefFromStudentAssessmentDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -110,7 +108,6 @@ Scenario: Delete Orphan Assessment Item from Student Assessment with cascade = f
     And I post "OrphanAssessmentItemFromStudentAssessmentDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanAssessmentItemFromStudentAssessmentDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -136,7 +133,6 @@ Scenario: Delete Orphan Assessment Item Reference from Student Assessment with c
     And I post "OrphanAssessmentItemRefFromStudentAssessmentDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanAssessmentItemRefFromStudentAssessmentDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -166,7 +162,6 @@ Scenario: Delete Assessment Item from Student Assessment with default settings (
     And I post "ForceAssessmentItemFromStudentAssessmentDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceAssessmentItemFromStudentAssessmentDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -196,8 +191,7 @@ Scenario: Delete Assessment Item Reference from Student Assessment with default 
     And I post "ForceAssessmentItemRefFromStudentAssessmentDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceAssessmentItemRefFromStudentAssessmentDelete.zip" is completed in database
-    And a batch job log has been created
-    And I should see "Processed 1 records." in the resulting batch job file
+        And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created

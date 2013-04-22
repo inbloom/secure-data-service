@@ -50,7 +50,6 @@ Scenario: Safe Delete AssessmentPeriodDescriptor with Cascade = false, Force = f
     And I post "SafeAssessmentPeriodDescriptorDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "SafeAssessmentPeriodDescriptorDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -78,7 +77,6 @@ Scenario: Safe Delete AssessmentPeriodDescriptor Reference with Cascade = false,
     And I post "SafeAssessmentPeriodDescriptorRefDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "SafeAssessmentPeriodDescriptorRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -103,7 +101,6 @@ Scenario: Delete Orphan AssessmentPeriodDescriptor with cascade = false
     And I post "OrphanAssessmentPeriodDescriptorDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanAssessmentPeriodDescriptorDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -126,7 +123,6 @@ Scenario: Delete Orphan AssessmentPeriodDescriptor Ref with cascade = false
     And I post "OrphanAssessmentPeriodDescriptorRefDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanAssessmentPeriodDescriptorRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -152,7 +148,6 @@ Scenario: Delete AssessmentPeriodDescriptor with cascade = false, force = true a
     And I post "ForceAssessmentPeriodDescriptorDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceAssessmentPeriodDescriptorDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -182,7 +177,6 @@ Scenario: Delete AssessmentPeriodDescriptor Ref with cascade = false, force = tr
     And I post "ForceAssessmentPeriodDescriptorRefDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceAssessmentPeriodDescriptorRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file

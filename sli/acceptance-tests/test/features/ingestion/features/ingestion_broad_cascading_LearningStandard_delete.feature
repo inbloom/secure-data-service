@@ -39,7 +39,6 @@ Scenario: Safe Delete LearningStandard with Cascade = false, Force = false
     And I post "SafeLearningStandardDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "SafeLearningStandardDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -66,7 +65,6 @@ Scenario: Safe Delete LearningStandard by Reference with Cascade = false, Force 
     And I post "SafeLearningStandardRefDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "SafeLearningStandardRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -90,7 +88,6 @@ Scenario: Delete Orphan LearningStandard with cascade = false
     And I post "OrphanLearningStandardDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanLearningStandardDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -115,7 +112,6 @@ Scenario: Delete Orphan LearningStandard Ref with cascade = false
     And I post "OrphanLearningStandardRefDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanLearningStandardRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -143,7 +139,6 @@ Scenario: Delete LearningStandard with default settings (Confirm that by default
     And I post "ForceLearningStandardDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceLearningStandardDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -173,7 +168,6 @@ Scenario: Delete LearningStandard Reference with default settings (Confirm that 
     And I post "ForceLearningStandardRefDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceLearningStandardRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file

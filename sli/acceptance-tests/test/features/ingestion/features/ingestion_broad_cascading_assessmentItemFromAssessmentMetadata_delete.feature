@@ -62,7 +62,6 @@ Scenario: Safe Delete Assessment Item from Assessment Metadata with Cascade = fa
     And I post "SafeAssessmentItemFromAssessmentMetadataInterchangeDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "SafeAssessmentItemFromAssessmentMetadataInterchangeDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -94,7 +93,6 @@ Scenario: Safe Delete Assessment Item by Reference from Assessment Metadata with
     And I post "SafeAssessmentItemRefFromAssessmentMetadataInterchangeDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "SafeAssessmentItemRefFromAssessmentMetadataInterchangeDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -121,7 +119,6 @@ Scenario: Delete Orphan Assessment Item from Assessment Metadata with cascade = 
     And I post "OrphanAssessmentItemFromAssessmentMetadataInterchangeDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanAssessmentItemFromAssessmentMetadataInterchangeDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -147,7 +144,6 @@ Scenario: Delete Orphan Assessment Item Reference from Assessment Metadata with 
     And I post "OrphanAssessmentItemRefFromAssessmentMetadataInterchangeDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanAssessmentItemRefFromAssessmentMetadataInterchangeDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -178,7 +174,6 @@ Scenario: Delete Assessment Item from Assessment Metadata with default settings 
     And I post "ForceAssessmentItemFromAssessmentMetadataInterchangeDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceAssessmentItemFromAssessmentMetadataInterchangeDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -208,7 +203,6 @@ Scenario: Delete Assessment Item Reference from Assessment Metadata with default
     And I post "ForceAssessmentItemRefFromAssessmentMetadataInterchangeDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceAssessmentItemRefFromAssessmentMetadataInterchangeDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file

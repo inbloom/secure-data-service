@@ -51,10 +51,9 @@ Scenario: Delete School with cascade
     And I post "BroadSchoolDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "BroadSchoolDelete.zip" is completed in database
-    And a batch job log has been created
-	  And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
-	  And I should not see a warning log file created
+	And I should not see a warning log file created
     And I re-execute saved query "school" to get "0" records
     And I re-execute saved query "attendance" to get "0" records
     And I re-execute saved query "course" to get "0" records
@@ -140,7 +139,6 @@ Scenario: Delete School with cascade = false
     And I post "SafeSchoolDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeSchoolDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
 	And I should see "records deleted successfully: 0" in the resulting batch job file
 	And I should see "records failed processing: 1" in the resulting batch job file
@@ -176,11 +174,11 @@ Scenario: Delete Orphan School with cascade = false
     And I post "OrphanSchoolDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanSchoolDelete.zip" is completed in database
-	  And I should see "Processed 1 records." in the resulting batch job file
-		And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
-	  And I should not see a warning log file created
+	And I should not see a warning log file created
     And I re-execute saved query "school" to get "0" records
     And I re-execute saved query "custom_entities" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
@@ -263,7 +261,6 @@ Scenario: Delete School with cascade = false, logViolations = true and default s
     And I post "ForceSchoolDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceSchoolDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -337,7 +334,6 @@ Scenario: Delete School with force = true, logViolations = true and default sett
     And I post "ForceSchoolRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceSchoolRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -411,7 +407,6 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     And I post "ForceSchoolRefDeleteWithoutLogViolations.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceSchoolRefDeleteWithoutLogViolations.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file

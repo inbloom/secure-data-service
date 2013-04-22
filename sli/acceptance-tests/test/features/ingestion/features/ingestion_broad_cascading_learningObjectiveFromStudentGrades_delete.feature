@@ -47,7 +47,6 @@ Scenario: Safe Delete LearningObjective with Cascade = false, Force = false
     And I post "SafeLearningObjectiveDeleteInGrade.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "SafeLearningObjectiveDeleteInGrade.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -77,7 +76,6 @@ Scenario: Safe Delete LearningObjective by Reference with Cascade = false, Force
     And I post "SafeLearningObjectiveRefDeleteInGrade.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "SafeLearningObjectiveRefDeleteInGrade.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -154,7 +152,6 @@ Scenario: Delete LearningObjective with default settings (Confirm that by defaul
     And I post "ForceLearningObjectiveDeleteInGrade.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceLearningObjectiveDeleteInGrade.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -185,7 +182,6 @@ Scenario: Delete LearningObjective Ref with default settings (Confirm that by de
     And I post "ForceLearningObjectiveRefDeleteInGrade.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceLearningObjectiveRefDeleteInGrade.zip" is completed in database
-    And a batch job log has been created
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file

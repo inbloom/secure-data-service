@@ -32,7 +32,6 @@ Scenario: Delete Student Discipline Incident Association with cascade
     And I post "SafeStudentDisciplineIncidentAssociationDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeStudentDisciplineIncidentAssociationDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -57,7 +56,6 @@ Scenario: Delete Student Discipline Incident Association with cascade
     And I post "SafeStudentDisciplineIncidentAssociationRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeStudentDisciplineIncidentAssociationRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -83,7 +81,6 @@ Scenario: Delete Student Discipline Incident Association with cascade
     And I post "ForceStudentDisciplineIncidentAssociationDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceStudentDisciplineIncidentAssociationDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
@@ -107,7 +104,6 @@ Scenario: Delete Student Discipline Incident Association with cascade
     And I post "ForceStudentDisciplineIncidentAssociationRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceStudentDisciplineIncidentAssociationRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
