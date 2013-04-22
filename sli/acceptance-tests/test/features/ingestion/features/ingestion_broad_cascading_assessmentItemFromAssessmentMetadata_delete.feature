@@ -178,7 +178,7 @@ Scenario: Delete Assessment Item from Assessment Metadata with default settings 
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
-   	#And I should not see a warning log file created
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeAssessmentMetadata.xml"
     And I re-execute saved query "assessmentItem" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
@@ -207,7 +207,7 @@ Scenario: Delete Assessment Item Reference from Assessment Metadata with default
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
-   	#And I should not see a warning log file created
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeAssessmentMetadata.xml"
     And I re-execute saved query "assessmentItem" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
