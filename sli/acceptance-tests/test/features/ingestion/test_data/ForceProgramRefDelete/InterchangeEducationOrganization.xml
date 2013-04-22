@@ -3,14 +3,13 @@
                                   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
     <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
 
-        <Program>
-            <ProgramId>6</ProgramId>
-            <ProgramType>Gifted and Talented</ProgramType>
-            <ProgramSponsor>State Education Agency</ProgramSponsor>
-            <Services>
-                <CodeValue>srv:6</CodeValue>
-            </Services>
-        </Program>
+
+            <ProgramReference>
+                <ProgramIdentity>
+                    <ProgramId>6</ProgramId>
+                </ProgramIdentity>
+            </ProgramReference>
+
 
     </Action>
     </InterchangeEducationOrganization>

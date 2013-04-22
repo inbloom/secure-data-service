@@ -61,8 +61,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | teacherSectionAssociation                 |
 When zip file is scp to ingestion landing zone
   And a batch job for file "OdinSampleDataSet.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | student                                  |                 10|
     And I should not see an error log file created

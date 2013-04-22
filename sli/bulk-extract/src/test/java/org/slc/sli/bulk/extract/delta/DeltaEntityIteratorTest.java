@@ -122,4 +122,13 @@ public class DeltaEntityIteratorTest {
         assertTrue(count == 2);
     }
     
+    @Test(expected = UnsupportedOperationException.class)
+    public void cannotRemoveAnyDeltaRecord() {
+        iterator.init("Midgar", new DateTime());
+        // should have two delta records
+        while (iterator.hasNext()) {
+            iterator.remove();
+        }
+    }
+
 }

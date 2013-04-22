@@ -60,10 +60,9 @@ Scenario: Delete AttendanceEvent with cascade = false
     And I post "SafeAttendanceEventDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeAttendanceEventDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
    	And I should not see a warning log file created
     And I re-execute saved query "attendance" to get "0" records 
@@ -94,10 +93,9 @@ Scenario: Delete AttendanceEvent by ref with cascade = false
     And I post "SafeAttendanceEventRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeAttendanceEventRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
    	And I should not see a warning log file created
     And I re-execute saved query "attendance" to get "0" records
@@ -128,11 +126,11 @@ Scenario: Delete Orphan AttendanceEvent with cascade = false
     And I post "OrphanAttendanceEventDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanAttendanceEventDelete.zip" is completed in database
-	  And I should see "Processed 1 records." in the resulting batch job file
-		And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
-	  And I should not see a warning log file created
+	And I should not see a warning log file created
     And I re-execute saved query "attendance" to get "0" records 
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
@@ -159,11 +157,11 @@ Scenario: Delete Orphan AttendanceEvent by ref with cascade = false
     And I post "OrphanAttendanceEventRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanAttendanceEventRefDelete.zip" is completed in database
-	  And I should see "Processed 1 records." in the resulting batch job file
-		And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
-	  And I should not see a warning log file created
+	 And I should not see a warning log file created
     And I re-execute saved query "attendance" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
@@ -190,10 +188,9 @@ Scenario: Force delete AttendanceEvent with cascade = false, force = true
     And I post "ForceAttendanceEventDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceAttendanceEventDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
    	And I should not see a warning log file created
     And I re-execute saved query "attendance" to get "0" records
@@ -224,10 +221,9 @@ Scenario: Force delete AttendanceEvent by ref with cascade = false, force = true
     And I post "ForceAttendanceEventRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceAttendanceEventRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
    	And I should not see a warning log file created
     And I re-execute saved query "attendance" to get "0" records

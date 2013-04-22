@@ -283,6 +283,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestBroadSetOfTypesAndExportData,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
+        :ingestionCascadingDeletionBlendedTest,
         :ingestionCascadingDeletionBroadAssessmentFamilyTest,
         :ingestionCascadingDeletionBroadAssessmentItemFromAssessmentMetadataTest,
         :ingestionCascadingDeletionBroadAssessmentItemFromStudentAssessmentTest,
@@ -336,6 +337,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadTeacherSchoolAssociationTest,
         :ingestionCascadingDeletionBroadTeacherSectionAssociationTest,
         :ingestionCascadingDeletionBroadTeacherTest,
+        :ingestionCascadingDeletionBroadYearlyTranscriptTest,
         :ingestionCascadingDeletionJetsSharksScenario,
         :ingestionCascadingDeletionReportCardNotFoundTest,
         :ingestionCascadingDeleteReportTest,
@@ -581,6 +583,10 @@ end
 
 task :ingestionCascadingDeletionBroadSchoolTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_school_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadYearlyTranscriptTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_yearlyTranscript_delete.feature")
 end
 
 task :ingestBroadSetOfTypesAndExportData do

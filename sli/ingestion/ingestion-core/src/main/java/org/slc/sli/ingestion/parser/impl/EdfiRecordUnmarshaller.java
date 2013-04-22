@@ -76,6 +76,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     private Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
     private ActionVerb action = ActionVerb.NONE;
     private String originalType = null;
+    private Map<String, String> actionAttributes;
 
     private boolean currentEntityValid = false;
 
@@ -173,6 +174,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
         if (ACTION.equals(localName)) {
             action = ActionVerb.NONE;
+            actionAttributes = null;
             return;
         }
 
@@ -257,8 +259,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
                 doAction = ActionVerb.NONE;
                 LOG.warn("Could not get ActionVerb for {}", action);
             }
-            Map<String, String> actionAttributes = new HashMap<String, String>();
-            doAction.setAttributes(actionAttributes);
+            actionAttributes = new HashMap<String, String>();
             String force = attributes.getValue(FORCE);
             String logViolations = attributes.getValue(LOG_VIOLATIONS);
             if(force != null) {
@@ -275,7 +276,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     private void initCurrentEntity(String localName, Attributes attributes, ActionVerb doAction) {
         String xsdType = typeProvider.getTypeFromInterchange(interchange, localName, doAction);
 
-        RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType, false, doAction);
+        RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType, false, doAction, actionAttributes);
         if (originalType != null) {
             recordMeta.setOriginalType(originalType);
         }
@@ -481,55 +482,62 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
      */
 
     protected static enum SupportedEntities {
+        ASSESSMENT("Assessment"),    	
         ASSESSMENTFAMILY("AssessmentFamily"),
-        ASSESSMENT("Assessment"),
         ASSESSMENTITEM("AssessmentItem"),
         ASSESSMENTPERIODDESCRIPTOR("AssessmentPeriodDescriptor"),
+        ASSESSMENTPERIODDESCRIPTORREFERENCE("AssessmentPeriodDescriptorReference"),
         ATTENDANCEEVENT("AttendanceEvent"),
         CALENDARDATE("CalendarDate"),
         COHORT("Cohort"),
         COMPETENCYLEVELDESCRIPTOR("CompetencyLevelDescriptor"),
+        COMPETENCYLEVELDESCRIPTORREFERENCE("CompetencyLevelDescriptorReference"),
         COURSE("Course"),
         COURSEOFFERING("CourseOffering"),
+        COURSETRANSCRIPT("CourseTranscript"),        
+        DISCIPLINEACTION("DisciplineAction"),
+        DISCIPLINEINCIDENT("DisciplineIncident"),                
         GRADE("Grade"),
+        GRADEBOOKENTRY("GradeBookEntry"),        
         GRADINGPERIOD("GradingPeriod"),
+        GRADUATIONPLAN("GraduationPlan"),
+        GRADUATIONPLANREFERENCE("GraduationPlanReference"),
         LEARNINGOBJECTIVE("LearningObjective"),
         LEARNINGSTANDARD("LearningStandard"),
         LOCALEDUCATIONAGENCY("LocalEducationAgency"),
+        OBJECTIVEASSESSMENT("ObjectiveAssessment"),       
         PARENT("Parent"),
         PROGRAM ("Program"),
+        REPORTCARD("ReportCard"),        
         SCHOOL("School"),
         SECTION("Section"),
         SESSION("Session"),
         STAFF("Staff"), 
-        STAFFPROGRAMASSOCIATION("StaffProgramAssociation"),
         STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociation"),
         STATEEDUCATIONAGENCY("StateEducationAgency"),
+        STAFFPROGRAMASSOCIATION("StaffProgramAssociation"),        
         STUDENT("Student"),
+        STUDENTACADEMICRECORD("StudentAcademicRecord"),        
         STUDENTASSESSMENT("StudentAssessment"),
         STUDENTASSESSMENTITEM("StudentAssessmentItem"),
         STUDENTCOHORTASSOCIATION("StudentCohortAssociation"),
+        STUDENTCOMPETENCY("StudentCompetency"),    
+        STUDENTCOMPETENCYOBJECTIVE("StudentCompetencyObjective"),
+        STUDENTCOMPETENCYOBJECTIVEREFERENCE("StudentCompetencyObjectiveReference"),
+        STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociation"),
+        STUDENTDISCIPLINEINCIDENTASSOCIATIONREFERENCE("StudentDisciplineIncidentAssociationReference"),
+        STUDENTGRADEBOOKENTRY("StudentGradeBookEntry"),                    
         STUDENTOBJECTIVEASSESSMENT("StudentObjectiveAssessment"),
-        STUDENTPARENTASSOCIATION("StudentParentAssociation"),
+        STUDENTPARENTASSOCIATION("StudentParentAssociation"),        
+        STUDENTPARENTASSOCIATIONREFERENCE("StudentParentAssociationReference"),
+        STUDENTPROGRAMASSOCIATION("StudentProgramAssociation"),
         STUDENTSCHOOLASSOCIATION("StudentSchoolAssociation"),
         STUDENTSCHOOLASSOCIATIONREFERENCE("StudentSchoolAssociationReference"),
         STUDENTSECTIONASSOCIATION("StudentSectionAssociation"),
         STUDENTSECTIONASSOCIATIONREFERENCE("StudentSectionAssociationReference"),
         TEACHER("Teacher"),
         TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociation"),
-        TEACHERSECTIONASSOCIATION("TeacherSectionAssociation"),
-        OBJECTIVEASSESSMENT("ObjectiveAssessment"),
-        STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociation"),
-        DISCIPLINEINCIDENT("DisciplineIncident"),
-        DISCIPLINEACTION("DisciplineAction"),
-        STUDENTPROGRAMASSOCIATION("StudentProgramAssociation"),
-        STUDENTACADEMICRECORD("StudentAcademicRecord"),
-        COURSETRANSCRIPT("CourseTranscript"),
-        REPORTCARD("ReportCard"),
-        STUDENTCOMPETENCY("StudentCompetency"),
-        STUDENTCOMPETENCYOBJECTIVE("StudentCompetencyObjective"),
-        GRADEBOOKENTRY("GradeBookEntry"),
-        STUDENTGRADEBOOKENTRY("StudentGradeBookEntry");
+        TEACHERSECTIONASSOCIATION("TeacherSectionAssociation");
 
 
         private SupportedEntities(String text) {
