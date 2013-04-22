@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+  <Action ActionType="DELETE" Cascade="false" Force="false">
+      <GradebookEntry>
+          <GradebookEntryType>Homework</GradebookEntryType>
+          <DateAssigned>2002-04-11</DateAssigned>
+          <Description>Gradebook Entry of type: Homework, assigned on: 2002-04-11</Description>
+          <LearningObjectiveReference>
+              <LearningObjectiveIdentity>
+                  <Objective>Science Objective 1</Objective>
+                  <AcademicSubject>Science</AcademicSubject>
+                  <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+              </LearningObjectiveIdentity>
+          </LearningObjectiveReference>
+          <LearningObjectiveReference>
+              <LearningObjectiveIdentity>
+                  <Objective>Science Objective 2</Objective>
+                  <AcademicSubject>Science</AcademicSubject>
+                  <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+              </LearningObjectiveIdentity>
+          </LearningObjectiveReference>
+          <LearningObjectiveReference>
+              <LearningObjectiveIdentity>
+                  <Objective>Science Objective 3</Objective>
+                  <AcademicSubject>Science</AcademicSubject>
+                  <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+              </LearningObjectiveIdentity>
+          </LearningObjectiveReference>
+          <LearningObjectiveReference>
+              <LearningObjectiveIdentity>
+                  <Objective>Science Objective 4</Objective>
+                  <AcademicSubject>Science</AcademicSubject>
+                  <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+              </LearningObjectiveIdentity>
+          </LearningObjectiveReference>
+          <LearningObjectiveReference>
+              <LearningObjectiveIdentity>
+                  <Objective>Science Objective 5</Objective>
+                  <AcademicSubject>Science</AcademicSubject>
+                  <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+              </LearningObjectiveIdentity>
+          </LearningObjectiveReference>
+          <SectionReference>
+              <SectionIdentity>
+                  <EducationalOrgReference>
+                      <EducationalOrgIdentity>
+                          <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                      </EducationalOrgIdentity>
+                  </EducationalOrgReference>
+                  <UniqueSectionCode>38</UniqueSectionCode>
+              </SectionIdentity>
+          </SectionReference>
+          <GradingPeriodReference>
+              <GradingPeriodIdentity>
+                  <EducationalOrgReference>
+                      <EducationalOrgIdentity>
+                          <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                      </EducationalOrgIdentity>
+                  </EducationalOrgReference>
+                  <GradingPeriod>End of Year</GradingPeriod>
+                  <BeginDate>2001-09-03</BeginDate>
+              </GradingPeriodIdentity>
+          </GradingPeriodReference>
+      </GradebookEntry>
+  </Action>  
+</InterchangeStudentGrade>
