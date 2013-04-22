@@ -47,6 +47,16 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 
+/**
+ * This class should be concerned about how to generate the delta files per LEA per app
+ * 
+ * It gets an iterator of deltas, and determine which app / LEA would need this delta
+ * entity. It does not care about how to retrieve the deltas nor how the delta files
+ * are generated.
+ * 
+ * @author ycao
+ * 
+ */
 @Component
 public class DeltaExtractor {
 
@@ -138,7 +148,10 @@ public class DeltaExtractor {
             }
         }
     }
-
+    
+    // this method should be abstracted into the ExtractFile class, extractors should not be
+    // concerned about filesystem level details, copy / pasted from tenantExtractor for now,
+    // if everything works, let's try to refactor it soon
     private void finalizeExtraction(String tenant, DateTime startTime) {
         ManifestFile metaDataFile;
         for (Map.Entry<String, ExtractFile> entry : appPerLeaExtractFiles.entrySet()) {
@@ -196,11 +209,13 @@ public class DeltaExtractor {
                 Entity edorgEntity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, edorg);
                 topLEA.addAll(edorgContextResolver.findGoverningLEA(edorgEntity));
             }
-            result.put(app, topLEA);
+            entry.getValue().retainAll(topLEA);
+            result.put(app, entry.getValue());
         }
 
         return result;
     }
+
     private Map<String, Set<String>> reverse(Map<String, Set<String>> leasPerApp) {
         Map<String, Set<String>> result = new HashMap<String, Set<String>>();
         for (Map.Entry<String, Set<String>> entry : leasPerApp.entrySet()) {

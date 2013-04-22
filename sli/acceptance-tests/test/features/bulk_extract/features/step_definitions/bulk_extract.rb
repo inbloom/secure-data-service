@@ -184,6 +184,12 @@ Given /^I have delta bulk extract files generated for today$/ do
   @coll.save(bulk_delta_file_entry)
 end
 
+Given /^the bulk extract files in the database are scrubbed/ do
+  @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb = @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+  @coll.remove()
+end
 ############################################################
 # When
 ############################################################
@@ -301,10 +307,12 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
   puts("The generated token is #{@sessionId}") if $SLI_DEBUG
 end
 
-When /^the extract contains no entity files/ do
-  step "the extract contains a file for each of the following entities:",table(%{
-    | entityType |
-  })
+When /^I try to POST to the bulk extract endpoint/ do
+  hash = {
+    "stuff" => "Random stuff"
+  }
+  @format = "application/vnd.slc+json"  
+  restHttpPost("/bulk/extract/tenant",hash.to_json)
 end
 
 When /^I use an invalid tenant to trigger a bulk extract/ do
@@ -354,6 +362,12 @@ Then /^the extraction zone should still be empty/ do
     entries.each {|x| puts x}
     assert(entries.size == 2, "Extraction zone is no longer empty.")
   end
+end
+
+Then /^the extract contains no entity files/ do
+  step "the extract contains a file for each of the following entities:",table(%{
+    | entityType |
+  })
 end
 
 ############################################################

@@ -39,7 +39,7 @@ Scenario: Delete Student with cascade
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentCohortAssociation"
         |field                                     |value                                                                                 |
         |studentCohortAssociation.body.cohortId    |271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_id                                           |
-    Then there exist "5" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
+    Then there exist "6" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                     |value                                                                                 |
         |body.studentSectionAssociationId          |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|  
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentDisciplineIncidentAssociation"
@@ -105,7 +105,7 @@ Scenario: Delete Student with cascade
         | studentAssessment                         |				 -4| 
         | studentAssessmentItem                     |				 -4|                        
         | studentCohortAssociation                  |        -1|
-        | studentCompetency                         |       -30|                 
+        | studentCompetency                         |       -31|
         | studentDisciplineIncidentAssociation      |				 -8|  
         | studentGradebookEntry                     |      -139|
         | studentObjectiveAssessment                |        -4|                
@@ -152,7 +152,7 @@ Scenario: Delete Student with cascade = false
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentCohortAssociation"
         |field                                     |value                                                                                 |
         |studentCohortAssociation._id              |908404e876dd56458385667fa383509035cd4312_ide3e74d25c695f1e27d2272bcbe12351cd02a78c1_id|
-    Then there exist "5" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
+    Then there exist "6" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                     |value                                                                                 |
         |body.studentSectionAssociationId          |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|  
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentDisciplineIncidentAssociation"
@@ -198,7 +198,7 @@ Scenario: Delete Student with cascade = false
     And I re-execute saved query "studentAssessment" to get "4" records
     And I re-execute saved query "studentAssessmentItem" to get "1" records    
     And I re-execute saved query "studentCohortAssociation" to get "1" records
-    And I re-execute saved query "studentCompetency" to get "5" records
+    And I re-execute saved query "studentCompetency" to get "6" records
     And I re-execute saved query "studentDisciplineIncidentAssociation" to get "1" records
     And I re-execute saved query "studentGradebookEntry" to get "139" records
     And I re-execute saved query "studentObjectiveAssessment1" to get "1" records
@@ -338,7 +338,7 @@ Scenario: Delete Student with cascade = false and force = true, log violations =
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentCohortAssociation"
         |field                                     |value                                                                                 |
         |studentCohortAssociation._id              |908404e876dd56458385667fa383509035cd4312_ide3e74d25c695f1e27d2272bcbe12351cd02a78c1_id|
-    Then there exist "5" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
+    Then there exist "6" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                     |value                                                                                 |
         |body.studentSectionAssociationId          |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|  
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentDisciplineIncidentAssociation"
@@ -376,7 +376,21 @@ Scenario: Delete Student with cascade = false and force = true, log violations =
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentParent.xml"
-     And I should not see an error log file created
+    And I should see "Child reference of entity type attendance" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentSchoolAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type grade" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentAcademicRecord" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type reportCard" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentAssessment" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentGradebookEntry" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentSectionAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type disciplineAction" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type courseTranscript" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentDisciplineIncidentAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentCohortAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentParentAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentProgramAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should not see an error log file created
     And I re-execute saved query "student" to get "0" records
     And I re-execute saved query "attendance" to get "2" records
     And I re-execute saved query "disciplineAction" to get "8" records
@@ -387,7 +401,7 @@ Scenario: Delete Student with cascade = false and force = true, log violations =
     And I re-execute saved query "studentAssessment" to get "4" records
     And I re-execute saved query "studentAssessmentItem" to get "1" records    
     And I re-execute saved query "studentCohortAssociation" to get "0" records
-    And I re-execute saved query "studentCompetency" to get "5" records
+    And I re-execute saved query "studentCompetency" to get "6" records
     And I re-execute saved query "studentDisciplineIncidentAssociation" to get "0" records
     And I re-execute saved query "studentGradebookEntry" to get "139" records
     And I re-execute saved query "studentObjectiveAssessment1" to get "1" records
@@ -440,7 +454,7 @@ Scenario: Delete Student Ref with cascade = false and force = true, log violatio
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentCohortAssociation"
         |field                                     |value                                                                                 |
         |studentCohortAssociation._id              |908404e876dd56458385667fa383509035cd4312_ide3e74d25c695f1e27d2272bcbe12351cd02a78c1_id|
-    Then there exist "5" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
+    Then there exist "6" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                     |value                                                                                 |
         |body.studentSectionAssociationId          |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|  
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentDisciplineIncidentAssociation"
@@ -478,6 +492,20 @@ Scenario: Delete Student Ref with cascade = false and force = true, log violatio
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type attendance" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentSchoolAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type grade" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentAcademicRecord" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type reportCard" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentAssessment" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentGradebookEntry" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentSectionAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type disciplineAction" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type courseTranscript" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentDisciplineIncidentAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentCohortAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentParentAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And I should see "Child reference of entity type studentProgramAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
      And I should not see an error log file created
     And I re-execute saved query "student" to get "0" records
     And I re-execute saved query "attendance" to get "2" records
@@ -489,7 +517,7 @@ Scenario: Delete Student Ref with cascade = false and force = true, log violatio
     And I re-execute saved query "studentAssessment" to get "4" records
     And I re-execute saved query "studentAssessmentItem" to get "1" records    
     And I re-execute saved query "studentCohortAssociation" to get "0" records
-    And I re-execute saved query "studentCompetency" to get "5" records
+    And I re-execute saved query "studentCompetency" to get "6" records
     And I re-execute saved query "studentDisciplineIncidentAssociation" to get "0" records
     And I re-execute saved query "studentGradebookEntry" to get "139" records
     And I re-execute saved query "studentObjectiveAssessment1" to get "1" records

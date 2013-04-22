@@ -271,75 +271,66 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                 recordHashStore.add(neutralRecord);
             }
 
-            // TODO: make this generic for all self-referencing entities
-            if (SELF_REF_ENTITY_CONFIG.containsKey(collectionNameAsStaged)) {
+            List<NeutralRecord> recordStore = new ArrayList<NeutralRecord>();
+            List<SimpleEntity> persist = new ArrayList<SimpleEntity>();
+            for (NeutralRecord neutralRecord : records) {
+                reportStatsForCollection = createReportStats(job.getId(), neutralRecord.getSourceFile(),
+                        stage.getStageName());
+                Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
-                reportStatsForCollection = persistSelfReferencingEntity(workNote, job, perFileMetrics,
-                        stage.getStageName(), reportStatsForCollection, reportStatsForNrEntity, records);
+                if (entityPipelineType.equals(EntityPipelineType.PASSTHROUGH)
+                        || entityPipelineType.equals(EntityPipelineType.TRANSFORMED)) {
 
-            } else {
+                    SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, job,
+                            reportStatsForCollection);
 
-                List<NeutralRecord> recordStore = new ArrayList<NeutralRecord>();
-                List<SimpleEntity> persist = new ArrayList<SimpleEntity>();
-                for (NeutralRecord neutralRecord : records) {
-                    reportStatsForCollection = createReportStats(job.getId(), neutralRecord.getSourceFile(),
-                            stage.getStageName());
-                    Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
+                    if (dbConfirmed(xformedEntity)) {
 
-                    if (entityPipelineType.equals(EntityPipelineType.PASSTHROUGH)
-                            || entityPipelineType.equals(EntityPipelineType.TRANSFORMED)) {
+                        recordStore.add(neutralRecord);
 
-                        SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, job,
-                                reportStatsForCollection);
+                        // queue up for bulk insert
+                        persist.add(xformedEntity);
 
-                        if (dbConfirmed(xformedEntity)) {
-
-                            recordStore.add(neutralRecord);
-
-                            // queue up for bulk insert
-                            persist.add(xformedEntity);
-
-                        } else {
-                            currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
-                        }
-                        currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
+                    } else {
+                        currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
                     }
-                    perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
+                    currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
                 }
+                perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
+            }
 
-                try {
-                    if (persist.size() > 0) {
-                        List<Entity> failed = entityPersistHandler.handle(persist, databaseMessageReport,
-                                reportStatsForNrEntity);
-                        for (Entity entity : failed) {
+            try {
+                if (persist.size() > 0) {
+                    List<Entity> failed = entityPersistHandler.handle(persist, databaseMessageReport,
+                            reportStatsForNrEntity);
+                    for (Entity entity : failed) {
+                        NeutralRecord record = recordStore.get(persist.indexOf(entity));
+                        Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
+                        currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+
+                        // TODO report partial deletions on cascade delete error
+
+                        if (recordHashStore.contains(record)) {
+                            recordHashStore.remove(record);
+                        }
+                    }
+
+                    for (SimpleEntity entity : subtract(persist, failed)) {
+                        if (entity.getAction().doDelete()) {
                             NeutralRecord record = recordStore.get(persist.indexOf(entity));
                             Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
-                            currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
-
-                            // TODO report partial deletions on cascade delete error
-
-                            if (recordHashStore.contains(record)) {
-                                recordHashStore.remove(record);
-                            }
-                        }
-                        
-                        for (SimpleEntity entity : subtract(persist, failed)) {
-                            if( entity.getAction().doDelete() ) {
-                                NeutralRecord record = recordStore.get(persist.indexOf(entity));
-                                Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
-                                currentMetric.setDeletedCount(currentMetric.getDeletedCount() + 1);
-                                currentMetric.setDeletedChildCount(currentMetric.getDeletedChildCount() + Long.parseLong(entity.getDeleteAffectedCount()) - 1);
-                            }
+                            currentMetric.setDeletedCount(currentMetric.getDeletedCount() + 1);
+                            currentMetric.setDeletedChildCount(currentMetric.getDeletedChildCount() + Long.parseLong(entity.getDeleteAffectedCount()) - 1);
                         }
                     }
-                    for (NeutralRecord neutralRecord2 : recordHashStore) {
-                        upsertRecordHash(neutralRecord2);
-
-                    }
-
-                } catch (DataAccessResourceFailureException darfe) {
-                    LOG.error("Exception processing record with entityPersistentHandler", darfe);
                 }
+                for (NeutralRecord neutralRecord2 : recordHashStore) {
+                    upsertRecordHash(neutralRecord2);
+
+                }
+
+            } catch (DataAccessResourceFailureException darfe) {
+                LOG.error("Exception processing record with entityPersistentHandler", darfe);
             }
         } catch (Exception e) {
             databaseMessageReport.error(reportStatsForCollection, new ProcessorSource(collectionNameAsStaged),
@@ -371,138 +362,6 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         }
 
         return true;
-    }
-
-    /*
-     * persist self-referencing entities immediately, rather than bulk (and sort in
-     * dependency-honoring
-     * order) because this
-     * entity can have references to entities of the same type.
-     * otherwise, id normalization could be attempted while the dependent entity is waiting for
-     * insertion in queue.
-     */
-    // FIXME: remove once deterministic ids are in place.
-    private ReportStats persistSelfReferencingEntity(RangedWorkNote workNote, NewBatchJob job,
-            Map<String, Metrics> perFileMetrics, String stageName, ReportStats reportStatsForCollection,
-            ReportStats reportStatsForNrEntity, Iterable<NeutralRecord> records) {
-
-        List<NeutralRecord> sortedNrList = iterableToList(records);
-        String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
-        try {
-            sortedNrList = sortNrListByDependency(sortedNrList, collectionNameAsStaged);
-        } catch (IllegalStateException e) {
-            LOG.error("Illegal state encountered during dependency-sort of self-referencing neutral records", e);
-        }
-
-        ReportStats returnValue = reportStatsForCollection;
-        for (NeutralRecord neutralRecord : sortedNrList) {
-            LOG.info("transforming and persisting {}: {}", collectionNameAsStaged,
-                    getByPath(SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged).idPath, neutralRecord.getAttributes()));
-
-            // returnValue = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
-            returnValue = createReportStats(job.getId(), neutralRecord.getSourceFile(), stageName);
-            Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
-
-            SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, job, returnValue);
-
-            if (xformedEntity != null) {
-                try {
-                    Entity saved = entityPersistHandler.handle(xformedEntity, databaseMessageReport,
-                            reportStatsForNrEntity);
-                    if (saved != null) {
-                        upsertRecordHash(neutralRecord);
-                    }
-                } catch (DataAccessResourceFailureException darfe) {
-                    LOG.error("Exception processing record with entityPersistentHandler", darfe);
-                    currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
-                }
-
-            } else {
-                currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
-            }
-            currentMetric.setRecordCount(currentMetric.getRecordCount() + 1, xformedEntity.getAction());
-            perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
-        }
-        return returnValue;
-    }
-
-    /**
-     * Sort records in dependency-honoring order since they are self-referencing.
-     *
-     * @param unsortedRecords
-     * @param collectionNameAsStaged
-     * @return
-     */
-    // TODO: make this generic for all self-referencing entities
-    protected static List<NeutralRecord> sortNrListByDependency(List<NeutralRecord> unsortedRecords,
-            String collectionNameAsStaged) throws IllegalStateException {
-
-        List<NeutralRecord> sortedRecords = new ArrayList<NeutralRecord>();
-
-        for (NeutralRecord me : unsortedRecords) {
-            insertMyDependenciesAndMe(me, unsortedRecords, sortedRecords, new HashSet<String>(), collectionNameAsStaged);
-        }
-        return sortedRecords;
-    }
-
-    private static List<NeutralRecord> iterableToList(Iterable<NeutralRecord> records) {
-        List<NeutralRecord> unsortedRecords = new ArrayList<NeutralRecord>();
-        for (NeutralRecord neutralRecord : records) {
-            unsortedRecords.add(neutralRecord);
-        }
-        return unsortedRecords;
-    }
-
-    // FIXME: make this algo iterative rather than recursive
-    private static void insertMyDependenciesAndMe(NeutralRecord me, List<NeutralRecord> unsortedRecords,
-            List<NeutralRecord> sortedRecords, Set<String> idsInStack, String collectionNameAsStaged)
-            throws IllegalStateException {
-        SelfRefEntityConfig selfRefConfig = SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged);
-        if (me != null && !sortedRecords.contains(me)) {
-
-            String myId = getByPath(selfRefConfig.idPath, me.getAttributes());
-            idsInStack.add(myId);
-
-            // look up parent reference
-            String parentId = null;
-            if (selfRefConfig.parentAttributePath != null) {
-                parentId = getByPath(selfRefConfig.parentAttributePath, me.getAttributes());
-            } else if (selfRefConfig.localParentIdKey != null) {
-                parentId = (String) me.getLocalParentIds().get(selfRefConfig.localParentIdKey);
-            }
-
-            // detect cycles
-            if (parentId != null && idsInStack.contains(parentId)) {
-                LOG.error(
-                        "cycle detected in "
-                                + collectionNameAsStaged
-                                + " reference hierarchy. {} references an entity already a part of this dependency hierarchy {}",
-                        myId, idsInStack);
-                throw new IllegalStateException("cycle detected in " + collectionNameAsStaged + " reference hierarchy.");
-            } else {
-
-                // insert my parent
-                NeutralRecord parent = findNeutralRecordByIdAttr(parentId, unsortedRecords, selfRefConfig.idPath);
-                insertMyDependenciesAndMe(parent, unsortedRecords, sortedRecords, idsInStack, collectionNameAsStaged);
-            }
-
-            // insert me
-            sortedRecords.add(me);
-
-            idsInStack.remove(myId);
-        }
-    }
-
-    private static NeutralRecord findNeutralRecordByIdAttr(String objectiveId, List<NeutralRecord> records,
-            String idPath) {
-        if (objectiveId != null) {
-            for (NeutralRecord sortedNr : records) {
-                if (objectiveId.equals(getByPath(idPath, sortedNr.getAttributes()))) {
-                    return sortedNr;
-                }
-            }
-        }
-        return null;
     }
 
     private SimpleEntity transformNeutralRecord(NeutralRecord record, NewBatchJob job, ReportStats reportStats) {

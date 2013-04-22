@@ -532,8 +532,8 @@ acceptance-tests:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -619,8 +619,8 @@ ci:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -722,8 +722,8 @@ dev:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -1023,8 +1023,8 @@ local:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
@@ -1145,8 +1145,8 @@ local-acceptance-tests:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard:
         # Pick up default here, not local, to avoid overriding the encryption keystore.
@@ -1318,8 +1318,8 @@ team:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
 
     dashboard: &DASHBOARD-TEAM

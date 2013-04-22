@@ -14,8 +14,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | studentAssessment              |
 When zip file is scp to ingestion landing zone
   And a batch job for file "StudentAssessment_Partial_Unhappy.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | studentAssessment             |                  0|
     And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -34,8 +33,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | recordHash                                |
 When zip file is scp to ingestion landing zone
     And a batch job for file "StudentAssessmentFull.zip" is completed in database
-    And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+    Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  1|
      | assessmentFamily                         |                  1|
@@ -48,8 +46,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I post "StudentAssessment_Partial_Happy.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "StudentAssessment_Partial_Happy.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  1|
      | student                                  |                  1|
@@ -67,8 +64,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | recordHash                                |
 When zip file is scp to ingestion landing zone
   And a batch job for file "AttendancePartialUnHappy.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | attendance                               |                  0|
     And I should see "Processed 2 records." in the resulting batch job file
@@ -89,8 +85,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      |recordHash                                 |
 When zip file is scp to ingestion landing zone
     And a batch job for file "AttendanceFull.zip" is completed in database
-    And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+    Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | educationOrganization                    |                  3|
      | session                                  |                  1|
@@ -104,8 +99,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I post "AttendancePartialHappy.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "AttendancePartialHappy.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | attendance                               |                  1|
      | educationOrganization                    |                  3|
@@ -124,8 +118,7 @@ And I check to find if record is in collection:
     And I post "AttendanceUpdateAndAppend.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "AttendanceUpdateAndAppend.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | attendance                               |                  1|
     And I check to find if record is in collection:
@@ -151,8 +144,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 
 When zip file is scp to ingestion landing zone
   And a batch job for file "AssessmentPartial.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  2|
      | assessmentFamily                         |                  2|
@@ -174,8 +166,7 @@ Then I should see following map of entry counts in the corresponding collections
 
 When zip file is scp to ingestion landing zone
   And a batch job for file "AssessmentFull.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  2|
      | assessmentFamily                         |                  2|
@@ -191,8 +182,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I post "AssessmentPartial.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
     And a batch job for file "AssessmentPartial.zip" is completed in database
-    And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+    Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  4|
     And I should see "Processed 4 records." in the resulting batch job file

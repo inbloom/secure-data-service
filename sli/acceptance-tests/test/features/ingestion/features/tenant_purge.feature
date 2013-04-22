@@ -16,8 +16,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
     | student                     |
 When zip file is scp to ingestion landing zone
   And a batch job for file "TenantNoPurge.zip" is completed in database
-  And a batch job log has been created
- Then I should see following map of entry counts in the corresponding collections:
+   Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | student                     | 2     |
      | educationOrganization       | 8     |
@@ -44,8 +43,7 @@ When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
  And I post "TenantPurgeKeepEdOrgs.zip" file as the payload of the ingestion job
  When zip file is scp to ingestion landing zone
  And a batch job for file "TenantPurgeKeepEdOrgs.zip" is completed in database
- And a batch job log has been created
- Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
       | collectionName              | count |
       | student                     | 0     |
       | educationOrganization       | 8     |
@@ -69,8 +67,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
     | student                     |
 When zip file is scp to ingestion landing zone
   And a batch job for file "TenantNoPurge.zip" is completed in database
-  And a batch job log has been created
- Then I should see following map of entry counts in the corresponding collections:
+   Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | student                     | 2     |
      | educationOrganization       | 8     |
@@ -97,8 +94,7 @@ When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
  And I post "TenantPurge.zip" file as the payload of the ingestion job
  When zip file is scp to ingestion landing zone
  And a batch job for file "TenantPurge.zip" is completed in database
- And a batch job log has been created
- Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
       | collectionName              | count |
       | student                     | 0     |
       | applicationAuthorization    | 0     |

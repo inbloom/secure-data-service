@@ -343,6 +343,41 @@ Then /^I verify I do not have the complete file$/ do
   @received_file = nil
 end
 
+Then /^I store the contents of the first call$/ do
+  res_content = @res.body.split(%r{--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
+  @content1 = res_content[1].strip()
+  puts @content1.size
+  @content3 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0].strip()
+  puts @content3.size
+end
+
+Then /^I store the contents of the second call$/ do
+  res_content = @res.body.split(%r{--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
+  @content2 = res_content[1].strip()
+  puts @content2.size
+  @content4 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0]
+  puts @content4.size
+end
+
+Then /^I combine the file contents$/ do
+  @received_file = Dir.pwd + "/Final.tar"
+  File.open(@received_file, "wb") do |outf|
+        outf << @content1
+        outf << @content2
+        outf << @content3
+        outf << @content4
+  end
+  puts File.size(@received_file)
+end
+
+Then /^I check the version of http response headers$/ do
+  LATEST_API_VERSION = "v1.2"
+
+  returned_version = @res.headers[:x_executedPath].split("/").first
+
+  assert(returned_version==LATEST_API_VERSION, "Returned version is wrong. Actual: #{returned_version} Expected: #{LATEST_API_VERSION}")
+end
+
 Then /^I check the http response headers$/ do  
 
   if @zip_file_name == "sample-extract.tar"
@@ -516,7 +551,6 @@ After('@fakeTar') do
 #Given /^I remove the fake tar file and remove its reference in Mongo$/ do
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
   db ||= conn.db('sli')
-  #path = Dir.pwd + "/fake.tar"
   src_coll = db["bulkExtractFiles"]
   src_coll.remove({"_id" => @fake_tar_id})
   File.delete(@path)

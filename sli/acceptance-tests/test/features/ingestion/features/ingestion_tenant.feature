@@ -15,8 +15,7 @@ Given I add a new tenant for "TENANT-EDORG"
 When zip file is scp to ingestion landing zone
   And I am willing to wait upto 120 seconds for ingestion to complete
   And a batch job for file "tenant.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | student                     | 1     |
    And I check to find if record is in collection:
@@ -40,8 +39,7 @@ Given I add a new landing zone for "Midgar-Newtowne.te_\#&5st@wgen.net"
 When zip file is scp to ingestion landing zone with name "tenant2.zip"
   And I am willing to wait upto 120 seconds for ingestion to complete
   And a batch job for file "tenant2.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | student                     | 1     |
    And I check to find if record is in collection:

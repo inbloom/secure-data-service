@@ -44,8 +44,7 @@ Given I post "DemoData.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
 #    And "30" seconds have elapsed
   And a batch job for file "DemoData.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 94    |
         | studentSchoolAssociation    | 123   |
@@ -114,8 +113,7 @@ Scenario: Post a zip file containing all configured interchanges as a payload of
 Given I post "DemoData.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
     And a batch job for file "DemoData.zip" is completed in database
-    And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+    Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 94    |
         | studentSchoolAssociation    | 123   |
