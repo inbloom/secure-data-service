@@ -85,7 +85,7 @@ Scenario: Delete School with cascade
         | staffCohortAssociation                    |       -90|
         | studentCohortAssociation                  |       -13|  
         | studentCompetency                         |       -25|
-        | studentCompetencyObjective                |        -1|  
+        | studentCompetencyObjective                |        -2|
         | studentDisciplineIncidentAssociation      |        -4|  
         | studentGradebookEntry                     |       -31|  
         | studentProgramAssociation                 |        -8|                               
@@ -127,7 +127,7 @@ Scenario: Delete School with cascade = false
     Then there exist "11" "section" records like below in "Midgar" tenant. And I save this query as "section"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |    
-    Then there exist "1" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
+    Then there exist "2" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
         |field                                     |value                                                                                 |
         |body.educationOrganizationId              |352e8570bd1116d11a72755b987902440045d346_id                                           |
     Then there exist "11" "studentSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "studentSchoolAssociation"
@@ -155,7 +155,7 @@ Scenario: Delete School with cascade = false
     And I re-execute saved query "disciplineAction2" to get "4" records
     And I re-execute saved query "disciplineIncident" to get "23" records
     And I re-execute saved query "section" to get "11" records
-    And I re-execute saved query "studentCompetencyObjective" to get "1" records
+    And I re-execute saved query "studentCompetencyObjective" to get "2" records
     And I re-execute saved query "studentSchoolAssociation" to get "11" records
     And I re-execute saved query "teacherSchoolAssociation" to get "24" records   
     And I see that collections counts have changed as follows in tenant "Midgar"
@@ -247,7 +247,7 @@ Scenario: Delete School with cascade = false, logViolations = true and default s
     Then there exist "11" "section" records like below in "Midgar" tenant. And I save this query as "section"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |
-    Then there exist "1" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
+    Then there exist "2" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
         |field                                     |value                                                                                 |
         |body.educationOrganizationId              |352e8570bd1116d11a72755b987902440045d346_id                                           |
     Then there exist "11" "studentSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "studentSchoolAssociation"
@@ -281,7 +281,7 @@ Scenario: Delete School with cascade = false, logViolations = true and default s
     And I re-execute saved query "disciplineAction2" to get "4" records
     And I re-execute saved query "disciplineIncident" to get "23" records
     And I re-execute saved query "section" to get "11" records
-    And I re-execute saved query "studentCompetencyObjective" to get "1" records
+    And I re-execute saved query "studentCompetencyObjective" to get "2" records
     And I re-execute saved query "studentSchoolAssociation" to get "11" records
     And I re-execute saved query "teacherSchoolAssociation" to get "24" records
     And I see that collections counts have changed as follows in tenant "Midgar"
@@ -321,7 +321,7 @@ Scenario: Delete School with force = true, logViolations = true and default sett
     Then there exist "11" "section" records like below in "Midgar" tenant. And I save this query as "section"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |
-    Then there exist "1" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
+    Then there exist "2" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
         |field                                     |value                                                                                 |
         |body.educationOrganizationId              |352e8570bd1116d11a72755b987902440045d346_id                                           |
     Then there exist "11" "studentSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "studentSchoolAssociation"
@@ -355,7 +355,7 @@ Scenario: Delete School with force = true, logViolations = true and default sett
     And I re-execute saved query "disciplineAction2" to get "4" records
     And I re-execute saved query "disciplineIncident" to get "23" records
     And I re-execute saved query "section" to get "11" records
-    And I re-execute saved query "studentCompetencyObjective" to get "1" records
+    And I re-execute saved query "studentCompetencyObjective" to get "2" records
     And I re-execute saved query "studentSchoolAssociation" to get "11" records
     And I re-execute saved query "teacherSchoolAssociation" to get "24" records
     And I see that collections counts have changed as follows in tenant "Midgar"
@@ -395,7 +395,7 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     Then there exist "11" "section" records like below in "Midgar" tenant. And I save this query as "section"
         |field                                     |value                                                                                 |
         |body.schoolId                             |352e8570bd1116d11a72755b987902440045d346_id                                           |
-    Then there exist "1" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
+    Then there exist "2" "studentCompetencyObjective" records like below in "Midgar" tenant. And I save this query as "studentCompetencyObjective"
         |field                                     |value                                                                                 |
         |body.educationOrganizationId              |352e8570bd1116d11a72755b987902440045d346_id                                           |
     Then there exist "11" "studentSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "studentSchoolAssociation"
@@ -429,7 +429,7 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     And I re-execute saved query "disciplineAction2" to get "4" records
     And I re-execute saved query "disciplineIncident" to get "23" records
     And I re-execute saved query "section" to get "11" records
-    And I re-execute saved query "studentCompetencyObjective" to get "1" records
+    And I re-execute saved query "studentCompetencyObjective" to get "2" records
     And I re-execute saved query "studentSchoolAssociation" to get "11" records
     And I re-execute saved query "teacherSchoolAssociation" to get "24" records
     And I see that collections counts have changed as follows in tenant "Midgar"
