@@ -4,7 +4,7 @@
     <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
         <StudentCompetencyObjectiveReference>
             <StudentCompetencyObjectiveIdentity>
-                <StudentCompetencyObjectiveId>JS-K-1</StudentCompetencyObjectiveId>
+                <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
             </StudentCompetencyObjectiveIdentity>
         </StudentCompetencyObjectiveReference>
     </Action>
