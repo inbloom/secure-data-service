@@ -525,6 +525,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         STUDENTCOMPETENCYOBJECTIVE("StudentCompetencyObjective"),
         STUDENTCOMPETENCYOBJECTIVEREFERENCE("StudentCompetencyObjectiveReference"),
         STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociation"),
+        STUDENTDISCIPLINEINCIDENTASSOCIATIONREFERENCE("StudentDisciplineIncidentAssociationReference"),
         STUDENTGRADEBOOKENTRY("StudentGradeBookEntry"),                    
         STUDENTOBJECTIVEASSESSMENT("StudentObjectiveAssessment"),
         STUDENTPARENTASSOCIATION("StudentParentAssociation"),        
