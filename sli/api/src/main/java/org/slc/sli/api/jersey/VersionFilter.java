@@ -56,14 +56,15 @@ public class VersionFilter implements ContainerRequestFilter {
             SortedSet<String> minorVersions = resourceEndPoint.getNameSpaceMappings().get(version);
 
             if (isBulkNonVersion || ((minorVersions != null) && !minorVersions.isEmpty())) {
+                String newVersion;
+
                 if (!isBulkNonVersion) {
                     //remove the version
                     segments.remove(0);
                 }
 
-                String newVersion;
                 // Bulk extract always returns latest API version.
-                if (isBulkNonVersion || ((segments.size() > 1) && segments.get(1).getPath().equals("bulk"))) {
+                if ((segments.size() > 0) && segments.get(0).getPath().equals("bulk")) {
                     newVersion = getLatestApiVersion();
                 } else {
                     newVersion = version + "." + minorVersions.last();

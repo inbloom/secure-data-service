@@ -167,7 +167,7 @@ public class VersionFilterTest {
     }
 
     @Test
-    public void testBulkExtractWithApiVersion() throws URISyntaxException {
+    public void testBulkExtractWithMajorApiVersion() throws URISyntaxException {
         UriBuilder builder = mock(UriBuilder.class);
         when(builder.path(anyString())).thenReturn(builder);
 
@@ -197,6 +197,40 @@ public class VersionFilterTest {
         verify(builder, times(1)).path(latestApiVersion);
         verify(builder, times(1)).path("bulk");
         assertEquals("Should match", "http://api/rest/" + latestApiMajorVersion + "/bulk",
+                request.getProperties().get(REQUESTED_PATH));
+    }
+
+    @Test
+    public void testBulkExtractWithMajorAndMinorApiVersion() throws URISyntaxException {
+        UriBuilder builder = mock(UriBuilder.class);
+        when(builder.path(anyString())).thenReturn(builder);
+
+        String latestApiVersion = versionFilter.getLatestApiVersion();
+        String latestApiMajorVersion = latestApiVersion.split("\\.")[0];
+
+        URI uri = new URI("http://api/rest/" + latestApiMajorVersion + ".0/bulk");
+
+        PathSegment segment1 = mock(PathSegment.class);
+        when(segment1.getPath()).thenReturn(latestApiVersion);
+        PathSegment segment2 = mock(PathSegment.class);
+        when(segment2.getPath()).thenReturn("bulk");
+
+        List<PathSegment> segments = new ArrayList<PathSegment>();
+        segments.add(segment1);
+        segments.add(segment2);
+
+        when(containerRequest.getPathSegments()).thenReturn(segments);
+        when(containerRequest.getBaseUriBuilder()).thenReturn(builder);
+        when(containerRequest.getRequestUri()).thenReturn(uri);
+        when(containerRequest.getPath()).thenReturn("http://api/rest/" + latestApiMajorVersion + ".0/bulk");
+        when(containerRequest.getProperties()).thenReturn(new HashMap<String, Object>());
+
+        ContainerRequest request = versionFilter.filter(containerRequest);
+        verify(containerRequest).setUris((URI) any(), (URI) any());
+        verify(builder).build();
+        verify(builder, times(1)).path(latestApiVersion);
+        verify(builder, times(1)).path("bulk");
+        assertEquals("Should match", "http://api/rest/" + latestApiMajorVersion + ".0/bulk",
                 request.getProperties().get(REQUESTED_PATH));
     }
 
