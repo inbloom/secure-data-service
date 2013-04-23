@@ -42,7 +42,7 @@ import org.slc.sli.domain.Entity;
  *
  */
 public class Launcher {
-    private static final String USAGE = "Usage: bulk-extract <tenant> <isDelta>";
+    private static final String USAGE = "Usage: bulk-extract <tenant> [isDelta]";
     private static final Logger LOG = LoggerFactory.getLogger(Launcher.class);
 
     private String baseDirectory;
@@ -134,14 +134,17 @@ public class Launcher {
 
         Launcher main = context.getBean(Launcher.class);
 
-        if (args.length != 2) {
+        if (args.length < 1) {
             LOG.error(USAGE);
             return;
         }
-
+    
         String tenantId = args[0];
-        boolean isDelta = Boolean.parseBoolean(args[1]);
-
+        boolean isDelta = false;
+        if (args.length == 2) {
+            isDelta = Boolean.parseBoolean(args[1]);
+        }
+    
         main.execute(tenantId, isDelta);
 
     }
