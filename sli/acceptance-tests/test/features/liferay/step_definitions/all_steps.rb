@@ -84,6 +84,9 @@ Then /^I should be on Portal home page$/ do
     assertWithWait("EULA pop up did not get dismissed") { !@driver.page_source.include?("d_popup") }
   else
     puts "EULA has already been accepted"
+    puts "-----------------"
+    puts @driver.page_source
+    puts "-----------------"
   end
 end
 
