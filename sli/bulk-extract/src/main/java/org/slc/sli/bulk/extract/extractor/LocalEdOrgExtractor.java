@@ -51,7 +51,7 @@ public class LocalEdOrgExtractor {
 
     private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
     private Repository<Entity> repository;
-    private Map<String, String> edorgToLEACache;
+    private Map<String, String> edOrgToLEACache;
     private EntityExtractor entityExtractor;
     private Map<String, String> entitiesToCollections;
     private BulkExtractMongoDA bulkExtractMongoDA;
@@ -66,13 +66,13 @@ public class LocalEdOrgExtractor {
         TenantContext.setTenantId(tenant);
         Map<String, String> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
 
-        edorgToLEACache = buildEdOrgCache();
+        edOrgToLEACache = buildEdOrgCache();
         
-        for(String edOrg : edorgToLEACache.keySet()) {
-        	File leaDirectory = new File(tenantDirectory.getAbsoluteFile(), edorgToLEACache.get(edOrg));
+        for(String edOrg : edOrgToLEACache.keySet()) {
+        	File leaDirectory = new File(tenantDirectory.getAbsoluteFile(), edOrgToLEACache.get(edOrg));
         	leaDirectory.mkdirs();
             ExtractFile extractFile = new ExtractFile(leaDirectory,
-                    getArchiveName(edorgToLEACache.get(edOrg), startTime.toDate()), appPublicKeys);
+                    getArchiveName(edOrgToLEACache.get(edOrg), startTime.toDate()), appPublicKeys);
 			Criteria criteria = new Criteria("_id");
 			criteria.is(edOrg);
 			Query query = new Query(criteria);
@@ -92,10 +92,15 @@ public class LocalEdOrgExtractor {
             } catch (Exception e) {
                 LOG.error("Error generating archive file: {}", e.getMessage());
             }
+            
+            Map<String, Set<String>> leaToApps = leaToApps();
 
             // update db to point to new archive
             for(Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
-                bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), null, startTime.toDate(), false, edorgToLEACache.get(edOrg));
+            	Set<String> apps = leaToApps.get(edOrgToLEACache.get(edOrg));
+            	for(String app : apps) {
+            		bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), app, startTime.toDate(), false, edOrgToLEACache.get(edOrg));
+            	}
             }
 
         }
@@ -135,6 +140,20 @@ public class LocalEdOrgExtractor {
             }
         }
         return cache;
+    }
+    
+    private Map<String, Set<String>> leaToApps() {
+    	Map<String, Set<String>> result = new HashMap<String, Set<String>>();
+    	Map<String, Set<String>> beAppsToLEAs = getBulkExtractLEAsPerApp();
+    	for(String app : beAppsToLEAs.keySet()) {
+    		for(String lea : beAppsToLEAs.get(app)) {
+    			if (result.get(lea) == null) {
+    				result.put(lea, new HashSet<String>());
+    			}
+    			result.get(lea).add(app);
+    		}
+    	}
+    	return result;
     }
 
     /**
