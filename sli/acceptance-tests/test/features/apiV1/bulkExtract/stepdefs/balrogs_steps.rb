@@ -85,6 +85,10 @@ When /^I make bulk extract API call$/ do
   restHttpGet("/bulk/extract/tenant")
 end
 
+When /^I make lea bulk extract API call for lea "(.*?)"$/ do |arg1|
+  restHttpGet("/bulk/extract/#{arg1}")
+end
+
 When /^I make a custom bulk extract API call$/ do
   restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
