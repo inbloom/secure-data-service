@@ -44,6 +44,7 @@ DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
 ENCRYPTED_ENTITIES = ['student', 'parent']
 COMBINED_ENTITIES = ['assessment', 'studentAssessment']
+COMBINED_SUB_ENTITIES = ['assessmentItem','objectiveAssessment','studentAssessmentItems','studentObjectiveAssessments']
 
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
@@ -199,12 +200,23 @@ Given /^The X509 cert (.*?) has been installed in the trust store and aliased$/ 
   puts "Stubbed out"
 end
 
+Given /^the bulk extract files in the database are scrubbed/ do
+  @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb = @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+  @coll.remove()
+end
+
 ############################################################
 # When
 ############################################################
 
 When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(tenant,appId)
+end
+
+When /^I know the file-length of the extract file$/ do
+  @file_size = File.size(@filePath)
 end
 
 When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
@@ -314,10 +326,12 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
   puts("The generated token is #{@sessionId}") if $SLI_DEBUG
 end
 
-When /^the extract contains no entity files/ do
-  step "the extract contains a file for each of the following entities:",table(%{
-    | entityType |
-  })
+When /^I try to POST to the bulk extract endpoint/ do
+  hash = {
+    "stuff" => "Random stuff"
+  }
+  @format = "application/vnd.slc+json"  
+  restHttpPost("/bulk/extract/tenant",hash.to_json)
 end
 
 When /^I use an invalid tenant to trigger a bulk extract/ do
@@ -343,15 +357,48 @@ When /^inBloom generates a bulk extract delta file$/ do
   command = "#{DELTA_SCRIPT} -Dsli.conf=#{DELTA_CONFIG} -Dsli.encryption.keyStore=#{DELTA_KEYSTORE} -d"
   puts "Calling delta extract script"
   puts "Command: #{command}"
-  puts runShellCommand(command)
+  stdout = runShellCommand(command)
+  puts "Output of BE script is:\n #{stdout}"
+  #stdout.match(/bulk-extracter Finished in (.*?) seconds/)
 end
 
-When /^I request the latest bulk extract delta$/ do
+When /^I request the latest bulk extract delta using the api$/ do
   puts "stubbed out"
 end
 
-When /^I untar and decrypt the tarfile with cert "(.*?)"$/ do |cert|
-  puts "stubbed out"
+When /^I untar and decrypt the delta tarfile for tenant "(.*?)" and cert "(.*?)"$/ do |tenant, cert|
+  delta = true
+  getExtractInfoFromMongo(tenant, cert, delta)
+
+  file = File.open(@encryptFilePath, 'rb') { |f| f.read}
+  decryptFile(file)
+  FileUtils.mkdir_p(File.dirname(@filePath)) if !File.exists?(File.dirname(@filePath))
+  File.open(@filePath, 'w') {|f| f.write(@plain) }  
+
+  untar(@fileDir)
+end
+
+When /^I (.*?) an (.*?) entity of type (.*?)$/ do |verb, operation, entity|
+  @entityData = {
+    "educationOrganization" => {
+      "organizationCategories" => ["State Education Agency"],
+      "address" => [
+                "streetNumberName" => "222 Ave D",
+                "city" => "Chicago",
+                "stateAbbreviation" => "IL",
+                "postalCode" => "10098",
+                "nameOfCounty" => "Hooray"
+                ]
+    }
+  }
+  @fields = @entityData[entity]
+  api_version = "v1"
+  step "I navigate to #{verb} \"/#{api_version}/#{entity}\""
+  headers = @res.raw_headers
+  assert(headers != nil, "Headers are nil")
+  assert(headers['location'] != nil, "There is no location link from the previous request")
+  s = headers['location'][0]
+  @assocId = s[s.rindex('/')+1..-1]
 end
 
 ############################################################
@@ -364,6 +411,21 @@ Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
   assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
   compareToApi(collection, collFile)
 }
+end
+
+Then  /^The "(.*?)" delta was extracted in the same format as the api$/ do |collection|
+  # Make a list of all .gz files in the decrypt directory
+  #Dir.entries(@fileDir).each do |file|
+  #  zipfiles = Array.new
+  #  zipfiles << file if file.match(/.gz$/)
+  #end
+  zipfile = @fileDir + "/" + collection + ".json.gz"
+  # Loop through each list, extract the file, parse the json, and verify against the api
+  Zlib::GzipReader.open(zipfile) { |extracts|
+    collFile = JSON.parse(extracts.read)
+    assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
+    compareToApi(collection, collFile)
+  }
 end
 
 Then /^I should not see an extract for tenant "(.*?)"/ do |tenant|
@@ -409,26 +471,36 @@ end
 Then /^I should see "(.*?)" entities of type "(.*?)" in the bulk extract tarfile$/ do |count, collection|
   count = count.to_i
   puts "stubbed out"
+end
 
+Then /^the extract contains no entity files/ do
+  step "the extract contains a file for each of the following entities:",table(%{
+    | entityType |
+  })
 end
 
 ############################################################
 # Functions
 ############################################################
 
-def getExtractInfoFromMongo(tenant, appId)
+def getExtractInfoFromMongo(tenant, appId, delta=false)
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
 
-  match =  @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => "false"},{"body.isDelta" => false}]})
+  if delta
+    match = @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => "true"},{"body.isDelta" => true}]})
+  else
+    match = @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => "false"},{"body.isDelta" => false}]})
+  end
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
   @encryptFilePath = match['body']['path']
   @unpackDir = File.dirname(@encryptFilePath) + '/unpack'
-  @filePath = File.dirname(@encryptFilePath) + '/decrypt/' + File.basename(@encryptFilePath)
+  @fileDir = File.dirname(@encryptFilePath) + '/decrypt/'
+  @filePath = @fileDir + File.basename(@encryptFilePath)
   @tenant = tenant
-end  
+end
 
 def getMongoRecordFromJson(jsonRecord)
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant)) 
@@ -524,6 +596,7 @@ end
 
 def compareToApi(collection, collFile)
   found = false
+  uri = entityToUri(collection)
     
   collFile.each do |extractRecord|
     
@@ -531,13 +604,26 @@ def compareToApi(collection, collFile)
       
     #Make API call and get JSON for the collection
     @format = "application/vnd.slc+json"
-    uri = entityToUri(collection)
     restHttpGet("/v1/#{uri}/#{id}")
     assert(@res != nil, "Response from rest-client GET is nil")
+    assert(@res.code != 404, "Response from rest-client GET is 404")
     if @res.code == 200
       apiRecord = JSON.parse(@res.body)
       assert(apiRecord != nil, "Result of JSON parsing is nil")    
       apiRecord.delete("links")
+      if COMBINED_ENTITIES.include?(collection)
+        COMBINED_SUB_ENTITIES.each do |entity|
+          if entity.include? "student"
+            identifier = String.new(entity[7..-2])
+            identifier[0] = identifier[0].downcase
+            extractRecord[entity].sort_by! { |hsh| hsh[identifier]["identificationCode"] } if extractRecord.has_key? entity
+            apiRecord[entity].sort_by! { |hsh| hsh[identifier]["identificationCode"] } if apiRecord.has_key? entity
+          else
+            extractRecord[entity].sort_by! { |hsh| hsh["identificationCode"] } if extractRecord.has_key? entity
+            apiRecord[entity].sort_by! { |hsh| hsh["identificationCode"] } if apiRecord.has_key? entity
+          end
+        end
+      end
       assert(extractRecord.eql?(apiRecord), "Extract record doesn't match API record.\nExtractRecord:\n" +extractRecord.to_s + "\nAPIRecord:\n" + apiRecord.to_s)
       found = true
     end
@@ -570,4 +656,9 @@ def decryptFile(file)
     puts("Plain text length is #{@plain.length} and it is #{@plain}")
     puts "length #{@res.body.length}"
   end
+end
+
+def untar(filePath)
+  puts "Untarring #{@filePath}"
+  `tar -xf #{@filePath} -C #{@fileDir}` 
 end

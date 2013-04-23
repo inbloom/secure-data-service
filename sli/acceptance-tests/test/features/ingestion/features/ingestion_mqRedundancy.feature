@@ -53,9 +53,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
   And "30" seconds have elapsed
   And an activemq instance "instance1" running in "/opt/apache-activemq-5.6.0/bin" and on jmx port "1099" stops
   And a batch job for file "StoriedDataSet_IL_Daybreak.zip" is completed in database
-  And a batch job log has been created
-
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 0     |
         | assessmentFamily            | 0     |

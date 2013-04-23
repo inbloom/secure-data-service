@@ -31,7 +31,7 @@ Background: None
         And "academicSubject" should be "Mathematics"
         And "gradeLevelAssessed" should be "Eighth grade"
 #new
-     When I navigate to GET "/<SCHOOL URI>/<STUDENT SCHOOL URI>/<STUDENT SCHOOL ASSOC URI>/<STUDENT URI>/<STUDENT ASSESSMENT ASSOC URI>"
+     When I navigate to GET "/<SCHOOL URI>/<STUDENT SCHOOL URI>/<STUDENT SCHOOL ASSOC URI>/<STUDENT URI>/<STUDENT ASSESSMENT ASSOC URI>?sortBy=body.studentId"
       Then I should have a list of 7 "studentAssessment" entities
         And occurrence 2 of entity "assessmentId" should be "<'SAT' ID>"
         And occurrence 2 of entity "gradeLevelWhenAssessed" should be "Twelfth grade"

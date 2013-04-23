@@ -37,6 +37,7 @@ class InterchangeGenerator
       @batch_size = 10000
     end
     @gc = DeferredGarbageCollector.new(1.0)
+    set_delete_options(yaml)
 
     @stime = Time.now
     @entities = []
@@ -49,6 +50,7 @@ class InterchangeGenerator
 
   def start
     @interchange << @header
+    @interchange << @delete_header
   end
 
   def <<(entity)
@@ -71,6 +73,7 @@ class InterchangeGenerator
 
   def finalize
     render_batch
+    @interchange << @delete_footer
     @interchange << @footer
     @interchange.close()
     elapsed = Time.now - @stime
@@ -84,6 +87,17 @@ class InterchangeGenerator
 
   def can_write?(entity)
     @writers[entity].nil? == false
+  end
+
+  def set_delete_options(yaml)
+    deleteType = yaml['DELETE']
+    @delete_header = case deleteType
+                     when "safe" then "<Action ActionType=\"DELETE\">\n"
+                     when "force" then "<Action ActionType=\"DELETE\" Force=\"true\">\n"
+                     when "cascade" then "<Action ActionType\"DELETE\" Cascade=\"true\">\n"
+                     else ""
+                     end
+    @delete_footer = if deleteType.nil? then "" else "</Action>\n" end
   end
 
 end

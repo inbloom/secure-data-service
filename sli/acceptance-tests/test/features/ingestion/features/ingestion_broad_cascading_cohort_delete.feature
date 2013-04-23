@@ -63,10 +63,9 @@ Scenario: Delete Cohort with cascade
     And I post "SafeCohortDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeCohortDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 0" in the resulting batch job file
-	  And I should see "records failed processing: 1" in the resulting batch job file
+	And I should see "records deleted successfully: 0" in the resulting batch job file
+	And I should see "records failed processing: 1" in the resulting batch job file
    	And I should not see a warning log file created
     And I re-execute saved query "cohort" to get "1" records
     And I re-execute saved query "staffCohortAssociation" to get "30" records
@@ -88,10 +87,9 @@ Scenario: Delete Cohort with cascade
     And I post "OrphanCohortDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanCohortDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
    	And I should not see a warning log file created
     And I re-execute saved query "cohort" to get "0" records
@@ -111,10 +109,9 @@ Scenario: Delete Cohort with cascade
     And I post "OrphanCohortRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanCohortRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 1" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 1" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
    	And I should not see a warning log file created
     And I re-execute saved query "cohort" to get "0" records
@@ -141,10 +138,9 @@ Scenario: Delete Cohort with cascade
     And I post "ForceCohortDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceCohortDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 0" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 0" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentCohort.xml"    
     And I re-execute saved query "cohort" to get "0" records
@@ -173,10 +169,9 @@ Scenario: Delete Cohort with cascade
     And I post "ForceCohortRefDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceCohortRefDelete.zip" is completed in database
-    And a batch job log has been created
     And I should see "Processed 1 records." in the resulting batch job file
-	  And I should see "records deleted successfully: 0" in the resulting batch job file
-	  And I should see "records failed processing: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 0" in the resulting batch job file
+	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentCohort.xml"    
     And I re-execute saved query "cohort" to get "0" records

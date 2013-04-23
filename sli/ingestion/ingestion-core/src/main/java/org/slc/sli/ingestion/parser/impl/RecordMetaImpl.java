@@ -22,6 +22,8 @@ import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.ReferenceConverter;
 import org.slc.sli.ingestion.parser.RecordMeta;
 
+import java.util.Map;
+
 /**
  * Basic implementation of RecordMeta
  *
@@ -39,6 +41,7 @@ public final class RecordMetaImpl implements RecordMeta {
     private final boolean isCascade;
     Location sourceStartLocation;
     Location sourceEndLocation;
+    private Map<String, String> actionAttributes;
 
     public RecordMetaImpl(String name, String type) {
         this.name = name;
@@ -67,6 +70,11 @@ public final class RecordMetaImpl implements RecordMeta {
         if( doWhat.doDelete() && ReferenceConverter.isReferenceType( name ) ) {
             this.isReference = true;
         }
+    }
+
+    public RecordMetaImpl( String name, String type, boolean isList, ActionVerb doWhat, Map<String, String> actionAttributes) {
+        this(name, type, isList, doWhat);
+        this.actionAttributes = actionAttributes;
     }
 
     @Override
@@ -160,6 +168,11 @@ public final class RecordMetaImpl implements RecordMeta {
         this.originalType = originalType;
     }
 
+    public Map<String, String> getActionAttributes() {
+        return actionAttributes;
+    }
 
-
+    public void setActionAttributes(Map<String, String> actionAttributes) {
+        this.actionAttributes = actionAttributes;
+    }
 }

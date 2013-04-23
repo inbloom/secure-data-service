@@ -14,8 +14,6 @@ Scenario: Mongo Tracking
         | newBatchJob                 |
   When zip file is scp to ingestion landing zone
   And a batch job for file "Session1.zip" is completed in database
-  And a batch job log has been created
-
   Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
         | newBatchJob                 | 1     |

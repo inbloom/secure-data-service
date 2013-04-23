@@ -31,7 +31,6 @@ public enum ActionVerb implements Serializable {
 
     private final boolean isCascade;
     private final String text;
-    private Map<String, String> attributes = new HashMap<String, String>();
 
     private ActionVerb(String word) {
         this.text = word;
@@ -55,33 +54,4 @@ public enum ActionVerb implements Serializable {
         return ( this == DELETE || this == CASCADE_DELETE ) ? true : false ;
     }
 
-    public Map<String, String> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    public boolean doForceDelete() {
-        String force = attributes.get("Force");
-        if (force == null) {
-            return true;    // default
-        } else if (force.equals("true")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean doLogViolations() {
-        String logViolations = attributes.get("LogViolations");
-        if (logViolations == null) {
-            return true;    // default
-        } else if (logViolations.equals("true")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
