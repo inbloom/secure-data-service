@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                             xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force = "false">
+        <StaffEducationOrgAssignmentAssociationReference>
+            <StaffEducationOrgAssignmentAssociationIdentity>
+                <StaffReference>
+                    <StaffIdentity>
+                        <StaffUniqueStateId>ckoch</StaffUniqueStateId>
+                    </StaffIdentity>
+                </StaffReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <StaffClassification>Specialist/Consultant</StaffClassification>
+                <BeginDate>2001-08-04</BeginDate>
+            </StaffEducationOrgAssignmentAssociationIdentity>
+        </StaffEducationOrgAssignmentAssociationReference>
+    </Action>
+</InterchangeStaffAssociation>

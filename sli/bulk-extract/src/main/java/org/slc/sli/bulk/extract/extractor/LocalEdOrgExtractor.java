@@ -15,17 +15,6 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
@@ -43,6 +32,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Creates local ed org tarballs
@@ -66,12 +66,7 @@ public class LocalEdOrgExtractor {
         TenantContext.setTenantId(tenant);
         Map<String, String> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
 
-        Map<String, Set<String>> beAppsToLEAs = getBulkExtractLEAsPerApp();
-        Set<String> leas = new HashSet<String>();
-        for (String app : beAppsToLEAs.keySet()) {
-        	leas.addAll(beAppsToLEAs.get(app));
-        }
-        edorgToLEACache = buildEdorgCache(leas);
+        edorgToLEACache = buildEdOrgCache();
         
         for(String edOrg : edorgToLEACache.keySet()) {
         	File leaDirectory = new File(tenantDirectory.getAbsoluteFile(), edorgToLEACache.get(edOrg));
@@ -120,11 +115,16 @@ public class LocalEdOrgExtractor {
     /**
      * Returns a map that maps an edorg to it's top level LEA, used as a cache
      * to speed up extract
-     * 
-     * @param leas
+     *
      * @return
      */
-    private Map<String, String> buildEdorgCache(Set<String> leas) {
+    private Map<String, String> buildEdOrgCache() {
+        Map<String, Set<String>> beAppsToLEAs = getBulkExtractLEAsPerApp();
+        Set<String> leas = new HashSet<String>();
+        for (String app : beAppsToLEAs.keySet()) {
+            leas.addAll(beAppsToLEAs.get(app));
+        }
+
         Map<String, String> cache = new HashMap<String, String>();
         for (String lea : leas) {
             Set<String> children = getChildEdOrgs(Arrays.asList(lea));

@@ -41,7 +41,6 @@ Scenario: Delete Student Cohort Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|    
         | studentCohortAssociation                  |        -1| 
-#        | recordHash                                |      	 -1|
 
 
   Scenario: Safe Delete StudentCohortAssociation Reference with cascade = false
@@ -62,7 +61,7 @@ Scenario: Delete Student Cohort Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|    
         | studentCohortAssociation                  |        -1| 
-#        | recordHash                                |      	 -1|
+
 
   Scenario: Delete StudentCohortAssociation with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -84,7 +83,7 @@ Scenario: Delete Student Cohort Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                                |     delta|
       | studentCohortAssociation                  |        -1|
-#      | recordHash                                |        -1|
+
 
   Scenario: Delete StudentCohortAssociation Reference with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -106,4 +105,3 @@ Scenario: Delete Student Cohort Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                                |     delta|
       | studentCohortAssociation                  |        -1|
-#      | recordHash                                |        -1|
