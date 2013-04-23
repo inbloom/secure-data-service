@@ -53,6 +53,10 @@ Given /^I set up a fake tar file on the file system and in Mongo$/ do
   src_coll.insert({"_id" => @fake_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%a %b %d %H:%S:%M %Z %Y"), "path" => Dir.pwd + "/fake.tar"}})
 end
 
+When /^I make lea bulk extract API call for lea "(.*?)"$/ do |arg1|
+  restTls("/bulk/extract/#{arg1}")
+end
+
 When /^I make a custom bulk extract API call$/ do
   restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end

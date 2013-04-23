@@ -145,8 +145,8 @@ public class BulkExtract {
     @Path("extract/{leaId}")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getLEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("leaId") String leaId) throws Exception {
-        LOG.info("Retrieving delta bulk extract");
-        validateRequestCertificate(request);
+
+		validateRequestCertificate(request);
         if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
             throw new AccessDeniedException("User is not authorized access this extract");
         }
@@ -263,7 +263,8 @@ public class BulkExtract {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
         if (leaId != null && !leaId.isEmpty()) {
-            query.addCriteria(new NeutralCriteria("edOrgId", NeutralCriteria.OPERATOR_EQUAL, leaId));
+            query.addCriteria(new NeutralCriteria("edorg",
+                    NeutralCriteria.OPERATOR_EQUAL, leaId));
         }
         query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
@@ -297,7 +298,10 @@ public class BulkExtract {
             NeutralQuery query = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL,
                     app.getEntityId()));
             Entity appAuth = mongoEntityRepository.findOne(ApplicationAuthorizationResource.RESOURCE_NAME, query);
-            if (appAuth == null || !((List<String>) appAuth.getBody().get("edOrgs")).contains(edorgsForExtract)) {
+
+            if (appAuth == null
+                    || !((List) appAuth.getBody().get(ApplicationAuthorizationResource.EDORG_IDS))
+                            .contains(edorgsForExtract)) {
                 throw new AccessDeniedException("Application is not authorized for bulk extract");
             }
         }

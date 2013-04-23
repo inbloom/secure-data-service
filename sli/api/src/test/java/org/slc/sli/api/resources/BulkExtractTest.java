@@ -66,6 +66,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.constants.EntityNames;
@@ -414,7 +415,7 @@ public class BulkExtractTest {
         
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
-        authBody.put("edOrgs", Arrays.asList("TWO"));
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("TWO"));
         Entity mockAuth = Mockito.mock(Entity.class);
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
@@ -439,7 +440,7 @@ public class BulkExtractTest {
         // Empty auth
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
-        authBody.put("edOrgs", new ArrayList<String>());
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, new ArrayList<String>());
         Entity mockAuth = Mockito.mock(Entity.class);
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))

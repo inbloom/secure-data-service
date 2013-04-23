@@ -93,6 +93,8 @@ public class BulkExtractMongoDA {
         String entityId;
         if (isDelta) {
             entityId = tenantId + "-" + appId + "-" + edorg + "-" + date.getTime();
+        } else if (edorg != null) {
+            entityId = tenantId + "-" + appId + "-" + edorg;
         } else {
             entityId = tenantId + "-" + appId;
         }
