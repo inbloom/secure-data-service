@@ -53,50 +53,38 @@ public class VersionFilter implements ContainerRequestFilter {
 
         if (!segments.isEmpty()) {
             String version = segments.get(0).getPath();
-            boolean noVersion = version.equals("bulk");
+            boolean isBulkNonVersion = version.equals("bulk");
 
             SortedSet<String> minorVersions = resourceEndPoint.getNameSpaceMappings().get(version);
 
             String newVersion = null;
 
-            if(noVersion || (segments.size() > 1 && segments.get(1).getPath().equals("bulk"))) {
-                if (noVersion) {
-                    //there is no version specified in the request for bulk extract
-                    version = "";
-                } else {
+            if(isBulkNonVersion || (segments.size() > 1 && segments.get(1).getPath().equals("bulk"))) {
+                if (!isBulkNonVersion) {
                     //remove the version
                     segments.remove(0);
+                } else {
+                    //there is no version specified in the request for bulk extract
+                    version = "";
                 }
 
-                newVersion = getBulkExtractVersion(version);
+                // Bulk extract always returns latest API version.
+                newVersion = getLatestApiVersion(version);
+
+                updateContainerRequest(containerRequest, segments, newVersion);
+                info("Version Rewrite: {} --> {}", new Object[] { version, newVersion });
 
             } else if ((minorVersions != null) && !minorVersions.isEmpty()) {
                 segments.remove(0);
-                newVersion = version + "." + minorVersions.last();
-            }
 
-            if(newVersion != null) {
+                newVersion = version + "." + minorVersions.last();
+
                 updateContainerRequest(containerRequest, segments, newVersion);
                 info("Version Rewrite: {} --> {}", new Object[] { version, newVersion });
             }
         }
 
         return containerRequest;
-    }
-
-    /**
-     * @param version
-     * @return
-     */
-    private String getBulkExtractVersion(String version) {
-        String newVersion = null;
-        // Bulk extract always returns latest API version.
-        if(validVersion(version)) {
-            newVersion = getLatestApiVersion(version);
-        } else {
-            newVersion = version;
-        }
-        return newVersion;
     }
 
     private ContainerRequest updateContainerRequest(ContainerRequest containerRequest, List<PathSegment> segments, String newVersion) {
@@ -134,48 +122,10 @@ public class VersionFilter implements ContainerRequestFilter {
                   latestApiVersion = fullVersion;
               }
       }
-      if(requestedVersion == null ||requestedVersion.equals("")) {
-          return latestApiVersion;
+      if(!requestedVersion.equals("") && !requestedVersion.matches(VERSION_PATTERN)) {
+        return requestedVersion;
       }
-      return compareVersion(requestedVersion, latestApiVersion) ? requestedVersion : latestApiVersion;
-    }
 
-    /**
-     * Compre the 2 versions, assuming version format is vxx.xx, (define in VERSION_PATTERN).
-     * @param version1 first version
-     * @param version2 second version
-     * @return true if version1 is bigger then version2
-     */
-    private static boolean compareVersion(String version1, String version2) {
-        String [] v1 = version1.split("\\.");
-        String [] v2 = version2.split("\\.");
-        int major1 = 0, minor1 = 0;
-        int major2 = 0, minor2 = 0;
-
-        if(v1.length > 0) {
-            major1 = Integer.parseInt(v1[0].substring(1));
-            if(v1.length > 1) {
-                minor1 = Integer.parseInt(v1[1]);
-            }
-        }
-
-        if(v2.length > 0) {
-            major2 = Integer.parseInt(v2[0].substring(1));
-            if(v2.length > 1) {
-                minor2 = Integer.parseInt(v2[1]);
-            }
-        }
-
-        if(major1 > major2) {
-            return true;
-        } else if(major1 == major2) {
-            return minor1 > minor2;
-        }
-        return false;
-
-    }
-
-    private static boolean validVersion(String version) {
-        return version.equals("") || version.matches(VERSION_PATTERN);
+      return requestedVersion.compareToIgnoreCase(latestApiVersion) > 0 ? requestedVersion : latestApiVersion;
     }
 }
