@@ -15,6 +15,18 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
@@ -33,17 +45,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 /**
  * Creates local ed org tarballs
  */
@@ -51,7 +52,7 @@ public class LocalEdOrgExtractor {
 
     private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
     private Repository<Entity> repository;
-    private Map<String, String> edOrgToLEACache;
+    private Map<String, Set<String>> leaToEdorgCache;
     private EntityExtractor entityExtractor;
     private Map<String, String> entitiesToCollections;
     private BulkExtractMongoDA bulkExtractMongoDA;
@@ -66,15 +67,16 @@ public class LocalEdOrgExtractor {
         TenantContext.setTenantId(tenant);
         Map<String, String> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
 
-        edOrgToLEACache = buildEdOrgCache();
+        leaToEdorgCache = buildEdOrgCache();
         
-        for(String edOrg : edOrgToLEACache.keySet()) {
-        	File leaDirectory = new File(tenantDirectory.getAbsoluteFile(), edOrgToLEACache.get(edOrg));
+        for (String lea : new HashSet<String>(leaToEdorgCache.keySet())) {
+            File leaDirectory = new File(tenantDirectory.getAbsoluteFile(), lea);
         	leaDirectory.mkdirs();
             ExtractFile extractFile = new ExtractFile(leaDirectory,
-                    getArchiveName(edOrgToLEACache.get(edOrg), startTime.toDate()), appPublicKeys);
+ getArchiveName(lea, startTime.toDate()),
+                    appPublicKeys);
 			Criteria criteria = new Criteria("_id");
-			criteria.is(edOrg);
+            criteria.in(new ArrayList<String>(leaToEdorgCache.get(lea)));
 			Query query = new Query(criteria);
 			entityExtractor.setExtractionQuery(query);
 			entityExtractor.extractEntities(extractFile, "educationOrganization");
@@ -97,9 +99,10 @@ public class LocalEdOrgExtractor {
 
             // update db to point to new archive
             for(Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
-            	Set<String> apps = leaToApps.get(edOrgToLEACache.get(edOrg));
+                Set<String> apps = leaToApps.get(lea);
             	for(String app : apps) {
-            		bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), app, startTime.toDate(), false, edOrgToLEACache.get(edOrg));
+                    bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), app,
+                            startTime.toDate(), false, lea);
             	}
             }
 
@@ -125,19 +128,20 @@ public class LocalEdOrgExtractor {
      *
      * @return
      */
-    private Map<String, String> buildEdOrgCache() {
+    private Map<String, Set<String>> buildEdOrgCache() {
         Map<String, Set<String>> beAppsToLEAs = getBulkExtractLEAsPerApp();
         Set<String> leas = new HashSet<String>();
         for (String app : beAppsToLEAs.keySet()) {
             leas.addAll(beAppsToLEAs.get(app));
         }
+        LOG.info("Authorized edorgs for extract are : {}", leas);
 
-        Map<String, String> cache = new HashMap<String, String>();
+        Map<String, Set<String>> cache = new HashMap<String, Set<String>>();
         for (String lea : leas) {
+            // Add the leas to the cache so they can be used without thinking.
             Set<String> children = getChildEdOrgs(Arrays.asList(lea));
-            for (String child : children) {
-                cache.put(child, lea);
-            }
+            children.add(lea);
+            cache.put(lea, children);
         }
         return cache;
     }
