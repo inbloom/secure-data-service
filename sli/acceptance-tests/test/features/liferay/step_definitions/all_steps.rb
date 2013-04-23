@@ -70,7 +70,7 @@ Then /^I should be on Portal home page$/ do
     attempts = 1
     while attempts < 6 && @driver.page_source.include?("d_popup")
       attempts += 1
-      puts "EULA still present.  Trying attempt #{attempt}..."
+      puts "EULA still present.  Trying attempt #{attempts}..."
       accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
       accept.click
     end
