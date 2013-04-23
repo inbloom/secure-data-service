@@ -19,6 +19,7 @@ import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -50,99 +51,59 @@ public class LocalEdOrgExtractor {
 
     private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
     private Repository<Entity> repository;
-
-    private Set<String> extractLEAs;
-    private Map<String, String> edOrgToLEA;
-    private Map<String, ExtractFile> edOrgToLEAExtract;
-
+    private Map<String, String> edOrgToLEACache;
     private EntityExtractor entityExtractor;
     private Map<String, String> entitiesToCollections;
     private BulkExtractMongoDA bulkExtractMongoDA;
-
+    private ManifestFile metaDataFile;
     private String baseDirectory;
-
-    private String tenant;
-    private File tenantDirectory;
-    private DateTime startTime;
 
     /**
      * Creates unencrypted LEA bulk extract files if any are needed for the given tenant
      * @param tenant name of tenant to extract
      */
     public void execute(String tenant, File tenantDirectory, DateTime startTime) {
-
-        // 1. SETUP
-        this.tenant = tenant;
-        this.tenantDirectory = tenantDirectory;
-        this.startTime = startTime;
-
         TenantContext.setTenantId(tenant);
+        Map<String, String> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
 
-        edOrgToLEA = buildEdOrgCache();
-        edOrgToLEAExtract = buildLEAToExtractFile();
-
-        // 2. EXTRACT
-        extractEdOrgs();
-        // TODO extract other entities
-
-        // 3. ARCHIVE
-        for(String lea : getBulkExtractLEAs()) {
-            // close files
-            edOrgToLEAExtract.get(lea).closeWriters();
-
-            // generate lea manifest file
-            try {
-                edOrgToLEAExtract.get(lea).getManifestFile().generateMetaFile(startTime);
-            } catch (IOException e) {
-                LOG.error("Error creating metadata file: {}", e.getMessage());
-            }
-
-            // generate lea archive
-            try {
-                edOrgToLEAExtract.get(lea).generateArchive();
-            } catch (Exception e) {
-                LOG.error("Error generating archive file: {}", e.getMessage());
-            }
-
-            // update db to point to new archive
-            Map<String, Set<String>> leaToApps = leaToApps();
-            for(Entry<String, File> archiveFile : edOrgToLEAExtract.get(lea).getArchiveFiles().entrySet()) {
-                Set<String> apps = leaToApps.get(lea);
-                for(String app : apps) {
-                    bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), app, startTime.toDate(), false, lea);
-                }
-            }
-        }
-    }
-
-    private void extractEdOrgs() {
-        for(String edOrg : edOrgToLEA.keySet()) {
-            ExtractFile extractFile = edOrgToLEAExtract.get(edOrg);
+        edOrgToLEACache = buildEdOrgCache();
+        
+        for(String edOrg : edOrgToLEACache.keySet()) {
+        	File leaDirectory = new File(tenantDirectory.getAbsoluteFile(), edOrgToLEACache.get(edOrg));
+        	leaDirectory.mkdirs();
+            ExtractFile extractFile = new ExtractFile(leaDirectory,
+                    getArchiveName(edOrgToLEACache.get(edOrg), startTime.toDate()), appPublicKeys);
 			Criteria criteria = new Criteria("_id");
 			criteria.is(edOrg);
 			Query query = new Query(criteria);
 			entityExtractor.setExtractionQuery(query);
 			entityExtractor.extractEntities(extractFile, "educationOrganization");
-        }
-    }
+			extractFile.closeWriters();
+            try {
+                metaDataFile = extractFile.getManifestFile();
+                metaDataFile.generateMetaFile(startTime);
+            } catch (IOException e) {
+                LOG.error("Error creating metadata file: {}", e.getMessage());
+            }
 
-    private Map<String, ExtractFile> buildLEAToExtractFile() {
-        Map<String, ExtractFile> edOrgToLEAExtract = new HashMap<String, ExtractFile>();
+            // generate archive
+            try {
+                extractFile.generateArchive();
+            } catch (Exception e) {
+                LOG.error("Error generating archive file: {}", e.getMessage());
+            }
+            
+            Map<String, Set<String>> leaToApps = leaToApps();
 
-        Map<String, String> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
-        for (String lea : getBulkExtractLEAs()) {
-
-            File leaDirectory = new File(tenantDirectory.getAbsoluteFile(), lea);
-            leaDirectory.mkdirs();
-            ExtractFile extractFile = new ExtractFile(leaDirectory, getArchiveName(lea, startTime.toDate()), appPublicKeys);
-
-            edOrgToLEAExtract.put(lea, extractFile);
-            for (String child : getChildEdOrgs(Arrays.asList(lea))) {
-                edOrgToLEAExtract.put(child, extractFile);
+            // update db to point to new archive
+            for(Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
+            	Set<String> apps = leaToApps.get(edOrgToLEACache.get(edOrg));
+            	for(String app : apps) {
+            		bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), app, startTime.toDate(), false, edOrgToLEACache.get(edOrg));
+            	}
             }
 
         }
-        return edOrgToLEAExtract;
     }
 
     /**
@@ -158,17 +119,6 @@ public class LocalEdOrgExtractor {
         return leas;
     }
 
-
-    private Set<String> getBulkExtractLEAs() {
-        if (extractLEAs == null) {
-            extractLEAs = new HashSet<String>();
-            for (Set<String> appLeas : getBulkExtractLEAsPerApp().values()) {
-                extractLEAs.addAll(appLeas);
-            }
-        }
-        return extractLEAs;
-    }
-
     /**
      * Returns a map that maps an edorg to it's top level LEA, used as a cache
      * to speed up extract
@@ -176,9 +126,14 @@ public class LocalEdOrgExtractor {
      * @return
      */
     private Map<String, String> buildEdOrgCache() {
-        Map<String, String> cache = new HashMap<String, String>();
+        Map<String, Set<String>> beAppsToLEAs = getBulkExtractLEAsPerApp();
+        Set<String> leas = new HashSet<String>();
+        for (String app : beAppsToLEAs.keySet()) {
+            leas.addAll(beAppsToLEAs.get(app));
+        }
 
-        for (String lea : getBulkExtractLEAs()) {
+        Map<String, String> cache = new HashMap<String, String>();
+        for (String lea : leas) {
             Set<String> children = getChildEdOrgs(Arrays.asList(lea));
             for (String child : children) {
                 cache.put(child, lea);
