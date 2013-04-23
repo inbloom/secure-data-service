@@ -18,6 +18,7 @@ package org.slc.sli.ingestion;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,11 +33,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 /**
-* This is to support Deletes by Reference ( in their current form ): mapping fields in the ReferenceTypes
-* to the corresponding EntityType ( for the cases where field names might be different ), to ensure that all the fields
-* required for the corresponding enitity's natural keys are present.
-* Map is currently defined in deleteHelper/referenceExceptionMap.json
-*/
+ * This is to support Deletes by Reference ( in their current form ): mapping fields in the
+ * ReferenceTypes
+ * to the corresponding EntityType ( for the cases where field names might be different ), to ensure
+ * that all the fields
+ * required for the corresponding enitity's natural keys are present.
+ * Map is currently defined in deleteHelper/referenceExceptionMap.json
+ */
 
 public class ReferenceHelper implements ResourceLoaderAware {
 
@@ -77,11 +80,11 @@ public class ReferenceHelper implements ResourceLoaderAware {
             }
 
         } catch (JsonGenerationException e) {
-            LOG.error(e.getStackTrace().toString());
+            LOG.error( Arrays.toString( e.getStackTrace()));
         } catch (JsonMappingException e) {
-            LOG.error(e.getStackTrace().toString());
+            LOG.error(Arrays.toString(e.getStackTrace()));
         } catch (IOException e) {
-            LOG.error(e.getStackTrace().toString());
+            LOG.error(Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -93,27 +96,25 @@ public class ReferenceHelper implements ResourceLoaderAware {
         }
 
         final Map<String, String> derivedFields = (Map<String, String>) converterMap.get(KEY_ALL);
-        if (derivedFields != null) {
-            fillMap(attributes, derivedFields);
-        }
 
         final Map<String, String> refMap = (Map<String, String>) converterMap.get(referenceName);
-        if (refMap == null) {
-            return;
-        }
+        if (refMap == null && derivedFields != null) {
+            fillMap(attributes, derivedFields);
+        } else if ( refMap != null ){
 
-        for (String fromField : refMap.keySet()) {
-            // split source ref path and look for lists in embedded objects
-            String[] fromPath = fromField.split(PATH_SEPARATOR);
-            String[] toPath = refMap.get(fromField).split(PATH_SEPARATOR);
+            for (String fromField : refMap.keySet()) {
+                // split source ref path and look for lists in embedded objects
+                String[] fromPath = fromField.split(PATH_SEPARATOR);
+                String[] toPath = refMap.get(fromField).split(PATH_SEPARATOR);
 
-            Object value = getAttribute( fromPath, attributes, referenceName);
-            buildMap(toPath, attributes, value );
+                Object value = getAttribute(fromPath, attributes, referenceName);
+                buildMap(toPath, attributes, value);
+            }
         }
 
     }
 
-    private Object getAttribute(String[] fromPath, Map<String, Object> source, String referenceName ) {
+    private Object getAttribute(String[] fromPath, Map<String, Object> source, String referenceName) {
         Object result = null;
 
         Map<String, Object> from = source;
@@ -123,7 +124,8 @@ public class ReferenceHelper implements ResourceLoaderAware {
              * Something is wrong: we are not at the end of the path yet
              */
             if (i < (fromPath.length - 1) && !(result instanceof Map)) {
-                LOG.error( "Error occured while building reference subsitutions for {} field {}", referenceName, fromPath[ i ]);
+                LOG.error("Error occured while building reference subsitutions for {} field {}", referenceName,
+                        fromPath[i]);
                 return null;
             }
         }
@@ -131,22 +133,21 @@ public class ReferenceHelper implements ResourceLoaderAware {
     }
 
     @SuppressWarnings("unchecked")
-    private void buildMap(String[] path, Map<String, Object> curNode, Object value ) {
+    private void buildMap(String[] path, Map<String, Object> curNode, Object value) {
         int lastIndex = path.length - 1;
 
-        Map< String, Object> top = curNode;
+        Map<String, Object> top = curNode;
 
-        for ( int i = 0 ; i < lastIndex ; ++i ) {
-            if( top.containsKey( path[ i ] ) ) {
-               top = (Map<String, Object>) top.get( path[ i ] );
+        for (int i = 0; i < lastIndex; ++i) {
+            if (top.containsKey(path[i])) {
+                top = (Map<String, Object>) top.get(path[i]);
             } else {
-                top.put( path[ i ], new HashMap<String, Object>());
-                top = (Map<String, Object>) top.get( path[ i ]);
+                top.put(path[i], new HashMap<String, Object>());
+                top = (Map<String, Object>) top.get(path[i]);
             }
         }
-        top.put( path[ lastIndex ], value);
+        top.put(path[lastIndex], value);
     }
-
 
     private void fillMap(Map<String, Object> attributes, Map<String, String> corrections) {
 
