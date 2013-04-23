@@ -70,6 +70,7 @@ public class LocalEdOrgExtractor {
         
         for(String edOrg : edorgToLEACache.keySet()) {
         	File leaDirectory = new File(tenantDirectory.getAbsoluteFile(), edorgToLEACache.get(edOrg));
+        	leaDirectory.mkdirs();
             ExtractFile extractFile = new ExtractFile(leaDirectory,
                     getArchiveName(edorgToLEACache.get(edOrg), startTime.toDate()), appPublicKeys);
 			Criteria criteria = new Criteria("_id");
