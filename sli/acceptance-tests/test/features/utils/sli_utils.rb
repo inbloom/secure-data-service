@@ -707,6 +707,7 @@ def retryOnFailure(naptime = 2, retries = 5, &block)
     end
     begin
       yield
+      return
     rescue SystemExit, Interrupt
       raise
     rescue Exception => e
