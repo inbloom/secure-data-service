@@ -33,6 +33,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -71,7 +72,7 @@ import com.sun.jersey.api.core.HttpRequestContext;
  */
 @Component
 @Path("/bulk")
-@Produces({ "application/x-tar" })
+@Produces({ "application/x-tar"})
 public class BulkExtract {
 
     private static final Logger LOG = LoggerFactory.getLogger(BulkExtract.class);
@@ -244,9 +245,8 @@ public class BulkExtract {
 
         if (entity == null) {
             throw new AccessDeniedException("Could not find application with client_id=" + clientId);
-        } else if (entity.getBody().get("public_key") == null) {
-            throw new AccessDeniedException("Missing public_key attribute on application entity. client_id=" + clientId);
-        }
+        } 
+        
         return entity;
     }
 
