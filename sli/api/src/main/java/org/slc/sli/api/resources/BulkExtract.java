@@ -285,6 +285,7 @@ public class BulkExtract {
     /**
      * @throws AccessDeniedException if the application is not BEEP enabled
      */
+    @SuppressWarnings("unchecked")
     private void checkApplicationAuthorization(String edorgsForExtract) throws AccessDeniedException {
         OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
         Entity app = getApplication(auth);
@@ -296,7 +297,7 @@ public class BulkExtract {
             NeutralQuery query = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL,
                     app.getEntityId()));
             Entity appAuth = mongoEntityRepository.findOne(ApplicationAuthorizationResource.RESOURCE_NAME, query);
-            if (appAuth == null || !((List) appAuth.getBody().get("edOrgs")).contains(edorgsForExtract)) {
+            if (appAuth == null || !((List<String>) appAuth.getBody().get("edOrgs")).contains(edorgsForExtract)) {
                 throw new AccessDeniedException("Application is not authorized for bulk extract");
             }
         }

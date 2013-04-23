@@ -17,6 +17,7 @@ package org.slc.sli.bulk.extract.extractor;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -64,7 +65,7 @@ public class LocalEdOrgExtractor {
      */
     public void execute(String tenant, File tenantDirectory, DateTime startTime) {
         TenantContext.setTenantId(tenant);
-        Map<String, String> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
+        Map<String, PublicKey> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
 
         Map<String, Set<String>> beAppsToLEAs = getBulkExtractLEAsPerApp();
         Set<String> leas = new HashSet<String>();
