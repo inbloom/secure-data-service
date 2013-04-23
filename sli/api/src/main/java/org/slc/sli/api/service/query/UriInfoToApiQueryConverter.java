@@ -17,6 +17,8 @@
 
 package org.slc.sli.api.service.query;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
@@ -169,6 +171,13 @@ public class UriInfoToApiQueryConverter {
                 for (String criteriaString : queryString.split("&")) {
                     String modifiedCriteriaString = URLDecoder.decode(criteriaString, "UTF-8");
                     NeutralCriteria neutralCriteria = new NeutralCriteria(modifiedCriteriaString);
+                    
+					if (modifiedCriteriaString.matches("q=[0-9].*")) {
+						String value = (String) neutralCriteria.getValue();
+						value  = "\"" + value + "\"";
+						neutralCriteria.setValue(value);
+					}
+					
                     NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
                     if (nci == null) {
                         if (!neutralCriteria.getKey().equals("full-entities")
