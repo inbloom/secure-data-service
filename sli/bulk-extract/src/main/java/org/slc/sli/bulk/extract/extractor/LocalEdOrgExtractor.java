@@ -85,12 +85,14 @@ public class LocalEdOrgExtractor {
                 LOG.error("Error creating metadata file: {}", e.getMessage());
             }
 
+            // generate archive
             try {
                 extractFile.generateArchive();
             } catch (Exception e) {
                 LOG.error("Error generating archive file: {}", e.getMessage());
             }
 
+            // update db to point to new archive
             for(Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
                 bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), null, startTime.toDate(), false, edorgToLEACache.get(edOrg));
             }
