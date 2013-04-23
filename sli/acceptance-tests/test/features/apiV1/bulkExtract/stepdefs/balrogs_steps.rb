@@ -285,10 +285,10 @@ Then /^I see that the combined file matches the tar file$/ do
   assert(File.size(@received_file) == @total_content_length.to_i, "Combined file isn't the same size as the tar file.")
   received_contents = File.open(@received_file, 'rb') { |f| f.read}
   received_hash = Digest::SHA1.hexdigest(received_contents)
-  puts "Hash of combined file is #{received_hash}"
-  sample_contents = File.open(@orig_content, 'rb') { |f| f.read}  
-  sample_hash = Digest::SHA1.hexdigest(sample_contents)
-  puts "Hash of the tar file is #{sample_hash}"
+  #puts "Hash of combined file is #{received_hash}"
+  #sample_contents = File.open(@orig_content, 'rb') { |f| f.read}
+  sample_hash = Digest::SHA1.hexdigest(@orig_content)
+  #puts "Hash of the tar file is #{sample_hash}"
   assert(received_hash == sample_hash, "Combined file doesn't match the tar file.")
   File.delete(@received_file)
   @received_file = nil
@@ -349,7 +349,7 @@ Then /^I store the contents of the second call$/ do
   res_content = @res.body.split(%r{--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
   @content2 = res_content[1].strip()
   puts @content2.size
-  @content4 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0]
+  @content4 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0].strip()
   puts @content4.size
 end
 
