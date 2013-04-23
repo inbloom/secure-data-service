@@ -259,7 +259,7 @@ public class BulkExtract {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
         if (leaId != null && !leaId.isEmpty()) {
-            query.addCriteria(new NeutralCriteria(ApplicationAuthorizationResource.EDORG_IDS,
+            query.addCriteria(new NeutralCriteria("edorg",
                     NeutralCriteria.OPERATOR_EQUAL, leaId));
         }
         query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));

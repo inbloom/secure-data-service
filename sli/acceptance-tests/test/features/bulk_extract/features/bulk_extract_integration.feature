@@ -55,7 +55,6 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  teacherSchoolAssociation              |
    |  teacherSectionAssociation             |
    
-   @wip
    Scenario: Trigger a bulk extract on ingested data and retrieve the lea extract through the api
       Given I trigger a bulk extract
 
