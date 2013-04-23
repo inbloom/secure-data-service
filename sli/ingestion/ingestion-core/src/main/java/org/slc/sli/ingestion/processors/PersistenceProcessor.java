@@ -320,6 +320,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                             NeutralRecord record = recordStore.get(persist.indexOf(entity));
                             Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
                             currentMetric.setDeletedCount(currentMetric.getDeletedCount() + 1);
+                            // TODO report child delete counts separately if needed when cascade delete occurs
                             currentMetric.setDeletedChildCount(currentMetric.getDeletedChildCount() + Long.parseLong(entity.getDeleteAffectedCount()) - 1);
                         }
                     }

@@ -38,7 +38,6 @@ Scenario: Delete Student Competency with cascade
     And I should see "records considered for processing: 1" in the resulting batch job file
     And I should see "records ingested successfully: 0" in the resulting batch job file
     And I should see "records deleted successfully: 0" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
  	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -69,7 +68,6 @@ Scenario: Delete Student Competency with cascade
     And I should see "records considered for processing: 1" in the resulting batch job file
     And I should see "records ingested successfully: 0" in the resulting batch job file
     And I should see "records deleted successfully: 0" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
  	And I should see "Not all records were processed completely due to errors." in the resulting batch job file

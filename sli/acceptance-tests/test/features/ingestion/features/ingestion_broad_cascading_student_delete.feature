@@ -377,7 +377,6 @@ Scenario: Delete Student with cascade = false and force = true, log violations =
     And a batch job for file "ForceStudentDelete.zip" is completed in database
 	And I should see "Processed 1 records." in the resulting batch job file
 	And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
@@ -496,7 +495,6 @@ Scenario: Delete Student Ref with cascade = false and force = true, log violatio
     And a batch job for file "ForceStudentRefDelete.zip" is completed in database
 	And I should see "Processed 1 records." in the resulting batch job file
 	And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file

@@ -22,7 +22,6 @@ Scenario: Delete Grade with cascade
 	And I should see "records considered for processing: 1" in the resulting batch job file
 	And I should see "records ingested successfully: 0" in the resulting batch job file
 	And I should see "records deleted successfully: 1" in the resulting batch job file
-	And I should see "child records deleted successfully: 1" in the resulting batch job file
 	And I should see "records failed processing: 0" in the resulting batch job file
 	And I should see "records not considered for processing: 0" in the resulting batch job file
 	And I should see "All records processed successfully." in the resulting batch job file
@@ -54,7 +53,6 @@ Scenario: Safe delete Grade without cascade, using just Action Type of Delete an
     And I should see "records considered for processing: 1" in the resulting batch job file
     And I should see "records ingested successfully: 0" in the resulting batch job file
     And I should see "records deleted successfully: 0" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
  	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -87,7 +85,6 @@ Scenario: Safe delete Grade by reference without cascade
     And I should see "records considered for processing: 1" in the resulting batch job file
     And I should see "records ingested successfully: 0" in the resulting batch job file
     And I should see "records deleted successfully: 0" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
  	And I should see "Not all records were processed completely due to errors." in the resulting batch job file

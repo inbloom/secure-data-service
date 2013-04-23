@@ -140,7 +140,6 @@ Scenario: Delete LearningStandard with default settings (Confirm that by default
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceLearningStandardDelete.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
@@ -169,7 +168,6 @@ Scenario: Delete LearningStandard Reference with default settings (Confirm that 
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceLearningStandardRefDelete.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
