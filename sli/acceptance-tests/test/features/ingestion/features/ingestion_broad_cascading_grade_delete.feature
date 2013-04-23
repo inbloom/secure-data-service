@@ -60,6 +60,9 @@ Scenario: Safe delete Grade without cascade, using just Action Type of Delete an
  	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
  	And I should see "Processed 1 records." in the resulting batch job file
     And I should see "CORE_0066" in the resulting error log file for "InterchangeStudentGrades.xml"
+    And the only errors I want to see in the resulting error log file for "InterchangeStudentGrades.xml" are below
+        | code    |
+        | CORE_0066|
     And I should not see a warning log file created
     And I re-execute saved query "grade" to get "1" records
     And I re-execute saved query "reportCard" to get "1" records
@@ -90,6 +93,9 @@ Scenario: Safe delete Grade by reference without cascade
  	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
  	And I should see "Processed 1 records." in the resulting batch job file
     And I should see "CORE_0066" in the resulting error log file for "InterchangeStudentGrades.xml"
+    And the only errors I want to see in the resulting error log file for "InterchangeStudentGrades.xml" are below
+        | code    |
+        | CORE_0066|
     And I should not see a warning log file created
     And I re-execute saved query "grade" to get "1" records
     And I re-execute saved query "reportCard" to get "1" records
@@ -176,6 +182,9 @@ Scenario: Force delete Grade cascade=false, force=true
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentGrades.xml"
+    And the only errors I want to see in the resulting warning log file for "InterchangeStudentGrades.xml" are below
+        | code    |
+        | CORE_0066|
     And I re-execute saved query "grade" to get "0" records
     And I re-execute saved query "reportCard" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"
@@ -206,6 +215,9 @@ Scenario: Force delete Grade by reference cascade=false, force=true
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentGrades.xml"
+    And the only errors I want to see in the resulting warning log file for "InterchangeStudentGrades.xml" are below
+        | code    |
+        | CORE_0066|
     And I re-execute saved query "grade" to get "0" records
     And I re-execute saved query "reportCard" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"

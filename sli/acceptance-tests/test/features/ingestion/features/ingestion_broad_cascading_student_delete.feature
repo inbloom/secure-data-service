@@ -187,6 +187,9 @@ Scenario: Delete Student with cascade = false
     And I should see "records deleted successfully: 0" in the resulting batch job file
 	And I should see "records failed processing: 1" in the resulting batch job file
     And I should see "CORE_0066" in the resulting error log file for "InterchangeStudentParent.xml"
+       And the only errors I want to see in the resulting error log file for "InterchangeStudentParent.xml" are below
+        | code    |
+        | CORE_0066|
     And I should not see a warning log file created
     And I re-execute saved query "student" to get "1" records
     And I re-execute saved query "attendance" to get "2" records
@@ -265,6 +268,9 @@ Scenario: Delete Orphan Student Reference with cascade = false, attempt subseque
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
     And I should see "CORE_0071" in the resulting error log file for "InterchangeStudentParent.xml"
+    And the only errors I want to see in the resulting error log file for "InterchangeStudentParent.xml" are below
+        | code    |
+        | CORE_0071|
     And I should not see a warning log file created
     And I re-execute saved query "student" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
@@ -376,6 +382,9 @@ Scenario: Delete Student with cascade = false and force = true, log violations =
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentParent.xml"
+    And the only errors I want to see in the resulting warning log file for "InterchangeStudentParent.xml" are below
+        | code    |
+        | CORE_0066|
     And I should see "Child reference of entity type attendance" in the resulting warning log file for "InterchangeStudentParent.xml"
     And I should see "Child reference of entity type studentSchoolAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
     And I should see "Child reference of entity type grade" in the resulting warning log file for "InterchangeStudentParent.xml"
@@ -492,6 +501,9 @@ Scenario: Delete Student Ref with cascade = false and force = true, log violatio
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentParent.xml"
+     And the only errors I want to see in the resulting warning log file for "InterchangeStudentParent.xml" are below
+        | code    |
+        | CORE_0066|
     And I should see "Child reference of entity type attendance" in the resulting warning log file for "InterchangeStudentParent.xml"
     And I should see "Child reference of entity type studentSchoolAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
     And I should see "Child reference of entity type grade" in the resulting warning log file for "InterchangeStudentParent.xml"

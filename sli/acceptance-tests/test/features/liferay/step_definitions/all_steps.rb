@@ -61,6 +61,13 @@ Then /^I should be on Portal home page$/ do
   sleep 2
   home = @driver.find_elements(:class, "sli_home_title")
   assert(home.length == 1, "User is not on the portal home page. Current URL: " + @driver.current_url)
+
+  (1..5).each do |i|
+    puts "Checking for EULA... attempt #{i}"
+    break if (@driver.page_source.include?("d_popup"))
+    sleep 2
+  end
+
   if (@driver.page_source.include?("d_popup"))
     accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
     puts accept.inspect
@@ -70,7 +77,7 @@ Then /^I should be on Portal home page$/ do
     attempts = 1
     while attempts < 6 && @driver.page_source.include?("d_popup")
       attempts += 1
-      puts "EULA still present.  Trying attempt #{attempt}..."
+      puts "EULA still present.  Trying attempt #{attempts}..."
       accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
       accept.click
     end

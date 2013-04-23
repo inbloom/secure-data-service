@@ -54,6 +54,63 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  teacher                               |
    |  teacherSchoolAssociation              |
    |  teacherSectionAssociation             |
+   
+   Scenario: Trigger a bulk extract on ingested data and retrieve the lea extract through the api
+      Given I trigger a bulk extract
+
+      And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+      And in my list of rights I have BULK_EXTRACT
+      #When I make lea bulk extract API call for lea "BLOOP"
+      #Then I get back a response code of "403"
+      When I make lea bulk extract API call for lea "b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
+      When the return code is 200 I get expected tar downloaded
+      Then I check the http response headers
+      When I decrypt and save the extracted file
+      And I verify that an extract tar file was created for the tenant "Midgar"
+      And there is a metadata file in the extract
+      And the extract contains a file for each of the following entities:
+      |  entityType                            |
+      #|  assessment                            |              
+      #|  attendance                            |
+      #|  cohort                                |
+      #|  competencyLevelDescriptor             |
+      #|  course                                |
+      #|  courseOffering                        |
+      #|  courseTranscript                      |
+      #|  disciplineIncident                    |
+      #|  disciplineAction                      |
+      |  educationOrganization                 |
+      #|  grade                                 |
+      #|  gradebookEntry                        |
+      #|  gradingPeriod                         |
+      #|  graduationPlan                        |
+      #|  learningObjective                     |
+      #|  learningStandard                      |
+      #|  parent                                |
+      #|  program                               |
+      #|  reportCard                            |
+      #|  school                                |
+      #|  section                               |
+      #|  session                               |
+      #|  staff                                 |
+      #|  staffCohortAssociation                |
+      #|  staffEducationOrganizationAssociation |
+      #|  staffProgramAssociation               |
+      #|  student                               |
+      #|  studentAcademicRecord                 |
+      #|  studentAssessment                     |
+      #|  studentCohortAssociation              |
+      #|  studentCompetency                     |
+      #|  studentCompetencyObjective            |
+      #|  studentDisciplineIncidentAssociation  |
+      #|  studentProgramAssociation             |
+      #|  studentGradebookEntry                 |
+      #|  studentSchoolAssociation              |
+      #|  studentSectionAssociation             |
+      #|  studentParentAssociation              |
+      #|  teacher                               |
+      #|  teacherSchoolAssociation              |
+      #|  teacherSectionAssociation             |
 
 
 Scenario: Validate the Last-Modified header is in a valid http date format

@@ -24,6 +24,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -34,7 +35,9 @@ import org.apache.camel.Processor;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
@@ -77,7 +80,7 @@ import org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator;
  *
  */
 @Component
-public class ControlFilePreProcessor implements Processor {
+public class ControlFilePreProcessor implements Processor, InitializingBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControlFilePreProcessor.class);
 
@@ -99,14 +102,23 @@ public class ControlFilePreProcessor implements Processor {
     @Autowired
     private AbstractMessageReport databaseMessageReport;
 
-
     @Autowired
     private TenantDBIndexValidator tenantDBIndexValidator;
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Value("${sli.bulk.extract.deltasEnabled:false}")
+    private boolean deltasEnabled;
+
     private enum TenantStatus {TENANT_READY, TENANT_NOT_READY, TENANT_SPINUP_FAILED}
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (deltasEnabled) {
+            shardCollections.add("deltas");
+        }
+    }
 
     /**
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
@@ -205,8 +217,8 @@ public class ControlFilePreProcessor implements Processor {
 
             if (onboardingLockIsAcquired) {
 
-                String result = runDbSpinUpScripts(tenantId);
-                if (result != null) {
+                boolean result = runDbSpinUpScripts(tenantId);
+                if (!result) {
                     //Unset isReady field so that future run of the spinup script works
                     tenantDA.unsetTenantReadyFlag(tenantId);
                     isNowReady = TenantStatus.TENANT_SPINUP_FAILED;
@@ -225,25 +237,26 @@ public class ControlFilePreProcessor implements Processor {
         }
     }
 
-    private String runDbSpinUpScripts(String tenantId) {
+    private boolean runDbSpinUpScripts(String tenantId) {
 
         String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
         String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
 
         LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
-        String result = MongoCommander.ensureIndexes(INDEX_SCRIPT, dbName, batchJobDAO.getMongoTemplate());
-        if (result != null) {
-            return result;
+        boolean result = MongoCommander.ensureIndexes(INDEX_SCRIPT, dbName, batchJobDAO.getMongoTemplate()) == null;
+        if (deltasEnabled) {
+            result &= (MongoCommander.ensureIndexes(new HashSet<String>(Arrays.asList("deltas,false,t:1")), dbName,
+                    batchJobDAO.getMongoTemplate()) == null);
         }
 
         LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
-        result = MongoCommander.preSplit(shardCollections, dbName, batchJobDAO.getMongoTemplate());
-        if (result != null) {
-            return result;
+        result &= MongoCommander.preSplit(shardCollections, dbName, batchJobDAO.getMongoTemplate()) == null;
+
+        if (result) {
+            tenantDA.setTenantReadyFlag(tenantId);
         }
 
-        tenantDA.setTenantReadyFlag(tenantId);
-        return null;
+        return result;
     }
 
     private void setExchangeBody(Exchange exchange, ReportStats reportStats, ControlFile controlFile, NewBatchJob job) {
