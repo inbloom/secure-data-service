@@ -59,7 +59,7 @@ public class VersionFilter implements ContainerRequestFilter {
 
             String newVersion = null;
 
-            if(isBulkNonVersion || (segments.size() > 0 && segments.get(1).getPath().equals("bulk"))) {
+            if(isBulkNonVersion || (segments.size() > 1 && segments.get(1).getPath().equals("bulk"))) {
                 if (!isBulkNonVersion) {
                     //remove the version
                     segments.remove(0);

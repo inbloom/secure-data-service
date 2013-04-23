@@ -3,7 +3,7 @@
   "resources": [
    {
       "path": "/bulk",
-      "queryable": true,
+      "queryable": false,
       "dateSearchDisallowed": false,
       "doc": "Bulk extract",
       "resourceClass": "org.slc.sli.api.resources.BulkExtract"
