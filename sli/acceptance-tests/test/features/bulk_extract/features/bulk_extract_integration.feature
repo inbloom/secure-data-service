@@ -89,7 +89,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       #|  parent                                |
       #|  program                               |
       #|  reportCard                            |
-      #|  school                                |
+       |  school                                |
       #|  section                               |
       #|  session                               |
       #|  staff                                 |
