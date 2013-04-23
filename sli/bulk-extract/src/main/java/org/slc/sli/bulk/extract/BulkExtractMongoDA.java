@@ -21,15 +21,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Query;
-
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Mongo access to bulk extract data.
@@ -93,6 +92,8 @@ public class BulkExtractMongoDA {
         String entityId;
         if (isDelta) {
             entityId = tenantId + "-" + appId + "-" + edorg + "-" + date.getTime();
+        } else if (edorg != null) {
+            entityId = tenantId + "-" + appId + "-" + edorg;
         } else {
             entityId = tenantId + "-" + appId;
         }
