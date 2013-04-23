@@ -139,7 +139,7 @@ Scenario: Delete Cohort with cascade
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceCohortDelete.zip" is completed in database
     And I should see "Processed 1 records." in the resulting batch job file
-	And I should see "records deleted successfully: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 1" in the resulting batch job file
 	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentCohort.xml"    
@@ -170,7 +170,7 @@ Scenario: Delete Cohort with cascade
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceCohortRefDelete.zip" is completed in database
     And I should see "Processed 1 records." in the resulting batch job file
-	And I should see "records deleted successfully: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 1" in the resulting batch job file
 	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentCohort.xml"    
