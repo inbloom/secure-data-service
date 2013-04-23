@@ -16,18 +16,7 @@
 
 package org.slc.sli.bulk.extract;
 
-import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import org.slc.sli.bulk.extract.extractor.DeltaExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
@@ -35,6 +24,16 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 /**
  * Bulk extract launcher.
  *
@@ -42,7 +41,7 @@ import org.slc.sli.domain.Entity;
  *
  */
 public class Launcher {
-    private static final String USAGE = "Usage: bulk-extract <tenant> <isDelta>";
+    private static final String USAGE = "Usage: bulk-extract <tenant> [isDelta]";
     private static final Logger LOG = LoggerFactory.getLogger(Launcher.class);
 
     private String baseDirectory;
@@ -134,14 +133,17 @@ public class Launcher {
 
         Launcher main = context.getBean(Launcher.class);
 
-        if (args.length != 2) {
+        if (args.length < 1) {
             LOG.error(USAGE);
             return;
         }
-
+    
         String tenantId = args[0];
-        boolean isDelta = Boolean.parseBoolean(args[1]);
-
+        boolean isDelta = false;
+        if (args.length == 2) {
+            isDelta = Boolean.parseBoolean(args[1]);
+        }
+    
         main.execute(tenantId, isDelta);
 
     }
