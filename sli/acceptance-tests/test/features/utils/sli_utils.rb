@@ -264,11 +264,11 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
 end
 
 def restHttpCustomHeadersGet(id, customHeaders, format = @format, sessionId = @sessionId)
-  restHttpHead(id, customHeaders, format, sessionId)
+  restTls(id, customHeaders, format, sessionId)
   return @res
 end
 
-def restTls(url, format = @format, sessionId = @sessionId)
+def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
   client_id = "vavedra9ub"
   assert(sessionId != nil, "Session ID passed into GET was nil")
@@ -277,8 +277,13 @@ def restTls(url, format = @format, sessionId = @sessionId)
   private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
 
   urlHeader = makeUrlAndHeaders('get',url,sessionId,format,true)
+
+  header = urlHeader[:headers]
+  header.merge!(extra_headers) if extra_headers !=nil
   
-  @res = RestClient::Request.execute(:method => :get, :url => urlHeader[:url], :headers => urlHeader[:headers], :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
+  puts "HEAD urlHeader: #{urlHeader}" if $SLI_DEBUG
+
+  @res = RestClient::Request.execute(:method => :get, :url => urlHeader[:url], :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
 #, :ssl_client_cert => client_cert, :ssl_client_key => private_key
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end

@@ -52,22 +52,6 @@ Given /^I set up a fake tar file on the file system and in Mongo$/ do
   src_coll.insert({"_id" => @fake_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%a %b %d %H:%S:%M %Z %Y"), "path" => Dir.pwd + "/fake.tar"}})
 end
 
-Given /^I set up a sample tar file on the file system and in Mongo$/ do
-  @sample_file = File.absolute_path(File.dirname(__FILE__) + '/../test_data/sample.tar')
-  
-  time = Time.new
-  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
-  appId = getAppId()
-  src_coll = db["bulkExtractFiles"]
-  @sampe_tar_id = SecureRandom.uuid
-  src_coll.remove({"_id" => @sample_tar_id})
-  src_coll.insert({"_id" => @sample_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%a %b %d %H:%S:%M %Z %Y"), "path" => @sample_file}})
-end
-
-Given /^I know the file length of the extract file$/ do
-  @file_size = File.size(@sample_file)
-end
-
 When /^I make a custom bulk extract API call$/ do
   restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
@@ -86,12 +70,12 @@ When /^I make a concurrent ranged bulk extract API call and store the results$/ 
 end
 
 def apiCall1()
-  @customHeaders = makeCustomHeader("200001-")
+  @customHeaders = makeCustomHeader("20001-")
   @res1 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
 
 def apiCall2()
-  @customHeaders = makeCustomHeader("0-200000")
+  @customHeaders = makeCustomHeader("0-20000")
   @res2 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
 
@@ -266,6 +250,11 @@ Then /^the content length in response header is "(.*?)"$/ do |length|
   assert(content_length.to_i == length.to_i)
 end
 
+Then /^the content length in response header is "(.*?)" less than the total content length$/ do |length|
+  content_length = @res.headers[:content_length]
+  assert(content_length.to_i == @total_content_length.to_i - length.to_i)
+end
+
 Then /^I store the file content$/ do
   @received_file = Dir.pwd + "/Final.tar"
   File.open(@received_file, "a") do |outf|
@@ -296,7 +285,7 @@ Then /^the file is decrypted$/ do
 end
 
 Then /^I see that the combined file matches the tar file$/ do
-  assert(File.size(@received_file) == File.size(@sample_file))
+  assert(File.size(@received_file) == @total_content_length.to_i)
   File.delete(@received_file)
   @received_file = nil
 end
@@ -329,8 +318,7 @@ Then /^I verify the bytes I have are correct$/ do
   range_start = range.split("-")[0].to_i
   range_end = range.split("-")[1].to_i
   
-  result = compareWithOriginalFile(@res.body, range_start, range_end)
-  assert(result == true)
+  assert(compareWithOriginalFile(@res.body, range_start, range_end) == true, "Files differ between bytes #{range_start} and #{range_end}")
 end
 
 Then /^the file size is "(.*?)"$/ do |file_size|
@@ -338,7 +326,7 @@ Then /^the file size is "(.*?)"$/ do |file_size|
 end
 
 Then /^I verify I do not have the complete file$/ do
-  assert(File.size(@received_file) != File.size(@sample_file))
+  assert(File.size(@received_file) != @orig_content.size)
   File.delete(@received_file)
   @received_file = nil
 end
@@ -462,8 +450,10 @@ Then /^I have all the information to make a custom bulk extract request$/ do
   assert(@last_modified != nil, "Last-Modified header is empty")
   assert(@accept_ranges == "bytes", "Accept-Ranges header is not bytes")
   assert(@etag != nil, "ETag header is empty")
-  assert(@content_length = @file_size, "Content-Length header is incorrect")
+  assert(@content_length.to_i > 512, "Content-Length header is incorrect")
   assert(@content_range != nil, "Content-Range header is incorrect")
+  @total_content_length = @content_length
+  @orig_content = @res.body
 end
 
 def getAppId()
@@ -529,10 +519,9 @@ def decrypt(content)
 end
 
 def compareWithOriginalFile(content, range_start, range_end)
-  file = File.open(@sample_file, "rb")
-  file_contents = file.read
   range = Range.new(range_start, range_end)
-  file_range_content = file_contents[range]
+  file_range_content = @orig_content[range]
+  
   if (file_range_content == content)
     return true
   else
