@@ -3,7 +3,7 @@
                           xmlns="http://ed-fi.org/0100"
                           xsi:schemaLocation="http://ed-fi.org/0100 Interchange-StudentParent.xsd">
 
-    <!-- Non Orphan Force False-->
+    <!-- Non Orphan Force False   FAILS-->
     <Action ActionType="DELETE" Cascade="false" Force="false">
         <Student>
             <StudentUniqueStateId>1</StudentUniqueStateId>
@@ -94,7 +94,7 @@
             <LoginId>2895@fakemail.com</LoginId>
         </Student>
     </Action>
-    <!-- Non Orphan Force True-->
+    <!-- Non Orphan Force True    PASSES-->
     <Action ActionType="DELETE" Cascade="false" Force="true">
         <Student>
             <StudentUniqueStateId>2</StudentUniqueStateId>
@@ -184,7 +184,7 @@
             <LoginId>4770@fakemail.com</LoginId>
         </Student>
     </Action>
-    <!-- Orphan Force False-->
+    <!-- Orphan Force False       PASSES-->
     <Action ActionType="DELETE" Cascade="false" Force="false">
         <Student>
             <StudentUniqueStateId>Student-1</StudentUniqueStateId>
@@ -275,7 +275,7 @@
             <LoginId>2895@fakemail.com</LoginId>
         </Student>
     </Action>
-
+    <!-- Orphan Force True        PASSES-->
     <Action ActionType="DELETE" Cascade="false" Force="true">
         <Student>
             <StudentUniqueStateId>Student-2</StudentUniqueStateId>
@@ -366,4 +366,21 @@
             <LoginId>2895@fakemail.com</LoginId>
         </Student>
     </Action>
+    <!-- Non Orphan Force False   FAILS-->
+    <Action ActionType="DELETE" Cascade="false" Force="false">
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>3</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+    </Action>
+    <!-- Non Orphan Force True    PASSES-->
+    <Action ActionType="DELETE" Cascade="false" Force="true">
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+    </Action>
+
 </InterchangeStudentParent>
