@@ -84,9 +84,6 @@ Then /^I should be on Portal home page$/ do
     assertWithWait("EULA pop up did not get dismissed") { !@driver.page_source.include?("d_popup") }
   else
     puts "EULA has already been accepted"
-    puts "-----------------"
-    puts @driver.page_source
-    puts "-----------------"
   end
 end
 
@@ -96,6 +93,11 @@ end
 
 Then /^I should be on the admin page$/ do
   title = @driver.find_element(:class, "sli_home_title").text
+  puts "-----------------"
+  puts "title #{title}"
+  puts "-----------------"
+  puts @driver.page_source
+  puts "-----------------"
   assert(title == "ADMIN", "User is not in the admin page")
 end
 
