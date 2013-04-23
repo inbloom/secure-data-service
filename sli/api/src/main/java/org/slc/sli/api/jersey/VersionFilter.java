@@ -44,6 +44,8 @@ public class VersionFilter implements ContainerRequestFilter {
     @Autowired
     private ResourceEndPoint resourceEndPoint;
 
+    private static final String VERSION_PATTERN = "v([0-9])+(\\.([0-9])+)?";
+
     @Override
     public ContainerRequest filter(ContainerRequest containerRequest) {
 
@@ -112,6 +114,7 @@ public class VersionFilter implements ContainerRequestFilter {
  */
     public String getLatestApiVersion(String requestedVersion) {
       String latestApiVersion = "";
+
       for (String majorVersion : resourceEndPoint.getNameSpaceMappings().keySet()) {
           String minorVersion = resourceEndPoint.getNameSpaceMappings().get(majorVersion).last();
           String fullVersion = majorVersion + "." + minorVersion;
@@ -119,6 +122,10 @@ public class VersionFilter implements ContainerRequestFilter {
                   latestApiVersion = fullVersion;
               }
       }
+      if(!requestedVersion.equals("") && !requestedVersion.matches(VERSION_PATTERN)) {
+        return requestedVersion;
+      }
+
       return requestedVersion.compareToIgnoreCase(latestApiVersion) > 0 ? requestedVersion : latestApiVersion;
     }
 }

@@ -67,7 +67,7 @@ import com.sun.jersey.api.core.HttpRequestContext;
  *
  */
 @Component
-@Path("{version}/bulk")
+@Path("/bulk")
 @Produces({ "application/x-tar" })
 public class BulkExtract {
 
