@@ -103,6 +103,9 @@ def ingest_odin(scenario)
   @gen_path = "#{@odin_working_path}generated/"
   generate(scenario)
   steps %Q{
+    And the following collections are empty in batch job datastore:
+        | collectionName              |
+        | newBatchJob                 |
     When I zip generated data under filename OdinSampleDataSet.zip to the new OdinSampleDataSet directory
     And I copy generated data to the new OdinSampleDataSet directory
     Given I am using odin data store
