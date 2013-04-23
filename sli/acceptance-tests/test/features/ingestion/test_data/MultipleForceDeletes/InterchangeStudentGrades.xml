@@ -1,0 +1,647 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                         xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+        <CompetencyLevelDescriptorReference>
+            <CompetencyLevelDescriptorIdentity>
+                <CompetencyLevelDescriptorCodeValue>Incompetent</CompetencyLevelDescriptorCodeValue>
+            </CompetencyLevelDescriptorIdentity>
+        </CompetencyLevelDescriptorReference>
+        <CourseTranscript>
+            <CourseAttemptResult>Pass</CourseAttemptResult>
+            <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+                <Credit>3</Credit>
+            </CreditsAttempted>
+            <CreditsEarned>
+                <Credit>3</Credit>
+            </CreditsEarned>
+            <AdditionalCreditsEarned AdditionalCreditType="AP">
+                <Credit>0</Credit>
+            </AdditionalCreditsEarned>
+            <GradeLevelWhenTaken>Ninth grade</GradeLevelWhenTaken>
+            <MethodCreditEarned>Classroom credit</MethodCreditEarned>
+            <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+            <FinalNumericGradeEarned>74</FinalNumericGradeEarned>
+            <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+            <CourseReference>
+                <CourseIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueCourseId>455</UniqueCourseId>
+                </CourseIdentity>
+            </CourseReference>
+            <EducationOrganizationReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationOrganizationReference>
+            <StudentAcademicRecordReference>
+                <StudentAcademicRecordIdentity>
+                    <StudentReference>
+                        <StudentIdentity>
+                            <StudentUniqueStateId>1</StudentUniqueStateId>
+                        </StudentIdentity>
+                    </StudentReference>
+                    <SessionReference>
+                        <SessionIdentity>
+                            <EducationalOrgReference>
+                                <EducationalOrgIdentity>
+                                    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                                </EducationalOrgIdentity>
+                            </EducationalOrgReference>
+                            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+                        </SessionIdentity>
+                    </SessionReference>
+                    <SchoolYear>2001-2002</SchoolYear>
+                </StudentAcademicRecordIdentity>
+            </StudentAcademicRecordReference>
+        </CourseTranscript>
+        <GradebookEntry>
+            <GradebookEntryType>Homework</GradebookEntryType>
+            <DateAssigned>2002-10-11</DateAssigned>
+            <Description>Gradebook Entry of type: Homework, assigned on: 2002-10-11</Description>
+            <LearningObjectiveReference>
+                <LearningObjectiveIdentity>
+                    <Objective>Agriculture, Food, and Natural Resources Objective 1</Objective>
+                    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+                </LearningObjectiveIdentity>
+            </LearningObjectiveReference>
+            <LearningObjectiveReference>
+                <LearningObjectiveIdentity>
+                    <Objective>Agriculture, Food, and Natural Resources Objective 2</Objective>
+                    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+                </LearningObjectiveIdentity>
+            </LearningObjectiveReference>
+            <LearningObjectiveReference>
+                <LearningObjectiveIdentity>
+                    <Objective>Agriculture, Food, and Natural Resources Objective 3</Objective>
+                    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+                </LearningObjectiveIdentity>
+            </LearningObjectiveReference>
+            <LearningObjectiveReference>
+                <LearningObjectiveIdentity>
+                    <Objective>Agriculture, Food, and Natural Resources Objective 4</Objective>
+                    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+                </LearningObjectiveIdentity>
+            </LearningObjectiveReference>
+            <LearningObjectiveReference>
+                <LearningObjectiveIdentity>
+                    <Objective>Agriculture, Food, and Natural Resources Objective 5</Objective>
+                    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+                </LearningObjectiveIdentity>
+            </LearningObjectiveReference>
+            <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>26</UniqueSectionCode>
+                </SectionIdentity>
+            </SectionReference>
+            <GradingPeriodReference>
+                <GradingPeriodIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <GradingPeriod>End of Year</GradingPeriod>
+                    <BeginDate>2002-09-09</BeginDate>
+                </GradingPeriodIdentity>
+            </GradingPeriodReference>
+        </GradebookEntry>
+    </Action>
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+        <GradeReference>
+            <GradeIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>3</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+                <SchoolYear>2001-2002</SchoolYear>
+            </GradeIdentity>
+        </GradeReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <ReportCard>
+            <GradeReference>
+                <GradeIdentity>
+                    <StudentReference>
+                        <StudentIdentity>
+                            <StudentUniqueStateId>1</StudentUniqueStateId>
+                        </StudentIdentity>
+                    </StudentReference>
+                    <SectionReference>
+                        <SectionIdentity>
+                            <EducationalOrgReference>
+                                <EducationalOrgIdentity>
+                                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                </EducationalOrgIdentity>
+                            </EducationalOrgReference>
+                            <UniqueSectionCode>3</UniqueSectionCode>
+                        </SectionIdentity>
+                    </SectionReference>
+                    <SchoolYear>2001-2002</SchoolYear>
+                </GradeIdentity>
+            </GradeReference>
+            <GradeReference>
+                <GradeIdentity>
+                    <StudentReference>
+                        <StudentIdentity>
+                            <StudentUniqueStateId>1</StudentUniqueStateId>
+                        </StudentIdentity>
+                    </StudentReference>
+                    <SectionReference>
+                        <SectionIdentity>
+                            <EducationalOrgReference>
+                                <EducationalOrgIdentity>
+                                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                </EducationalOrgIdentity>
+                            </EducationalOrgReference>
+                            <UniqueSectionCode>4</UniqueSectionCode>
+                        </SectionIdentity>
+                    </SectionReference>
+                    <SchoolYear>2001-2002</SchoolYear>
+                </GradeIdentity>
+            </GradeReference>
+            <StudentCompetencyReference>
+                <StudentCompetencyIdentity>
+                    <LearningObjectiveReference>
+                        <LearningObjectiveIdentity>
+                            <Objective>Generic Learning Objective 1</Objective>
+                            <AcademicSubject>Social Studies</AcademicSubject>
+                            <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+                        </LearningObjectiveIdentity>
+                    </LearningObjectiveReference>
+                    <CodeValue>Incompetent</CodeValue>
+                    <StudentSectionAssociationReference>
+                        <StudentSectionAssociationIdentity>
+                            <StudentReference>
+                                <StudentIdentity>
+                                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                                </StudentIdentity>
+                            </StudentReference>
+                            <SectionReference>
+                                <SectionIdentity>
+                                    <EducationalOrgReference>
+                                        <EducationalOrgIdentity>
+                                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                    </EducationalOrgReference>
+                                    <UniqueSectionCode>3</UniqueSectionCode>
+                                </SectionIdentity>
+                            </SectionReference>
+                            <BeginDate>2001-09-03</BeginDate>
+                        </StudentSectionAssociationIdentity>
+                    </StudentSectionAssociationReference>
+                </StudentCompetencyIdentity>
+            </StudentCompetencyReference>
+            <StudentCompetencyReference>
+                <StudentCompetencyIdentity>
+                    <LearningObjectiveReference>
+                        <LearningObjectiveIdentity>
+                            <Objective>Generic Learning Objective 2</Objective>
+                            <AcademicSubject>Social Studies</AcademicSubject>
+                            <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+                        </LearningObjectiveIdentity>
+                    </LearningObjectiveReference>
+                    <CodeValue>Incompetent</CodeValue>
+                    <StudentSectionAssociationReference>
+                        <StudentSectionAssociationIdentity>
+                            <StudentReference>
+                                <StudentIdentity>
+                                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                                </StudentIdentity>
+                            </StudentReference>
+                            <SectionReference>
+                                <SectionIdentity>
+                                    <EducationalOrgReference>
+                                        <EducationalOrgIdentity>
+                                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                    </EducationalOrgReference>
+                                    <UniqueSectionCode>3</UniqueSectionCode>
+                                </SectionIdentity>
+                            </SectionReference>
+                            <BeginDate>2001-09-03</BeginDate>
+                        </StudentSectionAssociationIdentity>
+                    </StudentSectionAssociationReference>
+                </StudentCompetencyIdentity>
+            </StudentCompetencyReference>
+            <StudentCompetencyReference>
+                <StudentCompetencyIdentity>
+                    <LearningObjectiveReference>
+                        <LearningObjectiveIdentity>
+                            <Objective>Generic Learning Objective 3</Objective>
+                            <AcademicSubject>Social Studies</AcademicSubject>
+                            <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+                        </LearningObjectiveIdentity>
+                    </LearningObjectiveReference>
+                    <CodeValue>Incompetent</CodeValue>
+                    <StudentSectionAssociationReference>
+                        <StudentSectionAssociationIdentity>
+                            <StudentReference>
+                                <StudentIdentity>
+                                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                                </StudentIdentity>
+                            </StudentReference>
+                            <SectionReference>
+                                <SectionIdentity>
+                                    <EducationalOrgReference>
+                                        <EducationalOrgIdentity>
+                                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                    </EducationalOrgReference>
+                                    <UniqueSectionCode>3</UniqueSectionCode>
+                                </SectionIdentity>
+                            </SectionReference>
+                            <BeginDate>2001-09-03</BeginDate>
+                        </StudentSectionAssociationIdentity>
+                    </StudentSectionAssociationReference>
+                </StudentCompetencyIdentity>
+            </StudentCompetencyReference>
+            <StudentCompetencyReference>
+                <StudentCompetencyIdentity>
+                    <LearningObjectiveReference>
+                        <LearningObjectiveIdentity>
+                            <Objective>Generic Learning Objective 4</Objective>
+                            <AcademicSubject>Social Studies</AcademicSubject>
+                            <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+                        </LearningObjectiveIdentity>
+                    </LearningObjectiveReference>
+                    <CodeValue>Incompetent</CodeValue>
+                    <StudentSectionAssociationReference>
+                        <StudentSectionAssociationIdentity>
+                            <StudentReference>
+                                <StudentIdentity>
+                                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                                </StudentIdentity>
+                            </StudentReference>
+                            <SectionReference>
+                                <SectionIdentity>
+                                    <EducationalOrgReference>
+                                        <EducationalOrgIdentity>
+                                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                    </EducationalOrgReference>
+                                    <UniqueSectionCode>3</UniqueSectionCode>
+                                </SectionIdentity>
+                            </SectionReference>
+                            <BeginDate>2001-09-03</BeginDate>
+                        </StudentSectionAssociationIdentity>
+                    </StudentSectionAssociationReference>
+                </StudentCompetencyIdentity>
+            </StudentCompetencyReference>
+            <StudentCompetencyReference>
+                <StudentCompetencyIdentity>
+                    <LearningObjectiveReference>
+                        <LearningObjectiveIdentity>
+                            <Objective>Generic Learning Objective 5</Objective>
+                            <AcademicSubject>Social Studies</AcademicSubject>
+                            <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+                        </LearningObjectiveIdentity>
+                    </LearningObjectiveReference>
+                    <CodeValue>Incompetent</CodeValue>
+                    <StudentSectionAssociationReference>
+                        <StudentSectionAssociationIdentity>
+                            <StudentReference>
+                                <StudentIdentity>
+                                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                                </StudentIdentity>
+                            </StudentReference>
+                            <SectionReference>
+                                <SectionIdentity>
+                                    <EducationalOrgReference>
+                                        <EducationalOrgIdentity>
+                                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                    </EducationalOrgReference>
+                                    <UniqueSectionCode>3</UniqueSectionCode>
+                                </SectionIdentity>
+                            </SectionReference>
+                            <BeginDate>2001-09-03</BeginDate>
+                        </StudentSectionAssociationIdentity>
+                    </StudentSectionAssociationReference>
+                </StudentCompetencyIdentity>
+            </StudentCompetencyReference>
+            <StudentCompetencyReference>
+                <StudentCompetencyIdentity>
+                    <LearningObjectiveReference>
+                        <LearningObjectiveIdentity>
+                            <Objective>Generic Learning Objective 1</Objective>
+                            <AcademicSubject>Writing</AcademicSubject>
+                            <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+                        </LearningObjectiveIdentity>
+                    </LearningObjectiveReference>
+                    <CodeValue>Barely Competent</CodeValue>
+                    <StudentSectionAssociationReference>
+                        <StudentSectionAssociationIdentity>
+                            <StudentReference>
+                                <StudentIdentity>
+                                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                                </StudentIdentity>
+                            </StudentReference>
+                            <SectionReference>
+                                <SectionIdentity>
+                                    <EducationalOrgReference>
+                                        <EducationalOrgIdentity>
+                                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                    </EducationalOrgReference>
+                                    <UniqueSectionCode>4</UniqueSectionCode>
+                                </SectionIdentity>
+                            </SectionReference>
+                            <BeginDate>2001-09-03</BeginDate>
+                        </StudentSectionAssociationIdentity>
+                    </StudentSectionAssociationReference>
+                </StudentCompetencyIdentity>
+            </StudentCompetencyReference>
+            <StudentCompetencyReference>
+                <StudentCompetencyIdentity>
+                    <LearningObjectiveReference>
+                        <LearningObjectiveIdentity>
+                            <Objective>Generic Learning Objective 2</Objective>
+                            <AcademicSubject>Writing</AcademicSubject>
+                            <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+                        </LearningObjectiveIdentity>
+                    </LearningObjectiveReference>
+                    <CodeValue>Barely Competent</CodeValue>
+                    <StudentSectionAssociationReference>
+                        <StudentSectionAssociationIdentity>
+                            <StudentReference>
+                                <StudentIdentity>
+                                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                                </StudentIdentity>
+                            </StudentReference>
+                            <SectionReference>
+                                <SectionIdentity>
+                                    <EducationalOrgReference>
+                                        <EducationalOrgIdentity>
+                                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                    </EducationalOrgReference>
+                                    <UniqueSectionCode>4</UniqueSectionCode>
+                                </SectionIdentity>
+                            </SectionReference>
+                            <BeginDate>2001-09-03</BeginDate>
+                        </StudentSectionAssociationIdentity>
+                    </StudentSectionAssociationReference>
+                </StudentCompetencyIdentity>
+            </StudentCompetencyReference>
+            <StudentCompetencyReference>
+                <StudentCompetencyIdentity>
+                    <LearningObjectiveReference>
+                        <LearningObjectiveIdentity>
+                            <Objective>Generic Learning Objective 3</Objective>
+                            <AcademicSubject>Writing</AcademicSubject>
+                            <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+                        </LearningObjectiveIdentity>
+                    </LearningObjectiveReference>
+                    <CodeValue>Barely Competent</CodeValue>
+                    <StudentSectionAssociationReference>
+                        <StudentSectionAssociationIdentity>
+                            <StudentReference>
+                                <StudentIdentity>
+                                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                                </StudentIdentity>
+                            </StudentReference>
+                            <SectionReference>
+                                <SectionIdentity>
+                                    <EducationalOrgReference>
+                                        <EducationalOrgIdentity>
+                                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                    </EducationalOrgReference>
+                                    <UniqueSectionCode>4</UniqueSectionCode>
+                                </SectionIdentity>
+                            </SectionReference>
+                            <BeginDate>2001-09-03</BeginDate>
+                        </StudentSectionAssociationIdentity>
+                    </StudentSectionAssociationReference>
+                </StudentCompetencyIdentity>
+            </StudentCompetencyReference>
+            <StudentCompetencyReference>
+                <StudentCompetencyIdentity>
+                    <LearningObjectiveReference>
+                        <LearningObjectiveIdentity>
+                            <Objective>Generic Learning Objective 4</Objective>
+                            <AcademicSubject>Writing</AcademicSubject>
+                            <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+                        </LearningObjectiveIdentity>
+                    </LearningObjectiveReference>
+                    <CodeValue>Barely Competent</CodeValue>
+                    <StudentSectionAssociationReference>
+                        <StudentSectionAssociationIdentity>
+                            <StudentReference>
+                                <StudentIdentity>
+                                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                                </StudentIdentity>
+                            </StudentReference>
+                            <SectionReference>
+                                <SectionIdentity>
+                                    <EducationalOrgReference>
+                                        <EducationalOrgIdentity>
+                                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                    </EducationalOrgReference>
+                                    <UniqueSectionCode>4</UniqueSectionCode>
+                                </SectionIdentity>
+                            </SectionReference>
+                            <BeginDate>2001-09-03</BeginDate>
+                        </StudentSectionAssociationIdentity>
+                    </StudentSectionAssociationReference>
+                </StudentCompetencyIdentity>
+            </StudentCompetencyReference>
+            <StudentCompetencyReference>
+                <StudentCompetencyIdentity>
+                    <LearningObjectiveReference>
+                        <LearningObjectiveIdentity>
+                            <Objective>Generic Learning Objective 5</Objective>
+                            <AcademicSubject>Writing</AcademicSubject>
+                            <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+                        </LearningObjectiveIdentity>
+                    </LearningObjectiveReference>
+                    <CodeValue>Barely Competent</CodeValue>
+                    <StudentSectionAssociationReference>
+                        <StudentSectionAssociationIdentity>
+                            <StudentReference>
+                                <StudentIdentity>
+                                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                                </StudentIdentity>
+                            </StudentReference>
+                            <SectionReference>
+                                <SectionIdentity>
+                                    <EducationalOrgReference>
+                                        <EducationalOrgIdentity>
+                                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                    </EducationalOrgReference>
+                                    <UniqueSectionCode>4</UniqueSectionCode>
+                                </SectionIdentity>
+                            </SectionReference>
+                            <BeginDate>2001-09-03</BeginDate>
+                        </StudentSectionAssociationIdentity>
+                    </StudentSectionAssociationReference>
+                </StudentCompetencyIdentity>
+            </StudentCompetencyReference>
+            <GPAGivenGradingPeriod>2.0</GPAGivenGradingPeriod>
+            <GPACumulative>2.0</GPACumulative>
+            <NumberOfDaysAbsent>25</NumberOfDaysAbsent>
+            <NumberOfDaysInAttendance>65</NumberOfDaysInAttendance>
+            <NumberOfDaysTardy>1</NumberOfDaysTardy>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <GradingPeriodReference>
+                <GradingPeriodIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <GradingPeriod>End of Year</GradingPeriod>
+                    <BeginDate>2001-09-03</BeginDate>
+                </GradingPeriodIdentity>
+            </GradingPeriodReference>
+            <SchoolYear>2001-2002</SchoolYear>
+        </ReportCard>
+        <StudentAcademicRecord>
+            <CumulativeCreditsEarned>
+                <Credit>0</Credit>
+            </CumulativeCreditsEarned>
+            <CumulativeGradePointsEarned>0</CumulativeGradePointsEarned>
+            <CumulativeGradePointAverage>2.0</CumulativeGradePointAverage>
+            <GradeValueQualifier>80-100%=A, 70-80%=B</GradeValueQualifier>
+            <ClassRanking>
+                <ClassRank>8</ClassRank>
+                <TotalNumberInClass>14</TotalNumberInClass>
+                <PercentageRanking>7</PercentageRanking>
+                <ClassRankingDate>2009-03-21</ClassRankingDate>
+            </ClassRanking>
+            <AcademicHonors>
+                <AcademicHonorsType>Certificate</AcademicHonorsType>
+                <HonorsDescription>Honor Desc BBB</HonorsDescription>
+                <HonorAwardDate>2010-03-05</HonorAwardDate>
+            </AcademicHonors>
+            <Recognitions>
+                <RecognitionType>Monogram/letter</RecognitionType>
+                <RecognitionDescription>Recognition Desc a</RecognitionDescription>
+                <RecognitionAwardDate>2007-01-23</RecognitionAwardDate>
+            </Recognitions>
+            <ProjectedGraduationDate>2013-08-23</ProjectedGraduationDate>
+            <SessionCreditsEarned>
+                <Credit>0</Credit>
+            </SessionCreditsEarned>
+            <SessionCreditsAttempted>
+                <Credit>0</Credit>
+            </SessionCreditsAttempted>
+            <SessionGradePointsEarned>0</SessionGradePointsEarned>
+            <SessionGradePointAverage>2.0</SessionGradePointAverage>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <SessionReference>
+                <SessionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+                </SessionIdentity>
+            </SessionReference>
+            <ReportCardReference>
+                <ReportCardIdentity>
+                    <StudentReference>
+                        <StudentIdentity>
+                            <StudentUniqueStateId>1</StudentUniqueStateId>
+                        </StudentIdentity>
+                    </StudentReference>
+                    <GradingPeriodReference>
+                        <GradingPeriodIdentity>
+                            <EducationalOrgReference>
+                                <EducationalOrgIdentity>
+                                    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                                </EducationalOrgIdentity>
+                            </EducationalOrgReference>
+                            <GradingPeriod>End of Year</GradingPeriod>
+                            <BeginDate>2001-09-03</BeginDate>
+                        </GradingPeriodIdentity>
+                    </GradingPeriodReference>
+                    <SchoolYear>2001-2002</SchoolYear>
+                </ReportCardIdentity>
+            </ReportCardReference>
+            <SchoolYear>2001-2002</SchoolYear>
+        </StudentAcademicRecord>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Generic Learning Objective 1</Objective>
+                        <AcademicSubject>Social Studies</AcademicSubject>
+                        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>Incompetent</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>1</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2001-09-03</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyObjective>
+            <StudentCompetencyObjectiveId>JS-K-1</StudentCompetencyObjectiveId>
+            <Objective>Phonemic Awareness</Objective>
+            <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+            <EducationOrganizationReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationOrganizationReference>
+        </StudentCompetencyObjective>
+    </Action>
+</InterchangeStudentGrade>

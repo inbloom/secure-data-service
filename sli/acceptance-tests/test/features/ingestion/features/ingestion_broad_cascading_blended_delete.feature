@@ -107,17 +107,12 @@ Scenario: Blended Deletes with Force = flase and Force = true
     And a batch job for file "BlendedDelete.zip" is completed in database
 
 	And I should see "Processed 6 records." in the resulting batch job file
-    And I should see "records deleted successfully: 3" in the resulting batch job file
-	And I should see "records failed processing: 1" in the resulting batch job file
+    And I should see "records deleted successfully: 4" in the resulting batch job file
+	And I should see "records failed processing: 2" in the resulting batch job file
     #Error file is created for Force="false" Non Orphan Record
     And I should see "CORE_0066" in the resulting error log file for "InterchangeStudentParent.xml"
     #Warning file is created for Force="true" Non Orphan Record
     And I should see "CORE_0066" in the resulting error log file for "InterchangeStudentParent.xml"
-
-    #Error file is created for Force="false" Non Orphan Record
-    And I should see "CORE_0066" in the resulting error log file for "InterchangeStudentParent-Ref.xml"
-    #Warning file is created for Force="true" Non Orphan Record
-    And I should see "CORE_0066" in the resulting error log file for "InterchangeStudentParent-Ref.xml"
 
     #Non Orphan Force = "false" fails
     And I re-execute saved query "FFstudent" to get "1" records

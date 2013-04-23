@@ -59,9 +59,8 @@ Scenario: Safe Delete AssessmentPeriodDescriptor with Cascade = false, Force = f
 	And I re-execute saved query "APD1" to get "1" records
 	And I re-execute saved query "APD2" to get "1" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
-        |collection |delta|
+        |collection                     |delta|
         |assessmentPeriodDescriptor      |   0|
-        |recordHash                      |   0|
 
 Scenario: Safe Delete AssessmentPeriodDescriptor Reference with Cascade = false, Force = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -88,7 +87,6 @@ Scenario: Safe Delete AssessmentPeriodDescriptor Reference with Cascade = false,
 	And I see that collections counts have changed as follows in tenant "Midgar"
         |collection |delta|
         |assessmentPeriodDescriptor      |   0|
-        |recordHash                      |   0|
 
 Scenario: Delete Orphan AssessmentPeriodDescriptor with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
