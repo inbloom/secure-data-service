@@ -33,11 +33,14 @@ import java.lang.reflect.Type;
 import java.net.URI;
 import java.security.Principal;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
@@ -63,6 +66,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
@@ -118,6 +122,9 @@ public class BulkExtractTest {
     @Mock
     private HttpServletRequest req;
 
+    @Mock
+    private GenericToEdOrgValidator mockValidator;
+
     private static final String PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw1KLTcuf8OpvbHfwMJks\n" +
             "UAXbeaoVqZiK/CRhttWDmlMEs8AubXiSgZCekXeaUqefK544BOgeuNgQmMmo0pLy\n" +
             "j/GoGhf/bSZH2tsx1uKneCUm9Oq1g+juw5HmBa14H914tslvriFpJvN0b7q53Zey\n" +
@@ -125,13 +132,15 @@ public class BulkExtractTest {
             "HGofzWZoCWGR70gJkkOZhwtLw+njpIhmnjDyknngUsOaX1Gza5Fzuz0QtVc/iVHg\n" +
             "iSFSz068XR5+zUmTI3cns6QbGnbsajuaTNQiZUHmQ8LOCddAfZz/7incsD9D9Jfb\n" +
             "YwIDAQAB\n";
-    private static final String PRIVATE_KEY = "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDDUotNy5/w6m9sd/AwmSxQBdt5qhWpmIr8JGG21YOaUwSzwC5teJKBkJ6Rd5pSp58rnjgE6B642BCYyajSkvKP8agaF/9tJkfa2zHW4qd4JSb06rWD6O7DkeYFrXgf3Xi2yW+uIWkm83Rvurndl7IA7G4PTqX3hQyPvCcyI3KkSGjAgzJUwwJFH3jzmELxixG0YH5/rTtsHjjT53nOMbwcah/NZmgJYZHvSAmSQ5mHC0vD6eOkiGaeMPKSeeBSw5pfUbNrkXO7PRC1Vz+JUeCJIVLPTrxdHn7NSZMjdyezpBsaduxqO5pM1CJlQeZDws4J10B9nP/uKdywP0P0l9tjAgMBAAECggEACXTko7aZHsvq6yB/c4rm91ThRGm0tMpa6ExGotiBj6Y3UxCZ7tjolvdOhhJ5WUkeTrlRUwN+AUsMuqkA0Hkm30s+7Ux+JGW3EuSL7DB7FTkPQspeUW2kqblVnq7AYyKQ5qCoFJEviyA8YfBzcUQX7S2FQp53MJ2zdv4QE8Bdm5CEPiTjA8F0eOeA8awQfPK3W4JPPZkhVErb9ie0Tj18xARpmI8llI7s6kAU51qmFHvi51l8nqTNCbVxxfRPACT5NUr4qkD2fhaGaFqMekJz8aKvIEUBc37BBe1PmaRvQKZGc+GgpPkJc9xqVEhfihm2HHcfhsA7HvrMeYFd12tDCQKBgQDo2vwqOdYn/L8z9if9B1+qYw/ETJ6OMwXN+1yajpZm7RT+tj4uvsoqo88G/VYIb5ZzaXT7xtLwINEgl8G1PdIKFwScv9fxVOgjuZpPKdJuvplSzqJXSP7Ok/u1SUGmtN3oGbBG8r+N72dvDB1gt4daaZka6VuK8NOJn6BTHxefrQKBgQDWvIf8rWdOwbjJ22P/KB2px8gTCVDCkb+RP63uVxoARJ4tMeIZ2YRTHEZUhKqlvDWPZh+1l2bnzhjIQ/iOHwfiO4oBg6gFqceIdwWQs335z842JKV6lHhlN2vrAdIIc46uwTFs3HEfQKHalVrA4/4eAmmNv4UokWSRfL7xaoKJTwKBgQCAQQV9OIf1VGf39dAGtQYDMjbf9xep2P6MerOByaGbpV/X/4b2dk2h+MGx5t15HgUvIlm1x8gtTNYC7rNZ4WgL+Kuorp4BJbQK4VLV4YIvTznh+0A9dU4reCS+sE/Bw4MqMOP/3/qT8dX1uyV/PPcHXHxg70FloMnS1qIWxlxbrQKBgQCYYUz2p26J2rpws7iwFh2Gn3iA2blveNHCFrgsS67txcOhOqbBxTM7bvMRgts9pOM1ETkrOXcSw5OeeW1mHOsRRULXdD/FVQd89UkDt/uLTEV+8l5jL/yHht6T88TBro7vv7R9FalIjirM2/N8sc1gKkIRDnlFoncFLsqosfZTzQKBgQDhkt/sWJsnMQ4TlcIFDgzmAE3D5YePJW3oN+FBye+6ukB4OZAsF9I7OAF3ibbeVSQ8CXD7BuJFJenFazguD3zydreCsRmuEIkswg2mROsBnci3Jq3omnKsfR8V014PCTaRX39VDCvmTuKSk39zFibioWb74r+jAF6IRUVtu0A4hQ==";
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
         Map<String, Object> appBody = new HashMap<String, Object>();
         appBody.put("isBulkExtract", true);
+        when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class))).thenReturn(true);
+        // Hmm.. this needed?
+        bulkExtract.setEdorgValidator(mockValidator);
         Entity mockEntity = Mockito.mock(Entity.class);
         when(mockEntity.getBody()).thenReturn(appBody);
         when(mockMongoEntityRepository.findOne(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
@@ -229,7 +238,7 @@ public class BulkExtractTest {
           }
       };
 
-      Response res = bulkExtract.getExtractResponse(context, null);
+        Response res = bulkExtract.getExtractResponse(context, null, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -266,7 +275,7 @@ public class BulkExtractTest {
           }
       };
 
-      Response res = bulkExtract.getExtractResponse(context, null);
+        Response res = bulkExtract.getExtractResponse(context, null, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -291,21 +300,21 @@ public class BulkExtractTest {
       Mockito.when(failureContext.getMethod()).thenReturn("HEAD");
       Mockito.when(failureContext.getHeaderValue("Range")).thenReturn("bytes=0");
 
-      Response failureRes = bulkExtract.getExtractResponse(failureContext, null);
+        Response failureRes = bulkExtract.getExtractResponse(failureContext, null, null);
       assertEquals(416, failureRes.getStatus());
 
       HttpRequestContext validContext = Mockito.mock(HttpRequestContext.class);
       Mockito.when(validContext.getMethod()).thenReturn("HEAD");
       Mockito.when(validContext.getHeaderValue("Range")).thenReturn("bytes=0-5");
 
-      Response validRes = bulkExtract.getExtractResponse(validContext, null);
+        Response validRes = bulkExtract.getExtractResponse(validContext, null, null);
       assertEquals(200, validRes.getStatus());
 
       HttpRequestContext multiRangeContext = Mockito.mock(HttpRequestContext.class);
       Mockito.when(multiRangeContext.getMethod()).thenReturn("HEAD");
       Mockito.when(multiRangeContext.getHeaderValue("Range")).thenReturn("bytes=0-5,6-10");
 
-      Response multiRangeRes = bulkExtract.getExtractResponse(validContext, null);
+        Response multiRangeRes = bulkExtract.getExtractResponse(validContext, null, null);
       assertEquals(200, multiRangeRes.getStatus());
 
   }
@@ -323,7 +332,7 @@ public class BulkExtractTest {
           }
       };
 
-      Response res = bulkExtract.getExtractResponse(context, null);
+        Response res = bulkExtract.getExtractResponse(context, null, null);
       assertEquals(412, res.getStatus());
   }
 
@@ -336,7 +345,7 @@ public class BulkExtractTest {
 
         try {
             body.put(BulkExtract.BULK_EXTRACT_FILE_PATH, f.getAbsolutePath());
-            body.put(BulkExtract.BULK_EXTRACT_DATE, "20130331");
+            body.put(BulkExtract.BULK_EXTRACT_DATE, "Sun Apr 22 11:00:00 GMT 2013");
             Entity e = new MongoEntity("bulkExtractEntity", body);
             when(mockMongoEntityRepository.findOne(eq(BulkExtract.BULK_EXTRACT_FILES), argThat(new BaseMatcher<NeutralQuery>() {
 
@@ -382,12 +391,87 @@ public class BulkExtractTest {
         // No BE Field
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("isBulkExtract", false);
+        body.put("public_key", "KEY");
         Entity mockEntity = Mockito.mock(Entity.class);
         when(mockEntity.getBody()).thenReturn(body);
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
         bulkExtract.getTenant(req, new HttpContextAdapter());
     }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testAppIsNotAuthorizedForLea() throws Exception {
+        injector.setEducatorContext();
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", true);
+        body.put("authorized_ed_orgs", Arrays.asList("ONE"));
+        body.put("public_key", "KEY");
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockEntity.getEntityId()).thenReturn("App1");
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        
+        Map<String, Object> authBody = new HashMap<String, Object>();
+        authBody.put("applicationId", "App1");
+        authBody.put("edOrgs", Arrays.asList("TWO"));
+        Entity mockAuth = Mockito.mock(Entity.class);
+        when(mockAuth.getBody()).thenReturn(authBody);
+        when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockAuth);
+        bulkExtract.getLEAExtract(null, req, "BLEEP");
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testAppAuthIsEmpty() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", true);
+        body.put("authorized_ed_orgs", Arrays.asList("ONE"));
+        body.put("public_key", "KEY");
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockEntity.getEntityId()).thenReturn("App1");
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+
+        // Empty auth
+        Map<String, Object> authBody = new HashMap<String, Object>();
+        authBody.put("applicationId", "App1");
+        authBody.put("edOrgs", new ArrayList<String>());
+        Entity mockAuth = Mockito.mock(Entity.class);
+        when(mockAuth.getBody()).thenReturn(authBody);
+        when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockAuth);
+        bulkExtract.getLEAExtract(null, req, "BLEEP");
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testAppHasNoAuthorizedEdorgs() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", true);
+        body.put("authorized_ed_orgs", Arrays.asList());
+        body.put("public_key", "KEY");
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockEntity.getEntityId()).thenReturn("App1");
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        bulkExtract.getLEAExtract(null, req, "BLEEP");
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void testUserNotInLEA() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Mockito.when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class)))
+                .thenReturn(false);
+        bulkExtract.getLEAExtract(null, req, "BLEEP");
+    }
+ 
 
     private void mockApplicationEntity() {
         Entity mockEntity = Mockito.mock(Entity.class);

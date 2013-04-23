@@ -16,6 +16,7 @@ limitations under the License.
 
 =end
 require 'open3'
+require 'digest/sha1'
 require_relative '../../../utils/sli_utils.rb'
 
 $FAKE_FILE_TEXT = "This is a fake tar file"
@@ -124,7 +125,6 @@ When /^the If-Match header field is set to "(.*?)"$/ do |value|
   else
     assert(false, "Unsupported value")
   end
-
  end
 
  When /^the If-Unmodified-Since header field is set to "(.*?)"$/ do |value|
@@ -136,7 +136,18 @@ When /^the If-Match header field is set to "(.*?)"$/ do |value|
   else 
     assert(false, "Unsupported value")
   end
+ end
 
+  When /^the If-Range header field is set to "(.*?)" for range up to "(.*?)"$/ do |value, range|
+  date = Date.parse(@last_modified)
+  to = (range.to_i) -1
+  if value == "VALID_DATE"
+    @customHeaders = makeCustomHeader("0-" + to.to_s, date.next_day.httpdate)
+  elsif value == "INVALID_DATE"
+    @customHeaders = makeCustomHeader("0-" + to.to_s, date.prev_day.httpdate)
+  else 
+    assert(false, "Unsupported value")
+  end
  end
 
 When /^I save the extracted file$/ do
@@ -182,9 +193,9 @@ When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Mi
   @coll = "bulkExtractFiles";
   @src_coll = @db[@coll]
 
-  assert(@res.code == 404,"The return code is #{@res.code}. Expected: 404")
   puts "@res.headers: #{@res.headers}"
   puts "@res.code: #{@res.code}"
+  assert(@res.code == 404,"The return code is #{@res.code}. Expected: 404")
 
   if @src_coll.count > 0
     ref_doc = @src_coll.find({"_id" => "Midgar"}).to_a
@@ -193,9 +204,10 @@ When /^the return code is 404 I ensure there is no bulkExtractFiles entry for Mi
 end
 
 When /^the return code is 503 I ensure there is a bulkExtractFiles entry for Midgar$/ do
-  assert(@res.code == 503,"The return code is #{@res.code}. Expected: 503")
   puts "@res.headers: #{@res.headers}"
   puts "@res.code: #{@res.code}"
+  assert(@res.code == 503,"The return code is #{@res.code}. Expected: 503")
+
 
   if @src_coll.count > 0
     ref_doc = @src_coll.find({"_id" => "Midgar"}).to_a
@@ -207,25 +219,6 @@ When /^the return code is 200 I get expected tar downloaded$/ do
 	puts "@res.headers: #{@res.headers}"
 	puts "@res.code: #{@res.code}"
   assert(@res.code == 200,"The return code is #{@res.code}. Expected: 200")
-	puts "@res.headers: #{@res.headers}"
-	puts "@res.code: #{@res.code}"
-	
-	EXPECTED_CONTENT_TYPE = 'application/x-tar'
-	@content_disposition = @res.headers[:content_disposition]
-	@zip_file_name = @content_disposition.split('=')[-1].strip() if @content_disposition.include? '='
-	@last_modified = @res.headers[:last_modified]
-	
-	puts "content-disposition: #{@content_disposition}"
-	puts "download file name: #{@zip_file_name}"
-	puts "last-modified: #{@last_modified}"
-	
-	assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
-end
-
-When /^the return code is 200$/ do
-  assert(@res.code == 200,"The return code is #{@res.code}. Expected: 200")
-	puts "@res.headers: #{@res.headers}"
-	puts "@res.code: #{@res.code}"
 	
 	EXPECTED_CONTENT_TYPE = 'application/x-tar'
 	@content_disposition = @res.headers[:content_disposition]
@@ -247,7 +240,7 @@ end
 
 Then /^the content length in response header is "(.*?)"$/ do |length|
   content_length = @res.headers[:content_length]
-  assert(content_length.to_i == length.to_i)
+  assert(content_length.to_i == length.to_i, "Length doesn't match. Content length is: #{content_length} Expected: #{length}")
 end
 
 Then /^the content length in response header is "(.*?)" less than the total content length$/ do |length|
@@ -285,7 +278,14 @@ Then /^the file is decrypted$/ do
 end
 
 Then /^I see that the combined file matches the tar file$/ do
-  assert(File.size(@received_file) == @total_content_length.to_i)
+  assert(File.size(@received_file) == @total_content_length.to_i, "Combined file isn't the same size as the tar file.")
+  received_contents = File.open(@received_file, 'rb') { |f| f.read}
+  received_hash = Digest::SHA1.hexdigest(received_contents)
+  puts "Hash of combined file is #{received_hash}"
+  sample_contents = File.open(@orig_content, 'rb') { |f| f.read}  
+  sample_hash = Digest::SHA1.hexdigest(sample_contents)
+  puts "Hash of the tar file is #{sample_hash}"
+  assert(received_hash == sample_hash, "Combined file doesn't match the tar file.")
   File.delete(@received_file)
   @received_file = nil
 end
@@ -322,11 +322,13 @@ Then /^I verify the bytes I have are correct$/ do
 end
 
 Then /^the file size is "(.*?)"$/ do |file_size|
-  puts File.size(@received_file)
+  actual_file_size = File.size(@received_file)
+  puts "Actual file size: #{actual_file_size}"
+  assert(file_size == actual_file_size,"Actual file size does not match expected. Actual: #{actual_file_size} Expected: #{file_size}")
 end
 
 Then /^I verify I do not have the complete file$/ do
-  assert(File.size(@received_file) != @orig_content.size)
+  assert(File.size(@received_file) != @orig_content.size, "Apparently, I do have the complete file")
   File.delete(@received_file)
   @received_file = nil
 end
@@ -361,7 +363,7 @@ end
 Then /^I check the version of http response headers$/ do
   LATEST_API_VERSION = "v1.2"
 
-  returned_version = @res.headers[:x_executedPath].split("/").first
+  returned_version = @res.headers[:x_executedpath].split("/").first
 
   assert(returned_version==LATEST_API_VERSION, "Returned version is wrong. Actual: #{returned_version} Expected: #{LATEST_API_VERSION}")
 end
