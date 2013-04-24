@@ -33,7 +33,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -68,9 +67,9 @@ import org.slc.sli.domain.enums.Right;
 
 /**
  * The Bulk Extract Endpoints.
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 @Path("/bulk")
@@ -105,7 +104,7 @@ public class BulkExtract {
 
     /**
      * Creates a streaming response for the sample data file.
-     * 
+     *
      * @return A response with the sample extract file
      * @throws Exception On Error
      */
@@ -162,7 +161,7 @@ public class BulkExtract {
 
     /**
      * Creates a streaming response for the tenant data file.
-     * 
+     *
      * @return A response with the actual extract file
      * @throws Exception On Error
      */
@@ -180,27 +179,28 @@ public class BulkExtract {
 
     /**
      * Stream a delta response.
-     * 
+     *
      * @param date the date of the delta
      * @return A response with a delta extract file.
      * @throws Exception On Error
      */
     @GET
-    @Path("deltas/{date}")
+    @Path("deltas/{leadId}/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getDelta(@Context HttpServletRequest request, @Context HttpContext context, @PathParam("date") String date) throws Exception {
-    	if (deltasEnabled) {
-    		LOG.info("Retrieving delta bulk extract");
+    public Response getDelta(@Context HttpServletRequest request, @Context HttpContext context,
+            @PathParam("leaId") String leaId, @PathParam("date") String date) throws Exception {
+        if (deltasEnabled) {
+            LOG.info("Retrieving delta bulk extract");
             validateRequestCertificate(request);
-
-            return getExtractResponse(context.getRequest(), date, null);
-    	}
-    	return Response.status(404).build();
+            checkApplicationAuthorization(null);
+            return getExtractResponse(context.getRequest(), date, leaId);
+        }
+        return Response.status(404).build();
     }
 
     /**
      * Get the bulk extract response
-     * 
+     *
      * @param headers The http request headers
      * @param deltaDate the date of the delta, or null to get the full extract
      * @return the jax-rs response to send back.
@@ -252,14 +252,14 @@ public class BulkExtract {
 
         if (entity == null) {
             throw new AccessDeniedException("Could not find application with client_id=" + clientId);
-        } 
-        
+        }
+
         return entity;
     }
 
     /**
      * Get the bulk extract file
-     * 
+     *
      * @param deltaDate the date of the delta, or null to retrieve a full extract
      * @param appId
      * @return
@@ -277,9 +277,8 @@ public class BulkExtract {
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
 
         if (isDelta) {
-            DateTime d = ISODateTimeFormat.basicDate().parseDateTime(deltaDate);
-            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.toDate()));
-            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d.plusDays(1).toDate()));
+            DateTime d = ISODateTimeFormat.dateHourMinuteSecond().parseDateTime(deltaDate);
+            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, d.toDate()));
         }
         debug("Bulk Extract query is {}", query);
         Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
@@ -330,9 +329,9 @@ public class BulkExtract {
 
     /**
      * Information about the file to extract
-     * 
+     *
      * @author nbrown
-     * 
+     *
      */
     private class ExtractFile {
         private final String lastModified;
@@ -365,7 +364,7 @@ public class BulkExtract {
     public void setEdorgValidator(GenericToEdOrgValidator validator) {
         this.edorgValidator = validator;
     }
-    
+
     private void validateRequestCertificate(HttpServletRequest request) {
         X509Certificate[] certs = (X509Certificate[]) request.getAttribute("javax.servlet.request.X509Certificate");
         OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
