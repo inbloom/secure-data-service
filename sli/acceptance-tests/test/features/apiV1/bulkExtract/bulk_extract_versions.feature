@@ -2,7 +2,7 @@
 
 Feature: As an API user, I want to be able to make bulk extract requests to with different versions.
 
-Background: Initialize the necessary authorization for Bulk Extract
+Background: An authorized bulk extract user logs in and gets the information for the extract from a HEAD call
     Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
     And I set up a fake tar file on the file system and in Mongo
     And in my list of rights I have BULK_EXTRACT
@@ -57,4 +57,12 @@ Scenario: Validate requests with invalid versions
     When I make a call retrieve the header for the bulk extract end point "/1.3/bulk/extract"
     Then I get back a response code of "404"
     When I make a call retrieve the header for the bulk extract end point "/abc/bulk/extract"
+    Then I get back a response code of "404"
+    When I make API call to retrieve sampled bulk extract file headers with version "v1.3"
+    Then I get back a response code of "404"
+    When I make API call to retrieve sampled bulk extract file headers with version "v2.0"
+    Then I get back a response code of "404"
+    When I make API call to retrieve sampled bulk extract file headers with version "1.3"
+    Then I get back a response code of "404"
+    When I make API call to retrieve sampled bulk extract file headers with version "abc"
     Then I get back a response code of "404"

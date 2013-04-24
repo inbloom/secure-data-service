@@ -93,6 +93,11 @@ end
 
 Then /^I should be on the admin page$/ do
   title = @driver.find_element(:class, "sli_home_title").text
+  puts "-----------------"
+  puts "title #{title}"
+  puts "-----------------"
+  puts @driver.page_source
+  puts "-----------------"
   assert(title == "ADMIN", "User is not in the admin page")
 end
 

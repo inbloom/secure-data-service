@@ -87,8 +87,7 @@ public class ExtractFile {
     }
 
     /**
-     * Creates a fileWriter for a given file prefix (file name).
-     * If writer already exists it returns the writer.
+     *Get a data file for the extract.
      *
      * @param filePrefix
      *          the prefix string to be used in file name generation
