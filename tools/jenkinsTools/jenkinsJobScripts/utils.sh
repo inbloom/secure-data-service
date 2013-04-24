@@ -15,7 +15,8 @@ curlDeploy()
   APP=$1
   APPFILEPATH=$2
   echo "Deploy app $APP to path $APPFILEPATH"
-  curl "http://tomcat:s3cret@localhost:8080/manager/text/deploy?path=/$APP&war=file:$APPFILEPATH"
+  resp = `curl "http://tomcat:s3cret@localhost:8080/manager/text/deploy?path=/$APP&war=file:$APPFILEPATH"`
+  if [[ $resp =~ FAIL.* ]] ; then echo "Application $APP filed to deploy" ; exit 1 ; fi
 }
 
 processApps()
