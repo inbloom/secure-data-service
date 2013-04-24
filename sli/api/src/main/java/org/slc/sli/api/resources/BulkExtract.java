@@ -36,8 +36,21 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
+import com.sun.jersey.api.core.HttpContext;
+import com.sun.jersey.api.core.HttpRequestContext;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -48,17 +61,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.stereotype.Component;
-
-import com.sun.jersey.api.core.HttpContext;
-import com.sun.jersey.api.core.HttpRequestContext;
 
 /**
  * The Bulk Extract Endpoints.
@@ -81,7 +83,10 @@ public class BulkExtract {
 
     @Autowired
     private Repository<Entity> mongoEntityRepository;
-    
+
+    @Value("${sli.bulk.extract.deltasEnabled:false}")
+    private boolean deltasEnabled;
+
     @Autowired
     private GenericToEdOrgValidator edorgValidator;
 
@@ -178,8 +183,11 @@ public class BulkExtract {
     @Path("deltas/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@Context HttpContext context, @PathParam("date") String date) throws Exception {
-        LOG.info("Retrieving delta bulk extract");
-        return getExtractResponse(context.getRequest(), date, null);
+        if (deltasEnabled) {
+            LOG.info("Retrieving delta bulk extract");
+            return getExtractResponse(context.getRequest(), date, null);
+        }
+        return Response.status(404).build();
     }
 
     /**
@@ -347,10 +355,10 @@ public class BulkExtract {
         }
 
     }
-    
+
     /**
      * Setter for our edorg validator
-     * 
+     *
      * @param validator
      */
     public void setEdorgValidator(GenericToEdOrgValidator validator) {
