@@ -33,9 +33,6 @@ Feature: Admininstrating role-based access to bulking
     And I clicked on the button Edit for the application "Testing App"
     And I check Bulk Extract
     When I clicked Save
-    Then I should get 1 error
-    When I enter a public key
-    Then I clicked Save
     Then I am redirected to the Application Registration Tool page
 
   Scenario: Legacy apps are still safe for application registration
