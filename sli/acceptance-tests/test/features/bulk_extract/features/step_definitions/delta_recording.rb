@@ -25,6 +25,12 @@ Given /^I have an empty delta collection$/ do
     @db.drop_collection("deltas")
 end
 
+Given /^I have an empty bulk extract files collection$/ do
+    @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+    @db = @conn["sli"]
+    @db.drop_collection("bulkExtractFiles")
+end
+
 When /^I run a small ingestion job$/ do
   ingest_odin("10students")
 end

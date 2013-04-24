@@ -1341,9 +1341,6 @@ When /^the landing zone for tenant "(.*?)" edOrg "(.*?)" is reinitialized$/ do |
     @body = row['body']
     @landingZones = @body['landingZone'].to_a
     @landingZones.each do |lz|
-      
-      puts "Current landing zone is #{lz['educationOrganization']}"
-      puts "\n\nlz is \n\n#{lz}"
       if lz['educationOrganization'] == edOrg
         puts "Current lz path is #{lz['path']}"
         @landing_zone_path = lz['path']

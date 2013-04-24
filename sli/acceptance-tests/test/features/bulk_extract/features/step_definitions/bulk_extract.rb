@@ -17,6 +17,7 @@ limitations under the License.
 =end
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
+require_relative '../../../apiV1/utils/api_utils.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb' #This is for the decryption step
@@ -49,7 +50,18 @@ COMBINED_SUB_ENTITIES = ['assessmentItem','objectiveAssessment','studentAssessme
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
 
+############################################################
+# Transform
+############################################################
 
+Transform /^<(.*?)>$/ do |human_readable_id|
+  # entity id transforms
+  id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
+  id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
+  id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "cert"
+
+  id
+end
 
 ############################################################
 # Scheduler
@@ -80,6 +92,12 @@ Given /^the local bulk extract script path and the scheduling config path$/ do
 
     puts "bulk extract script path: #{@trigger_script_path}"
     puts "bulk extract scheduling config path: #{@scheduling_config_path}"
+end
+
+Given /^I clean the bulk extract file system and database$/ do
+  steps "Given the extraction zone is empty"
+  steps "Given I have an empty delta collection"
+  steps "Given I have an empty bulk extract files collection"
 end
 
 And /^I clean up the cron extraction zone$/ do
@@ -378,27 +396,30 @@ When /^I untar and decrypt the delta tarfile for tenant "(.*?)" and cert "(.*?)"
   untar(@fileDir)
 end
 
-When /^I (.*?) an (.*?) entity of type (.*?)$/ do |verb, operation, entity|
+When /^I POST a (.*?) entity of type (.*?)$/ do |operation, entity|
   @entityData = {
     "educationOrganization" => {
-      "organizationCategories" => ["State Education Agency"],
+      "organizationCategories" => ["School"],
+      "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
+      "nameOfInstitution" => "Gotham City School District",
       "address" => [
                 "streetNumberName" => "222 Ave D",
                 "city" => "Chicago",
                 "stateAbbreviation" => "IL",
                 "postalCode" => "10098",
                 "nameOfCounty" => "Hooray"
-                ]
+                ],
+      "parentEducationAgencyReference" => "880572db916fa468fbee53a68918227e104c10f5_id"
     }
   }
   @fields = @entityData[entity]
   api_version = "v1"
-  step "I navigate to #{verb} \"/#{api_version}/#{entity}\""
+  step "I navigate to POST \"/v1.2/educationOrganization\""
   headers = @res.raw_headers
   assert(headers != nil, "Headers are nil")
   assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = headers['location'][0]
-  @assocId = s[s.rindex('/')+1..-1]
+  #s = headers['location'][0]
+  #@assocId = s[s.rindex('/')+1..-1]
 end
 
 ############################################################
@@ -479,6 +500,34 @@ Then /^the extract contains no entity files/ do
   })
 end
 
+Then /^The "(.*?)" entity with id "(.*?)" should belong to LEA with id "(.*?)"$/ do |entity, entityId, leaId|
+  # get a mongo cursor for tenant db
+  @ingestion_db_name = convertTenantIdToDbName('Midgar')
+  @db = @conn[@ingestion_db_name]
+  # check the corresponding entity for the LEA reference
+  parentEdorgCheck(entity, entityId, leaId)
+end
+
+Then /^I should see "(.*?)" bulk extract files$/ do |count|
+  count = count.to_i
+  #check the number of bulk extracts in mongo
+  checkMongoCounts("bulkExtractFiles", count)
+  #check the number of tarfiles generated
+  directory = @encryptFilePath.split("/")
+  directory = directory[0..-2].join("/")
+  checkTarfileCounts(directory, count)
+end
+
+Then /^there should be no deltas$/ do
+  checkMongoCounts("bulkExtractFiles", 0)
+end
+
+Then /^I should not see SEA data in the bulk extract deltas$/ do
+  puts "stubbed out"
+  #verify there is no delta generated
+  steps "Then I should see \"0\" bulk extract files"
+end
+
 ############################################################
 # Functions
 ############################################################
@@ -500,6 +549,12 @@ def getExtractInfoFromMongo(tenant, appId, delta=false)
   @fileDir = File.dirname(@encryptFilePath) + '/decrypt/'
   @filePath = @fileDir + File.basename(@encryptFilePath)
   @tenant = tenant
+
+  puts "encryptFilePath is #{@encryptFilePath}"
+  puts "unpackDir is #{@unpackDir}"
+  puts "fileDir is #{@fileDir}"
+  puts "filePath is #{@filePath}"
+  puts "tenant is #{@tenant}"
 end
 
 def getMongoRecordFromJson(jsonRecord)
@@ -661,4 +716,34 @@ end
 def untar(filePath)
   puts "Untarring #{@filePath}"
   `tar -xf #{@filePath} -C #{@fileDir}` 
+end
+
+def parentEdorgCheck(entity, entityId, leaId)
+  found = false
+  # Note: You need a mongo cursor to the correct DB
+  collection = @db[entity]
+  edorg = collection.find("_id" => entityId)
+  edorg.each do |row|
+    if row['body']['parentEducationAgencyReference'] == leaId
+      found = true
+      puts "The parent LEA of edOrg #{entityId} is #{leaId}"
+    end
+  end
+end
+
+def checkMongoCounts(collection, count)
+  @db = @conn["sli"]
+  collection = @db[collection]
+  assert(collection.count == count, "Found #{collection.count} bulkExtract mongo entries, expected #{count}")
+end
+
+def checkTarfileCounts(directory, count)
+  entries = Dir.entries(directory)
+  puts "DEBUG: file entries: #{entries}"
+  # loop thru files in directory and incr when we see a *.tar file
+  tarfile_count = 0
+  entries.each do |file|
+    tarfile_count += 1 if file.match(/.tar$/)
+  end
+  assert(count == tarfile_count, "Found #{tarfile_count} tarfiles, expected #{count}")
 end
