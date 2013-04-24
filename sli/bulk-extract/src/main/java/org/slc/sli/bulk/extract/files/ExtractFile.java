@@ -21,11 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.InvalidKeyException;
-import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -38,16 +35,14 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Extract's archive file class.
@@ -67,7 +62,7 @@ public class ExtractFile {
     private String archiveName = "";
 
 
-    private Map<String, String> clientKeys = null;
+    private Map<String, PublicKey> clientKeys = null;
 
     private static final String FILE_EXT = ".tar";
 
@@ -83,7 +78,7 @@ public class ExtractFile {
      * @param clientKeys
      *          Map from application ID to public keys.
      */
-    public ExtractFile(File parentDir, String archiveName, Map<String, String> clientKeys) {
+    public ExtractFile(File parentDir, String archiveName, Map<String, PublicKey> clientKeys) {
         this.parentDir = parentDir;
         this.archiveName = archiveName;
         this.clientKeys = clientKeys;
@@ -92,7 +87,8 @@ public class ExtractFile {
     }
 
     /**
-     *Get a data file for the extract.
+     * Creates a fileWriter for a given file prefix (file name).
+     * If writer already exists it returns the writer.
      *
      * @param filePrefix
      *          the prefix string to be used in file name generation
@@ -207,24 +203,9 @@ public class ExtractFile {
         return appId + "-" + archiveName + FILE_EXT;
     }
 
-    private PublicKey getApplicationPublicKey(String app) throws IOException {
-
-        PublicKey publicKey = null;
-        String key = clientKeys.get(app);
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.decodeBase64(key));
-        try {
-            KeyFactory kf = KeyFactory.getInstance("RSA");
-            publicKey = kf.generatePublic(spec);
-        } catch (NoSuchAlgorithmException e) {
-            LOG.error("Exception: NoSuchAlgorithmException {}", e);
-            throw new IOException(e);
-        } catch (InvalidKeySpecException e) {
-            LOG.error("Exception: InvalidKeySpecException {}", e);
-            throw new IOException(e);
-        }
-
-        return publicKey;
-}
+    private PublicKey getApplicationPublicKey(String app) {
+		return clientKeys.get(app);
+	}
 
     private static byte[] encryptDataWithRSAPublicKey(byte[] rawData, PublicKey publicKey) {
         byte[] encryptedData = null;
@@ -288,14 +269,14 @@ public class ExtractFile {
     /** Get the clientKeys.
      * @return the clientKeys
      */
-    public Map<String, String> getClientKeys() {
+    public Map<String, PublicKey> getClientKeys() {
         return clientKeys;
     }
 
     /** Set clientKey.
      * @param clientKeys the clientKeys to set
      */
-    public void setClientKeys(Map<String, String> clientKeys) {
+    public void setClientKeys(Map<String, PublicKey> clientKeys) {
         this.clientKeys = clientKeys;
     }
 

@@ -92,6 +92,9 @@ default:
         #Used for security context resultion's internal paging threshold
         sli.api.security.context.paging: 100000
 
+        #Used for X509 Certs for Bulk Extract
+        sli.security.truststore.path: /tmp/trustey.jks
+        sli.security.truststore.password: changeit
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
