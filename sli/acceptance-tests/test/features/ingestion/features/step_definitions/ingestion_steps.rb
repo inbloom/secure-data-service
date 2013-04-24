@@ -1441,7 +1441,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
 
   #db.newBatchJob.find({"stages" : {$elemMatch : {"chunks.0.stageName" : "JobReportingProcessor" }} }).count()
 
-  intervalTime = 1 #seconds
+  intervalTime = 0.5 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
