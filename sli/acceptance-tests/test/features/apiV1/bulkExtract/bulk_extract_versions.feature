@@ -42,11 +42,11 @@ Scenario: Validate requests with minor versions
 
 @fakeTar
 Scenario: Validate requests with invalid versions
-    When I make a call retrieve the header for the bulk extract end point "/v1.999999/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/v1.3/bulk/extract/tenant"
     Then I get back a response code of "404"
-    When I make a call retrieve the header for the bulk extract end point "/v10.0/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/v2.0/bulk/extract/tenant"
     Then I get back a response code of "404"
-    When I make a call retrieve the header for the bulk extract end point "/1.999999/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/1.3/bulk/extract/tenant"
     Then I get back a response code of "404"
     When I make a call retrieve the header for the bulk extract end point "/abc/bulk/extract/tenant"
     Then I get back a response code of "404"
@@ -57,12 +57,4 @@ Scenario: Validate requests with invalid versions
     When I make a call retrieve the header for the bulk extract end point "/1.3/bulk/extract"
     Then I get back a response code of "404"
     When I make a call retrieve the header for the bulk extract end point "/abc/bulk/extract"
-    Then I get back a response code of "404"
-    When I make API call to retrieve sampled bulk extract file headers with version "v1.3"
-    Then I get back a response code of "404"
-    When I make API call to retrieve sampled bulk extract file headers with version "v2.0"
-    Then I get back a response code of "404"
-    When I make API call to retrieve sampled bulk extract file headers with version "1.3"
-    Then I get back a response code of "404"
-    When I make API call to retrieve sampled bulk extract file headers with version "abc"
     Then I get back a response code of "404"
