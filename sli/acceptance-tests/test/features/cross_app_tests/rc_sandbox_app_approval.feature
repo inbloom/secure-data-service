@@ -27,7 +27,6 @@ And I entered the name "Best.  Description.  Ever." into the field titled "Descr
 And I entered the name "0.0" into the field titled "Version"
 And I make my app an installed app
 And I check Bulk Extract
-And I enter a public key
 And I click on the button Submit
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
