@@ -16,7 +16,6 @@ Scenario: The number of Errors should be no more than the numbers Specifed in sl
    | studentParentAssociation    |
   When zip file is scp to ingestion landing zone
   And a batch job for file "Error_Count_Limitation.zip" is completed in database
-  And "3" seconds have elapsed
   Then I should see the number of errors in error log is no more than the error count limitation 250
  
  Scenario: The number of Warnings should be no more than the numbers Specifed in sli.properties
@@ -28,5 +27,4 @@ Scenario: The number of Errors should be no more than the numbers Specifed in sl
    | studentParentAssociation    |
   When zip file is scp to ingestion landing zone
   And a batch job for file "Warn_Count_Limitation.zip" is completed in database
-  And "3" seconds have elapsed
   Then I should see the number of warnings in warn log is no more than the warning count limitation 250
