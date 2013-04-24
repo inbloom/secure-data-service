@@ -142,7 +142,7 @@ end
 
 def skip_resource(resource)
   #We don't need to do CRUD for these resources
-  return (resource == "/system/support" or resource == "/system/session" or resource == "/search") 
+  return (resource == "/system/support" or resource == "/system/session" or resource == "/search" or resource == "/bulk") 
 
 end
 

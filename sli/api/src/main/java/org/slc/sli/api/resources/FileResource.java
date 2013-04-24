@@ -235,7 +235,7 @@ public class FileResource {
                     long end = sublong(part, part.indexOf("-") + 1, part.length());
 
                     if (start == -1) {
-                        start = fileLength - end;
+                        start = Math.max(0, fileLength - end);
                         end = fileLength - 1;
                     } else if (end == -1 || end > fileLength - 1) {
                         end = fileLength - 1;
