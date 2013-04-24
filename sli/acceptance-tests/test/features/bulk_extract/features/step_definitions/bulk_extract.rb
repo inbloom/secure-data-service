@@ -396,7 +396,7 @@ When /^I untar and decrypt the delta tarfile for tenant "(.*?)" and cert "(.*?)"
   untar(@fileDir)
 end
 
-When /^I POST a (.*?) entity of type (.*?)$/ do |operation, entity|
+When /^I POST an entity of type "(.*?)"$/ do |entity|
   @entityData = {
     "educationOrganization" => {
       "organizationCategories" => ["School"],
@@ -409,12 +409,14 @@ When /^I POST a (.*?) entity of type (.*?)$/ do |operation, entity|
                 "postalCode" => "10098",
                 "nameOfCounty" => "Hooray"
                 ],
-      "parentEducationAgencyReference" => "880572db916fa468fbee53a68918227e104c10f5_id"
+      "parentEducationAgencyReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
     }
   }
   @fields = @entityData[entity]
   api_version = "v1"
-  step "I navigate to POST \"/v1.2/educationOrganization\""
+  step "I navigate to POST \"/v1/educationOrganizations\""
+  puts "Result from API call is #{@res}"
+  puts "Session ID is #{@sessionId}"
   headers = @res.raw_headers
   assert(headers != nil, "Headers are nil")
   assert(headers['location'] != nil, "There is no location link from the previous request")

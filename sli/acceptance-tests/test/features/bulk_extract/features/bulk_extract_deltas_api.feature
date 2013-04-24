@@ -75,29 +75,35 @@ Scenario: Ingest SEA update and verify no deltas generated
     Then there should be no deltas
   #And I untar and decrypt the delta tarfile for tenant "Midgar" and cert "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     #Then I should see "0" bulk extract files
-
+@wip
 Scenario: Log in to the API and authenticate with the Bulk Extract ClientID
-#  When I navigate to the API authorization endpoint with my client ID
-#   And I was redirected to the "Simple" IDP Login page
-#   And I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
-#    Then I should receive a json response containing my authorization code
-  
-#  When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-#    Then I should receive a json response containing my authorization token
-#     And I should be able to use the token to make valid API calls
-      
+Given I am a valid LEA Administrator "badmin" with password "badmin1234"
+  And the testing device app key has been created
+  And I have an open web browser
+  When I navigate to the API authorization endpoint with my client ID
+    Then I should be redirected to the realm choosing page
+  When I select "Illinois Daybreak School District 4529" from the dropdown and click go
+   And I was redirected to the "Simple" IDP Login page
+   And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+
+@deltas_api
+Scenario: Log in to the API and authenticate with the Bulk Extract ClientID
+Given I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/vnd.slc+json"
+    When I POST an entity of type "educationOrganization"
+      Then I should receive a return code of 201   
+  When inBloom generates a bulk extract delta file
+   And I untar and decrypt the delta tarfile for tenant "Midgar" and cert "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+     Then I should see "1" bulk extract files
+      And The "educationOrganization" delta was extracted in the same format as the api
 
 Scenario: Create a new education organization through the API and perform delta
-Given I clean the bulk extract file system and database
-  And format "application/json"
-  #When I POST a "update" entity of type "educationOrganization"
-    #Then I should receive a return code of 200
+#Given I clean the bulk extract file system and database
+#  And I am logged in using "badmin" "badmin1234" to realm "IL"
+
   
-  #When inBloom generates a bulk extract delta file
-    #And I untar and decrypt the delta tarfile for tenant "Midgar" and cert "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-      #Then I should see "1" bulk extract files
-    #And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-    #Then The "educationOrganization" delta was extracted in the same format as the api
+
 
 
 Scenario: Update an existing education organization through the API and perform delta

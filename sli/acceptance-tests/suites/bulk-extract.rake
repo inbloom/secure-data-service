@@ -82,7 +82,9 @@ task :bulkExtractDeltasTest do
   runTests("test/features/bulk_extract/features/bulk_extract_ingestion.feature")
   Rake::Task["realmInit"].execute
   Rake::Task["addBootstrapAppAuths"].execute
+  sleep 1  # I hate this, but needs to happen because of mongo sharding timing issues
   allLeaAllowApp("SDK Sample")  
+  sleep 1  # I hate this one equally, but (maybe) needs to happen because of mongo sharding
   authorizeEdorg("SDK Sample")
   runTests("test/features/bulk_extract/features/bulk_extract_deltas_api.feature")
   runTests("test/features/bulk_extract/features/delta_recording.feature")
