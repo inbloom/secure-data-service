@@ -87,8 +87,7 @@ Scenario: Ingested Student data should be encrypted: Populated Database
          | collectionName              |
 	    | recordHash                  |
 	When zip file is scp to ingestion landing zone
-	And I am willing to wait upto 30 seconds for ingestion to complete
-	And a batch job for file "encryption.zip" is completed in database
+    And a batch job for file "encryption.zip" is completed in database
 	Then I should see "Processed 2 records." in the resulting batch job file
 	And I should not see a warning log file created
 	And I should not see an error log file created
