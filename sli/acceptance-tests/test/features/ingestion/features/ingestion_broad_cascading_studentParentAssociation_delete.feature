@@ -94,7 +94,7 @@ Scenario: Safe Delete StudentParentAssociation Ref with Cascade="false" Force="f
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceStudentParentAssociationRefDelete.zip" is completed in database
 	And I should see "Processed 1 records." in the resulting batch job file
-    And I should see "records deleted successfully: 0" in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
 	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
