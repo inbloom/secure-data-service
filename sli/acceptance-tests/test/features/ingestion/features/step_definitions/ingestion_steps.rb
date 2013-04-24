@@ -1434,24 +1434,19 @@ When /^a batch job has completed successfully in the database$/ do
 
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   disable_NOTABLESCAN()
-
   old_db = @db
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
   @entity_collection = @db.collection("newBatchJob")
-
-  #db.newBatchJob.find({"stages" : {$elemMatch : {"chunks.0.stageName" : "JobReportingProcessor" }} }).count()
-
   intervalTime = 0.5 #seconds
-  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 900s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
     iters.times do |i|
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
-
       if @entity_count.to_s == "1"
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1459,13 +1454,10 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       end
     end
   else
-    #sleep(5) # waiting to check job completion removes race condition (windows-specific)
     iters.times do |i|
-
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
-
       if @entity_count.to_s == "1"
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1473,15 +1465,12 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       end
     end
   end
-
   if found
     assert(true, "")
   else
     assert(false, "Batch log did not complete either successfully or with errors within #{@maxTimeout} seconds. Test has timed out. Please check ingestion.log for root cause.")
   end
-
   @db = old_db
-
   enable_NOTABLESCAN()
 end
 
