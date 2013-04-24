@@ -22,10 +22,10 @@ Given I am using preconfigured Ingestion Landing Zone
   And I should not see an error log file created
   Then I should see following map of entry counts in the corresponding sli db collections:
         | collectionName              | count |
-        | securityEvent               | 12    |
+        | securityEvent               | 11    |
   And I check to find if record is in sli db collection:
        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
-       | securityEvent   | 12                   | body.appId              | Ingestion                                                                    | string          |
+       | securityEvent   | 11                   | body.appId              | Ingestion                                                                    | string          |
        | securityEvent   | 1                   | body.logMessage         | Ingestion process started.                                                   | string          |
        | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml (edfi-xml/EducationOrganization) | string          |
 	   | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml records considered for processing: 1            | string          |
