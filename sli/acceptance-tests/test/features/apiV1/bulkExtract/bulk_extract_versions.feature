@@ -9,52 +9,52 @@ Background: An authorized bulk extract user logs in and gets the information for
  
 @fakeTar
 Scenario: Validate backwards compatibility 
-    When I make API call to retrieve sampled bulk extract file headers with version ""
+    When I make a call retrieve the header for the bulk extract end point "/bulk/extract"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
-    When I make API call to bulk extract file headers with version ""
+    When I make a call retrieve the header for the bulk extract end point "/bulk/extract/tenant"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
 
 @fakeTar
 Scenario: Valicate request with only major version
-    When I make API call to retrieve sampled bulk extract file headers with version "v1"
+    When I make a call retrieve the header for the bulk extract end point "/v1/bulk/extract"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
-    When I make API call to bulk extract file headers with version "v1"
+    When I make a call retrieve the header for the bulk extract end point "/v1/bulk/extract/tenant"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
 
 @fakeTar
 Scenario: Validate requests with minor versions
-    When I make API call to bulk extract file headers with version "v1.1"
+    When I make a call retrieve the header for the bulk extract end point "/v1.1/bulk/extract/tenant"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
-    When I make API call to bulk extract file headers with version "v1.2"
+    When I make a call retrieve the header for the bulk extract end point "/v1.1/bulk/extract/tenant"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
-    When I make API call to retrieve sampled bulk extract file headers with version "v1.1"
+    When I make a call retrieve the header for the bulk extract end point "/v1.1/bulk/extract"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
-    When I make API call to retrieve sampled bulk extract file headers with version "v1.2"
+    When I make a call retrieve the header for the bulk extract end point "/v1.2/bulk/extract"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
 
 @fakeTar
 Scenario: Validate requests with invalid versions
-    When I make API call to bulk extract file headers with version "v1.3"
+    When I make a call retrieve the header for the bulk extract end point "/v1.3/bulk/extract/tenant"
     Then I get back a response code of "404"
-    When I make API call to bulk extract file headers with version "v2.0"
+    When I make a call retrieve the header for the bulk extract end point "/v2.0/bulk/extract/tenant"
     Then I get back a response code of "404"
-    When I make API call to bulk extract file headers with version "1.3"
+    When I make a call retrieve the header for the bulk extract end point "/1.3/bulk/extract/tenant"
     Then I get back a response code of "404"
-    When I make API call to bulk extract file headers with version "abc"
+    When I make a call retrieve the header for the bulk extract end point "/abc/bulk/extract/tenant"
     Then I get back a response code of "404"
-    When I make API call to retrieve sampled bulk extract file headers with version "v1.3"
+    When I make a call retrieve the header for the bulk extract end point "/v1.3/bulk/extract"
     Then I get back a response code of "404"
-    When I make API call to retrieve sampled bulk extract file headers with version "v2.0"
+    When I make a call retrieve the header for the bulk extract end point "/v2.0/bulk/extract"
     Then I get back a response code of "404"
-    When I make API call to retrieve sampled bulk extract file headers with version "1.3"
+    When I make a call retrieve the header for the bulk extract end point "/1.3/bulk/extract"
     Then I get back a response code of "404"
-    When I make API call to retrieve sampled bulk extract file headers with version "abc"
+    When I make a call retrieve the header for the bulk extract end point "/abc/bulk/extract"
     Then I get back a response code of "404"

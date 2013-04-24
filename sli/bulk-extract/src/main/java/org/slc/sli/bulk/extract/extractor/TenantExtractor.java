@@ -17,6 +17,7 @@ package org.slc.sli.bulk.extract.extractor;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -60,12 +61,12 @@ public class TenantExtractor{
     public void execute(String tenant, ExtractFile extractFile, DateTime startTime) {
         Set<String> uniqueCollections = new HashSet<String>(entitiesToCollections.values());
 
-        Map<String, String> clientKeys = extractFile.getClientKeys();
+        Map<String, PublicKey> clientKeys = bulkExtractMongoDA.getAppPublicKeys();
         if(clientKeys == null || clientKeys.isEmpty()) {
             LOG.info("No authorized application to extract data.");
             return;
         }
-
+        extractFile.setClientKeys(clientKeys);
         for (String collection : uniqueCollections) {
             entityExtractor.extractEntities(extractFile, collection);
             extractFile.closeWriters();

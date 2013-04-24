@@ -14,7 +14,7 @@ Scenario: Run the bulk extractor on an unauthorized tenant
 Scenario: Try accessing the API's bulk extract endpoint with a user that doesn't have the proper rights
 	Given I trigger a bulk extract
 	And I am a valid 'service' user with an authorized long-lived token "9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd"	
-	When I make bulk extract API call
+	When I make a call to the bulk extract end point "/bulk/extract/tenant"
 	Then I get back a response code of "403"
 	
 Scenario: Valid User tries to get a bulk extract before it's been triggered
@@ -22,7 +22,7 @@ Scenario: Valid User tries to get a bulk extract before it's been triggered
 	And the bulk extract files in the database are scrubbed
 	And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
 	And in my list of rights I have BULK_EXTRACT
-	When I make bulk extract API call
+	When I make a call to the bulk extract end point "/bulk/extract/tenant"
 	Then I get back a response code of "404"
 	
 Scenario: Vaiid User tries to POST to bulk extract endpoint
@@ -36,7 +36,7 @@ Scenario: Valid User tries to get a bulk extract after it's been triggered but i
 	Given the extraction zone is empty
 	And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
 	And in my list of rights I have BULK_EXTRACT
-	When I make bulk extract API call
+	When I make a call to the bulk extract end point "/bulk/extract/tenant"
 	Then I get back a response code of "404"
 		
 Scenario: Run the bulk extractor on an empty database
