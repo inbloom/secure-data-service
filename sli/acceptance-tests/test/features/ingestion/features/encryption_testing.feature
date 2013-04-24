@@ -12,7 +12,6 @@ Scenario: Ingested Student data should be encrypted: Clean Database
         | student                     |  
         | parent                      | 
 	When zip file is scp to ingestion landing zone
-	And I am willing to wait upto 60 seconds for ingestion to complete
 	And a batch job for file "encryption.zip" is completed in database
 		And I should not see a warning log file created
 	And I should not see an error log file created

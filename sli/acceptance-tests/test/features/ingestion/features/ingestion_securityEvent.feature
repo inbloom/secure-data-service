@@ -16,7 +16,6 @@ Given I am using preconfigured Ingestion Landing Zone
     | securityEvent               |
   And I post "TinyDataSet.zip" file as the payload of the ingestion job
   And zip file is scp to ingestion landing zone
-  And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job for file "TinyDataSet.zip" is completed in database
     And I should not see a warning log file created
   And I should not see an error log file created
