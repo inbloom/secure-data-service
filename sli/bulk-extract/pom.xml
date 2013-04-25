@@ -25,6 +25,10 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.slc.sli</groupId>
+			<artifactId>api</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.slc.sli.dal</groupId>
 			<artifactId>dal</artifactId>
 		</dependency>
