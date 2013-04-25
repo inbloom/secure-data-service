@@ -223,9 +223,8 @@ end
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using HEAD to retrieve an existing object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpHead(id, extra_headers = nil, format = @format, sessionId = @sessionId)
+def restHttpHead(id, extra_headers = nil, format = @format, sessionId = @sessionId, client_id = "vavedra9ub")
   # Validate SessionId is not nil
-  client_id = "vavedra9ub"
   assert(sessionId != nil, "Session ID passed into HEAD was nil")
 
   client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
@@ -268,9 +267,8 @@ def restHttpCustomHeadersGet(id, customHeaders, format = @format, sessionId = @s
   return @res
 end
 
-def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId)
+def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, client_id = "vavedra9ub")
   # Validate SessionId is not nil
-  client_id = "vavedra9ub"
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
   client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
