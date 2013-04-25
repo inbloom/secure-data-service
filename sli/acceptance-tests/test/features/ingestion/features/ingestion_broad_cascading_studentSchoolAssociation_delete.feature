@@ -67,9 +67,7 @@ Scenario: Delete Student School Association with cascade
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
-	And I should not see "c5c25df986e6e8fcf3fd9fde80cecbbeb662de42_id" in the "Midgar" database
-	
-	
+
 Scenario: Safe Delete Student School Association Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -99,7 +97,6 @@ Scenario: Safe Delete Student School Association Reference with cascade = false
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
-	And I should not see "c5c25df986e6e8fcf3fd9fde80cecbbeb662de42_id" in the "Midgar" database
 
 Scenario: Delete Orphan Student School Association with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"

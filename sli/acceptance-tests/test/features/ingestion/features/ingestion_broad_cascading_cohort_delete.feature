@@ -41,10 +41,6 @@ Scenario: Delete Cohort with cascade
 	|studentCohortAssociation               |        -4|
 	|recordHash                             |         0|
 	And I should not see "3ec8e3eb5388b559890be7df3cf189902fc2735d_id" in the "Midgar" database
-	And I should not see any entity mandatorily referring to "3ec8e3eb5388b559890be7df3cf189902fc2735d_id" in the "Midgar" database
-	And I should see entities optionally referring to "3ec8e3eb5388b559890be7df3cf189902fc2735d_id" be updated in the "Midgar" database
-
-
 
 	Scenario: Delete Cohort with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"

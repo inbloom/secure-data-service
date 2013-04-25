@@ -98,8 +98,7 @@ Scenario: Delete Orphan LearningStandard with cascade = false
  	|collection                        |delta          |
 	|learningStandard                       |        -1|
 	|recordHash                             |        -1|
-	And I should not see "c3eb32843ae9613b2ac8d6f9b8b21a4a2b91ac4f_id" in the "Midgar" database
-	
+
 
 Scenario: Delete Orphan LearningStandard Ref with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -122,8 +121,7 @@ Scenario: Delete Orphan LearningStandard Ref with cascade = false
  	|collection                        |delta          |
 	|learningStandard                       |        -1|
 	|recordHash                             |        -1|
-	And I should not see "c3eb32843ae9613b2ac8d6f9b8b21a4a2b91ac4f_id" in the "Midgar" database
-	
+
 
 Scenario: Delete LearningStandard with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"

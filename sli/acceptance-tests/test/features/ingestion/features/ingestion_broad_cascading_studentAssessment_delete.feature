@@ -40,8 +40,6 @@ Scenario: Delete StudentAssessment with cascade
     And I should not see an error log file created
     And I should not see a warning log file created
 	And I should not see "30fdc0baa2af224046e8b7ba3407a5741fb37ac3_id" in the "Midgar" database
-	And I should not see any entity mandatorily referring to "30fdc0baa2af224046e8b7ba3407a5741fb37ac3_id" in the "Midgar" database
-	And I should see entities optionally referring to "30fdc0baa2af224046e8b7ba3407a5741fb37ac3_id" be updated in the "Midgar" database
     And I re-execute saved query "SA1" to get "0" records
     And I re-execute saved query "SA2" to get "0" records
     And I re-execute saved query "SA3" to get "0" records

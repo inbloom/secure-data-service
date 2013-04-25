@@ -109,7 +109,6 @@ Scenario: Delete Orphan LearningObjective with cascade = false
         | collection                                |     delta|
         | learningObjective                         |        -1| 
         | recordHash                                |      	 -1|
-	And I should not see "4436e808461d2ccde93e64ebc66cd5036117d01b_id" in the "Midgar" database
 
 	
 Scenario: Delete Orphan LearningObjective Ref with cascade = false
@@ -133,8 +132,7 @@ Scenario: Delete Orphan LearningObjective Ref with cascade = false
         | collection                                |     delta|
         | learningObjective                         |        -1| 
         | recordHash                                |      	 -1|
-	And I should not see "4436e808461d2ccde93e64ebc66cd5036117d01b_id" in the "Midgar" database
-	
+
 	
 Scenario: Delete LearningObjective with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"

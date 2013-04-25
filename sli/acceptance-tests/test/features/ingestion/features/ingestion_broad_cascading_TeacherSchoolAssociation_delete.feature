@@ -56,7 +56,6 @@ Scenario: Delete Orphan Teacher School Association cascade = false
         | collection                |delta|
         |teacherSchoolAssociation   |   -1|
         |recordHash                 |   -1|
-	And I should not see "185f8333b893edd803f880463a2a193d60715743_id" in the "Midgar" database
 
 Scenario: Delete Orphan Teacher School Association by reference cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -82,8 +81,6 @@ Scenario: Delete Orphan Teacher School Association by reference cascade = false
         | collection                |delta|
         |teacherSchoolAssociation   |   -1|
         |recordHash                 |   -1|
-	And I should not see "185f8333b893edd803f880463a2a193d60715743_id" in the "Midgar" database
-
 
   Scenario: Delete Teacher School Association with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -110,7 +107,6 @@ Scenario: Delete Orphan Teacher School Association by reference cascade = false
       | collection                |delta|
       |teacherSchoolAssociation   |   -1|
       |recordHash                 |   -1|
-    And I should not see "185f8333b893edd803f880463a2a193d60715743_id" in the "Midgar" database
 
   Scenario: Delete Teacher School Association Reference with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -137,4 +133,3 @@ Scenario: Delete Orphan Teacher School Association by reference cascade = false
       | collection                |delta|
       |teacherSchoolAssociation   |   -1|
       |recordHash                 |   -1|
-    And I should not see "185f8333b893edd803f880463a2a193d60715743_id" in the "Midgar" database
