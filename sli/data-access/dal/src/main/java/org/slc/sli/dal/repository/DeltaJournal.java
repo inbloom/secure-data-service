@@ -141,6 +141,27 @@ public class DeltaJournal {
         };
     }
     
-
+    /**
+     * Remove all delta journal entries with a "t" value less than the specified
+     * time for the tenant
+     * 
+     * This class for now assumes we still have connections to primary mongo server
+     * to make the clean up happen. In order to make bulk extract secondary-only
+     * capable, we probably need to either figure out how to temporarily set this
+     * mongo template to go to primary for clean up, or wire-in another primary capable
+     * template just for this clean up step.
+     * 
+     * @param cleanUptoTime
+     *            epoch
+     * @param tenant
+     */
+    public void removeDeltaJournals(String tenant, long cleanUptoTime) {
+        if (tenant != null) {
+            TenantContext.setTenantId(tenant);
+        }
+        TenantContext.setIsSystemCall(false);
+        Criteria beforeTime = where("t").lt(cleanUptoTime);
+        template.remove(Query.query(beforeTime), DELTA_COLLECTION);
+    }
 
 }

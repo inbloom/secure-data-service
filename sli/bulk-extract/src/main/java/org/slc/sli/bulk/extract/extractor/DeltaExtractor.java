@@ -154,6 +154,7 @@ public class DeltaExtractor {
     // if everything works, let's try to refactor it soon
     private void finalizeExtraction(String tenant, DateTime startTime) {
         ManifestFile metaDataFile;
+        boolean success = true;
         for (Map.Entry<String, ExtractFile> entry : appPerLeaExtractFiles.entrySet()) {
             ExtractFile extractFile = entry.getValue();
             extractFile.closeWriters();
@@ -162,12 +163,14 @@ public class DeltaExtractor {
                 metaDataFile = extractFile.getManifestFile();
                 metaDataFile.generateMetaFile(startTime);
             } catch (IOException e) {
+                success = false;
                 LOG.error("Error creating metadata file: {}", e.getMessage());
             }
             
             try {
                 extractFile.generateArchive();
             } catch (Exception e) {
+                success = false;
                 LOG.error("Error generating archive file: {}", e.getMessage());
             }
             
@@ -175,6 +178,11 @@ public class DeltaExtractor {
                 bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(),
                         archiveFile.getKey(), startTime.toDate(), true, extractFile.getEdorg());
             }
+        }
+        if (success) {
+            // delta files are generated successfully, we can safely remove those deltas now
+            LOG.info("Delta generation succeed.  Clearing delta collections for any entities before: " + startTime);
+            deltaEntityIterator.removeAllDeltas(tenant, startTime);
         }
     }
 

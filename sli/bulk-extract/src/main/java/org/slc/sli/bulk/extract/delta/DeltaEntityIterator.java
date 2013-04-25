@@ -182,8 +182,18 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     
     @Override
     public void remove() {
-        // assume bulk extract is read from secondary only, there is no remove support
         throw new UnsupportedOperationException();
+    }
+    
+    /**
+     * Remove all deltas that is updated before the start of this run, those entities have no values
+     * now since we created delta extract for them
+     * 
+     * @param tenant
+     * @param uptoTime
+     */
+    public void removeAllDeltas(String tenant, DateTime uptoTime) {
+        deltaJournal.removeDeltaJournals(tenant, uptoTime.getMillis());
     }
 
     public static class DeltaRecord {
