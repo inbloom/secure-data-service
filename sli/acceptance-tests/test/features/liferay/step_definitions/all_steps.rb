@@ -69,8 +69,6 @@ Then /^I should be on Portal home page$/ do
   end
 
   puts "-----------------"
-  puts "title #{title}"
-  puts "-----------------"
   puts @driver.page_source
   puts "-----------------"
 
@@ -119,8 +117,6 @@ end
 
 When /^I click on Admin$/ do
   clickOnLink("Admin")
-  puts "-----------------"
-  puts "title #{title}"
   puts "-----------------"
   puts @driver.page_source
   puts "-----------------"
