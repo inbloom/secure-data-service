@@ -28,7 +28,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.resources.security.DelegationUtil;
+import org.slc.sli.api.security.DelegationUtil;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;

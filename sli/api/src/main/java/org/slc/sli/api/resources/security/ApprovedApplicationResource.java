@@ -40,6 +40,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.DelegationUtil;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.util.SecurityUtil;

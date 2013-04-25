@@ -19,15 +19,15 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
       <bean id="defaultWriter" class="org.slc.sli.bulk.extract.files.writer.EntityWriter">
         <constructor-arg><bean class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
                 <property name="treatments"><util:list value-type="org.slc.sli.bulk.extract.treatment.Treatment">
-                        <ref local="idTreatment"/>
-                        <ref local="typeTreatment"/>
+                        <ref local="__idTreatment"/>
+                        <ref local="__typeTreatment"/>
                  </util:list></property></bean></constructor-arg>
       </bean>
 
       <bean id="educationOrganizationWriter" class="org.slc.sli.bulk.extract.files.writer.EntityWriter">
         <constructor-arg><bean  class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
                 <property name="treatments"><util:list value-type="org.slc.sli.bulk.extract.treatment.Treatment">
-                        <ref local="idTreatment"/>
+                        <ref local="__idTreatment"/>
                         <ref local="educationOrganizationTreatment"/>
                 </util:list></property></bean> </constructor-arg>
       </bean>
@@ -35,7 +35,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
       <bean id="staffWriter" class="org.slc.sli.bulk.extract.files.writer.EntityWriter">
         <constructor-arg><bean  class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
                 <property name="treatments"><util:list value-type="org.slc.sli.bulk.extract.treatment.Treatment">
-                        <ref local="idTreatment"/>
+                        <ref local="__idTreatment"/>
                         <ref local="staffTreatment"/>
                 </util:list></property></bean> </constructor-arg>
       </bean>
@@ -43,8 +43,8 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
       <bean id="assessmentWriter" class="org.slc.sli.bulk.extract.files.writer.EntityWriter">
         <constructor-arg><bean  class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
                 <property name="treatments"><util:list value-type="org.slc.sli.bulk.extract.treatment.Treatment">
-                        <ref local="idTreatment"/>
-                        <ref local="typeTreatment"/>
+                        <ref local="__idTreatment"/>
+                        <ref local="__typeTreatment"/>
                         <ref local="assessmentTreatment"/>
                 </util:list></property></bean> </constructor-arg>
       </bean>
@@ -52,8 +52,8 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
      <bean id="studentAssessmentWriter" class="org.slc.sli.bulk.extract.files.writer.EntityWriter">
         <constructor-arg><bean  class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
                 <property name="treatments"><util:list value-type="org.slc.sli.bulk.extract.treatment.Treatment">
-                        <ref local="idTreatment"/>
-                        <ref local="typeTreatment"/>
+                        <ref local="__idTreatment"/>
+                        <ref local="__typeTreatment"/>
                         <ref local="studentAssessmentTreatment"/>
                 </util:list></property></bean> </constructor-arg>
       </bean>
@@ -61,16 +61,16 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
            <bean id="attendanceWriter" class="org.slc.sli.bulk.extract.files.writer.EntityWriter">
         <constructor-arg><bean  class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
                 <property name="treatments"><util:list value-type="org.slc.sli.bulk.extract.treatment.Treatment">
-                        <ref local="idTreatment"/>
-                        <ref local="typeTreatment"/>
+                        <ref local="__idTreatment"/>
+                        <ref local="__typeTreatment"/>
                         <ref local="attendanceTreatment"/>
                 </util:list></property></bean> </constructor-arg>
       </bean>
 
     <bean id="educationOrganizationTreatment" class="org.slc.sli.bulk.extract.treatment.EducationOrganizationTreatment" />
     <bean id="staffTreatment" class="org.slc.sli.bulk.extract.treatment.StaffTreatment" />
-    <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment" />
-    <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment" />
+    <bean id="__idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment" />
+    <bean id="__typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment" />
     <bean id="assessmentTreatment" class="org.slc.sli.bulk.extract.treatment.AssessmentTreatment" />
     <bean id="studentAssessmentTreatment" class="org.slc.sli.bulk.extract.treatment.StudentAssessmentTreatment" />
     <bean id="attendanceTreatment" class="org.slc.sli.bulk.extract.treatment.AttendanceTreatment" />
