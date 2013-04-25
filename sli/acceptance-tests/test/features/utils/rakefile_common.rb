@@ -51,6 +51,7 @@ def allLeaAllowApp(appName)
 end
 
 def allLeaAllowAppForTenant(appName, tenantName)
+  sleep 1
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
   db = conn[PropLoader.getProps['api_database_name']]
@@ -79,10 +80,16 @@ def authorizeEdorg(appName)
 end
 
 def authorizeEdorgForTenant(appName, tenantName)
+  #sleep 1
+  puts "Entered authorizeEdorg" if ENV['DEBUG']
   disable_NOTABLESCAN()
+  puts "Getting mongo cursor" if ENV['DEBUG']
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
+  puts "Setting into the sli db" if ENV['DEBUG']
   db = conn[PropLoader.getProps['api_database_name']]
+  puts "Setting into the application collection" if ENV['DEBUG']
   appColl = db.collection("application")
+  puts "Finding the application with name #{appName}" if ENV['DEBUG']
   appId = appColl.find_one({"body.name" => appName})["_id"]
   puts("The app #{appName} id is #{appId}") if ENV['DEBUG']
   

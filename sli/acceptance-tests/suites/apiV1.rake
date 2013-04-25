@@ -1,12 +1,6 @@
 ############################################################
 # API V1 tests start
 ############################################################
-task :bulkExtract => [:realmInit] do
-  Rake::Task["bulkExtractCleanup"].execute
-  Rake::Task["importSandboxData"].execute
-  Rake::Task["bulkExtractTriggerTest"].execute
-  runTests("test/features/apiV1/bulkExtract")
-end
 
 desc "Run API V1 Yearly Transcript Tests"
 task :apiV1YearlyTranscriptTests => [:realmInit] do
