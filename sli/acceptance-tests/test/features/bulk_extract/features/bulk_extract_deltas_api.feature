@@ -70,7 +70,7 @@ Scenario: Ingest SEA update and verify no deltas generated
   When inBloom generates a bulk extract delta file
     Then there should be no deltas
 
-Scenario: Log in to the API and authenticate with the Bulk Extract ClientID
+Scenario: Create a new education organization through the API and perform delta
 Given I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/vnd.slc+json"
     When I POST an entity of type "educationOrganization"
@@ -82,9 +82,13 @@ Given I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Admini
 
 @wip
 Scenario: Update an existing education organization through the API and perform delta
-Given format "application/json"
-  When I "POST" a "update" entity of type "educationOrganization"
-    Then I should receive a return code of 200
+Given I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"
+  
+  When I GET the response body for a "<IL-DAYBREAK school>"  
+   And I modify the "body.address.zipcode" fields   
+   And I POST the update
+    Then I should receive a return code of 201
 
   When inBloom generates a bulk extract delta file
    And I log in to the inBloom dashboards as "jstevenson" and get a token
