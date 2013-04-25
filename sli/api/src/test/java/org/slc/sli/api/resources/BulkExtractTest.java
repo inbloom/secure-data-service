@@ -209,7 +209,7 @@ public class BulkExtractTest {
           }
       };
 
-        Response res = bulkExtract.getExtractResponse(context, null, null);
+      Response res = bulkExtract.getExtractResponse(context, null, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -458,6 +458,21 @@ public class BulkExtractTest {
         bulkExtract.getLEAExtract(null, req, "BLEEP");
     }
 
+    @Test(expected = AccessDeniedException.class)
+    public void testGetLERAListFalseAppAuth() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", false);
+        body.put("authorized_ed_orgs", Arrays.asList("ONE"));
+        body.put("public_key", "KEY");
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockEntity.getEntityId()).thenReturn("App1");
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        bulkExtract.getLERAList(req, new HttpContextAdapter());
+    }
 
     private void mockApplicationEntity() {
         Entity mockEntity = Mockito.mock(Entity.class);
