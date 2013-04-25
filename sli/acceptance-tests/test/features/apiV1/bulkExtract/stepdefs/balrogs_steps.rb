@@ -25,6 +25,14 @@ Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"
   @sessionId=token
 end
 
+When /^I make a call to the bulk extract end point "(.*?)"$/ do |url|
+  restTls(url)
+end
+
+When /^I make a call retrieve the header for the bulk extract end point "(.*?)"$/ do |url|
+  restHttpHead(url)
+end
+
 Given /^in my list of rights I have BULK_EXTRACT$/ do
   #  Explanatory step
 end
@@ -45,48 +53,8 @@ Given /^I set up a fake tar file on the file system and in Mongo$/ do
   src_coll.insert({"_id" => @fake_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%a %b %d %H:%S:%M %Z %Y"), "path" => Dir.pwd + "/fake.tar"}})
 end
 
-Given /^I set up a sample tar file on the file system and in Mongo$/ do
-  @sample_file = File.absolute_path(File.dirname(__FILE__) + '/../test_data/sample.tar')
-  
-  time = Time.new
-  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
-  appId = getAppId()
-  src_coll = db["bulkExtractFiles"]
-  @sample_tar_id = SecureRandom.uuid
-  src_coll.remove({"_id" => @sample_tar_id})
-  src_coll.insert({"_id" => @sample_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%a %b %d %H:%S:%M %Z %Y"), "path" => @sample_file}})
-end
-
-Given /^I know the file length of the extract file$/ do
-  @file_size = File.size(@sample_file)
-end
-
-When /^I make API call to retrieve sampled bulk extract file$/ do
-  restHttpGet("/bulk/extract")
-end
-
-When /^I make API call to retrieve sampled bulk extract file headers$/ do
-  restHttpHead("/bulk/extract")
-end
-
-When /^I make API call to retrieve sampled bulk extract file headers with version "(.*?)"$/ do |version|
-  restHttpHead("/" + version + "/bulk/extract")
-end
-
-When /^I make API call to bulk extract file headers with version "(.*?)"$/ do |version|
-  restHttpHead("/" + version + "/bulk/extract/tenant")
-end
-
-When /^I make bulk extract API head call$/ do
-  restHttpHead("/bulk/extract/tenant")
-end
-
-When /^I make bulk extract API call$/ do
-  restHttpGet("/bulk/extract/tenant")
-end
-
 When /^I make lea bulk extract API call for lea "(.*?)"$/ do |arg1|
-  restHttpGet("/bulk/extract/#{arg1}")
+  restTls("/bulk/extract/#{arg1}")
 end
 
 When /^I make a custom bulk extract API call$/ do
@@ -107,23 +75,23 @@ When /^I make a concurrent ranged bulk extract API call and store the results$/ 
 end
 
 def apiCall1()
-  @customHeaders = makeCustomHeader("200001-")
+  @customHeaders = makeCustomHeader("20001-")
   @res1 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
 
 def apiCall2()
-  @customHeaders = makeCustomHeader("0-200000")
+  @customHeaders = makeCustomHeader("0-20000")
   @res2 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
 end
 
 When /^I make API call to retrieve today's delta file$/ do
   today = Time.now
-  restHttpGet("/bulk/deltas/#{today.strftime("%Y%m%d")}")
+  step "I make a call to the bulk extract end point \"/bulk/deltas/#{today.strftime("%Y%m%d")}\""
 end
 
 When /^I make API call to retrieve tomorrow's non existing delta files$/ do
   tomorrow = Time.now+24*3600
-  restHttpGet("/bulk/deltas/#{tomorrow.strftime("%Y%m%d")}")
+  step "I make a call to the bulk extract end point \"/bulk/deltas/#{tomorrow.strftime("%Y%m%d")}\""
 end
 
 When /^I prepare the custom headers for byte range from "(.*?)" to "(.*?)"$/ do |from, to|
@@ -279,6 +247,11 @@ Then /^the content length in response header is "(.*?)"$/ do |length|
   assert(content_length.to_i == length.to_i, "Length doesn't match. Content length is: #{content_length} Expected: #{length}")
 end
 
+Then /^the content length in response header is "(.*?)" less than the total content length$/ do |length|
+  content_length = @res.headers[:content_length]
+  assert(content_length.to_i == @total_content_length.to_i - length.to_i)
+end
+
 Then /^I store the file content$/ do
   @received_file = Dir.pwd + "/Final.tar"
   File.open(@received_file, "a") do |outf|
@@ -309,13 +282,13 @@ Then /^the file is decrypted$/ do
 end
 
 Then /^I see that the combined file matches the tar file$/ do
-  assert(File.size(@received_file) == File.size(@sample_file), "Combined file isn't the same size as the tar file.")
+  assert(File.size(@received_file) == @total_content_length.to_i, "Combined file isn't the same size as the tar file.")
   received_contents = File.open(@received_file, 'rb') { |f| f.read}
   received_hash = Digest::SHA1.hexdigest(received_contents)
-  puts "Hash of combined file is #{received_hash}"
-  sample_contents = File.open(@sample_file, 'rb') { |f| f.read}  
-  sample_hash = Digest::SHA1.hexdigest(sample_contents)
-  puts "Hash of the tar file is #{sample_hash}"
+  #puts "Hash of combined file is #{received_hash}"
+  #sample_contents = File.open(@orig_content, 'rb') { |f| f.read}
+  sample_hash = Digest::SHA1.hexdigest(@orig_content)
+  #puts "Hash of the tar file is #{sample_hash}"
   assert(received_hash == sample_hash, "Combined file doesn't match the tar file.")
   File.delete(@received_file)
   @received_file = nil
@@ -349,8 +322,7 @@ Then /^I verify the bytes I have are correct$/ do
   range_start = range.split("-")[0].to_i
   range_end = range.split("-")[1].to_i
   
-  result = compareWithOriginalFile(@res.body, range_start, range_end)
-  assert(result,"The bytes don't match the tar file")
+  assert(compareWithOriginalFile(@res.body, range_start, range_end) == true, "Files differ between bytes #{range_start} and #{range_end}")
 end
 
 Then /^the file size is "(.*?)"$/ do |file_size|
@@ -360,7 +332,7 @@ Then /^the file size is "(.*?)"$/ do |file_size|
 end
 
 Then /^I verify I do not have the complete file$/ do
-  assert(File.size(@received_file) < File.size(@sample_file), "Apparently, I do have the complete file")
+  assert(File.size(@received_file) != @orig_content.size, "Apparently, I do have the complete file")
   File.delete(@received_file)
   @received_file = nil
 end
@@ -377,7 +349,7 @@ Then /^I store the contents of the second call$/ do
   res_content = @res.body.split(%r{--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
   @content2 = res_content[1].strip()
   puts @content2.size
-  @content4 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0]
+  @content4 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0].strip()
   puts @content4.size
 end
 
@@ -443,7 +415,30 @@ Then /^I check the http response headers$/ do
 end
 
 Then /^the response is decrypted$/ do
-  @plain = decrypt(@res.body)
+  private_key = OpenSSL::PKey::RSA.new File.read './test/features/utils/keys/vavedra9ub.key'
+  assert(@res.body.length >= 512)
+  encryptediv = @res.body[0,256] 
+  encryptedsecret = @res.body[256,256]
+  encryptedmessage = @res.body[512,@res.body.length - 512]
+
+  decrypted_iv = private_key.private_decrypt(encryptediv)
+  decrypted_secret = private_key.private_decrypt(encryptedsecret)
+ 
+  aes = OpenSSL::Cipher.new('AES-128-CBC')
+  aes.decrypt
+  aes.key = decrypted_secret
+  aes.iv = decrypted_iv
+  @plain = aes.update(encryptedmessage) + aes.final
+  if $SLI_DEBUG 
+    puts("Final is #{aes.final}")
+    puts("IV is #{encryptediv}")
+    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
+    puts("Encrypted message is #{encryptedmessage}")
+    puts("Cipher is #{aes}")
+    puts("Plain text length is #{@plain.length} and it is #{@plain}")
+    puts "length #{@res.body.length}"
+  end
+ # @plain = decrypt(@res.body) 
 end
 
 Then /^I see that the response matches what I put in the fake tar file$/ do
@@ -461,8 +456,10 @@ Then /^I have all the information to make a custom bulk extract request$/ do
   assert(@last_modified != nil, "Last-Modified header is empty")
   assert(@accept_ranges == "bytes", "Accept-Ranges header is not bytes")
   assert(@etag != nil, "ETag header is empty")
-  assert(@content_length = @file_size, "Content-Length header is incorrect")
+  assert(@content_length.to_i > 512, "Content-Length header is incorrect")
   assert(@content_range != nil, "Content-Range header is incorrect")
+  @total_content_length = @content_length
+  @orig_content = @res.body
 end
 
 def getAppId()
@@ -478,7 +475,9 @@ def encrypt(unEncryptedFilePath, decryptedFilePath)
   unEncryptedFile = File.open(unEncryptedFilePath, "rb")
   contents = unEncryptedFile.read
 
-  public_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key.pub'
+  certificate = OpenSSL::X509::Certificate.new File.read "./test/features/utils/keys/vavedra9ub.crt"
+
+  public_key = certificate.public_key
 
   cipher = OpenSSL::Cipher.new('AES-128-CBC')
   cipher.encrypt
@@ -498,7 +497,7 @@ def encrypt(unEncryptedFilePath, decryptedFilePath)
 end
 
 def decrypt(content)
-  private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
+  private_key = OpenSSL::PKey::RSA.new File.read './test/features/utils/keys/vavedra9ub.key'
   assert(content.length >= 512)
   encryptediv = content[0,256] 
   encryptedsecret = content[256,256]
@@ -526,10 +525,9 @@ def decrypt(content)
 end
 
 def compareWithOriginalFile(content, range_start, range_end)
-  file = File.open(@sample_file, "rb")
-  file_contents = file.read
   range = Range.new(range_start, range_end)
-  file_range_content = file_contents[range]
+  file_range_content = @orig_content[range]
+  
   if (file_range_content == content)
     return true
   else

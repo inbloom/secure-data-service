@@ -5,7 +5,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
 
    And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
    And in my list of rights I have BULK_EXTRACT
-   When I make bulk extract API call
+   When I make a call to the bulk extract end point "/bulk/extract/tenant"
    When the return code is 200 I get expected tar downloaded
    Then I check the http response headers
    When I decrypt and save the extracted file
@@ -112,6 +112,11 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       #|  teacherSchoolAssociation              |
       #|  teacherSectionAssociation             |
 
+    Scenario: Un-Authorized user cannot use the endpoint
+        Given I am logged in using "linda.kim" "balrogs" to realm "IL"
+        When I make a call to the bulk extract end point "/bulk/extract/tenant"
+        Then I should receive a return code of 403   
+
 
 Scenario: Validate the Last-Modified header is in a valid http date format
     #Retrieve file information
@@ -121,7 +126,7 @@ Scenario: Validate the Last-Modified header is in a valid http date format
     #Make a head call to retrieve last-modified information
     Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
     And in my list of rights I have BULK_EXTRACT
-    When I make bulk extract API head call
+    When I make a call retrieve the header for the bulk extract end point "/bulk/extract/tenant"
     Then I get back a response code of "200"
     Then I have all the information to make a custom bulk extract request
 
@@ -129,4 +134,3 @@ Scenario: Validate the Last-Modified header is in a valid http date format
     When the If-Unmodified-Since header field is set to "BEFORE"
     And I make a custom bulk extract API call
     Then I get back a response code of "412"
-

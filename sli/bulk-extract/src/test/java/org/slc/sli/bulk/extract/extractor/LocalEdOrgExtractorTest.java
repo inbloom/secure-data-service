@@ -92,8 +92,6 @@ public class LocalEdOrgExtractorTest {
     @Test
     public void testExecute() {
     	File tenantDir = Mockito.mock(File.class);
-    	Mockito.when(mockMongo.getAppPublicKeys()).thenReturn(new HashMap<String, String>());
-    	
     	
         Map<String, Object> registration = new HashMap<String, Object>();
         registration.put("status", "APPROVED");

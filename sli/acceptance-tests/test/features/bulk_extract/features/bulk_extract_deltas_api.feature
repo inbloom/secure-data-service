@@ -1,5 +1,6 @@
 Feature: Retrived through the api a generated delta bulk extract file, and validate the file
 
+  @wip
 Scenario: Retrieve a generated bulk extract delta for today
    Given I have delta bulk extract files generated for today
 

@@ -17,6 +17,7 @@ package org.slc.sli.bulk.extract.extractor;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,13 +30,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 /**
@@ -78,8 +78,9 @@ public class TenantExtractorTest {
         ManifestFile metadataFile = Mockito.mock(ManifestFile.class);
         Mockito.doNothing().when(metadataFile).generateMetaFile(Matchers.any(DateTime.class));
 
-        Map<String, String> clientKeys = new HashMap<String, String>();
-        clientKeys.put("test", "testKey");
+        Map<String, PublicKey> clientKeys = new HashMap<String, PublicKey>();
+        PublicKey pk = Mockito.mock(PublicKey.class);
+        clientKeys.put("test", pk);
 
         archiveFile = Mockito.mock(ExtractFile.class);
         Mockito.doNothing().when(archiveFile).generateArchive();
@@ -89,6 +90,7 @@ public class TenantExtractorTest {
         Mockito.when(file.getAbsolutePath()).thenReturn(extractDir+"/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a");
 
         bulkExtractMongoDA = Mockito.mock(BulkExtractMongoDA.class);
+        Mockito.when(bulkExtractMongoDA.getAppPublicKeys()).thenReturn(clientKeys);
         tenantExtractor.setBulkExtractMongoDA(bulkExtractMongoDA);
     }
 
