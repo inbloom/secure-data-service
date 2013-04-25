@@ -68,6 +68,12 @@ Then /^I should be on Portal home page$/ do
     sleep 2
   end
 
+  puts "-----------------"
+  puts "title #{title}"
+  puts "-----------------"
+  puts @driver.page_source
+  puts "-----------------"
+
   if (@driver.page_source.include?("d_popup"))
     accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
     puts accept.inspect
@@ -113,6 +119,11 @@ end
 
 When /^I click on Admin$/ do
   clickOnLink("Admin")
+  puts "-----------------"
+  puts "title #{title}"
+  puts "-----------------"
+  puts @driver.page_source
+  puts "-----------------"
 end
 
 And /^I should see logo$/ do
