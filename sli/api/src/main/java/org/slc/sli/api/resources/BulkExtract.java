@@ -204,16 +204,17 @@ public class BulkExtract {
      * @throws Exception On Error
      */
     @GET
-    @Path("deltas/{date}")
+    @Path("extract/{leadId}/delta/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getDelta(@Context HttpServletRequest request, @Context HttpContext context, @PathParam("date") String date) throws Exception {
-    	if (deltasEnabled) {
-    		LOG.info("Retrieving delta bulk extract");
+    public Response getDelta(@Context HttpServletRequest request, @Context HttpContext context,
+            @PathParam("leaId") String leaId, @PathParam("date") String date) throws Exception {
+        if (deltasEnabled) {
+            LOG.info("Retrieving delta bulk extract");
             validateRequestCertificate(request);
-
-            return getExtractResponse(context.getRequest(), date, null);
-    	}
-    	return Response.status(404).build();
+            checkApplicationAuthorization(null);
+            return getExtractResponse(context.getRequest(), date, leaId);
+        }
+        return Response.status(404).build();
     }
 
     /**
@@ -321,9 +322,8 @@ public class BulkExtract {
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
 
         if (isDelta) {
-            DateTime d = ISODateTimeFormat.basicDate().parseDateTime(deltaDate);
-            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, d.toDate()));
-            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, d.plusDays(1).toDate()));
+            DateTime d = ISODateTimeFormat.dateHourMinuteSecond().parseDateTime(deltaDate);
+            query.addCriteria(new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, d.toDate()));
         }
         debug("Bulk Extract query is {}", query);
         Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);

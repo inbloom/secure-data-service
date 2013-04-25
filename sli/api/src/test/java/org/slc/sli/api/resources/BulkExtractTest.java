@@ -197,37 +197,6 @@ public class BulkExtractTest {
     }
 
   @Test
-  public void testGet() throws Exception {
-      injector.setOauthAuthenticationWithEducationRole();
-      mockApplicationEntity();
-      mockBulkExtractEntity();
-
-      Response res = bulkExtract.getDelta(req, new HttpContextAdapter(), null);
-
-      assertEquals(200, res.getStatus());
-      MultivaluedMap<String, Object> headers = res.getMetadata();
-      assertNotNull(headers);
-      assertTrue(headers.containsKey("content-disposition"));
-      assertTrue(headers.containsKey("last-modified"));
-      String header = (String) headers.getFirst("content-disposition");
-      assertNotNull(header);
-      assertTrue(header.startsWith("attachment"));
-      assertTrue(header.indexOf(INPUT_FILE_NAME) > 0);
-
-      Object entity = res.getEntity();
-      assertNotNull(entity);
-
-      StreamingOutput out = (StreamingOutput) entity;
-      ByteArrayOutputStream os = new ByteArrayOutputStream();
-      out.write(os);
-      os.flush();
-      byte[] responseData = os.toByteArray();
-      String s = new String(responseData);
-
-      assertEquals(BULK_DATA, s);
-  }
-
-  @Test
   public void testGetExtractResponse() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
       mockApplicationEntity();
@@ -338,41 +307,56 @@ public class BulkExtractTest {
       assertEquals(412, res.getStatus());
   }
 
-  @Test
+    @Test
     public void testGetDelta() throws Exception {
-        injector.setEducatorContext();
+        injector.setOauthAuthenticationWithEducationRole();
+        mockApplicationEntity();
+        mockAppAuth();
+
         Map<String, Object> body = new HashMap<String, Object>();
         File f = File.createTempFile("bulkExtract", ".tgz");
-        mockApplicationEntity();
 
         try {
             body.put(BulkExtract.BULK_EXTRACT_FILE_PATH, f.getAbsolutePath());
             body.put(BulkExtract.BULK_EXTRACT_DATE, "Sun Apr 22 11:00:00 GMT 2013");
             Entity e = new MongoEntity("bulkExtractEntity", body);
-            when(mockMongoEntityRepository.findOne(eq(BulkExtract.BULK_EXTRACT_FILES), argThat(new BaseMatcher<NeutralQuery>() {
+            when(
+                    mockMongoEntityRepository.findOne(eq(BulkExtract.BULK_EXTRACT_FILES),
+                            argThat(new BaseMatcher<NeutralQuery>() {
 
-                @Override
-                public boolean matches(Object arg0) {
-                    NeutralQuery query = (NeutralQuery) arg0;
-                    return query.getCriteria().contains(
-                            new NeutralCriteria("date", NeutralCriteria.CRITERIA_GTE, new DateTime(2013, 3, 31, 0, 0).toDate()))
-                            && query.getCriteria().contains(
-                                    new NeutralCriteria("date", NeutralCriteria.CRITERIA_LT, new DateTime(2013, 4, 1,
-                                            0, 0).toDate()));
+                                @Override
+                                public boolean matches(Object arg0) {
+                                    NeutralQuery query = (NeutralQuery) arg0;
+                                    return query.getCriteria().contains(
+                                            new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, new DateTime(
+                                                    2013, 3, 31, 11, 0, 0).toDate()))
+                                            && query.getCriteria().contains(
+                                                    new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL,
+                                                            "Midvale"));
 
-                }
+                                }
 
-                @Override
-                public void describeTo(Description arg0) {
-                }
-            }))).thenReturn(e);
-            Response r = bulkExtract.getDelta(req, new HttpContextAdapter(), "20130331");
+                                @Override
+                                public void describeTo(Description arg0) {
+                                }
+                            }))).thenReturn(e);
+            Response r = bulkExtract.getDelta(req, new HttpContextAdapter(), "Midvale", "2013-03-31T11:00:00");
             assertEquals(200, r.getStatus());
-            Response notExisting = bulkExtract.getDelta(req, new HttpContextAdapter(), "20130401");
+            Response notExisting = bulkExtract.getDelta(req, new HttpContextAdapter(), "Midvale", "2013-04-01T11:00:00");
             assertEquals(404, notExisting.getStatus());
         } finally {
             f.delete();
         }
+    }
+
+    private void mockAppAuth() {
+        Map<String, Object> authBody = new HashMap<String, Object>();
+        authBody.put("applicationId", "App1");
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("Midvale"));
+        Entity mockAuth = Mockito.mock(Entity.class);
+        when(mockAuth.getBody()).thenReturn(authBody);
+        when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockAuth);
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -490,14 +474,14 @@ public class BulkExtractTest {
         bulkExtract.getLERAList(req, new HttpContextAdapter());
     }
 
-
     private void mockApplicationEntity() {
         Entity mockEntity = Mockito.mock(Entity.class);
-        Map<String, Object> mockBody = Mockito.mock(Map.class);
-        Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
+        Map<String, Object> body = new HashMap<String, Object>();
+        Mockito.when(mockEntity.getBody()).thenReturn(body);
 
-        Mockito.when(mockBody.get(eq("public_key"))).thenReturn(PUBLIC_KEY);
-        Mockito.when(mockBody.get(eq("_id"))).thenReturn("abc123_id");
+        body.put("public_key", PUBLIC_KEY);
+        body.put("isBulkExtract", true);
+        body.put("_id", "abc123_id");
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(EntityNames.APPLICATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockEntity);
     }
