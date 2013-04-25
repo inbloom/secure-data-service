@@ -94,6 +94,25 @@ Then the "BulkExtractApp" is enabled for Districts
 And I exit out of the iframe
 And I click on log out
 
+Scenario: SLC Operator Approves Application Registration
+When I navigate to the Portal home page
+When I see the realm selector I authenticate to "inBloom"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+Then I should be on Portal home page
+Then I should see Admin link
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on Approve Application Registration"
+Then I am redirected to the Application Approval Tool page
+And I see all the applications registered on SLI
+And I see all the applications pending registration
+And the pending apps are on top
+When I click on 'Approve' next to application "BulkExtractApp"
+Then application "BulkExtractApp" is registered
+And the 'Approve' button is disabled for application "BulkExtractApp"
+And I exit out of the iframe
+And I click on log out
 
 Scenario:  LEA approves Dashboard, Databrowser and BulkExtractApp Applications
 When I navigate to the Portal home page
