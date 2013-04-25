@@ -82,20 +82,20 @@ Then I should be on the admin page
 And under System Tools, I click on "Register Application"
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
-And I see an application "BulExtractApp" in the table
+And I see an application "BulkExtractApp" in the table
 And the client ID and shared secret fields are present
-And I clicked on the button Edit for the application "BulExtractApp"
+And I clicked on the button Edit for the application "BulkExtractApp"
 Then I can see the on-boarded states
-When I select a state
+When I select the state "STANDARD-SEA"
 Then I see all of the Districts
 Then I check the Districts
 When I click on Save
-Then the "BulExtractApp" is enabled for Districts
+Then the "BulkExtractApp" is enabled for Districts
 And I exit out of the iframe
 And I click on log out
 
 
-Scenario:  LEA approves Dashboard, Databrowser and BulExtractApp Applications
+Scenario:  LEA approves Dashboard, Databrowser and BulkExtractApp Applications
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom"
 And I was redirected to the "Simple" IDP Login page
