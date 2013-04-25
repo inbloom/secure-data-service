@@ -42,9 +42,36 @@ And I should be on the admin page
 And I should not see "inBloom Data Browser"
 And I click on log out
 
-Scenario:  LEA approves Dashboard and Databrowser
+Scenario: App developer creates new Bulk Extract App
 When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom"
+When I see the realm selector I authenticate to "inBloom App Developer"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
+Then I should be on Portal home page
+Then I should see Admin link
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Register Application"
+And I switch to the iframe
+Then I am redirected to the Application Registration Tool page
+And I have clicked to the button New
+And I am redirected to a new application page
+When I entered the name "BulkExtractApp" into the field titled "Name"
+And I entered the name "Best.  Description.  Ever." into the field titled "Description"
+And I entered the name "0.0" into the field titled "Version"
+And I make my app an installed app
+And I check Bulk Extract
+And I click on the button Submit
+And I switch to the iframe
+Then I am redirected to the Application Registration Tool page
+And the application "BulkExtractApp" is listed in the table on the top
+And the client ID and shared secret fields are present
+And I exit out of the iframe
+And I click on log out
+
+Scenario:  LEA approves Dashboard, Databrowser and BulExtractApp Applications
+When I navigate to the Portal home page
+When I see the realm selector I authenticate to "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page    
 Then I should be on Portal home page
@@ -78,7 +105,32 @@ And the app "inBloom Data Browser" Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
-#Authorized the new Web-App
+#Authorize the New Installed App
+And I see an application "BulkExtractApp" in the table
+And in Status it says "Not Approved"
+And I click on the "Approve" button next to it
+And I am asked 'Do you really want this application to access the district's data'
+When I click on Ok
+# switch back to iframe because of the page reload
+And I switch to the iframe
+Then the application is authorized to use data of "Daybreak School District 4529"
+And the app "BulkExtractApp" Status becomes "Approved"
+And it is colored "green"
+And the Approve button next to it is disabled
+And the Deny button next to it is enabled
+
+#Add Bulk Extract role to IT Admin
+And I exit out of the iframe
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Create Custom Roles"
+And I switch to the iframe
+And I edit the group "IT Administrator"
+When I add the right "BULK_EXTRACT" to the group "IT Administrator"
+And I hit the save button
+Then I am no longer in edit mode
+And I switch to the iframe
+And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
 And I exit out of the iframe
 And I click on log out
 
@@ -105,4 +157,4 @@ When I selected the realm "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page    
 Then I should be on Portal home page
-And under My Applications, I see the following apps: "inBloom Dashboards"
+And under My Applications, I see the following apps: "inBloom Dashboards;BulkExtractApp"
