@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +34,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -68,9 +68,9 @@ import org.slc.sli.domain.enums.Right;
 
 /**
  * The Bulk Extract Endpoints.
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 @Path("/bulk")
@@ -105,7 +105,7 @@ public class BulkExtract {
 
     /**
      * Creates a streaming response for the sample data file.
-     * 
+     *
      * @return A response with the sample extract file
      * @throws Exception On Error
      */
@@ -161,8 +161,26 @@ public class BulkExtract {
     }
 
     /**
+     * Send the LEA list the calling user and application have access to
+     *
+     * @return A response with the actual LEA list
+     * @throws Exception On Error
+     */
+    @GET
+    @Path("extract/leas")
+    @RightsAllowed({ Right.BULK_EXTRACT })
+    public Response getLERAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
+        info("Received request for LEA list");
+        validateRequestCertificate(request);
+
+        checkApplicationAuthorization(null);
+
+        return getLEAListResponse(context.getRequest());
+    }
+
+    /**
      * Creates a streaming response for the tenant data file.
-     * 
+     *
      * @return A response with the actual extract file
      * @throws Exception On Error
      */
@@ -171,16 +189,16 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getTenant(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request to stream tenant bulk extract...");
-        checkApplicationAuthorization(null);
-
         validateRequestCertificate(request);
+
+        checkApplicationAuthorization(null);
 
         return getExtractResponse(context.getRequest(), null, null);
     }
 
     /**
      * Stream a delta response.
-     * 
+     *
      * @param date the date of the delta
      * @return A response with a delta extract file.
      * @throws Exception On Error
@@ -200,9 +218,10 @@ public class BulkExtract {
 
     /**
      * Get the bulk extract response
-     * 
-     * @param headers The http request headers
+     *
+     * @param req       the http request context
      * @param deltaDate the date of the delta, or null to get the full extract
+     * @param leaId     the LEA id
      * @return the jax-rs response to send back.
      */
     Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId) {
@@ -240,6 +259,31 @@ public class BulkExtract {
 
     }
 
+
+    /**
+     * Get the LEA list response
+     *
+     * @param req  the http request context
+     * @return the jax-rs response to send back.
+     */
+    Response getLEAListResponse(final HttpRequestContext req) {
+
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Entity application = getApplication(auth);
+        String appId = application.getEntityId();
+
+        List<Entity> leas = new ArrayList<Entity>();
+        //TODO get and filter leas against the application from mongos
+
+        //TODO transfer leas into a list of HATEOAS links
+
+        ResponseBuilder builder = Response.ok();
+        //TODO set status code based on leas.size();
+        //TODO set body based on the list of HATEOAS links
+
+        return builder.build();
+    }
+
     private Entity getApplication(Authentication authentication) {
         if (!(authentication instanceof OAuth2Authentication)) {
             throw new AccessDeniedException("Not logged in with valid oauth context");
@@ -252,14 +296,14 @@ public class BulkExtract {
 
         if (entity == null) {
             throw new AccessDeniedException("Could not find application with client_id=" + clientId);
-        } 
-        
+        }
+
         return entity;
     }
 
     /**
      * Get the bulk extract file
-     * 
+     *
      * @param deltaDate the date of the delta, or null to retrieve a full extract
      * @param appId
      * @return
@@ -330,9 +374,9 @@ public class BulkExtract {
 
     /**
      * Information about the file to extract
-     * 
+     *
      * @author nbrown
-     * 
+     *
      */
     private class ExtractFile {
         private final String lastModified;
@@ -365,7 +409,7 @@ public class BulkExtract {
     public void setEdorgValidator(GenericToEdOrgValidator validator) {
         this.edorgValidator = validator;
     }
-    
+
     private void validateRequestCertificate(HttpServletRequest request) {
         X509Certificate[] certs = (X509Certificate[]) request.getAttribute("javax.servlet.request.X509Certificate");
         OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();

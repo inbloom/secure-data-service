@@ -55,6 +55,15 @@ import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Variant;
 
+import com.sun.jersey.api.Responses;
+import com.sun.jersey.api.core.ExtendedUriInfo;
+import com.sun.jersey.api.core.HttpContext;
+import com.sun.jersey.api.core.HttpRequestContext;
+import com.sun.jersey.api.core.HttpResponseContext;
+import com.sun.jersey.api.representation.Form;
+import com.sun.jersey.core.header.QualitySourceMediaType;
+import com.sun.jersey.core.spi.factory.ResponseImpl;
+
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -66,6 +75,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
 import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -76,22 +93,6 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import com.sun.jersey.api.Responses;
-import com.sun.jersey.api.core.ExtendedUriInfo;
-import com.sun.jersey.api.core.HttpContext;
-import com.sun.jersey.api.core.HttpRequestContext;
-import com.sun.jersey.api.core.HttpResponseContext;
-import com.sun.jersey.api.representation.Form;
-import com.sun.jersey.core.header.QualitySourceMediaType;
-import com.sun.jersey.core.spi.factory.ResponseImpl;
 
 /**
  * Test for support BulkExtract
@@ -115,11 +116,11 @@ public class BulkExtractTest {
 
     @Mock
     private Repository<Entity> mockMongoEntityRepository;
-    
+
     @Mock
     @SuppressWarnings("unused")
     private CertificateValidationHelper helper;
-    
+
     @Mock
     private HttpServletRequest req;
 
@@ -239,7 +240,7 @@ public class BulkExtractTest {
           }
       };
 
-        Response res = bulkExtract.getExtractResponse(context, null, null);
+      Response res = bulkExtract.getExtractResponse(context, null, null);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -399,7 +400,7 @@ public class BulkExtractTest {
                 mockEntity);
         bulkExtract.getTenant(req, new HttpContextAdapter());
     }
-    
+
     @Test(expected = AccessDeniedException.class)
     public void testAppIsNotAuthorizedForLea() throws Exception {
         injector.setEducatorContext();
@@ -412,7 +413,7 @@ public class BulkExtractTest {
         when(mockEntity.getEntityId()).thenReturn("App1");
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        
+
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
         authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("TWO"));
@@ -422,7 +423,7 @@ public class BulkExtractTest {
                 .thenReturn(mockAuth);
         bulkExtract.getLEAExtract(null, req, "BLEEP");
     }
-    
+
     @Test(expected = AccessDeniedException.class)
     public void testAppAuthIsEmpty() throws Exception {
         injector.setEducatorContext();
@@ -447,7 +448,7 @@ public class BulkExtractTest {
                 .thenReturn(mockAuth);
         bulkExtract.getLEAExtract(null, req, "BLEEP");
     }
-    
+
     @Test(expected = AccessDeniedException.class)
     public void testAppHasNoAuthorizedEdorgs() throws Exception {
         injector.setEducatorContext();
@@ -463,7 +464,7 @@ public class BulkExtractTest {
                 mockEntity);
         bulkExtract.getLEAExtract(null, req, "BLEEP");
     }
-    
+
     @Test(expected = AccessDeniedException.class)
     public void testUserNotInLEA() throws Exception {
         injector.setEducatorContext();
@@ -472,7 +473,23 @@ public class BulkExtractTest {
                 .thenReturn(false);
         bulkExtract.getLEAExtract(null, req, "BLEEP");
     }
- 
+
+    @Test(expected = AccessDeniedException.class)
+    public void testGetLERAListFalseAppAuth() throws Exception {
+        injector.setEducatorContext();
+        // No BE Field
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", false);
+        body.put("authorized_ed_orgs", Arrays.asList("ONE"));
+        body.put("public_key", "KEY");
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockEntity.getEntityId()).thenReturn("App1");
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+        bulkExtract.getLERAList(req, new HttpContextAdapter());
+    }
+
 
     private void mockApplicationEntity() {
         Entity mockEntity = Mockito.mock(Entity.class);
