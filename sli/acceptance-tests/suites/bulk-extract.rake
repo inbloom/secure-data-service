@@ -79,6 +79,15 @@ end
 
 desc "Deltas and Deletes"
 task :bulkExtractDeltasTest do
+  runTests("test/features/bulk_extract/features/bulk_extract_ingestion.feature")
+  Rake::Task["realmInit"].execute
+  #puts "Entering addBootstrapAppAuths"
+  #Rake::Task["addBootstrapAppAuths"].execute
+  Rake::Task["appInit"].execute
+  puts "Entering allLeaAllowApp"
+  allLeaAllowApp("SDK Sample")  
+  puts "Entering authorizeEdorg"
+  authorizeEdorg("SDK Sample")
   runTests("test/features/bulk_extract/features/bulk_extract_deltas_api.feature")
   runTests("test/features/bulk_extract/features/delta_recording.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
