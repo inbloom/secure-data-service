@@ -28,6 +28,7 @@ sh log_purge_duration.sh
     -a IngestionPerformanceDaily.pdf \
     -a raw_data.txt \
     Sliders-MegatronDev@wgen.net \
+    okrook@wgen.net \
     < message.txt
 
 echo "Done!"
