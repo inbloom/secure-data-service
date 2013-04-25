@@ -185,7 +185,7 @@ public class BulkExtract {
      * @throws Exception On Error
      */
     @GET
-    @Path("deltas/{leadId}/{date}")
+    @Path("extract/{leadId}/delta/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@Context HttpServletRequest request, @Context HttpContext context,
             @PathParam("leaId") String leaId, @PathParam("date") String date) throws Exception {
