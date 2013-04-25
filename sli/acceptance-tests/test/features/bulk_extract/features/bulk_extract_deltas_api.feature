@@ -1,3 +1,4 @@
+@wip
 Feature: Retrived through the api a generated delta bulk extract file, and validate the file
 
 Scenario: Initialize security trust store for Bulk Extract application and LEAs
@@ -53,11 +54,6 @@ Scenario: Ingest education organization and perform delta
     And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
      And The "school" delta was extracted in the same format as the api
-#  Examples:
-#  | deltaFile                 | user       | role             | realm       | tenant | cert                                 |
-#  | deltas_new_edorg.zip      | jstevenson | IT Administrator | IL-Daybreak | Midgar | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-#  | deltas_update_edorg.zip   | jstevenson | IT Administrator | IL-Daybreak | Midgar | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
-#  | deltas_move_edorg.zip     | jstevenson | IT Administrator | IL-Daybreak | Midgar | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 
 Scenario: Ingest SEA update and verify no deltas generated
   Given I clean the bulk extract file system and database
@@ -73,21 +69,7 @@ Scenario: Ingest SEA update and verify no deltas generated
 
   When inBloom generates a bulk extract delta file
     Then there should be no deltas
-  #And I untar and decrypt the delta tarfile for tenant "Midgar" and cert "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-    #Then I should see "0" bulk extract files
-@wip
-Scenario: Log in to the API and authenticate with the Bulk Extract ClientID
-Given I am a valid LEA Administrator "badmin" with password "badmin1234"
-  And the testing device app key has been created
-  And I have an open web browser
-  When I navigate to the API authorization endpoint with my client ID
-    Then I should be redirected to the realm choosing page
-  When I select "Illinois Daybreak School District 4529" from the dropdown and click go
-   And I was redirected to the "Simple" IDP Login page
-   And I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
 
-@deltas_api
 Scenario: Log in to the API and authenticate with the Bulk Extract ClientID
 Given I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/vnd.slc+json"
@@ -98,38 +80,32 @@ Given I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Admini
      Then I should see "1" bulk extract files
       And The "educationOrganization" delta was extracted in the same format as the api
 
-Scenario: Create a new education organization through the API and perform delta
-#Given I clean the bulk extract file system and database
-#  And I am logged in using "badmin" "badmin1234" to realm "IL"
-
-  
-
-
-
+@wip
 Scenario: Update an existing education organization through the API and perform delta
-#Given format "application/json"
-#  When I "POST" a "update" entity of type "educationOrganization"
-#    Then I should receive a return code of 200
+Given format "application/json"
+  When I "POST" a "update" entity of type "educationOrganization"
+    Then I should receive a return code of 200
 
-#  When inBloom generates a bulk extract delta file
-#   And I log in to the inBloom dashboards as "jstevenson" and get a token
-#   And I request the latest bulk extract delta
-#   And I untar and decrypt the tarfile with cert "<cert>"
+  When inBloom generates a bulk extract delta file
+   And I log in to the inBloom dashboards as "jstevenson" and get a token
+   And I request the latest bulk extract delta
+   And I untar and decrypt the tarfile with cert "<cert>"
 
-#  Then I should see "1" entities of type "educationOrganization" in the bulk extract deltas tarfile
-#   And a "educationOrganization" was extracted in the same format as the api
-#   And each extracted "educationOrganization" delta matches the mongo entry
+  Then I should see "1" entities of type "educationOrganization" in the bulk extract deltas tarfile
+   And a "educationOrganization" was extracted in the same format as the api
+   And each extracted "educationOrganization" delta matches the mongo entry
 
+@wip
 Scenario: Update an existing education organization with an invalid API call
-#Given format "application/json"
-#  When I "PUT" a "invalid" entity of type "educationOrganization"
-#    Then I should receive a return code of 404
+Given format "application/json"
+  When I "PUT" a "invalid" entity of type "educationOrganization"
+    Then I should receive a return code of 404
 
-#  When inBloom generates a bulk extract delta file
-#   And I log in to the inBloom dashboards as "jstevenson" and get a token
-#   And I request the latest bulk extract delta
-#   And I untar and decrypt the tarfile with cert "<cert>"
+  When inBloom generates a bulk extract delta file
+   And I log in to the inBloom dashboards as "jstevenson" and get a token
+   And I request the latest bulk extract delta
+   And I untar and decrypt the tarfile with cert "<cert>"
 
-#  Then I should see "0" entities of type "educationOrganization" in the bulk extract deltas tarfile
-#   And a "educationOrganization" was extracted in the same format as the api
-#   And each extracted "educationOrganization" delta matches the mongo entry
+  Then I should see "0" entities of type "educationOrganization" in the bulk extract deltas tarfile
+   And a "educationOrganization" was extracted in the same format as the api
+   And each extracted "educationOrganization" delta matches the mongo entry
