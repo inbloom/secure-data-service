@@ -17,9 +17,11 @@ limitations under the License.
 =end
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
+require_relative '../../../apiV1/utils/api_utils.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb' #This is for the decryption step
+require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 require 'zip/zip'
 require 'archive/tar/minitar'
 require 'zlib'
@@ -31,6 +33,9 @@ SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_
 TRIGGER_SCRIPT_DIRECTORY = File.expand_path(PropLoader.getProps['bulk_extract_script_directory'])
 CRON_OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_cron_output_directory']
 TRIGGER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_script'])
+DELTA_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_delta_script'])
+DELTA_CONFIG = File.expand_path(PropLoader.getProps['bulk_extract_delta_properties'])
+DELTA_KEYSTORE = File.expand_path(PropLoader.getProps['bulk_extract_delta_keystore'])
 OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
 PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
 KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
@@ -46,6 +51,19 @@ ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','ad
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
 
 $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub"}
+
+############################################################
+# Transform
+############################################################
+
+Transform /^<(.*?)>$/ do |human_readable_id|
+  # entity id transforms
+  id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
+  id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
+  id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "cert"
+
+  id
+end
 
 ############################################################
 # Scheduler
@@ -76,6 +94,12 @@ Given /^the local bulk extract script path and the scheduling config path$/ do
 
     puts "bulk extract script path: #{@trigger_script_path}"
     puts "bulk extract scheduling config path: #{@scheduling_config_path}"
+end
+
+Given /^I clean the bulk extract file system and database$/ do
+  steps "Given the extraction zone is empty"
+  steps "Given I have an empty delta collection"
+  steps "Given I have an empty bulk extract files collection"
 end
 
 And /^I clean up the cron extraction zone$/ do
@@ -184,12 +208,25 @@ Given /^I have delta bulk extract files generated for today$/ do
   @coll.save(bulk_delta_file_entry)
 end
 
+Given /^The bulk extract app has been approved for "([^"]*)" with client id "([^"]*)"$/ do |lea, clientId|
+  @lea = Hash.new
+  @lea["name"] = lea
+  @lea["clientId"] = clientId
+  puts "stubbed out"
+end
+
+Given /^The X509 cert (.*?) has been installed in the trust store and aliased$/ do |cert|
+  @lea["cert"] = cert
+  puts "Stubbed out"
+end
+
 Given /^the bulk extract files in the database are scrubbed/ do
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
   @coll.remove()
 end
+
 ############################################################
 # When
 ############################################################
@@ -197,9 +234,11 @@ end
 When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(tenant,appId)
 end
+
 When /^I know the file-length of the extract file$/ do
   @file_size = File.size(@filePath)
 end
+
 When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(tenant,appId)
   
@@ -234,6 +273,22 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
 	table.hashes.map do |entity|
     exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
     assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
+	end
+
+  fileList = Dir.entries(@unpackDir)
+	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
+end
+
+When /^the extract contains a file for each of the following entities with the appropriate count:$/ do |table|
+  Minitar.unpack(@filePath, @unpackDir)
+
+	table.hashes.map do |entity|
+    exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
+    assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
+    `gunzip #{@unpackDir}/#{entity['entityType']}.json.gz`
+    json = JSON.parse(File.read("#{@unpackDir}/#{entity['entityType']}.json"))
+    puts json.size
+    assert(json.size == entity['count'].to_i, "The number of #{entity['entityType']} should be #{entity['count']}")
 	end
 
   fileList = Dir.entries(@unpackDir)
@@ -334,6 +389,59 @@ When /^I use an invalid tenant to trigger a bulk extract/ do
   puts runShellCommand(command)
 end
 
+When /^inBloom generates a bulk extract delta file$/ do
+  command = "#{DELTA_SCRIPT} -Dsli.conf=#{DELTA_CONFIG} -Dsli.encryption.keyStore=#{DELTA_KEYSTORE} -d"
+  puts "Calling delta extract script"
+  puts "Command: #{command}"
+  stdout = runShellCommand(command)
+  puts "Output of BE script is:\n #{stdout}"
+  #stdout.match(/bulk-extracter Finished in (.*?) seconds/)
+end
+
+When /^I request the latest bulk extract delta using the api$/ do
+  puts "stubbed out"
+end
+
+When /^I untar and decrypt the delta tarfile for tenant "(.*?)" and appId "(.*?)"$/ do |tenant, appId|
+  delta = true
+  getExtractInfoFromMongo(tenant, appId, delta)
+
+  file = File.open(@encryptFilePath, 'rb') { |f| f.read}
+  decryptFile(file, $APP_CONVERSION_MAP[appId])
+  FileUtils.mkdir_p(File.dirname(@filePath)) if !File.exists?(File.dirname(@filePath))
+  File.open(@filePath, 'w') {|f| f.write(@plain) }  
+
+  untar(@fileDir)
+end
+
+When /^I POST an entity of type "(.*?)"$/ do |entity|
+  @entityData = {
+    "educationOrganization" => {
+      "organizationCategories" => ["School"],
+      "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
+      "nameOfInstitution" => "Gotham City School District",
+      "address" => [
+                "streetNumberName" => "222 Ave D",
+                "city" => "Chicago",
+                "stateAbbreviation" => "IL",
+                "postalCode" => "10098",
+                "nameOfCounty" => "Hooray"
+                ],
+      "parentEducationAgencyReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+    }
+  }
+  @fields = @entityData[entity]
+  api_version = "v1"
+  step "I navigate to POST \"/v1/educationOrganizations\""
+  puts "Result from API call is #{@res}"
+  puts "Session ID is #{@sessionId}"
+  headers = @res.raw_headers
+  assert(headers != nil, "Headers are nil")
+  assert(headers['location'] != nil, "There is no location link from the previous request")
+  #s = headers['location'][0]
+  #@assocId = s[s.rindex('/')+1..-1]
+end
+
 ############################################################
 # Then
 ############################################################
@@ -344,6 +452,21 @@ Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
   assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
   compareToApi(collection, collFile)
 }
+end
+
+Then  /^The "(.*?)" delta was extracted in the same format as the api$/ do |collection|
+  # Make a list of all .gz files in the decrypt directory
+  #Dir.entries(@fileDir).each do |file|
+  #  zipfiles = Array.new
+  #  zipfiles << file if file.match(/.gz$/)
+  #end
+  zipfile = @fileDir + "/" + collection + ".json.gz"
+  # Loop through each list, extract the file, parse the json, and verify against the api
+  Zlib::GzipReader.open(zipfile) { |extracts|
+    collFile = JSON.parse(extracts.read)
+    assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
+    compareToApi(collection, collFile)
+  }
 end
 
 Then /^I should not see an extract for tenant "(.*?)"/ do |tenant|
@@ -364,51 +487,118 @@ Then /^the extraction zone should still be empty/ do
   end
 end
 
+Then /^each extracted "(.*?)" delta matches the mongo entry$/ do |collection|
+  disable_NOTABLESCAN()
+  Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extractFile|
+  records = JSON.parse(extractFile.read)
+  uniqueRecords = Hash.new
+  records.each do |jsonRecord|
+    assert(uniqueRecords[jsonRecord['id']] == nil, "Record was extracted twice \nJSONRecord:\n" + jsonRecord.to_s)
+    uniqueRecords[jsonRecord['id']] = 1
+
+    mongoRecord = getMongoRecordFromJson(jsonRecord)
+    assert(mongoRecord != nil, "MongoRecord not found: " + mongoRecord.to_s)
+
+    compareRecords(mongoRecord, jsonRecord)
+  end
+  enable_NOTABLESCAN()
+}
+end
+
+Then /^The bulk extract tarfile should be empty$/ do
+  puts "stubbed out"
+end
+
+Then /^I should see "(.*?)" entities of type "(.*?)" in the bulk extract tarfile$/ do |count, collection|
+  count = count.to_i
+  puts "stubbed out"
+end
+
 Then /^the extract contains no entity files/ do
   step "the extract contains a file for each of the following entities:",table(%{
     | entityType |
   })
 end
 
+Then /^The "(.*?)" entity with id "(.*?)" should belong to LEA with id "(.*?)"$/ do |entity, entityId, leaId|
+  # get a mongo cursor for tenant db
+  @ingestion_db_name = convertTenantIdToDbName('Midgar')
+  @db = @conn[@ingestion_db_name]
+  # check the corresponding entity for the LEA reference
+  parentEdorgCheck(entity, entityId, leaId)
+end
+
+Then /^I should see "(.*?)" bulk extract files$/ do |count|
+  count = count.to_i
+  #check the number of bulk extracts in mongo
+  checkMongoCounts("bulkExtractFiles", count)
+  #check the number of tarfiles generated
+  directory = @encryptFilePath.split("/")
+  directory = directory[0..-2].join("/")
+  checkTarfileCounts(directory, count)
+end
+
+Then /^there should be no deltas$/ do
+  checkMongoCounts("bulkExtractFiles", 0)
+end
+
+Then /^I should not see SEA data in the bulk extract deltas$/ do
+  puts "stubbed out"
+  #verify there is no delta generated
+  steps "Then I should see \"0\" bulk extract files"
+end
+
 ############################################################
 # Functions
 ############################################################
 
-def getExtractInfoFromMongo(tenant, appId)
+def getExtractInfoFromMongo(tenant, appId, delta=false)
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
 
-  match =  @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => "false"},{"body.isDelta" => false}]})
+  if delta
+    match = @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => "true"},{"body.isDelta" => true}]})
+  else
+    match = @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => "false"},{"body.isDelta" => false}]})
+  end
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
   @encryptFilePath = match['body']['path']
   @unpackDir = File.dirname(@encryptFilePath) + '/unpack'
-  @filePath = File.dirname(@encryptFilePath) + '/decrypt/' + File.basename(@encryptFilePath)
+  @fileDir = File.dirname(@encryptFilePath) + '/decrypt/'
+  @filePath = @fileDir + File.basename(@encryptFilePath)
   @tenant = tenant
-end  
+
+  puts "encryptFilePath is #{@encryptFilePath}"
+  puts "unpackDir is #{@unpackDir}"
+  puts "fileDir is #{@fileDir}"
+  puts "filePath is #{@filePath}"
+  puts "tenant is #{@tenant}"
+end
 
 def getMongoRecordFromJson(jsonRecord)
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant)) 
 	case jsonRecord['entityType']
-	when "stateEducationAgency", "localEducationAgency", "school"
-	  collection = "educationOrganization"
-	when "teacher"
-	  collection = "staff"
-	else
-    collection = jsonRecord['entityType']
-	end
-	parent = subDocParent(collection)
-	if (parent == nil)
-        return @tenantDb.collection(collection).find_one("_id" => jsonRecord['id'])
-    else #Collection is a subdoc, gets record from parent
-    	superdoc = @tenantDb.collection(parent).find_one("#{collection}._id" => jsonRecord['id'])
-    	superdoc[collection].each do |subdoc|
-    		if (subdoc["_id"] == jsonRecord['id'])
-    			return subdoc
-    		end
-    	end
+  	when "stateEducationAgency", "localEducationAgency", "school"
+  	  collection = "educationOrganization"
+  	when "teacher"
+  	  collection = "staff"
+  	else
+      collection = jsonRecord['entityType']
+  end
+  parent = subDocParent(collection)
+  if (parent == nil)
+    return @tenantDb.collection(collection).find_one("_id" => jsonRecord['id'])
+  else
+    #Collection is a subdoc, gets record from parent
+    superdoc = @tenantDb.collection(parent).find_one("#{collection}._id" => jsonRecord['id'])
+    superdoc[collection].each do |subdoc|
+      if (subdoc["_id"] == jsonRecord['id'])
+        return subdoc
+      end
     end
+  end
 end
 
 def	compareRecords(mongoRecord, jsonRecord)
@@ -541,4 +731,39 @@ def decryptFile(file, client_id)
     puts("Plain text length is #{@plain.length} and it is")# #{@plain}")
     puts "length #{@res.body.length}" if @res != nil
   end
+end
+
+def untar(filePath)
+  puts "Untarring #{@filePath}"
+  `tar -xf #{@filePath} -C #{@fileDir}` 
+end
+
+def parentEdorgCheck(entity, entityId, leaId)
+  found = false
+  # Note: You need a mongo cursor to the correct DB
+  collection = @db[entity]
+  edorg = collection.find("_id" => entityId)
+  edorg.each do |row|
+    if row['body']['parentEducationAgencyReference'] == leaId
+      found = true
+      puts "The parent LEA of edOrg #{entityId} is #{leaId}"
+    end
+  end
+end
+
+def checkMongoCounts(collection, count)
+  @db = @conn["sli"]
+  collection = @db[collection]
+  assert(collection.count == count, "Found #{collection.count} bulkExtract mongo entries, expected #{count}")
+end
+
+def checkTarfileCounts(directory, count)
+  entries = Dir.entries(directory)
+  puts "DEBUG: file entries: #{entries}"
+  # loop thru files in directory and incr when we see a *.tar file
+  tarfile_count = 0
+  entries.each do |file|
+    tarfile_count += 1 if file.match(/.tar$/)
+  end
+  assert(count == tarfile_count, "Found #{tarfile_count} tarfiles, expected #{count}")
 end

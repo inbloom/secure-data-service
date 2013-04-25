@@ -8,7 +8,6 @@ Background: An authorized bulk extract user logs in and gets the information for
     Then I get back a response code of "200"
     Then I have all the information to make a custom bulk extract request
  
- @sampleTar
  Scenario: Get the extract file with consecutive range calls
     When I prepare the custom headers for byte range from "0" to "100"
     And I make a custom bulk extract API call
@@ -23,22 +22,20 @@ Background: An authorized bulk extract user logs in and gets the information for
     Then the file is decrypted
     And I see that the combined file matches the tar file
 
- @sampleTar
  Scenario: Get the extract file with first-n and last-n calls
-    When I prepare the custom headers for the first "100000" bytes
+    When I prepare the custom headers for the first "200000" bytes
     And I make a custom bulk extract API call
     Then I get back a response code of "206"
-    And the content length in response header is "100000"
+    And the content length in response header is "200000"
     And I store the file content
-    When I prepare the custom headers for the last "54128" bytes
+    When I prepare the custom headers for the last "220368" bytes
     And I make a custom bulk extract API call
     Then I get back a response code of "206"
-    And the content length in response header is "54128"
+    And the content length in response header is "220368"
     And I store the file content
     Then the file is decrypted
     And I see that the combined file matches the tar file
 
-@sampleTar
  Scenario: Get the extract file by making overlapping range calls
     When I prepare the custom headers for byte range from "0" to "100"
     And I make a custom bulk extract API call
@@ -53,7 +50,6 @@ Background: An authorized bulk extract user logs in and gets the information for
     Then the file is decrypted
     And I see that the combined file matches the tar file
  
- @sampleTar
  Scenario: Make disjointed range calls and verify we don't have the complete extract
     When I prepare the custom headers for byte range from "30" to "15000"
     And I make a custom bulk extract API call
@@ -69,42 +65,39 @@ Background: An authorized bulk extract user logs in and gets the information for
     And I store the file content
     And I verify I do not have the complete file
 
-@sampleTar
  Scenario: Make invalid and incomplete range calls
     When I prepare the custom headers for byte range from "0" to "500000"
     And I make a custom bulk extract API call
     Then I get back a response code of "200"
-    And the content length in response header is "154128"
+    And the content length in response header is "420368"
     When I prepare the custom headers for byte range from "" to "500000"
     And I make a custom bulk extract API call
     Then I get back a response code of "200"
-    And the content length in response header is "154128"
+    And the content length in response header is "420368"
     When I prepare the custom headers for byte range from "500000" to "700000"
     And I make a custom bulk extract API call
     Then I get back a response code of "416"
     When I prepare the custom headers for byte range from "50" to "500000"
     And I make a custom bulk extract API call
     Then I get back a response code of "206"
-    And the content length in response header is "154078"
+    And the content length in response header is "420318"
     When I prepare the custom headers for byte range from "500000" to "150"
     And I make a custom bulk extract API call
     Then I get back a response code of "416"
-    When I prepare the custom headers for byte range from "" to "154128"
+    When I prepare the custom headers for byte range from "" to "420368"
     And I make a custom bulk extract API call
     Then I get back a response code of "200"
-    And the content length in response header is "154128"
+    And the content length in response header is "420368"
 
-@sampleTar
 Scenario: Get the extract file by asking for multiple ranges in a single call
     When I prepare the custom headers for multiple byte ranges "0-15000,15001-"
     And I make a custom bulk extract API call
     Then I get back a response code of "200"
-    And the content length in response header is "154128"
+    And the content length in response header is "420368"
     And I store the file content
     Then the file is decrypted
     And I see that the combined file matches the tar file
     
-@sampleTar
 Scenario: Get the extract file by asking for multiple ranges in multiple calls    
     When I prepare the custom headers for multiple byte ranges "0-15000,20001-42000"
     And I make a custom bulk extract API call
@@ -118,14 +111,12 @@ Scenario: Get the extract file by asking for multiple ranges in multiple calls
     And the file is decrypted
     And I see that the combined file matches the tar file
 
-@sampleTar
 Scenario: Get the full extract if making a call with an Invalid e-tag
     When I prepare the custom headers with incorrect etag
     And I make a custom bulk extract API call
     Then I get back a response code of "200"
-    And the content length in response header is "154128"
+    And the content length in response header is "420368"
 
-@sampleTar
  Scenario: Get the extract file by making concurrent range request API calls
     When I make a concurrent ranged bulk extract API call and store the results
     Then the file is decrypted

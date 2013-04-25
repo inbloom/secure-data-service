@@ -37,22 +37,6 @@ Given /^in my list of rights I have BULK_EXTRACT$/ do
   #  Explanatory step
 end
 
-Given /^I set up a fake tar file on the file system and in Mongo$/ do
-  File.open("fake.tar", 'w') {|f| f.write($FAKE_FILE_TEXT)}
-  puts("Tar file is in #{Dir.pwd}/fake.tar")
-  @path = Dir.pwd + "/fake.tar"
-
-  encrypt(@path, @path)
-
-  time = Time.new
-  
-  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
-  appId = getAppId()
-  src_coll = db["bulkExtractFiles"]
-  @fake_tar_id = SecureRandom.uuid
-  src_coll.insert({"_id" => @fake_tar_id, "body" => {"applicationId" => appId, "isDelta" => "false", "tenantId" => "Midgar", "date" => time.strftime("%a %b %d %H:%S:%M %Z %Y"), "path" => Dir.pwd + "/fake.tar"}})
-end
-
 When /^I make lea bulk extract API call for lea "(.*?)"$/ do |arg1|
   restTls("/bulk/extract/#{arg1}")
 end
@@ -540,28 +524,4 @@ def makeCustomHeader(range, if_range = @etag, last_modified = @last_modified)
    header.store(:last_modified, last_modified)
    header.store(:range, "bytes=" + range)
    return header
-end
-
-After('@fakeTar') do 
-#Given /^I remove the fake tar file and remove its reference in Mongo$/ do
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
-  db ||= conn.db('sli')
-  src_coll = db["bulkExtractFiles"]
-  src_coll.remove({"_id" => @fake_tar_id})
-  File.delete(@path)
-  if(@received_file != nil)
-    File.delete(@received_file)
-  end
-  conn.close()
-end
-
-After('@sampleTar') do 
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
-  db ||= conn.db('sli')
-  src_coll = db["bulkExtractFiles"]
-  src_coll.remove({"_id" => @sample_tar_id})
-  if(@received_file != nil)
-    File.delete(@received_file)
-  end
-  conn.close()
 end
