@@ -34,6 +34,7 @@ end
 desc "Run Ingestion Negative Tests"
 task :ingestionNegativeTests do
   runTests("test/features/ingestion/features/negative_testing.feature")
+  runTests("test/features/ingestion/features/ingestion_ChecksumError.feature")
 end
 
 desc "Run Ingestion Smooks Verification Tests"
@@ -281,6 +282,7 @@ end
 desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
         :ingestBroadSetOfTypesAndExportData,
+        :multipleForceDeletesTest,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
         :ingestionCascadingDeletionBlendedTest,
@@ -599,6 +601,10 @@ end
 
 task :multipleOrphansDeleteTest do
   runTests("test/features/ingestion/features/multiple_orphans_deletion.feature")
+end
+
+task :multipleForceDeletesTest do
+  runTests("test/features/ingestion/features/multiple_forced_deletions.feature")
 end
 
 task :updateAllMd5s do

@@ -13,7 +13,6 @@ Given I add a new tenant for "TENANT-EDORG"
      | student                     |
      | recordHash                  |
 When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 120 seconds for ingestion to complete
   And a batch job for file "tenant.zip" is completed in database
   Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
@@ -37,7 +36,6 @@ Given I add a new landing zone for "Midgar-Newtowne.te_\#&5st@wgen.net"
      | student                     |
      | recordHash                  |
 When zip file is scp to ingestion landing zone with name "tenant2.zip"
-  And I am willing to wait upto 120 seconds for ingestion to complete
   And a batch job for file "tenant2.zip" is completed in database
   Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |

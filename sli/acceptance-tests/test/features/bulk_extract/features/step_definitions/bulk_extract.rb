@@ -45,7 +45,7 @@ COMBINED_SUB_ENTITIES = ['assessmentItem','objectiveAssessment','studentAssessme
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
 
-
+$APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub"}
 
 ############################################################
 # Scheduler
@@ -204,7 +204,7 @@ When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)
   getExtractInfoFromMongo(tenant,appId)
   
   file = File.open(@encryptFilePath, 'rb') { |f| f.read}
-  decryptFile(file)
+  decryptFile(file, $APP_CONVERSION_MAP[appId])
   FileUtils.mkdir_p(File.dirname(@filePath)) if !File.exists?(File.dirname(@filePath))
   File.open(@filePath, 'w') {|f| f.write(@plain) }  
 
@@ -232,8 +232,8 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
   Minitar.unpack(@filePath, @unpackDir)
 
 	table.hashes.map do |entity|
-  exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
-  assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
+    exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
+    assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
 	end
 
   fileList = Dir.entries(@unpackDir)
@@ -517,8 +517,8 @@ def compareToApi(collection, collFile)
   assert(found, "No API records for #{collection} were fetched successfully.")
 end
 
-def decryptFile(file)
-  private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
+def decryptFile(file, client_id)
+  private_key = OpenSSL::PKey::RSA.new File.read "./test/features/utils/keys/#{client_id}.key"
   assert(file.length >= 512)
   encryptediv = file[0,256] 
   encryptedsecret = file[256,256]
@@ -538,7 +538,7 @@ def decryptFile(file)
     puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
     puts("Encrypted message is #{encryptedmessage}")
     puts("Cipher is #{aes}")
-    puts("Plain text length is #{@plain.length} and it is #{@plain}")
-    puts "length #{@res.body.length}"
+    puts("Plain text length is #{@plain.length} and it is")# #{@plain}")
+    puts "length #{@res.body.length}" if @res != nil
   end
 end

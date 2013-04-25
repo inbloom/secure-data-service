@@ -44,25 +44,6 @@ class AppTest < ActiveSupport::TestCase
     app.version = "Waffles"
     assert app.valid?, "App is valid with a string"
   end
-  
-  test "bulk extract must have a public key" do
-    app = build_app
-    app.public_key = nil
-    assert !app.valid?, "App must have a public key if bulk extract is enabled"
-    app.isBulkExtract = false
-    assert app.valid?, "App should be valid if bulk extract is disabled"
-    app.public_key = "BOOP BOOP"
-    assert app.valid?, "App should be valid if public key is set but bulk extract is disabled"
-    app.isBulkExtract = true
-    assert app.valid?, "App is valid with public key and bulk extract enabled"
-  end
-
-
-  # test "save app" do
-  #   app = App.new(@app_fixtures["new"])
-  #   assert(app.valid?, "This should be valid")
-  #   assert_nothing_raised(Exception) { app.save }
-  # end
 
   private
   def build_app
@@ -74,7 +55,6 @@ class AppTest < ActiveSupport::TestCase
     app.vendor = "McDonalds"
     app.version = "1.0"
     app.isBulkExtract = true
-    app.public_key = "BOOP"
     app.administration_url = "https://morederp"
     app.image_url = "https://morederp"
     app

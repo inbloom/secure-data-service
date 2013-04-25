@@ -79,6 +79,12 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
         }
         warn("Cause: {}", e.getMessage());
         audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied!"));
-        return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), "Access DENIED: " + e.getMessage())).build();
+
+        MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
+        if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
+            errorType = MediaType.APPLICATION_XML_TYPE;
+        }
+        
+        return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), "Access DENIED: " + e.getMessage())).type(errorType).build();
     }
 }

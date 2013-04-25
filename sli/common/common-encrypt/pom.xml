@@ -47,4 +47,33 @@
     </dependency>
 
   </dependencies>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>/tmp/</outputDirectory>
+              <resources>          
+                <resource>
+					<directory>${sli.home}/data-access/dal/keyStore</directory>
+					<filtering>false</filtering>
+					<includes>
+						<include>trustey.jks</include>
+					</includes>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

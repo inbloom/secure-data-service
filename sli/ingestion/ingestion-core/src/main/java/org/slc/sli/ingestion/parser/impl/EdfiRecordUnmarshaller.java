@@ -414,13 +414,6 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
             }
         }
 
-
-        if (isDelete && originalType != null &&  !isReference && !SupportedEntities.isSupportedForDelete(originalType)) {
-            messageReport.error(reportStats, elementSource, CoreMessageCode.CORE_0073, originalType);
-            return false;
-        }
-
-
         return status;
     }
 
@@ -472,87 +465,6 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
      */
     public void addVisitor(RecordVisitor recordVisitor) {
         recordVisitors.add(recordVisitor);
-    }
-
-    /*
-     * We need to disallow deletes of any entities that are not listed here. This should go away
-     * next sprint, as deletes of all
-     * entities will be supported
-     *
-     */
-
-    protected static enum SupportedEntities {
-        ASSESSMENT("Assessment"),    	
-        ASSESSMENTFAMILY("AssessmentFamily"),
-        ASSESSMENTITEM("AssessmentItem"),
-        ASSESSMENTPERIODDESCRIPTOR("AssessmentPeriodDescriptor"),
-        ASSESSMENTPERIODDESCRIPTORREFERENCE("AssessmentPeriodDescriptorReference"),
-        ATTENDANCEEVENT("AttendanceEvent"),
-        CALENDARDATE("CalendarDate"),
-        COHORT("Cohort"),
-        COMPETENCYLEVELDESCRIPTOR("CompetencyLevelDescriptor"),
-        COMPETENCYLEVELDESCRIPTORREFERENCE("CompetencyLevelDescriptorReference"),
-        COURSE("Course"),
-        COURSEOFFERING("CourseOffering"),
-        COURSETRANSCRIPT("CourseTranscript"),        
-        DISCIPLINEACTION("DisciplineAction"),
-        DISCIPLINEINCIDENT("DisciplineIncident"),                
-        GRADE("Grade"),
-        GRADEBOOKENTRY("GradeBookEntry"),        
-        GRADINGPERIOD("GradingPeriod"),
-        GRADUATIONPLAN("GraduationPlan"),
-        GRADUATIONPLANREFERENCE("GraduationPlanReference"),
-        LEARNINGOBJECTIVE("LearningObjective"),
-        LEARNINGSTANDARD("LearningStandard"),
-        LOCALEDUCATIONAGENCY("LocalEducationAgency"),
-        OBJECTIVEASSESSMENT("ObjectiveAssessment"),       
-        PARENT("Parent"),
-        PROGRAM ("Program"),
-        REPORTCARD("ReportCard"),        
-        SCHOOL("School"),
-        SECTION("Section"),
-        SESSION("Session"),
-        STAFF("Staff"), 
-        STAFFEDUCATIONORGASSIGNMENTASSOCIATION("StaffEducationOrgAssignmentAssociation"),
-        STATEEDUCATIONAGENCY("StateEducationAgency"),
-        STAFFPROGRAMASSOCIATION("StaffProgramAssociation"),        
-        STUDENT("Student"),
-        STUDENTACADEMICRECORD("StudentAcademicRecord"),        
-        STUDENTASSESSMENT("StudentAssessment"),
-        STUDENTASSESSMENTITEM("StudentAssessmentItem"),
-        STUDENTCOHORTASSOCIATION("StudentCohortAssociation"),
-        STUDENTCOMPETENCY("StudentCompetency"),    
-        STUDENTCOMPETENCYOBJECTIVE("StudentCompetencyObjective"),
-        STUDENTCOMPETENCYOBJECTIVEREFERENCE("StudentCompetencyObjectiveReference"),
-        STUDENTDISCIPLINEINCIDENTASSOCIATION("StudentDisciplineIncidentAssociation"),
-        STUDENTDISCIPLINEINCIDENTASSOCIATIONREFERENCE("StudentDisciplineIncidentAssociationReference"),
-        STUDENTGRADEBOOKENTRY("StudentGradeBookEntry"),                    
-        STUDENTOBJECTIVEASSESSMENT("StudentObjectiveAssessment"),
-        STUDENTPARENTASSOCIATION("StudentParentAssociation"),        
-        STUDENTPARENTASSOCIATIONREFERENCE("StudentParentAssociationReference"),
-        STUDENTPROGRAMASSOCIATION("StudentProgramAssociation"),
-        STUDENTSCHOOLASSOCIATION("StudentSchoolAssociation"),
-        STUDENTSCHOOLASSOCIATIONREFERENCE("StudentSchoolAssociationReference"),
-        STUDENTSECTIONASSOCIATION("StudentSectionAssociation"),
-        STUDENTSECTIONASSOCIATIONREFERENCE("StudentSectionAssociationReference"),
-        TEACHER("Teacher"),
-        TEACHERSCHOOLASSOCIATION("TeacherSchoolAssociation"),
-        TEACHERSECTIONASSOCIATION("TeacherSectionAssociation");
-
-
-        private SupportedEntities(String text) {
-        }
-
-        static boolean isSupportedForDelete(String entityName) {
-            try {
-                SupportedEntities.valueOf(entityName.toUpperCase());
-            } catch (IllegalArgumentException ex) {
-                LOG.warn("Received entity unsupported for deletes: {}", entityName);
-                return false;
-            }
-            return true;
-        }
-
     }
 
 }

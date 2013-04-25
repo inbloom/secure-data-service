@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+  <Action ActionType="DELETE" Cascade="false" Force="false">
+      <GradebookEntry>
+          <GradebookEntryType>Homework</GradebookEntryType>
+          <DateAssigned>2002-10-11</DateAssigned>
+          <Description>Gradebook Entry of type: Homework, assigned on: 2002-10-11</Description>
+          <LearningObjectiveReference>
+              <LearningObjectiveIdentity>
+                  <Objective>Agriculture, Food, and Natural Resources Objective 1</Objective>
+                  <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                  <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+              </LearningObjectiveIdentity>
+          </LearningObjectiveReference>
+          <LearningObjectiveReference>
+              <LearningObjectiveIdentity>
+                  <Objective>Agriculture, Food, and Natural Resources Objective 2</Objective>
+                  <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                  <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+              </LearningObjectiveIdentity>
+          </LearningObjectiveReference>
+          <LearningObjectiveReference>
+              <LearningObjectiveIdentity>
+                  <Objective>Agriculture, Food, and Natural Resources Objective 3</Objective>
+                  <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                  <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+              </LearningObjectiveIdentity>
+          </LearningObjectiveReference>
+          <LearningObjectiveReference>
+              <LearningObjectiveIdentity>
+                  <Objective>Agriculture, Food, and Natural Resources Objective 4</Objective>
+                  <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                  <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+              </LearningObjectiveIdentity>
+          </LearningObjectiveReference>
+          <LearningObjectiveReference>
+              <LearningObjectiveIdentity>
+                  <Objective>Agriculture, Food, and Natural Resources Objective 5</Objective>
+                  <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                  <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+              </LearningObjectiveIdentity>
+          </LearningObjectiveReference>
+          <SectionReference>
+              <SectionIdentity>
+                  <EducationalOrgReference>
+                      <EducationalOrgIdentity>
+                          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                      </EducationalOrgIdentity>
+                  </EducationalOrgReference>
+                  <UniqueSectionCode>26</UniqueSectionCode>
+              </SectionIdentity>
+          </SectionReference>
+          <GradingPeriodReference>
+              <GradingPeriodIdentity>
+                  <EducationalOrgReference>
+                      <EducationalOrgIdentity>
+                          <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                      </EducationalOrgIdentity>
+                  </EducationalOrgReference>
+                  <GradingPeriod>End of Year</GradingPeriod>
+                  <BeginDate>2002-09-09</BeginDate>
+              </GradingPeriodIdentity>
+          </GradingPeriodReference>
+      </GradebookEntry>
+  </Action>  
+</InterchangeStudentGrade>

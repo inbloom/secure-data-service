@@ -58,7 +58,6 @@ Scenario: Delete staffEducationOrganizationAssociation with cascade
         |staffEducationOrganizationAssociation        |   -1|
         |recordHash                                   |   -1|
     And I re-execute saved query "staffEducationOrganizationAssociation" to get "0" records
-    And I should not see "e8ce901a42119bcca2516c2e0c6e606f0fd5343c_id" in the "Midgar" database
 
  Scenario: Safe Delete Orphan staffEducationOrganizationAssociation by reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -85,7 +84,6 @@ Scenario: Delete staffEducationOrganizationAssociation with cascade
         |staffEducationOrganizationAssociation        |   -1|
         |recordHash                                   |   -1|
     And I re-execute saved query "staffEducationOrganizationAssociation" to get "0" records
-    And I should not see "e8ce901a42119bcca2516c2e0c6e606f0fd5343c_id" in the "Midgar" database
 
 
   Scenario: Delete StaffEducationOrganizationAssociation with cascade = false, force = true
@@ -114,7 +112,6 @@ Scenario: Delete staffEducationOrganizationAssociation with cascade
       |staffEducationOrganizationAssociation        |   -1|
       |recordHash                                   |   -1|
     And I re-execute saved query "staffEducationOrganizationAssociation" to get "0" records
-    And I should not see "e8ce901a42119bcca2516c2e0c6e606f0fd5343c_id" in the "Midgar" database
 
   Scenario: Delete StaffEducationOrganizationAssociation Reference with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -142,4 +139,3 @@ Scenario: Delete staffEducationOrganizationAssociation with cascade
       |staffEducationOrganizationAssociation        |   -1|
       |recordHash                                   |   -1|
     And I re-execute saved query "staffEducationOrganizationAssociation" to get "0" records
-    And I should not see "e8ce901a42119bcca2516c2e0c6e606f0fd5343c_id" in the "Midgar" database

@@ -1434,24 +1434,19 @@ When /^a batch job has completed successfully in the database$/ do
 
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   disable_NOTABLESCAN()
-
   old_db = @db
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
   @entity_collection = @db.collection("newBatchJob")
-
-  #db.newBatchJob.find({"stages" : {$elemMatch : {"chunks.0.stageName" : "JobReportingProcessor" }} }).count()
-
-  intervalTime = 1 #seconds
-  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+  intervalTime = 0.5 #seconds
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 900s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
     iters.times do |i|
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
-
       if @entity_count.to_s == "1"
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1459,13 +1454,10 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       end
     end
   else
-    #sleep(5) # waiting to check job completion removes race condition (windows-specific)
     iters.times do |i|
-
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
-
       if @entity_count.to_s == "1"
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1473,15 +1465,12 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       end
     end
   end
-
   if found
     assert(true, "")
   else
     assert(false, "Batch log did not complete either successfully or with errors within #{@maxTimeout} seconds. Test has timed out. Please check ingestion.log for root cause.")
   end
-
   @db = old_db
-
   enable_NOTABLESCAN()
 end
 
@@ -2690,6 +2679,84 @@ def parallelCheckForContentInFileGivenPrefix(message, prefix, landing_zone)
       raise "File " + @job_status_filename + "can't be opened"
     end
   end
+end
+
+
+def checkForContentInFileGivenPrefixAndXMLNameRegex( regex, prefix, xml_name)
+
+  if (INGESTION_MODE == 'remote')
+
+    @resultOfIngestion = ""
+    Net::SSH.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => INGESTION_PASSWORD) do |ssh|
+      ssh.exec!("ls -l #{@landing_zone_path} | grep #{prefix}#{xml_name} | tail -1 | awk '{print $NF}' | xargs -I x cat #{@landing_zone_path}/x") do |channel, stream, data|
+        @resultOfIngestion << data
+      end
+    end
+
+    @resultOfIngestion.split( "\n" ).each do |line|
+      if ! ( line.match( /#{regex}/) )
+        assert(false, "File contains unexpected error message: " + line )
+      end
+    end
+
+    assert(true, "Processed all the records.")
+
+  else
+    @job_status_filename = ""
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex(prefix) && entry.rindex(xml_name))
+        # XML ENTRY IS OUR FILE
+        @job_status_filename = entry
+      end
+    end
+
+
+    aFile = File.new(@landing_zone_path + @job_status_filename, "r")
+    puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
+    assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
+    if aFile 
+      file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
+      #puts "FILE CONTENTS = " + file_contents
+
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
+      @linesArray = IO.readlines(@landing_zone_path + @job_status_filename)
+      @linesArray.each do |line|
+        if ! ( line.match( /#{regex}/) )
+          assert(false, "File contains unexpected error message: " + line )
+        end
+      end
+      aFile.close
+    else
+      raise "File " + @job_status_filename + "can't be opened"
+    end
+  end
+end
+
+
+And /^the only errors I want to see in the resulting (.*?) log file for "(.*?)" are below$/ do |file_type,xml_name, table|
+
+  case file_type
+     when "warning" then prefix="warn."
+     when "error" then prefix="error."
+     else assert(false, "Unsupported file type:" + file_type )
+  end
+
+  @first = 0
+
+  @codeList = ""
+  table.rows.each do |row|
+    if ( @first != 0 ) 
+      @codeList += "|"
+    end
+    @first = 1
+    @codeList = @codeList + row[0] 
+  end
+  checkForContentInFileGivenPrefixAndXMLNameRegex( @codeList, prefix, xml_name)
+
 end
 
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|

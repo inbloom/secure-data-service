@@ -137,7 +137,6 @@ Scenario: Delete Orphan AttendanceEvent with cascade = false
         | attendance                                |        -1|
         | attendanceEvent                           |        -1|         
         | recordHash                                |        -1| 
-    And I should not see "71ca8f7bf0738fdd72ff09858365ef87b4bbb178_id" in the "Midgar" database
     And a query on attendance of for studentId "71ca8f7bf0738fdd72ff09858365ef87b4bbb178_id", schoolYear "2001-2002" and date "2001-09-13" on the "Midgar" tenant has a count of "0"
 
 Scenario: Delete Orphan AttendanceEvent by ref with cascade = false
@@ -168,7 +167,6 @@ Scenario: Delete Orphan AttendanceEvent by ref with cascade = false
         | attendance                                |        -1|
         | attendanceEvent                           |        -1|
         | recordHash                                |        -1|
-    And I should not see "71ca8f7bf0738fdd72ff09858365ef87b4bbb178_id" in the "Midgar" database
     And a query on attendance of for studentId "71ca8f7bf0738fdd72ff09858365ef87b4bbb178_id", schoolYear "2001-2002" and date "2001-09-13" on the "Midgar" tenant has a count of "0"
 
 Scenario: Force delete AttendanceEvent with cascade = false, force = true

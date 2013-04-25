@@ -107,7 +107,6 @@ Scenario: Delete Orphan Teacher Section Association by reference with cascade = 
       | collection                 |delta|
       |teacherSectionAssociation   |   -1|
 #      |recordHash                  |   -1|
-    And I should not see "e003fc1479112d3e953a0220a2d0ddd31077d6d9_id26556e7c6a6f7ef10fa46850c9c68d5cfc0c2d4d_id" in the "Midgar" database
 
   Scenario: Delete Teacher Section Association Referencewith cascade =false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -134,4 +133,3 @@ Scenario: Delete Orphan Teacher Section Association by reference with cascade = 
       | collection                 |delta|
       |teacherSectionAssociation   |   -1|
 #      |recordHash                  |   -1|
-    And I should not see "e003fc1479112d3e953a0220a2d0ddd31077d6d9_id26556e7c6a6f7ef10fa46850c9c68d5cfc0c2d4d_id" in the "Midgar" database
