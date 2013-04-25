@@ -64,28 +64,24 @@ Then /^I should be on Portal home page$/ do
 
   (1..5).each do |i|
     puts "Checking for EULA... attempt #{i}"
-    break if (@driver.page_source.include?("d_popup"))
+    break if (@driver.find_elements(:class, "d_popup").length > 1)
     sleep 2
   end
 
-  puts "-----------------"
-  puts @driver.page_source
-  puts "-----------------"
-
-  if (@driver.page_source.include?("d_popup"))
+  if (@driver.find_elements(:class, "d_popup").length > 1)
     accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
     puts accept.inspect
     puts "EULA is present"
     accept.click
     sleep 2
     attempts = 1
-    while attempts < 6 && @driver.page_source.include?("d_popup")
+    while attempts < 6 && @driver.find_elements(:class, "d_popup").length > 1
       attempts += 1
       puts "EULA still present.  Trying attempt #{attempts}..."
       accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
       accept.click
     end
-    assertWithWait("EULA pop up did not get dismissed") { !@driver.page_source.include?("d_popup") }
+    assertWithWait("EULA pop up did not get dismissed") { @driver.find_elements(:class, "d_popup").length == 0 }
   else
     puts "EULA has already been accepted"
   end
@@ -97,11 +93,6 @@ end
 
 Then /^I should be on the admin page$/ do
   title = @driver.find_element(:class, "sli_home_title").text
-  puts "-----------------"
-  puts "title #{title}"
-  puts "-----------------"
-  puts @driver.page_source
-  puts "-----------------"
   assert(title == "ADMIN", "User is not in the admin page")
 end
 
@@ -117,9 +108,6 @@ end
 
 When /^I click on Admin$/ do
   clickOnLink("Admin")
-  puts "-----------------"
-  puts @driver.page_source
-  puts "-----------------"
 end
 
 And /^I should see logo$/ do
