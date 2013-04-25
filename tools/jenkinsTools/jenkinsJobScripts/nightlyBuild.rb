@@ -10,12 +10,10 @@ require 'json'
 #
 #####
 
-@sli_nightly_job = "http://jenkins.slidev.org:8080/job/Nightly-SLI-Sprint-Release-Build/"
-@view = "http://jenkins.slidev.org:8080/view/CI-Sprint-Release-Branch/"
-
-# master
-#@sli_nightly_job = "http://jenkins.slidev.org:8080/job/Nightly-SLI-Master-Build/"
-#@view = "http://jenkins.slidev.org:8080/view/Components/"
+#the name of the nightly job (so we don't look at it for red/green status)
+@sli_nightly_job = ARGV[0]
+#the name of the view to look at
+@view = ARGV[1]
 
 def get_jobs(url)
   uri = URI.parse(url + "api/json")
