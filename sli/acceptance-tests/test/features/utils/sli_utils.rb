@@ -667,12 +667,14 @@ end
 
 module X509
   def self.newApp(clientId, trustStore)
-    
+    cert_path = File.expand_path("../keys/#{client_id}.crt", __FILE__)
+    key_path = File.expand_path("../keys/#{client_id}.key", __FILE__)
+
     puts "Generating key pair for app: #{clientId}"
-    `openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /tmp/#{clientId}.key -out /tmp/#{clientId}.crt -subj "/C=UA/ST=Denial/L=gru/O=pnewed/CN=*.slidev.org"`
+    `openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout #{key_path} -out #{cert_path} -subj "/C=UA/ST=Denial/L=gru/O=pnewed/CN=*.slidev.org"`
     
     puts "importing generating cert into trust store #{trustStore}"
-    `keytool -import -file /tmp/#{clientId}.crt -keystore #{trustStore} -alias #{clientId} -storepass changeit -noprompt` 
+    `keytool -import -file #{cert_path} -keystore #{trustStore} -alias #{clientId} -storepass changeit -noprompt` 
     
   end
   
