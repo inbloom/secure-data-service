@@ -90,6 +90,13 @@ task :bulkExtractNegativeTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "API Bulk Extract Tests"
+task :bulkExtractApiTests do
+  runTests("test/features/bulk_extract/features/bulk_extract_headers.feature")
+  runTests("test/features/bulk_extract/features/bulk_extract_partial_gets.feature")
+  runTests("test/features/bulk_extract/features/bulk_extract_versions.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
 
 desc "Run RC E2E Tests in Production mode"
 task :bulkExtractTests => [:realmInit] do
@@ -105,6 +112,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractSuperdocTest"].execute  
   Rake::Task["bulkExtractEdorgStaffTest"].execute
   Rake::Task["bulkExtractIntegrationTest"].execute
+  Rake::Task["bulkExtractApiTests"].execute
   Rake::Task["bulkExtractDeltasTest"].execute
   Rake::Task["bulkExtractSchedulerTest"].execute
   Rake::Task["bulkExtractNegativeTests"].execute
