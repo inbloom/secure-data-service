@@ -62,10 +62,7 @@ Then /^I should be on Portal home page$/ do
   home = @driver.find_elements(:class, "sli_home_title")
   assert(home.length == 1, "User is not on the portal home page. Current URL: " + @driver.current_url)
 
-  wait = Selenium::WebDriver::Wait.new(:timeout => 10)
-  wait.util {
-    @driver.execute_script("return document.readyState;") == "complete"
-  }
+  @explicitWait.until { @driver.execute_script("return document.readyState;") == "complete" }
 
   if (@driver.find_elements(:class, "d_popup").length > 1)
     accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
