@@ -65,20 +65,20 @@ Then /^I should be on Portal home page$/ do
   @driver.save_screenshot('./debug1.png')
   @explicitWait.until { @driver.execute_script("return document.readyState;") == "complete" }
   @driver.save_screenshot('./debug2.png')
-  if (@driver.find_elements(:class, "d_popup").length > 1)
+  if (@driver.page_source.include?("d_popup"))
     accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
     puts accept.inspect
     puts "EULA is present"
     accept.click
     sleep 2
     attempts = 1
-    while attempts < 6 && @driver.find_elements(:class, "d_popup").length > 1
+    while attempts < 6 && @driver.page_source.include?("d_popup")
       attempts += 1
       puts "EULA still present.  Trying attempt #{attempts}..."
       accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
       accept.click
     end
-    assertWithWait("EULA pop up did not get dismissed") { @driver.find_elements(:class, "d_popup").length == 0 }
+    assertWithWait("EULA pop up did not get dismissed") { !(@driver.page_source.include?("d_popup")) }
   else
     puts "EULA has already been accepted"
     @driver.save_screenshot('./debug3.png')
