@@ -279,6 +279,22 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
 	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
 end
 
+When /^the extract contains a file for each of the following entities with the appropriate count:$/ do |table|
+  Minitar.unpack(@filePath, @unpackDir)
+
+	table.hashes.map do |entity|
+    exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
+    assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
+    `gunzip #{@unpackDir}/#{entity['entityType']}.json.gz`
+    json = JSON.parse(File.read("#{@unpackDir}/#{entity['entityType']}.json"))
+    puts json.size
+    assert(json.size == entity['count'].to_i, "The number of #{entity['entityType']} should be #{entity['count']}")
+	end
+
+  fileList = Dir.entries(@unpackDir)
+	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
+end
+
 When /^a "(.*?)" extract file exists$/ do |collection|
   exists = File.exists?(@unpackDir + "/" + collection + ".json.gz")
 	assert(exists, "Cannot find #{collection}.json file in extracts")
