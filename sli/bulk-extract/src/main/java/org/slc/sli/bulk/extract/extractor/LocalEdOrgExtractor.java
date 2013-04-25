@@ -72,8 +72,7 @@ public class LocalEdOrgExtractor {
         for (String lea : new HashSet<String>(leaToEdorgCache.keySet())) {
             File leaDirectory = new File(tenantDirectory.getAbsoluteFile(), lea);
         	leaDirectory.mkdirs();
-            ExtractFile extractFile = new ExtractFile(leaDirectory,
- getArchiveName(lea, startTime.toDate()),
+            ExtractFile extractFile = new ExtractFile(leaDirectory, getArchiveName(lea, startTime.toDate()),
                     appPublicKeys);
 			Criteria criteria = new Criteria("_id");
             criteria.in(new ArrayList<String>(leaToEdorgCache.get(lea)));
@@ -110,19 +109,6 @@ public class LocalEdOrgExtractor {
     }
 
     /**
-     * Attempts to get all of the LEAs that should have a LEA level extract scheduled.
-     *
-     * @return a set of the LEA ids that need a bulk extract
-     */
-    public Set<String> getAllLEAs(Map<String, Set<String>> bulkExtractLEAs) {
-        Set<String> leas = new HashSet<String>();
-        for (Map.Entry<String, Set<String>> entry : bulkExtractLEAs.entrySet()) {
-            leas.addAll(entry.getValue());
-        }
-        return leas;
-    }
-
-    /**
      * Returns a map that maps an edorg to it's top level LEA, used as a cache
      * to speed up extract
      *
@@ -146,7 +132,7 @@ public class LocalEdOrgExtractor {
         return cache;
     }
     
-    private Map<String, Set<String>> leaToApps() {
+    public Map<String, Set<String>> leaToApps() {
     	Map<String, Set<String>> result = new HashMap<String, Set<String>>();
     	Map<String, Set<String>> beAppsToLEAs = getBulkExtractLEAsPerApp();
     	for(String app : beAppsToLEAs.keySet()) {
@@ -229,7 +215,7 @@ public class LocalEdOrgExtractor {
     }
 
     public void setRepository(Repository<Entity> repository) {
-        this.repository = repository;
+        this.repository = repository;	
     }
 
     public Repository<Entity> getRepository() {
