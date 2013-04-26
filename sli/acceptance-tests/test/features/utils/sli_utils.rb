@@ -271,6 +271,7 @@ def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, 
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
+  puts "Loading Key and Certificate for client ID #{client_id}"
   client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
   private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
 
@@ -670,6 +671,8 @@ module X509
 
     puts "Generating key pair for app: #{clientId}"
     `openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout #{key_path} -out #{cert_path} -subj "/C=UA/ST=Denial/L=gru/O=pnewed/CN=*.slidev.org"`
+    puts "New Certificate created at #{cert_path}"
+    puts "New Private Key created at #{key_path}"
     
     puts "importing generating cert into trust store #{trustStore}"
     `keytool -import -file #{cert_path} -keystore #{trustStore} -alias #{clientId} -storepass changeit -noprompt` 
@@ -677,8 +680,17 @@ module X509
   end
   
   def self.cleanse(clientId, trustStore)
+    cert_path = File.expand_path("../keys/#{clientId}.crt", __FILE__)
+    key_path = File.expand_path("../keys/#{clientId}.key", __FILE__)
+    
     puts "Deleting #{clientId} from #{trustStore}"
     `keytool -delete -alias #{clientId} -keystore #{trustStore} -storepass changeit -noprompt`
+    
+    puts "Cleaning up Certificate from file system at #{cert_path}"
+    `rm #{cert_path}`
+    puts "Cleaning up Private Key from file system at #{key_path}"
+    `rm #{key_path}`
+
   end  
 end
 ######################

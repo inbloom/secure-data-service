@@ -61,6 +61,8 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
   id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
+  id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "lea1_id"
+  id = "884daa27d806c2d725bc469b273d840493f84b4d_id"        if human_readable_id == "sea_id"
   id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "cert"
   id = "352e8570bd1116d11a72755b987902440045d346_id"        if human_readable_id == "IL-DAYBREAK school"
   id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id"        if human_readable_id == "Orphaned School"
@@ -234,12 +236,7 @@ end
 
 When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(tenant,appId)
-  
-  file = File.open(@encryptFilePath, 'rb') { |f| f.read}
-  decryptFile(file, $APP_CONVERSION_MAP[appId])
-  FileUtils.mkdir_p(File.dirname(@filePath)) if !File.exists?(File.dirname(@filePath))
-  File.open(@filePath, 'w') {|f| f.write(@plain) }  
-
+  openDecryptedFile(appId) 
 end
 
 When /^I verify that an extract tar file was created for the tenant "(.*?)"$/ do |tenant|
@@ -269,7 +266,7 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
 	end
 
   fileList = Dir.entries(@unpackDir)
-	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
+	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s+" and they are: #{fileList}")
 end
 
 When /^the extract contains a file for each of the following entities with the appropriate count:$/ do |table|
@@ -402,11 +399,7 @@ When /^I untar and decrypt the delta tarfile for tenant "(.*?)" and appId "(.*?)
   delta = true
   getExtractInfoFromMongo(tenant, appId, delta)
 
-  file = File.open(@encryptFilePath, 'rb') { |f| f.read}
-  decryptFile(file, $APP_CONVERSION_MAP[appId])
-  FileUtils.mkdir_p(File.dirname(@filePath)) if !File.exists?(File.dirname(@filePath))
-  File.open(@filePath, 'w') {|f| f.write(@plain) }  
-
+  openDecryptedFile(appId)
   untar(@fileDir)
 end
 
@@ -609,6 +602,54 @@ Then /^I should not see SEA data in the bulk extract deltas$/ do
   steps "Then I should see \"0\" bulk extract files"
 end
 
+Then /^I verify "(.*?)" delta bulk extract files are generated for "(.*?)" in "(.*?)"$/ do |count, lea, tenant|
+  count = count.to_i 
+  @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb ||= @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+  query = {"body.tenantId"=>tenant, "body.isDelta"=>"true", "body.edorg"=>lea}
+  assert(count == @coll.count({query: query})) 
+end
+
+Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table| 
+    query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => "true", "body.edorg"=>lea}
+    opts = {sort: ["t", Mongo::DESCENDING], limit: 1}
+    getExtractInfoFromMongo(tenant, appId, true, query, opts)
+    openDecryptedFile(appId) 
+    
+    step "the extract contains a file for each of the following entities:", table
+
+end
+
+Then /^I verify this "(.*?)" file contains the "(.*?)"$/ do |file_name, entity_id|
+    json_file_name = @unpackDir + "/#{file_name}.json"
+    exists = File.exists?(json_file_name+".gz")
+    assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
+    `gunzip #{json_file_name}.gz`
+    json = JSON.parse(File.read("#{json_file_name}"))
+    success = false
+    json.each { |e|
+        if (e["id"] == entity_id)
+            success = true 
+            break
+        end
+    }
+    assert(success, "did not find entity id: #{entity_id} in the specified file")
+end
+
+Then /^I reingest the SEA so I can continue my other tests$/ do
+    steps %Q{
+        And I am using local data store
+        And I post "deltas_update_sea.zip" file as the payload of the ingestion job
+        When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+        And zip file is scp to ingestion landing zone
+        And a batch job for file "deltas_update_sea.zip" is completed in database
+        And a batch job log has been created 
+        Then I should not see an error log file created
+        And I should not see a warning log file created
+    }
+end
+
 ############################################################
 # Functions
 ############################################################
@@ -632,21 +673,19 @@ def bulkExtractTrigger(trigger_script, jar_file, properties_file, keystore_file,
   puts runShellCommand(command)
 end
 
-def getExtractInfoFromMongo(tenant, appId, delta=false)
+def getExtractInfoFromMongo(tenant, appId, delta=false, query=nil, query_opts={})
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
 
-  if delta
-    match = @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => "true"},{"body.isDelta" => true}]})
-  else
-    match = @coll.find_one({"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => "false"},{"body.isDelta" => false}]})
-  end
+  query ||= {"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => delta.to_s},{"body.isDelta" => delta}]}
+  match = @coll.find_one(query, query_opts)
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
+  edorg = match['body']['edorg'] || ""
   @encryptFilePath = match['body']['path']
-  @unpackDir = File.dirname(@encryptFilePath) + '/unpack'
-  @fileDir = File.dirname(@encryptFilePath) + '/decrypt/'
+  @unpackDir = File.dirname(@encryptFilePath) + "/#{edorg}/unpack"
+  @fileDir = File.dirname(@encryptFilePath) + "/#{edorg}/decrypt/"
   @filePath = @fileDir + File.basename(@encryptFilePath)
   @tenant = tenant
 
@@ -845,4 +884,11 @@ def checkTarfileCounts(directory, count)
     tarfile_count += 1 if file.match(/.tar$/)
   end
   assert(count == tarfile_count, "Found #{tarfile_count} tarfiles, expected #{count}")
+end
+
+def openDecryptedFile(appId)
+  file = File.open(@encryptFilePath, 'rb') { |f| f.read}
+  decryptFile(file, $APP_CONVERSION_MAP[appId])
+  FileUtils.mkdir_p(File.dirname(@filePath)) if !File.exists?(File.dirname(@filePath))
+  File.open(@filePath, 'w') {|f| f.write(@plain) }  
 end

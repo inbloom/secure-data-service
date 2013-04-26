@@ -38,4 +38,4 @@ Scenario: Make a bulk extract request with incorrect If-Range time, recieving th
     When the If-Range header field is set to "INVALID_DATE" for range up to "20000"
     And I make a custom bulk extract API call
     Then I get back a response code of "200"
-    And the content length in response header is "420368"
+    And the content length in response header is greater than the requested range of "20000"
