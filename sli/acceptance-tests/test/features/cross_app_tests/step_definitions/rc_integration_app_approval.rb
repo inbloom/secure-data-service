@@ -74,14 +74,14 @@ end
 
 Then /^I add that applications certificate to the "([^>]*)" trust store$/ do |server|
   if server == "CI"
-    X509.newApp($clientId, "/opt/tomcat/encryption/ciTruststore.jks")
+    X509.newApp($client_id, "/opt/tomcat/encryption/ciTruststore.jks")
   else
     assert(server == "CI", "Remote certificate adding not yet supported.")
   end
 end
 
 Then /^I clean up the application certificate from the trust store$/ do
-  X509.cleanse($clientId, "/opt/tomcat/encryption/ciTruststore.jks")
+  X509.cleanse($client_id, "/opt/tomcat/encryption/ciTruststore.jks")
 end
 
 When /^I navigate to the API authorization endpoint with my client ID$/ do
