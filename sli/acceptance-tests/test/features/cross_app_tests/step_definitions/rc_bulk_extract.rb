@@ -46,7 +46,7 @@ def getBulkExtractCommand(tenant)
 end
 
 When /^the operator triggers a bulk extract for the production tenant$/ do
-    command = getBulkExtractCommand(PropLoader.getProps['tenant']))
+    command = getBulkExtractCommand(PropLoader.getProps['tenant'])
     `ssh rcingest01.#{LZ.split("-")[0].to_s} #{command}`
 end
 
