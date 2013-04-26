@@ -250,3 +250,7 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page    
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards"
+
+Scenario: Operator triggers a bulk extract
+Given the production extraction zone is empty
+And the operator triggers a bulk extract for the production tenant
