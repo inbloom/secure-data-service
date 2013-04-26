@@ -114,7 +114,10 @@ end
 
 When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
   @result = @fields if !defined? @result
+  puts "DEBUG: result is #{@result}"
   @result.update(@fields)
+  puts "DEBUG: format is #{@format}"
+  puts "DEBUG: url is #{url}"
   data = prepareData(@format, @result)
   restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil")

@@ -58,9 +58,11 @@ $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub"}
 
 Transform /^<(.*?)>$/ do |human_readable_id|
   # entity id transforms
+  id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
   id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
   id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "cert"
+  id = "352e8570bd1116d11a72755b987902440045d346_id"        if human_readable_id == "IL-DAYBREAK school"
 
   id
 end
@@ -422,8 +424,46 @@ When /^I POST an entity of type "(.*?)"$/ do |entity|
   headers = @res.raw_headers
   assert(headers != nil, "Headers are nil")
   assert(headers['location'] != nil, "There is no location link from the previous request")
-  #s = headers['location'][0]
-  #@assocId = s[s.rindex('/')+1..-1]
+end
+
+When /^I GET the response body for a "(.*?)" in "(.*?)"$/ do |entity, edorg|
+  @result_map = Hash.new
+  @api_version = "v1"
+  @assocUrl = {
+    "school" => "educationOrganizations/#{edorg}/schools?limit=1",
+    "educationOrganization" => "educationOrganizations",
+    "studentCohortAssocation" => "studentCohortAssociations",
+    "courseOffering" => "courseOfferings",
+    "section" => "sections",
+    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+    "studentParentAssociation" => "studentParentAssociations",
+    "studentProgramAssociation" => "studentProgramAssociations",
+    "studentSectionAssociation" => "studentSectionAssociations",
+    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffEducationOrganizationAssociation2" => "staffEducationOrgAssignmentAssociations",
+    "studentSectionAssociation2" => "studentSectionAssociations",
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+    "teacherSchoolAssociation2" => "teacherSchoolAssociations",
+    "studentParentAssociation2" => "studentParentAssociations",
+    "staffProgramAssociation" => "staffProgramAssociations"
+  }
+
+  #step "I navigate to GET \"/#{@api_version}/#{@assocUrl[entity]}\""
+  step "I navigate to GET \"/#{@api_version}/#{@assocUrl[entity]}\""
+  #puts "DEBUG: Result from API call is #{@res}"
+  @result_map[entity] = JSON.parse(@res)
+  puts @result_map[entity]
+
+  @id = @result_map[entity][0]["id"]
+  puts "id is #{@id}"
+end
+
+When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
+  # Get the entity I want to update
+  @fields = @result_map[entity][0]
+  @fields["address"][0]["postalCode"] = value if "field" == "postalCode"
+  @result = @fields
+  step "I navigate to PUT \"/#{@api_version}/educationOrganizations/#{@id}\""
 end
 
 ############################################################
