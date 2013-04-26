@@ -2,6 +2,7 @@ Feature: Retrived through the api a generated delta bulk extract file, and valid
 
 Scenario: Initialize security trust store for Bulk Extract application and LEAs
     Given the extraction zone is empty
+    And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
 
