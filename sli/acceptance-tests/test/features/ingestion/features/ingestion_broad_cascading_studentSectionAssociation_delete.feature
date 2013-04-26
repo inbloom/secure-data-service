@@ -117,6 +117,14 @@ Scenario: Force Delete Student Section Association with cascade = false, force =
     Then there exist "6" "studentCompetency" records like below in "Midgar" tenant. And I save this query as "studentCompetency"
         |field                                   |value                                                                                 |
         |body.studentSectionAssociationId        |2c77a1e5896b8ea9504e91e324c199e95130878d_id5cb2d0a4813a0633260942351bc83b00be7d8f1e_id|
+    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentDenormalizedData1"
+        |field                          |value                                                                                 |
+        |section._id                    |2c77a1e5896b8ea9504e91e324c199e95130878d_id|
+        |section.beginDate              |2001-09-03|
+    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "studentDenormalizedData2"
+        |field                          |value                                                                                 |
+        |section._id                    |527f07a98f7f05c56c17a07cbbeac7eb1fa1d4db_id|
+        |section.beginDate              |2002-09-09|
     And I post "ForceStudentSectionAssociationDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
 	And a batch job for file "ForceStudentSectionAssociationDelete.zip" is completed in database
@@ -133,6 +141,8 @@ Scenario: Force Delete Student Section Association with cascade = false, force =
 	And I re-execute saved query "grade" to get "1" records
 	And I re-execute saved query "studentGradebookEntry" to get "28" records
 	And I re-execute saved query "studentCompetency" to get "6" records
+	And I re-execute saved query "studentDenormalizedData1" to get "0" records
+	And I re-execute saved query "studentDenormalizedData2" to get "1" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         #|recordHash                 |   -1|
