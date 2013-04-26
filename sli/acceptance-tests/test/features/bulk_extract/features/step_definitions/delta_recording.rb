@@ -22,13 +22,15 @@ require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 Given /^I have an empty delta collection$/ do
     @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
     @db = @conn[@ingestion_db_name]
-    @db.drop_collection("deltas")
+    @coll = @db.collection("deltas")
+    @coll.remove()
 end
 
 Given /^I have an empty bulk extract files collection$/ do
     @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
     @db = @conn["sli"]
-    @db.drop_collection("bulkExtractFiles")
+    @coll = @db.collection("bulkExtractFiles")
+    @coll.remove()
 end
 
 When /^I run a small ingestion job$/ do

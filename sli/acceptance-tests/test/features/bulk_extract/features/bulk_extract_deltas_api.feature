@@ -1,7 +1,9 @@
 Feature: Retrived through the api a generated delta bulk extract file, and validate the file
 
 Scenario: Initialize security trust store for Bulk Extract application and LEAs
+  Given the extraction zone is empty
     Given the extraction zone is empty
+    And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
 
@@ -135,7 +137,6 @@ Scenario: move school across LEA boundary by delete and create through ingestion
           | id                                          | condition                             |
           | 54b4b51377cd941675958e6e81dce69df801bfe8_id | entityType = school                   |
 
-@wip
 Scenario: Create a new education organization through the API and perform delta
   Given I clean the bulk extract file system and database
     And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -210,3 +211,6 @@ Scenario: Something
   Then I should see "0" entities of type "educationOrganization" in the bulk extract deltas tarfile
    And a "educationOrganization" was extracted in the same format as the api
    And each extracted "educationOrganization" delta matches the mongo entry
+
+Scenario: Be a good neighbor and clean up before you leave
+  Given I clean the bulk extract file system and database

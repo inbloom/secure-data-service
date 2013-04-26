@@ -1,0 +1,415 @@
+<?xml version="1.0"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd">
+
+  <DisciplineIncident>
+    <IncidentIdentifier>4#0</IncidentIdentifier>
+    <IncidentDate>2002-04-10</IncidentDate>
+    <IncidentTime>12:01:41</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Object</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000016</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+ 
+  <DisciplineIncident>
+    <IncidentIdentifier>5#0</IncidentIdentifier>
+    <IncidentDate>2003-03-04</IncidentDate>
+    <IncidentTime>09:33:20</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Club</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000019</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+  <DisciplineIncident>
+    <IncidentIdentifier>5#1</IncidentIdentifier>
+    <IncidentDate>2002-11-05</IncidentDate>
+    <IncidentTime>12:41:09</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Sharp Objects</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-5#1</CaseNumber>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000019</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+  <DisciplineIncident>
+    <IncidentIdentifier>6#0</IncidentIdentifier>
+    <IncidentDate>2003-04-02</IncidentDate>
+    <IncidentTime>08:52:17</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Substance Used as Weapon</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000023</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+  <DisciplineIncident>
+    <IncidentIdentifier>6#1</IncidentIdentifier>
+    <IncidentDate>2002-12-17</IncidentDate>
+    <IncidentTime>13:33:06</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Unknown</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000023</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+
+  <DisciplineIncident>
+    <IncidentIdentifier>7#1</IncidentIdentifier>
+    <IncidentDate>2002-12-25</IncidentDate>
+    <IncidentTime>11:23:25</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-7#1</CaseNumber>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000027</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+  <DisciplineIncident>
+    <IncidentIdentifier>8#0</IncidentIdentifier>
+    <IncidentDate>2003-03-03</IncidentDate>
+    <IncidentTime>09:28:28</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000031</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+  <DisciplineIncident>
+    <IncidentIdentifier>8#1</IncidentIdentifier>
+    <IncidentDate>2003-03-21</IncidentDate>
+    <IncidentTime>14:46:16</IncidentTime>
+    <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-8#1</CaseNumber>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000031</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+  
+ 
+
+
+
+ 
+
+
+
+
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>4#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>5#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>5#1</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>6#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>6#1</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>7#1</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>8#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>8#1</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+
+ 
+
+</InterchangeStudentDiscipline>
