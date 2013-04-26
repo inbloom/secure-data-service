@@ -52,7 +52,7 @@ Scenario: Ingest education organization and perform delta
       Then I should see "1" bulk extract files
     And I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
-     And The "school" delta was extracted in the same format as the api
+      And The "school" delta was extracted in the same format as the api
 
 Scenario: Ingest SEA update and verify no deltas generated
   Given I clean the bulk extract file system and database
@@ -89,12 +89,18 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
       And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea1_id>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  deleted                               |
-      And I verify this "deleted" file contains the "<sea_id>"
+      And I verify this "deleted" file contains:
+          | id                                          | condition                             |
+          | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = educationOrganization    |
+          | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = school                   |
 
       And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  deleted                               |
-      And I verify this "deleted" file contains the "<sea_id>"
+      And I verify this "deleted" file contains:
+          | id                                          | condition                             |
+          | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = educationOrganization    |
+          | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = school                   |
 
     Then I reingest the SEA so I can continue my other tests
 
