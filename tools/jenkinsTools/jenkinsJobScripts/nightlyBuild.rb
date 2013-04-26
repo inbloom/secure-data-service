@@ -10,10 +10,14 @@ require 'json'
 #
 #####
 
-#the name of the nightly job (so we don't look at it for red/green status)
-@sli_nightly_job = ARGV[0]
-#the name of the view to look at
-@view = ARGV[1]
+#the name of the Jenkins view where we'll check for all green builds
+@view = ARGV[0]
+#the name of the nightly job that we won't check (aka this job)
+@sli_nightly_job = ARGV[1]
+
+
+puts "Checking all jobs in view: #{@view}"
+puts "But ignoring #{@sli_nightly_job} and Portal nightly as well"
 
 def get_jobs(url)
   uri = URI.parse(url + "api/json")
