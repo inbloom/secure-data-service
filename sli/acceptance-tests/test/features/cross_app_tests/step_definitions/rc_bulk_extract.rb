@@ -18,7 +18,6 @@ end
 
 Given /^the production extraction zone is empty$/ do
    `ssh rcingest01.#{LZ.split("-")[0].to_s} rm -rf #{OUTPUT_DIRECTORY}#{convertTenantIdToDbName(PropLoader.getProps['tenant'])}/`
-    end
 end
 
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
