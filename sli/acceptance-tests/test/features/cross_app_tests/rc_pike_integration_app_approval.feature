@@ -86,7 +86,7 @@ And I see an application "BulkExtractApp" in the table
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "BulkExtractApp"
 Then I can see the on-boarded states
-When I select the state "Illinois State Board of Education"
+When I select the state "Standard State Education Agency"
 Then I see all of the Districts
 Then I check the Districts
 When I click on Save
