@@ -281,6 +281,22 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
 	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
 end
 
+When /^the extract contains a file for each of the following entities with the appropriate count:$/ do |table|
+  Minitar.unpack(@filePath, @unpackDir)
+
+	table.hashes.map do |entity|
+    exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
+    assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
+    `gunzip #{@unpackDir}/#{entity['entityType']}.json.gz`
+    json = JSON.parse(File.read("#{@unpackDir}/#{entity['entityType']}.json"))
+    puts json.size
+    assert(json.size == entity['count'].to_i, "The number of #{entity['entityType']} should be #{entity['count']}")
+	end
+
+  fileList = Dir.entries(@unpackDir)
+	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
+end
+
 When /^a "(.*?)" extract file exists$/ do |collection|
   exists = File.exists?(@unpackDir + "/" + collection + ".json.gz")
 	assert(exists, "Cannot find #{collection}.json file in extracts")
@@ -360,7 +376,7 @@ When /^I use an invalid tenant to trigger a bulk extract/ do
   command  = "#{TRIGGER_SCRIPT}"
   if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
     command = command + " -Dsli.conf=#{PROPERTIES_FILE}" 
-    puts "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
+    "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
   end
   if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
     command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}" 
@@ -389,6 +405,7 @@ When /^I request the latest bulk extract delta using the api$/ do
 end
 
 When /^I untar and decrypt the delta tarfile for tenant "(.*?)" and appId "(.*?)"$/ do |tenant, appId|
+  sleep 1
   delta = true
   getExtractInfoFromMongo(tenant, appId, delta)
 
@@ -419,7 +436,6 @@ When /^I POST an entity of type "(.*?)"$/ do |entity|
   @fields = @entityData[entity]
   api_version = "v1"
   step "I navigate to POST \"/v1/educationOrganizations\""
-  puts "Result from API call is #{@res}"
   puts "Session ID is #{@sessionId}"
   headers = @res.raw_headers
   assert(headers != nil, "Headers are nil")
@@ -448,14 +464,9 @@ When /^I GET the response body for a "(.*?)" in "(.*?)"$/ do |entity, edorg|
     "staffProgramAssociation" => "staffProgramAssociations"
   }
 
-  #step "I navigate to GET \"/#{@api_version}/#{@assocUrl[entity]}\""
   step "I navigate to GET \"/#{@api_version}/#{@assocUrl[entity]}\""
-  #puts "DEBUG: Result from API call is #{@res}"
   @result_map[entity] = JSON.parse(@res)
-  puts @result_map[entity]
-
   @id = @result_map[entity][0]["id"]
-  puts "id is #{@id}"
 end
 
 When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
@@ -567,7 +578,6 @@ Then /^there should be no deltas$/ do
 end
 
 Then /^I should not see SEA data in the bulk extract deltas$/ do
-  puts "stubbed out"
   #verify there is no delta generated
   steps "Then I should see \"0\" bulk extract files"
 end
@@ -783,7 +793,6 @@ end
 
 def checkTarfileCounts(directory, count)
   entries = Dir.entries(directory)
-  puts "DEBUG: file entries: #{entries}"
   # loop thru files in directory and incr when we see a *.tar file
   tarfile_count = 0
   entries.each do |file|

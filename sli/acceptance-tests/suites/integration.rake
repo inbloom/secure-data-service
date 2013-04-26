@@ -105,7 +105,8 @@ end
 
 desc "Run RC Sandbox Databrowser Test"
 task :rcSandboxAppApprovalTests do
-  runTests("test/features/cross_app_tests/rc_sandbox_app_approval.feature")
+  runTests("test/features/cross_app_tests/rc_sandbox_app_approval.feature") if RUN_ON_RC
+  runTests("test/features/cross_app_tests/ci_sandbox_app_approval.feature") unless RUN_ON_RC
 end
 
 desc "Run RC Sandbox Databrowser Test"

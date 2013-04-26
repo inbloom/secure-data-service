@@ -185,7 +185,7 @@ public class LocalEdOrgExtractor {
         return cache;
     }
     
-    private Map<String, Set<String>> leaToApps() {
+    public Map<String, Set<String>> leaToApps() {
     	Map<String, Set<String>> result = new HashMap<String, Set<String>>();
     	Map<String, Set<String>> beAppsToLEAs = getBulkExtractLEAsPerApp();
     	for(String app : beAppsToLEAs.keySet()) {

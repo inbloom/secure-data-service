@@ -46,7 +46,7 @@ require 'rest-client'
   "sli/acceptance-tests/test/data/application_fixture.json" => ["api", "odin-api", "admin", "sdk"],
   "sli/acceptance-tests/test/data/realm_fixture.json" => ["api", "odin-api", "admin", "dashboard", "sdk"],
   "sli/acceptance-tests/test/data/oauth_authentication_tokens.json" => ["api", "odin-api"],
-  "sli/api/" => ["api", "odin-api", "search-indexer", "jmeter", "admin", "sdk"],
+  "sli/api/" => ["api", "odin-api", "search-indexer", "jmeter", "admin", "sdk", "bulk-extract"],
   "sli/simple-idp" => ["api", "odin-api", "admin", "sdk"],
   "sli/SDK" => ["admin", "dashboard", "sdk"],
   "sli/data-access" => ["api", "odin-api", "ingestion", "bulk-extract"],
