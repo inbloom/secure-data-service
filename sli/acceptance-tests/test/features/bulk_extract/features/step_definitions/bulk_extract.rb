@@ -58,11 +58,9 @@ $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub"}
 
 Transform /^<(.*?)>$/ do |human_readable_id|
   # entity id transforms
-  id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
   id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
   id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "cert"
-  id = "352e8570bd1116d11a72755b987902440045d346_id"        if human_readable_id == "IL-DAYBREAK school"
 
   id
 end
@@ -376,7 +374,7 @@ When /^I use an invalid tenant to trigger a bulk extract/ do
   command  = "#{TRIGGER_SCRIPT}"
   if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
     command = command + " -Dsli.conf=#{PROPERTIES_FILE}" 
-    "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
+    puts "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
   end
   if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
     command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}" 
@@ -405,7 +403,6 @@ When /^I request the latest bulk extract delta using the api$/ do
 end
 
 When /^I untar and decrypt the delta tarfile for tenant "(.*?)" and appId "(.*?)"$/ do |tenant, appId|
-  sleep 1
   delta = true
   getExtractInfoFromMongo(tenant, appId, delta)
 
@@ -436,45 +433,13 @@ When /^I POST an entity of type "(.*?)"$/ do |entity|
   @fields = @entityData[entity]
   api_version = "v1"
   step "I navigate to POST \"/v1/educationOrganizations\""
+  puts "Result from API call is #{@res}"
   puts "Session ID is #{@sessionId}"
   headers = @res.raw_headers
   assert(headers != nil, "Headers are nil")
   assert(headers['location'] != nil, "There is no location link from the previous request")
-end
-
-When /^I GET the response body for a "(.*?)" in "(.*?)"$/ do |entity, edorg|
-  @result_map = Hash.new
-  @api_version = "v1"
-  @assocUrl = {
-    "school" => "educationOrganizations/#{edorg}/schools?limit=1",
-    "educationOrganization" => "educationOrganizations",
-    "studentCohortAssocation" => "studentCohortAssociations",
-    "courseOffering" => "courseOfferings",
-    "section" => "sections",
-    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-    "studentParentAssociation" => "studentParentAssociations",
-    "studentProgramAssociation" => "studentProgramAssociations",
-    "studentSectionAssociation" => "studentSectionAssociations",
-    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-    "staffEducationOrganizationAssociation2" => "staffEducationOrgAssignmentAssociations",
-    "studentSectionAssociation2" => "studentSectionAssociations",
-    "teacherSchoolAssociation" => "teacherSchoolAssociations",
-    "teacherSchoolAssociation2" => "teacherSchoolAssociations",
-    "studentParentAssociation2" => "studentParentAssociations",
-    "staffProgramAssociation" => "staffProgramAssociations"
-  }
-
-  step "I navigate to GET \"/#{@api_version}/#{@assocUrl[entity]}\""
-  @result_map[entity] = JSON.parse(@res)
-  @id = @result_map[entity][0]["id"]
-end
-
-When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
-  # Get the entity I want to update
-  @fields = @result_map[entity][0]
-  @fields["address"][0]["postalCode"] = value if "field" == "postalCode"
-  @result = @fields
-  step "I navigate to PUT \"/#{@api_version}/educationOrganizations/#{@id}\""
+  #s = headers['location'][0]
+  #@assocId = s[s.rindex('/')+1..-1]
 end
 
 ############################################################
@@ -578,6 +543,7 @@ Then /^there should be no deltas$/ do
 end
 
 Then /^I should not see SEA data in the bulk extract deltas$/ do
+  puts "stubbed out"
   #verify there is no delta generated
   steps "Then I should see \"0\" bulk extract files"
 end
@@ -793,6 +759,7 @@ end
 
 def checkTarfileCounts(directory, count)
   entries = Dir.entries(directory)
+  puts "DEBUG: file entries: #{entries}"
   # loop thru files in directory and incr when we see a *.tar file
   tarfile_count = 0
   entries.each do |file|
