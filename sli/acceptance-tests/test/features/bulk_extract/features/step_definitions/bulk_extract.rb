@@ -381,15 +381,6 @@ When /^I use an invalid tenant to trigger a bulk extract/ do
  bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
 end
 
-When /^inBloom generates a bulk extract delta file$/ do
-  command = "#{DELTA_SCRIPT} -Dsli.conf=#{DELTA_CONFIG} -Dsli.encryption.keyStore=#{DELTA_KEYSTORE} -d"
-  puts "Calling delta extract script"
-  puts "Command: #{command}"
-  stdout = runShellCommand(command)
-  puts "Output of BE script is:\n #{stdout}"
-  #stdout.match(/bulk-extracter Finished in (.*?) seconds/)
-end
-
 When /^I request the latest bulk extract delta using the api$/ do
   puts "stubbed out"
 end

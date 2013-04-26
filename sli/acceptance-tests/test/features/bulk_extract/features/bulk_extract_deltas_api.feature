@@ -83,7 +83,7 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
     # We will see a warning file on cascading delete -- there are a lot of children of this SEA
     #And I should not see a warning log file created
 
-    When inBloom generates a bulk extract delta file
+    When I trigger a delta extract
       And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
       And I verify "1" delta bulk extract files are generated for "<lea2_id>" in "Midgar" 
       And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea1_id>" in "Midgar" contains a file for each of the following entities:
@@ -117,7 +117,7 @@ Scenario: move school across LEA boundary by delete and create through ingestion
    And a batch job log has been created 
    Then I should not see an error log file created
 
-    When inBloom generates a bulk extract delta file
+    When I trigger a delta extract
       And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
       And I verify "1" delta bulk extract files are generated for "<lea2_id>" in "Midgar" 
       # should see no delete file for lea 1
