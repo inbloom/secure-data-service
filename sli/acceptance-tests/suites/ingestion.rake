@@ -353,6 +353,11 @@ desc "Run Ingestion Deletion Tests"
   end
 end
 
+desc "Run Super Deletion Test"
+task :ingestionSuperAssessmentDeleteTest do
+  runTests("test/features/ingestion/features/ingestion_super_assessment_delete.feature")
+end
+
 desc "Run Cascading Deletion Report Test"
 task :ingestionCascadingDeleteReportTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_deleteReport.feature")
