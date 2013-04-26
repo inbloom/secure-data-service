@@ -103,7 +103,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-And under System Tools, I click on Approve Application Registration"
+And under System Tools, I click on "Approve Application Registration"
 Then I am redirected to the Application Approval Tool page
 And I see all the applications registered on SLI
 And I see all the applications pending registration
