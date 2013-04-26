@@ -15,7 +15,7 @@
  */
 package org.slc.sli.bulk.extract.context.resolver;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -62,6 +62,9 @@ public class TypeResolver {
      * given a type, return all possible types stored
      * together in the same collection
      * 
+     * if it can't determine tye type, it will return whatever
+     * was the input
+     * 
      * @param type
      * @return set of types
      */
@@ -70,7 +73,7 @@ public class TypeResolver {
             return typeMaps.get(type);
         }
         
-        return Collections.emptySet();
+        return new HashSet<String>(Arrays.asList(type));
     }
     
 }

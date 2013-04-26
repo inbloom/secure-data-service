@@ -381,15 +381,6 @@ When /^I use an invalid tenant to trigger a bulk extract/ do
  bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
 end
 
-When /^inBloom generates a bulk extract delta file$/ do
-  command = "#{DELTA_SCRIPT} -Dsli.conf=#{DELTA_CONFIG} -Dsli.encryption.keyStore=#{DELTA_KEYSTORE} -d"
-  puts "Calling delta extract script"
-  puts "Command: #{command}"
-  stdout = runShellCommand(command)
-  puts "Output of BE script is:\n #{stdout}"
-  #stdout.match(/bulk-extracter Finished in (.*?) seconds/)
-end
-
 When /^I request the latest bulk extract delta using the api$/ do
   puts "stubbed out"
 end
@@ -623,20 +614,30 @@ Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)
 
 end
 
-Then /^I verify this "(.*?)" file contains the "(.*?)"$/ do |file_name, entity_id|
+Then /^I verify this "(.*?)" file contains:$/ do |file_name, table|
     json_file_name = @unpackDir + "/#{file_name}.json"
     exists = File.exists?(json_file_name+".gz")
     assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
     `gunzip #{json_file_name}.gz`
     json = JSON.parse(File.read("#{json_file_name}"))
-    success = false
-    json.each { |e|
-        if (e["id"] == entity_id)
-            success = true 
-            break
-        end
-    }
-    assert(success, "did not find entity id: #{entity_id} in the specified file")
+
+    json_map = to_map(json)
+    table.hashes.map do |entity|
+        id = entity['id']
+        json_entities = json_map[id]
+        field, value = entity['condition'].split('=').map{|s| s.strip}
+        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
+        success = false
+        json_entities.each {|e|
+            # we may have multiple entities with the same id in the delete file
+            json_value = get_field_value(e, field)
+            if (json_value == value) 
+                success = true
+                break
+            end
+        }
+        assert(success, "can't find an entity with id #{id} that matches #{entity['condition']}")
+    end
 end
 
 Then /^I reingest the SEA so I can continue my other tests$/ do
@@ -893,4 +894,26 @@ def openDecryptedFile(appId)
   decryptFile(file, $APP_CONVERSION_MAP[appId])
   FileUtils.mkdir_p(File.dirname(@filePath)) if !File.exists?(File.dirname(@filePath))
   File.open(@filePath, 'w') {|f| f.write(@plain) }  
+end
+
+def to_map(json) 
+  map = {}
+  json.each { |e|
+    map[e['id']] ||= []
+    map[e['id']] << e 
+  }
+  map
+end
+
+def get_field_value(json_entity, field) 
+  return nil if json_entity.nil?
+  field_list = field.split(".").map {|s| s.strip}
+  entity = json_entity
+  field_list.each { |f|
+    if (entity.is_a? Array) 
+        entity = entity.sort()[0]
+    end 
+    entity = entity[f]
+  }
+  entity.strip
 end
