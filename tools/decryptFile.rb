@@ -23,11 +23,5 @@ aes.key = decrypted_secret
 aes.iv = decrypted_iv
 plain = aes.update(encryptedmessage) + aes.final
 
-puts("Final is #{aes.final}")
-puts("IV is #{encryptediv}")
-puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
-puts("Encrypted message is #{encryptedmessage}")
-puts("Cipher is #{aes}")
-
 output_file = File.open(ARGV[2], 'w')
 output_file.write(plain)
