@@ -153,7 +153,7 @@ Then I should be on the admin page
 And under System Tools, I click on "Approve Application Registration"
 And I switch to the iframe
 Then I am redirected to the Application Approval Tool page
-And I see all the applications registered on SLI
+#And I see all the applications registered on SLI
 And I see all the applications pending registration
 And the pending apps are on top
 When I click on 'Approve' next to application "BulkExtractApp"
