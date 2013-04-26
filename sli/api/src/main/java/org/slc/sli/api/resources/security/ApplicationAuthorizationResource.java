@@ -42,6 +42,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.DelegationUtil;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.service.EntityService;

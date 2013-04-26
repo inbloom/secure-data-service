@@ -15,7 +15,7 @@
  */
 
 
-package org.slc.sli.api.resources.security;
+package org.slc.sli.api.security;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -112,20 +112,20 @@
          <property name="entityRepository" ref="mongoEntityRepository" />
     </bean>
 
-    <context:component-scan base-package="org.slc">
-        <context:exclude-filter type="regex"
-            expression=".*CustomImpl" />
-        <context:exclude-filter type="regex"
-            expression=".*DummyEntityRepository" />
-        <context:exclude-filter type="regex"
-            expression=".*AvroEntityValidator" />
-        <context:exclude-filter type="regex"
-            expression=".*NeutralSchemaValidator" />
-        <context:exclude-filter type="regex"
-            expression=".*AggregationLoader" />
-        <context:exclude-filter type="regex"
-            expression=".*LdapServiceImpl" />
+    <context:component-scan base-package="org.slc.sli.common.util.uuid" />
+    <context:component-scan base-package="org.slc.sli.common.domain" />
+    <context:component-scan base-package="org.slc.sli.validation" />
+    <context:component-scan base-package="org.slc.sli.common.encrypt.security" />
+    <context:component-scan base-package="org.slc.sli.bulk.extract" />
+    <context:component-scan base-package="org.slc.sli.api.config" />
+    <context:component-scan base-package="org.slc.sli.api.service" />
+    <context:component-scan base-package="org.slc.sli.api.resources.generic.util" />
+    <context:component-scan base-package="org.slc.sli.api.security" >
+      <context:exclude-filter type="regex" expression=".*Mutator" />
+      <context:exclude-filter type="regex" expression=".*Saml.*" />
+      <context:exclude-filter type="regex" expression=".*SpringRequestCleanup" />
+      <context:exclude-filter type="regex" expression=".*OauthMongoSessionManager" />
     </context:component-scan>
-
+    <context:component-scan base-package="org.slc.sli.api.util" />
 </beans>
 
