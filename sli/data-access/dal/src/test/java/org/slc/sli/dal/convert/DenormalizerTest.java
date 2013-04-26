@@ -121,7 +121,7 @@ public class DenormalizerTest {
 
                         return ((((Map<String, Object>) sectionRefsToPush[0]).get("_id").equals(SECTION1))
                                 && (((Map<String, Object>) sectionRefsToPush[0]).get("endDate").equals(ENDDATE1))
-                                && (((Map<String, Object>) sectionRefsToPush[0]).get("beginDate") == null)
+                                && (((Map<String, Object>) sectionRefsToPush[0]).get("beginDate").equals(BEGINDATE))
                                 && ssaIds.get(0).equals("section"));
                     }
                 }), eq(true), eq(true), eq(WriteConcern.SAFE));
@@ -159,7 +159,7 @@ public class DenormalizerTest {
 
                         return ((((Map<String, Object>) sectionRefsToPush[0]).get("_id").equals(SECTION1))
                                 && (((Map<String, Object>) sectionRefsToPush[0]).get("endDate").equals(ENDDATE2))
-                                && (((Map<String, Object>) sectionRefsToPush[0]).get("beginDate") == null)
+                                && (((Map<String, Object>) sectionRefsToPush[0]).get("beginDate").equals(BEGINDATE))
                                 && ssaIds.get(0).equals("section"));
                     }
                 }), eq(true), eq(true), eq(WriteConcern.SAFE));
@@ -184,7 +184,7 @@ public class DenormalizerTest {
 
                         return ((((Map<String, Object>) sectionRefsToPush[0]).get("_id").equals(SECTION2))
                                 && (((Map<String, Object>) sectionRefsToPush[0]).get("endDate").equals(ENDDATE2))
-                                && (((Map<String, Object>) sectionRefsToPush[0]).get("beginDate") == null)
+                                && (((Map<String, Object>) sectionRefsToPush[0]).get("beginDate").equals(BEGINDATE))
                                 && ssaIds.get(0).equals("section"));
                     }
                 }), eq(true), eq(true), eq(WriteConcern.SAFE));
