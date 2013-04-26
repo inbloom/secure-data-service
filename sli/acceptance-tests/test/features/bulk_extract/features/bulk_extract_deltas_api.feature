@@ -102,6 +102,39 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
 
     Then I reingest the SEA so I can continue my other tests
 
+Scenario: move school across LEA boundary by delete and create through ingestion
+    The expected behavior is that the old LEA that school used to belong to would receive an delete file, and
+    the new LEA would only receive a update file since the delete event is not applicable to the new LEA
+  Given I clean the bulk extract file system and database
+    And I am using local data store
+    And I post "deltas_move_between_edorg.zip" file as the payload of the ingestion job
+    
+  When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+   And zip file is scp to ingestion landing zone
+   And a batch job for file "deltas_move_between_edorg.zip" is completed in database
+   And a batch job log has been created 
+   Then I should not see an error log file created
+
+    When inBloom generates a bulk extract delta file
+      And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
+      And I verify "1" delta bulk extract files are generated for "<lea2_id>" in "Midgar" 
+      # should see no delete file for lea 1
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea1_id>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  school                                |
+        |  educationOrganization                 |
+      And I verify this "school" file contains:
+          | id                                          | condition                             |
+          | 54b4b51377cd941675958e6e81dce69df801bfe8_id | stateOrganizationId=Daybreak Podunk High |
+      
+      # should only see delete file for lea 2
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  deleted                               |
+      And I verify this "deleted" file contains:
+          | id                                          | condition                             |
+          | 54b4b51377cd941675958e6e81dce69df801bfe8_id | entityType = school                   |
+
 @wip
 Scenario: Create a new education organization through the API and perform delta
   Given I clean the bulk extract file system and database

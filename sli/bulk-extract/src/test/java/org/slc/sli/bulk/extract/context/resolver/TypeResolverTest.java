@@ -43,7 +43,7 @@ public class TypeResolverTest {
         assertTrue(types.contains("teacher"));
         assertTrue(types.contains("staff"));
         types = resolver.resolveType("non-existance");
-        assertTrue(types.size() == 0);
+        assertTrue(types.size() == 1);
     }
     
 }
