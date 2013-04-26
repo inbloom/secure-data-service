@@ -16,7 +16,7 @@
 package org.slc.sli.api.resources.generic.service.custom;
 
 import org.slc.sli.api.resources.generic.service.DefaultResourceService;
-import org.slc.sli.api.security.DelegationUtil;
+import org.slc.sli.api.resources.security.DelegationUtil;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;

@@ -25,11 +25,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.slc.sli</groupId>
-			<artifactId>api</artifactId>
-                        <classifier>classes</classifier>
-		</dependency>
-		<dependency>
 			<groupId>org.slc.sli.dal</groupId>
 			<artifactId>dal</artifactId>
 		</dependency>

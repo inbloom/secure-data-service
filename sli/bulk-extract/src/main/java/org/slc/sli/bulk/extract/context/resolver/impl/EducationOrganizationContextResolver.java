@@ -17,40 +17,51 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-/**
- * Resolves context for education organization to its top level LEA
- * 
- */
+import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+
 @Component
 public class EducationOrganizationContextResolver implements ContextResolver {
+    /*
+     * TODO: REMOVE THIS CLASS
+     * 
+     * COPY / PASTE ALERT!!!
+     * Why add api dependency when this code is going to be thrown away?
+     * 
+     * This is a hack so that we don't need to wait for inter team dependency to finish stories,
+     * but this code will be removed either way we decided to go.
+     * 1. introduce proper API dependency if we need to walk the tree
+     * or
+     * 2. Just look at the edorg id stored inside the entity
+     */
     
+    private static final Logger LOG = LoggerFactory.getLogger(EducationOrganizationContextResolver.class);
+
     @Autowired
     @Qualifier("validationRepo")
-    private Repository<Entity> repo;
-    
-    @Autowired
-    private EdOrgHelper edOrgHelper;
+    Repository<Entity> repo;
 
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> results = new HashSet<String>();
 
-        if (!(edOrgHelper.isLEA(entity) || edOrgHelper.isSchool(entity))) {
+        if (!(isLEA(entity) || isSchool(entity))) {
             // SEA is not supported
             return results;
         }
         
-        Entity topLevelLEA = edOrgHelper.getTopLEAOfEdOrg(entity);
+        Entity topLevelLEA = getTopLEAOfEdOrg(entity);
         if (topLevelLEA != null) {
             results.add(topLevelLEA.getEntityId());
         }
@@ -58,4 +69,48 @@ public class EducationOrganizationContextResolver implements ContextResolver {
         return results;
     }
     
+    @SuppressWarnings("unchecked")
+    private boolean isLEA(Entity entity) {
+        if (entity == null) {
+            return false;
+        }
+
+        List<String> category = (List<String>) entity.getBody().get("organizationCategories");
+        
+        if (category != null && category.contains("Local Education Agency")) {
+            return true;
+        }
+        return false;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private boolean isSchool(Entity entity) {
+        if (entity == null) {
+            return false;
+        }
+
+        List<String> category = (List<String>) entity.getBody().get("organizationCategories");
+        
+        if (category != null && category.contains("School")) {
+            return true;
+        }
+        return false;
+    }
+    
+    private Entity getTopLEAOfEdOrg(Entity entity) {
+        if (entity.getBody().containsKey("parentEducationAgencyReference")) {
+            Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
+                    (String) entity.getBody().get("parentEducationAgencyReference"));
+            if (isLEA(parentEdorg)) {
+                return getTopLEAOfEdOrg(parentEdorg);
+            }
+        }
+        
+        if (isLEA(entity)) {
+            return entity;
+        }
+        
+        return null;
+    }
+
 }
