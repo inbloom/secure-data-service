@@ -1,4 +1,3 @@
-@wip
 Feature: Retrived through the api a generated delta bulk extract file, and validate the file
 
 Scenario: Initialize security trust store for Bulk Extract application and LEAs
@@ -70,6 +69,36 @@ Scenario: Ingest SEA update and verify no deltas generated
   When inBloom generates a bulk extract delta file
     Then there should be no deltas
 
+Scenario: Ingest SEA delete and verify both LEAs received the delete
+  Given I clean the bulk extract file system and database
+    And I am using local data store
+    And I post "deltas_delete_sea.zip" file as the payload of the ingestion job
+
+
+  When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+   And zip file is scp to ingestion landing zone
+   And a batch job for file "deltas_delete_sea.zip" is completed in database
+   And a batch job log has been created 
+   Then I should not see an error log file created
+    # We will see a warning file on cascading delete -- there are a lot of children of this SEA
+    #And I should not see a warning log file created
+
+    When inBloom generates a bulk extract delta file
+      And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
+      And I verify "1" delta bulk extract files are generated for "<lea2_id>" in "Midgar" 
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea1_id>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  deleted                               |
+      And I verify this "deleted" file contains the "<sea_id>"
+
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  deleted                               |
+      And I verify this "deleted" file contains the "<sea_id>"
+
+    Then I reingest the SEA so I can continue my other tests
+
+@wip
 Scenario: Create a new education organization through the API and perform delta
 Given I log into "inBloom Dashboards" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/vnd.slc+json"
