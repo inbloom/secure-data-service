@@ -58,11 +58,14 @@ $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub"}
 
 Transform /^<(.*?)>$/ do |human_readable_id|
   # entity id transforms
+  id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
   id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "lea1_id"
   id = "884daa27d806c2d725bc469b273d840493f84b4d_id"        if human_readable_id == "sea_id"
   id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "cert"
+  id = "352e8570bd1116d11a72755b987902440045d346_id"        if human_readable_id == "IL-DAYBREAK school"
+  id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id"        if human_readable_id == "Orphaned School"
 
   id
 end
@@ -163,22 +166,12 @@ end
 # Given
 ############################################################
 Given /^I trigger a bulk extract$/ do
-command  = "#{TRIGGER_SCRIPT}"
-if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
-  command = command + " -Dsli.conf=#{PROPERTIES_FILE}" 
-  puts "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
+  bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE)
 end
-if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
-  command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}" 
-  puts "Using extra property: -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
-end
-if (JAR_FILE !=nil && JAR_FILE != "")
-  command = command + " -f#{JAR_FILE}" 
-  puts "Using extra property:  -f#{JAR_FILE}"
-end
-puts "Running: #{command} "
-puts runShellCommand(command)
 
+Given /^I trigger a delta extract$/ do
+  options = " -d"
+  bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
 end
 
 Given /^the extraction zone is empty$/ do
@@ -368,22 +361,24 @@ When /^I try to POST to the bulk extract endpoint/ do
 end
 
 When /^I use an invalid tenant to trigger a bulk extract/ do
-  command  = "#{TRIGGER_SCRIPT}"
-  if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
-    command = command + " -Dsli.conf=#{PROPERTIES_FILE}" 
-    puts "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
-  end
-  if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
-    command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}" 
-    puts "Using extra property: -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
-  end
-  if (JAR_FILE !=nil && JAR_FILE != "")
-    command = command + " -f#{JAR_FILE}" 
-    puts "Using extra property:  -f#{JAR_FILE}"
-  end
-  command = command + " -tNoTenantForYou"
-  puts "Running: #{command} "
-  puts runShellCommand(command)
+ # command  = "#{TRIGGER_SCRIPT}"
+ # if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
+ #   command = command + " -Dsli.conf=#{PROPERTIES_FILE}" 
+ #   "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
+ #  end
+ #  if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
+ #   command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}" 
+ #   puts "Using extra property: -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
+ #  end
+ #  if (JAR_FILE !=nil && JAR_FILE != "")
+ #   command = command + " -f#{JAR_FILE}" 
+ #   puts "Using extra property:  -f#{JAR_FILE}"
+ #  end
+ #  command = command + " -tNoTenantForYou"
+ #  puts "Running: #{command} "
+ #  puts runShellCommand(command)
+ options = " -tNoTenantForYou"
+ bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
 end
 
 When /^inBloom generates a bulk extract delta file$/ do
@@ -400,6 +395,7 @@ When /^I request the latest bulk extract delta using the api$/ do
 end
 
 When /^I untar and decrypt the delta tarfile for tenant "(.*?)" and appId "(.*?)"$/ do |tenant, appId|
+  sleep 1
   delta = true
   getExtractInfoFromMongo(tenant, appId, delta)
 
@@ -421,18 +417,84 @@ When /^I POST an entity of type "(.*?)"$/ do |entity|
                 "nameOfCounty" => "Hooray"
                 ],
       "parentEducationAgencyReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+    },
+  "invalidEducationOrganization" => {
+      "organizationCategories" => ["School"],
+      "stateOrganizationId" => "SchoolInAnInvalidDistrict",
+      "nameOfInstitution" => "Donkey School Wrong District",
+      "address" => [
+                "streetNumberName" => "999 Ave FAIL",
+                "city" => "Chicago",
+                "stateAbbreviation" => "IL",
+                "postalCode" => "10098",
+                "nameOfCounty" => "Whoami"
+                ],
+      "parentEducationAgencyReference" => "ffffffffffffffffffffffffffffffffffffffff_id"
     }
   }
   @fields = @entityData[entity]
   api_version = "v1"
   step "I navigate to POST \"/v1/educationOrganizations\""
-  puts "Result from API call is #{@res}"
   puts "Session ID is #{@sessionId}"
   headers = @res.raw_headers
   assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  #s = headers['location'][0]
-  #@assocId = s[s.rindex('/')+1..-1]
+  #assert(headers['location'] != nil, "There is no location link from the previous request")
+end
+
+When /^I GET the response body for a "(.*?)" in "(.*?)"$/ do |entity, edorg|
+  @result_map = Hash.new
+  @api_version = "v1"
+  @assocUrlGet = {
+    "school" => "educationOrganizations/#{edorg}/schools?limit=1",
+    "educationOrganization" => "educationOrganizations",
+    "studentCohortAssocation" => "studentCohortAssociations",
+    "courseOffering" => "courseOfferings",
+    "section" => "sections",
+    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+    "studentParentAssociation" => "studentParentAssociations",
+    "studentProgramAssociation" => "studentProgramAssociations",
+    "studentSectionAssociation" => "studentSectionAssociations",
+    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffEducationOrganizationAssociation2" => "staffEducationOrgAssignmentAssociations",
+    "studentSectionAssociation2" => "studentSectionAssociations",
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+    "teacherSchoolAssociation2" => "teacherSchoolAssociations",
+    "studentParentAssociation2" => "studentParentAssociations",
+    "staffProgramAssociation" => "staffProgramAssociations",
+  }
+
+  @assocUrlPut = {
+    "school" => "educationOrganizations",
+    "invalidEntry" => "school",
+    "wrongSchoolURI" => "schoolz"
+  }
+  step "I navigate to GET \"/#{@api_version}/#{@assocUrlGet[entity]}\""
+  @result_map[entity] = JSON.parse(@res)
+end
+
+When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, entity, value|
+  # Fail if we do not find the entity in response
+  assert(@result_map[entity] != nil, "No response body returned from GET request")
+  begin
+    # Strip off the outside array on the entity I want to update
+    @fields = @result_map[entity][0]
+  rescue NoMethodError
+    puts "The entity #{entity} does not exist in the json response field:"
+    puts @result_map
+    raise
+  end
+
+  @id     = @fields["id"]  
+  # Update the correct field based on entity type
+  # educationOrganization.body.address.postalCode
+  @fields["address"][0]["postalCode"] = value if field == "postalCode"
+  # educationOrganization with non-existent id
+  @id = value if field == "invalidEntry"
+  @id = "<Orphaned School>" if field == "orphanEdorg"
+
+  @result = @fields
+
+  step "I navigate to #{verb} \"/#{@api_version}/#{@assocUrlPut[entity]}/#{@id}\""
 end
 
 ############################################################
@@ -531,12 +593,11 @@ Then /^I should see "(.*?)" bulk extract files$/ do |count|
   checkTarfileCounts(directory, count)
 end
 
-Then /^there should be no deltas$/ do
+Then /^there should be no deltas in mongo$/ do
   checkMongoCounts("bulkExtractFiles", 0)
 end
 
 Then /^I should not see SEA data in the bulk extract deltas$/ do
-  puts "stubbed out"
   #verify there is no delta generated
   steps "Then I should see \"0\" bulk extract files"
 end
@@ -592,6 +653,25 @@ end
 ############################################################
 # Functions
 ############################################################
+
+def bulkExtractTrigger(trigger_script, jar_file, properties_file, keystore_file, options="")
+  command = "#{trigger_script}"
+  if (properties_file !=nil && properties_file != "")
+    command = command + " -Dsli.conf=#{properties_file}" 
+    puts "Using extra property: -Dsli.conf=#{properties_file}"
+  end
+  if (keystore_file !=nil && keystore_file != "")
+    command = command + " -Dsli.encryption.keyStore=#{keystore_file}" 
+    puts "Using extra property: -Dsli.encryption.keyStore=#{keystore_file}"
+  end
+  if (jar_file !=nil && jar_file != "")
+    command = command + " -f#{jar_file}" 
+    puts "Using extra property:  -f#{jar_file}"
+  end
+  command = command + options
+  puts "Running: #{command}"
+  puts runShellCommand(command)
+end
 
 def getExtractInfoFromMongo(tenant, appId, delta=false, query=nil, query_opts={})
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
@@ -798,7 +878,6 @@ end
 
 def checkTarfileCounts(directory, count)
   entries = Dir.entries(directory)
-  puts "DEBUG: file entries: #{entries}"
   # loop thru files in directory and incr when we see a *.tar file
   tarfile_count = 0
   entries.each do |file|
