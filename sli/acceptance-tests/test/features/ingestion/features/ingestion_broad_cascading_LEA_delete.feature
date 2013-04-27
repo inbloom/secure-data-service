@@ -104,7 +104,7 @@ Scenario: Delete LEA with cascade = false and force = true, log violations = tru
   	And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
 	  And I re-execute saved query "educationOrganization" to get "0" records
 	  And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "3" records
-	  And I re-execute saved query "student" to get "0" records
+#	  And I re-execute saved query "student" to get "0" records
 	  And I re-execute saved query "session" to get "2" records
     And I re-execute saved query "gradingPeriod" to get "14" records
 	  And I see that collections counts have changed as follows in tenant "Midgar"
@@ -151,7 +151,7 @@ Scenario: Delete LEA Ref with cascade = false and force = true, log violations =
 	  And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
 	  And I re-execute saved query "educationOrganization" to get "0" records
 	  And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "3" records
-	  And I re-execute saved query "student" to get "0" records
+#	  And I re-execute saved query "student" to get "0" records
 	  And I re-execute saved query "session" to get "2" records
     And I re-execute saved query "gradingPeriod" to get "14" records
 	  And I see that collections counts have changed as follows in tenant "Midgar"
