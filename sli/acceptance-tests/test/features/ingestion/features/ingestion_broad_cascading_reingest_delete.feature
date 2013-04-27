@@ -100,10 +100,12 @@ Scenario: Delete Student with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | student                                   |        -1|
+        | student.section                           |        -6|
+        | student.schools                           |        -2|
 	    | studentProgramAssociation                 |        -5|
-        | studentParentAssociation                  |				 -2|
+        | studentParentAssociation                  |		 -2|
         | studentCohortAssociation                  |        -1|
-        | studentDisciplineIncidentAssociation      |				 -8|
+        | studentDisciplineIncidentAssociation      |		 -8|
         | disciplineAction                          |         0|
         | recordHash                                |        -1|  
      When the landing zone is reinitialized
