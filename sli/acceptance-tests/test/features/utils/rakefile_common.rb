@@ -158,31 +158,39 @@ end
 # turn ON --notablescan MongoDB flag, if set in ENV
 ##############################################################################
 def enable_NOTABLESCAN()
-  if ENV["TOGGLE_TABLESCANS"]
-    puts "Turning --notablescan flag ON!  (indexes must hit queries)"
-    adminconn = Mongo::Connection.new
-    admindb = adminconn.db('admin')
-    cmd = Hash.new
-    cmd['setParameter'] = 1
-    cmd['notablescan'] = true
-    admindb.command(cmd)
-    admindb.get_last_error()
-    adminconn.close
-  end
+  setTableScan true
 end
+
+
 
 ##############################################################################
 # turn OFF --notablescan MongoDB flag, if set in ENV
 ##############################################################################
 def disable_NOTABLESCAN()
+  setTableScan false
+end
+
+def setTableScan(enabled)
   if ENV["TOGGLE_TABLESCANS"]
-    puts "Turning --notablescan flag OFF."
+    puts "Turning --notablescan flag #{enabled}"
     adminconn = Mongo::Connection.new
     admindb = adminconn.db('admin')
-    cmd = Hash.new
-    cmd['setParameter'] = 1
-    cmd['notablescan'] = false
+    cmd = {setParameter: 1, notablescan: enabled}
     admindb.command(cmd)
+    begin
+      shards = admindb.command({listShards: 1})["shards"]
+    rescue Mongo::OperationFailure => e
+      puts "Could not get the shard list"
+      shards = []
+    end
+    shards.each{ |shard|
+      hostname, port = shard['host'].split(":")
+      shardconn = Mongo::Connection.new(hostname, port)
+      sharddb = shardconn['admin']
+      sharddb.command(cmd)
+      sharddb.get_last_error()
+      shardconn.close()
+    }
     admindb.get_last_error()
     adminconn.close
   end
