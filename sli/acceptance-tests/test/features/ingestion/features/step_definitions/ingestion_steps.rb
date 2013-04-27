@@ -1917,6 +1917,11 @@ $subDocEntity2ParentType = {
     "attendanceEvent" => "attendance"
 }
 
+$denormalizedTypeInfo = {
+    "studentSectionAssociation" => {"parent" => "student", "subDoc" => "section"},
+    "studentSchoolAssociation" => {"parent" => "student", "subDoc" => "schools"}
+}
+
 def subDocParent(subDocType)
     return $subDocEntity2ParentType[subDocType]
 end
@@ -3789,6 +3794,18 @@ def getEntityCounts(tenant)
         count = subDocCount(parent, subDocEntity)
         entityCounts[subDocEntity] = count
 #        puts "#{subDocEntity} #{count}"
+    end
+    #Add denormalized data counts
+    denormalizedEntities = $denormalizedTypeInfo.keys
+    denormalizedEntities.each do |denormalizedType|
+      denormalizationInfo = $denormalizedTypeInfo[denormalizedType]
+      parent = denormalizationInfo["parent"]
+        puts "parent #{parent}"
+      subDoc = denormalizationInfo["subDoc"]
+        puts "subDoc #{subDoc}"
+      count = subDocCount(parent, subDoc)
+      entityCounts[parent+"."+subDoc] = count
+      puts "#{parent}.#{subDoc} #{count}"
     end
     enable_NOTABLESCAN
     return entityCounts

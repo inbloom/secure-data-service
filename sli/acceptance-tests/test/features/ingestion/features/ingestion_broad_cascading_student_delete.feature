@@ -421,10 +421,12 @@ Scenario: Delete Student with cascade = false and force = true, log violations =
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | student                                   |        -1|
+        | student.schools                           |        -2|
+        | student.section                           |        -6|
 	    | studentProgramAssociation                 |        -5|
-        | studentParentAssociation                  |				 -2|
+        | studentParentAssociation                  |		 -2|
         | studentCohortAssociation                  |        -1|
-        | studentDisciplineIncidentAssociation      |				 -8|
+        | studentDisciplineIncidentAssociation      |		 -8|
         | recordHash                                |        -1|  
                
 Scenario: Delete Student Ref with cascade = false and force = true, log violations = true
@@ -539,6 +541,8 @@ Scenario: Delete Student Ref with cascade = false and force = true, log violatio
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | student                                   |        -1|
+        | student.schools                           |        -2|
+        | student.section                           |        -6|
         | studentProgramAssociation                 |        -5|
         | studentParentAssociation                  |				 -2|
         | studentCohortAssociation                  |        -1|

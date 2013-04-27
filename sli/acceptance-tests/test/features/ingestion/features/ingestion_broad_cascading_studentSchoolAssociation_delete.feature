@@ -75,6 +75,7 @@ Scenario: Delete Student School Association with cascade
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
+        |student.schools            |   -1|
 
 Scenario: Safe Delete Student School Association Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -113,6 +114,7 @@ Scenario: Safe Delete Student School Association Reference with cascade = false
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
+        |student.schools            |   -1|
 
 Scenario: Delete Orphan Student School Association with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -151,6 +153,7 @@ Scenario: Delete Orphan Student School Association with cascade = false
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
+        |student.schools            |   -1|
 
 
 Scenario: Delete Orphan Student School Association Ref with cascade = false
@@ -190,6 +193,7 @@ Scenario: Delete Orphan Student School Association Ref with cascade = false
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
+        |student.schools            |   -1|
 
 
 Scenario: Delete Student School Association with cascade = false, force = true and log violations = true
@@ -229,6 +233,7 @@ Scenario: Delete Student School Association with cascade = false, force = true a
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
+        |student.schools            |   -1|
 
 
 Scenario: Delete Student School Association Ref with cascade = false, force = true and log violations = true
@@ -268,3 +273,4 @@ Scenario: Delete Student School Association Ref with cascade = false, force = tr
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
+        |student.schools            |   -1|
