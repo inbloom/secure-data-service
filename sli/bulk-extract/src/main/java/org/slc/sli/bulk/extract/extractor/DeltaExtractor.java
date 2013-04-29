@@ -48,6 +48,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -93,6 +94,7 @@ public class DeltaExtractor {
     @Qualifier("secondaryRepo")
     Repository<Entity> repo;
     
+    @Value("${sli.bulk.extract.output.directory:extract}")
     private String baseDirectory;
 
     private Map<String, ExtractFile> appPerLeaExtractFiles = new HashMap<String, ExtractFile>();
