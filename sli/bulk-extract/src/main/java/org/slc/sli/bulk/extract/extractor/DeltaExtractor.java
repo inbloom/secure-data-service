@@ -17,7 +17,9 @@ package org.slc.sli.bulk.extract.extractor;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -25,13 +27,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator;
@@ -43,9 +40,16 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * This class should be concerned about how to generate the delta files per LEA per app
@@ -89,6 +93,9 @@ public class DeltaExtractor {
     @Autowired
     @Qualifier("secondaryRepo")
     Repository<Entity> repo;
+    
+    @Value("${sli.bulk.extract.output.directory:extract}")
+    private String baseDirectory;
 
     private Map<String, ExtractFile> appPerLeaExtractFiles = new HashMap<String, ExtractFile>();
     private Map<String, EntityExtractor.CollectionWrittenRecord> appPerLeaCollectionRecords = new HashMap<String, EntityExtractor.CollectionWrittenRecord>();
@@ -190,7 +197,7 @@ public class DeltaExtractor {
     private ExtractFile getExtractFile(String appId, String lea, String tenant, DateTime deltaUptoTime) {
         String key = appId + "_" + lea;
         if (!appPerLeaExtractFiles.containsKey(key)) {
-            ExtractFile appPerLeaExtractFile = leaExtractor.getExtractFilePerAppPerLEA(tenant, appId, lea, deltaUptoTime, true);
+            ExtractFile appPerLeaExtractFile = getExtractFilePerAppPerLEA(tenant, appId, lea, deltaUptoTime, true);
             appPerLeaExtractFiles.put(key, appPerLeaExtractFile);
         }
 
@@ -228,6 +235,39 @@ public class DeltaExtractor {
         }
         return result;
     }
+    
+    /**
+     * Given the tenant, appId, the LEA id been extracted and a timestamp,
+     * give me an extractFile for this combo
+     * 
+     * @param
+     */
+    public ExtractFile getExtractFilePerAppPerLEA(String tenant, String appId, String edorg, DateTime startTime,
+            boolean isDelta) {
+        ExtractFile extractFile = new ExtractFile(getAppSpecificDirectory(tenant, appId), getArchiveName(edorg,
+                startTime.toDate(), isDelta), bulkExtractMongoDA.getClientIdAndPublicKey(appId, Arrays.asList(edorg)));
+        extractFile.setEdorg(edorg);
+        return extractFile;
+    }
+    
+    private String getArchiveName(String edorg, Date startTime, boolean isDelta) {
+        return edorg + "-" + Launcher.getTimeStamp(startTime) + (isDelta ? "-delta" : "");
+    }
 
-
+    private File getAppSpecificDirectory(String tenant, String app) {
+        String tenantPath = baseDirectory + File.separator + TenantAwareMongoDbFactory.getTenantDatabaseName(tenant);
+        File appDirectory = new File(tenantPath, app);
+        appDirectory.mkdirs();
+        return appDirectory;
+    }
+    
+    /**
+     * Set base dir.
+     * 
+     * @param baseDirectory
+     *            Base directory of all bulk extract processes
+     */
+    public void setBaseDirectory(String baseDirectory) {
+        this.baseDirectory = baseDirectory;
+    }
 }

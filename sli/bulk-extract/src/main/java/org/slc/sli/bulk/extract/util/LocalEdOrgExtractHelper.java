@@ -7,10 +7,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -18,6 +14,9 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * Utils to extract LEAs
@@ -110,6 +109,30 @@ public class LocalEdOrgExtractHelper {
             }
         }
         return appIds;
+    }
+    
+    /**
+     * Returns a list of child edorgs given a collection of parents
+     * 
+     * @param edOrgs
+     * @return a set of child edorgs
+     */
+    public Set<String> getChildEdOrgs(Collection<String> edOrgs) {
+        if (edOrgs.isEmpty()) {
+            return new HashSet<String>();
+        }
+        
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
+                NeutralCriteria.CRITERIA_IN, edOrgs));
+        Iterable<Entity> childrenIds = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        Set<String> children = new HashSet<String>();
+        for (Entity child : childrenIds) {
+            children.add(child.getEntityId());
+        }
+        if (!children.isEmpty()) {
+            children.addAll(getChildEdOrgs(children));
+        }
+        return children;
     }
 
 }
