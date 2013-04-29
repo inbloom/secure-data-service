@@ -188,7 +188,7 @@ Given I clean the bulk extract file system and database
   When I trigger a delta extract
     Then there should be no deltas in mongo
 
-@wip
+@shortcut
 Scenario: Delete an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -198,7 +198,8 @@ Given I clean the bulk extract file system and database
   When I "DELETE" the "orphanEdorg" for a "school" entity to "null"
     Then I should receive a return code of 204
   When I trigger a delta extract
-    Then I should see "2" bulk extract files
+    And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
+    And I verify "1" delta bulk extract files are generated for "<lea2_id>" in "Midgar"
      #And The "id" and "entityType" should match the deleted record
 
 @wip
