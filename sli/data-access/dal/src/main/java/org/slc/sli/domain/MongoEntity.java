@@ -57,7 +57,7 @@ public class MongoEntity implements Entity, Serializable {
     private String entityId;
     private String stagedEntityId;
     private Map<String, Object> body;
-    private final Map<String, Object> metaData;
+    private Map<String, Object> metaData;
     private final CalculatedData<String> calculatedData;
     private final CalculatedData<Map<String, Integer>> aggregates;
     private final Map<String, List<Entity>> embeddedData;
@@ -387,5 +387,11 @@ public class MongoEntity implements Entity, Serializable {
     @Override
     public String toString() {
         return "MongoEntity " + entityId;
+    }
+
+    @Override
+    public void hollowOut() {
+        body = null;
+        metaData = null;
     }
 }

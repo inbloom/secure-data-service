@@ -213,6 +213,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public T findById(String collectionName, String id) {
+    	return findById(collectionName, id, false);
+    }
+	@Override
+    public T findById(String collectionName, String id, boolean allFields) {
         Object databaseId = idConverter.toDatabaseId(id);
         LOG.debug("find a record in collection {} with id {}", new Object[]{collectionName, id});
 
@@ -223,7 +227,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         this.addDefaultQueryParams(neutralQuery, collectionName);
 
         // convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery, allFields);
 
         try {
             return findOne(collectionName, mongoQuery);
@@ -253,13 +257,18 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public T findOne(String collectionName, NeutralQuery neutralQuery) {
+    	return findOne(collectionName, neutralQuery, false);
+    }
+
+    @Override
+    public T findOne(String collectionName, NeutralQuery neutralQuery, boolean allFields) {
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
         this.addDefaultQueryParams(neutralQuery, collectionName);
 
         // convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery, allFields);
 
         // find and return an entity
         return findOne(collectionName, mongoQuery);

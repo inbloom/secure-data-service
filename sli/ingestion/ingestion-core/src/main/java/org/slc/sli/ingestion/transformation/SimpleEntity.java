@@ -236,6 +236,11 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
         return new HashMap<String, List<Entity>>();
     }
 
+    @Override
+    public void hollowOut() {
+        // override super implementation with empty implementation
+    }
+
     public void setActionAttributes(Map<String, String> actionAttributes) {
         this.actionAttributes = actionAttributes;
     }

@@ -113,5 +113,8 @@ public class BulkExtractEntity implements Entity{
         return new HashMap<String, List<Entity>>();
     }
 
-
+    @Override
+    public void hollowOut() {
+        // override super implementation with empty implementation
+    }
 }
