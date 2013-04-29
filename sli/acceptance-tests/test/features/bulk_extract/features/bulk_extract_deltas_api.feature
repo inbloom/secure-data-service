@@ -201,6 +201,31 @@ Scenario: Be a good neighbor and clean up before you leave
 
 @wip
 Scenario: deltas for student/studentSchoolAssociation/studentAssessment and studentGradebookEntry
+  All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
+  and nothing is generated for lea2.
+  Updated two students, 11 and 12, 12 lost contextual resolution to LEA1, so it should not appear
+  in the extract file.  
   Given I clean the bulk extract file system and database
   And I ingested "student_high_cardinality_entities.zip" dataset
 
+  When I trigger a delta extract
+     And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
+     And I verify "0" delta bulk extract files are generated for "<lea2_id>" in "Midgar" 
+     And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea1_id>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  student                               |
+       |  studentSchoolAssociation              | 
+       |  studentAssessment                     | 
+       |  studentGradebookEntry                 |
+  
+     And I verify this "student" file contains:
+         | id                                          | condition                                |
+         | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                |
+     And I verify this "studentSchoolAssociation" file contains:
+         | id                                          | condition                                |
+         | 68c4855bf0bdcc850a883d88fdf953b9657fe255_id | exitWithdrawDate = 2014-05-31            |
+  
+     And The "student" delta was extracted in the same format as the api
+     And The "studentSchoolAssociation" delta was extracted in the same format as the api
+     And The "studentAssessment" delta was extracted in the same format as the api
+     And The "studentGradebookEntry" delta was extracted in the same format as the api
