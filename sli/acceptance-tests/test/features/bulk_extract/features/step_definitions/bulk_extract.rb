@@ -16,11 +16,9 @@ limitations under the License.
 
 =end
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
-require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
 require_relative '../../../apiV1/utils/api_utils.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
-require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb' #This is for the decryption step
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 require 'zip/zip'
 require 'archive/tar/minitar'
@@ -269,7 +267,7 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
 	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s+" and they are: #{fileList}")
 end
 
-When /^the extract contains a file for each of the following entities with the appropriate count:$/ do |table|
+When /^the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:$/ do |table|
   Minitar.unpack(@filePath, @unpackDir)
 
 	table.hashes.map do |entity|
@@ -279,6 +277,10 @@ When /^the extract contains a file for each of the following entities with the a
     json = JSON.parse(File.read("#{@unpackDir}/#{entity['entityType']}.json"))
     puts json.size
     assert(json.size == entity['count'].to_i, "The number of #{entity['entityType']} should be #{entity['count']}")
+    badIdFound = false
+    if(!entity['id'].nil?)
+      json.each {|e| assert(false, "We shouldn't have found #{entity['id']}") if e['id'] == entity['id']}
+    end
 	end
 
   fileList = Dir.entries(@unpackDir)

@@ -16,10 +16,6 @@
 
 package org.slc.sli.bulk.extract.context.resolver;
 
-import java.util.Map;
-
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,12 +35,6 @@ public class EdOrgContextResolverFactory {
     @Autowired
     EducationOrganizationContextResolver edOrgContextResolver;
     
-    // currently only check for educationOrganization. Later
-    // on would need to check against this collection which defines
-    // all entity types that needs to be extracted
-    @Resource
-    Map<String, String> entitiesToCollections;
-
     /**
      * find responsible resolver for this entity type
      * 

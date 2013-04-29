@@ -69,49 +69,49 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       When I decrypt and save the extracted file
       And I verify that an extract tar file was created for the tenant "Midgar"
       And there is a metadata file in the extract
-      And the extract contains a file for each of the following entities with the appropriate count:
-      |  entityType                            | count | 
-      #|  assessment                            |   |           
-      #|  attendance                            |   |
-      #|  cohort                                |   |
-      #|  competencyLevelDescriptor             |   |
-      #|  course                                |   |
-      #|  courseOffering                        |   |
-      #|  courseTranscript                      |   |
-      #|  disciplineIncident                    |   |
-      #|  disciplineAction                      |   |
-      |  educationOrganization                 | 2 |
-      #|  grade                                 |   |
-      #|  gradebookEntry                        |   |
-      #|  gradingPeriod                         |   |
-      #|  graduationPlan                        |   |
-      #|  learningObjective                     |   |
-      #|  learningStandard                      |   |
-      #|  parent                                |   |
-      #|  program                               |   |
-      #|  reportCard                            |   |
-      # |  school                                |   |
-      #|  section                               |   |
-      #|  session                               |   |
-      #|  staff                                 |   |
-      #|  staffCohortAssociation                |   |
-      #|  staffEducationOrganizationAssociation |   |
-      #|  staffProgramAssociation               |   |
-      #|  student                               |   |
-      #|  studentAcademicRecord                 |   |
-      #|  studentAssessment                     |   |
-      #|  studentCohortAssociation              |   |
-      #|  studentCompetency                     |   |
-      #|  studentCompetencyObjective            |   |
-      #|  studentDisciplineIncidentAssociation  |   |
-      #|  studentProgramAssociation             |   |
-      #|  studentGradebookEntry                 |   |
-      #|  studentSchoolAssociation              |   |
-      #|  studentSectionAssociation             |   |
-      #|  studentParentAssociation              |   |
-      #|  teacher                               |   |
-      #|  teacherSchoolAssociation              |   |
-      #|  teacherSectionAssociation             |   |
+      And the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:
+      |  entityType                            | count |  id  | 
+      #|  assessment                            |   |         |  
+      #|  attendance                            |   |         |
+      #|  cohort                                |   |         |
+      #|  competencyLevelDescriptor             |   |         |
+      #|  course                                |   |         |
+      #|  courseOffering                        |   |         |
+      #|  courseTranscript                      |   |         |
+      #|  disciplineIncident                    |   |         |
+      #|  disciplineAction                      |   |         |
+      |  educationOrganization                 | 2 |          |
+      #|  grade                                 |   |         |
+      #|  gradebookEntry                        |   |         |
+      #|  gradingPeriod                         |   |         |
+      #|  graduationPlan                        |   |         |
+      #|  learningObjective                     |   |         |
+      #|  learningStandard                      |   |         |
+      #|  parent                                |   |         |
+      #|  program                               |   |         |
+      #|  reportCard                            |   |         |
+      # |  school                                |   |        |
+      #|  section                               |   |         |
+      #|  session                               |   |         |
+      #|  staff                                 |   |         |
+      #|  staffCohortAssociation                |   |         |
+      #|  staffEducationOrganizationAssociation |   |         |
+      #|  staffProgramAssociation               |   |         |
+      #|  student                               |   |         |
+      #|  studentAcademicRecord                 |   |         |
+      #|  studentAssessment                     |   |         |
+      #|  studentCohortAssociation              |   |         |
+      #|  studentCompetency                     |   |         |
+      #|  studentCompetencyObjective            |   |         |
+      #|  studentDisciplineIncidentAssociation  |   |         |
+      #|  studentProgramAssociation             |   |         |
+      #|  studentGradebookEntry                 |   |         |
+      #|  studentSchoolAssociation              |   |         |
+      #|  studentSectionAssociation             |   |         |
+      #|  studentParentAssociation              |   |         |
+      #|  teacher                               |   |         |
+      #|  teacherSchoolAssociation              |   |         |
+      #|  teacherSectionAssociation             |   |         |
                                                     
     Scenario: Un-Authorized user cannot use the endpoint
         Given I am logged in using "linda.kim" "balrogs" to realm "IL"
