@@ -19,6 +19,7 @@ import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -29,6 +30,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -50,11 +52,12 @@ import java.util.Set;
  */
 public class LocalEdOrgExtractor {
 
-    public static final Object STATE_EDUCATION_AGENCY = "State Education Agency";
     private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
     private Repository<Entity> repository;
 
-    private Set<String> extractLEAs;
+    @Autowired
+    LocalEdOrgExtractHelper helper;
+
     private Map<String, ExtractFile> edOrgToLEAExtract;
 
     private EntityExtractor entityExtractor;
@@ -84,7 +87,7 @@ public class LocalEdOrgExtractor {
         // TODO extract other entities
 
         // 3. ARCHIVE
-        for(String lea : getBulkExtractLEAs()) {
+        for(String lea : helper.getBulkExtractLEAs()) {
             // close files
             edOrgToLEAExtract.get(lea).closeWriters();
 
@@ -131,7 +134,7 @@ public class LocalEdOrgExtractor {
         Map<String, ExtractFile> edOrgToLEAExtract = new HashMap<String, ExtractFile>();
 
         Map<String, PublicKey> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
-        for (String lea : getBulkExtractLEAs()) {
+        for (String lea : helper.getBulkExtractLEAs()) {
 
             File leaDirectory = new File(tenantDirectory.getAbsoluteFile(), lea);
             leaDirectory.mkdirs();
@@ -159,41 +162,6 @@ public class LocalEdOrgExtractor {
         return leas;
     }
 
-
-    private Set<String> getBulkExtractLEAs() {
-        if (extractLEAs == null) {
-            extractLEAs = new HashSet<String>();
-
-            Set<String> topLevelLEAs = getTopLevelLEAs();
-            for (Set<String> appLeas : getBulkExtractLEAsPerApp().values()) {
-                for (String lea : appLeas) {
-                    if (topLevelLEAs.contains(lea)) {
-                        extractLEAs.add(lea);
-                    }
-                }
-            }
-        }
-        return extractLEAs;
-    }
-
-    private Set<String> getTopLevelLEAs() {
-        Set<String> topLEAs = new HashSet<String>();
-
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES,
-                NeutralCriteria.CRITERIA_IN, Arrays.asList(STATE_EDUCATION_AGENCY)));
-        final Iterable<Entity> entities = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
-
-        for (Entity entity : entities) {
-            query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
-                    NeutralCriteria.CRITERIA_IN, Arrays.asList(entity.getEntityId())));
-            final Iterable<String> topLevelLEAs = repository.findAllIds(EntityNames.EDUCATION_ORGANIZATION, query);
-            for (String topLevelLEA : topLevelLEAs) {
-                topLEAs.add(topLevelLEA);
-            }
-        }
-        return topLEAs;
-    }
-
     /**
      * Returns a map that maps an edorg to it's top level LEA, used as a cache
      * to speed up extract
@@ -202,7 +170,7 @@ public class LocalEdOrgExtractor {
      */
     private Map<String, Set<String>> buildEdOrgCache() {
         Map<String, Set<String>> cache = new HashMap<String, Set<String>>();
-        for (String lea : getBulkExtractLEAs()) {
+        for (String lea : helper.getBulkExtractLEAs()) {
             Set<String> children = getChildEdOrgs(Arrays.asList(lea));
             children.add(lea);
             cache.put(lea, children);
@@ -212,7 +180,7 @@ public class LocalEdOrgExtractor {
     
     public Map<String, Set<String>> leaToApps() {
     	Map<String, Set<String>> result = new HashMap<String, Set<String>>();
-    	Map<String, Set<String>> beAppsToLEAs = getBulkExtractLEAsPerApp();
+    	Map<String, Set<String>> beAppsToLEAs = helper.getBulkExtractLEAsPerApp();
     	for(String app : beAppsToLEAs.keySet()) {
     		for(String lea : beAppsToLEAs.get(app)) {
     			if (result.get(lea) == null) {
@@ -222,32 +190,6 @@ public class LocalEdOrgExtractor {
     		}
     	}
     	return result;
-    }
-
-    /**
-     * A helper function to get the list of approved app ids that have bulk extract enabled
-     *
-     * @return a set of approved bulk extract app ids
-     */
-    @SuppressWarnings("unchecked")
-    public Set<String> getBulkExtractApps() {
-        // Butt-hole table scans prevent us from using a query, so we'll just scan all the apps!
-        NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("isBulkExtract", NeutralCriteria.OPERATOR_EQUAL,
-                true));
-        appQuery.addCriteria(new NeutralCriteria("registration.status", NeutralCriteria.OPERATOR_EQUAL, "APPROVED"));
-        TenantContext.setIsSystemCall(true);
-        Iterable<Entity> apps = repository.findAll("application", new NeutralQuery());
-        TenantContext.setIsSystemCall(false);
-        Set<String> appIds = new HashSet<String>();
-        for (Entity app : apps) {
-            if (app.getBody().containsKey("isBulkExtract") && (Boolean) app.getBody().get("isBulkExtract") == true) {
-                if (((String) ((Map<String, Object>) app.getBody().get("registration")).get("status"))
-                        .equals("APPROVED")) {
-                    appIds.add(app.getEntityId());
-                }
-            }
-        }
-        return appIds;
     }
     
     /**
@@ -272,24 +214,6 @@ public class LocalEdOrgExtractor {
             children.addAll(getChildEdOrgs(children));
         }
         return children;
-    }
-
-    /**
-     * Attempts to get all of the LEAs per app that should have a LEA level extract scheduled.
-     *
-     * @return a set of the LEA ids that need a bulk extract per app
-     */
-    @SuppressWarnings("unchecked")
-    public Map<String, Set<String>> getBulkExtractLEAsPerApp() {
-        NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.CRITERIA_IN,
-                getBulkExtractApps()));
-        Iterable<Entity> apps = repository.findAll("applicationAuthorization", appQuery);
-        Map<String, Set<String>> edorgIds = new HashMap<String, Set<String>>();
-        for (Entity app : apps) {
-            Set<String> edorgs = new HashSet<String>((Collection<String>) app.getBody().get("edorgs"));
-            edorgIds.put((String) app.getBody().get("applicationId"), edorgs);
-        }
-        return edorgIds;
     }
 
     public void setRepository(Repository<Entity> repository) {
@@ -369,4 +293,7 @@ public class LocalEdOrgExtractor {
         this.bulkExtractMongoDA = bulkExtractMongoDA;
     }
 
+    public void setHelper(LocalEdOrgExtractHelper helper) {
+        this.helper = helper;
+    }
 }
