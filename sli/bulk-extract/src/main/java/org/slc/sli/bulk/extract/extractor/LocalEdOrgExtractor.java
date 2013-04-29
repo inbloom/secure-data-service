@@ -15,19 +15,6 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
@@ -45,15 +32,28 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 /**
  * Creates local ed org tarballs
  */
 public class LocalEdOrgExtractor {
 
+    public static final Object STATE_EDUCATION_AGENCY = "State Education Agency";
     private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
     private Repository<Entity> repository;
 
-    private Map<String, Set<String>> leaToEdorgCache;
     private Set<String> extractLEAs;
     private Map<String, ExtractFile> edOrgToLEAExtract;
 
@@ -77,7 +77,6 @@ public class LocalEdOrgExtractor {
         this.tenantDirectory = tenantDirectory;
         this.startTime = startTime;
 
-        leaToEdorgCache = buildEdOrgCache();
         edOrgToLEAExtract = buildLEAToExtractFile();
 
         // 2. EXTRACT
@@ -116,6 +115,8 @@ public class LocalEdOrgExtractor {
     }
 
     private void extractEdOrgs() {
+        Map<String, Set<String>> leaToEdorgCache = buildEdOrgCache();
+
         for (String lea : new HashSet<String>(leaToEdorgCache.keySet())) {
             ExtractFile extractFile = edOrgToLEAExtract.get(lea);
             Criteria criteria = new Criteria("_id");
@@ -163,10 +164,32 @@ public class LocalEdOrgExtractor {
         if (extractLEAs == null) {
             extractLEAs = new HashSet<String>();
             for (Set<String> appLeas : getBulkExtractLEAsPerApp().values()) {
-                extractLEAs.addAll(appLeas);
+                for (String lea : appLeas) {
+                    if (isTopLevelLEA(lea)) {
+                        extractLEAs.add(lea);
+                    }
+                }
             }
         }
         return extractLEAs;
+    }
+
+    private boolean isTopLevelLEA(String leaId) {
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES,
+                NeutralCriteria.CRITERIA_IN, Arrays.asList(STATE_EDUCATION_AGENCY)));
+        final Iterable<Entity> entities = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+
+        for (Entity entity : entities) {
+            query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
+                    NeutralCriteria.CRITERIA_IN, Arrays.asList(entity.getEntityId())));
+            final Iterable<String> topLevelLEAs = repository.findAllIds(EntityNames.EDUCATION_ORGANIZATION, query);
+            for (String topLevelLEA : topLevelLEAs) {
+                if (leaId.equals(topLevelLEA)) {
+                    return true;
+                }
+            }
+        }
+        return  false;
     }
 
     /**
