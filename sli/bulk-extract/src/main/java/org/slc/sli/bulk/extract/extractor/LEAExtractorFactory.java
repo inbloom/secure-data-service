@@ -16,9 +16,22 @@
 
 package org.slc.sli.bulk.extract.extractor;
 
+import java.io.File;
+import java.security.PublicKey;
+import java.util.Map;
+
+import org.slc.sli.bulk.extract.files.ExtractFile;
+
 public class LEAExtractorFactory {
     
     public EdorgExtractor buildEdorgExtractor(EntityExtractor extractor, LEAExtractFileMap map) {
         return new EdorgExtractor(extractor, map);
+    }
+    
+    public ExtractFile buildLEAExtractFile(String path, String lea, String archiveName,
+            Map<String, PublicKey> appPublicKeys) {
+        File leaDirectory = new File(path, lea);
+        leaDirectory.mkdirs();
+        return new ExtractFile(leaDirectory, archiveName, appPublicKeys);
     }
 }

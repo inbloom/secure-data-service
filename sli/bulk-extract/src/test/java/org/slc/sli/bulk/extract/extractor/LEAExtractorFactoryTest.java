@@ -17,8 +17,10 @@
 package org.slc.sli.bulk.extract.extractor;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slc.sli.bulk.extract.files.ExtractFile;
 
 
 public class LEAExtractorFactoryTest {
@@ -36,7 +38,13 @@ public class LEAExtractorFactoryTest {
     
     @Test
     public void testBuildEdorgExtractor() {
-        assert (factory.buildEdorgExtractor(null, null) != null);
-        assert (factory.buildEdorgExtractor(null, null).getClass() == EdorgExtractor.class);
+        Assert.assertTrue(factory.buildEdorgExtractor(null, null) != null);
+        Assert.assertTrue(factory.buildEdorgExtractor(null, null).getClass() == EdorgExtractor.class);
+    }
+    
+    @Test
+    public void testBuildExtractFile() {
+        Assert.assertTrue(factory.buildLEAExtractFile("bloop", "Bleep", "BLOO BLOO", null) != null);
+        Assert.assertTrue(factory.buildLEAExtractFile("bloop", "Bleep", "BLOOB BLOO", null).getClass() == ExtractFile.class);
     }
 }
