@@ -1,5 +1,16 @@
 package org.slc.sli.bulk.extract.util;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -7,14 +18,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Utils to extract LEAs
@@ -25,7 +28,9 @@ public class LocalEdOrgExtractHelper {
     private Set<String> extractLEAs;
     public static final Object STATE_EDUCATION_AGENCY = "State Education Agency";
 
-    private Repository<Entity> repository;
+    @Autowired
+    @Qualifier("secondaryRepo")
+    Repository<Entity> repository;
 
 
     /**
@@ -93,18 +98,13 @@ public class LocalEdOrgExtractHelper {
      */
     @SuppressWarnings("unchecked")
     public Set<String> getBulkExtractApps() {
-        // Butt-hole table scans prevent us from using a query, so we'll just scan all the apps!
-        NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("isBulkExtract", NeutralCriteria.OPERATOR_EQUAL,
-                true));
-        appQuery.addCriteria(new NeutralCriteria("registration.status", NeutralCriteria.OPERATOR_EQUAL, "APPROVED"));
         TenantContext.setIsSystemCall(true);
         Iterable<Entity> apps = repository.findAll("application", new NeutralQuery());
         TenantContext.setIsSystemCall(false);
         Set<String> appIds = new HashSet<String>();
         for (Entity app : apps) {
-            if (app.getBody().containsKey("isBulkExtract") && (Boolean) app.getBody().get("isBulkExtract") == true) {
-                if (((String) ((Map<String, Object>) app.getBody().get("registration")).get("status"))
-                        .equals("APPROVED")) {
+            if (app.getBody().containsKey("isBulkExtract") && (Boolean) app.getBody().get("isBulkExtract")) {
+                if (((Map<String, Object>) app.getBody().get("registration")).get("status").equals("APPROVED")) {
                     appIds.add(app.getEntityId());
                 }
             }

@@ -17,20 +17,29 @@ package org.slc.sli.bulk.extract.context.resolver;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TypeResolverTest {
     
-    @Autowired
-    TypeResolver resolver;
+    TypeResolver resolver = new TypeResolver();
+    
+    Map<String, String> entitiesToCollections = new HashMap<String, String>();
+    
+    @Before
+    public void setup() {
+        entitiesToCollections.put("educationOrganization", "educationOrganization");
+        entitiesToCollections.put("school", "educationOrganization");
+        entitiesToCollections.put("teacher", "staff");
+        entitiesToCollections.put("staff", "staff");
+        
+        resolver.setEntitiesToCollections(entitiesToCollections);
+        resolver.reverseEntitiesToCollectionsMaps();
+    }
     
     @Test
     public void educationOrganzationCollectionAlsoContainsSchools() {

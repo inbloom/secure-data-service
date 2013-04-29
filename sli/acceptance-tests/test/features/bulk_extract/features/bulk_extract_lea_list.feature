@@ -7,5 +7,5 @@ Background: An authorized bulk extract user logs in and gets the information for
     And in my list of rights I have BULK_EXTRACT
 
 Scenario: Validate the return the app is authorized
-    When I make a call retrieve the header for the bulk extract end point "/v1.1/bulk/extract/leas"
+    When I make a call retrieve the header for the bulk extract end point "/v1.1/bulk/extract/list"
     Then I get back a response code of "200"
