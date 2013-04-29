@@ -447,6 +447,7 @@ default:
         sli.bulk.extract.output.directory: extract
         sli.bulk.extract.log.path: logs
         sli.bulk.extract.log.level: INFO
+        sli.be.mongo.failOnPrimary: false
 
 acceptance-tests:
     api:
@@ -1439,6 +1440,7 @@ perf:
         sli.ingestion.healthcheck.pass: admin
 
         sli.bulk.extract.deltasEnabled: false
+        sli.be.mongo.failOnPrimary: false
 
     ingestion:
         <<: *INGESTION-DEFAULT

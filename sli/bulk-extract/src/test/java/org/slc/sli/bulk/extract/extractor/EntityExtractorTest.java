@@ -32,11 +32,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.bulk.extract.SecondaryReadRepository;
 import org.slc.sli.bulk.extract.TestUtils;
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
-import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -54,7 +54,7 @@ public class EntityExtractorTest {
     private EntityExtractor extractor;
 
     @Mock
-    private MongoEntityRepository mongoEntityRepository;
+    private SecondaryReadRepository mongoEntityRepository;
 
     @Mock
     private EntityWriterManager writer;
@@ -69,7 +69,7 @@ public class EntityExtractorTest {
     @Before
     public void init() throws IOException {
         MockitoAnnotations.initMocks(this);
-        mongoEntityRepository = Mockito.mock(MongoEntityRepository.class);
+        mongoEntityRepository = Mockito.mock(SecondaryReadRepository.class);
         archiveFile = Mockito.mock(ExtractFile.class);
         JsonFileWriter json = Mockito.mock(JsonFileWriter.class);
         Mockito.when(archiveFile.getDataFileEntry(Mockito.anyString())).thenReturn(json);
