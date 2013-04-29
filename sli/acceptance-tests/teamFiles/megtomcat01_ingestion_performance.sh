@@ -27,7 +27,7 @@ sh log_purge_duration.sh
     -s "Megatron Mini Slirp Performance Testing" \
     -a IngestionPerformanceDaily.pdf \
     -a raw_data.txt \
-    Sliders-MegatronDev@wgen.net \
+    Sliders-megatron@wgen.net \
     okrook@wgen.net \
     < message.txt
 

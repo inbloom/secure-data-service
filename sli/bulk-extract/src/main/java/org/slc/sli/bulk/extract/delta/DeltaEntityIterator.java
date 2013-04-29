@@ -40,6 +40,12 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
+/**
+ * This class provides ways to interact with the delta collection
+ * 
+ * @author ycao
+ * 
+ */
 @Component
 public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     

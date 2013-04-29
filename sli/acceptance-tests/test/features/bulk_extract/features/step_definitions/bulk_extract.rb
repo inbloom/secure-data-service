@@ -475,16 +475,18 @@ When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, 
     raise
   end
 
-  @id     = @fields["id"]  
+  @id = @fields["id"]  
   # Update the correct field based on entity type
-  # educationOrganization.body.address.postalCode
+  # --> educationOrganization.body.address.postalCode
   @fields["address"][0]["postalCode"] = value if field == "postalCode"
-  # educationOrganization with non-existent id
+  # --> educationOrganization with non-existent id
   @id = value if field == "invalidEntry"
-  @id = "<Orphaned School>" if field == "orphanEdorg"
+  # --> orphaned school marked for deletion
+  @id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id" if field == "orphanEdorg"
 
   @result = @fields
-
+  puts "SESSION ID IS #{@sessionId}"
+  puts "URI passing TO DELETE: \"/#{@api_version}/#{@assocUrlPut[entity]}/#{@id}\""
   step "I navigate to #{verb} \"/#{@api_version}/#{@assocUrlPut[entity]}/#{@id}\""
 end
 
