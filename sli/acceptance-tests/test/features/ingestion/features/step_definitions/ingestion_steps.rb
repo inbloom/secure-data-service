@@ -3665,7 +3665,6 @@ end
   
 $savedEntities = {}
  And /^I read the following entity in "([^"]*)" tenant and save it as "([^"]*)"/ do | tenant, entityTag, table |
-  breakpoint
   @db         = @conn[convertTenantIdToDbName(tenant)]
 
   condHash = Hash.new
@@ -3695,7 +3694,6 @@ $savedEntities = {}
 end
 
 And /^I read again the entity tagged "([^"]*)" from the "([^"]*)" tenant and confirm that it is the same/ do | entityTag, tenant |
-  breakpoint
   oldRecord = $savedEntities[ entityTag][ "entity" ]
   tenant = $savedEntities[ entityTag ][ "tenant" ]
   criteria = $savedEntities[ entityTag][ "criteria" ]
