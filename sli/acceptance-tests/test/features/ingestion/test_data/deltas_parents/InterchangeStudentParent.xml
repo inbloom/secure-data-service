@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
+<Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>1-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>0</ContactPriority>
+</StudentParentAssociation>
+<Parent>
+  <ParentUniqueStateId>1-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Brandy</FirstName>
+    <MiddleName>Maxine</MiddleName>
+    <LastSurname>Mcgowan</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>960 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2516@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>2516@fakemail.com</LoginId>
+</Parent>
+</Action>
+<Parent>
+  <ParentUniqueStateId>1-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Roosevelt</FirstName>
+    <MiddleName>Quentin</MiddleName>
+    <LastSurname>Mcgowan</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>960 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>roosevelt_mcgowan@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>8151@fakemail.com</LoginId>
+</Parent>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>1-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+</StudentParentAssociation>
+</InterchangeStudentParent>

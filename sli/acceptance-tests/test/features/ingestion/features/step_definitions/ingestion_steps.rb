@@ -3922,6 +3922,20 @@ And /I update the md5s/ do
     end
 end
 
+
+Given /^I ingest "(.*?)"$/ do |ingestion_file|
+  steps %Q{
+    And I am using local data store
+    And I post "#{ingestion_file}" file as the payload of the ingestion job
+    When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+    And zip file is scp to ingestion landing zone
+    And a batch job for file "#{ingestion_file}" is completed in database
+    And a batch job log has been created
+    Then I should not see an error log file created
+  }
+
+end
+
 ############################################################
 # STEPS: AFTER
 ############################################################
