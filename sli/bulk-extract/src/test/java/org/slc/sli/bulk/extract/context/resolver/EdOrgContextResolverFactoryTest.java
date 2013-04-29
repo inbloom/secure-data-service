@@ -18,21 +18,29 @@ package org.slc.sli.bulk.extract.context.resolver;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EdOrgContextResolverFactoryTest {
     
-    @Autowired
-    EdOrgContextResolverFactory factory;
+    @InjectMocks
+    EdOrgContextResolverFactory factory = new EdOrgContextResolverFactory();
     
+    @Mock
+    EducationOrganizationContextResolver edOrgContextResolver;
+    
+    @Before
+    public void setup() {
+        edOrgContextResolver = Mockito.mock(EducationOrganizationContextResolver.class);
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     public void test() {
         assertNull(factory.getResolver("doesn't exist"));
