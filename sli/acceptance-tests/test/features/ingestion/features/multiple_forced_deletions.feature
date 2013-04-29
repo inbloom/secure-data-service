@@ -68,7 +68,9 @@ Scenario: Multiple Orphans
         |studentParentAssociation               |       -1|
         |studentProgramAssociation              |       -1|
         |studentSchoolAssociation               |       -1|
+        |student.schools                        |       -1|
         |studentSectionAssociation              |       -2|
+        |student.section                        |       -1|
         |teacherSchoolAssociation               |       -1|
         |teacherSectionAssociation              |       -3|
         |recordHash                             |      -31|

@@ -205,4 +205,5 @@ public class ParameterConstants {
      */
     public static final String ASSESSMENT_FAMILY_HIERARCHY = "assessmentFamilyHierarchyName";
     public static final String ASSESSMENT_FAMILY_TITLE = "assessmentFamilyTitle";
+    public static final String ORGANIZATION_CATEGORIES = "organizationCategories";
 }

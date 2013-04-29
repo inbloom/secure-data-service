@@ -41,10 +41,6 @@ Scenario: Delete Cohort with cascade
 	|studentCohortAssociation               |        -4|
 	|recordHash                             |         0|
 	And I should not see "3ec8e3eb5388b559890be7df3cf189902fc2735d_id" in the "Midgar" database
-	And I should not see any entity mandatorily referring to "3ec8e3eb5388b559890be7df3cf189902fc2735d_id" in the "Midgar" database
-	And I should see entities optionally referring to "3ec8e3eb5388b559890be7df3cf189902fc2735d_id" be updated in the "Midgar" database
-
-
 
 	Scenario: Delete Cohort with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -139,7 +135,7 @@ Scenario: Delete Cohort with cascade
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceCohortDelete.zip" is completed in database
     And I should see "Processed 1 records." in the resulting batch job file
-	And I should see "records deleted successfully: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 1" in the resulting batch job file
 	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentCohort.xml"    
@@ -170,7 +166,7 @@ Scenario: Delete Cohort with cascade
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceCohortRefDelete.zip" is completed in database
     And I should see "Processed 1 records." in the resulting batch job file
-	And I should see "records deleted successfully: 0" in the resulting batch job file
+	And I should see "records deleted successfully: 1" in the resulting batch job file
 	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentCohort.xml"    
