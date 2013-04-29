@@ -15,6 +15,17 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import java.io.File;
+import java.security.PublicKey;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
@@ -31,21 +42,6 @@ import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
-import java.io.File;
-import java.io.IOException;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * Creates local ed org tarballs
@@ -58,11 +54,11 @@ public class LocalEdOrgExtractor {
     @Autowired
     LocalEdOrgExtractHelper helper;
 
-    private Map<String, ExtractFile> edOrgToLEAExtract;
-
+    private LEAExtractFileMap leaToExtractFileMap;
     private EntityExtractor entityExtractor;
     private Map<String, String> entitiesToCollections;
     private BulkExtractMongoDA bulkExtractMongoDA;
+    private LEAExtractorFactory factory;
 
     private String baseDirectory;
 
@@ -79,54 +75,42 @@ public class LocalEdOrgExtractor {
         TenantContext.setTenantId(tenant);
         this.tenantDirectory = tenantDirectory;
         this.startTime = startTime;
+        this.factory = new LEAExtractorFactory();
 
-        edOrgToLEAExtract = buildLEAToExtractFile();
+        leaToExtractFileMap = new LEAExtractFileMap(buildLEAToExtractFile());
 
         // 2. EXTRACT
-        extractEdOrgs();
+        EdorgExtractor extractor = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
+        extractor.extractEntities(buildEdOrgCache());
+        leaToExtractFileMap.closeFiles();
+
         // TODO extract other entities
+
+        leaToExtractFileMap.buildManifestFiles(startTime);
+        // leaToExtractFileMap.archiveFiles();
+
 
         // 3. ARCHIVE
         for(String lea : helper.getBulkExtractLEAs()) {
-            // close files
-            edOrgToLEAExtract.get(lea).closeWriters();
 
-            // generate lea manifest file
-            try {
-                edOrgToLEAExtract.get(lea).getManifestFile().generateMetaFile(startTime);
-            } catch (IOException e) {
-                LOG.error("Error creating metadata file: {}", e.getMessage());
-            }
 
             // generate lea archive
             try {
-                edOrgToLEAExtract.get(lea).generateArchive();
+                leaToExtractFileMap.getExtractFileForLea(lea).generateArchive();
             } catch (Exception e) {
                 LOG.error("Error generating archive file: {}", e.getMessage());
             }
 
             // update db to point to new archive
             Map<String, Set<String>> leaToApps = leaToApps();
-            for(Entry<String, File> archiveFile : edOrgToLEAExtract.get(lea).getArchiveFiles().entrySet()) {
+            for (Entry<String, File> archiveFile : leaToExtractFileMap.getExtractFileForLea(lea).getArchiveFiles()
+                    .entrySet()) {
                 Set<String> apps = leaToApps.get(lea);
             	for(String app : apps) {
                     bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), app,
                             startTime.toDate(), false, lea);
             	}
             }
-        }
-    }
-
-    private void extractEdOrgs() {
-        Map<String, Set<String>> leaToEdorgCache = buildEdOrgCache();
-
-        for (String lea : new HashSet<String>(leaToEdorgCache.keySet())) {
-            ExtractFile extractFile = edOrgToLEAExtract.get(lea);
-            Criteria criteria = new Criteria("_id");
-            criteria.in(new ArrayList<String>(leaToEdorgCache.get(lea)));
-			Query query = new Query(criteria);
-			entityExtractor.setExtractionQuery(query);
-			entityExtractor.extractEntities(extractFile, "educationOrganization");
         }
     }
 
