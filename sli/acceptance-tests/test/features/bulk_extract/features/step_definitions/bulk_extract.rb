@@ -27,6 +27,7 @@ require 'archive/tar/minitar'
 require 'zlib'
 require 'open3'
 require 'openssl'
+require 'time'
 include Archive::Tar
 
 SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_script'])
@@ -58,12 +59,13 @@ $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub"}
 
 Transform /^<(.*?)>$/ do |human_readable_id|
   # entity id transforms
+  id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "app id"
+  id = "vavedRa9uB"                                         if human_readable_id == "client id"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
   id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "lea1_id"
   id = "884daa27d806c2d725bc469b273d840493f84b4d_id"        if human_readable_id == "sea_id"
-  id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "cert"
   id = "352e8570bd1116d11a72755b987902440045d346_id"        if human_readable_id == "IL-DAYBREAK school"
   id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id"        if human_readable_id == "Orphaned School"
 
@@ -385,12 +387,13 @@ When /^I request the latest bulk extract delta using the api$/ do
   puts "stubbed out"
 end
 
-When /^I untar and decrypt the delta tarfile for tenant "(.*?)" and appId "(.*?)"$/ do |tenant, appId|
+When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appId "(.*?)"$/ do |data_store, tenant, appId|
   sleep 1
   delta = true
   getExtractInfoFromMongo(tenant, appId, delta)
 
   openDecryptedFile(appId)
+  @fileDir = OUTPUT_DIRECTORY if data_store == "API"
   untar(@fileDir)
 end
 
@@ -477,6 +480,7 @@ When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, 
 
   @id = @fields["id"]  
   # Update the correct field based on entity type
+  #
   # --> educationOrganization.body.address.postalCode
   @fields["address"][0]["postalCode"] = value if field == "postalCode"
   # --> educationOrganization with non-existent id
@@ -488,6 +492,51 @@ When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, 
   puts "SESSION ID IS #{@sessionId}"
   puts "URI passing TO DELETE: \"/#{@api_version}/#{@assocUrlPut[entity]}/#{@id}\""
   step "I navigate to #{verb} \"/#{@api_version}/#{@assocUrlPut[entity]}/#{@id}\""
+end
+
+When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
+  @lea = lea
+  @app_id = app_id
+  @client_id = client_id
+
+  delta = true
+  query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isDelta" => "true", "body.edorg"=>lea}
+  query_opts = {sort: ["t", Mongo::DESCENDING], limit: 1}
+  # Get the edorg and timestamp from bulk extract collection in mongo
+  puts "DEBUG: Getting extract info from Mongo"
+  getExtractInfoFromMongo(tenant, app_id, delta, query, query_opts)
+  # Set the download path to stream the delta file from API
+  @delta_file = "delta_#{lea}_#{@timestamp}.tar"
+  puts "DEBUG: @delta_file is #{@delta_file}"
+  @download_path = OUTPUT_DIRECTORY + @delta_file
+  puts "DEBUG: @download_path is #{@download_path}"
+  @fileDir = OUTPUT_DIRECTORY + "decrypt"
+  puts "DEBUG: @fileDir is #{@fileDir}"
+  @filePath = @fileDir + "/" + @delta_file
+  puts "DEBUG: @filePath is #{@filePath}"
+  @unpackDir = @fileDir
+  puts "DEBUG: @unpackDir is #{@unpackDir}"
+  # Format the Mongo time object to URI-ready string
+  #assert(@timestamp.to_s.match(/(.*?) UTC/), "Could not find a timestamp in the bulk extract Mongo entry.")
+  #timestamp = $1.gsub(/\s/, "T")
+  # Assemble the API URI and make API call
+  puts "DEBUG: Calling restTls with api call for delta: api/rest/v1/bulk/extract/#{lea}/delta/#{@timestamp}"
+  restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar')
+  puts "The result of the BE call is #{@res}"
+end
+
+When /^I download and decrypt the file$/ do
+  # Open the file, decrypt, and check against API
+  puts "DEBUG: opening file #{@download_path}, writing result body to that file."
+  #File.open(download_path, 'w') {|f| f.write(@res.body) }
+  download_path = streamBulkExtractFile(@download_path, @res.body)
+  puts "Returned download path is #{download_path}"
+
+  @decrypt_path = OUTPUT_DIRECTORY + "decrypt/" + @delta_file
+  puts "DEBUG: Decrypting the file at #{@download_path}"
+  puts "DEBUG: Putting it at #{@decrypt_path}"
+  openDecryptedFile(@app_id, @decrypt_path, @download_path)
+  untar(@decrypt_path)
 end
 
 ############################################################
@@ -509,6 +558,7 @@ Then  /^The "(.*?)" delta was extracted in the same format as the api$/ do |coll
   #  zipfiles << file if file.match(/.gz$/)
   #end
   zipfile = @fileDir + "/" + collection + ".json.gz"
+  puts "DEBUG: zipfile is #{zipfile}"
   # Loop through each list, extract the file, parse the json, and verify against the api
   Zlib::GzipReader.open(zipfile) { |extracts|
     collFile = JSON.parse(extracts.read)
@@ -691,12 +741,15 @@ def getExtractInfoFromMongo(tenant, appId, delta=false, query=nil, query_opts={}
   @fileDir = File.dirname(@encryptFilePath) + "/#{edorg}/decrypt/"
   @filePath = @fileDir + File.basename(@encryptFilePath)
   @tenant = tenant
+  @timestamp = match['body']['date'] || ""
+  @timestamp = @timestamp.utc.iso8601(3)
 
   puts "encryptFilePath is #{@encryptFilePath}"
   puts "unpackDir is #{@unpackDir}"
   puts "fileDir is #{@fileDir}"
   puts "filePath is #{@filePath}"
   puts "tenant is #{@tenant}"
+  puts "timestamp is #{@timestamp}"
 end
 
 def getMongoRecordFromJson(jsonRecord)
@@ -803,7 +856,7 @@ def compareToApi(collection, collFile)
     @format = "application/vnd.slc+json"
     restHttpGet("/v1/#{uri}/#{id}")
     assert(@res != nil, "Response from rest-client GET is nil")
-    assert(@res.code != 404, "Response from rest-client GET is 404")
+    assert(@res.code == 200, "Response from rest-client GET is not 200 (Got a #{@res.code})")
     if @res.code == 200
       apiRecord = JSON.parse(@res.body)
       assert(apiRecord != nil, "Result of JSON parsing is nil")    
@@ -831,8 +884,8 @@ end
 
 def decryptFile(file, client_id)
   private_key = OpenSSL::PKey::RSA.new File.read "./test/features/utils/keys/#{client_id}.key"
-  assert(file.length >= 512)
-  encryptediv = file[0,256] 
+  assert(file.length >= 512, "File is less than 512 Bytes: #{file.length}")
+  encryptediv = file[0,256]
   encryptedsecret = file[256,256]
   encryptedmessage = file[512,file.length - 512]
  
@@ -889,11 +942,16 @@ def checkTarfileCounts(directory, count)
   assert(count == tarfile_count, "Found #{tarfile_count} tarfiles, expected #{count}")
 end
 
-def openDecryptedFile(appId)
-  file = File.open(@encryptFilePath, 'rb') { |f| f.read}
+def openDecryptedFile(appId, filePath=@filePath, encryptFilePath=@encryptFilePath)
+  puts "DEBUG: filePath is #{filePath}"
+  puts "DEUBG: encryptFilePath is #{encryptFilePath}"
+  file = File.open(encryptFilePath, 'rb') { |f| f.read}
+  puts "DEBUG: File to decrypt is #{file}"
+
+  puts "DEBUG: Converted app id #{$APP_CONVERSION_MAP[appId]}"
   decryptFile(file, $APP_CONVERSION_MAP[appId])
-  FileUtils.mkdir_p(File.dirname(@filePath)) if !File.exists?(File.dirname(@filePath))
-  File.open(@filePath, 'w') {|f| f.write(@plain) }  
+  FileUtils.mkdir_p(File.dirname(filePath)) if !File.exists?(File.dirname(filePath))
+  File.open(filePath, 'w') {|f| f.write(@plain) }  
 end
 
 def to_map(json) 
@@ -916,4 +974,10 @@ def get_field_value(json_entity, field)
     entity = entity[f]
   }
   entity.strip
+end
+
+def streamBulkExtractFile(download_file, apiBody)
+  download_file ||= Dir.pwd + "/Final.tar"
+  f = File.open(download_file, 'a') {|f| f.write(apiBody)}
+  return download_file
 end

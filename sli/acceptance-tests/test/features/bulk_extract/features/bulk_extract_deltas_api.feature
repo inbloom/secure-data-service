@@ -2,7 +2,6 @@ Feature: Retrived through the api a generated delta bulk extract file, and valid
 
 Scenario: Initialize security trust store for Bulk Extract application and LEAs
   Given the extraction zone is empty
-    Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
@@ -10,7 +9,7 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
 Scenario: Generate a bulk extract day 0 delta    
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
-   And I untar and decrypt the delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
      Then I should see "2" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
@@ -29,7 +28,7 @@ Scenario: Generate a bulk extract in a different LEAs
 
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
-   And I untar and decrypt the delta tarfile for tenant "Midgar" and appId "<cert>"
+   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>"
    Then I should see "1" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
@@ -48,7 +47,7 @@ Scenario: Ingest education organization and perform delta
      And I should not see a warning log file created
 
   When I trigger a delta extract
-    And I untar and decrypt the delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
       Then I should see "1" bulk extract files
     And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
@@ -146,10 +145,11 @@ Scenario: Create a new education organization through the API and perform delta
     Then I should receive a return code of 201   
 
   When I trigger a delta extract
-   And I untar and decrypt the delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
      Then I should see "1" bulk extract files
       And The "educationOrganization" delta was extracted in the same format as the api
 
+@shortcut
 Scenario: Update an existing education organization through the API and perform delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -161,11 +161,14 @@ Given I clean the bulk extract file system and database
     Then I should receive a return code of 204
 
   When I trigger a delta extract
-   #And I request the latest bulk extract delta through the API
-   And I untar and decrypt the delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-
-  Then I should see "1" bulk extract files
-   And The "educationOrganization" delta was extracted in the same format as the api
+   And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id>" clientId "<client id>"
+   #And I untar and decrypt the "API" delta tarfile for tenant "Midgar" and appId "<app id>"
+   And I should receive a return code of 200
+   And I download and decrypt the file
+    Then I should see "1" bulk extract files
+     And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+     And The "educationOrganization" delta was extracted in the same format as the api
 
 Scenario: Update an existing edOrg with invalid API call, verify no delta created
 Given I clean the bulk extract file system and database
@@ -188,26 +191,35 @@ Given I clean the bulk extract file system and database
   When I trigger a delta extract
     Then there should be no deltas in mongo
 
-@shortcut
 Scenario: Delete an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And format "application/json"     
+  And format "application/json"
   When I GET the response body for a "school" in "<IL-DAYBREAK>"
     Then I should receive a return code of 200
   When I "DELETE" the "orphanEdorg" for a "school" entity to "null"
     Then I should receive a return code of 204
   When I trigger a delta extract
-    And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
+    And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar"
     And I verify "1" delta bulk extract files are generated for "<lea2_id>" in "Midgar"
-     #And The "id" and "entityType" should match the deleted record
+
+Scenario: Patch an existing school with API call, verify delta
+Given I clean the bulk extract file system and database
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"
+  When I "PATCH" the "postalCode" for a "school" entity to "11012"
+    Then I should receive a return code of 204
+
+  When I trigger a delta extract
+   #And I request the latest bulk extract delta through the API
+   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
 
 @wip
 Scenario: Something
   When I trigger a delta extract
    And I log in to the "SDK Sample" as "jstevenson" and get a token
    And I request the latest bulk extract delta
-   And I untar and decrypt the tarfile with cert "<cert>"
+   And I untar and decrypt the tarfile with cert "<app id>"
 
   Then I should see "0" entities of type "educationOrganization" in the bulk extract deltas tarfile
    And a "educationOrganization" was extracted in the same format as the api
