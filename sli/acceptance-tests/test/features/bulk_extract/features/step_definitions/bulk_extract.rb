@@ -483,6 +483,7 @@ When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, 
   @id = value if field == "invalidEntry"
   # --> orphaned school marked for deletion
   @id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id" if field == "orphanEdorg"
+  @id = "<Orphaned School>" if field == "orphanEdorg"
 
   @result = @fields
   puts "SESSION ID IS #{@sessionId}"
