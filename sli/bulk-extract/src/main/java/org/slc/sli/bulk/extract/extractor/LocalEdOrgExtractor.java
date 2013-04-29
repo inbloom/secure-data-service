@@ -34,7 +34,6 @@ import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -59,8 +58,6 @@ public class LocalEdOrgExtractor {
     private Map<String, String> entitiesToCollections;
     private BulkExtractMongoDA bulkExtractMongoDA;
     private LEAExtractorFactory factory;
-
-    private String baseDirectory;
 
     private File tenantDirectory;
     private DateTime startTime;
@@ -87,20 +84,15 @@ public class LocalEdOrgExtractor {
         // TODO extract other entities
 
         leaToExtractFileMap.buildManifestFiles(startTime);
-        // leaToExtractFileMap.archiveFiles();
+        leaToExtractFileMap.archiveFiles();
 
 
         // 3. ARCHIVE
+        updateBulkExtractDb(tenant, startTime);
+    }
+
+    private void updateBulkExtractDb(String tenant, DateTime startTime) {
         for(String lea : helper.getBulkExtractLEAs()) {
-
-
-            // generate lea archive
-            try {
-                leaToExtractFileMap.getExtractFileForLea(lea).generateArchive();
-            } catch (Exception e) {
-                LOG.error("Error generating archive file: {}", e.getMessage());
-            }
-
             // update db to point to new archive
             Map<String, Set<String>> leaToApps = leaToApps();
             for (Entry<String, File> archiveFile : leaToExtractFileMap.getExtractFileForLea(lea).getArchiveFiles()
@@ -119,14 +111,12 @@ public class LocalEdOrgExtractor {
 
         Map<String, PublicKey> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
         for (String lea : helper.getBulkExtractLEAs()) {
-
-            File leaDirectory = new File(tenantDirectory.getAbsoluteFile(), lea);
-            leaDirectory.mkdirs();
-            ExtractFile extractFile = new ExtractFile(leaDirectory, getArchiveName(lea, startTime.toDate()), appPublicKeys);
-
-            edOrgToLEAExtract.put(lea, extractFile);
+            ExtractFile file = factory.buildLEAExtractFile(tenantDirectory.getAbsolutePath(), lea,
+                    getArchiveName(lea, startTime.toDate()),
+                    appPublicKeys);
+            edOrgToLEAExtract.put(lea, file);
             for (String child : getChildEdOrgs(Arrays.asList(lea))) {
-                edOrgToLEAExtract.put(child, extractFile);
+                edOrgToLEAExtract.put(child, file);
             }
 
         }
@@ -232,41 +222,6 @@ public class LocalEdOrgExtractor {
 		return bulkExtractMongoDA;
 	}
 
-    /**
-     * Given the tenant, appId, the LEA id been extracted and a timestamp,
-     * give me an extractFile for this combo
-     * 
-     * @param
-     */
-    public ExtractFile getExtractFilePerAppPerLEA(String tenant, String appId, String edorg, DateTime startTime, boolean isDelta) {
-        ExtractFile extractFile = new ExtractFile(getAppSpecificDirectory(tenant, appId),
-                getArchiveName(edorg, startTime.toDate(), isDelta),
-                bulkExtractMongoDA.getClientIdAndPublicKey(appId, Arrays.asList(edorg)));
-        extractFile.setEdorg(edorg);
-        return extractFile;
-    }
-    
-    private String getArchiveName(String edorg, Date startTime, boolean isDelta) {
-        return edorg + "-" + Launcher.getTimeStamp(startTime) + (isDelta ? "-delta" : "");
-    }
-
-    private File getAppSpecificDirectory(String tenant, String app) {
-        String tenantPath = baseDirectory + File.separator + TenantAwareMongoDbFactory.getTenantDatabaseName(tenant);
-        File appDirectory = new File(tenantPath, app);
-        appDirectory.mkdirs();
-        return appDirectory;
-    }
-    
-    /**
-     * Set base dir.
-     * 
-     * @param baseDirectory
-     *            Base directory of all bulk extract processes
-     */
-    public void setBaseDirectory(String baseDirectory) {
-        this.baseDirectory = baseDirectory;
-    }
-    
     /**
      * Set bulkExtractMongoDA.
      * 

@@ -17,8 +17,6 @@ package org.slc.sli.bulk.extract.extractor;
 
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,7 +36,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
@@ -146,7 +143,8 @@ public class DeltaExtractorTest {
         
         when(typeResolver.resolveType("educationOrganization")).thenReturn(new HashSet<String>(Arrays.asList("school", "educationOrganization")));
         when(extractFile.getManifestFile()).thenReturn(metaDataFile);
-        when(leaExtractor.getExtractFilePerAppPerLEA(anyString(), anyString(), anyString(), any(DateTime.class), anyBoolean())).thenReturn(extractFile);
+        // when(leaExtractor.getExtractFilePerAppPerLEA(anyString(), anyString(), anyString(),
+        // any(DateTime.class), anyBoolean())).thenReturn(extractFile);
 
     }
     
