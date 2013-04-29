@@ -267,7 +267,7 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
 	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s+" and they are: #{fileList}")
 end
 
-When /^the extract contains a file for each of the following entities with the appropriate count:$/ do |table|
+When /^the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:$/ do |table|
   Minitar.unpack(@filePath, @unpackDir)
 
 	table.hashes.map do |entity|
@@ -277,6 +277,10 @@ When /^the extract contains a file for each of the following entities with the a
     json = JSON.parse(File.read("#{@unpackDir}/#{entity['entityType']}.json"))
     puts json.size
     assert(json.size == entity['count'].to_i, "The number of #{entity['entityType']} should be #{entity['count']}")
+    badIdFound = false
+    if(!entity['id'].nil?)
+      json.each {|e| assert(false, "We shouldn't have found #{entity['id']}") if e['id'] == entity['id']}
+    end
 	end
 
   fileList = Dir.entries(@unpackDir)
