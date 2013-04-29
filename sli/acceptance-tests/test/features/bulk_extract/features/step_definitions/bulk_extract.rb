@@ -16,11 +16,9 @@ limitations under the License.
 
 =end
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
-require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
 require_relative '../../../apiV1/utils/api_utils.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
-require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb' #This is for the decryption step
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 require 'zip/zip'
 require 'archive/tar/minitar'

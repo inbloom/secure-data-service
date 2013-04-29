@@ -22,7 +22,7 @@ require 'json'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
-require_relative '../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
+require_relative '../../bulk_extract/features/step_definitions/bulk_extract_api_steps.rb'
 require_relative '../../apiV1/long_lived_session/step_definitions/token_generator_steps.rb'
 
 Transform /rights "(.*?)"/ do |arg1|
