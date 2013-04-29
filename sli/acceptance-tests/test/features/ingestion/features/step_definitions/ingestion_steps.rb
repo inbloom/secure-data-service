@@ -1162,7 +1162,7 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   @metaData = {}
 
   @newTenant = {
-      "_id" => "tenantTest-id",
+      "_id" => "#{lz_key}",
       "type" => "tenantTest",
       "body" => @body,
       "metaData" => @metaData
@@ -1382,24 +1382,24 @@ When /^a batch job log (has|has not) been created$/ do |has_or_has_not|
   checkForBatchJobLog(@landing_zone_path, should_has_log) if !@hasNoLandingZone
 end
 
-When /^a batch job has completed successfully in the database$/ do
+When /^a batch job has completed successfully in the database for tenant "(.*?)"$/ do |tenant|
    disable_NOTABLESCAN()
    old_db = @db
    @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
    @entity_collection = @db.collection("newBatchJob")
-   intervalTime = 1
-   @maxTimeout ? @maxTimeout : @maxTimeout = 900
+   intervalTime = 0.5
+   @maxTimeout ? @maxTimeout : @maxTimeout = 240
    iters = (1.0*@maxTimeout/intervalTime).ceil
    found = false
      if (INGESTION_MODE == 'remote')
        iters.times do |i|
-         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}}).count().to_s
+         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}, "tenantId" => tenant}).count().to_s
          if @entity_count.to_s == "1"
-           puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+           puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
            found = true
            break
          else
-           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}}).count().to_s
+           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}, "tenantId" => tenant}).count().to_s
            if @entity_count.to_s == "1"
                 assert(false, "Batch Job completed with errors")
            end
@@ -1407,15 +1407,14 @@ When /^a batch job has completed successfully in the database$/ do
          end
        end
      else
-       sleep(5) # waiting to check job completion removes race condition (windows-specific)
        iters.times do |i|
-         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}}).count().to_s
+         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}, "tenantId" => tenant}).count().to_s
          if @entity_count.to_s == "1"
-           puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+           puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
            found = true
            break
          else
-           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}}).count().to_s
+           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}, "tenantId" => tenant}).count().to_s
            if @entity_count.to_s == "1"
                 assert(false, "Batch Job completed with errors")
            end
@@ -2840,6 +2839,11 @@ end
 Then /^I should not see an error log file created for "([^\"]*)"$/ do |lz_key|
   lz = @ingestion_lz_identifer_map[lz_key]
   checkForErrorWarnLogFile(lz, "error")
+end
+
+Then /^I should not see a warning log file created for "([^\"]*)"$/ do |lz_key|
+  lz = @ingestion_lz_identifer_map[lz_key]
+  checkForErrorWarnLogFile(lz, "warn")
 end
 
 def checkForErrorWarnLogFile(landing_zone, prefix)
