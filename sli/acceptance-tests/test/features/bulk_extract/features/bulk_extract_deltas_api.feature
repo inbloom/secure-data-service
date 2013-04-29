@@ -71,18 +71,9 @@ Scenario: Ingest SEA update and verify no deltas generated
 
 Scenario: Ingest SEA delete and verify both LEAs received the delete
   Given I clean the bulk extract file system and database
-    And I am using local data store
-    And I post "deltas_delete_sea.zip" file as the payload of the ingestion job
-
-
-  When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
-   And zip file is scp to ingestion landing zone
-   And a batch job for file "deltas_delete_sea.zip" is completed in database
-   And a batch job log has been created 
-   Then I should not see an error log file created
-    # We will see a warning file on cascading delete -- there are a lot of children of this SEA
-    #And I should not see a warning log file created
-
+  And I ingested "deltas_delete_sea.zip" dataset
+  # We will see a warning file on cascading delete -- there are a lot of children of this SEA
+  
     When I trigger a delta extract
       And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
       And I verify "1" delta bulk extract files are generated for "<lea2_id>" in "Midgar" 
@@ -109,14 +100,7 @@ Scenario: move school across LEA boundary by delete and create through ingestion
     The expected behavior is that the old LEA that school used to belong to would receive an delete file, and
     the new LEA would only receive a update file since the delete event is not applicable to the new LEA
   Given I clean the bulk extract file system and database
-    And I am using local data store
-    And I post "deltas_move_between_edorg.zip" file as the payload of the ingestion job
-    
-  When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
-   And zip file is scp to ingestion landing zone
-   And a batch job for file "deltas_move_between_edorg.zip" is completed in database
-   And a batch job log has been created 
-   Then I should not see an error log file created
+  And I ingested "deltas_move_between_edorg.zip" dataset
 
     When I trigger a delta extract
       And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
@@ -213,4 +197,10 @@ Scenario: Something
    And each extracted "educationOrganization" delta matches the mongo entry
 
 Scenario: Be a good neighbor and clean up before you leave
+        Given I clean the bulk extract file system and database
+
+@wip
+Scenario: deltas for student/studentSchoolAssociation/studentAssessment and studentGradebookEntry
   Given I clean the bulk extract file system and database
+  And I ingested "student_high_cardinality_entities.zip" dataset
+

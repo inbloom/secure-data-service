@@ -653,6 +653,19 @@ Then /^I reingest the SEA so I can continue my other tests$/ do
     }
 end
 
+Then /^I ingested "(.*?)" dataset$/ do |dataset|
+  steps %Q{
+      And I am using local data store
+      And I post "#{dataset}" file as the payload of the ingestion job
+
+    When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+     And zip file is scp to ingestion landing zone
+     And a batch job for file "#{dataset}" is completed in database
+     And a batch job log has been created 
+      Then I should not see an error log file created
+  }
+end
+
 ############################################################
 # Functions
 ############################################################
