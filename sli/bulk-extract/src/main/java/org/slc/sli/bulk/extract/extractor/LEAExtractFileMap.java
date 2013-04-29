@@ -57,4 +57,13 @@ public class LEAExtractFileMap {
         }
     }
 
+    public void archiveFiles() {
+        for (ExtractFile file : edOrgToLEAExtract.values()) {
+            if(!file.generateArchive()) {
+                LOG.warn("Unable to create archive: {}", file.getEdorg());
+            }
+        }
+        
+    }
+
 }

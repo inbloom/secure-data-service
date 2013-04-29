@@ -81,5 +81,18 @@ public class LEAExtractFileMapTest {
         edorgMap.put("BLOOP", mockFile);
         extractMap.buildManifestFiles(new DateTime());
     }
+    
+    @Test
+    public void testArchiveFiles() throws Exception {
+        extractMap.archiveFiles();
+        ExtractFile mockFile = Mockito.mock(ExtractFile.class);
+        Mockito.when(mockFile.generateArchive()).thenReturn(false);
+        edorgMap.put("BLOOP", mockFile);
+        extractMap.archiveFiles();
+        
+        Mockito.when(mockFile.generateArchive()).thenReturn(true);
+        edorgMap.put("BLOOP", mockFile);
+        extractMap.archiveFiles();
+    }
 
 }
