@@ -152,37 +152,24 @@ public class DeltaExtractor {
         }
     }
     
-    // this method should be abstracted into the ExtractFile class, extractors should not be
-    // concerned about filesystem level details, copy / pasted from tenantExtractor for now,
-    // if everything works, let's try to refactor it soon
+    // finalize the extraction, if any error occured, do not wipe the delta collections so we could
+    // rerun it if we decided to
     private void finalizeExtraction(String tenant, DateTime startTime) {
-        ManifestFile metaDataFile;
-        boolean success = true;
-        for (Map.Entry<String, ExtractFile> entry : appPerLeaExtractFiles.entrySet()) {
-            ExtractFile extractFile = entry.getValue();
+        boolean allSuccessful = true;
+        for (ExtractFile extractFile : appPerLeaExtractFiles.values()) {
             extractFile.closeWriters();
+            boolean success = extractFile.finalizeExtraction(startTime);
             
-            try {
-                metaDataFile = extractFile.getManifestFile();
-                metaDataFile.generateMetaFile(startTime);
-            } catch (IOException e) {
-                success = false;
-                LOG.error("Error creating metadata file: {}", e.getMessage());
-            }
-            
-            try {
-                extractFile.generateArchive();
-            } catch (Exception e) {
-                success = false;
-                LOG.error("Error generating archive file: {}", e.getMessage());
-            }
-            
-            for (Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
-                bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(),
+            if (success) {
+                for (Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
+                    bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(),
                         archiveFile.getKey(), startTime.toDate(), true, extractFile.getEdorg());
+                }
             }
+            allSuccessful &= success;
         }
-        if (success) {
+        
+        if (allSuccessful) {
             // delta files are generated successfully, we can safely remove those deltas now
             LOG.info("Delta generation succeed.  Clearing delta collections for any entities before: " + startTime);
             deltaEntityIterator.removeAllDeltas(tenant, startTime);

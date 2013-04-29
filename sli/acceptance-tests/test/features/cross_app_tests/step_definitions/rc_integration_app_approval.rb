@@ -72,18 +72,6 @@ Given /^the testing device app key has been created$/ do
   @oauthRedirectURI = "http://device"
 end
 
-Then /^I add that applications certificate to the "([^>]*)" trust store$/ do |server|
-  if server == "CI"
-    X509.newApp($client_id, "/opt/tomcat/encryption/ciTruststore.jks")
-  else
-    assert(server == "CI", "Remote certificate adding not yet supported.")
-  end
-end
-
-Then /^I clean up the application certificate from the trust store$/ do
-  X509.cleanse($client_id, "/opt/tomcat/encryption/ciTruststore.jks")
-end
-
 When /^I navigate to the API authorization endpoint with my client ID$/ do
   @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
 end
