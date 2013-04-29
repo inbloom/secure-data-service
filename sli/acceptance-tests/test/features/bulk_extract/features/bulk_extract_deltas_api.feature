@@ -104,6 +104,7 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
 
     Then I reingest the SEA so I can continue my other tests
 
+# This scenario depends on previous scenario: Ingest education organization and perform delta
 Scenario: move school across LEA boundary by delete and create through ingestion
     The expected behavior is that the old LEA that school used to belong to would receive an delete file, and
     the new LEA would only receive a update file since the delete event is not applicable to the new LEA
@@ -175,8 +176,7 @@ Given I clean the bulk extract file system and database
     Then I should receive a return code of 200 
   When I "PUT" the "invalidEntry" for a "school" entity to "WHOOPS"
     Then I should receive a return code of 404
-  When I trigger a delta extract
-    Then there should be no deltas in mongo
+  And deltas collection should have "0" records
 
 Scenario: Create an invalid edOrg with the API, verify no delta created
 Given I clean the bulk extract file system and database
@@ -185,8 +185,7 @@ Given I clean the bulk extract file system and database
 
   When I POST an entity of type "invalidEducationOrganization"
     Then I should receive a return code of 403   
-  When I trigger a delta extract
-    Then there should be no deltas in mongo
+  And deltas collection should have "0" records
 
 @shortcut
 Scenario: Delete an existing school with API call, verify delta
