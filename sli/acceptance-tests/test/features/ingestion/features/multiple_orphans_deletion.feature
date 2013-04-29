@@ -43,6 +43,7 @@ Scenario: Multiple Orphans
         |staffEducationOrganizationAssociation  |       -1|
         |studentAssessment                      |       -1|
         |studentSchoolAssociation               |       -1|
+        |student.schools                        |       -1|
         |teacherSchoolAssociation               |       -1|
         |teacherSectionAssociation              |       -1|
         |recordHash                             |      -14|

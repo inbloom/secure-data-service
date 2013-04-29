@@ -40,8 +40,6 @@ Scenario: Delete Objective Assessment From Student Assessment with cascade
 	|objectiveAssessment                    |        -1|
 	|recordHash                             |         0|
 	And I should not see "58346902a070426a109f451129eeeb1268daed21_idd705e26a138eb9e608e23b4c82fd6257633b7244_id" in the "Midgar" database
-    And I should not see any entity mandatorily referring to "58346902a070426a109f451129eeeb1268daed21_idd705e26a138eb9e608e23b4c82fd6257633b7244_id" in the "Midgar" database
-	And I should see entities optionally referring to "58346902a070426a109f451129eeeb1268daed21_idd705e26a138eb9e608e23b4c82fd6257633b7244_id" be updated in the "Midgar" database
 
 #objectiveAssessment  objectiveAssessment  subObjectiveAssessment relationship missing
 #objectiveAssessment  studentAssessment    objectiveAssessmentId relationship missing		
