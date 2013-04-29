@@ -163,9 +163,11 @@ public class LocalEdOrgExtractor {
     private Set<String> getBulkExtractLEAs() {
         if (extractLEAs == null) {
             extractLEAs = new HashSet<String>();
+
+            Set<String> topLevelLEAs = getTopLevelLEAs();
             for (Set<String> appLeas : getBulkExtractLEAsPerApp().values()) {
                 for (String lea : appLeas) {
-                    if (isTopLevelLEA(lea)) {
+                    if (topLevelLEAs.contains(lea)) {
                         extractLEAs.add(lea);
                     }
                 }
@@ -174,7 +176,9 @@ public class LocalEdOrgExtractor {
         return extractLEAs;
     }
 
-    private boolean isTopLevelLEA(String leaId) {
+    private Set<String> getTopLevelLEAs() {
+        Set<String> topLEAs = new HashSet<String>();
+
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES,
                 NeutralCriteria.CRITERIA_IN, Arrays.asList(STATE_EDUCATION_AGENCY)));
         final Iterable<Entity> entities = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
@@ -184,12 +188,10 @@ public class LocalEdOrgExtractor {
                     NeutralCriteria.CRITERIA_IN, Arrays.asList(entity.getEntityId())));
             final Iterable<String> topLevelLEAs = repository.findAllIds(EntityNames.EDUCATION_ORGANIZATION, query);
             for (String topLevelLEA : topLevelLEAs) {
-                if (leaId.equals(topLevelLEA)) {
-                    return true;
-                }
+                topLEAs.add(topLevelLEA);
             }
         }
-        return  false;
+        return topLEAs;
     }
 
     /**
