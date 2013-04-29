@@ -7,6 +7,8 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -25,7 +27,9 @@ public class LocalEdOrgExtractHelper {
     private Set<String> extractLEAs;
     public static final Object STATE_EDUCATION_AGENCY = "State Education Agency";
 
-    private Repository<Entity> repository;
+    @Autowired
+    @Qualifier("validationRepo")
+    Repository<Entity> repository;
 
 
     /**
