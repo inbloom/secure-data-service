@@ -30,12 +30,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
 
 /**
@@ -83,7 +84,6 @@ public class TenantExtractorTest {
         clientKeys.put("test", pk);
 
         archiveFile = Mockito.mock(ExtractFile.class);
-        Mockito.doNothing().when(archiveFile).generateArchive();
         Mockito.when(archiveFile.getArchiveFiles()).thenReturn(files);
         Mockito.when(archiveFile.getManifestFile()).thenReturn(metadataFile);
         Mockito.when(archiveFile.getClientKeys()).thenReturn(clientKeys);

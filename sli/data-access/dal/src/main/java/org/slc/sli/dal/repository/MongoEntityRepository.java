@@ -539,6 +539,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return result;
         }
 
+        result.getDeletedIds().add(id);
         return result;
     }
 

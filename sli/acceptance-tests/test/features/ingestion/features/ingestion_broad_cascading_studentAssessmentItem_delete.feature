@@ -16,7 +16,6 @@ Scenario: Safe delete of StudentAssessmentItem with Cascade = false, Force = fal
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeStudentAssessmentItemDelete.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
@@ -42,7 +41,6 @@ Scenario: Safe delete of StudentAssessmentItem by ref with Cascade = false, Forc
     When zip file is scp to ingestion landing zone
     And a batch job for file "SafeStudentAssessmentItemRefDelete.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
@@ -69,7 +67,6 @@ Scenario: Force delete of StudentAssessmentItem with Cascade = false, Force = tr
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceStudentAssessmentItemDelete.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
@@ -95,7 +92,6 @@ Scenario: Force delete of StudentAssessmentItem by ref with Cascade = false, For
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceStudentAssessmentItemRefDelete.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file

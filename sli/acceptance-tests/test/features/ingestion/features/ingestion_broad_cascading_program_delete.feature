@@ -50,10 +50,7 @@ Scenario: Delete Program with cascade
 	|recordHash                             |         0|
 	|studentProgramAssociation              |       -14|
 	And I should not see "0064dd5bb3bffd47e93b023585e6591c018ee697_id" in the "Midgar" database
-    And I should not see any entity mandatorily referring to "0064dd5bb3bffd47e93b023585e6591c018ee697_id" in the "Midgar" database
-	And I should see entities optionally referring to "0064dd5bb3bffd47e93b023585e6591c018ee697_id" be updated in the "Midgar" database
-	
-	
+
 Scenario: Delete Program with cascade = false, force = false
   Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And the "Midgar" tenant db is empty

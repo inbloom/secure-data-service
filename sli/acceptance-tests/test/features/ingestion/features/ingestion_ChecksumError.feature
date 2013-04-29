@@ -10,7 +10,6 @@ Scenario: Post a Zip File containing a control file with checksum error
         | collectionName                          |
         | student                                 |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "ChecksumError.zip" is completed in database
   Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |

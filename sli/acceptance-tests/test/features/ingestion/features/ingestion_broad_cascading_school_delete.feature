@@ -262,7 +262,6 @@ Scenario: Delete School with cascade = false, logViolations = true and default s
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceSchoolDelete.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
@@ -335,7 +334,6 @@ Scenario: Delete School with force = true, logViolations = true and default sett
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceSchoolRefDelete.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
@@ -408,7 +406,6 @@ Scenario: Delete School with cascade = false and force = true, log violations = 
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceSchoolRefDeleteWithoutLogViolations.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file

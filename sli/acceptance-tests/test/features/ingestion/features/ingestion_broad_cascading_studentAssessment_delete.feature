@@ -40,8 +40,6 @@ Scenario: Delete StudentAssessment with cascade
     And I should not see an error log file created
     And I should not see a warning log file created
 	And I should not see "30fdc0baa2af224046e8b7ba3407a5741fb37ac3_id" in the "Midgar" database
-	And I should not see any entity mandatorily referring to "30fdc0baa2af224046e8b7ba3407a5741fb37ac3_id" in the "Midgar" database
-	And I should see entities optionally referring to "30fdc0baa2af224046e8b7ba3407a5741fb37ac3_id" be updated in the "Midgar" database
     And I re-execute saved query "SA1" to get "0" records
     And I re-execute saved query "SA2" to get "0" records
     And I re-execute saved query "SA3" to get "0" records
@@ -147,7 +145,6 @@ Scenario: Delete StudentAssessment with cascade = false, force = true and log vi
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceStudentAssessmentDelete.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
@@ -183,7 +180,6 @@ Scenario: Delete StudentAssessment Ref with cascade = false, force = true and lo
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceStudentAssessmentRefDelete.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file

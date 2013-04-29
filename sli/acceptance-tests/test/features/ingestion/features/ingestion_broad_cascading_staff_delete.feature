@@ -57,10 +57,7 @@ Scenario: Delete Staff with cascade
       |staffProgramAssociation                |   -13 |
       |staffEducationOrganizationAssociation  |   -1  |
   #  |recordHash               |   -36 | 1 + 21 + 13 + 1
-    And I should not see "3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id" in the "Midgar" database
-    And I should not see any entity mandatorily referring to "3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id" in the "Midgar" database
-    And I should see entities optionally referring to "3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id" be updated in the "Midgar" database
- 
+
 
 Scenario: Delete Staff by Reference with cascade = false and force=false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"

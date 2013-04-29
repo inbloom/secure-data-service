@@ -242,7 +242,6 @@ Scenario: Delete Section with cascade = false
    When zip file is scp to ingestion landing zone
     And a batch job for file "ForceSectionDelete.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
@@ -293,7 +292,6 @@ Scenario: Delete Section with cascade = false
    When zip file is scp to ingestion landing zone
     And a batch job for file "ForceSectionRefDelete.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
