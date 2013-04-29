@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package org.slc.sli.bulk.extract.extractor;
+package org.slc.sli.bulk.extract.lea;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
 
 
 public class LEAExtractorFactoryTest {

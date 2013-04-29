@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package org.slc.sli.bulk.extract.extractor;
+package org.slc.sli.bulk.extract.lea;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

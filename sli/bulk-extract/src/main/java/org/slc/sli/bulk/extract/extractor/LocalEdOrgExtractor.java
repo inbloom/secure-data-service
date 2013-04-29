@@ -18,7 +18,6 @@ package org.slc.sli.bulk.extract.extractor;
 import java.io.File;
 import java.security.PublicKey;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,13 +29,12 @@ import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.lea.EdorgExtractor;
+import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
+import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,12 +75,11 @@ public class LocalEdOrgExtractor {
         leaToExtractFileMap = new LEAExtractFileMap(buildLEAToExtractFile());
 
         // 2. EXTRACT
-        EdorgExtractor extractor = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
-        extractor.extractEntities(buildEdOrgCache());
+        EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
+        edorg.extractEntities(buildEdOrgCache());
         leaToExtractFileMap.closeFiles();
 
         // TODO extract other entities
-
         leaToExtractFileMap.buildManifestFiles(startTime);
         leaToExtractFileMap.archiveFiles();
 
@@ -115,7 +112,7 @@ public class LocalEdOrgExtractor {
                     getArchiveName(lea, startTime.toDate()),
                     appPublicKeys);
             edOrgToLEAExtract.put(lea, file);
-            for (String child : getChildEdOrgs(Arrays.asList(lea))) {
+            for (String child : helper.getChildEdOrgs(Arrays.asList(lea))) {
                 edOrgToLEAExtract.put(child, file);
             }
 
@@ -145,7 +142,7 @@ public class LocalEdOrgExtractor {
     private Map<String, Set<String>> buildEdOrgCache() {
         Map<String, Set<String>> cache = new HashMap<String, Set<String>>();
         for (String lea : helper.getBulkExtractLEAs()) {
-            Set<String> children = getChildEdOrgs(Arrays.asList(lea));
+            Set<String> children = helper.getChildEdOrgs(Arrays.asList(lea));
             children.add(lea);
             cache.put(lea, children);
         }
@@ -166,29 +163,7 @@ public class LocalEdOrgExtractor {
     	return result;
     }
     
-    /**
-     * Returns a list of child edorgs given a collection of parents
-     * 
-     * @param edOrgs
-     * @return a set of child edorgs
-     */
-    private Set<String> getChildEdOrgs(Collection<String> edOrgs) {
-        if (edOrgs.isEmpty()) {
-            return new HashSet<String>();
-        }
-        
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
-                NeutralCriteria.CRITERIA_IN, edOrgs));
-        Iterable<Entity> childrenIds = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
-        Set<String> children = new HashSet<String>();
-        for (Entity child : childrenIds) {
-            children.add(child.getEntityId());
-        }
-        if (!children.isEmpty()) {
-            children.addAll(getChildEdOrgs(children));
-        }
-        return children;
-    }
+
 
     public void setRepository(Repository<Entity> repository) {
         this.repository = repository;

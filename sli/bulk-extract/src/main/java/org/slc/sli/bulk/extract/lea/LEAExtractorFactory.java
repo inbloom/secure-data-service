@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.slc.sli.bulk.extract.extractor;
+package org.slc.sli.bulk.extract.lea;
 
 import java.io.File;
 import java.security.PublicKey;
 import java.util.Map;
 
+import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 
 public class LEAExtractorFactory {

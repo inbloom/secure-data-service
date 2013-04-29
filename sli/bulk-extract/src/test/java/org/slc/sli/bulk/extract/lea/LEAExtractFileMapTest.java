@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.bulk.extract.extractor;
+package org.slc.sli.bulk.extract.lea;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
 
 
 public class LEAExtractFileMapTest {

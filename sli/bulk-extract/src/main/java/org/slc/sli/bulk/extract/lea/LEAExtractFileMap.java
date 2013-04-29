@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.bulk.extract.extractor;
+package org.slc.sli.bulk.extract.lea;
 
 import java.io.IOException;
 import java.util.Map;
