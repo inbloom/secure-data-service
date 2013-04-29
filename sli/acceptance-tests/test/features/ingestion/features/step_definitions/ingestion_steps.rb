@@ -675,7 +675,6 @@ def initializeLandingZone(lz)
   end
 
   @landing_zone_path = lz
-  puts "landing zone path is #{@landing_zone_path}"
   puts "Landing Zone = " + @landing_zone_path unless @landing_zone_path.nil?
 
   # clear out LZ before proceeding
@@ -1329,32 +1328,6 @@ When /^the landing zone is reinitialized$/ do
   initializeLandingZone(@landing_zone_path)
 end
 
-When /^the landing zone for tenant "(.*?)" edOrg "(.*?)" is reinitialized$/ do |tenant, edOrg|
-  disable_NOTABLESCAN()
-  
-  # Get the landing zone from the tenant collection
-  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
-  @db = @conn["sli"]
-  @tenant_coll = @db.collection('tenant')
-
-  @tenant_coll.find.each do |row|
-    @body = row['body']
-    @landingZones = @body['landingZone'].to_a
-    @landingZones.each do |lz|
-      if lz['educationOrganization'] == edOrg
-        puts "Current lz path is #{lz['path']}"
-        @landing_zone_path = lz['path']
-        break
-      end
-    end
-  end
-
-  @landing_zone_path = @landing_zone_path+"/"
-  initializeLandingZone(@landing_zone_path)
-
-  enable_NOTABLESCAN()
-end
-
 When /^"([^"]*)" seconds have elapsed$/ do |secs|
   sleep(Integer(secs))
 end
@@ -1461,19 +1434,24 @@ When /^a batch job has completed successfully in the database$/ do
 
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   disable_NOTABLESCAN()
+
   old_db = @db
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
   @entity_collection = @db.collection("newBatchJob")
+
+  #db.newBatchJob.find({"stages" : {$elemMatch : {"chunks.0.stageName" : "JobReportingProcessor" }} }).count()
+
   intervalTime = 0.5 #seconds
-  #If @maxTimeout set in previous step def, then use it, otherwise default to 900s
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
     iters.times do |i|
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
+
       if @entity_count.to_s == "1"
-        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1481,10 +1459,13 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       end
     end
   else
+    #sleep(5) # waiting to check job completion removes race condition (windows-specific)
     iters.times do |i|
+
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
+
       if @entity_count.to_s == "1"
-        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1492,12 +1473,15 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       end
     end
   end
+
   if found
     assert(true, "")
   else
     assert(false, "Batch log did not complete either successfully or with errors within #{@maxTimeout} seconds. Test has timed out. Please check ingestion.log for root cause.")
   end
+
   @db = old_db
+
   enable_NOTABLESCAN()
 end
 
@@ -3676,6 +3660,54 @@ end
 Then /^correct number of records should be ingested for "(.*?)"$/ do |dataSet|
     correct_count = getCorrectCountForDataset(dataSet)
     step "I should see \"Processed #{correct_count} records.\" in the resulting batch job file"
+end
+
+  
+$savedEntities = {}
+ And /^I read the following entity in "([^"]*)" tenant and save it as "([^"]*)"/ do | tenant, entityTag, table |
+  breakpoint
+  @db         = @conn[convertTenantIdToDbName(tenant)]
+
+  condHash = Hash.new
+
+  table.hashes.map do |row|
+    value = row[ "value" ]
+    if value =~ /float\((.*?)\)/
+      condHash[ row[ "field" ] ] = $1.to_f
+    elsif value =~ /int\((.*)\)/
+      condHash[ row[ "field" ] ] = $1.to_i
+    else
+      condHash[ row[ "field"] ] = value
+    end
+
+    collection = row["collection"]
+    @coll       = @db[ collection ]
+    disable_NOTABLESCAN()
+    record   = @coll.find_one(condHash)
+    enable_NOTABLESCAN()
+    recursive_hash_delete( record, "metaData")
+
+    $savedEntities[ entityTag ] = {"criteria"=>condHash, "collection"=>collection, "tenant"=>tenant, "entity" => record };
+  end
+
+  disable_NOTABLESCAN()
+
+end
+
+And /^I read again the entity tagged "([^"]*)" from the "([^"]*)" tenant and confirm that it is the same/ do | entityTag, tenant |
+  breakpoint
+  oldRecord = $savedEntities[ entityTag][ "entity" ]
+  tenant = $savedEntities[ entityTag ][ "tenant" ]
+  criteria = $savedEntities[ entityTag][ "criteria" ]
+  collection = $savedEntities[ entityTag][ "collection"]
+
+  @db         = @conn[convertTenantIdToDbName(tenant)]
+  disable_NOTABLESCAN()
+  record   = @coll.find_one( criteria )
+  enable_NOTABLESCAN()
+  recursive_hash_delete( record, "metaData")
+  EntityProvider.verify_entities_match( oldRecord, record)
+
 end
 
 $savedQueries = {}
