@@ -15,22 +15,7 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
@@ -41,11 +26,26 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor.CollectionWrittenRecor
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * This class should be concerned about how to generate the delta files per LEA per app
@@ -67,6 +67,9 @@ public class DeltaExtractor {
 
     @Autowired
     LocalEdOrgExtractor leaExtractor;
+
+    @Autowired
+    LocalEdOrgExtractHelper helper;
     
     @Autowired
     EntityExtractor entityExtractor;
@@ -92,7 +95,7 @@ public class DeltaExtractor {
 
     public void execute(String tenant, DateTime deltaUptoTime, String baseDirectory) {
         TenantContext.setTenantId(tenant);
-        Map<String, Set<String>> appsPerTopLEA = reverse(filter(leaExtractor.getBulkExtractLEAsPerApp()));
+        Map<String, Set<String>> appsPerTopLEA = reverse(filter(helper.getBulkExtractLEAsPerApp()));
         deltaEntityIterator.init(tenant, deltaUptoTime);
         while (deltaEntityIterator.hasNext()) {
             DeltaRecord delta = deltaEntityIterator.next();
@@ -149,37 +152,24 @@ public class DeltaExtractor {
         }
     }
     
-    // this method should be abstracted into the ExtractFile class, extractors should not be
-    // concerned about filesystem level details, copy / pasted from tenantExtractor for now,
-    // if everything works, let's try to refactor it soon
+    // finalize the extraction, if any error occured, do not wipe the delta collections so we could
+    // rerun it if we decided to
     private void finalizeExtraction(String tenant, DateTime startTime) {
-        ManifestFile metaDataFile;
-        boolean success = true;
-        for (Map.Entry<String, ExtractFile> entry : appPerLeaExtractFiles.entrySet()) {
-            ExtractFile extractFile = entry.getValue();
+        boolean allSuccessful = true;
+        for (ExtractFile extractFile : appPerLeaExtractFiles.values()) {
             extractFile.closeWriters();
+            boolean success = extractFile.finalizeExtraction(startTime);
             
-            try {
-                metaDataFile = extractFile.getManifestFile();
-                metaDataFile.generateMetaFile(startTime);
-            } catch (IOException e) {
-                success = false;
-                LOG.error("Error creating metadata file: {}", e.getMessage());
-            }
-            
-            try {
-                extractFile.generateArchive();
-            } catch (Exception e) {
-                success = false;
-                LOG.error("Error generating archive file: {}", e.getMessage());
-            }
-            
-            for (Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
-                bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(),
+            if (success) {
+                for (Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
+                    bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(),
                         archiveFile.getKey(), startTime.toDate(), true, extractFile.getEdorg());
+                }
             }
+            allSuccessful &= success;
         }
-        if (success) {
+        
+        if (allSuccessful) {
             // delta files are generated successfully, we can safely remove those deltas now
             LOG.info("Delta generation succeed.  Clearing delta collections for any entities before: " + startTime);
             deltaEntityIterator.removeAllDeltas(tenant, startTime);

@@ -475,16 +475,18 @@ When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, 
     raise
   end
 
-  @id     = @fields["id"]  
+  @id = @fields["id"]  
   # Update the correct field based on entity type
-  # educationOrganization.body.address.postalCode
+  # --> educationOrganization.body.address.postalCode
   @fields["address"][0]["postalCode"] = value if field == "postalCode"
-  # educationOrganization with non-existent id
+  # --> educationOrganization with non-existent id
   @id = value if field == "invalidEntry"
-  @id = "<Orphaned School>" if field == "orphanEdorg"
+  # --> orphaned school marked for deletion
+  @id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id" if field == "orphanEdorg"
 
   @result = @fields
-
+  puts "SESSION ID IS #{@sessionId}"
+  puts "URI passing TO DELETE: \"/#{@api_version}/#{@assocUrlPut[entity]}/#{@id}\""
   step "I navigate to #{verb} \"/#{@api_version}/#{@assocUrlPut[entity]}/#{@id}\""
 end
 
@@ -649,6 +651,19 @@ Then /^I reingest the SEA so I can continue my other tests$/ do
         Then I should not see an error log file created
         And I should not see a warning log file created
     }
+end
+
+Then /^I ingested "(.*?)" dataset$/ do |dataset|
+  steps %Q{
+      And I am using local data store
+      And I post "#{dataset}" file as the payload of the ingestion job
+
+    When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+     And zip file is scp to ingestion landing zone
+     And a batch job for file "#{dataset}" is completed in database
+     And a batch job log has been created 
+      Then I should not see an error log file created
+  }
 end
 
 ############################################################

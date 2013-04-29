@@ -145,6 +145,7 @@ Scenario: Force Delete Student Section Association with cascade = false, force =
 	And I re-execute saved query "studentDenormalizedData2" to get "1" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
+        |student.section            |   -1|
         #|recordHash                 |   -1|
         |studentSectionAssociation  |   -1|
 
@@ -183,5 +184,6 @@ Scenario: Force Delete Student Section Association Reference with cascade = fals
 	And I re-execute saved query "studentCompetency" to get "6" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
+        |student.section            |   -1|
         #|recordHash                 |   -1|
         |studentSectionAssociation  |   -1|
