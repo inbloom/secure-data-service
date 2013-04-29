@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
  * Some collections contain multiple entity types,
  * for example, both teacher/staff is inside staff collection
  * school/educationOrganization is inside educationOrganization
- * collection. This class encapulates the type information
+ * collection. This class encapsulates the type information
  * 
  * @author ycao
  * 
@@ -44,7 +44,7 @@ public class TypeResolver {
     private Map<String, Set<String>> typeMaps;
     
     @PostConstruct
-    private void reverseEntitiesToCollectionsMaps() {
+    void reverseEntitiesToCollectionsMaps() {
         typeMaps = new HashMap<String, Set<String>>();
         for (Map.Entry<String, String> entry : entitiesToCollections.entrySet()) {
             String possibleType = entry.getKey();
@@ -62,7 +62,7 @@ public class TypeResolver {
      * given a type, return all possible types stored
      * together in the same collection
      * 
-     * if it can't determine tye type, it will return whatever
+     * if it can't determine the type, it will return whatever
      * was the input
      * 
      * @param type
@@ -76,4 +76,13 @@ public class TypeResolver {
         return new HashSet<String>(Arrays.asList(type));
     }
     
+    /**
+     * setter method for junit
+     * 
+     * @param entitiesToCollections
+     */
+    void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
+        this.entitiesToCollections = entitiesToCollections;
+    }
+
 }

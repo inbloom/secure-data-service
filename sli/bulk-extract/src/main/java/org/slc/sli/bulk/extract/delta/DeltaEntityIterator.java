@@ -40,25 +40,31 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
+/**
+ * This class provides ways to interact with the delta collection
+ *
+ * @author ycao
+ *
+ */
 @Component
 public class DeltaEntityIterator implements Iterator<DeltaRecord> {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(DeltaEntityIterator.class);
-    
+
     @Autowired
     EdOrgContextResolverFactory resolverFactory;
-    
+
     @Autowired
-    @Qualifier("validationRepo")
+    @Qualifier("secondaryRepo")
     Repository<Entity> repo;
-    
+
     @Autowired
     DeltaJournal deltaJournal;
-    
+
     private DeltaRecord nextDelta;
 
     private Iterator<Map<String, Object>> deltaCursor;
-    
+
     private long lastDeltaTime;
 
     public enum Operation {
@@ -69,24 +75,24 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     public void init(String tenant, DateTime deltaUptoTime) {
         LOG.info(String.format("Generating deltas for tenant: %s", tenant));
         TenantContext.setTenantId(tenant);
-        
+
         lastDeltaTime = getLastDeltaRun(tenant);
         LOG.info(String.format("creating delta between %d and %d", lastDeltaTime, deltaUptoTime.getMillis()));
-        
+
         deltaCursor = deltaJournal.findDeltaRecordBetween(lastDeltaTime, deltaUptoTime.getMillis());
         nextDelta = setupNext();
     }
 
     private long getLastDeltaRun(String tenant) {
         long lastRun = 0; // assume if we can't find last time it ran, we need to get all the deltas
-        
+
         TenantContext.setIsSystemCall(true);
         Iterable<Entity> entities = repo.findAll(BulkExtractMongoDA.BULK_EXTRACT_COLLECTION, queryForLastDeltaTime(tenant));
         TenantContext.setIsSystemCall(false);
         if (entities == null) {
             return lastRun;
         }
-        
+
         if (entities.iterator().hasNext()) {
             Map<String, Object> body = entities.iterator().next().getBody();
             if (body != null) {
@@ -94,11 +100,11 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 lastRun = (date != null) ? date.getTime() : 0;
             }
         }
-        
+
         return lastRun;
-        
+
     }
-    
+
     private NeutralQuery queryForLastDeltaTime(String tenant) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, tenant));
         query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, "true"));
@@ -113,19 +119,19 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     public boolean hasNext() {
         return nextDelta != null;
     }
-    
+
     @Override
     public DeltaRecord next() {
         DeltaRecord res = nextDelta;
         nextDelta = setupNext();
         return res;
     }
-    
+
     private DeltaRecord setupNext() {
         if (deltaCursor == null) {
             return null;
         }
-       
+
         while (deltaCursor.hasNext()) {
             Map<String, Object> delta = deltaCursor.next();
             long deletedTime = -1;
@@ -137,12 +143,12 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             if (delta.containsKey("u")) {
                 updatedTime = (Long) delta.get("u");
             }
-            
+
             String id = (String) delta.get("_id");
             if ("null".equals(id) || id == null) {
                 continue;
             }
-            
+
             String collection = (String) delta.get("c");
             ContextResolver resolver = resolverFactory.getResolver((String) delta.get("c"));
             if (resolver == null) {
@@ -150,7 +156,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 // extracted, do not waste resource to retrieve the mongo entity
                 continue;
             }
-            
+
             boolean spamDelete = false;
             Operation op = deletedTime > updatedTime ? Operation.DELETE : Operation.UPDATE;
             if (op == Operation.DELETE) {
@@ -165,30 +171,30 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 spamDelete = true;
             }
 
-            
+
             Entity entity = repo.findById(collection, id);
-            Set<String> topLevelGoverningLEA = null; 
+            Set<String> topLevelGoverningLEA = null;
             if (entity != null) {
                 topLevelGoverningLEA = resolver.findGoverningLEA(entity);
             }
-            
+
             if (topLevelGoverningLEA != null && !topLevelGoverningLEA.isEmpty()) {
                 return new DeltaRecord(entity, topLevelGoverningLEA, op, spamDelete, collection);
             }
         }
-        
+
         return null;
     }
-    
+
     @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Remove all deltas that is updated before the start of this run, those entities have no values
      * now since we created delta extract for them
-     * 
+     *
      * @param tenant
      * @param uptoTime
      */
@@ -203,7 +209,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         private Operation op;
         private boolean spamDelete;
         private String type;
-        
+
         public DeltaRecord(Entity entity, Set<String> belongsToLEA, Operation op, boolean spamDelete, String type) {
             this.entity = entity;
             this.belongsToLEA = belongsToLEA;
@@ -211,19 +217,19 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             this.spamDelete = spamDelete;
             this.type = type;
         }
-        
+
         public Entity getEntity() {
             return entity;
         }
-        
+
         public Set<String> getBelongsToLEA() {
             return belongsToLEA;
         }
-        
+
         public Operation getOp() {
             return op;
         }
-        
+
         public boolean isSpamDelete() {
             return spamDelete;
         }

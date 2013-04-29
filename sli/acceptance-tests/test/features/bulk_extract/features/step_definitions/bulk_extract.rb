@@ -16,11 +16,9 @@ limitations under the License.
 
 =end
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
-require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
 require_relative '../../../apiV1/utils/api_utils.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
-require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb' #This is for the decryption step
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 require 'zip/zip'
 require 'archive/tar/minitar'
@@ -271,7 +269,7 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
 	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s+" and they are: #{fileList}")
 end
 
-When /^the extract contains a file for each of the following entities with the appropriate count:$/ do |table|
+When /^the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:$/ do |table|
   Minitar.unpack(@filePath, @unpackDir)
 
 	table.hashes.map do |entity|
@@ -281,6 +279,10 @@ When /^the extract contains a file for each of the following entities with the a
     json = JSON.parse(File.read("#{@unpackDir}/#{entity['entityType']}.json"))
     puts json.size
     assert(json.size == entity['count'].to_i, "The number of #{entity['entityType']} should be #{entity['count']}")
+    badIdFound = false
+    if(!entity['id'].nil?)
+      json.each {|e| assert(false, "We shouldn't have found #{entity['id']}") if e['id'] == entity['id']}
+    end
 	end
 
   fileList = Dir.entries(@unpackDir)
@@ -503,38 +505,21 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
   query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isDelta" => "true", "body.edorg"=>lea}
   query_opts = {sort: ["t", Mongo::DESCENDING], limit: 1}
   # Get the edorg and timestamp from bulk extract collection in mongo
-  puts "DEBUG: Getting extract info from Mongo"
   getExtractInfoFromMongo(tenant, app_id, delta, query, query_opts)
   # Set the download path to stream the delta file from API
   @delta_file = "delta_#{lea}_#{@timestamp}.tar"
-  puts "DEBUG: @delta_file is #{@delta_file}"
   @download_path = OUTPUT_DIRECTORY + @delta_file
-  puts "DEBUG: @download_path is #{@download_path}"
   @fileDir = OUTPUT_DIRECTORY + "decrypt"
-  puts "DEBUG: @fileDir is #{@fileDir}"
   @filePath = @fileDir + "/" + @delta_file
-  puts "DEBUG: @filePath is #{@filePath}"
   @unpackDir = @fileDir
-  puts "DEBUG: @unpackDir is #{@unpackDir}"
-  # Format the Mongo time object to URI-ready string
-  #assert(@timestamp.to_s.match(/(.*?) UTC/), "Could not find a timestamp in the bulk extract Mongo entry.")
-  #timestamp = $1.gsub(/\s/, "T")
   # Assemble the API URI and make API call
-  puts "DEBUG: Calling restTls with api call for delta: api/rest/v1/bulk/extract/#{lea}/delta/#{@timestamp}"
   restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar')
-  puts "The result of the BE call is #{@res}"
 end
 
 When /^I download and decrypt the file$/ do
   # Open the file, decrypt, and check against API
-  puts "DEBUG: opening file #{@download_path}, writing result body to that file."
-  #File.open(download_path, 'w') {|f| f.write(@res.body) }
   download_path = streamBulkExtractFile(@download_path, @res.body)
-  puts "Returned download path is #{download_path}"
-
   @decrypt_path = OUTPUT_DIRECTORY + "decrypt/" + @delta_file
-  puts "DEBUG: Decrypting the file at #{@download_path}"
-  puts "DEBUG: Putting it at #{@decrypt_path}"
   openDecryptedFile(@app_id, @decrypt_path, @download_path)
   untar(@decrypt_path)
 end
@@ -558,7 +543,6 @@ Then  /^The "(.*?)" delta was extracted in the same format as the api$/ do |coll
   #  zipfiles << file if file.match(/.gz$/)
   #end
   zipfile = @fileDir + "/" + collection + ".json.gz"
-  puts "DEBUG: zipfile is #{zipfile}"
   # Loop through each list, extract the file, parse the json, and verify against the api
   Zlib::GzipReader.open(zipfile) { |extracts|
     collFile = JSON.parse(extracts.read)
@@ -701,6 +685,19 @@ Then /^I reingest the SEA so I can continue my other tests$/ do
         Then I should not see an error log file created
         And I should not see a warning log file created
     }
+end
+
+Then /^I ingested "(.*?)" dataset$/ do |dataset|
+  steps %Q{
+      And I am using local data store
+      And I post "#{dataset}" file as the payload of the ingestion job
+
+    When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+     And zip file is scp to ingestion landing zone
+     And a batch job for file "#{dataset}" is completed in database
+     And a batch job log has been created 
+      Then I should not see an error log file created
+  }
 end
 
 ############################################################
@@ -856,7 +853,7 @@ def compareToApi(collection, collFile)
     @format = "application/vnd.slc+json"
     restHttpGet("/v1/#{uri}/#{id}")
     assert(@res != nil, "Response from rest-client GET is nil")
-    assert(@res.code == 200, "Response from rest-client GET is not 200 (Got a #{@res.code})")
+    assert(@res.code != 404, "Response from rest-client GET is not 200 (Got a #{@res.code})")
     if @res.code == 200
       apiRecord = JSON.parse(@res.body)
       assert(apiRecord != nil, "Result of JSON parsing is nil")    
@@ -943,12 +940,7 @@ def checkTarfileCounts(directory, count)
 end
 
 def openDecryptedFile(appId, filePath=@filePath, encryptFilePath=@encryptFilePath)
-  puts "DEBUG: filePath is #{filePath}"
-  puts "DEUBG: encryptFilePath is #{encryptFilePath}"
   file = File.open(encryptFilePath, 'rb') { |f| f.read}
-  puts "DEBUG: File to decrypt is #{file}"
-
-  puts "DEBUG: Converted app id #{$APP_CONVERSION_MAP[appId]}"
   decryptFile(file, $APP_CONVERSION_MAP[appId])
   FileUtils.mkdir_p(File.dirname(filePath)) if !File.exists?(File.dirname(filePath))
   File.open(filePath, 'w') {|f| f.write(@plain) }  

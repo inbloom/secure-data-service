@@ -34,6 +34,7 @@ end
 desc "Run Ingestion Negative Tests"
 task :ingestionNegativeTests do
   runTests("test/features/ingestion/features/negative_testing.feature")
+  runTests("test/features/ingestion/features/ingestion_ChecksumError.feature")
 end
 
 desc "Run Ingestion Smooks Verification Tests"

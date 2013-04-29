@@ -68,6 +68,7 @@ import org.apache.commons.io.FileUtils;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -324,6 +325,7 @@ public class BulkExtractTest {
             body.put(BulkExtract.BULK_EXTRACT_FILE_PATH, f.getAbsolutePath());
             body.put(BulkExtract.BULK_EXTRACT_DATE, "Sun Apr 22 11:00:00 GMT 2013");
             Entity e = new MongoEntity("bulkExtractEntity", body);
+            final DateTime d = ISODateTimeFormat.dateTime().parseDateTime("2013-03-31T11:00:00.000Z");
             when(
                     mockMongoEntityRepository.findOne(eq(BulkExtract.BULK_EXTRACT_FILES),
                             argThat(new BaseMatcher<NeutralQuery>() {
@@ -332,8 +334,7 @@ public class BulkExtractTest {
                                 public boolean matches(Object arg0) {
                                     NeutralQuery query = (NeutralQuery) arg0;
                                     return query.getCriteria().contains(
-                                            new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, new DateTime(
-                                                    2013, 3, 31, 11, 0, 0).toDate()))
+                                            new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, d.toDate()))
                                             && query.getCriteria().contains(
                                                     new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL,
                                                             "Midvale"));
@@ -344,9 +345,9 @@ public class BulkExtractTest {
                                 public void describeTo(Description arg0) {
                                 }
                             }))).thenReturn(e);
-            Response r = bulkExtract.getDelta(req, new HttpContextAdapter(), "Midvale", "2013-03-31T11:00:00");
+            Response r = bulkExtract.getDelta(req, new HttpContextAdapter(), "Midvale", "2013-03-31T11:00:00.000Z");
             assertEquals(200, r.getStatus());
-            Response notExisting = bulkExtract.getDelta(req, new HttpContextAdapter(), "Midvale", "2013-04-01T11:00:00");
+            Response notExisting = bulkExtract.getDelta(req, new HttpContextAdapter(), "Midvale", "2013-04-01T11:00:00.000Z");
             assertEquals(404, notExisting.getStatus());
         } finally {
             f.delete();

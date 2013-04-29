@@ -70,18 +70,9 @@ Scenario: Ingest SEA update and verify no deltas generated
 
 Scenario: Ingest SEA delete and verify both LEAs received the delete
   Given I clean the bulk extract file system and database
-    And I am using local data store
-    And I post "deltas_delete_sea.zip" file as the payload of the ingestion job
-
-
-  When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
-   And zip file is scp to ingestion landing zone
-   And a batch job for file "deltas_delete_sea.zip" is completed in database
-   And a batch job log has been created 
-   Then I should not see an error log file created
-    # We will see a warning file on cascading delete -- there are a lot of children of this SEA
-    #And I should not see a warning log file created
-
+  And I ingested "deltas_delete_sea.zip" dataset
+  # We will see a warning file on cascading delete -- there are a lot of children of this SEA
+  
     When I trigger a delta extract
       And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
       And I verify "1" delta bulk extract files are generated for "<lea2_id>" in "Midgar" 
@@ -103,18 +94,12 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
 
     Then I reingest the SEA so I can continue my other tests
 
+# This scenario depends on previous scenario: Ingest education organization and perform delta
 Scenario: move school across LEA boundary by delete and create through ingestion
     The expected behavior is that the old LEA that school used to belong to would receive an delete file, and
     the new LEA would only receive a update file since the delete event is not applicable to the new LEA
   Given I clean the bulk extract file system and database
-    And I am using local data store
-    And I post "deltas_move_between_edorg.zip" file as the payload of the ingestion job
-    
-  When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
-   And zip file is scp to ingestion landing zone
-   And a batch job for file "deltas_move_between_edorg.zip" is completed in database
-   And a batch job log has been created 
-   Then I should not see an error log file created
+  And I ingested "deltas_move_between_edorg.zip" dataset
 
     When I trigger a delta extract
       And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
@@ -149,7 +134,6 @@ Scenario: Create a new education organization through the API and perform delta
      Then I should see "1" bulk extract files
       And The "educationOrganization" delta was extracted in the same format as the api
 
-@shortcut
 Scenario: Update an existing education organization through the API and perform delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -178,8 +162,7 @@ Given I clean the bulk extract file system and database
     Then I should receive a return code of 200 
   When I "PUT" the "invalidEntry" for a "school" entity to "WHOOPS"
     Then I should receive a return code of 404
-  When I trigger a delta extract
-    Then there should be no deltas in mongo
+  And deltas collection should have "0" records
 
 Scenario: Create an invalid edOrg with the API, verify no delta created
 Given I clean the bulk extract file system and database
@@ -188,8 +171,7 @@ Given I clean the bulk extract file system and database
 
   When I POST an entity of type "invalidEducationOrganization"
     Then I should receive a return code of 403   
-  When I trigger a delta extract
-    Then there should be no deltas in mongo
+  And deltas collection should have "0" records
 
 Scenario: Delete an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
@@ -203,6 +185,7 @@ Given I clean the bulk extract file system and database
     And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar"
     And I verify "1" delta bulk extract files are generated for "<lea2_id>" in "Midgar"
 
+@wip
 Scenario: Patch an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -215,7 +198,7 @@ Given I clean the bulk extract file system and database
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
 
 @wip
-Scenario: Something
+Scenario: PATCH the zip code of an edOrg, trigger delta, verify contents
   When I trigger a delta extract
    And I log in to the "SDK Sample" as "jstevenson" and get a token
    And I request the latest bulk extract delta
@@ -226,4 +209,35 @@ Scenario: Something
    And each extracted "educationOrganization" delta matches the mongo entry
 
 Scenario: Be a good neighbor and clean up before you leave
+        Given I clean the bulk extract file system and database
+
+@wip
+Scenario: deltas for student/studentSchoolAssociation/studentAssessment and studentGradebookEntry
+  All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
+  and nothing is generated for lea2.
+  Updated two students, 11 and 12, 12 lost contextual resolution to LEA1, so it should not appear
+  in the extract file.  
   Given I clean the bulk extract file system and database
+  And I ingested "student_high_cardinality_entities.zip" dataset
+
+  When I trigger a delta extract
+     And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
+     And I verify "0" delta bulk extract files are generated for "<lea2_id>" in "Midgar" 
+     And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea1_id>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  student                               |
+       |  studentSchoolAssociation              | 
+       |  studentAssessment                     | 
+       |  studentGradebookEntry                 |
+  
+     And I verify this "student" file contains:
+         | id                                          | condition                                |
+         | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                |
+     And I verify this "studentSchoolAssociation" file contains:
+         | id                                          | condition                                |
+         | 68c4855bf0bdcc850a883d88fdf953b9657fe255_id | exitWithdrawDate = 2014-05-31            |
+  
+     And The "student" delta was extracted in the same format as the api
+     And The "studentSchoolAssociation" delta was extracted in the same format as the api
+     And The "studentAssessment" delta was extracted in the same format as the api
+     And The "studentGradebookEntry" delta was extracted in the same format as the api

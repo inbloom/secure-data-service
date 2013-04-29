@@ -16,27 +16,31 @@
 
 package org.slc.sli.bulk.extract.context.resolver;
 
-import java.util.Map;
-
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 
+/**
+ * Factory class for context resolvers, which are used to
+ * enforce business visibility rule and as determines which
+ * LEAs own the entity
+ * 
+ * @author ycao
+ * 
+ */
 @Component
 public class EdOrgContextResolverFactory {
     
     @Autowired
     EducationOrganizationContextResolver edOrgContextResolver;
     
-    // currently only check for educationOrganization. Later
-    // on would need to check against this collection which defines
-    // all entity types that needs to be extracted
-    @Resource
-    Map<String, String> entitiesToCollections;
-
+    /**
+     * find responsible resolver for this entity type
+     * 
+     * @param entityType
+     * @return context resolver for this entity type
+     */
     public ContextResolver getResolver(String entityType) {
         
         if ("educationOrganization".equals(entityType)) {
