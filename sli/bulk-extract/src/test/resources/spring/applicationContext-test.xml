@@ -91,7 +91,7 @@
     </bean>
 
     <bean id="entityExtractor" class="org.slc.sli.bulk.extract.extractor.EntityExtractor">
-         <property name="entityRepository" ref="mongoEntityRepository" />
+         <property name="entityRepository" ref="secondaryReadRepository" />
          <property name="writer" ref="writer" />
     </bean>
 
@@ -109,7 +109,7 @@
     </bean>
     
     <bean id="bulkExtractMongoDA" class="org.slc.sli.bulk.extract.BulkExtractMongoDA">
-         <property name="entityRepository" ref="mongoEntityRepository" />
+         <property name="entityRepository" ref="secondaryReadRepository" />
     </bean>
 
     <context:component-scan base-package="org.slc">
@@ -127,5 +127,6 @@
             expression=".*LdapServiceImpl" />
     </context:component-scan>
 
+    <bean id="secondaryReadRepository" name="secondaryRepo" class="org.slc.sli.bulk.extract.SecondaryReadRepository" parent="mongoEntityRepository"/>
 </beans>
 
