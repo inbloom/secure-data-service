@@ -255,9 +255,13 @@ Then /^the client ID and shared secret fields are present$/ do
   client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
   shared_secret = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[2]').text  
   puts "client_id: " + client_id
-  $client_id = client_id
+  if client_id != "Pending"
+    $client_id = client_id
+  end
   puts "Shared Secret ID: " + shared_secret
-  $client_secret = shared_secret
+  if shared_secret != "Pending"
+    $client_secret = shared_secret
+  end
   assert(client_id != '', "Expected non empty client Id, got #{client_id}")
   assert(shared_secret != '', "Expected non empty shared secret Id, got #{shared_secret}")
 end
