@@ -16,10 +16,15 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.format.ISODateTimeFormat;
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.domain.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Context resolver for students
@@ -28,11 +33,30 @@ import org.slc.sli.domain.Entity;
  *
  */
 public class StudentContextResolver implements ContextResolver {
-    
+    private static final Logger LOG = LoggerFactory.getLogger(StudentContextResolver.class);
+
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
-        // TODO Auto-generated method stub
-        return null;
+        Set<String> leas = new HashSet<String>();
+        List<Map<String, Object>> schools = entity.getDenormalizedData().get("schools");
+        for(Map<String, Object> school: schools) {
+            try {
+                String startDate = (String) school.get("entryDate");
+                String exitDate = (String) school.get("exitWithdrawDate");
+                boolean afterStart = startDate == null || !ISODateTimeFormat.date().parseDateTime(startDate).isAfterNow();
+                boolean beforeFinish = exitDate == null || !ISODateTimeFormat.date().parseDateTime(exitDate).isBeforeNow();
+                if(afterStart && beforeFinish) {
+                    @SuppressWarnings("unchecked")
+                    List<String> edOrgs = (List<String>) school.get("edOrgs");
+                    for(String edOrg: edOrgs) {
+                        leas.add(edOrg);
+                    }
+                }
+            } catch (RuntimeException e) {
+                LOG.warn("Could not parse school " + school, e); 
+            }
+        }
+        return leas;
     }
     
     /**
