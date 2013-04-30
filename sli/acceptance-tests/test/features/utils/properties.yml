@@ -1,14 +1,15 @@
-dashboard_server_address: "http://megtomcat01.slidev.org"
+dashboard_server_address: "http://local.slidev.org:8888"
 dashboard_app_prefix: "/dashboard"
 dashboard_landing_page: "/"
-dashboard_api_server_uri: "http://megtomcat01.slidev.org"
-realm_page_url: "http://megtomcat01.slidev.org/api/oauth/authorize"
+dashboard_api_server_uri: "http://local.slidev.org:8080"
+realm_page_url: "http://local.slidev.org:8080/api/oauth/authorize"
 browser: "firefox"
 
-admintools_server_url: "http://megtomcat01.slidev.org:3001"
+admintools_server_url: "http://local.slidev.org:3001"
 minisb_admintools_server_url: "http://ycao-mint.slidev.org:3001"
-api_server_url: "http://megtomcat01.slidev.org"
-databrowser_server_url: "http://megtomcat01.slidev.org:3000"
+api_server_url: "http://local.slidev.org:8080"
+api_ssl_server_url: "https://local.slidev.org:8443"
+databrowser_server_url: "http://local.slidev.org:3000"
 
 ingestion_db: "localhost"
 ingestion_db_port: 27017
@@ -24,19 +25,36 @@ ingestion_password: "password"
 ingestion_remote_lz_path: "/home/ingestion/"
 ingestion_mode: "local"
 ingestion_destination_data_store: "../ingestion/ingestion-service/target/ingestion/logs/"
-ingestion_healthcheck_url: "http://megtomcat01.slidev.org/ingestion-service/healthcheck"
-ingestion_properties_file: "/opt/tomcat/apache-tomcat-7.0.34/conf/sli.properties"
-ingestion_log_directory: "/opt/ingestion/logs/"
+ingestion_healthcheck_url: "http://local.slidev.org:8000/ingestion-service/healthcheck"
+ingestion_properties_file: "../config/properties/sli.properties"
+ingestion_log_directory: "../ingestion/ingestion-service/target/ingestion/logs/"
 ingestion_index_validation: true
 ingestion_rc_tenant: ""
 ingestion_rc_edorg: ""
 ingestion_timeout_override_seconds: 0
 activemq_host: "localhost"
 
+#Bulk Extract Configuration
+bulk_extract_script: "../bulk-extract/scripts/local_bulk_extract.sh"
+bulk_extract_delta_script: "../bulk-extract/scripts/local_bulk_extract.sh"
+bulk_extract_delta_properties: "../config/properties/sli.properties"
+bulk_extract_delta_keystore: "../data-access/dal/keyStore/ciKeyStore.jks"
+bulk_extract_output_directory: "extract/"
+bulk_extract_jar_loc: ""
+bulk_extract_properties_file: ""
+bulk_extract_keystore_file: ""
+bulk_extract_db: "localhost"
+bulk_extract_port: 27017
+
+#Bulk Extract Scheduler Configuration
+bulk_extract_scheduler_script: "../bulk-extract/scripts/schedule_bulk_extracts.sh"
+bulk_extract_script_directory: "../bulk-extract/scripts/"
+bulk_extract_cron_output_directory: "extract/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a/"
+
 sif_db: "localhost"
 sif_port: 27017
 sif_database_name: "sli"
-sif_zis_address_trigger: "http://megtomcat01.slidev.org/mock-zis/trigger"
+sif_zis_address_trigger: "http://local.slidev.org:8087/mock-zis/trigger"
 
 sli_database_name: "sli"
 
@@ -44,11 +62,11 @@ DB_HOST: "localhost"
 DB_PORT: 27017
 api_database_name : "sli"
 
-sampleApp_server_address: "http://megtomcat01.slidev.org/"
+sampleApp_server_address: "http://local.slidev.org:8081/"
 
-simpleIDP_realm_server_address: "http://megtomcat01.slidev.org/"
-simpleIDP_realm_params: "response_type%3dcode%26client_id%3dfm67sH6vZZ%26redirect_uri%3dhttp://megtomcat01.slidev.org/sample/callback"
-simpleIDP_login_url: "http://megtomcat01.slidev.org/simple-idp"
+simpleIDP_realm_server_address: "http://local.slidev.org:8080/"
+simpleIDP_realm_params: "response_type%3dcode%26client_id%3dfm67sH6vZZ%26redirect_uri%3dhttp://local.slidev.org:8081/sample/callback"
+simpleIDP_login_url: "http://local.slidev.org:8082/simple-idp"
 simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
 
@@ -59,10 +77,10 @@ ldap_base: "ou=LocalNew,ou=DevTest,dc=slidev,dc=org"
 ldap_admin_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
 ldap_admin_pass: Y;Gtf@w{
 
-user_registration_app_production_url: "http://megtomcat01.slidev.org:3001"
-user_registration_app_sandbox_url: "http://megtomcat01.slidev.org:3001"
+user_registration_app_production_url: "http://local.slidev.org:3001"
+user_registration_app_sandbox_url: "http://local.slidev.org:3001"
 user_registration_app_host_url: "inbloom.org"
-sb_get_started: "dev.slcedu.org/getting-started"
+sb_get_started: "inbloom.org/getting-started"
 registration_app_suffix: "/registration"
 samt_app_suffix: "/users"
 validation_base_suffix: "/user_account_validation"
@@ -73,9 +91,11 @@ jmeter_jmx_path: "../../tools/jmeter/"
 jmeter_jtl_archive: "/storage/logs/jmeter/archive"
 jmeter_failed_jtl_archive: "/storage/logs/jmeter/failed"
 jmeter_bin: "jmeter"
-jmeter_properties: "local.properties"
+jmeter_properties: "ci.properties"
 jmeter_regression_threshold: 0.25
+jmeter_reset_regression: false
 
+app_bootstrap_server: "local"
 
 emaiL_smtp_host: mon.slidev.org
 email_smtp_port: 3000
@@ -127,7 +147,7 @@ tenant: RCTestTenant
 edorg: STANDARD-SEA
 
 # IDP and Redirect Endpoint URL for Realm Management
-ci_idp_redirect_url: https://megtomcat01.slidev.org/simple-idp?realm=IL-Daybreak
+ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 
 ##For RC environments
 #email_imap_hostname: imap.gmail.com
@@ -160,10 +180,10 @@ ci_idp_redirect_url: https://megtomcat01.slidev.org/simple-idp?realm=IL-Daybreak
 
 ################# /e2e test properties #################################
 
-portal_server_address: http://megtomcat01.slidev.org:7000
+portal_server_address: http://local.slidev.org:7000
 portal_app_suffix: "/portal"
 
-elastic_search_address: http://megtomcat01.slidev.org:9200
+elastic_search_address: http://local.slidev.org:9200
 elastic_search_inbox: "../search-indexer/data/inbox"
 elastic_search_host: localhost
 elastic_search_remote_command_port: 10024
