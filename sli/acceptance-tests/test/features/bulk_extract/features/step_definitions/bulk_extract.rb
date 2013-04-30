@@ -861,11 +861,9 @@ def decryptFile(file, client_id)
   @plain = aes.update(encryptedmessage) + aes.final
   if $SLI_DEBUG 
     puts("Final is #{aes.final}")
-    puts("IV is #{encryptediv}")
-    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
-    puts("Encrypted message is #{encryptedmessage}")
+    puts("Decrypted iv type is #{decrypted_iv.class}")
     puts("Cipher is #{aes}")
-    puts("Plain text length is #{@plain.length} and it is")# #{@plain}")
+    puts("Plain text length is #{@plain.length}")
     puts "length #{@res.body.length}" if @res != nil
   end
 end
