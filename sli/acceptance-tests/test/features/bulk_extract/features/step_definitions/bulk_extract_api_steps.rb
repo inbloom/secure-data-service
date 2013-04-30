@@ -447,11 +447,13 @@ Then /^I have all the information to make a custom bulk extract request$/ do
 end
 
 def getAppId()
-  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  conn ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
+  db ||= conn.db('sli')
   userSessionColl = db.collection("userSession")
   clientId = userSessionColl.find_one({"body.appSession.token" => @sessionId}) ["body"]["appSession"][0]["clientId"]
   appColl = db.collection("application")
   appId = appColl.find_one({"body.client_id" => clientId}) ["_id"]
+  conn.close
   return appId
 end
 
