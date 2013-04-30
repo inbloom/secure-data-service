@@ -23,10 +23,13 @@ import java.util.Set;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 /**
  * Context resolver for students
@@ -37,6 +40,10 @@ import org.slc.sli.domain.Entity;
 @Component
 public class StudentContextResolver implements ContextResolver {
     private static final Logger LOG = LoggerFactory.getLogger(StudentContextResolver.class);
+    
+    @Autowired
+    @Qualifier("secondaryRepo")
+    private Repository<Entity> repo;
     
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
@@ -73,7 +80,19 @@ public class StudentContextResolver implements ContextResolver {
      * @return the set of LEAs
      */
     public Set<String> getLEAsForStudentId(String id) {
+        Entity entity = getRepo().findById("student", id);
+        if (entity != null) {
+            return findGoverningLEA(entity);
+        }
         return new HashSet<String>();
+    }
+    
+    Repository<Entity> getRepo() {
+        return repo;
+    }
+    
+    void setRepo(Repository<Entity> repo) {
+        this.repo = repo;
     }
     
 }

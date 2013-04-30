@@ -16,6 +16,7 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -28,8 +29,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 /**
  * Unit test for the student context resolver
@@ -40,9 +41,25 @@ import org.slc.sli.domain.Entity;
 public class StudentContextResolverTest {
     private final StudentContextResolver underTest = new StudentContextResolver();
     
-    @SuppressWarnings("unchecked")
     @Test
-    public void test() {
+    public void testFindGoverningLEA() {
+        assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
+                underTest.findGoverningLEA(buildTestStudent()));
+    }
+    
+    @Test
+    public void getLEAsForStudentId() {
+        @SuppressWarnings("unchecked")
+        Repository<Entity> repo = mock(Repository.class);
+        Entity testStudent = buildTestStudent();
+        when(repo.findById("student", "42")).thenReturn(testStudent);
+        underTest.setRepo(repo);
+        assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
+                underTest.getLEAsForStudentId("42"));
+    }
+    
+    @SuppressWarnings("unchecked")
+    private Entity buildTestStudent() {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("studentUniqueStateId", "42");
         DateTime today = DateTime.now();
@@ -70,11 +87,10 @@ public class StudentContextResolverTest {
         unboundedSchool.put("edOrgs", Arrays.asList("edOrg1", "edOrg3"));
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
         denormalized.put("schools", Arrays.asList(oldSchool, currentSchool, futureSchool, unboundedSchool));
-        Entity testStudent = Mockito.mock(Entity.class);
+        Entity testStudent = mock(Entity.class);
         when(testStudent.getEntityId()).thenReturn("testStudent");
         when(testStudent.getBody()).thenReturn(body);
         when(testStudent.getDenormalizedData()).thenReturn(denormalized);
-        assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
-                underTest.findGoverningLEA(testStudent));
+        return testStudent;
     }
 }
