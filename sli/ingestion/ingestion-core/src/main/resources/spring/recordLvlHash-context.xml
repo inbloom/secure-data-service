@@ -37,16 +37,14 @@
     <value>stateEducationAgency</value>
     <value>student</value>
     <value>studentAcademicRecord</value>
-<!--    <value>studentCohortAssociation</value>    disabled for us5641 -->
+    <value>studentCohortAssociation</value>
     <value>studentCompetency</value>
     <value>studentCompetencyObjective</value>
-<!--  disabled for us5641
     <value>studentDisciplineIncidentAssociation</value>
-    <value>studentParentAssociation</value>
     <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
     <value>studentSectionAssociation</value>
--->
+    <value>studentParentAssociation</value>
     <value>studentGradebookEntry</value>
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
