@@ -247,19 +247,15 @@ Scenario: Delete Section with cascade = false
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeMasterSchedule.xml"	
-    And I re-execute saved query "section" to get "0" records
+    And I re-execute saved query "section" to get "1" records
     And I re-execute saved query "student" to get "1" records
     And I re-execute saved query "studentGradebookEntry" to get "24" records
-    And I re-execute saved query "gradebookEntry" to get "0" records
+    And I re-execute saved query "gradebookEntry" to get "1" records
     And I re-execute saved query "grade" to get "1" records
-    And I re-execute saved query "teacherSectionAssociation" to get "0" records
-    And I re-execute saved query "studentSectionAssociation" to get "0" records
+    And I re-execute saved query "teacherSectionAssociation" to get "1" records
+    And I re-execute saved query "studentSectionAssociation" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
-        |section     |   -1|
-        |studentSectionAssociation| -1|
-        |teacherSectionAssociation| -2|
-        |gradebookEntry | -24|
         |recordHash  |   -1|
         
  Scenario: Delete Section Ref with cascade = false, force = true and log violations = true
@@ -297,17 +293,13 @@ Scenario: Delete Section with cascade = false
     And I should see "All records processed successfully." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeMasterSchedule.xml"	
-    And I re-execute saved query "section" to get "0" records
+    And I re-execute saved query "section" to get "1" records
     And I re-execute saved query "student" to get "1" records
     And I re-execute saved query "studentGradebookEntry" to get "24" records
-    And I re-execute saved query "gradebookEntry" to get "0" records
+    And I re-execute saved query "gradebookEntry" to get "1" records
     And I re-execute saved query "grade" to get "1" records
-    And I re-execute saved query "teacherSectionAssociation" to get "0" records
-    And I re-execute saved query "studentSectionAssociation" to get "0" records
+    And I re-execute saved query "teacherSectionAssociation" to get "1" records
+    And I re-execute saved query "studentSectionAssociation" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
-        |section     |   -1|
-        |studentSectionAssociation| -1|
-        |teacherSectionAssociation| -2|
-        |gradebookEntry | -24|
         |recordHash  |   -1|
