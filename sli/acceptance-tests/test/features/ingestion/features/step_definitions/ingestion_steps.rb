@@ -1882,6 +1882,8 @@ def cleanupSubDoc(superdocs, subdoc)
   end
 end
 
+$superDocTypes = [ 'section', 'student', 'studentAssessment', 'assessment']
+  
 $subDocEntity2ParentType = {
     "studentSectionAssociation" => "section",
     "gradebookEntry" => "section",
@@ -3821,7 +3823,16 @@ def getEntityCounts(tenant)
 #            puts "#{coll} #{count}"
         end
     end
-    #Add subdoc entity counts
+    # Add counts for "hollowed" superdocs
+    $superDocTypes.each do |superDoc|
+      count = tenant_db[superDoc].find({
+        'body' => { '$exists' => false },
+        'metaData' => { '$exists' => false }
+      }).count().to_i
+      entityCounts[superDoc+"<hollow>"] = count
+#      puts "#{superDoc}<hollow> #{count}"
+    end
+    # Add subdoc entity counts
     subDocEntities = $subDocEntity2ParentType.keys
     subDocEntities.each do |subDocEntity|
         parent = $subDocEntity2ParentType[subDocEntity]
@@ -3829,7 +3840,7 @@ def getEntityCounts(tenant)
         entityCounts[subDocEntity] = count
 #        puts "#{subDocEntity} #{count}"
     end
-    #Add denormalized data counts
+    # Add denormalized data counts
     denormalizedEntities = $denormalizedTypeInfo.keys
     denormalizedEntities.each do |denormalizedType|
       denormalizationInfo = $denormalizedTypeInfo[denormalizedType]
