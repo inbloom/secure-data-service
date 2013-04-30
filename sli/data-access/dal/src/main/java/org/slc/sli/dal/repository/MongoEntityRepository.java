@@ -915,13 +915,17 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     private boolean deleteOrHollowOut(String collectionName, String id) {
     	boolean result = false;
     	Entity entity = findById(collectionName, id, true);
-    	if ( entity.getEmbeddedData().size() > 0 ) {
-    		entity.hollowOut();
-    		result = update(collectionName, entity, true);
-    	}
-    	else {
-    		result = super.delete(collectionName, id);
-    	}
+        if(entity != null) {
+            if ( entity.getEmbeddedData().size() > 0 ) {
+                entity.hollowOut();
+                result = update(collectionName, entity, true);
+            }
+            else {
+                result = super.delete(collectionName, id);
+            }
+        } else {
+            LOG.warn("Did not find {} with id {}", collectionName, id);
+        }
     	return result;
     }
 
