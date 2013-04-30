@@ -68,7 +68,7 @@ public class StudentContextResolverTest {
         unboundedSchool.put("entryDate", today.minusMonths(15).toString(format));
         unboundedSchool.put("edOrgs", badEdorgs);
         unboundedSchool.put("edOrgs", Arrays.asList("edOrg1", "edOrg3"));
-        Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String,Object>>>();
+        Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
         denormalized.put("schools", Arrays.asList(oldSchool, currentSchool, futureSchool, unboundedSchool));
         Entity testStudent = Mockito.mock(Entity.class);
         when(testStudent.getEntityId()).thenReturn("testStudent");
