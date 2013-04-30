@@ -21,10 +21,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.format.ISODateTimeFormat;
-import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
-import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.domain.Entity;
 
 /**
  * Context resolver for students
@@ -32,6 +34,7 @@ import org.slf4j.LoggerFactory;
  * @author nbrown
  * 
  */
+@Component
 public class StudentContextResolver implements ContextResolver {
     private static final Logger LOG = LoggerFactory.getLogger(StudentContextResolver.class);
     
