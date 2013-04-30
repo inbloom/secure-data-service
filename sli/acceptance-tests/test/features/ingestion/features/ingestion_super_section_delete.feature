@@ -4,122 +4,41 @@ Feature: Super Section Deletion
 Background: I have a landing zone route configured
 Given I am using local data store
 
-@wip
-Scenario: Ingest Super Section Data without Section
+
+Scenario: Ingestion of Student-Orphans(Entities referring to missing student) conforms to Student and Children ingestion followed by Student deletion
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
-    And I post "SuperNoSection.zip" file as the payload of the ingestion job
+    
+    #Ingest data set with the lone student comment out. aka out of order data set. Then take snapshot.
+    And I post "SuperSectionSubdocAndDenormOnly.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "SuperNoSection.zip" is completed in database
-
-
-Scenario: Delete Super Section with cascade = false, force = true
-    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And a batch job for file "SuperSectionSubdocAndDenormOnly.zip" is completed in database
+    Then there exist "0" "section" records like below in "Midgar" tenant. And I save this query as "sectionCount"
+    |field       |value                                               |
+    |_id         |908404e876dd56458385667fa383509035cd4312_id         |   
+    And I read the following entity in "Midgar" tenant and save it as "hollowSection"
+    | collection | field | value								      |
+    | section    | _id   |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id |
+    
+    #Clear out the database
     And the "Midgar" tenant db is empty
-    And I post "SuperSection.zip" file as the payload of the ingestion job
+    And I re-execute saved query "sectionCount" to get "0" records
+    
+    #Ingest same data set again. This time with the lone student not commented out.
+    And I post "SuperSectionAll.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "SuperSection.zip" is completed in database
-    And I post "ForceSectionDelete.zip" file as the payload of the ingestion job
-    When zip file is scp to ingestion landing zone
-    And a batch job for file "ForceSectionDelete.zip" is completed in database
-
-@wip
- Scenario: Delete Section with cascade = false
-    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And the "Midgar" tenant db is empty
-    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "section"
-	|field                                                           |value                                                |
-	|_id                                                             |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
-	Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "student"
-	|field                                                           |value                                                |
-	|section._id                                                  |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id             |
-	Then there exist "24" "studentGradebookEntry" records like below in "Midgar" tenant. And I save this query as "studentGradebookEntry"
-	|field                                                           |value                                                |
-	|body.sectionId                                                  |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
-	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "gradebookEntry"
-	|field                                                           |value                                                |
-	|gradebookEntry.body.sectionId                                   |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
-	Then there exist "1" "yearlyTranscript" records like below in "Midgar" tenant. And I save this query as "grade"
-	|field                                                           |value                                                |
-	|grade.body.sectionId                                            |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
-	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "teacherSectionAssociation"
-	|field                                                           |value                                                |
-	|teacherSectionAssociation.body.sectionId                        |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |	
-	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "studentSectionAssociation"
-	|field                                                           |value                                                |
-	|studentSectionAssociation.body.sectionId                        |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |	
-	And I save the collection counts in "Midgar" tenant
-    And I post "SafeSectionDelete.zip" file as the payload of the ingestion job
-   When zip file is scp to ingestion landing zone
-    And a batch job for file "SafeSectionDelete.zip" is completed in database
-	And I should see "records considered for processing: 1" in the resulting batch job file
-	And I should see "records ingested successfully: 0" in the resulting batch job file
-	And I should see "records deleted successfully: 0" in the resulting batch job file
-	And I should see "records failed processing: 1" in the resulting batch job file
-	And I should see "records not considered for processing: 0" in the resulting batch job file
- 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
- 	And I should see "Processed 1 records." in the resulting batch job file
-    And I should see "CORE_0066" in the resulting error log file for "InterchangeMasterSchedule.xml"
-	And I should not see a warning log file created
-    And I re-execute saved query "section" to get "1" records
-    And I re-execute saved query "student" to get "1" records
-    And I re-execute saved query "studentGradebookEntry" to get "24" records
-    And I re-execute saved query "gradebookEntry" to get "1" records
-    And I re-execute saved query "grade" to get "1" records
-    And I re-execute saved query "teacherSectionAssociation" to get "1" records
-    And I re-execute saved query "studentSectionAssociation" to get "1" records
-    And I see that collections counts have changed as follows in tenant "Midgar"
-        | collection |delta|
-        |section     |   0|
-
-@wip
- Scenario: Delete Section Ref with cascade = false, force = true and log violations = true
-    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And the "Midgar" tenant db is empty
-    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
-	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "section"
-	|field                                                           |value                                                |
-	|_id                                                             |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
-	Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "student"
-	|field                                                           |value                                                |
-	|section._id                                                  |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id             |
-	Then there exist "24" "studentGradebookEntry" records like below in "Midgar" tenant. And I save this query as "studentGradebookEntry"
-	|field                                                           |value                                                |
-	|body.sectionId                                                  |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
-	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "gradebookEntry"
-	|field                                                           |value                                                |
-	|gradebookEntry.body.sectionId                                   |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
-	Then there exist "1" "yearlyTranscript" records like below in "Midgar" tenant. And I save this query as "grade"
-	|field                                                           |value                                                |
-	|grade.body.sectionId                                            |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
-	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "teacherSectionAssociation"
-	|field                                                           |value                                                |
-	|teacherSectionAssociation.body.sectionId                        |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |	
-	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "studentSectionAssociation"
-	|field                                                           |value                                                |
-	|studentSectionAssociation.body.sectionId                        |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |	
-	And I save the collection counts in "Midgar" tenant
-    And I post "ForceSectionRefDelete.zip" file as the payload of the ingestion job
-   When zip file is scp to ingestion landing zone
-    And a batch job for file "ForceSectionRefDelete.zip" is completed in database
-    And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "records failed processing: 0" in the resulting batch job file
-    And I should see "records not considered for processing: 0" in the resulting batch job file
+    And a batch job for file "SuperSectionAll.zip" is completed in database
     And I should see "All records processed successfully." in the resulting batch job file
-    And I should see "Processed 1 records." in the resulting batch job file
-    And I should see "CORE_0066" in the resulting warning log file for "InterchangeMasterSchedule.xml"	
-    And I re-execute saved query "section" to get "0" records
-    And I re-execute saved query "student" to get "1" records
-    And I re-execute saved query "studentGradebookEntry" to get "24" records
-    And I re-execute saved query "gradebookEntry" to get "0" records
-    And I re-execute saved query "grade" to get "1" records
-    And I re-execute saved query "teacherSectionAssociation" to get "0" records
-    And I re-execute saved query "studentSectionAssociation" to get "0" records
-    And I see that collections counts have changed as follows in tenant "Midgar"
-        | collection |delta|
-        |section     |   -1|
-        |studentSectionAssociation| -1|
-        |teacherSectionAssociation| -2|
-        |gradebookEntry | -24|
-        |recordHash  |   -1|
+    And I re-execute saved query "sectionCount" to get "0" records
+
+    #Delete student    
+    And I post "SuperSectionOnlyDelete.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "SuperSectionOnlyDelete.zip" is completed in database
+    And I should see "All records processed successfully." in the resulting batch job file
+    And I re-execute saved query "sectionCount" to get "0" records
+    
+    #Take new snapshot and compare with old snapshot
+    And I read again the entity tagged "hollowSection" from the "Midgar" tenant and confirm that it is the same
+	
+
