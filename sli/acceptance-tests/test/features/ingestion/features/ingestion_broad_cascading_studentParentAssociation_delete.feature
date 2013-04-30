@@ -30,7 +30,7 @@ Scenario: Delete Student Parent Association with cascade
 	|collection                        |delta          |
 	|student                                |         0|
 	|studentParentAssociation               |        -1|
-	|recordHash                             |         0|
+	|recordHash                             |        -1|
 	And I should not see "908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id" in the "Midgar" database
 
 Scenario: Delete StudentParentAssociation with cascade = false
@@ -54,7 +54,7 @@ Scenario: Delete StudentParentAssociation with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentParentAssociation                  |        -1|
-#        | recordHash                                |        -1|
+        | recordHash                                |        -1|
 
 Scenario: Safe Delete StudentParentAssociation Ref with Cascade="false" Force="false"
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -76,7 +76,7 @@ Scenario: Safe Delete StudentParentAssociation Ref with Cascade="false" Force="f
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentParentAssociation                  |        -1|
-#        | recordHash                                |        -1|
+        | recordHash                                |        -1|
         
         
 	Scenario: Delete StudentParentAssociation Ref with cascade = false and force = true, log violations = true
@@ -99,6 +99,6 @@ Scenario: Safe Delete StudentParentAssociation Ref with Cascade="false" Force="f
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentParentAssociation                  |        -1|
-#        | recordHash                                |        -1|
+        | recordHash                                |        -1|
         
 	  
