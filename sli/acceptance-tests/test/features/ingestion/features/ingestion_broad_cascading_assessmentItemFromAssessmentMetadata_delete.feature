@@ -128,6 +128,7 @@ Scenario: Delete Orphan Assessment Item from Assessment Metadata with cascade = 
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
 	|assessment                             |        -1|  
+	|assessment<hollow>                     |        -1|
 #the body assessment is empty after deletion of assessmentItem, so it is deleted too
    #|recordHash                             |       -1|
 	
@@ -153,6 +154,7 @@ Scenario: Delete Orphan Assessment Item Reference from Assessment Metadata with 
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
 	|assessment                             |        -1|
+	|assessment<hollow>                     |        -1|
 	#|recordHash                             |       -1|
 	
 	
