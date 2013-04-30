@@ -42,7 +42,7 @@ Scenario: Multiple Orphans
         |disciplineIncident                     |       -1|
         |educationOrganization                  |       -3|
         |grade                                  |       -1|
-        |gradebookEntry                         |      -25|
+        |gradebookEntry                         |       -1|
         |gradingPeriod                          |       -1|
         |graduationPlan                         |       -1|
         |learningObjective                      |       -1|
@@ -51,7 +51,7 @@ Scenario: Multiple Orphans
         |parent                                 |       -1|
         |program                                |       -1|
         |reportCard                             |       -1|
-        |section                                |       -1|
+        |section                                |        0|
         |session                                |       -1|
         |staff                                  |       -2|
         |staffEducationOrganizationAssociation  |       -1|
@@ -68,7 +68,7 @@ Scenario: Multiple Orphans
         |studentParentAssociation               |       -1|
         |studentProgramAssociation              |       -1|
         |studentSchoolAssociation               |       -1|
-        |studentSectionAssociation              |       -2|
+        |studentSectionAssociation              |       -1|
         |teacherSchoolAssociation               |       -1|
-        |teacherSectionAssociation              |       -3|
-        |recordHash                             |      -31|
+        |teacherSectionAssociation              |       -1|
+        |recordHash                             |      -30|
