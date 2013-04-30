@@ -79,6 +79,20 @@ public class EntityExtractor{
             LOG.error("Error while extracting from " + collectionName, e);
         }
     }
+    
+    /**
+     * Writes a single entity to an extract file.
+     * 
+     * @param archiveFile
+     * @param collectionName
+     */
+    public void extractEntity(Entity entity, ExtractFile archiveFile, String collectionName) {
+        try {
+            write(entity, archiveFile, new CollectionWrittenRecord(collectionName));
+        } catch (IOException e) {
+            LOG.error("Error while extracting from " + collectionName, e);
+        }
+    }
 
     /**
      * Writes an entity to a file.

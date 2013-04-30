@@ -20,6 +20,13 @@
 package org.slc.sli.bulk.extract.extractor;
 
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
@@ -29,6 +36,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.lea.EdorgExtractor;
+import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
+import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -40,13 +50,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 /**
  * Tests LocalEdOrgExtractorTest
@@ -61,6 +64,8 @@ public class LocalEdOrgExtractorTest {
     private BulkExtractMongoDA mockMongo;
     private EntityExtractor entityExtractor;
     private LocalEdOrgExtractHelper helper;
+    private LEAExtractorFactory mockFactory;
+    private LEAExtractFileMap mockExtractMap;
 
     @Autowired
     private LocalEdOrgExtractor extractor;
@@ -71,6 +76,10 @@ public class LocalEdOrgExtractorTest {
     @Before
     public void setUp() throws Exception {
         repo = Mockito.mock(Repository.class);
+        mockFactory = Mockito.mock(LEAExtractorFactory.class);
+        mockExtractMap = Mockito.mock(LEAExtractFileMap.class);
+        extractor.setLeaToExtractMap(mockExtractMap);
+        extractor.setFactory(mockFactory);
         extractor.setRepository(repo);
         body = new HashMap<String, Object>();
         body.put("isBulkExtract", true);
@@ -82,6 +91,11 @@ public class LocalEdOrgExtractorTest {
         extractor.setEntityExtractor(entityExtractor);
         helper = Mockito.mock(LocalEdOrgExtractHelper.class);
         extractor.setHelper(helper);
+        
+        EdorgExtractor mockExtractor = Mockito.mock(EdorgExtractor.class);
+
+        Mockito.when(mockFactory.buildEdorgExtractor(entityExtractor, mockExtractMap)).thenReturn(mockExtractor);
+
     }
     
     /**
@@ -131,6 +145,17 @@ public class LocalEdOrgExtractorTest {
         Mockito.verify(entityExtractor, Mockito.times(3)).extractEntities(Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION));
         Mockito.verify(entityExtractor, Mockito.times(3)).setExtractionQuery(Mockito.any(Query.class));
 
+    }
+    
+    @Test
+    public void testExecuteAgain() {
+        File tenantDir = Mockito.mock(File.class);
+        DateTime time = new DateTime();
+        extractor.execute("Midgar", tenantDir, time);
+        Mockito.verify(mockFactory, Mockito.times(1)).buildEdorgExtractor(entityExtractor, mockExtractMap);
+        Mockito.verify(mockExtractMap, Mockito.times(1)).archiveFiles();
+        Mockito.verify(mockExtractMap, Mockito.times(1)).buildManifestFiles(time);
+        Mockito.verify(mockExtractMap, Mockito.times(1)).closeFiles();
     }
 
     /*

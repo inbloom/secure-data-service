@@ -55,6 +55,33 @@ Scenario: Ingest education organization and perform delta
     Then The "educationOrganization" delta was extracted in the same format as the api
       And The "school" delta was extracted in the same format as the api
 
+  #Combined moving school across LEA boundary scenario to test genetate a delta after another delta and 
+  #delta should only pick up latest change without clean bulk extract file system and database step
+ 
+  #The expected behavior is that the old LEA that school used to belong to would receive an delete file, and
+  #the new LEA would only receive a update file since the delete event is not applicable to the new LEA
+  And I ingested "deltas_move_between_edorg.zip" dataset
+
+    When I trigger a delta extract
+      And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
+      And I verify "2" delta bulk extract files are generated for "<lea2_id>" in "Midgar" 
+      # should see no delete file for lea 1
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea1_id>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  school                                |
+        |  educationOrganization                 |
+      And I verify this "school" file contains:
+          | id                                          | condition                             |
+          | 54b4b51377cd941675958e6e81dce69df801bfe8_id | stateOrganizationId=Daybreak Podunk High |
+      
+      # should only see delete file for lea 2
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  deleted                               |
+      And I verify this "deleted" file contains:
+          | id                                          | condition                             |
+          | 54b4b51377cd941675958e6e81dce69df801bfe8_id | entityType = school                   |
+
 Scenario: Ingest SEA update and verify no deltas generated
   Given I clean the bulk extract file system and database
     And I am using local data store
@@ -95,33 +122,6 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
           | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = school                   |
 
     Then I reingest the SEA so I can continue my other tests
-
-# This scenario depends on previous scenario: Ingest education organization and perform delta
-Scenario: move school across LEA boundary by delete and create through ingestion
-    The expected behavior is that the old LEA that school used to belong to would receive an delete file, and
-    the new LEA would only receive a update file since the delete event is not applicable to the new LEA
-  Given I clean the bulk extract file system and database
-  And I ingested "deltas_move_between_edorg.zip" dataset
-
-    When I trigger a delta extract
-      And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar" 
-      And I verify "1" delta bulk extract files are generated for "<lea2_id>" in "Midgar" 
-      # should see no delete file for lea 1
-      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea1_id>" in "Midgar" contains a file for each of the following entities:
-        |  entityType                            |
-        |  school                                |
-        |  educationOrganization                 |
-      And I verify this "school" file contains:
-          | id                                          | condition                             |
-          | 54b4b51377cd941675958e6e81dce69df801bfe8_id | stateOrganizationId=Daybreak Podunk High |
-      
-      # should only see delete file for lea 2
-      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
-        |  entityType                            |
-        |  deleted                               |
-      And I verify this "deleted" file contains:
-          | id                                          | condition                             |
-          | 54b4b51377cd941675958e6e81dce69df801bfe8_id | entityType = school                   |
 
 Scenario: Create a new education organization through the API and perform delta
   Given I clean the bulk extract file system and database
@@ -258,6 +258,7 @@ Scenario: deltas for student/studentSchoolAssociation/studentAssessment and stud
        |  studentSchoolAssociation              | 
        |  studentAssessment                     | 
        |  studentGradebookEntry                 |
+       |  deleted                               |
   
      And I verify this "student" file contains:
          | id                                          | condition                                |

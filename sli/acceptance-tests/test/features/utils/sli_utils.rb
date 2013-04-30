@@ -238,8 +238,8 @@ def restHttpHead(id, extra_headers = nil, format = @format, sessionId = @session
   puts "HEAD urlHeader: #{urlHeader}" if $SLI_DEBUG
 
   @res = RestClient::Request.execute(:method => :head, :url => urlHeader[:url], :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
-#, :ssl_client_cert => client_cert, :ssl_client_key => private_key
-  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  puts(@res.code,@res.raw_headers) if $SLI_DEBUG
+  return @res
 end
 
 # Function restHttpGet
@@ -280,14 +280,12 @@ def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, 
   header = urlHeader[:headers]
   header.merge!(extra_headers) if extra_headers !=nil
   
-  puts "HEAD urlHeader: #{urlHeader}" if $SLI_DEBUG
+  puts "GET TLS urlHeader: #{urlHeader}" if $SLI_DEBUG
 
   @res = RestClient::Request.execute(:method => :get, :url => urlHeader[:url], :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
-#, :ssl_client_cert => client_cert, :ssl_client_key => private_key
-  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  puts(@res.code,@res.raw_headers) if $SLI_DEBUG
+  return @res
 end
-
-
 
 def restHttpGetAbs(url, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
