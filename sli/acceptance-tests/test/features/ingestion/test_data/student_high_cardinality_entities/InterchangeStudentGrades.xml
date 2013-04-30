@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+<StudentGradebookEntry>
+    <!-- id: 6620fcd37d1095005a67dc330e591279577aede7_id -->
+    <DateFulfilled>2012-08-28</DateFulfilled>
+    <LetterGradeEarned>A</LetterGradeEarned>
+    <NumericGradeEarned>94</NumericGradeEarned>
+    <StudentSectionAssociationReference>
+      <StudentSectionAssociationIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2012-08-27</BeginDate>
+      </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+    <GradebookEntryReference>
+      <GradebookEntryIdentity>
+        <GradebookEntryType>Homework</GradebookEntryType>
+        <DateAssigned>2012-08-27</DateAssigned>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>1</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+      </GradebookEntryIdentity>
+    </GradebookEntryReference>
+  </StudentGradebookEntry>
+</InterchangeStudentGrade>
