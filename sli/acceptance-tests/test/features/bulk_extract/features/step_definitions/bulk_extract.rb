@@ -468,6 +468,7 @@ When /^I GET the response body for a "(.*?)" in "(.*?)"$/ do |entity, edorg|
   @result_map[entity] = JSON.parse(@res)
 end
 
+# REST Helper step for PUT, PATCH, and DELETE
 When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, entity, value|
   # Fail if we do not find the entity in response
   assert(@result_map[entity] != nil, "No response body returned from GET request")
@@ -528,12 +529,22 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
   restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar')
 end
 
-When /^I download and decrypt the file$/ do
+When /^I download and decrypt the delta$/ do
   # Open the file, decrypt, and check against API
   download_path = streamBulkExtractFile(@download_path, @res.body)
   @decrypt_path = OUTPUT_DIRECTORY + "decrypt/" + @delta_file
   openDecryptedFile(@app_id, @decrypt_path, @download_path)
   untar(@decrypt_path)
+end
+
+When /^I generate and retrieve the bulk extract delta via API for "(.*?)"$/ do |lea|
+  steps %Q{
+    When I trigger a delta extract
+     And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+     And I request latest delta via API for tenant "Midgar", lea "#{lea}" with appId "<app id>" clientId "<client id>"
+     And I should receive a return code of 200
+     And I download and decrypt the delta
+  }
 end
 
 ############################################################
@@ -641,7 +652,7 @@ Then /^I should not see SEA data in the bulk extract deltas$/ do
   steps "Then I should see \"0\" bulk extract files"
 end
 
-Then /^I verify "(.*?)" delta bulk extract files are generated for "(.*?)" in "(.*?)"$/ do |count, lea, tenant|
+Then /^I verify "(.*?)" delta bulk extract files are generated for LEA "(.*?)" in "(.*?)"$/ do |count, lea, tenant|
   count = count.to_i 
   @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb ||= @conn.db(DATABASE_NAME)
