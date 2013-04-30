@@ -22,6 +22,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
 
+import com.sun.jersey.api.NotFoundException;
 import com.sun.jersey.core.header.InBoundHeaders;
 import com.sun.jersey.spi.container.ContainerRequest;
 
@@ -69,6 +70,11 @@ public class EndpointMutator {
         SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
         List<PathSegment> segments = sanitizePathSegments(request);
         String parameters = request.getRequestUri().getQuery();
+        
+
+        if (segments.size() == 0) {
+            throw new NotFoundException();
+        }
 
         if (usingVersionedApi(segments)) {
             if (!request.getProperties().containsKey(REQUESTED_PATH)) {

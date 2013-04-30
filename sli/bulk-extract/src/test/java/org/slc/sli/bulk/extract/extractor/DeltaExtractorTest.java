@@ -15,6 +15,20 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,22 +50,6 @@ import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class DeltaExtractorTest {
     
@@ -108,7 +106,7 @@ public class DeltaExtractorTest {
     // --> app2 should generate an delete event for lea2
     // 3 writeDelete calls
     
-    // 3 writeDeletes <--> however since educationOrganization contains both
+    // 5 writeDeletes <--> however since educationOrganization contains both
     // school and educationOrganization, we must spam delete in both collections
     // which results 10 writeDelete calls
 
@@ -145,7 +143,8 @@ public class DeltaExtractorTest {
         
         when(typeResolver.resolveType("educationOrganization")).thenReturn(new HashSet<String>(Arrays.asList("school", "educationOrganization")));
         when(extractFile.getManifestFile()).thenReturn(metaDataFile);
-        when(leaExtractor.getExtractFilePerAppPerLEA(anyString(), anyString(), anyString(), any(DateTime.class), anyBoolean())).thenReturn(extractFile);
+        // when(leaExtractor.getExtractFilePerAppPerLEA(anyString(), anyString(), anyString(),
+        // any(DateTime.class), anyBoolean())).thenReturn(extractFile);
 
     }
     

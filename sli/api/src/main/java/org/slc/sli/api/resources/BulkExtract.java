@@ -172,7 +172,7 @@ public class BulkExtract {
      * @throws Exception On Error
      */
     @GET
-    @Path("extract/leas")
+    @Path("extract/list")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request for LEA list");
@@ -347,7 +347,7 @@ public class BulkExtract {
         }
 
         if (isDelta) {
-            DateTime d = ISODateTimeFormat.dateHourMinuteSecond().parseDateTime(deltaDate);
+            DateTime d = ISODateTimeFormat.dateTime().parseDateTime(deltaDate);
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, d.toDate()));
         }
         debug("Bulk Extract query is {}", query);
