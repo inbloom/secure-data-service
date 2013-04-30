@@ -399,7 +399,7 @@ Scenario: Delete Student with cascade = false and force = true, log violations =
     And I should see "Child reference of entity type studentParentAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
     And I should see "Child reference of entity type studentProgramAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
     And I should not see an error log file created
-    And I re-execute saved query "student" to get "0" records
+    And I re-execute saved query "student" to get "1" records
     And I re-execute saved query "attendance" to get "2" records
     And I re-execute saved query "disciplineAction" to get "8" records
     And I re-execute saved query "courseTranscript" to get "7" records
@@ -408,25 +408,18 @@ Scenario: Delete Student with cascade = false and force = true, log violations =
     And I re-execute saved query "studentAcademicRecord" to get "2" records
     And I re-execute saved query "studentAssessment" to get "4" records
     And I re-execute saved query "studentAssessmentItem" to get "1" records    
-    And I re-execute saved query "studentCohortAssociation" to get "0" records
+    And I re-execute saved query "studentCohortAssociation" to get "1" records
     And I re-execute saved query "studentCompetency" to get "6" records
-    And I re-execute saved query "studentDisciplineIncidentAssociation" to get "0" records
+    And I re-execute saved query "studentDisciplineIncidentAssociation" to get "1" records
     And I re-execute saved query "studentGradebookEntry" to get "139" records
     And I re-execute saved query "studentObjectiveAssessment1" to get "1" records
     And I re-execute saved query "studentObjectiveAssessment2" to get "1" records
-    And I re-execute saved query "studentParentAssociation" to get "0" records
-    And I re-execute saved query "studentProgramAssociation" to get "0" records
+    And I re-execute saved query "studentParentAssociation" to get "1" records
+    And I re-execute saved query "studentProgramAssociation" to get "1" records
     And I re-execute saved query "studentSchoolAssociation" to get "2" records
-    And I re-execute saved query "studentSectionAssociation" to get "0" records
+    And I re-execute saved query "studentSectionAssociation" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
-        | student                                   |        -1|
-        | student.schools                           |        -2|
-        | student.section                           |        -6|
-	    | studentProgramAssociation                 |        -5|
-        | studentParentAssociation                  |		 -2|
-        | studentCohortAssociation                  |        -1|
-        | studentDisciplineIncidentAssociation      |		 -8|
         | recordHash                                |        -1|  
                
 Scenario: Delete Student Ref with cascade = false and force = true, log violations = true
@@ -519,7 +512,7 @@ Scenario: Delete Student Ref with cascade = false and force = true, log violatio
     And I should see "Child reference of entity type studentParentAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
     And I should see "Child reference of entity type studentProgramAssociation" in the resulting warning log file for "InterchangeStudentParent.xml"
      And I should not see an error log file created
-    And I re-execute saved query "student" to get "0" records
+    And I re-execute saved query "student" to get "1" records
     And I re-execute saved query "attendance" to get "2" records
     And I re-execute saved query "disciplineAction" to get "8" records
     And I re-execute saved query "courseTranscript" to get "7" records
@@ -528,25 +521,18 @@ Scenario: Delete Student Ref with cascade = false and force = true, log violatio
     And I re-execute saved query "studentAcademicRecord" to get "2" records
     And I re-execute saved query "studentAssessment" to get "4" records
     And I re-execute saved query "studentAssessmentItem" to get "1" records    
-    And I re-execute saved query "studentCohortAssociation" to get "0" records
+    And I re-execute saved query "studentCohortAssociation" to get "1" records
     And I re-execute saved query "studentCompetency" to get "6" records
-    And I re-execute saved query "studentDisciplineIncidentAssociation" to get "0" records
+    And I re-execute saved query "studentDisciplineIncidentAssociation" to get "1" records
     And I re-execute saved query "studentGradebookEntry" to get "139" records
     And I re-execute saved query "studentObjectiveAssessment1" to get "1" records
     And I re-execute saved query "studentObjectiveAssessment2" to get "1" records
-    And I re-execute saved query "studentParentAssociation" to get "0" records
-    And I re-execute saved query "studentProgramAssociation" to get "0" records
+    And I re-execute saved query "studentParentAssociation" to get "1" records
+    And I re-execute saved query "studentProgramAssociation" to get "1" records
     And I re-execute saved query "studentSchoolAssociation" to get "2" records
-    And I re-execute saved query "studentSectionAssociation" to get "0" records
+    And I re-execute saved query "studentSectionAssociation" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
-        | student                                   |        -1|
-        | student.schools                           |        -2|
-        | student.section                           |        -6|
-        | studentProgramAssociation                 |        -5|
-        | studentParentAssociation                  |				 -2|
-        | studentCohortAssociation                  |        -1|
-        | studentDisciplineIncidentAssociation      |				 -8|
         | recordHash                                |        -1|          
 
 

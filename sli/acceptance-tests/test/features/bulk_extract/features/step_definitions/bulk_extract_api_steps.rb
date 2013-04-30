@@ -19,14 +19,16 @@ require 'open3'
 require 'digest/sha1'
 require_relative '../../../utils/sli_utils.rb'
 
-$FAKE_FILE_TEXT = "This is a fake tar file"
-
 Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"$/ do |token|
   @sessionId=token
 end
 
-When /^I make a call to the bulk extract end point "(.*?)"$/ do |url|
+When /^I make a call to the bulk extract end point "([^"]*)"$/ do |url|
   restTls(url)
+end
+
+When /^I make a call to the bulk extract end point "(.*?)" using the certificate for app "(.*?)"$/ do |url, app|
+  restTls(url, nil, @format, @sessionId, app)
 end
 
 When /^I make a call retrieve the header for the bulk extract end point "(.*?)"$/ do |url|
@@ -429,11 +431,6 @@ Then /^the response is decrypted$/ do
   end
  # @plain = decrypt(@res.body) 
 end
-
-Then /^I see that the response matches what I put in the fake tar file$/ do
-  assert(@plain == $FAKE_FILE_TEXT, "Decrypted text in 'tar' file did not match, expected #{$FAKE_FILE_TEXT} received #{@plain}")
-end
-
 
 Then /^I have all the information to make a custom bulk extract request$/ do
   puts "@res.headers: #{@res.headers}"

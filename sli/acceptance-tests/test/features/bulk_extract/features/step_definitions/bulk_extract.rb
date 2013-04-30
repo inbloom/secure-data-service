@@ -515,7 +515,7 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
 
   delta = true
   query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isDelta" => "true", "body.edorg"=>lea}
-  query_opts = {sort: ["t", Mongo::DESCENDING], limit: 1}
+  query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
   # Get the edorg and timestamp from bulk extract collection in mongo
   getExtractInfoFromMongo(tenant, app_id, delta, query, query_opts)
   # Set the download path to stream the delta file from API
@@ -652,7 +652,7 @@ end
 
 Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table| 
     query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => "true", "body.edorg"=>lea}
-    opts = {sort: ["t", Mongo::DESCENDING], limit: 1}
+    opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
     getExtractInfoFromMongo(tenant, appId, true, query, opts)
     openDecryptedFile(appId) 
     
@@ -908,11 +908,9 @@ def decryptFile(file, client_id)
   @plain = aes.update(encryptedmessage) + aes.final
   if $SLI_DEBUG 
     puts("Final is #{aes.final}")
-    puts("IV is #{encryptediv}")
-    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
-    puts("Encrypted message is #{encryptedmessage}")
+    puts("Decrypted iv type is #{decrypted_iv.class}")
     puts("Cipher is #{aes}")
-    puts("Plain text length is #{@plain.length} and it is")# #{@plain}")
+    puts("Plain text length is #{@plain.length}")
     puts "length #{@res.body.length}" if @res != nil
   end
 end
