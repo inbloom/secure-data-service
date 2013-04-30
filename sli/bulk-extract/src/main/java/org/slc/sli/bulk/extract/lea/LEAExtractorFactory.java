@@ -22,6 +22,8 @@ import java.util.Map;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 public class LEAExtractorFactory {
     
@@ -29,6 +31,11 @@ public class LEAExtractorFactory {
         return new EdorgExtractor(extractor, map);
     }
     
+    public StudentExtractor buildStudentExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new StudentExtractor(extractor, map, repo, new ExtractorHelper());
+    }
+
     public ExtractFile buildLEAExtractFile(String path, String lea, String archiveName,
             Map<String, PublicKey> appPublicKeys) {
         File leaDirectory = new File(path, lea);

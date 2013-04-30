@@ -80,8 +80,8 @@ public class DeltaEntityIteratorTest {
         List<Map<String, Object>> deltaEntities = buildDeltaCollections();
         
         when(deltaJournal.findDeltaRecordBetween(anyLong(), anyLong())).thenReturn(deltaEntities.iterator());
-        when(repo.findById("educationOrganization", "update_id")).thenReturn(buildEdorgEntity("update_id"));
-        when(repo.findById("educationOrganization", "delete_id")).thenReturn(buildEdorgEntity("delete_id"));
+        when(repo.findOne("educationOrganization", iterator.buildQuery("educationOrganization", "update_id"))).thenReturn(buildEdorgEntity("update_id"));
+        when(repo.findOne("educationOrganization", iterator.buildQuery("educationOrganization", "delete_id"))).thenReturn(buildEdorgEntity("delete_id"));
         when(resolverFactory.getResolver(anyString())).thenReturn(testResolver);
     }
     
