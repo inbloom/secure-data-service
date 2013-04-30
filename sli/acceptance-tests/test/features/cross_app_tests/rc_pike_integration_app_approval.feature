@@ -256,63 +256,56 @@ Scenario: Operator triggers a bulk extract
 #And the operator triggers a bulk extract for the production tenant
 
 Scenario: App makes an api call to retrieve a bulk extract
-#Bulk Extract
 #Get a session to trigger a bulk extract
 Given the testing device app key has been created
 When I navigate to the API authorization endpoint with my client ID
-#And I was redirected to the "Simple" IDP Login page
-#When I submit the developer credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the impersonation login page
-#Then I should be redirected to the impersonation page
-#And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
-#And I want to select "jstevenson" from the "SmallDatasetUsers" in automatic mode
 When I select "Daybreak Test Realm" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
 Then I should receive a json response containing my authorization code
 When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
 Then I should receive a json response containing my authorization token
-
 #Get bulk extract tar file
-Then I request and download a bulk extract file
-And there is a metadata file in the extract
-And the extract contains a file for each of the following entities:
-   |  entityType                            |
-   |  assessment                            |
-   |  attendance                            |
-   |  cohort                                |
-   |  course                                |
-   |  courseTranscript                      |
-   |  courseOffering                        |
-   |  disciplineIncident                    |
-   |  disciplineAction                      |
-   |  educationOrganization                 |
-   |  grade                                 |
-   |  gradebookEntry                        |
-   |  gradingPeriod                         |
-   |  learningObjective                     |
-   |  learningStandard                      |
-   |  parent                                |
-   |  program                               |
-   |  reportCard                            |
-   |  school                                |
-   |  section                               |
-   |  session                               |
-   |  staff                                 |
-   |  staffCohortAssociation                |
-   |  staffEducationOrganizationAssociation |
-   |  staffProgramAssociation               |
-   |  student                               |
-   |  studentAcademicRecord                 |
-   |  studentAssessment                     |
-   |  studentCohortAssociation              |
-   |  studentCompetency                     |
-   |  studentCompetencyObjective            |
-   |  studentDisciplineIncidentAssociation  |
-   |  studentProgramAssociation             |
-   |  studentGradebookEntry                 |
-   |  studentSchoolAssociation              |
-   |  studentSectionAssociation             |
-   |  studentParentAssociation              |
-   |  teacher                               |
-   |  teacherSchoolAssociation              |
-   |  teacherSectionAssociation             |
+#Then I request and download a bulk extract file from production
+#And there is a metadata file in the extract
+#And the extract contains a file for each of the following entities:
+   #|  entityType                            |
+   #|  assessment                            |
+   #|  attendance                            |
+   #|  cohort                                |
+   #|  course                                |
+   #|  courseTranscript                      |
+   #|  courseOffering                        |
+   #|  disciplineIncident                    |
+   #|  disciplineAction                      |
+   #|  educationOrganization                 |
+   #|  grade                                 |
+   #|  gradebookEntry                        |
+   #|  gradingPeriod                         |
+   #|  learningObjective                     |
+   #|  learningStandard                      |
+   #|  parent                                |
+   #|  program                               |
+   #|  reportCard                            |
+   #|  school                                |
+   #|  section                               |
+   #|  session                               |
+   #|  staff                                 |
+   #|  staffCohortAssociation                |
+   #|  staffEducationOrganizationAssociation |
+   #|  staffProgramAssociation               |
+   #|  student                               |
+   #|  studentAcademicRecord                 |
+   #|  studentAssessment                     |
+   #|  studentCohortAssociation              |
+   #|  studentCompetency                     |
+   #|  studentCompetencyObjective            |
+   #|  studentDisciplineIncidentAssociation  |
+   #|  studentProgramAssociation             |
+   #|  studentGradebookEntry                 |
+   #|  studentSchoolAssociation              |
+   #|  studentSectionAssociation             |
+   #|  studentParentAssociation              |
+   #|  teacher                               |
+   #|  teacherSchoolAssociation              |
+   #|  teacherSectionAssociation             |

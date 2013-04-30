@@ -119,6 +119,20 @@ end
 
 
 Then /^I request and download a bulk extract file$/ do
+  restTls("/bulk/extract/tenant", nil, "application/x-tar", @sessionId, @oauthClientId)
+  assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
+  @filePath = OUTPUT_DIRECTORY + "/extract.tar"
+  @unpackDir = File.dirname(@filePath) + '/unpack'
+  if (!File.exists?("extract"))
+      FileUtils.mkdir("extract")
+  end
+  step "the response is decrypted"
+  File.open(@filePath, 'w') {|f| f.write(@plain) }
+
+  assert(File.exists?(@filePath), "Bulk Extract file was unable to be download to: #{@filePath.to_s}")
+end
+
+Then /^I request and download a bulk extract file from production$/ do
   restHttpGet("/bulk/extract/tenant", "application/x-tar", @sessionId)
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
   @filePath = OUTPUT_DIRECTORY + "/extract.tar"
