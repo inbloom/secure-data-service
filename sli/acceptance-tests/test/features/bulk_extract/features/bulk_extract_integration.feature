@@ -55,6 +55,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  teacherSchoolAssociation              |
    |  teacherSectionAssociation             |
    
+   @wip
    Scenario: Trigger a bulk extract on ingested data and retrieve the lea extract through the api
       Given I trigger a bulk extract
 
@@ -62,56 +63,56 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       And in my list of rights I have BULK_EXTRACT
       #When I make lea bulk extract API call for lea "BLOOP"
       #Then I get back a response code of "403"
-      When I make lea bulk extract API call for lea "b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
+      When I make lea bulk extract API call for lea "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
       When the return code is 200 I get expected tar downloaded
       Then I check the http response headers
       When I decrypt and save the extracted file
       And I verify that an extract tar file was created for the tenant "Midgar"
       And there is a metadata file in the extract
-      And the extract contains a file for each of the following entities:
-      |  entityType                            |
-      #|  assessment                            |              
-      #|  attendance                            |
-      #|  cohort                                |
-      #|  competencyLevelDescriptor             |
-      #|  course                                |
-      #|  courseOffering                        |
-      #|  courseTranscript                      |
-      #|  disciplineIncident                    |
-      #|  disciplineAction                      |
-      |  educationOrganization                 |
-      #|  grade                                 |
-      #|  gradebookEntry                        |
-      #|  gradingPeriod                         |
-      #|  graduationPlan                        |
-      #|  learningObjective                     |
-      #|  learningStandard                      |
-      #|  parent                                |
-      #|  program                               |
-      #|  reportCard                            |
-       |  school                                |
-      #|  section                               |
-      #|  session                               |
-      #|  staff                                 |
-      #|  staffCohortAssociation                |
-      #|  staffEducationOrganizationAssociation |
-      #|  staffProgramAssociation               |
-      #|  student                               |
-      #|  studentAcademicRecord                 |
-      #|  studentAssessment                     |
-      #|  studentCohortAssociation              |
-      #|  studentCompetency                     |
-      #|  studentCompetencyObjective            |
-      #|  studentDisciplineIncidentAssociation  |
-      #|  studentProgramAssociation             |
-      #|  studentGradebookEntry                 |
-      #|  studentSchoolAssociation              |
-      #|  studentSectionAssociation             |
-      #|  studentParentAssociation              |
-      #|  teacher                               |
-      #|  teacherSchoolAssociation              |
-      #|  teacherSectionAssociation             |
-
+      And the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:
+      |  entityType                            | count |  id  | 
+      #|  assessment                            |   |         |  
+      #|  attendance                            |   |         |
+      #|  cohort                                |   |         |
+      #|  competencyLevelDescriptor             |   |         |
+      #|  course                                |   |         |
+      #|  courseOffering                        |   |         |
+      #|  courseTranscript                      |   |         |
+      #|  disciplineIncident                    |   |         |
+      #|  disciplineAction                      |   |         |
+      |  educationOrganization                 | 2 |          |
+      #|  grade                                 |   |         |
+      #|  gradebookEntry                        |   |         |
+      #|  gradingPeriod                         |   |         |
+      #|  graduationPlan                        |   |         |
+      #|  learningObjective                     |   |         |
+      #|  learningStandard                      |   |         |
+      #|  parent                                |   |         |
+      #|  program                               |   |         |
+      #|  reportCard                            |   |         |
+      # |  school                                |   |        |
+      #|  section                               |   |         |
+      #|  session                               |   |         |
+      #|  staff                                 |   |         |
+      #|  staffCohortAssociation                |   |         |
+      #|  staffEducationOrganizationAssociation |   |         |
+      #|  staffProgramAssociation               |   |         |
+      #|  student                               |   |         |
+      #|  studentAcademicRecord                 |   |         |
+      #|  studentAssessment                     |   |         |
+      #|  studentCohortAssociation              |   |         |
+      #|  studentCompetency                     |   |         |
+      #|  studentCompetencyObjective            |   |         |
+      #|  studentDisciplineIncidentAssociation  |   |         |
+      #|  studentProgramAssociation             |   |         |
+      #|  studentGradebookEntry                 |   |         |
+      #|  studentSchoolAssociation              |   |         |
+      #|  studentSectionAssociation             |   |         |
+      #|  studentParentAssociation              |   |         |
+      #|  teacher                               |   |         |
+      #|  teacherSchoolAssociation              |   |         |
+      #|  teacherSectionAssociation             |   |         |
+                                                    
     Scenario: Un-Authorized user cannot use the endpoint
         Given I am logged in using "linda.kim" "balrogs" to realm "IL"
         When I make a call to the bulk extract end point "/bulk/extract/tenant"

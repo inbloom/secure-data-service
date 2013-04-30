@@ -81,16 +81,12 @@ desc "Deltas and Deletes"
 task :bulkExtractDeltasTest do
   runTests("test/features/bulk_extract/features/bulk_extract_ingestion.feature")
   Rake::Task["realmInit"].execute
-  #puts "Entering addBootstrapAppAuths"
-  #Rake::Task["addBootstrapAppAuths"].execute
   Rake::Task["appInit"].execute
-  puts "Entering allLeaAllowApp"
   allLeaAllowApp("SDK Sample")  
-  puts "Entering authorizeEdorg"
   authorizeEdorg("SDK Sample")
   runTests("test/features/bulk_extract/features/bulk_extract_deltas_api.feature")
-  runTests("test/features/bulk_extract/features/delta_recording.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+  #runTests("test/features/bulk_extract/features/delta_recording.feature")
+  #Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
 desc "Negative and Edge Cases"
@@ -104,6 +100,7 @@ task :bulkExtractApiTests do
   runTests("test/features/bulk_extract/features/bulk_extract_headers.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_partial_gets.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_versions.feature")
+  runTests("test/features/bulk_extract/features/bulk_extract_lea_list.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 

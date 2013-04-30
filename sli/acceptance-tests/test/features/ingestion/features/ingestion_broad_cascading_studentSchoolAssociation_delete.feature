@@ -37,7 +37,7 @@ Scenario: Delete Student School Association with cascade
         |recordHash                 |   -1|
 	And I should not see "c5c25df986e6e8fcf3fd9fde80cecbbeb662de42_id" in the "Midgar" database
 	
-	
+
 	Scenario: Safe Delete Student School Association with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -49,6 +49,13 @@ Scenario: Delete Student School Association with cascade
         |field                  |value                                      |
         |_id                    |908404e876dd56458385667fa383509035cd4312_id|
         |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
+        |schools.entryDate      |2001-09-03                                 |
+    #following SSA denormalized doc should not be deleted
+    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "student-dnd"
+        |field                  |value                                      |
+        |_id                    |908404e876dd56458385667fa383509035cd4312_id|
+        |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
+        |schools.entryDate      |2002-09-09                                 |
     And I save the collection counts in "Midgar" tenant
     And I post "SafeStudentSchoolAssociationDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -64,12 +71,12 @@ Scenario: Delete Student School Association with cascade
 	And I should not see a warning log file created
 	And I re-execute saved query "studentSchoolAssociation" to get "0" records
 	And I re-execute saved query "student" to get "0" records
+    And I re-execute saved query "student-dnd" to get "1" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
-	And I should not see "c5c25df986e6e8fcf3fd9fde80cecbbeb662de42_id" in the "Midgar" database
-	
-	
+        |student.schools            |   -1|
+
 Scenario: Safe Delete Student School Association Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -81,6 +88,13 @@ Scenario: Safe Delete Student School Association Reference with cascade = false
         |field                  |value                                      |
         |_id                    |908404e876dd56458385667fa383509035cd4312_id|
         |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
+        |schools.entryDate      |2001-09-03                                 |
+    #following SSA denormalized doc should not be deleted
+    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "student-dnd"
+        |field                  |value                                      |
+        |_id                    |908404e876dd56458385667fa383509035cd4312_id|
+        |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
+        |schools.entryDate      |2002-09-09                                 |
     And I save the collection counts in "Midgar" tenant
     And I post "SafeStudentSchoolAssociationRefDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -96,10 +110,11 @@ Scenario: Safe Delete Student School Association Reference with cascade = false
 	And I should not see a warning log file created
 	And I re-execute saved query "studentSchoolAssociation" to get "0" records
 	And I re-execute saved query "student" to get "0" records
+    And I re-execute saved query "student-dnd" to get "1" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
-	And I should not see "c5c25df986e6e8fcf3fd9fde80cecbbeb662de42_id" in the "Midgar" database
+        |student.schools            |   -1|
 
 Scenario: Delete Orphan Student School Association with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -112,6 +127,13 @@ Scenario: Delete Orphan Student School Association with cascade = false
         |field                  |value                                      |
         |_id                    |908404e876dd56458385667fa383509035cd4312_id|
         |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
+        |schools.entryDate      |2001-09-03                                 |
+    #following SSA denormalized doc should not be deleted
+    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "student-dnd"
+        |field                  |value                                      |
+        |_id                    |908404e876dd56458385667fa383509035cd4312_id|
+        |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
+        |schools.entryDate      |2002-09-09                                 |
     And I save the collection counts in "Midgar" tenant
     And I post "OrphanStudentSchoolAssociationDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -127,9 +149,11 @@ Scenario: Delete Orphan Student School Association with cascade = false
 	And I should not see a warning log file created
 	And I re-execute saved query "studentSchoolAssociation" to get "0" records
 	And I re-execute saved query "student" to get "0" records
+    And I re-execute saved query "student-dnd" to get "1" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
+        |student.schools            |   -1|
 
 
 Scenario: Delete Orphan Student School Association Ref with cascade = false
@@ -143,6 +167,13 @@ Scenario: Delete Orphan Student School Association Ref with cascade = false
         |field                  |value                                      |
         |_id                    |908404e876dd56458385667fa383509035cd4312_id|
         |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
+        |schools.entryDate      |2001-09-03                                 |
+    #following SSA denormalized doc should not be deleted
+    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "student-dnd"
+        |field                  |value                                      |
+        |_id                    |908404e876dd56458385667fa383509035cd4312_id|
+        |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
+        |schools.entryDate      |2002-09-09                                 |
     And I save the collection counts in "Midgar" tenant
     And I post "OrphanStudentSchoolAssociationRefDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -158,9 +189,11 @@ Scenario: Delete Orphan Student School Association Ref with cascade = false
 	And I should not see a warning log file created
 	And I re-execute saved query "studentSchoolAssociation" to get "0" records
 	And I re-execute saved query "student" to get "0" records
+    And I re-execute saved query "student-dnd" to get "1" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
+        |student.schools            |   -1|
 
 
 Scenario: Delete Student School Association with cascade = false, force = true and log violations = true
@@ -174,6 +207,13 @@ Scenario: Delete Student School Association with cascade = false, force = true a
         |field                  |value                                      |
         |_id                    |908404e876dd56458385667fa383509035cd4312_id|
         |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
+        |schools.entryDate      |2001-09-03                                 |
+    #following SSA denormalized doc should not be deleted
+    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "student-dnd"
+        |field                  |value                                      |
+        |_id                    |908404e876dd56458385667fa383509035cd4312_id|
+        |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
+        |schools.entryDate      |2002-09-09                                 |
     And I save the collection counts in "Midgar" tenant
     And I post "ForceStudentSchoolAssociationDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -189,9 +229,11 @@ Scenario: Delete Student School Association with cascade = false, force = true a
 	And I should not see a warning log file created
 	And I re-execute saved query "studentSchoolAssociation" to get "0" records
 	And I re-execute saved query "student" to get "0" records
+    And I re-execute saved query "student-dnd" to get "1" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
+        |student.schools            |   -1|
 
 
 Scenario: Delete Student School Association Ref with cascade = false, force = true and log violations = true
@@ -205,6 +247,13 @@ Scenario: Delete Student School Association Ref with cascade = false, force = tr
         |field                  |value                                      |
         |_id                    |908404e876dd56458385667fa383509035cd4312_id|
         |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
+        |schools.entryDate      |2001-09-03                                 |
+    #following SSA denormalized doc should not be deleted
+    Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "student-dnd"
+        |field                  |value                                      |
+        |_id                    |908404e876dd56458385667fa383509035cd4312_id|
+        |schools._id            |a13489364c2eb015c219172d561c62350f0453f3_id|
+        |schools.entryDate      |2002-09-09                                 |
     And I save the collection counts in "Midgar" tenant
     And I post "ForceStudentSchoolAssociationRefDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -220,6 +269,8 @@ Scenario: Delete Student School Association Ref with cascade = false, force = tr
 	And I should not see a warning log file created
 	And I re-execute saved query "studentSchoolAssociation" to get "0" records
 	And I re-execute saved query "student" to get "0" records
+    And I re-execute saved query "student-dnd" to get "1" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentSchoolAssociation   |   -1|
+        |student.schools            |   -1|

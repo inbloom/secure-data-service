@@ -236,6 +236,11 @@ Then /^the content length in response header is "(.*?)" less than the total cont
   assert(content_length.to_i == @total_content_length.to_i - length.to_i)
 end
 
+Then /^the content length in response header is greater than the requested range of "(.*?)"$/ do |length|
+  content_length = @res.headers[:content_length]
+  assert(content_length.to_i > length.to_i, "Returned length should be larger than requested. Returned length is: #{content_length} Requested: #{length}")
+end
+
 Then /^I store the file content$/ do
   @received_file = Dir.pwd + "/Final.tar"
   File.open(@received_file, "a") do |outf|
@@ -455,33 +460,8 @@ def getAppId()
   return appId
 end
 
-def encrypt(unEncryptedFilePath, decryptedFilePath)
-  unEncryptedFile = File.open(unEncryptedFilePath, "rb")
-  contents = unEncryptedFile.read
-
-  certificate = OpenSSL::X509::Certificate.new File.read "./test/features/utils/keys/vavedra9ub.crt"
-
-  public_key = certificate.public_key
-
-  cipher = OpenSSL::Cipher.new('AES-128-CBC')
-  cipher.encrypt
-  cipher.key = key = cipher.random_key
-  cipher.iv = iv = cipher.random_iv
-  encrypted_key = public_key.public_encrypt(key)
-  encrypted_iv = public_key.public_encrypt(iv)
-
-  encrypted_data = cipher.update(contents) # Encrypt the data.
-  encrypted_data << cipher.final
-
-  File.open(decryptedFilePath, "wb") do |outf|
-    outf << encrypted_iv
-    outf << encrypted_key
-    outf << encrypted_data
-  end
-end
-
-def decrypt(content)
-  private_key = OpenSSL::PKey::RSA.new File.read './test/features/utils/keys/vavedra9ub.key'
+def decrypt(content, client_id = "vavedra9ub")
+  private_key = OpenSSL::PKey::RSA.new File.read "./test/features/utils/keys/#{client_id}.key"
   assert(content.length >= 512)
   encryptediv = content[0,256] 
   encryptedsecret = content[256,256]

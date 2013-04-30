@@ -35,21 +35,21 @@ import org.slc.sli.domain.Repository;
 public class EducationOrganizationContextResolver implements ContextResolver {
     /*
      * TODO: REMOVE THIS CLASS
-     * 
+     *
      * COPY / PASTE ALERT!!!
      * Why add api dependency when this code is going to be thrown away?
-     * 
+     *
      * This is a hack so that we don't need to wait for inter team dependency to finish stories,
      * but this code will be removed either way we decided to go.
      * 1. introduce proper API dependency if we need to walk the tree
      * or
      * 2. Just look at the edorg id stored inside the entity
      */
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(EducationOrganizationContextResolver.class);
 
     @Autowired
-    @Qualifier("validationRepo")
+    @Qualifier("secondaryRepo")
     Repository<Entity> repo;
 
     @Override
@@ -60,15 +60,15 @@ public class EducationOrganizationContextResolver implements ContextResolver {
             // SEA is not supported
             return results;
         }
-        
+
         Entity topLevelLEA = getTopLEAOfEdOrg(entity);
         if (topLevelLEA != null) {
             results.add(topLevelLEA.getEntityId());
         }
-        
+
         return results;
     }
-    
+
     @SuppressWarnings("unchecked")
     private boolean isLEA(Entity entity) {
         if (entity == null) {
@@ -76,13 +76,13 @@ public class EducationOrganizationContextResolver implements ContextResolver {
         }
 
         List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-        
+
         if (category != null && category.contains("Local Education Agency")) {
             return true;
         }
         return false;
     }
-    
+
     @SuppressWarnings("unchecked")
     private boolean isSchool(Entity entity) {
         if (entity == null) {
@@ -90,13 +90,13 @@ public class EducationOrganizationContextResolver implements ContextResolver {
         }
 
         List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-        
+
         if (category != null && category.contains("School")) {
             return true;
         }
         return false;
     }
-    
+
     private Entity getTopLEAOfEdOrg(Entity entity) {
         if (entity.getBody().containsKey("parentEducationAgencyReference")) {
             Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
@@ -105,11 +105,11 @@ public class EducationOrganizationContextResolver implements ContextResolver {
                 return getTopLEAOfEdOrg(parentEdorg);
             }
         }
-        
+
         if (isLEA(entity)) {
             return entity;
         }
-        
+
         return null;
     }
 

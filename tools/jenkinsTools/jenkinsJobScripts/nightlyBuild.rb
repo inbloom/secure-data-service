@@ -10,12 +10,14 @@ require 'json'
 #
 #####
 
-@sli_nightly_job = "http://jenkins.slidev.org:8080/job/Nightly-SLI-Sprint-Release-Build/"
-@view = "http://jenkins.slidev.org:8080/view/CI-Sprint-Release-Branch/"
+#the name of the Jenkins view where we'll check for all green builds
+@view = ARGV[0]
+#the name of the nightly job that we won't check (aka this job)
+@sli_nightly_job = ARGV[1]
 
-# master
-#@sli_nightly_job = "http://jenkins.slidev.org:8080/job/Nightly-SLI-Master-Build/"
-#@view = "http://jenkins.slidev.org:8080/view/Components/"
+
+puts "Checking all jobs in view: #{@view}"
+puts "But ignoring #{@sli_nightly_job} and Portal nightly as well"
 
 def get_jobs(url)
   uri = URI.parse(url + "api/json")

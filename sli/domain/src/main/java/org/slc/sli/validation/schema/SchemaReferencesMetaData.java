@@ -1,19 +1,31 @@
 package org.slc.sli.validation.schema;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+
+import javax.annotation.Nullable;
+import javax.annotation.PostConstruct;
+
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
-import com.google.common.collect.*;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.validation.SchemaRepository;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Multimaps;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Nullable;
-import javax.annotation.PostConstruct;
-import java.util.*;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.validation.SchemaRepository;
 
 @Component
 public class SchemaReferencesMetaData {
@@ -81,7 +93,7 @@ public class SchemaReferencesMetaData {
         Stack<SchemaReferenceNode> stack = new Stack<SchemaReferenceNode>();
         for(NeutralSchema schema: schemas) {
             String schemaType = schema.getType();
-            LOG.info("Introspecting {} for References.", schemaType);
+            LOG.debug("Introspecting {} for References.", schemaType);
             SchemaReferenceNode root = new SchemaReferenceNode(schemaType);
             stack.clear();
             stack.push(root);
@@ -122,7 +134,7 @@ public class SchemaReferencesMetaData {
                 String type = appInfo.getReferenceType();
                 refPath.peek().setReferences(type);
                 refMap.put(type, refPath);
-                LOG.info("Found a Reference from {}->{}", refPath, type);
+                LOG.debug("Found a Reference from {}->{}", refPath, type);
             } else {
                 LOG.warn("No AppInfo for {}. Cannot determine what EntityType it points to!", currentPath);
             }
@@ -142,7 +154,7 @@ public class SchemaReferencesMetaData {
                     public boolean apply(@Nullable SchemaReferenceNode schemaReferenceNode) {
                         String refs =  schemaReferenceNode.getReferences();
                         if(refs != null && elementType != null && refs.equals(elementType)){
-                            LOG.info("Cycle found. Repeating [" + elementType + "]" + " in [" + getTypePath(currentPath) + "]");
+                            LOG.debug("Cycle found. Repeating [" + elementType + "]" + " in [" + getTypePath(currentPath) + "]");
                             return true;
                         } else {
                             return false;

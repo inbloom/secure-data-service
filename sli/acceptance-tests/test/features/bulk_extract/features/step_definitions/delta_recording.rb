@@ -19,16 +19,22 @@ require_relative '../../../ingestion/features/step_definitions/clean_database.rb
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 
+After do
+  @conn.close if @conn
+end
+
 Given /^I have an empty delta collection$/ do
     @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
     @db = @conn[@ingestion_db_name]
-    @db.drop_collection("deltas")
+    @coll = @db.collection("deltas")
+    @coll.remove()
 end
 
 Given /^I have an empty bulk extract files collection$/ do
     @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
     @db = @conn["sli"]
-    @db.drop_collection("bulkExtractFiles")
+    @coll = @db.collection("bulkExtractFiles")
+    @coll.remove()
 end
 
 When /^I run a small ingestion job$/ do
@@ -57,6 +63,13 @@ Then /^I see deltas for each (.*?) (.*?) operation$/ do |type, operation|
   }
 end
 
+Then /^deltas collection should have "(.*?)" records$/ do |count|
+    count = count.to_i
+    @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+    @db = @conn[@ingestion_db_name]
+    @coll = @db['deltas']
+    assert(@coll.count() == count, "expecting #{count}, but has #{@coll.count()} delta records")
+end
 
 When /^I run a delete ingestion job$/ do
   ingest_odin("deletes/school_10students")

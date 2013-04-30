@@ -13,7 +13,6 @@ Scenario: Assessment and StudentAssessment Verification
         | assessmentFamily            |
         | studentAssessment           |
     When zip file is scp to ingestion landing zone
-    And I am willing to wait upto 45 seconds for ingestion to complete
     And a batch job for file "smooksVer_Assess_Student_Assess.zip" is completed in database
         Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |

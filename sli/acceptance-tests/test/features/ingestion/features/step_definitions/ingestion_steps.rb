@@ -1461,24 +1461,19 @@ When /^a batch job has completed successfully in the database$/ do
 
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   disable_NOTABLESCAN()
-
   old_db = @db
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
   @entity_collection = @db.collection("newBatchJob")
-
-  #db.newBatchJob.find({"stages" : {$elemMatch : {"chunks.0.stageName" : "JobReportingProcessor" }} }).count()
-
-  intervalTime = 1 #seconds
-  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+  intervalTime = 0.5 #seconds
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 900s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
     iters.times do |i|
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
-
       if @entity_count.to_s == "1"
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1486,13 +1481,10 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       end
     end
   else
-    #sleep(5) # waiting to check job completion removes race condition (windows-specific)
     iters.times do |i|
-
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
-
       if @entity_count.to_s == "1"
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1500,15 +1492,12 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       end
     end
   end
-
   if found
     assert(true, "")
   else
     assert(false, "Batch log did not complete either successfully or with errors within #{@maxTimeout} seconds. Test has timed out. Please check ingestion.log for root cause.")
   end
-
   @db = old_db
-
   enable_NOTABLESCAN()
 end
 
@@ -1926,6 +1915,11 @@ $subDocEntity2ParentType = {
     "studentAcademicRecord" => "yearlyTranscript",
     "grade" => "yearlyTranscript",
     "attendanceEvent" => "attendance"
+}
+
+$denormalizedTypeInfo = {
+    "studentSectionAssociation" => {"parent" => "student", "subDoc" => "section"},
+    "studentSchoolAssociation" => {"parent" => "student", "subDoc" => "schools"}
 }
 
 def subDocParent(subDocType)
@@ -3801,6 +3795,18 @@ def getEntityCounts(tenant)
         entityCounts[subDocEntity] = count
 #        puts "#{subDocEntity} #{count}"
     end
+    #Add denormalized data counts
+    denormalizedEntities = $denormalizedTypeInfo.keys
+    denormalizedEntities.each do |denormalizedType|
+      denormalizationInfo = $denormalizedTypeInfo[denormalizedType]
+      parent = denormalizationInfo["parent"]
+        puts "parent #{parent}"
+      subDoc = denormalizationInfo["subDoc"]
+        puts "subDoc #{subDoc}"
+      count = subDocCount(parent, subDoc)
+      entityCounts[parent+"."+subDoc] = count
+      puts "#{parent}.#{subDoc} #{count}"
+    end
     enable_NOTABLESCAN
     return entityCounts
 end
@@ -3914,6 +3920,20 @@ And /I update the md5s/ do
     FileUtils.cp zip_dir + ctl_template, @local_file_store_path + path_delim + file_name
     FileUtils.rm_r zip_dir
     end
+end
+
+
+Given /^I ingest "(.*?)"$/ do |ingestion_file|
+  steps %Q{
+    And I am using local data store
+    And I post "#{ingestion_file}" file as the payload of the ingestion job
+    When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+    And zip file is scp to ingestion landing zone
+    And a batch job for file "#{ingestion_file}" is completed in database
+    And a batch job log has been created
+    Then I should not see an error log file created
+  }
+
 end
 
 ############################################################

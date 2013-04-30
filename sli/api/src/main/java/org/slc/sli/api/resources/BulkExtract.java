@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
@@ -93,6 +95,9 @@ public class BulkExtract {
 
     @Autowired
     private GenericToEdOrgValidator edorgValidator;
+
+    @Autowired
+    private EdOrgHelper helper;
 
     @Autowired
     private CertificateValidationHelper validator;
@@ -167,9 +172,9 @@ public class BulkExtract {
      * @throws Exception On Error
      */
     @GET
-    @Path("extract/leas")
+    @Path("extract/list")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getLERAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
+    public Response getLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request for LEA list");
         validateRequestCertificate(request);
 
@@ -232,9 +237,9 @@ public class BulkExtract {
 
         String appId = application.getEntityId();
 
-        ExtractFile bulkExtractFileEntity = getBulkExtractFile(deltaDate, appId, leaId);
+        Entity entity = getBulkExtractFileEntity(deltaDate, appId, leaId, false);
 
-        if (bulkExtractFileEntity == null) {
+        if (entity == null) {
             // return 404 if no bulk extract support for that tenant
             if (leaId != null) {
                 LOG.info("No bulk extract support for lea: {}", leaId);
@@ -243,6 +248,8 @@ public class BulkExtract {
             }
             return Response.status(Status.NOT_FOUND).build();
         }
+
+        ExtractFile bulkExtractFileEntity =  new ExtractFile(entity.getBody().get(BULK_EXTRACT_DATE).toString(), entity.getBody().get(BULK_EXTRACT_FILE_PATH).toString());
 
         final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
         if (bulkExtractFile == null || !bulkExtractFile.exists()) {
@@ -269,19 +276,35 @@ public class BulkExtract {
      */
     Response getLEAListResponse(final HttpRequestContext req) {
 
+        List<String> userLEAs = checkUserAssociatedLEAs();
+
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Entity application = getApplication(auth);
         String appId = application.getEntityId();
 
-        List<Entity> leas = new ArrayList<Entity>();
-        //TODO get and filter leas against the application from mongos
+        List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserLEAs(userLEAs, appId);
+        if (appAuthorizedUserLEAs.size() == 0) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
 
-        //TODO transfer leas into a list of HATEOAS links
+        List<Entity> extractFiles = getBulkExtractFilesEntities(appId, appAuthorizedUserLEAs);
+        if (extractFiles.size() == 0) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
 
+        return assembleLEAListResponse(extractFiles);
+    }
+
+    /**
+     * Assemble the LEA HATEOAS links response
+     *
+     * @param extractFiles  the list of BulkExtractFiles Entities
+     * from which the HATEOAS links are assembled
+     * @return the jax-rs response to send back.
+     */
+    Response assembleLEAListResponse(List<Entity> extractFiles) {
         ResponseBuilder builder = Response.ok();
-        //TODO set status code based on leas.size();
         //TODO set body based on the list of HATEOAS links
-
         return builder.build();
     }
 
@@ -309,7 +332,7 @@ public class BulkExtract {
      * @param appId
      * @return
      */
-    private ExtractFile getBulkExtractFile(String deltaDate, String appId, String leaId) {
+    private Entity getBulkExtractFileEntity(String deltaDate, String appId, String leaId, boolean ignoreIsDelta) {
         boolean isDelta = deltaDate != null;
         initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
@@ -318,20 +341,21 @@ public class BulkExtract {
             query.addCriteria(new NeutralCriteria("edorg",
                     NeutralCriteria.OPERATOR_EQUAL, leaId));
         }
-        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
+        if (!ignoreIsDelta) {
+            query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
+        }
 
         if (isDelta) {
-            DateTime d = ISODateTimeFormat.dateHourMinuteSecond().parseDateTime(deltaDate);
+            DateTime d = ISODateTimeFormat.dateTime().parseDateTime(deltaDate);
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, d.toDate()));
         }
         debug("Bulk Extract query is {}", query);
         Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
         if (entity == null) {
             debug("Could not find a bulk extract entity");
-            return null;
         }
-        return new ExtractFile(entity.getBody().get(BULK_EXTRACT_DATE).toString(), entity.getBody().get(BULK_EXTRACT_FILE_PATH).toString());
+        return entity;
     }
 
     /**
@@ -356,6 +380,53 @@ public class BulkExtract {
                 throw new AccessDeniedException("Application is not authorized for bulk extract");
             }
         }
+    }
+
+    private List<String> checkUserAssociatedLEAs() throws AccessDeniedException {
+        if (principal == null || principal.getEntity() == null) {
+            throw new AccessDeniedException("User is not authorized for a list of available LEAs extracts");
+        }
+        List<String> userDistrics = helper.getDistricts(principal.getEntity());
+        if (userDistrics.size() == 0) {
+            throw new AccessDeniedException("User is not authorized for a list of available LEAs extracts");
+        }
+        return userDistrics;
+    }
+
+    private List<String> getApplicationAuthorizedUserLEAs(List<String> userLEAs, String appId) {
+        List<String> results = new ArrayList<String>();
+        List<String> appAuthorizedEdorgIds = getApplicationAuthorizationEdorgIds(appId);
+
+        for (String edOrgId : userLEAs) {
+            if (appAuthorizedEdorgIds.contains(edOrgId)) {
+                results.add(edOrgId);
+            }
+        }
+
+        return results;
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private List<String> getApplicationAuthorizationEdorgIds(String appId) {
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ApplicationAuthorizationResource.APP_ID,
+                NeutralCriteria.OPERATOR_EQUAL, appId));
+        Entity appAuth = mongoEntityRepository.findOne(ApplicationAuthorizationResource.RESOURCE_NAME, query);
+
+        return appAuth == null ? Collections.emptyList() :
+                (List) appAuth.getBody().get(ApplicationAuthorizationResource.EDORG_IDS);
+    }
+
+    private List<Entity> getBulkExtractFilesEntities(String appId, List<String> appAuthorizedUserLEAs) {
+        List<Entity> results = new ArrayList<Entity>();
+
+        for (String leaId : appAuthorizedUserLEAs) {
+            Entity bulkExtractFileEntity = getBulkExtractFileEntity(null, appId, leaId, true);
+            if (bulkExtractFileEntity != null) {
+                results.add(bulkExtractFileEntity);
+            }
+        }
+
+        return results;
     }
 
     /**
