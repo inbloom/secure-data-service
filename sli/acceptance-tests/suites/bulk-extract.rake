@@ -95,6 +95,12 @@ task :bulkExtractNegativeTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "Client Cert Auth Bulk Extract Tests"
+task :bulkExtractTlsTests do
+  runTests("test/features/bulk_extract/features/bulk_extract_tls.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
 desc "API Bulk Extract Tests"
 task :bulkExtractApiTests do
   runTests("test/features/bulk_extract/features/bulk_extract_headers.feature")
@@ -122,6 +128,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractDeltasTest"].execute
   Rake::Task["bulkExtractSchedulerTest"].execute
   Rake::Task["bulkExtractNegativeTests"].execute
+  Rake::Task["bulkExtractTlsTests"].execute
   Rake::Task["bulkExtractCleanup"].execute 
   displayFailureReport()
   if $SUCCESS
