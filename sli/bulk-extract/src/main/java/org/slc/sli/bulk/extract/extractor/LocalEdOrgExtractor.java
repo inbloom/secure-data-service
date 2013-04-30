@@ -70,9 +70,13 @@ public class LocalEdOrgExtractor {
         TenantContext.setTenantId(tenant);
         this.tenantDirectory = tenantDirectory;
         this.startTime = startTime;
-        this.factory = new LEAExtractorFactory();
 
-        leaToExtractFileMap = new LEAExtractFileMap(buildLEAToExtractFile());
+        if (factory == null) {
+            factory = new LEAExtractorFactory();
+        }
+        if (leaToExtractFileMap == null) {
+            leaToExtractFileMap = new LEAExtractFileMap(buildLEAToExtractFile());
+        }
 
         // 2. EXTRACT
         EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
@@ -80,9 +84,9 @@ public class LocalEdOrgExtractor {
         leaToExtractFileMap.closeFiles();
 
         // TODO extract other entities
+
         leaToExtractFileMap.buildManifestFiles(startTime);
         leaToExtractFileMap.archiveFiles();
-
 
         // 3. ARCHIVE
         updateBulkExtractDb(tenant, startTime);
@@ -118,19 +122,6 @@ public class LocalEdOrgExtractor {
 
         }
         return edOrgToLEAExtract;
-    }
-
-    /**
-     * Attempts to get all of the LEAs that should have a LEA level extract scheduled.
-     *
-     * @return a set of the LEA ids that need a bulk extract
-     */
-    public Set<String> getAllLEAs(Map<String, Set<String>> bulkExtractLEAs) {
-        Set<String> leas = new HashSet<String>();
-        for (Map.Entry<String, Set<String>> entry : bulkExtractLEAs.entrySet()) {
-            leas.addAll(entry.getValue());
-        }
-        return leas;
     }
 
     /**
@@ -209,5 +200,13 @@ public class LocalEdOrgExtractor {
 
     public void setHelper(LocalEdOrgExtractHelper helper) {
         this.helper = helper;
+    }
+    
+    public void setFactory(LEAExtractorFactory factory) {
+        this.factory = factory;
+    }
+    
+    public void setLeaToExtractMap(LEAExtractFileMap map) {
+        this.leaToExtractFileMap = map;
     }
 }
