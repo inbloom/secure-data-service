@@ -18,6 +18,7 @@ package org.slc.sli.bulk.extract.lea;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.files.ExtractFile;
@@ -45,6 +46,10 @@ public class LEAExtractFileMap {
             file.closeWriters();
         }
         
+    }
+    
+    public Set<String> getLeas() {
+        return edOrgToLEAExtract.keySet();
     }
 
     public void buildManifestFiles(DateTime startTime) {

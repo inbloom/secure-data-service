@@ -49,7 +49,7 @@ public class LocalEdOrgExtractor {
     private Repository<Entity> repository;
 
     @Autowired
-    LocalEdOrgExtractHelper helper;
+    private LocalEdOrgExtractHelper helper;
 
     private LEAExtractFileMap leaToExtractFileMap;
     private EntityExtractor entityExtractor;
@@ -81,6 +81,9 @@ public class LocalEdOrgExtractor {
         // 2. EXTRACT
         EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
         edorg.extractEntities(buildEdOrgCache());
+        // StudentExtractor student = factory.buildStudentExtractor(entityExtractor,
+        // leaToExtractFileMap, repository);
+        // student.extractEntities(null);
         leaToExtractFileMap.closeFiles();
 
         // TODO extract other entities
