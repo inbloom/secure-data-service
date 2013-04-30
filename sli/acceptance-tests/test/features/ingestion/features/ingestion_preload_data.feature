@@ -1,65 +1,22 @@
 @RALLY_US1107
 Feature: Pre-loading of data for sandbox tenants - Ingestion component test
 
-Scenario: Preload Small Sample Data Set
-  Given I am using the tenant "Brian"
+Scenario: Preload Sample Data Sets
+  When I am using the tenant "Sharon"
+  And the tenant database "Sharon" does not exist
+  Then I create a tenant set to preload data set "medium" for tenant "Sharon"
+  When I am using the tenant "Brian"
   And the tenant database "Brian" does not exist
-  And the following collections are empty in datastore:
-     | collectionName                            |
-     | assessment                                |
-     | assessmentFamily                          |
-     | assessmentPeriodDescriptor                |
-     | attendance                                |
-     | calendarDate                              |
-     | cohort                                    |
-     | competencyLevelDescriptor                 |
-     | course                                    |
-     | courseOffering                            |
-     | courseSectionAssociation                  |
-     | disciplineAction                          |
-     | disciplineIncident                        |
-     | educationOrganization                     |
-     | educationOrganizationAssociation          |
-     | educationOrganizationSchoolAssociation    |
-     | grade                                     |
-     | gradebookEntry                            |
-     | gradingPeriod                             |
-     | graduationPlan                            |
-     | learningObjective                         |
-     | learningStandard                          |
-     | parent                                    |
-     | program                                   |
-     | recordHash                                |
-     | reportCard                                |
-     | school                                    |
-     | schoolSessionAssociation                  |
-     | section                                   |
-     | sectionSchoolAssociation                  |
-     | session                                   |
-     | sessionCourseAssociation                  |
-     | staff                                     |
-     | staffCohortAssociation                    |
-     | staffEducationOrganizationAssociation     |
-     | staffProgramAssociation                   |
-     | student                                   |
-     | studentAcademicRecord                     |
-     | studentAssessment                         |
-     | studentCohortAssociation                  |
-     | studentCompetency                         |
-     | studentCompetencyObjective                |
-     | studentDisciplineIncidentAssociation      |
-     | studentParentAssociation                  |
-     | studentProgramAssociation                 |
-     | studentSchoolAssociation                  |
-     | studentSectionAssociation                 |
-     | studentGradebookEntry                     |
-     | courseTranscript                          |
-     | teacher                                   |
-     | teacherSchoolAssociation                  |
-     | teacherSectionAssociation                 |
-   And I create a tenant set to preload data set "small" for tenant "Brian"
-   And a batch job has completed successfully in the database
-   Then I should see following map of entry counts in the corresponding collections:
+  And I create a tenant set to preload data set "small" for tenant "Brian"
+  When I am using the tenant "Sharon"
+  And the tenant database "Sharon" does not exist
+  Then I create a tenant set to preload data set "medium" for tenant "Sharon"
+  And a batch job has completed successfully in the database for tenant "Sharon"
+  And I should not see an error log file created for "Sharon"
+  And I should not see a warning log file created for "Sharon"
+  When I am using the tenant "Brian"
+  And a batch job has completed successfully in the database for tenant "Brian"
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 19|
      | assessmentFamily                         |                 38|
@@ -110,14 +67,6 @@ Scenario: Preload Small Sample Data Set
      | courseTranscript                         |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|
-    And I should not see an error log file created
-	And I should not see a warning log file created
+  And I should not see an error log file created for "Brian"
+  And I should not see a warning log file created for "Brian"
 
-
-Scenario: Preload Medium Sample Data Set
-   Given I am using the tenant "Sharon"
-   And the tenant database "Sharon" does not exist
-   Then I create a tenant set to preload data set "medium" for tenant "Sharon"
-   And a batch job has completed successfully in the database
-      And I should not see an error log file created
-   And I should not see a warning log file created
