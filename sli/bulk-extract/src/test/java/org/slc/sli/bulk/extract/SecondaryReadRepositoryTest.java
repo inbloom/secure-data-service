@@ -145,4 +145,19 @@ public class SecondaryReadRepositoryTest {
         Mockito.verify(template).setReadPreference(ReadPreference.secondaryPreferred());
     }
 
+    /**
+     * Test when an empty entry is specified in a tag set is set in the properties.
+     *
+     */
+    @Test
+    public void testEmptyEntry() {
+        secondaryReadRepository.setFailOnPrimary(false);
+        String tagSetProperty = "[{\"name\" : \"}, , {\"name1\" : \"value1\", \"name2\" : \"value2\"}]";
+        secondaryReadRepository.setTagSet(tagSetProperty);
+        DBObject[] tags = secondaryReadRepository.getTagSetsFromProperty();
+        Assert.assertNull(tags);
+        secondaryReadRepository.setReadProperties();
+        Mockito.verify(template).setReadPreference(ReadPreference.secondaryPreferred());
+    }
+
 }
