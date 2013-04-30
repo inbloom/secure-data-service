@@ -73,7 +73,9 @@ Given /^the testing device app key has been created$/ do
 end
 
 When /^I navigate to the API authorization endpoint with my client ID$/ do
-  @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
+  url = PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
+  STDOUT.puts url
+  @driver.get url
 end
 
 Then /^I should receive a json response containing my authorization code$/ do  
