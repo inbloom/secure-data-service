@@ -421,8 +421,6 @@ Then /^the response is decrypted$/ do
   aes.iv = decrypted_iv
   @plain = aes.update(encryptedmessage) + aes.final
   if $SLI_DEBUG 
-    puts("Final is #{aes.final}")
-    puts("IV is #{encryptediv}")
     puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
     puts("Encrypted message is #{encryptedmessage}")
     puts("Cipher is #{aes}")
@@ -497,8 +495,6 @@ def decrypt(content, client_id = "vavedra9ub")
   @decrypted = aes.update(encryptedmessage) + aes.final
 
   if $SLI_DEBUG 
-    puts("Final is #{aes.final}")
-    puts("IV is #{encryptediv}")
     puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
     puts("Encrypted message is #{encryptedmessage}")
     puts("Cipher is #{aes}")
