@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
 
 /**
@@ -44,6 +45,9 @@ public class EdOrgContextResolverFactory {
      */
     @Autowired
     StudentDirectRelatedContextResolver studentDirectRelatedContextResolver;
+    
+    @Autowired
+    StudentContextResolver studentResolver;
 
     /**
      * find responsible resolver for this entity type
@@ -55,6 +59,10 @@ public class EdOrgContextResolverFactory {
         
         if ("educationOrganization".equals(entityType)) {
             return edOrgContextResolver;
+        }
+        
+        if ("student".equals(entityType)) {
+            return studentResolver;
         }
 
         if ("studentSchoolAssociation".equals(entityType)
