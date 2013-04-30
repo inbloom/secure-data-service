@@ -17,7 +17,7 @@ Given /^the extraction zone is empty$/ do
 end
 
 Given /^the production extraction zone is empty$/ do
-   `rm -f ~/.ssh/known_hosts`
+   `rm -f \~/.ssh/known_hosts`
    puts jenkins@rcingest01.#{LZ.split("-")[0].to_s} sudo rm -rf #{OUTPUT_DIRECTORY}#{convertTenantIdToDbName(PropLoader.getProps['tenant'])}
    `ssh jenkins@rcingest01.#{LZ.split("-")[0].to_s} sudo rm -rf #{OUTPUT_DIRECTORY}#{convertTenantIdToDbName(PropLoader.getProps['tenant'])}`
 end
@@ -48,7 +48,7 @@ def getBulkExtractCommand(tenant)
 end
 
 When /^the operator triggers a bulk extract for the production tenant$/ do
-    `rm -f ~/.ssh/known_hosts`
+    `rm -f \~/.ssh/known_hosts`
     command = getBulkExtractCommand(PropLoader.getProps['tenant'])
     puts jenkins@rcingest01.#{LZ.split("-")[0].to_s} sudo #{command}
     `ssh jenkins@rcingest01.#{LZ.split("-")[0].to_s} sudo #{command}`
