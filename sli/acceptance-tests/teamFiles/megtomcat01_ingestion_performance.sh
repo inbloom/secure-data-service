@@ -36,7 +36,6 @@ sh log_purge_duration.sh
     rborde@wgen.net \
     rmiller@wgen.net \
     cwilson@contractor.wgen.net \
-    rfarris@wgen.net \
     < message.txt
 
 echo "Done!"
