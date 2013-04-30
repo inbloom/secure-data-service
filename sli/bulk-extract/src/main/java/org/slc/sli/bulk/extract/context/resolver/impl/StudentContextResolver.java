@@ -29,6 +29,8 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
@@ -44,7 +46,7 @@ public class StudentContextResolver implements ContextResolver {
     @Autowired
     @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
-    
+
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> leas = new HashSet<String>();
@@ -94,7 +96,7 @@ public class StudentContextResolver implements ContextResolver {
      * @return the set of LEAs
      */
     public Set<String> getLEAsForStudentId(String id) {
-        Entity entity = getRepo().findById("student", id);
+        Entity entity = repo.findOne("student", new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, id)).setEmbeddedFieldString("schools"));
         if (entity != null) {
             return findGoverningLEA(entity);
         }
@@ -108,5 +110,4 @@ public class StudentContextResolver implements ContextResolver {
     void setRepo(Repository<Entity> repo) {
         this.repo = repo;
     }
-    
 }

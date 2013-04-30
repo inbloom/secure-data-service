@@ -454,6 +454,29 @@ Then /^I have all the information to make a custom bulk extract request$/ do
   @orig_content = @res.body
 end
 
+When /^I make a head request with each returned URL$/ do
+  assert(@res.body.has_key?("list"), "Response contains no lis of URLs")
+
+  types = ["fullLeas", "deltaLeas", "fullSea", "deltaSea"]
+
+  types.each do |type| 
+    @res.body[type].each do |leaId, links|
+      puts "Checking LEA #{leaid}"
+      links.each do |key, link|
+        restHttpHeadFullPath(link)
+        step "the return code is 200 I get expected tar downloaded"
+      end
+    end
+  end
+end
+
+Then /^check to find if record is in collection:$/ do |table|
+  table.hashes.map do |row|
+    assert(@res.body[row["fieldName"]].length == row["count"], "Response contains wrong number of URLS, expected {} count{}, returned {}", row["fieldName"], row["count"], @res.body[row["fieldName"]])
+  end
+end
+
+
 def getAppId()
   db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
   userSessionColl = db.collection("userSession")
