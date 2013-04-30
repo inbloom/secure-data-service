@@ -17,7 +17,9 @@ package org.slc.sli.bulk.extract.delta;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -66,6 +68,8 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     private Iterator<Map<String, Object>> deltaCursor;
 
     private long lastDeltaTime;
+    
+    private final Map<String, List<String>> embeddedFieldsRequired = new HashMap<String, List<String>>();
 
     public enum Operation {
         UPDATE,
@@ -81,6 +85,8 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
 
         deltaCursor = deltaJournal.findDeltaRecordBetween(lastDeltaTime, deltaUptoTime.getMillis());
         nextDelta = setupNext();
+        
+        embeddedFieldsRequired.put("student", Arrays.asList("schools"));
     }
 
     private long getLastDeltaRun(String tenant) {
@@ -172,7 +178,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             }
 
 
-            Entity entity = repo.findById(collection, id);
+            Entity entity = repo.findOne(collection, buildQuery(collection, id));
             Set<String> topLevelGoverningLEA = null;
             if (entity != null) {
                 topLevelGoverningLEA = resolver.findGoverningLEA(entity);
@@ -184,6 +190,14 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         }
 
         return null;
+    }
+    
+    NeutralQuery buildQuery(String collection, String id) {
+        NeutralQuery q = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, id));
+        if (embeddedFieldsRequired.containsKey(collection)) {
+            q.setEmbeddedFields(embeddedFieldsRequired.get(collection));
+        }
+        return q;
     }
 
     @Override
