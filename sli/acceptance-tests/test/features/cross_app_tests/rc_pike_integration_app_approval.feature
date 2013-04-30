@@ -271,3 +271,48 @@ When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" log
 Then I should receive a json response containing my authorization code
 When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
 Then I should receive a json response containing my authorization token
+
+#Get bulk extract tar file
+Then I request and download a bulk extract file
+And there is a metadata file in the extract
+And the extract contains a file for each of the following entities:
+   |  entityType                            |
+   |  assessment                            |
+   |  attendance                            |
+   |  cohort                                |
+   |  course                                |
+   |  courseTranscript                      |
+   |  courseOffering                        |
+   |  disciplineIncident                    |
+   |  disciplineAction                      |
+   |  educationOrganization                 |
+   |  grade                                 |
+   |  gradebookEntry                        |
+   |  gradingPeriod                         |
+   |  learningObjective                     |
+   |  learningStandard                      |
+   |  parent                                |
+   |  program                               |
+   |  reportCard                            |
+   |  school                                |
+   |  section                               |
+   |  session                               |
+   |  staff                                 |
+   |  staffCohortAssociation                |
+   |  staffEducationOrganizationAssociation |
+   |  staffProgramAssociation               |
+   |  student                               |
+   |  studentAcademicRecord                 |
+   |  studentAssessment                     |
+   |  studentCohortAssociation              |
+   |  studentCompetency                     |
+   |  studentCompetencyObjective            |
+   |  studentDisciplineIncidentAssociation  |
+   |  studentProgramAssociation             |
+   |  studentGradebookEntry                 |
+   |  studentSchoolAssociation              |
+   |  studentSectionAssociation             |
+   |  studentParentAssociation              |
+   |  teacher                               |
+   |  teacherSchoolAssociation              |
+   |  teacherSectionAssociation             |
