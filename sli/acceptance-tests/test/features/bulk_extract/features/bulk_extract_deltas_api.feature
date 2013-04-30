@@ -147,7 +147,6 @@ Given I clean the bulk extract file system and database
   When I trigger a delta extract
    And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id>" clientId "<client id>"
-   #And I untar and decrypt the "API" delta tarfile for tenant "Midgar" and appId "<app id>"
    And I should receive a return code of 200
    And I download and decrypt the file
     Then I should see "1" bulk extract files
@@ -185,17 +184,22 @@ Given I clean the bulk extract file system and database
     And I verify "1" delta bulk extract files are generated for "<lea1_id>" in "Midgar"
     And I verify "1" delta bulk extract files are generated for "<lea2_id>" in "Midgar"
 
-@wip
 Scenario: Patch an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And format "application/json"
+  And format "application/json"  
+    When I GET the response body for a "school" in "<IL-DAYBREAK>"
+      Then I should receive a return code of 200  
   When I "PATCH" the "postalCode" for a "school" entity to "11012"
     Then I should receive a return code of 204
-
   When I trigger a delta extract
-   #And I request the latest bulk extract delta through the API
-   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+   And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id>" clientId "<client id>"
+   And I should receive a return code of 200
+   And I download and decrypt the file
+    Then I should see "1" bulk extract files
+     And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+     And The "educationOrganization" delta was extracted in the same format as the api
 
 @wip
 Scenario: PATCH the zip code of an edOrg, trigger delta, verify contents

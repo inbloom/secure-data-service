@@ -484,15 +484,27 @@ When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, 
   # Update the correct field based on entity type
   #
   # --> educationOrganization.body.address.postalCode
-  @fields["address"][0]["postalCode"] = value if field == "postalCode"
+  if field == "postalCode"
+    @fields["address"][0]["postalCode"] = value
+    @patch_body = {"address"=>[{"postalCode"=>value,
+                                "nameOfCounty"=>"Wake",
+                                "streetNumberName"=>"111 Ave A",
+                                "postalCode"=>"11012",
+                                "stateAbbreviation"=>"IL",
+                                "addressType"=>"Physical",
+                                "city"=>"Chicago"
+                               }
+                              ]
+                  } if verb == "PATCH"
+    puts "DEBUG: patch_body is #{@patch_body}"
+  end
   # --> educationOrganization with non-existent id
   @id = value if field == "invalidEntry"
   # --> orphaned school marked for deletion
   @id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id" if field == "orphanEdorg"
 
   @result = @fields
-  puts "SESSION ID IS #{@sessionId}"
-  puts "URI passing TO DELETE: \"/#{@api_version}/#{@assocUrlPut[entity]}/#{@id}\""
+  puts "Session ID is #{@sessionId}"
   step "I navigate to #{verb} \"/#{@api_version}/#{@assocUrlPut[entity]}/#{@id}\""
 end
 
