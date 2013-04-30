@@ -1,5 +1,0 @@
-
-This data set was derived from the BroadSetOfTypes dataset
-
-The purpose of this data set is to create a single Section entity and all related child entities for the testing of super/subdoc delete behavior.
-
