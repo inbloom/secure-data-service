@@ -49,26 +49,40 @@ public class StudentContextResolver implements ContextResolver {
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> leas = new HashSet<String>();
         List<Map<String, Object>> schools = entity.getDenormalizedData().get("schools");
-        for (Map<String, Object> school : schools) {
-            try {
-                String startDate = (String) school.get("entryDate");
-                String exitDate = (String) school.get("exitWithdrawDate");
-                boolean afterStart = startDate == null
-                        || !ISODateTimeFormat.date().parseDateTime(startDate).isAfterNow();
-                boolean beforeFinish = exitDate == null
-                        || !ISODateTimeFormat.date().parseDateTime(exitDate).isBeforeNow();
-                if (afterStart && beforeFinish) {
-                    @SuppressWarnings("unchecked")
-                    List<String> edOrgs = (List<String>) school.get("edOrgs");
-                    for (String edOrg : edOrgs) {
-                        leas.add(edOrg);
+        if (schools != null) {
+            for (Map<String, Object> school : schools) {
+                try {
+                    if (isCurrent(school)) {
+                        @SuppressWarnings("unchecked")
+                        List<String> edOrgs = (List<String>) school.get("edOrgs");
+                        for (String edOrg : edOrgs) {
+                            leas.add(edOrg);
+                        }
                     }
+                } catch (RuntimeException e) {
+                    LOG.warn("Could not parse school " + school, e);
                 }
-            } catch (RuntimeException e) {
-                LOG.warn("Could not parse school " + school, e);
             }
         }
         return leas;
+    }
+    
+    /**
+     * Determine if a school association is 'current', meaning is has already started but has not
+     * finished
+     *
+     * @param schoolAssociation
+     *            the school association to evaluate
+     * @return true iff the school association is current
+     */
+    private boolean isCurrent(Map<String, Object> schoolAssociation) {
+        String startDate = (String) schoolAssociation.get("entryDate");
+        String exitDate = (String) schoolAssociation.get("exitWithdrawDate");
+        boolean afterStart = startDate == null
+                || !ISODateTimeFormat.date().parseDateTime(startDate).isAfterNow();
+        boolean beforeFinish = exitDate == null
+                || !ISODateTimeFormat.date().parseDateTime(exitDate).isBeforeNow();
+        return afterStart && beforeFinish;
     }
     
     /**
