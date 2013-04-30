@@ -27,7 +27,10 @@ import java.security.cert.X509Certificate;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,6 +41,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CertificateValidationHelper {
 
+    private static final Logger LOG = LoggerFactory.getLogger(CertificateValidationHelper.class);
+    
 	@Value("${sli.security.truststore.path}")
     private String pathToTruststore;
 
@@ -58,11 +63,13 @@ public class CertificateValidationHelper {
      * Validates that client certificate provided during TLS handshake
      * Matches what we have stored for the application
      * @param request
+     * @throws AccessDeniedException 
      */
-    public void validateCertificate(X509Certificate requestCert, String clientId) {
+    public void validateCertificate(X509Certificate requestCert, String clientId) throws AccessDeniedException {
         Certificate storedCert = locateCertificateForApp(clientId);
         if (!storedCert.equals(requestCert)) {
-            throw new IllegalArgumentException("App must provide trusted X509 Certificate");
+            LOG.error("App {} provided a certificate which didn't match its stored certificate.", clientId);
+            throw new AccessDeniedException("Certificate mismatch.  Presented certificate that is different from the one stored.");
         }
     }
 
