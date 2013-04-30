@@ -33,6 +33,7 @@ sh log_purge_duration.sh
     -a raw_data.txt \
     Sliders-megatron@wgen.net \
     okrook@wgen.net \
+    rborde@wgen.net \
     < message.txt
 
 echo "Done!"
