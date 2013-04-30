@@ -13,6 +13,8 @@ Scenario: Generate a bulk extract day 0 delta
      Then I should see "2" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
+    #    Then The "parent" delta was extracted in the same format as the api
+    #    Then The "studentParentAssociation" delta was extracted in the same format as the api
 
 Scenario: Generate a bulk extract in a different LEAs
   Given I clean the bulk extract file system and database
@@ -211,6 +213,29 @@ Scenario: PATCH the zip code of an edOrg, trigger delta, verify contents
   Then I should see "0" entities of type "educationOrganization" in the bulk extract deltas tarfile
    And a "educationOrganization" was extracted in the same format as the api
    And each extracted "educationOrganization" delta matches the mongo entry
+
+@wip
+  Scenario: Generate deltas for parents through ingestion
+  Given I clean the bulk extract file system and database
+    And I am using local data store
+    And I ingest "deltas_parents.zip"
+
+  When I trigger a delta extract
+    And I untar and decrypt the delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+      Then I should see "1" bulk extract files
+    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea1_id>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  parent                                |
+        |  studentParentAssociation              |
+        |  deleted                               |
+    Then The "parent" delta was extracted in the same format as the api
+    And The "parentStudentAssociation" delta was extracted in the same format as the api
+      And I verify this "deleted" file contains:
+          | id                                          | condition                             |
+          | "<deleted_parent_id>"                       | entityType = parent                   |
+          | "<deleted_studentParentAssociation_id>"     | entityType = studentParentAssociation |
+
 
 Scenario: Be a good neighbor and clean up before you leave
         Given I clean the bulk extract file system and database
