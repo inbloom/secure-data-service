@@ -49,17 +49,19 @@ public class StudentContextResolver implements ContextResolver {
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> leas = new HashSet<String>();
         List<Map<String, Object>> schools = entity.getDenormalizedData().get("schools");
-        for (Map<String, Object> school : schools) {
-            try {
-                if (isCurrent(school)) {
-                    @SuppressWarnings("unchecked")
-                    List<String> edOrgs = (List<String>) school.get("edOrgs");
-                    for (String edOrg : edOrgs) {
-                        leas.add(edOrg);
+        if (schools != null) {
+            for (Map<String, Object> school : schools) {
+                try {
+                    if (isCurrent(school)) {
+                        @SuppressWarnings("unchecked")
+                        List<String> edOrgs = (List<String>) school.get("edOrgs");
+                        for (String edOrg : edOrgs) {
+                            leas.add(edOrg);
+                        }
                     }
+                } catch (RuntimeException e) {
+                    LOG.warn("Could not parse school " + school, e);
                 }
-            } catch (RuntimeException e) {
-                LOG.warn("Could not parse school " + school, e);
             }
         }
         return leas;
