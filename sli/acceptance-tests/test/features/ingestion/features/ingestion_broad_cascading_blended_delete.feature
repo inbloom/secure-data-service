@@ -121,7 +121,7 @@ Scenario: Blended Deletes with Force = flase and Force = true
     And I re-execute saved query "FFdisciplineAction" to get "8" records
 
     #Non Orphan Force = "true" passes
-    And I re-execute saved query "FTstudent" to get "0" records
+    And I re-execute saved query "FTstudent" to get "1" records
     And I re-execute saved query "FTattendance" to get "2" records
     And I re-execute saved query "FTcourseTranscript" to get "4" records
     And I re-execute saved query "FTdisciplineAction" to get "2" records
@@ -145,7 +145,7 @@ Scenario: Blended Deletes with Force = flase and Force = true
     And I re-execute saved query "RNOFFdisciplineAction" to get "8" records
 
     #Non Orphan Reference Force = "true" passes
-    And I re-execute saved query "RNOFTstudent" to get "0" records
+    And I re-execute saved query "RNOFTstudent" to get "1" records
     And I re-execute saved query "RNOFTattendance" to get "2" records
     And I re-execute saved query "RNOFTcourseTranscript" to get "2" records
     And I re-execute saved query "RNOFTdisciplineAction" to get "3" records
