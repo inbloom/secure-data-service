@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-StaffAssociation.xsd">
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd">
 
   
   <!-- Illustrative use of DELETE -->
@@ -8,7 +8,7 @@
   
    <Teacher>
     <StaffUniqueStateId>cgray</StaffUniqueStateId>
-    <StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Canadian SIN'>
+    <StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='State'>
       <ID>a</ID>
     </StaffIdentificationCode>
     <Name Verification='Drivers license'>
