@@ -32,9 +32,6 @@ Scenario: Delete Student Parent Association with cascade
 	|studentParentAssociation               |        -1|
 	|recordHash                             |         0|
 	And I should not see "908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id" in the "Midgar" database
-    And I should not see any entity mandatorily referring to "908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id" in the "Midgar" database
-	And I should see entities optionally referring to "908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id" be updated in the "Midgar" database	
-
 
 Scenario: Delete StudentParentAssociation with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -94,7 +91,7 @@ Scenario: Safe Delete StudentParentAssociation Ref with Cascade="false" Force="f
     When zip file is scp to ingestion landing zone
     And a batch job for file "ForceStudentParentAssociationRefDelete.zip" is completed in database
 	And I should see "Processed 1 records." in the resulting batch job file
-    And I should see "records deleted successfully: 0" in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
 	And I should see "records failed processing: 0" in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created

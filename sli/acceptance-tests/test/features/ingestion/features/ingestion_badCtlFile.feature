@@ -7,7 +7,6 @@ Background: I have a landing zone route configured
 Scenario: Post a zip file with bad control file 
   Given I post "BadCtlFile.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "BadCtlFile.zip" is completed in database
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
 

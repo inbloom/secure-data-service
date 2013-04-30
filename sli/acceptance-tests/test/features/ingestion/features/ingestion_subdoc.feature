@@ -13,7 +13,6 @@ Feature: Subdoc Out of Order
       | gradebookEntry             |
       | student                    |
     When zip file is scp to ingestion landing zone
-    And I am willing to wait upto 60 seconds for ingestion to complete
     And a batch job for file "SubDocOutOfOrder_grade.zip" is completed in database
         Then I should see following map of entry counts in the corresponding collections:
       | collectionName  | count |
@@ -24,7 +23,6 @@ Feature: Subdoc Out of Order
     And I verify all super doc "student" entities have correct type field
     Then I post "SubDocOutOfOrder_section.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And I am willing to wait upto 60 seconds for ingestion to complete
     And a batch job for file "SubDocOutOfOrder_section.zip" is completed in database
         Then I should see following map of entry counts in the corresponding collections:
       | collectionName  | count |

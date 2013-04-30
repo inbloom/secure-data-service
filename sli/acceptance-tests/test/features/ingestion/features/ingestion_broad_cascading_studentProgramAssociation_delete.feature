@@ -59,7 +59,6 @@ Scenario: Delete Student Program Association with cascade
       |collection                             |delta     |
       |studentProgramAssociation              |        -1|
 #      |recordHash                             |        -1|
-	And I should not see "90688439afff3a5fd4e1c33bc95378b4a7bed435_iddd0950ca5673284a24264bc7d66253e9dcaa147e_id" in the "Midgar" database
 
 
  Scenario: Safe Delete Student Program Association Reference with Cascade = false, Force = false
@@ -87,7 +86,6 @@ Scenario: Delete Student Program Association with cascade
       |collection                             |delta     |
       |studentProgramAssociation              |        -1|
 #      |recordHash                             |        -1|
-	And I should not see "90688439afff3a5fd4e1c33bc95378b4a7bed435_iddd0950ca5673284a24264bc7d66253e9dcaa147e_id" in the "Midgar" database
 
 
 

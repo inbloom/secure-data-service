@@ -15,6 +15,13 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.security.PublicKey;
@@ -22,14 +29,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 
 /**
  * Bulk extractor to extract data for a tenant.

@@ -39,10 +39,12 @@ import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
-import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
 
 /**
  * Extract's archive file class.
@@ -130,7 +132,9 @@ public class ExtractFile {
      * Generates the archive file for the extract.
      *
      */
-    public void generateArchive() {
+    public boolean generateArchive() {
+
+        boolean success = true;
 
         TarArchiveOutputStream tarArchiveOutputStream = null;
         MultiOutputStream multiOutputStream = new MultiOutputStream();
@@ -152,6 +156,7 @@ public class ExtractFile {
             }
         } catch (Exception e) {
             LOG.error("Error writing to tar file: {}", e.getMessage());
+            success = false;
             for(File archiveFile : archiveFiles.values()){
                 FileUtils.deleteQuietly(archiveFile);
             }
@@ -159,6 +164,34 @@ public class ExtractFile {
             IOUtils.closeQuietly(tarArchiveOutputStream);
             FileUtils.deleteQuietly(tempDir);
         }
+        
+        return success;
+    }
+
+    /**
+     * Generate the metadata file and create the tarball
+     * 
+     * @param startTime
+     * @return
+     */
+    public boolean finalizeExtraction(DateTime startTime) {
+        boolean success = true;
+        try {
+            ManifestFile metaDataFile = this.getManifestFile();
+            metaDataFile.generateMetaFile(startTime);
+        } catch (IOException e) {
+            success = false;
+            LOG.error("Error creating metadata file: {}", e.getMessage());
+        }
+        
+        try {
+            success = this.generateArchive();
+        } catch (Exception e) {
+            success = false;
+            LOG.error("Error generating archive file: {}", e.getMessage());
+        }
+        
+        return success;
     }
 
     private OutputStream getAppStream(String app) throws Exception {

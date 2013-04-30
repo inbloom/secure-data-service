@@ -111,7 +111,6 @@ Scenario: Delete Orphan LearningObjective with cascade = false
         | collection                                |     delta|
         | learningObjective                         |        -1| 
         | recordHash                                |      	 -1|
-	And I should not see "4436e808461d2ccde93e64ebc66cd5036117d01b_id" in the "Midgar" database
 
 	
 Scenario: Delete Orphan LearningObjective Ref with cascade = false
@@ -135,8 +134,7 @@ Scenario: Delete Orphan LearningObjective Ref with cascade = false
         | collection                                |     delta|
         | learningObjective                         |        -1| 
         | recordHash                                |      	 -1|
-	And I should not see "4436e808461d2ccde93e64ebc66cd5036117d01b_id" in the "Midgar" database
-	
+
 	
 Scenario: Delete LearningObjective with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -153,7 +151,6 @@ Scenario: Delete LearningObjective with default settings (Confirm that by defaul
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceLearningObjectiveDeleteInGrade.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
@@ -183,7 +180,6 @@ Scenario: Delete LearningObjective Ref with default settings (Confirm that by de
   	When zip file is scp to ingestion landing zone
     And a batch job for file "ForceLearningObjectiveRefDeleteInGrade.zip" is completed in database
     And I should see "records deleted successfully: 1" in the resulting batch job file
-    And I should see "child records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file

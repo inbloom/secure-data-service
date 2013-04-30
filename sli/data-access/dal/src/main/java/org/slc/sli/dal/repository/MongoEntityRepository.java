@@ -539,6 +539,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return result;
         }
 
+        result.getDeletedIds().add(id);
         return result;
     }
 
@@ -942,11 +943,23 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     protected Update getUpdateCommand(Entity entity, boolean isSuperdoc) {
         // set up update query
-        Map<String, Object> entityBody = entity.getBody();
-        Map<String, Object> entityMetaData = entity.getMetaData();
         Update update = new Update();
-        if ( entityBody != null && entityMetaData != null ) {
-        	update.set("body", entityBody).set("metaData", entityMetaData);
+
+        // It is possible for the body and metaData keys to be absent in the case
+        // of "orphaned" subDoc data.
+        Map<String, Object> entityBody = entity.getBody();
+        if ( entityBody != null && entityBody.size() == 0 ) {
+        	update.unset("body");
+        }
+        else {
+        	update.set("body", entityBody);
+        }
+        Map<String, Object> entityMetaData = entity.getMetaData();
+        if (entityMetaData != null && entityMetaData.size() == 0 ) {
+        	update.unset("metaData");
+        }
+        else {
+        	update.set("metaData", entityMetaData);
         }
 
         // update should also set type in case of upsert
@@ -1063,7 +1076,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
      */
     public void updateTimestamp(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
-        entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
+        Map<String, Object> metaData = entity.getMetaData();
+        if ( null != metaData ) {
+        	metaData.put(EntityMetadataKey.UPDATED.getKey(), now);
+        }
     }
 
     public void setValidator(EntityValidator validator) {
