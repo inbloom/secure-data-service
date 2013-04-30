@@ -38,7 +38,7 @@ Scenario: Delete Student Discipline Incident Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                                |     delta|
       | studentDisciplineIncidentAssociation      |        -1|
-#      | recordHash                                |        -1|
+      | recordHash                                |        -1|
 
  Scenario: Safe Delete StudentDisciplineIncidentAssociation by Ref with Cascade = false, Force = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -61,7 +61,7 @@ Scenario: Delete Student Discipline Incident Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                                |     delta|
       | studentDisciplineIncidentAssociation      |        -1|
-#      | recordHash                                |        -1|
+      | recordHash                                |        -1|
 
 
   Scenario: Delete StudentDisciplineIncidentAssociation Reference with cascade = false, force = true
@@ -85,7 +85,7 @@ Scenario: Delete Student Discipline Incident Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                                |     delta|
       | studentDisciplineIncidentAssociation      |        -1|
-#      | recordHash                                |        -1|
+      | recordHash                                |        -1|
 
   Scenario: Delete StudentDisciplineIncidentAssociation Reference with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -108,4 +108,4 @@ Scenario: Delete Student Discipline Incident Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                                |     delta|
       | studentDisciplineIncidentAssociation      |        -1|
-#      | recordHash                                |        -1|
+      | recordHash                                |        -1|
