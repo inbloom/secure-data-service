@@ -31,10 +31,8 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.security.Principal;
 import java.security.cert.X509Certificate;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -86,7 +84,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
@@ -109,10 +106,6 @@ import org.slc.sli.domain.Repository;
 public class BulkExtractTest {
 
     private static final String INPUT_FILE_NAME = "mock.in.tar.gz";
-
-    private static final String URI_PATH = "http://local.slidev.org:8080/api/rest/v1.2";
-
-    private int entityId = 0;
 
     public static final String BULK_DATA = "12345";
 
@@ -212,7 +205,7 @@ public class BulkExtractTest {
   public void testGetExtractResponse() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
       mockApplicationEntity();
-      mockBulkExtractEntity(null);
+      mockBulkExtractEntity();
 
       HttpRequestContext context = new HttpRequestContextAdapter() {
           @Override
@@ -249,7 +242,7 @@ public class BulkExtractTest {
   public void testHeadTenant() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
       mockApplicationEntity();
-      mockBulkExtractEntity(null);
+      mockBulkExtractEntity();
 
       HttpRequestContext context = new HttpRequestContextAdapter() {
           @Override
@@ -277,7 +270,7 @@ public class BulkExtractTest {
   public void testRange() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
       mockApplicationEntity();
-      mockBulkExtractEntity(null);
+      mockBulkExtractEntity();
 
       HttpRequestContext failureContext = Mockito.mock(HttpRequestContext.class);
       Mockito.when(failureContext.getMethod()).thenReturn("HEAD");
@@ -306,7 +299,7 @@ public class BulkExtractTest {
   public void testFailedEvaluatePreconditions() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
       mockApplicationEntity();
-      mockBulkExtractEntity(null);
+      mockBulkExtractEntity();
 
       HttpRequestContext context = new HttpRequestContextAdapter() {
           @Override
@@ -507,14 +500,11 @@ public class BulkExtractTest {
         Map<String, Object> body = new HashMap<String, Object>();
         Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
         body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
-        Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
-            .thenReturn(new ArrayList<Entity>());
 
         Response res = bulkExtract.getLEAList(req, new HttpContextAdapter());
         assertEquals(404, res.getStatus());
     }
 
-    @SuppressWarnings("unchecked")
     @Test()
     public void testGetLEAListSuccess() throws Exception {
         injector.setEducatorContext();
@@ -527,33 +517,12 @@ public class BulkExtractTest {
         Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
         body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
 
-        Entity fullBulkExtractEntity = mockBulkExtractEntity(null);
-//        String timeStamp = "2013-04-30T11:51:29.279Z";
-        Date deltaTime = new Date();
-        String timeStamp = deltaTime.toString();
-        Entity deltaBulkExtractEntity1 = mockBulkExtractEntity(deltaTime);
-        Entity deltaBulkExtractEntity2 = mockBulkExtractEntity(deltaTime);
-        List<Entity> leas = new ArrayList<Entity>();
-        leas.add(fullBulkExtractEntity);
-        leas.add(deltaBulkExtractEntity1);
-        leas.add(deltaBulkExtractEntity2);
-        Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
-            .thenReturn(leas);
+        Entity mockBulkExtractFuilesEntity = Mockito.mock(Entity.class);
+        Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
+            .thenReturn(mockBulkExtractFuilesEntity);
 
         Response res = bulkExtract.getLEAList(req, new HttpContextAdapter());
         assertEquals(200, res.getStatus());
-        EntityBody list = (EntityBody) res.getEntity();
-        assertNotNull("LEA links list should not be null", list);
-        Map<String, Map<String, String>> fullLeas = (Map<String, Map<String, String>>) list.get("fullLeas");
-        assertEquals("There should be one LEA full extract link", 1, fullLeas.size());
-        assertEquals("Mismatched URI for full extract of LEA \"123\"", URI_PATH + "/bulk/extract/123", fullLeas.get("123").get("uri"));
-        Map<String, Map<String, String>> deltaLeas = (Map<String, Map<String, String>>) list.get("deltaLeas");
-        assertEquals("There should be one LEA delta extract link list", 1, deltaLeas.size());
-        List<Map<String, String>> deltaLinks = (List<Map<String, String>>) deltaLeas.get("123");
-        assertEquals("There should be two LEA delta extract links for LEA \"123\"", 2, deltaLinks.size());
-        Map<String, String> deltaLink = deltaLinks.get(0);
-        assertEquals("Mismatched URI for LEA \"123\"", timeStamp, deltaLink.get("timestamp"));
-        assertEquals("Mismatched delta extraction date for LEA \"123\"", URI_PATH + "/bulk/extract/123/delta/" + timeStamp, deltaLink.get("uri"));
     }
 
     private Entity mockApplicationEntity() {
@@ -573,30 +542,19 @@ public class BulkExtractTest {
         return mockEntity;
     }
 
-    @SuppressWarnings({ "unchecked" })
-    private Entity mockBulkExtractEntity(Date deltaTime) throws IOException, ParseException {
-        boolean isDelta = (deltaTime != null);
+    private void mockBulkExtractEntity() throws IOException {
         File tmpDir = FileUtils.getTempDirectory();
         Entity mockEntity = Mockito.mock(Entity.class);
         Map<String, Object> mockBody = Mockito.mock(Map.class);
         Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-        Mockito.when(mockEntity.getEntityId()).thenReturn(String.valueOf(++entityId));
 
         File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
 
         FileUtils.writeStringToFile(inputFile, BULK_DATA);
         Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
-        if (isDelta) {
-            Mockito.when(mockBody.get("isDelta")).thenReturn("true");
-            Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(deltaTime);
-        } else {
-            Mockito.when(mockBody.get("isDelta")).thenReturn("false");
-            Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
-        }
+        Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockEntity);
-
-        return mockEntity;
     }
 
     private static class HttpContextAdapter implements HttpContext {
@@ -615,21 +573,8 @@ public class BulkExtractTest {
 
         @Override
         public ExtendedUriInfo getUriInfo() {
-            ExtendedUriInfo mockUriInfo = Mockito.mock(ExtendedUriInfo.class);
-            URI baseURI = null;
-            try {
-                baseURI = new URI(URI_PATH);
-            } catch (URISyntaxException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            UriBuilder mockBuilder = Mockito.mock(UriBuilder.class);
-            Mockito.when(mockBuilder.build()).thenReturn(baseURI);
-            Mockito.when(mockBuilder.path(Mockito.any(String.class))).thenReturn(null);
-            Mockito.when(mockUriInfo.getBaseUriBuilder()).thenReturn(mockBuilder);
-            Mockito.when(mockUriInfo.getPath()).thenReturn(URI_PATH);
-
-            return mockUriInfo;
+            // TODO Auto-generated method stub
+            return null;
         }
 
         @Override
