@@ -109,6 +109,8 @@ Scenario: Delete Section with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |section     |   0|
+	|recordHash  |   0|
+        |section<hollow>|    0|
 
  Scenario: Delete Section with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -158,6 +160,8 @@ Scenario: Delete Section with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |section     |   0|
+        |recordHash  |   0|
+        |section<hollow>|    0|
 
  Scenario: Delete Orphan Section with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
