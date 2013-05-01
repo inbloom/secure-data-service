@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.common.constants.EntityNames;
@@ -39,6 +40,7 @@ import org.slc.sli.domain.Repository;
  * Extract the Public Data for the State Education Agency.
  * ablum
  */
+@Component
 public class StatePublicDataExtractor {
 
     private static final Logger LOG = LoggerFactory.getLogger(TenantExtractor.class);
@@ -77,14 +79,21 @@ public class StatePublicDataExtractor {
     }
 
     /**
-     *
+     * Extract the public data for the SEA.
      * @param seaId the ID of the SEA to extract
+     * @param clientKeys used to encrypt extract
+     * @return boolean value to indicate the success of the extract
      */
-    private boolean extractPublicData(String seaId, Map<String, PublicKey> clientKeys) {
+    protected boolean extractPublicData(String seaId, Map<String, PublicKey> clientKeys) {
         return false;
     }
 
-    private String retrieveSEAId() {
+    /**
+     * Retrieve the SEA's id for the tenant. Fails if more than one SEA found.
+     * @return
+     *      SEA Id
+     */
+    protected String retrieveSEAId() {
         String seaId = null;
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES,
                 NeutralCriteria.CRITERIA_IN, Arrays.asList(STATE_EDUCATION_AGENCY)));
