@@ -172,7 +172,7 @@ public class BulkExtract {
      * @throws Exception On Error
      */
     @GET
-    @Path("extract/list")
+    @Path("extract/leas")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request for LEA list");

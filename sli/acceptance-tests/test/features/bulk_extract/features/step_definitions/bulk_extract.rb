@@ -713,6 +713,12 @@ Then /^I ingested "(.*?)" dataset$/ do |dataset|
 end
 
 ############################################################
+# Hooks
+############################################################
+After do
+  @conn.close if @conn != nil
+end
+############################################################
 # Functions
 ############################################################
 
@@ -907,7 +913,6 @@ def decryptFile(file, client_id)
   aes.iv = decrypted_iv
   @plain = aes.update(encryptedmessage) + aes.final
   if $SLI_DEBUG 
-    puts("Final is #{aes.final}")
     puts("Decrypted iv type is #{decrypted_iv.class}")
     puts("Cipher is #{aes}")
     puts("Plain text length is #{@plain.length}")

@@ -242,6 +242,35 @@ def restHttpHead(id, extra_headers = nil, format = @format, sessionId = @session
   return @res
 end
 
+# Function restHttpHead
+# Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
+# Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
+#                               Can be manually overwritten
+# Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
+#                               Can be manually overwritten
+# Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
+# Returns: Nothing, see Output
+# Description: Helper function that calls the REST API specified in id using HEAD to retrieve an existing object
+#              It is suggested you assert the state of the @res response before returning success from the calling function
+def restHttpHeadFullURL(fullUrl, extra_headers = nil, format = @format, sessionId = @sessionId, client_id = "vavedra9ub")
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into HEAD was nil")
+
+  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
+  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
+
+  header = makeHeaders('head', sessionId, format)
+  
+  header.merge!(extra_headers) if extra_headers !=nil
+  
+  puts "HEAD header: #{header}"
+
+  @res = RestClient::Request.execute(:method => :head, :url => fullUrl, :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
+#, :ssl_client_cert => client_cert, :ssl_client_key => private_key
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
+
 # Function restHttpGet
 # Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
 # Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
