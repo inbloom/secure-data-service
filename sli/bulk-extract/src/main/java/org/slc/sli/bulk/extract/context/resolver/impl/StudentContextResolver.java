@@ -57,8 +57,8 @@ public class StudentContextResolver implements ContextResolver {
                     if (isCurrent(school)) {
                         @SuppressWarnings("unchecked")
                         List<String> edOrgs = (List<String>) school.get("edOrgs");
-                        for (String edOrg : edOrgs) {
-                            leas.add(edOrg);
+                        if (edOrgs != null) {
+                            leas.addAll(edOrgs);
                         }
                     }
                 } catch (RuntimeException e) {
@@ -70,21 +70,17 @@ public class StudentContextResolver implements ContextResolver {
     }
     
     /**
-     * Determine if a school association is 'current', meaning is has already started but has not
+     * Determine if a school association is 'current', meaning it has not
      * finished
-     *
+     * 
      * @param schoolAssociation
      *            the school association to evaluate
      * @return true iff the school association is current
      */
     private boolean isCurrent(Map<String, Object> schoolAssociation) {
-        String startDate = (String) schoolAssociation.get("entryDate");
         String exitDate = (String) schoolAssociation.get("exitWithdrawDate");
-        boolean afterStart = startDate == null
-                || !ISODateTimeFormat.date().parseDateTime(startDate).isAfterNow();
-        boolean beforeFinish = exitDate == null
+        return exitDate == null
                 || !ISODateTimeFormat.date().parseDateTime(exitDate).isBeforeNow();
-        return afterStart && beforeFinish;
     }
     
     /**

@@ -46,7 +46,7 @@ public class StudentContextResolverTest {
     
     @Test
     public void testFindGoverningLEA() {
-        assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
+        assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3", "futureEdOrg1")),
                 underTest.findGoverningLEA(buildTestStudent()));
     }
     
@@ -57,7 +57,7 @@ public class StudentContextResolverTest {
         Entity testStudent = buildTestStudent();
         when(repo.findOne("student", buildQuery("42"))).thenReturn(testStudent);
         underTest.setRepo(repo);
-        assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
+        assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3", "futureEdOrg1")),
                 underTest.getLEAsForStudentId("42"));
     }
     
@@ -82,9 +82,9 @@ public class StudentContextResolverTest {
         futureSchool.put("_id", "futureSchool");
         futureSchool.put("entryDate", today.plusMonths(9).toString(format));
         futureSchool.put("exitWithdrawDate", today.plusMonths(21).toString(format));
-        futureSchool.put("edOrgs", badEdorgs);
+        futureSchool.put("edOrgs", Arrays.asList("futureEdOrg1"));
         Map<String, Object> unboundedSchool = new HashMap<String, Object>();
-        unboundedSchool.put("_id", "futureSchool");
+        unboundedSchool.put("_id", "unboundedSchool");
         unboundedSchool.put("entryDate", today.minusMonths(15).toString(format));
         unboundedSchool.put("edOrgs", badEdorgs);
         unboundedSchool.put("edOrgs", Arrays.asList("edOrg1", "edOrg3"));
