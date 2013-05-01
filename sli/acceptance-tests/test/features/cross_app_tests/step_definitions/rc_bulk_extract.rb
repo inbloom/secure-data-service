@@ -27,7 +27,7 @@ end
 When /^the operator triggers a bulk extract for the production tenant$/ do
     `rm -f \~/.ssh/known_hosts`
     command = getBulkExtractCommand(PropLoader.getProps['tenant'])
-    ssh_command  "ssh #{SSH_USER} sudo #{command}"
+    ssh_command = "ssh #{SSH_USER} sudo #{command}"
     puts ssh_command
     `#{ssh_command}`
 end
