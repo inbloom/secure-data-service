@@ -14,40 +14,57 @@
  * limitations under the License.
  */
 
+/**
+ * 
+ */
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.springframework.data.mongodb.core.query.Criteria;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
-public class EdorgExtractor implements EntityExtract {
+/**
+ *
+ *
+ */
+public class StudentExtractor implements EntityExtract {
     private LEAExtractFileMap map;
     private EntityExtractor extractor;
+    private Repository<Entity> repo;
     
-    public EdorgExtractor(EntityExtractor extractor, LEAExtractFileMap map) {
+    private ExtractorHelper helper;
+
+    public StudentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
+            ExtractorHelper helper) {
         this.extractor = extractor;
         this.map = map;
+        this.repo = repo;
+        this.helper = helper;
     }
-    
     /* (non-Javadoc)
      * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(java.util.Map)
      */
     @Override
     public void extractEntities(Map<String, Set<String>> leaToEdorgCache) {
-        for (String lea : new HashSet<String>(leaToEdorgCache.keySet())) {
-            ExtractFile extractFile = map.getExtractFileForLea(lea);
-            Criteria criteria = new Criteria("_id");
-            criteria.in(new ArrayList<String>(leaToEdorgCache.get(lea)));
-            Query query = new Query(criteria);
-            extractor.setExtractionQuery(query);
-            extractor.extractEntities(extractFile, "educationOrganization");
+        Iterator<Entity> cursor = repo.findEach("student", new Query());
+        while (cursor.hasNext()) {
+            Entity e = cursor.next();
+            Set<String> schools = helper.fetchCurrentSchoolsFromStudent(e);
+            for (String lea : map.getLeas()) {
+                if (schools.contains(lea)) {
+                    // Write
+                    extractor.extractEntity(e, map.getExtractFileForLea(lea), "student");
+                }
+            }
         }
+        
     }
+    
+
 
 }

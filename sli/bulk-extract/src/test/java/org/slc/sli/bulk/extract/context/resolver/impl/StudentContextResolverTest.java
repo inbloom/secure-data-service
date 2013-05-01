@@ -29,7 +29,10 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Test;
+
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
@@ -52,7 +55,7 @@ public class StudentContextResolverTest {
         @SuppressWarnings("unchecked")
         Repository<Entity> repo = mock(Repository.class);
         Entity testStudent = buildTestStudent();
-        when(repo.findById("student", "42")).thenReturn(testStudent);
+        when(repo.findOne("student", buildQuery("42"))).thenReturn(testStudent);
         underTest.setRepo(repo);
         assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
                 underTest.getLEAsForStudentId("42"));
@@ -92,5 +95,9 @@ public class StudentContextResolverTest {
         when(testStudent.getBody()).thenReturn(body);
         when(testStudent.getDenormalizedData()).thenReturn(denormalized);
         return testStudent;
+    }
+    
+    private NeutralQuery buildQuery(String id) {
+        return new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, id)).setEmbeddedFieldString("schools");
     }
 }
