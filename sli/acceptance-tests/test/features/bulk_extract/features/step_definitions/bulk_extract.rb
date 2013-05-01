@@ -341,6 +341,8 @@ end
 
 When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tenant "(.*?)", that lasts for "(.*?)" seconds/ do |client_appName, user, role, realm, tenant, expiration_in_seconds|
 
+  @edorg = getEntityId(realm)
+
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   db = conn[DATABASE_NAME]
@@ -399,7 +401,7 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
   untar(@fileDir)
 end
 
-When /^I POST an entity of type "(.*?)"$/ do |entity|
+When /^I POOP an entity of type "(.*?)"$/ do |entity|
   @entityData = {
     "educationOrganization" => {
       "organizationCategories" => ["School"],
@@ -435,78 +437,71 @@ When /^I POST an entity of type "(.*?)"$/ do |entity|
   headers = @res.raw_headers
   assert(headers != nil, "Headers are nil")
   #assert(headers['location'] != nil, "There is no location link from the previous request")
+
 end
 
-When /^I GET the response body for a "(.*?)" in "(.*?)"$/ do |entity, edorg|
-  @result_map = Hash.new
+When /^I POOP the response body for a "(.*?)" in "(.*?)"$/ do |entity, edorg|
+  @response_map = Hash.new
   @api_version = "v1"
+  # Entity to URI map for GET operations
   @assocUrlGet = {
     "school" => "educationOrganizations/#{edorg}/schools?limit=1",
     "educationOrganization" => "educationOrganizations",
-    "studentCohortAssocation" => "studentCohortAssociations",
     "courseOffering" => "courseOfferings",
+    "parent" => "parents",
     "section" => "sections",
+    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffProgramAssociation" => "staffProgramAssociations",
+    "studentCohortAssocation" => "studentCohortAssociations",
     "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
     "studentParentAssociation" => "studentParentAssociations",
     "studentProgramAssociation" => "studentProgramAssociations",
     "studentSectionAssociation" => "studentSectionAssociations",
-    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-    "staffEducationOrganizationAssociation2" => "staffEducationOrgAssignmentAssociations",
-    "studentSectionAssociation2" => "studentSectionAssociations",
     "teacherSchoolAssociation" => "teacherSchoolAssociations",
-    "teacherSchoolAssociation2" => "teacherSchoolAssociations",
-    "studentParentAssociation2" => "studentParentAssociations",
-    "staffProgramAssociation" => "staffProgramAssociations",
   }
-
-  @assocUrlPut = {
-    "school" => "educationOrganizations",
-    "invalidEntry" => "school",
-    "wrongSchoolURI" => "schoolz"
-  }
-  step "I navigate to GET \"/#{@api_version}/#{@assocUrlGet[entity]}\""
-  @result_map[entity] = JSON.parse(@res)
-end
-
-# REST Helper step for PUT, PATCH, and DELETE
-When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, entity, value|
-  # Fail if we do not find the entity in response
-  assert(@result_map[entity] != nil, "No response body returned from GET request")
+  # Perform GET request and verify we get a response and a response body
+  restHttpGet("/#{@api_version}/#{@assocUrlGet[entity]}")
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.body != nil, "Response body is nil")
+  # Store the response in an entity-specific response map
+  @response_map[entity] = JSON.parse(@res)
+  # Fail if we do not find the entity in response body from GET request
+  assert(@response_map[entity] != nil, "No response body for #{entity} returned by GET request")
   begin
     # Strip off the outside array on the entity I want to update
-    @fields = @result_map[entity][0]
+    @fields = @response_map[entity][0]
   rescue NoMethodError
     puts "The entity #{entity} does not exist in the json response field:"
-    puts @result_map
+    puts @response_map
     raise
   end
+end
 
-  @id = @fields["id"]  
-  # Update the correct field based on entity type
-  #
-  # --> educationOrganization.body.address.postalCode
-  if field == "postalCode"
-    @fields["address"][0]["postalCode"] = value
-    @patch_body = {"address"=>[{"postalCode"=>value,
-                                "nameOfCounty"=>"Wake",
-                                "streetNumberName"=>"111 Ave A",
-                                "postalCode"=>"11012",
-                                "stateAbbreviation"=>"IL",
-                                "addressType"=>"Physical",
-                                "city"=>"Chicago"
-                               }
-                              ]
-                  } if verb == "PATCH"
-    puts "DEBUG: patch_body is #{@patch_body}"
-  end
-  # --> educationOrganization with non-existent id
-  @id = value if field == "invalidEntry"
-  # --> orphaned school marked for deletion
-  @id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id" if field == "orphanEdorg"
+When /^I POST a "(.*?)" of type "(.*?)"$/ do |entity, type|
+  step "I \"POST\" the \"#{entity}\" for a \"#{type}\" entity to \"dummy\""
+end
 
-  @result = @fields
-  puts "Session ID is #{@sessionId}"
-  step "I navigate to #{verb} \"/#{@api_version}/#{@assocUrlPut[entity]}/#{@id}\""
+# REST Helper step for PUT, PATCH, POST, and DELETE
+When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, entity, value|
+  @api_version = "v1"
+  # Get the response body for the entity to be modified
+  # --> If this is a POST, response_map will be set to nil
+  response_map = getEntityBodyFromApi(entity, @api_version, verb)
+  # Determine the body to be put/post/patch/delete by the restHttp<Verb>() proc
+  body = prepareBody(verb, field, entity, value, response_map)
+  # Retrieve entity to endpoint map for CRUD operation
+  endpoint = getEntityEndpoint(entity)
+  # Invoke API to perform CRUD operation
+  uri = "/#{@api_version}/#{endpoint}"
+  uri = uri + "/#{@id}" if @id != nil
+  data = prepareData(@format, body)
+  puts "Session ID is #{@sessionId}" if $SLI_DEBUG
+  @res = nil
+  restHttpPut(uri, data) if verb == "PUT"
+  restHttpPost(uri, data) if verb == "POST"
+  restHttpPatch(uri, data) if verb == "PATCH"
+  restHttpDelete(uri) if verb == "DELETE"
+  assert(@res != nil, "Response from rest-client #{verb} is nil") unless verb == "PATCH"
 end
 
 When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
@@ -538,13 +533,11 @@ When /^I download and decrypt the delta$/ do
 end
 
 When /^I generate and retrieve the bulk extract delta via API for "(.*?)"$/ do |lea|
-  steps %Q{
-    When I trigger a delta extract
-     And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-     And I request latest delta via API for tenant "Midgar", lea "#{lea}" with appId "<app id>" clientId "<client id>"
-     And I should receive a return code of 200
-     And I download and decrypt the delta
-  }
+  step "I trigger a delta extract"
+  step "I log into \"SDK Sample\" with a token of \"jstevenson\", a \"Noldor\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+  step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
+  step "I should receive a return code of 200"
+  step "I download and decrypt the delta"
 end
 
 ############################################################
@@ -698,29 +691,24 @@ Then /^I verify this "(.*?)" file contains:$/ do |file_name, table|
 end
 
 Then /^I reingest the SEA so I can continue my other tests$/ do
-    steps %Q{
-        And I am using local data store
-        And I post "deltas_update_sea.zip" file as the payload of the ingestion job
-        When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
-        And zip file is scp to ingestion landing zone
-        And a batch job for file "deltas_update_sea.zip" is completed in database
-        And a batch job log has been created 
-        Then I should not see an error log file created
-        And I should not see a warning log file created
-    }
+  step "I am using local data store"
+  step "I post \"deltas_update_sea.zip\" file as the payload of the ingestion job"
+  step "the landing zone for tenant \"Midgar\" edOrg \"Daybreak\" is reinitialized"
+  step "zip file is scp to ingestion landing zone"
+  step "a batch job for file \"deltas_update_sea.zip\" is completed in database"
+  step "a batch job log has been created"
+  step "I should not see an error log file created"
+  step "I should not see a warning log file created"
 end
 
 Then /^I ingested "(.*?)" dataset$/ do |dataset|
-  steps %Q{
-      And I am using local data store
-      And I post "#{dataset}" file as the payload of the ingestion job
-
-    When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
-     And zip file is scp to ingestion landing zone
-     And a batch job for file "#{dataset}" is completed in database
-     And a batch job log has been created 
-      Then I should not see an error log file created
-  }
+  step "I am using local data store"
+  step "I post \"#{dataset}\" file as the payload of the ingestion job"
+  step "the landing zone for tenant \"Midgar\" edOrg \"Daybreak\" is reinitialized"
+  step "zip file is scp to ingestion landing zone"
+  step "a batch job for file \"#{dataset}\" is completed in database"
+  step "a batch job log has been created"
+  step "I should not see an error log file created"
 end
 
 ############################################################
@@ -764,12 +752,14 @@ def getExtractInfoFromMongo(tenant, appId, delta=false, query=nil, query_opts={}
   @timestamp = match['body']['date'] || ""
   @timestamp = @timestamp.utc.iso8601(3)
 
-  puts "encryptFilePath is #{@encryptFilePath}"
-  puts "unpackDir is #{@unpackDir}"
-  puts "fileDir is #{@fileDir}"
-  puts "filePath is #{@filePath}"
-  puts "tenant is #{@tenant}"
-  puts "timestamp is #{@timestamp}"
+  if $SLI_DEBUG
+    puts "encryptFilePath is #{@encryptFilePath}"
+    puts "unpackDir is #{@unpackDir}"
+    puts "fileDir is #{@fileDir}"
+    puts "filePath is #{@filePath}"
+    puts "tenant is #{@tenant}"
+    puts "timestamp is #{@timestamp}"
+  end
 end
 
 def getMongoRecordFromJson(jsonRecord)
@@ -993,4 +983,137 @@ def streamBulkExtractFile(download_file, apiBody)
   download_file ||= Dir.pwd + "/Final.tar"
   f = File.open(download_file, 'a') {|f| f.write(apiBody)}
   return download_file
+end
+
+def getEntityEndpoint(entity)
+  entity_to_endpoint_map = {
+    "educationOrganization" => "educationOrganizations",
+    "invalidEntry" => "school",
+    "orphanEdorg" => "schools",
+    "parent" => "parents",
+    "patchEdOrg" => "educationOrganizations",
+    "school" => "educationOrganizations",
+    "wrongSchoolURI" => "schoolz"
+  }
+  return entity_to_endpoint_map[entity]
+end
+
+def getEntityId(entity)
+  entity_to_id_map = {
+    "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
+    "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+  }
+  return entity_to_id_map[entity]
+end
+
+def getEntityBodyFromApi(entity, api_version, verb)
+  return {entity=>nil} if verb == "POST"
+  entity_to_uri_map = {
+    "school" => "educationOrganizations/#{@edorg}/schools?limit=1",
+    "educationOrganization" => "educationOrganizations",
+    "courseOffering" => "courseOfferings",
+    "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
+    "parent" => "parents",
+    "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+    "section" => "sections",
+    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffProgramAssociation" => "staffProgramAssociations",
+    "studentCohortAssocation" => "studentCohortAssociations",
+    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+    "studentParentAssociation" => "studentParentAssociations",
+    "studentProgramAssociation" => "studentProgramAssociations",
+    "studentSectionAssociation" => "studentSectionAssociations",
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+  }
+  # Perform GET request and verify we get a response and a response body
+  puts "Calling restHttpGet to retreive entity response body for modification."
+  restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.body != nil, "Response body is nil")
+  # Make sure we actually hit the entity
+  puts "Ensuring the GET request returned 200 (OK)"
+  step "I should receive a return code of 200"
+  # Store the response in an entity-specific response map
+  response_map = JSON.parse(@res)
+  # Fail if we do not find the entity in response body from GET request
+  assert(response_map != nil, "No response body for #{entity} returned by GET request")
+  return response_map if verb == "DELETE"
+  return response_map if verb == "PATCH"
+  return response_map[0]
+end
+
+def prepareBody(verb, field, entity, value, response_map)
+  field_data = {
+    "GET" => response_map,
+    "POST" => {
+      "newEducationOrganization" => {
+        "organizationCategories" => ["School"],
+        "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
+        "nameOfInstitution" => "Gotham City School District",
+        "address" => [
+                  "streetNumberName" => "222 Ave D",
+                  "city" => "Chicago",
+                  "stateAbbreviation" => "IL",
+                  "postalCode" => "10098",
+                  "nameOfCounty" => "Hooray"
+                  ],
+        "parentEducationAgencyReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+      },
+    "invalidEducationOrganization" => {
+        "organizationCategories" => ["School"],
+        "educationOrgIdentificationCode" => [
+            {
+              "identificationSystem" => "School",
+              "ID" => "Daybreak Podunk High"
+            }],
+        "stateOrganizationId" => "SchoolInAnInvalidDistrict",
+        "nameOfInstitution" => "Donkey School Wrong District",
+        "address" => [
+                  "streetNumberName" => "999 Ave FAIL",
+                  "city" => "Chicago",
+                  "stateAbbreviation" => "IL",
+                  "postalCode" => "10098",
+                  "nameOfCounty" => "Whoami"
+                  ],
+        "parentEducationAgencyReference" => "ffffffffffffffffffffffffffffffffffffffff_id"
+      }
+    },
+    "PATCH" => {
+      "postalCode" => {
+        "address"=>[{"postalCode"=>value,
+                    "nameOfCounty"=>"Wake",
+                    "streetNumberName"=>"111 Ave A",
+                    "stateAbbreviation"=>"IL",
+                    "addressType"=>"Physical",
+                    "city"=>"Chicago"
+                   }]
+      }
+    }
+  }
+  # Set the appropriate response body based on HTTP method (verb) and entity type
+  # --> In the case of POST, the entity in field_data IS the entire body
+  if verb == "POST"
+    body = field_data[verb][field]
+    @id = nil
+  elsif verb == "PATCH"
+    # Retrieve the entity id from GET request
+    @id = field_data["GET"]["id"]
+    # PATCH is a modification of partial entity, just set body to field
+    body = field_data["PATCH"][field] 
+  else 
+    body = field_data["GET"]
+    puts "body from GET request is #{body}"
+    @id = body["id"]
+  end
+  # Modify the desired fields of the response body for PUT operation
+  body = updateApiBodyField(body, field, value, verb) if verb == "PUT"
+  return body
+end
+
+def updateApiBodyField(body, field, value, verb)
+  # Modify an existing field from 
+  body["address"][0]["postalCode"] = value if field == "postalCode"
+  @id = value if field == "missingEntity"
+  @id = getEntityId(orphanEdorg) if field == "orphanEdorg"
+  return body
 end

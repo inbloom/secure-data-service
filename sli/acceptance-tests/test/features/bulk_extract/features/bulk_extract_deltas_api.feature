@@ -128,7 +128,7 @@ Scenario: Create a new education organization through the API and perform delta
     And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     And format "application/vnd.slc+json"
 
-  When I POST an entity of type "educationOrganization"
+  When I POST a "newEducationOrganization" of type "educationOrganization"
   Then I should receive a return code of 201   
 
   When I trigger a delta extract
@@ -139,14 +139,9 @@ Scenario: Create a new education organization through the API and perform delta
 Scenario: Update an existing education organization through the API and perform delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And format "application/json"  
-
- When I GET the response body for a "school" in "<IL-DAYBREAK>"
- Then I should receive a return code of 200
-  
+  And format "application/json"   
  When I "PUT" the "postalCode" for a "school" entity to "11012"
  Then I should receive a return code of 204
-
  When I trigger a delta extract
   And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id>" clientId "<client id>"
@@ -160,9 +155,7 @@ Scenario: Update an existing edOrg with invalid API call, verify no delta create
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"     
- When I GET the response body for a "school" in "<IL-DAYBREAK>"
- Then I should receive a return code of 200 
- When I "PUT" the "invalidEntry" for a "school" entity to "WHOOPS"
+ When I "PUT" the "missingEntity" for a "school" entity to "WHOOPS"
  Then I should receive a return code of 404
   And deltas collection should have "0" records
 
@@ -170,8 +163,7 @@ Scenario: Create an invalid edOrg with the API, verify no delta created
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/vnd.slc+json"
-
- When I POST an entity of type "invalidEducationOrganization"
+ When I POST a "invalidEducationOrganization" of type "educationOrganization"
  Then I should receive a return code of 403   
   And deltas collection should have "0" records
 
@@ -179,9 +171,7 @@ Scenario: Delete an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
- When I GET the response body for a "school" in "<IL-DAYBREAK>"
- Then I should receive a return code of 200
- When I "DELETE" the "orphanEdorg" for a "school" entity to "null"
+ When I "DELETE" the "orphanEdorg" for a "orphanEdorg" entity to "not exist"
  Then I should receive a return code of 204
  When I trigger a delta extract
   And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
@@ -191,9 +181,7 @@ Scenario: Patch an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"  
- When I GET the response body for a "school" in "<IL-DAYBREAK>"
- Then I should receive a return code of 200  
- When I "PATCH" the "postalCode" for a "school" entity to "11012"
+ When I "PATCH" the "postalCode" for a "patchEdOrg" entity to "11099"
  Then I should receive a return code of 204
  When I trigger a delta extract
   And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -243,7 +231,7 @@ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
 
- When I GET the response body for a "school" in "<IL-DAYBREAK>"
+ When I GET the response body for a "parent" in "<IL-DAYBREAK>"
  Then I should receive a return code of 200  
 
  # CREATE parent entity via POST
@@ -256,7 +244,7 @@ Given I clean the bulk extract file system and database
   And The "educationOrganization" delta was extracted in the same format as the api
 
  # UPDATE/UPSERT parent entity via PUT
- When I "PUT" the "postalCode" for a "school" entity to "11012"
+ When I "PUT" the "postalCode" for a "parent" entity to "11012"
  Then I should receive a return code of 204
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
