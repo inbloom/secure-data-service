@@ -59,9 +59,13 @@ namespace :deploy do
 
   desc "Stop the Thin processes"
   task :stop do
+    begin
     run  <<-CMD
       cd #{deploy_to}/current/sli/admin-tools/admin-rails; bundle exec thin stop -C config/thin.yml -e #{rails_env}
     CMD
+    rescue
+      puts "Can't kill the process, is it already dead?"
+    end
   end
 
   desc "Restart the Thin processes"
