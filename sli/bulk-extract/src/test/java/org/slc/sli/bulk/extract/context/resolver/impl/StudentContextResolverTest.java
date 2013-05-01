@@ -24,10 +24,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.junit.Before;
 import org.junit.Test;
 
 import org.slc.sli.domain.Entity;
@@ -44,6 +46,11 @@ import org.slc.sli.domain.Repository;
 public class StudentContextResolverTest {
     private final StudentContextResolver underTest = new StudentContextResolver();
     
+    @Before
+    public void setup() {
+        underTest.getStudentEdOrgCache().clear();
+    }
+    
     @Test
     public void testFindGoverningLEA() {
         assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
@@ -51,14 +58,14 @@ public class StudentContextResolverTest {
     }
     
     @Test
-    public void getLEAsForStudentId() {
+    public void testGetLEAsForStudentId() {
         @SuppressWarnings("unchecked")
         Repository<Entity> repo = mock(Repository.class);
         Entity testStudent = buildTestStudent();
-        when(repo.findOne("student", buildQuery("42"))).thenReturn(testStudent);
+        when(repo.findOne("student", buildQuery("testStudent"))).thenReturn(testStudent);
         underTest.setRepo(repo);
         assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
-                underTest.getLEAsForStudentId("42"));
+                underTest.getLEAsForStudentId("testStudent"));
     }
     
     @SuppressWarnings("unchecked")
@@ -99,5 +106,15 @@ public class StudentContextResolverTest {
     
     private NeutralQuery buildQuery(String id) {
         return new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, id)).setEmbeddedFieldString("schools");
+    }
+
+    @Test
+    public void testCache() {
+        Entity testEntity = buildTestStudent();
+        Set<String> fromEntity1 = underTest.findGoverningLEA(testEntity);
+        Set<String> fromId = underTest.getLEAsForStudentId("testStudent");
+        Set<String> fromEntity2 = underTest.findGoverningLEA(testEntity);
+        assertEquals(fromEntity1, fromId);
+        assertEquals(fromEntity2, fromId);
     }
 }
