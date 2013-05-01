@@ -168,15 +168,15 @@ Scenario: Delete Assessment with cascade = false, force = true, logViolations = 
 	And I should see "Processed 1 records." in the resulting batch job file
   And I should see "CORE_0066" in the resulting warning log file for "InterchangeAssessmentMetadata.xml"
   And I should not see an error log file created
-	And I re-execute saved query "assessment" to get "0" records
-	And I re-execute saved query "assessmentItem" to get "0" records
-	And I re-execute saved query "objectiveAssessment" to get "0" records
+	And I re-execute saved query "assessment" to get "1" records
+	And I re-execute saved query "assessmentItem" to get "1" records
+	And I re-execute saved query "objectiveAssessment" to get "1" records
 	And I re-execute saved query "studentAssessment" to get "2" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta|
-	|assessment                        |   -1|
-	|assessmentItem                    |   -1|
-	|objectiveAssessment               |   -4|
+	|assessment                        |   0 |
+	|assessmentItem                    |   0 |
+	|objectiveAssessment               |   0 |
 	
 
 Scenario: Delete Assessment Reference with cascade = false, force = true, logviolations = true
@@ -207,12 +207,12 @@ Scenario: Delete Assessment Reference with cascade = false, force = true, logvio
 	And I should see "Processed 1 records." in the resulting batch job file
   And I should see "CORE_0066" in the resulting warning log file for "InterchangeAssessmentMetadata.xml"
   And I should not see an error log file created
-	And I re-execute saved query "assessment" to get "0" records
-	And I re-execute saved query "assessmentItem" to get "0" records
-	And I re-execute saved query "objectiveAssessment" to get "0" records
+	And I re-execute saved query "assessment" to get "1" records
+	And I re-execute saved query "assessmentItem" to get "1" records
+	And I re-execute saved query "objectiveAssessment" to get "1" records
 	And I re-execute saved query "studentAssessment" to get "2" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta|
-	|assessment                        |   -1|
-	|assessmentItem                    |   -1|
-	|objectiveAssessment               |   -4|
+	|assessment                        |   0|
+	|assessmentItem                    |   0|
+	|objectiveAssessment               |   0|
