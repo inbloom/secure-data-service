@@ -20,23 +20,26 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 
 
 public class ExtractorHelperTest {
     private ExtractorHelper helper;
     private Entity mockEntity;
+    private DateHelper mockHelper;
     
     @Before
     public void setUp() {
         helper = new ExtractorHelper();
         mockEntity = Mockito.mock(Entity.class);
+        mockHelper = Mockito.mock(DateHelper.class);
+        helper.setDateHelper(mockHelper);
     }
     
     @After
@@ -73,17 +76,10 @@ public class ExtractorHelperTest {
         Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == edorgs.size());
         
         // Date checking
-        Mockito.when(school.get("exitWithdrawDate")).thenReturn(new DateTime(2010, 1, 1, 1, 1).toDate());
-        Mockito.when(school.containsKey("exitWithdrawDate")).thenReturn(true);
+        Mockito.when(mockHelper.isFieldExpired(school, "exitWithdrawDate")).thenReturn(true);
         Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == 0);
         
-        Mockito.when(school.get("exitWithdrawDate")).thenReturn(new DateTime(2010, 1, 1, 1, 1).toDate());
-        Mockito.when(school.containsKey("exitWithdrawDate")).thenReturn(false);
-        Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == edorgs.size());
-        
-        Mockito.when(school.get("exitWithdrawDate")).thenReturn(
-                new DateTime(System.currentTimeMillis() + 10000).toDate());
-        Mockito.when(school.containsKey("exitWithdrawDate")).thenReturn(true);
+        Mockito.when(mockHelper.isFieldExpired(school, "exitWithdrawDate")).thenReturn(false);
         Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == edorgs.size());
     }
 }
