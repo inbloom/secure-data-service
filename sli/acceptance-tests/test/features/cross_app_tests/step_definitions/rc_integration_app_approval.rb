@@ -106,18 +106,6 @@ Then /^I should be able to use the token to make valid API calls$/ do
          "Session debug context 'authentication.authenticated' is not true")
 end
 
-Then /^I should be able to use the token to make valid API calls in production$/ do
-  url = PropLoader.getProps['api_server_url'] + "/api/rest/system/session/check"
-  puts url
-  restHttpGet(url, "application/json")
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res != nil, "Response is nil")
-  data = JSON.parse(@res.body)
-  assert(data != nil, "Response body is nil")
-  assert(data['authenticated'] == true,
-         "Session debug context 'authentication.authenticated' is not true")
-end
-
 Then /^my current url is "(.*?)"$/ do |url|
   assertWithWait("Not in expected URL") {@driver.current_url == url}
 end
@@ -146,9 +134,7 @@ Then /^I request and download a bulk extract file$/ do
 end
 
 Then /^I request and download a bulk extract file from production$/ do
-  url = PropLoader.getProps['api_server_url'] + "/api/rest/bulk/extract/tenant"
-  puts url
-  restHttpGet(url, "application/x-tar", @sessionId)
+  restHttpGet("bulk/extract/tenant", "application/x-tar")
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
   @filePath = OUTPUT_DIRECTORY + "/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'

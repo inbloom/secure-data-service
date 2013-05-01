@@ -265,7 +265,6 @@ When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" log
 Then I should receive a json response containing my authorization code
 When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
 Then I should receive a json response containing my authorization token
-#Then I should be able to use the token to make valid API calls in production
 #Get bulk extract tar file
 Then I request and download a bulk extract file from production
 And there is a metadata file in the extract
