@@ -54,7 +54,7 @@ Scenario: Delete Orphan Teacher Section Association with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                 |delta|
         |teacherSectionAssociation   |   -1|
-# uncomment when us5635 is done        |recordHash                  |   -1|
+        |recordHash                  |   -1|
 
 Scenario: Delete Orphan Teacher Section Association by reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -79,7 +79,7 @@ Scenario: Delete Orphan Teacher Section Association by reference with cascade = 
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                 |delta|
         |teacherSectionAssociation   |   -1|
-# uncomment when us5635 is done       |recordHash                  |   -1|
+        |recordHash                  |   -1|
 
 
   Scenario: Delete Teacher Section Association with cascade =false, force = true
@@ -106,7 +106,7 @@ Scenario: Delete Orphan Teacher Section Association by reference with cascade = 
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                 |delta|
       |teacherSectionAssociation   |   -1|
-#      |recordHash                  |   -1|
+      |recordHash                  |   -1|
 
   Scenario: Delete Teacher Section Association Referencewith cascade =false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -132,4 +132,4 @@ Scenario: Delete Orphan Teacher Section Association by reference with cascade = 
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                 |delta|
       |teacherSectionAssociation   |   -1|
-#      |recordHash                  |   -1|
+      |recordHash                  |   -1|

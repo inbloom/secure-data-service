@@ -18,7 +18,7 @@
     <value>disciplineAction</value>
     <value>disciplineIncident</value>
     <value>grade</value>
-<!--    <value>gradebookEntry</value>     disabled for us5641 -->
+    <value>gradebookEntry</value>
     <value>gradingPeriod</value>
     <value>graduationPlan</value>
     <value>learningObjective</value>
@@ -48,7 +48,7 @@
     <value>studentGradebookEntry</value>
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
-<!--    <value>teacherSectionAssociation</value>   disabled for us5641 -->
+    <value>teacherSectionAssociation</value>
   </util:set>
 
 </beans>

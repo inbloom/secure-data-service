@@ -96,7 +96,7 @@ Scenario: Delete Gradebook Entry with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta     |
       |gradebookEntry                         |        -1|
-#      |recordHash                             |        -1|
+      |recordHash                             |        -1|
 
   Scenario: Safe Delete Orphan Grade Book Entry Reference with cascade = false, force = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -121,7 +121,7 @@ Scenario: Delete Gradebook Entry with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta     |
       |gradebookEntry                         |        -1|
-#      |recordHash                             |        -1|
+      |recordHash                             |        -1|
 
 
   Scenario: Delete Grade Book Entry with cascade = false, force = true
@@ -152,7 +152,7 @@ Scenario: Delete Gradebook Entry with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta     |
       |gradebookEntry                         |        -1|
-#      |recordHash                             |        -1|
+      |recordHash                             |        -1|
 
 
   Scenario: Delete Grade Book Entry Reference with cascade = false, force = true
@@ -183,4 +183,4 @@ Scenario: Delete Gradebook Entry with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta     |
       |gradebookEntry                         |        -1|
-#      |recordHash                             |        -1|
+      |recordHash                             |        -1|
