@@ -5,6 +5,7 @@ PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
 KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
 JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 LZ = PropLoader.getProps['landingzone']
+SSH_USER = PropLoader.getProps['ssh_user']
 
 require 'archive/tar/minitar'
 include Archive::Tar
@@ -17,9 +18,18 @@ Given /^the extraction zone is empty$/ do
 end
 
 Given /^the production extraction zone is empty$/ do
-   `rm -f /jenkins/.ssh/known_hosts`
-   puts "jenkins@rcingest01.#{LZ.split("-")[0].to_s} sudo rm -rf #{OUTPUT_DIRECTORY}#{convertTenantIdToDbName(PropLoader.getProps['tenant'])}"
-   `ssh jenkins@rcingest01.#{LZ.split("-")[0].to_s} sudo rm -rf #{OUTPUT_DIRECTORY}#{convertTenantIdToDbName(PropLoader.getProps['tenant'])}`
+   `rm -f \~/.ssh/known_hosts`
+   ssh_command = "ssh #{SSH_USER} sudo rm -rf #{OUTPUT_DIRECTORY}#{convertTenantIdToDbName(PropLoader.getProps['tenant'])}"
+   puts ssh_command
+   `#{ssh_command}`
+end
+
+When /^the operator triggers a bulk extract for the production tenant$/ do
+    `rm -f \~/.ssh/known_hosts`
+    command = getBulkExtractCommand(PropLoader.getProps['tenant'])
+    ssh_command  "ssh #{SSH_USER} sudo #{command}"
+    puts ssh_command
+    `#{ssh_command}`
 end
 
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
@@ -45,13 +55,6 @@ def getBulkExtractCommand(tenant)
    command = command + " -t#{tenant}"
    puts "Running: #{command} "
    return command
-end
-
-When /^the operator triggers a bulk extract for the production tenant$/ do
-    `rm -f /jenkins/.ssh/known_hosts`
-    command = getBulkExtractCommand(PropLoader.getProps['tenant'])
-    puts "jenkins@rcingest01.#{LZ.split("-")[0].to_s} sudo #{command}"
-    `ssh jenkins@rcingest01.#{LZ.split("-")[0].to_s} sudo #{command}`
 end
 
 Then /^I get the client ID and shared secret for the app$/ do

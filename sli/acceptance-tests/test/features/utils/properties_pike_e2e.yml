@@ -146,6 +146,8 @@ ci_idp_redirect_url: https://pike-sidp.slidev.org/sliidp?realm=RCTestTenant
 #e2e_dev_email: testdev.wgen@gmail.com
 #e2e_password: test1234
 
+ssh_user: jenkins@rcingest01.pike
+
 
 ################# /e2e test properties #################################
 
