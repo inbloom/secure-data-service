@@ -340,17 +340,17 @@ end
 Then /^I store the contents of the first call$/ do
   res_content = @res.body.split(%r{--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
   @content1 = res_content[1].strip()
-  puts @content1.size
+  assert_equal(@content1.size, 15001)
   @content3 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0].strip()
-  puts @content3.size
+  assert_equal(@content3.size, 22000)
 end
 
 Then /^I store the contents of the second call$/ do
   res_content = @res.body.split(%r{--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
   @content2 = res_content[1].strip()
-  puts @content2.size
+  assert_equal(@content2.size, 5000)
   @content4 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0].strip()
-  puts @content4.size
+  puts "The final chunk is #{@content4.size} bytes long"
 end
 
 Then /^I combine the file contents$/ do
