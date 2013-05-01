@@ -7,6 +7,7 @@ Background: An authorized bulk extract user logs in and gets the information for
     When I make a call to the bulk extract end point "/bulk/extract/tenant"
     Then I get back a response code of "200"
     Then I have all the information to make a custom bulk extract request
+    Then I delete the tar file I'm writing to if it exists
  
  Scenario: Get the extract file with consecutive range calls
     When I prepare the custom headers for byte range from "0" to "100"
