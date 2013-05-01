@@ -43,7 +43,7 @@ public class LEAExtractFileMap {
     }
 
     public void closeFiles() {
-        for (ExtractFile file : edOrgToLEAExtract.values()) {
+        for (ExtractFile file : new HashSet<ExtractFile>(edOrgToLEAExtract.values())) {
             file.closeWriters();
         }
         
@@ -54,7 +54,7 @@ public class LEAExtractFileMap {
     }
 
     public void buildManifestFiles(DateTime startTime) {
-        for (ExtractFile file : edOrgToLEAExtract.values()) {
+        for (ExtractFile file : new HashSet<ExtractFile>(edOrgToLEAExtract.values())) {
             try {
                 file.getManifestFile().generateMetaFile(startTime);
             } catch (IOException e) {
