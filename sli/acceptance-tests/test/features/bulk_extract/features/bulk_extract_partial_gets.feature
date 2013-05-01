@@ -1,4 +1,5 @@
 @US5618
+@TempFileCleanup
 Feature: Retrieve portions of the bulk extract file through the API and validate
 
 Background: An authorized bulk extract user logs in and gets the information for the extract from a HEAD call
