@@ -32,6 +32,7 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.lea.EdorgExtractor;
 import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
 import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
+import org.slc.sli.bulk.extract.lea.StudentExtractor;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -81,9 +82,8 @@ public class LocalEdOrgExtractor {
         // 2. EXTRACT
         EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
         edorg.extractEntities(buildEdOrgCache());
-        // StudentExtractor student = factory.buildStudentExtractor(entityExtractor,
-        // leaToExtractFileMap, repository);
-        // student.extractEntities(null);
+        StudentExtractor student = factory.buildStudentExtractor(entityExtractor, leaToExtractFileMap, repository);
+        student.extractEntities(null);
         leaToExtractFileMap.closeFiles();
 
         // TODO extract other entities

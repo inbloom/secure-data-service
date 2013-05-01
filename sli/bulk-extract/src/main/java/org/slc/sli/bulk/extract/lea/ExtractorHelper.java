@@ -16,17 +16,22 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 
 public class ExtractorHelper {
     
+    private DateHelper dateHelper;
+
     public Set<String> fetchCurrentSchoolsFromStudent(Entity student) {
+        if (dateHelper == null) {
+            dateHelper = new DateHelper();
+        }
         Set<String> studentSchools = new HashSet<String>();
         Map<String, List<Map<String, Object>>> data = student.getDenormalizedData();
         if (!data.containsKey("schools")) {
@@ -34,8 +39,7 @@ public class ExtractorHelper {
         }
         List<Map<String, Object>> schools = data.get("schools");
         for (Map<String, Object> school : schools) {
-            Date now = new Date();
-            if (school.containsKey("exitWithdrawDate") && now.after((Date) school.get("exitWithdrawDate"))) {
+            if (dateHelper.isFieldExpired(school, "exitWithdrawDate")) {
                 continue;
             }
             if (school.containsKey("edOrgs")) {
@@ -44,5 +48,9 @@ public class ExtractorHelper {
             }
         }
         return studentSchools;
+    }
+    
+    public void setDateHelper(DateHelper helper) {
+        this.dateHelper = helper;
     }
 }

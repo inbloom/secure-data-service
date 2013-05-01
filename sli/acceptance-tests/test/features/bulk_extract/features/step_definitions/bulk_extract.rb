@@ -175,10 +175,10 @@ Given /^I trigger a delta extract$/ do
 end
 
 Given /^the extraction zone is empty$/ do
-    if (Dir.exists?(OUTPUT_DIRECTORY))
-      puts OUTPUT_DIRECTORY
-      FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
-    end
+  if (Dir.exists?(OUTPUT_DIRECTORY))
+    puts OUTPUT_DIRECTORY
+    FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
+  end
 end
 
 Given /^I have delta bulk extract files generated for today$/ do
@@ -286,7 +286,7 @@ When /^the extract contains a file for each of the following entities with the a
 	end
 
   fileList = Dir.entries(@unpackDir)
-	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
+	assert((fileList.size-3)>=table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
 end
 
 When /^a "(.*?)" extract file exists$/ do |collection|
@@ -632,6 +632,14 @@ Then /^I should see "(.*?)" bulk extract files$/ do |count|
   checkTarfileCounts(directory, count)
 end
 
+Then /^I should see "(.*?)" bulk extract SEA-public data file for the tenant "(.*?)" and application with id "(.*?)"$/ do |count, tenant, app_id|
+  query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isPublicData" => true}
+  count = count.to_i
+  checkMongoQueryCounts("bulklExtractFiles", query, count);
+  getExtractInfoFromMongo(tenant, app_id, false, query)
+  assert(File.exists(@encryptFilePath), "SEA public data doesn't exist.")
+end
+
 Then /^there should be no deltas in mongo$/ do
   checkMongoCounts("bulkExtractFiles", 0)
 end
@@ -730,6 +738,7 @@ end
 After do
   @conn.close if @conn != nil
 end
+
 ############################################################
 # Functions
 ############################################################
@@ -954,6 +963,13 @@ def checkMongoCounts(collection, count)
   @db = @conn["sli"]
   collection = @db[collection]
   assert(collection.count == count, "Found #{collection.count} bulkExtract mongo entries, expected #{count}")
+end
+
+def checkMongoQueryCounts(collection, query, count)
+  @db = @conn["sli"]
+  collection = @db[collection]
+  match = @db.collection(collection).find_one(query)
+  assert(match.count == count, "Found #{collection.count} bulkExtract mongo entries, expected #{count}")
 end
 
 def checkTarfileCounts(directory, count)
