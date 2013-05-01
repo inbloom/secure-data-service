@@ -230,7 +230,16 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery, allFields);
 
         try {
-            return findOne(collectionName, mongoQuery);
+        	if ( allFields ) {
+                // When getting "all fields" we want the full document, including any subdoc data.
+                // In that case, we want not to do any subdoc conversions, but rather retrieve
+            	// the data "raw", so use the template directly here.
+        		guideIfTenantAgnostic(collectionName);
+        		return template.findOne(mongoQuery, getRecordClass(), collectionName);
+        	}
+        	else {
+        		return findOne(collectionName, mongoQuery);
+        	}
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return null;

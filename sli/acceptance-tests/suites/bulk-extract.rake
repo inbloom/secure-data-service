@@ -89,6 +89,17 @@ task :bulkExtractDeltasTest do
   #Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "Extract SEA only public data"
+task :bulkExtractSEAPublicTest do
+  runTests("test/features/bulk_extract/features/bulk_extract_ingestion.feature")
+  Rake::Task["realmInit"].execute
+  Rake::Task["appInit"].execute
+  allLeaAllowApp("SDK Sample")  
+  authorizeEdorg("SDK Sample")
+  runTests("test/features/bulk_extract/features/bulk_extract_sea_public.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
 desc "Negative and Edge Cases"
 task :bulkExtractNegativeTests do
   runTests("test/features/bulk_extract/features/bulk_extract_neg_and_edge.feature")
@@ -129,7 +140,8 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractSchedulerTest"].execute
   Rake::Task["bulkExtractNegativeTests"].execute
   Rake::Task["bulkExtractTlsTests"].execute
-  Rake::Task["bulkExtractCleanup"].execute 
+  #Rake::Task["bulkExtractSEAPublicTest"].execute
+  Rake::Task["bulkExtractCleanup"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

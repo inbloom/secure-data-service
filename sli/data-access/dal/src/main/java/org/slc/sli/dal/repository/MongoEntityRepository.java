@@ -950,7 +950,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Update update = new Update();
 
         // It is possible for the body and metaData keys to be absent in the case
-        // of "orphaned" subDoc data.
+        // of "orphaned" subDoc data when a document has been "hollowed out"
         Map<String, Object> entityBody = entity.getBody();
         if ( entityBody != null && entityBody.size() == 0 ) {
         	update.unset("body");
@@ -1045,7 +1045,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             if (deleteAssessmentFamilyReference) {
                 option = SuperdocConverter.Option.DELETE_ASSESSMENT_FAMILY_REFERENCE;
             }
-            converter.bodyFieldToSubdoc(entity, option);
+            // It is possible for the body and metaData keys to be absent in the case
+            // of "orphaned" subDoc data when a document has been "hollowed out"
+            Map<String, Object> body = entity.getBody();
+            if ( body != null && body.size() > 0 ) {
+            	converter.bodyFieldToSubdoc(entity, option);
+            }
         }
         validator.validate(entity);
         if (denormalizer.isDenormalizedDoc(collection)) {

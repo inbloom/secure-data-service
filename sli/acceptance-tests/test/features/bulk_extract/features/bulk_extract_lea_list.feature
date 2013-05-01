@@ -20,7 +20,7 @@ Background: An authorized bulk extract user logs in and gets the information for
 Scenario: Get the URL I should use to get the latest full bulk extract for a given LEA
 	When I make a call retrieve the header for the bulk extract end point "/v1.1/bulk/extract/list"
 	When I get back a response code of "200"
-	When the number return URLs is correct:
+	When the number of returned URLs is correct:
 	|   fieldName  | count |
 	|   fullLeas   |  1    |
 	|   deltaLeas  |  1    |
