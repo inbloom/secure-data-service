@@ -91,8 +91,8 @@ end
 
 Then /^I should receive a json response containing my authorization token$/ do
   assertWithWait("Could not find text 'authorization_token' on page") {@driver.page_source.include?("access_token")}
-
   @sessionId = @driver.page_source.match(/"access_token":"(?<Token>[^"]*)"/)[:Token]
+  puts @sessionId
 end
 
 Then /^I should be able to use the token to make valid API calls$/ do
@@ -133,7 +133,7 @@ Then /^I request and download a bulk extract file$/ do
 end
 
 Then /^I request and download a bulk extract file from production$/ do
-  restHttpGet("/bulk/extract/tenant", "application/x-tar", @sessionId)
+  restHttpGet(PropLoader.getProps['api_server_url'] + "api/rest/bulk/extract/tenant", "application/x-tar", @sessionId)
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
   @filePath = OUTPUT_DIRECTORY + "/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
@@ -142,6 +142,5 @@ Then /^I request and download a bulk extract file from production$/ do
   end
   step "the response is decrypted"
   File.open(@filePath, 'w') {|f| f.write(@plain) }
-
   assert(File.exists?(@filePath), "Bulk Extract file was unable to be download to: #{@filePath.to_s}")
 end
