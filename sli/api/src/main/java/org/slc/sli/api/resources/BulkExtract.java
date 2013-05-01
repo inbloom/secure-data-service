@@ -23,7 +23,6 @@ import java.io.OutputStream;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,16 +51,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.AppAuthHelper;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
 import org.slc.sli.common.constants.EntityNames;
@@ -102,6 +100,9 @@ public class BulkExtract {
 
     @Autowired
     private EdOrgHelper helper;
+
+    @Autowired
+    private AppAuthHelper appAuthHelper;
 
     @Autowired
     private CertificateValidationHelper validator;
@@ -165,7 +166,7 @@ public class BulkExtract {
             throw new AccessDeniedException("User is not authorized access this extract");
         }
 
-        checkApplicationAuthorization(leaId);
+        appAuthHelper.checkApplicationAuthorization(leaId);
         return getExtractResponse(context.getRequest(), null, leaId);
     }
 
@@ -181,9 +182,7 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request for list of links for all LEAs for this user/app");
-        validateRequestCertificate(request);
-
-        checkApplicationAuthorization(null);
+        validateRequestAndApplicationAuthorization(request);
 
         return getLEAListResponse(context);
     }
@@ -199,9 +198,7 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getTenant(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request to stream tenant bulk extract...");
-        validateRequestCertificate(request);
-
-        checkApplicationAuthorization(null);
+        validateRequestAndApplicationAuthorization(request);
 
         return getExtractResponse(context.getRequest(), null, null);
     }
@@ -220,8 +217,7 @@ public class BulkExtract {
             @PathParam("leaId") String leaId, @PathParam("date") String date) throws Exception {
         if (deltasEnabled) {
             LOG.info("Retrieving delta bulk extract");
-            validateRequestCertificate(request);
-            checkApplicationAuthorization(null);
+            validateRequestAndApplicationAuthorization(request);
             return getExtractResponse(context.getRequest(), date, leaId);
         }
         return Response.status(404).build();
@@ -237,10 +233,7 @@ public class BulkExtract {
      */
     Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId) {
 
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Entity application = getApplication(auth);
-
-        String appId = application.getEntityId();
+        String appId = appAuthHelper.getApplicationId();
 
         Entity entity = getBulkExtractFileEntity(deltaDate, appId, leaId, false);
 
@@ -281,13 +274,11 @@ public class BulkExtract {
      */
     Response getLEAListResponse(final HttpContext context) {
 
-        List<String> userLEAs = checkUserAssociatedLEAs();
+        List<String> userDistrics = checkUserAssociatedSLEAs();
 
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Entity application = getApplication(auth);
-        String appId = application.getEntityId();
+        String appId = appAuthHelper.getApplicationId();
 
-        List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserLEAs(userLEAs, appId);
+        List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserSLEAs(userDistrics, appId);
         if (appAuthorizedUserLEAs.size() == 0) {
             LOG.info("No authorized LEAs for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
@@ -346,23 +337,6 @@ public class BulkExtract {
         list.put("deltaLeas", leaDeltaLinks);
         ResponseBuilder builder = Response.ok(list);
         return builder.build();
-    }
-
-    private Entity getApplication(Authentication authentication) {
-        if (!(authentication instanceof OAuth2Authentication)) {
-            throw new AccessDeniedException("Not logged in with valid oauth context");
-        }
-        final OAuth2Authentication oauth = (OAuth2Authentication) authentication;
-
-        final String clientId = oauth.getClientAuthentication().getClientId();
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("client_id", NeutralCriteria.OPERATOR_EQUAL, clientId));
-        final Entity entity = mongoEntityRepository.findOne(EntityNames.APPLICATION, query);
-
-        if (entity == null) {
-            throw new AccessDeniedException("Could not find application with client_id=" + clientId);
-        }
-
-        return entity;
     }
 
     /**
@@ -425,31 +399,12 @@ public class BulkExtract {
     /**
      * @throws AccessDeniedException if the application is not BEEP enabled
      */
-    @SuppressWarnings("unchecked")
-    private void checkApplicationAuthorization(String edorgsForExtract) throws AccessDeniedException {
-        OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
-        Entity app = getApplication(auth);
-        Map<String, Object> body = app.getBody();
-        if (!body.containsKey("isBulkExtract") || !((Boolean) body.get("isBulkExtract"))) {
-            throw new AccessDeniedException("Application is not approved for bulk extract");
-        }
-        if (edorgsForExtract != null) {
-            NeutralQuery query = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL,
-                    app.getEntityId()));
-            Entity appAuth = mongoEntityRepository.findOne(ApplicationAuthorizationResource.RESOURCE_NAME, query);
-
-            if (appAuth == null
-                    || !((List<?>) appAuth.getBody().get(ApplicationAuthorizationResource.EDORG_IDS))
-                            .contains(edorgsForExtract)) {
-                throw new AccessDeniedException("Application is not authorized for bulk extract");
-            }
-        }
+    private void validateRequestAndApplicationAuthorization(HttpServletRequest request) throws AccessDeniedException {
+        validateRequestCertificate(request);
+        appAuthHelper.checkApplicationAuthorization(null);
     }
 
-    private List<String> checkUserAssociatedLEAs() throws AccessDeniedException {
-        if (principal == null || principal.getEntity() == null) {
-            throw new AccessDeniedException("User is not authorized for a list of available LEAs extracts");
-        }
+    private List<String> checkUserAssociatedSLEAs() throws AccessDeniedException {
         List<String> userDistrics = helper.getDistricts(principal.getEntity());
         if (userDistrics.size() == 0) {
             throw new AccessDeniedException("User is not authorized for a list of available LEAs extracts");
@@ -457,27 +412,10 @@ public class BulkExtract {
         return userDistrics;
     }
 
-    private List<String> getApplicationAuthorizedUserLEAs(List<String> userLEAs, String appId) {
-        List<String> results = new ArrayList<String>();
-        List<String> appAuthorizedEdorgIds = getApplicationAuthorizationEdorgIds(appId);
-
-        for (String edOrgId : userLEAs) {
-            if (appAuthorizedEdorgIds.contains(edOrgId)) {
-                results.add(edOrgId);
-            }
-        }
-
-        return results;
-    }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private List<String> getApplicationAuthorizationEdorgIds(String appId) {
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ApplicationAuthorizationResource.APP_ID,
-                NeutralCriteria.OPERATOR_EQUAL, appId));
-        Entity appAuth = mongoEntityRepository.findOne(ApplicationAuthorizationResource.RESOURCE_NAME, query);
-
-        return appAuth == null ? Collections.emptyList() :
-                (List) appAuth.getBody().get(ApplicationAuthorizationResource.EDORG_IDS);
+    private List<String> getApplicationAuthorizedUserSLEAs(List<String> userDistrics, String appId) {
+        List<String> appAuthorizedEdorgIds = appAuthHelper.getApplicationAuthorizationEdorgIds(appId);
+        appAuthorizedEdorgIds.retainAll(userDistrics);
+        return appAuthorizedEdorgIds;
     }
 
     /**
