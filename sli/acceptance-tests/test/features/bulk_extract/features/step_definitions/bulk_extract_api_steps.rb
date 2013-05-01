@@ -477,7 +477,7 @@ Then /^the number of returned URLs is correct:$/ do |table|
   end
 end
 
-After(@TempFileCleanup) do
+After("@TempFileCleanup") do
   if File.exists?(Dir.pwd + "/" + $TAR_FILE_NAME)
     File.delete( Dir.pwd + "/" + $TAR_FILE_NAME)
   end

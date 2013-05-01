@@ -175,10 +175,10 @@ Given /^I trigger a delta extract$/ do
 end
 
 Given /^the extraction zone is empty$/ do
-    if (Dir.exists?(OUTPUT_DIRECTORY))
-      puts OUTPUT_DIRECTORY
-      FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
-    end
+  if (Dir.exists?(OUTPUT_DIRECTORY))
+    puts OUTPUT_DIRECTORY
+    FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
+  end
 end
 
 Given /^I have delta bulk extract files generated for today$/ do
