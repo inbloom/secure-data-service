@@ -1,3 +1,4 @@
+@wip
 Feature: Client Certificate Validation for Bulk Extract
 I want to validate that the X509 Certificate passed to the API Bulk Extract call is the same one we have on record,
 before giving all the data in SLI to a vendor
