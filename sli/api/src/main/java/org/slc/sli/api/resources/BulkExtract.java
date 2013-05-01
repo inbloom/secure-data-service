@@ -274,7 +274,7 @@ public class BulkExtract {
      */
     Response getLEAListResponse(final HttpContext context) {
 
-        List<String> userDistrics = checkUserAssociatedSLEAs();
+        List<String> userDistrics = retrieveUserAssociatedSLEAs();
 
         String appId = appAuthHelper.getApplicationId();
 
@@ -404,7 +404,7 @@ public class BulkExtract {
         appAuthHelper.checkApplicationAuthorization(null);
     }
 
-    private List<String> checkUserAssociatedSLEAs() throws AccessDeniedException {
+    private List<String> retrieveUserAssociatedSLEAs() throws AccessDeniedException {
         List<String> userDistrics = helper.getDistricts(principal.getEntity());
         if (userDistrics.size() == 0) {
             throw new AccessDeniedException("User is not authorized for a list of available LEAs extracts");
