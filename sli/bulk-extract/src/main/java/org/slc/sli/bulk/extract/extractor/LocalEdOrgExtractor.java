@@ -15,16 +15,6 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
-import java.io.File;
-import java.security.PublicKey;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
@@ -40,6 +30,16 @@ import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.File;
+import java.security.PublicKey;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Creates local ed org tarballs
@@ -143,7 +143,7 @@ public class LocalEdOrgExtractor {
         return cache;
     }
     
-    public Map<String, Set<String>> leaToApps() {
+    private Map<String, Set<String>> leaToApps() {
     	Map<String, Set<String>> result = new HashMap<String, Set<String>>();
     	Map<String, Set<String>> beAppsToLEAs = helper.getBulkExtractLEAsPerApp();
     	for(String app : beAppsToLEAs.keySet()) {
