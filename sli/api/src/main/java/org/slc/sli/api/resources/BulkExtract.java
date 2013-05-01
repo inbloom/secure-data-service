@@ -405,6 +405,9 @@ public class BulkExtract {
     }
 
     private List<String> retrieveUserAssociatedSLEAs() throws AccessDeniedException {
+        if (principal == null || principal.getEntity() == null) {
+            throw new AccessDeniedException("Missing User security principal");
+        }
         List<String> userDistrics = helper.getDistricts(principal.getEntity());
         if (userDistrics.size() == 0) {
             throw new AccessDeniedException("User is not authorized for a list of available LEAs extracts");
