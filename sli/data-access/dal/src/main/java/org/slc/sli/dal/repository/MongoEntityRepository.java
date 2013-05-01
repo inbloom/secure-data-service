@@ -452,34 +452,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return repositoryType;
     }
 
-    class SafeDeleteAffectedIds {
-        private Set<String> deletedIds;
-        private Set<String> referenceFieldRemovedIds;
-        private Set<String> referenceFieldPatchedIds;
-
-        SafeDeleteAffectedIds() {
-            this.deletedIds = new HashSet<String>();
-            this.referenceFieldRemovedIds = new HashSet<String>();
-            this.referenceFieldPatchedIds = new HashSet<String>();
-        }
-
-        public Set<String> getDeletedIds() {
-            return deletedIds;
-        }
-
-        public Set<String> getReferenceFieldRemovedIds() {
-            return referenceFieldRemovedIds;
-        }
-
-        public Set<String> getReferenceFieldPatchedIds() {
-            return referenceFieldPatchedIds;
-        }
-
-        long getAffectedCount() {
-            return deletedIds.size() + referenceFieldPatchedIds.size() + referenceFieldRemovedIds.size();
-        }
-    }
-
     @Override
     public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun, boolean force,
             boolean logViolations, Integer maxObjects, AccessibilityCheck access) {
