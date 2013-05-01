@@ -14,7 +14,7 @@ Scenario: Generate a bulk extract day 0 delta
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
     #    Then The "parent" delta was extracted in the same format as the api
-    #    Then The "studentParentAssociation" delta was extracted in the same format as the api
+        Then The "studentParentAssociation" delta was extracted in the same format as the api
 
 Scenario: Generate a bulk extract in a different LEAs
   Given I clean the bulk extract file system and database
