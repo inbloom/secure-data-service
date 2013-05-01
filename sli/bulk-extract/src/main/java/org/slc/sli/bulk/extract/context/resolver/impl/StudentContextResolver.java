@@ -21,17 +21,18 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.format.ISODateTimeFormat;
+import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.google.common.collect.MapMaker;
 
 /**
  * Context resolver for students
@@ -46,7 +47,8 @@ public class StudentContextResolver implements ContextResolver {
     @Autowired
     @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
-
+    private final Map<String, Set<String>> studentEdOrgCache = new MapMaker().softValues().makeMap();
+    
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> leas = new HashSet<String>();
@@ -66,6 +68,7 @@ public class StudentContextResolver implements ContextResolver {
                 }
             }
         }
+        getStudentEdOrgCache().put(entity.getEntityId(), leas);
         return leas;
     }
     
@@ -92,7 +95,12 @@ public class StudentContextResolver implements ContextResolver {
      * @return the set of LEAs
      */
     public Set<String> getLEAsForStudentId(String id) {
-        Entity entity = repo.findOne("student", new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, id)).setEmbeddedFieldString("schools"));
+        Set<String> cached = getStudentEdOrgCache().get(id);
+        if (cached != null) {
+            return cached;
+        }
+        Entity entity = repo.findOne("student", new NeutralQuery(new NeutralCriteria("_id",
+                NeutralCriteria.OPERATOR_EQUAL, id)).setEmbeddedFieldString("schools"));
         if (entity != null) {
             return findGoverningLEA(entity);
         }
@@ -105,5 +113,9 @@ public class StudentContextResolver implements ContextResolver {
     
     void setRepo(Repository<Entity> repo) {
         this.repo = repo;
+    }
+    
+    Map<String, Set<String>> getStudentEdOrgCache() {
+        return studentEdOrgCache;
     }
 }
