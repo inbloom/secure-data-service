@@ -66,7 +66,8 @@ public class EdOrgContextResolverFactory {
         }
 
         if ("studentSchoolAssociation".equals(entityType)
-                || "studentAssessment".equals(entityType)) {
+                || "studentAssessment".equals(entityType)
+                || "studentParentAssociation".equals(entityType)) {
             return studentDirectRelatedContextResolver;
         }
         
