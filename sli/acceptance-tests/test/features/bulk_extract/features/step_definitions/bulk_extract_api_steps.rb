@@ -253,7 +253,7 @@ Then /^the content length in response header is greater than the requested range
 end
 
 Then /^I store the file content$/ do
-  @received_file = Dir.pwd + "/Final.tar"
+  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
   File.open(@received_file, "a") do |outf|
     outf << @res.body
   end
@@ -264,7 +264,7 @@ Then /^I process the file content$/ do
   original_tar_contents = file.read
 
   res_content = @res.body.split("\r\n")
-  @received_file = Dir.pwd + "/Final.tar"
+  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
 
   File.open(@received_file, "wb") do |outf|
     res_content.each { |content|
@@ -354,7 +354,7 @@ Then /^I store the contents of the second call$/ do
 end
 
 Then /^I combine the file contents$/ do
-  @received_file = Dir.pwd + "/Final.tar"
+  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
   File.open(@received_file, "wb") do |outf|
         outf << @content1
         outf << @content2
@@ -477,6 +477,11 @@ Then /^the number of returned URLs is correct:$/ do |table|
   end
 end
 
+After("@TempFileCleanup") do
+  if File.exists?(Dir.pwd + "/" + $TAR_FILE_NAME)
+    File.delete( Dir.pwd + "/" + $TAR_FILE_NAME)
+  end
+end
 
 def getAppId()
   conn ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST'])

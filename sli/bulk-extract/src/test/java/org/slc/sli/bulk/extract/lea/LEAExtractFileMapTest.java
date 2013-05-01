@@ -27,7 +27,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
 
 
 public class LEAExtractFileMapTest {
@@ -81,6 +80,19 @@ public class LEAExtractFileMapTest {
         Mockito.when(mockFile.getManifestFile()).thenThrow(new IOException("I HATE MANIFEST FILES"));
         edorgMap.put("BLOOP", mockFile);
         extractMap.buildManifestFiles(new DateTime());
+    }
+    
+    @Test
+    public void testGenerateFilesOnlyOnce() {
+        ExtractFile mockFile = Mockito.mock(ExtractFile.class);
+        ExtractFile mockFile2 = Mockito.mock(ExtractFile.class);
+        edorgMap.put("One", mockFile);
+        edorgMap.put("Two", mockFile);
+        edorgMap.put("Three", mockFile2);
+        
+        extractMap.archiveFiles();
+        Mockito.verify(mockFile, Mockito.times(1)).generateArchive();
+        Mockito.verify(mockFile2, Mockito.times(1)).generateArchive();
     }
     
     @Test
