@@ -19,14 +19,16 @@ require 'open3'
 require 'digest/sha1'
 require_relative '../../../utils/sli_utils.rb'
 
-$FAKE_FILE_TEXT = "This is a fake tar file"
-
 Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"$/ do |token|
   @sessionId=token
 end
 
-When /^I make a call to the bulk extract end point "(.*?)"$/ do |url|
+When /^I make a call to the bulk extract end point "([^"]*)"$/ do |url|
   restTls(url)
+end
+
+When /^I make a call to the bulk extract end point "(.*?)" using the certificate for app "(.*?)"$/ do |url, app|
+  restTls(url, nil, @format, @sessionId, app)
 end
 
 When /^I make a call retrieve the header for the bulk extract end point "(.*?)"$/ do |url|
@@ -419,8 +421,6 @@ Then /^the response is decrypted$/ do
   aes.iv = decrypted_iv
   @plain = aes.update(encryptedmessage) + aes.final
   if $SLI_DEBUG 
-    puts("Final is #{aes.final}")
-    puts("IV is #{encryptediv}")
     puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
     puts("Encrypted message is #{encryptedmessage}")
     puts("Cipher is #{aes}")
@@ -429,11 +429,6 @@ Then /^the response is decrypted$/ do
   end
  # @plain = decrypt(@res.body) 
 end
-
-Then /^I see that the response matches what I put in the fake tar file$/ do
-  assert(@plain == $FAKE_FILE_TEXT, "Decrypted text in 'tar' file did not match, expected #{$FAKE_FILE_TEXT} received #{@plain}")
-end
-
 
 Then /^I have all the information to make a custom bulk extract request$/ do
   puts "@res.headers: #{@res.headers}"
@@ -451,12 +446,37 @@ Then /^I have all the information to make a custom bulk extract request$/ do
   @orig_content = @res.body
 end
 
+When /^I make a head request with each returned URL$/ do
+  assert(@res.body.has_key?("list"), "Response contains no lis of URLs")
+
+  types = ["fullLeas", "deltaLeas", "fullSea", "deltaSea"]
+
+  types.each do |type| 
+    @res.body[type].each do |leaId, links|
+      puts "Checking LEA #{leaid}"
+      links.each do |key, link|
+        restHttpHeadFullPath(link)
+        step "the return code is 200 I get expected tar downloaded"
+      end
+    end
+  end
+end
+
+Then /^check to find if record is in collection:$/ do |table|
+  table.hashes.map do |row|
+    assert(@res.body[row["fieldName"]].length == row["count"], "Response contains wrong number of URLS, expected {} count{}, returned {}", row["fieldName"], row["count"], @res.body[row["fieldName"]])
+  end
+end
+
+
 def getAppId()
-  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  conn ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
+  db ||= conn.db('sli')
   userSessionColl = db.collection("userSession")
   clientId = userSessionColl.find_one({"body.appSession.token" => @sessionId}) ["body"]["appSession"][0]["clientId"]
   appColl = db.collection("application")
   appId = appColl.find_one({"body.client_id" => clientId}) ["_id"]
+  conn.close
   return appId
 end
 
@@ -477,8 +497,6 @@ def decrypt(content, client_id = "vavedra9ub")
   @decrypted = aes.update(encryptedmessage) + aes.final
 
   if $SLI_DEBUG 
-    puts("Final is #{aes.final}")
-    puts("IV is #{encryptediv}")
     puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
     puts("Encrypted message is #{encryptedmessage}")
     puts("Cipher is #{aes}")

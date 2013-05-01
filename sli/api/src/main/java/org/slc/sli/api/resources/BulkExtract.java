@@ -411,7 +411,7 @@ public class BulkExtract {
         }
 
         if (isDelta) {
-            DateTime d = ISODateTimeFormat.dateHourMinuteSecond().parseDateTime(deltaDate);
+            DateTime d = ISODateTimeFormat.dateTime().parseDateTime(deltaDate);
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, d.toDate()));
         }
         debug("Bulk Extract query is {}", query);

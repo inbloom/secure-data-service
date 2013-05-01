@@ -14,14 +14,12 @@ Given the following collections are empty in datastore:
      | recordHash                  |
   And I post "TinyDataSet.zip" file as the payload of the ingestion job
   And zip file is scp to ingestion landing zone
-  And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job for file "TinyDataSet.zip" is completed in database
   Then I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue                                 | searchType           |
      | educationOrganization       | 1                   | body.nameOfInstitution      | Illinois State Board of Education           | string               |
 When I post "TinyDataSetUpdated.zip" file as the payload of the ingestion job
   And zip file is scp to ingestion landing zone
-  And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job for file "TinyDataSetUpdated.zip" is completed in database
   Then I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue                                 | searchType           |
@@ -30,7 +28,6 @@ When I post "TinyDataSetUpdated.zip" file as the payload of the ingestion job
 When the landing zone is reinitialized
 And I post "TinyDataSet.zip" file as the payload of the ingestion job
   And zip file is scp to ingestion landing zone with name "TinyDataSet2.zip"
-  And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job for file "TinyDataSet2.zip" is completed in database
   Then I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue                                 | searchType           |

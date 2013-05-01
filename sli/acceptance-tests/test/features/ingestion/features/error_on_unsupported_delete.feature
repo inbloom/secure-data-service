@@ -22,7 +22,6 @@ Scenario: Error When Attempting Cascade Delete, using grade as an example
 	And I should see "records considered for processing: 0" in the resulting batch job file
 	And I should see "records ingested successfully: 0" in the resulting batch job file
 	And I should see "records deleted successfully: 0" in the resulting batch job file
-	And I should see "child records deleted successfully: 0" in the resulting batch job file
 	And I should see "records failed processing: 0" in the resulting batch job file
 	And I should see "records not considered for processing: 1" in the resulting batch job file
 	And I should see "Processed 1 records." in the resulting batch job file
@@ -54,7 +53,6 @@ Scenario: Error When Attempting Cascade Delete with Force and LogViolations flag
 	And I should see "records considered for processing: 0" in the resulting batch job file
 	And I should see "records ingested successfully: 0" in the resulting batch job file
 	And I should see "records deleted successfully: 0" in the resulting batch job file
-	And I should see "child records deleted successfully: 0" in the resulting batch job file
 	And I should see "records failed processing: 0" in the resulting batch job file
 	And I should see "records not considered for processing: 1" in the resulting batch job file
 	And I should see "Processed 1 records." in the resulting batch job file
@@ -115,7 +113,6 @@ Scenario: Error when attempting force delete of not found entity
 	And I should see "records ingested successfully: 0" in the resulting batch job file
 	And I should see "records ingested successfully: 0" in the resulting batch job file
 	And I should see "records deleted successfully: 0" in the resulting batch job file
-	And I should see "child records deleted successfully: 0" in the resulting batch job file
 	And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "records not considered for processing: 0" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file

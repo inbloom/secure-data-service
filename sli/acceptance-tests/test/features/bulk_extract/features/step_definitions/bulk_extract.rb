@@ -16,17 +16,16 @@ limitations under the License.
 
 =end
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
-require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb'
 require_relative '../../../apiV1/utils/api_utils.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
-require_relative '../../../apiV1/bulkExtract/stepdefs/balrogs_steps.rb' #This is for the decryption step
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
 require 'zip/zip'
 require 'archive/tar/minitar'
 require 'zlib'
 require 'open3'
 require 'openssl'
+require 'time'
 include Archive::Tar
 
 SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_script'])
@@ -58,12 +57,13 @@ $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub"}
 
 Transform /^<(.*?)>$/ do |human_readable_id|
   # entity id transforms
+  id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "app id"
+  id = "vavedRa9uB"                                         if human_readable_id == "client id"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
   id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "lea1_id"
   id = "884daa27d806c2d725bc469b273d840493f84b4d_id"        if human_readable_id == "sea_id"
-  id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "cert"
   id = "352e8570bd1116d11a72755b987902440045d346_id"        if human_readable_id == "IL-DAYBREAK school"
   id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id"        if human_readable_id == "Orphaned School"
 
@@ -269,7 +269,7 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
 	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s+" and they are: #{fileList}")
 end
 
-When /^the extract contains a file for each of the following entities with the appropriate count:$/ do |table|
+When /^the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:$/ do |table|
   Minitar.unpack(@filePath, @unpackDir)
 
 	table.hashes.map do |entity|
@@ -279,6 +279,10 @@ When /^the extract contains a file for each of the following entities with the a
     json = JSON.parse(File.read("#{@unpackDir}/#{entity['entityType']}.json"))
     puts json.size
     assert(json.size == entity['count'].to_i, "The number of #{entity['entityType']} should be #{entity['count']}")
+    badIdFound = false
+    if(!entity['id'].nil?)
+      json.each {|e| assert(false, "We shouldn't have found #{entity['id']}") if e['id'] == entity['id']}
+    end
 	end
 
   fileList = Dir.entries(@unpackDir)
@@ -381,25 +385,17 @@ When /^I use an invalid tenant to trigger a bulk extract/ do
  bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
 end
 
-When /^inBloom generates a bulk extract delta file$/ do
-  command = "#{DELTA_SCRIPT} -Dsli.conf=#{DELTA_CONFIG} -Dsli.encryption.keyStore=#{DELTA_KEYSTORE} -d"
-  puts "Calling delta extract script"
-  puts "Command: #{command}"
-  stdout = runShellCommand(command)
-  puts "Output of BE script is:\n #{stdout}"
-  #stdout.match(/bulk-extracter Finished in (.*?) seconds/)
-end
-
 When /^I request the latest bulk extract delta using the api$/ do
   puts "stubbed out"
 end
 
-When /^I untar and decrypt the delta tarfile for tenant "(.*?)" and appId "(.*?)"$/ do |tenant, appId|
+When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appId "(.*?)"$/ do |data_store, tenant, appId|
   sleep 1
   delta = true
   getExtractInfoFromMongo(tenant, appId, delta)
 
   openDecryptedFile(appId)
+  @fileDir = OUTPUT_DIRECTORY if data_store == "API"
   untar(@fileDir)
 end
 
@@ -484,17 +480,60 @@ When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, 
     raise
   end
 
-  @id     = @fields["id"]  
+  @id = @fields["id"]  
   # Update the correct field based on entity type
-  # educationOrganization.body.address.postalCode
-  @fields["address"][0]["postalCode"] = value if field == "postalCode"
-  # educationOrganization with non-existent id
+  #
+  # --> educationOrganization.body.address.postalCode
+  if field == "postalCode"
+    @fields["address"][0]["postalCode"] = value
+    @patch_body = {"address"=>[{"postalCode"=>value,
+                                "nameOfCounty"=>"Wake",
+                                "streetNumberName"=>"111 Ave A",
+                                "postalCode"=>"11012",
+                                "stateAbbreviation"=>"IL",
+                                "addressType"=>"Physical",
+                                "city"=>"Chicago"
+                               }
+                              ]
+                  } if verb == "PATCH"
+    puts "DEBUG: patch_body is #{@patch_body}"
+  end
+  # --> educationOrganization with non-existent id
   @id = value if field == "invalidEntry"
-  @id = "<Orphaned School>" if field == "orphanEdorg"
+  # --> orphaned school marked for deletion
+  @id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id" if field == "orphanEdorg"
 
   @result = @fields
-
+  puts "Session ID is #{@sessionId}"
   step "I navigate to #{verb} \"/#{@api_version}/#{@assocUrlPut[entity]}/#{@id}\""
+end
+
+When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
+  @lea = lea
+  @app_id = app_id
+  @client_id = client_id
+
+  delta = true
+  query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isDelta" => "true", "body.edorg"=>lea}
+  query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  # Get the edorg and timestamp from bulk extract collection in mongo
+  getExtractInfoFromMongo(tenant, app_id, delta, query, query_opts)
+  # Set the download path to stream the delta file from API
+  @delta_file = "delta_#{lea}_#{@timestamp}.tar"
+  @download_path = OUTPUT_DIRECTORY + @delta_file
+  @fileDir = OUTPUT_DIRECTORY + "decrypt"
+  @filePath = @fileDir + "/" + @delta_file
+  @unpackDir = @fileDir
+  # Assemble the API URI and make API call
+  restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar')
+end
+
+When /^I download and decrypt the file$/ do
+  # Open the file, decrypt, and check against API
+  download_path = streamBulkExtractFile(@download_path, @res.body)
+  @decrypt_path = OUTPUT_DIRECTORY + "decrypt/" + @delta_file
+  openDecryptedFile(@app_id, @decrypt_path, @download_path)
+  untar(@decrypt_path)
 end
 
 ############################################################
@@ -613,7 +652,7 @@ end
 
 Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table| 
     query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => "true", "body.edorg"=>lea}
-    opts = {sort: ["t", Mongo::DESCENDING], limit: 1}
+    opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
     getExtractInfoFromMongo(tenant, appId, true, query, opts)
     openDecryptedFile(appId) 
     
@@ -621,20 +660,30 @@ Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)
 
 end
 
-Then /^I verify this "(.*?)" file contains the "(.*?)"$/ do |file_name, entity_id|
+Then /^I verify this "(.*?)" file contains:$/ do |file_name, table|
     json_file_name = @unpackDir + "/#{file_name}.json"
     exists = File.exists?(json_file_name+".gz")
     assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
     `gunzip #{json_file_name}.gz`
     json = JSON.parse(File.read("#{json_file_name}"))
-    success = false
-    json.each { |e|
-        if (e["id"] == entity_id)
-            success = true 
-            break
-        end
-    }
-    assert(success, "did not find entity id: #{entity_id} in the specified file")
+
+    json_map = to_map(json)
+    table.hashes.map do |entity|
+        id = entity['id']
+        json_entities = json_map[id]
+        field, value = entity['condition'].split('=').map{|s| s.strip}
+        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
+        success = false
+        json_entities.each {|e|
+            # we may have multiple entities with the same id in the delete file
+            json_value = get_field_value(e, field)
+            if (json_value == value) 
+                success = true
+                break
+            end
+        }
+        assert(success, "can't find an entity with id #{id} that matches #{entity['condition']}")
+    end
 end
 
 Then /^I reingest the SEA so I can continue my other tests$/ do
@@ -650,6 +699,25 @@ Then /^I reingest the SEA so I can continue my other tests$/ do
     }
 end
 
+Then /^I ingested "(.*?)" dataset$/ do |dataset|
+  steps %Q{
+      And I am using local data store
+      And I post "#{dataset}" file as the payload of the ingestion job
+
+    When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+     And zip file is scp to ingestion landing zone
+     And a batch job for file "#{dataset}" is completed in database
+     And a batch job log has been created 
+      Then I should not see an error log file created
+  }
+end
+
+############################################################
+# Hooks
+############################################################
+After do
+  @conn.close if @conn != nil
+end
 ############################################################
 # Functions
 ############################################################
@@ -688,12 +756,15 @@ def getExtractInfoFromMongo(tenant, appId, delta=false, query=nil, query_opts={}
   @fileDir = File.dirname(@encryptFilePath) + "/#{edorg}/decrypt/"
   @filePath = @fileDir + File.basename(@encryptFilePath)
   @tenant = tenant
+  @timestamp = match['body']['date'] || ""
+  @timestamp = @timestamp.utc.iso8601(3)
 
   puts "encryptFilePath is #{@encryptFilePath}"
   puts "unpackDir is #{@unpackDir}"
   puts "fileDir is #{@fileDir}"
   puts "filePath is #{@filePath}"
   puts "tenant is #{@tenant}"
+  puts "timestamp is #{@timestamp}"
 end
 
 def getMongoRecordFromJson(jsonRecord)
@@ -800,7 +871,7 @@ def compareToApi(collection, collFile)
     @format = "application/vnd.slc+json"
     restHttpGet("/v1/#{uri}/#{id}")
     assert(@res != nil, "Response from rest-client GET is nil")
-    assert(@res.code != 404, "Response from rest-client GET is 404")
+    assert(@res.code != 404, "Response from rest-client GET is not 200 (Got a #{@res.code})")
     if @res.code == 200
       apiRecord = JSON.parse(@res.body)
       assert(apiRecord != nil, "Result of JSON parsing is nil")    
@@ -828,8 +899,8 @@ end
 
 def decryptFile(file, client_id)
   private_key = OpenSSL::PKey::RSA.new File.read "./test/features/utils/keys/#{client_id}.key"
-  assert(file.length >= 512)
-  encryptediv = file[0,256] 
+  assert(file.length >= 512, "File is less than 512 Bytes: #{file.length}")
+  encryptediv = file[0,256]
   encryptedsecret = file[256,256]
   encryptedmessage = file[512,file.length - 512]
  
@@ -842,12 +913,9 @@ def decryptFile(file, client_id)
   aes.iv = decrypted_iv
   @plain = aes.update(encryptedmessage) + aes.final
   if $SLI_DEBUG 
-    puts("Final is #{aes.final}")
-    puts("IV is #{encryptediv}")
-    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
-    puts("Encrypted message is #{encryptedmessage}")
+    puts("Decrypted iv type is #{decrypted_iv.class}")
     puts("Cipher is #{aes}")
-    puts("Plain text length is #{@plain.length} and it is")# #{@plain}")
+    puts("Plain text length is #{@plain.length}")
     puts "length #{@res.body.length}" if @res != nil
   end
 end
@@ -886,9 +954,37 @@ def checkTarfileCounts(directory, count)
   assert(count == tarfile_count, "Found #{tarfile_count} tarfiles, expected #{count}")
 end
 
-def openDecryptedFile(appId)
-  file = File.open(@encryptFilePath, 'rb') { |f| f.read}
+def openDecryptedFile(appId, filePath=@filePath, encryptFilePath=@encryptFilePath)
+  file = File.open(encryptFilePath, 'rb') { |f| f.read}
   decryptFile(file, $APP_CONVERSION_MAP[appId])
-  FileUtils.mkdir_p(File.dirname(@filePath)) if !File.exists?(File.dirname(@filePath))
-  File.open(@filePath, 'w') {|f| f.write(@plain) }  
+  FileUtils.mkdir_p(File.dirname(filePath)) if !File.exists?(File.dirname(filePath))
+  File.open(filePath, 'w') {|f| f.write(@plain) }  
+end
+
+def to_map(json) 
+  map = {}
+  json.each { |e|
+    map[e['id']] ||= []
+    map[e['id']] << e 
+  }
+  map
+end
+
+def get_field_value(json_entity, field) 
+  return nil if json_entity.nil?
+  field_list = field.split(".").map {|s| s.strip}
+  entity = json_entity
+  field_list.each { |f|
+    if (entity.is_a? Array) 
+        entity = entity.sort()[0]
+    end 
+    entity = entity[f]
+  }
+  entity.strip
+end
+
+def streamBulkExtractFile(download_file, apiBody)
+  download_file ||= Dir.pwd + "/Final.tar"
+  f = File.open(download_file, 'a') {|f| f.write(apiBody)}
+  return download_file
 end

@@ -41,9 +41,6 @@ And my new apps client ID is present
 And my new apps shared secret is present
 Then the "NotTheAppYoureLookingFor" is enabled for Districts
 
-#Create new cert, add to keystore
-And I add that applications certificate to the "CI" trust store
-
 #Add Bulk Extract role to IT Admin
 And I exit out of the iframe
 And I click on Admin
@@ -94,11 +91,11 @@ Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards;Schlemiel"
 And under My Applications, I click on "Schlemiel"
 Then my current url is "http://www.google.com/"	
-
+@wip
 Scenario: Operator triggers a bulk extract
    Given the extraction zone is empty
    When the operator triggers a bulk extract for tenant "<SANDBOX_TENANT>"
-
+@wip
 Scenario: App makes an api call to retrieve a bulk extract
 #Bulk Extract 
 #Get a session to trigger a bulk extract
@@ -157,4 +154,3 @@ And the extract contains a file for each of the following entities:
    |  teacher                               |
    |  teacherSchoolAssociation              |
    |  teacherSectionAssociation             |
-Then I clean up the application certificate from the trust store

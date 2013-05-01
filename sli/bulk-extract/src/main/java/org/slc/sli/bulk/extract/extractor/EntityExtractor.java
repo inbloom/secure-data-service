@@ -23,14 +23,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Query;
-
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
 
 
 /**
@@ -76,6 +75,20 @@ public class EntityExtractor{
 
                 LOG.info("Finished extracting " + collectionRecord.toString());
             }
+        } catch (IOException e) {
+            LOG.error("Error while extracting from " + collectionName, e);
+        }
+    }
+    
+    /**
+     * Writes a single entity to an extract file.
+     * 
+     * @param archiveFile
+     * @param collectionName
+     */
+    public void extractEntity(Entity entity, ExtractFile archiveFile, String collectionName) {
+        try {
+            write(entity, archiveFile, new CollectionWrittenRecord(collectionName));
         } catch (IOException e) {
             LOG.error("Error while extracting from " + collectionName, e);
         }
