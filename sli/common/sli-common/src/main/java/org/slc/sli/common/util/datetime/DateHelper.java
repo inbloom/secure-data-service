@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.security.context.validator;
+package org.slc.sli.common.util.datetime;
+
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -22,13 +24,11 @@ import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
 @Component
 public class DateHelper {
     @Value("${sli.security.gracePeriod}")
     private String gracePeriod;
-    DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
+    private DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 
     public String getFilterDate(boolean useGracePeriod) {
         DateTime date = null;
@@ -84,4 +84,13 @@ public class DateHelper {
         return !rhs.toLocalDate().isBefore(lhs.toLocalDate());
     }
     
+    /**
+     * Returns our internal format for dates.
+     * 
+     * @return
+     */
+    public DateTimeFormatter getDateTimeFormat() {
+        return fmt;
+    }
+
 }
