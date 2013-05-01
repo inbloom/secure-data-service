@@ -8,10 +8,10 @@ Background: An authorized bulk extract user logs in and gets the information for
     When I make a call to the bulk extract end point "/bulk/extract/tenant"
     Then I get back a response code of "200"
     Then I have all the information to make a custom bulk extract request
-    Then I delete the tar file I'm writing to if it exists
  
  Scenario: Get the extract file with consecutive range calls
     When I prepare the custom headers for byte range from "0" to "100"
+    And I delete the previuos tar file if it exists
     And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "101"
@@ -26,6 +26,7 @@ Background: An authorized bulk extract user logs in and gets the information for
 
  Scenario: Get the extract file with first-n and last-n calls
     When I prepare the custom headers for the first "200000" bytes
+    And I delete the previuos tar file if it exists
     And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "200000"
@@ -40,6 +41,7 @@ Background: An authorized bulk extract user logs in and gets the information for
 
  Scenario: Get the extract file by making overlapping range calls
     When I prepare the custom headers for byte range from "0" to "100"
+    And I delete the previuos tar file if it exists
     And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "101"
@@ -54,6 +56,7 @@ Background: An authorized bulk extract user logs in and gets the information for
  
  Scenario: Make disjointed range calls and verify we don't have the complete extract
     When I prepare the custom headers for byte range from "30" to "15000"
+    And I delete the previuos tar file if it exists
     And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is "14971"
@@ -69,6 +72,7 @@ Background: An authorized bulk extract user logs in and gets the information for
 
  Scenario: Make invalid and incomplete range calls
     When I prepare the custom headers for byte range from "0" to "500000"
+    And I delete the previuos tar file if it exists
     And I make a custom bulk extract API call
     Then I get back a response code of "200"
     And the content length in response header is "420368"
@@ -93,6 +97,7 @@ Background: An authorized bulk extract user logs in and gets the information for
 
 Scenario: Get the extract file by asking for multiple ranges in a single call
     When I prepare the custom headers for multiple byte ranges "0-15000,15001-"
+    And I delete the previuos tar file if it exists
     And I make a custom bulk extract API call
     Then I get back a response code of "200"
     And the content length in response header is "420368"
@@ -102,6 +107,7 @@ Scenario: Get the extract file by asking for multiple ranges in a single call
     
 Scenario: Get the extract file by asking for multiple ranges in multiple calls    
     When I prepare the custom headers for multiple byte ranges "0-15000,20001-42000"
+    And I delete the previuos tar file if it exists
     And I make a custom bulk extract API call
     Then I get back a response code of "206"
     Then I store the contents of the first call
@@ -115,6 +121,7 @@ Scenario: Get the extract file by asking for multiple ranges in multiple calls
 
 Scenario: Get the full extract if making a call with an Invalid e-tag
     When I prepare the custom headers with incorrect etag
+    And I delete the previuos tar file if it exists
     And I make a custom bulk extract API call
     Then I get back a response code of "200"
     And the content length in response header is "420368"
