@@ -22,7 +22,6 @@ package org.slc.sli.bulk.extract.extractor;
 
 import org.joda.time.DateTime;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -51,7 +50,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Tests LocalEdOrgExtractorTest
@@ -160,29 +158,4 @@ public class LocalEdOrgExtractorTest {
         Mockito.verify(mockExtractMap, Mockito.times(1)).closeFiles();
     }
 
-
-    @Test
-    @Ignore
-    public void testLeaToApps() {
-        Map<String, Object> registration = new HashMap<String, Object>();
-        registration.put("status", "APPROVED");
-        body.put("registration", registration);
-        Mockito.when(repo.findAll(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
-                Arrays.asList(mockEntity));
-        body.put("edorgs", Arrays.asList("one"));
-        body.put("applicationId", "app1");
-        Mockito.when(repo.findAll(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(
-                Arrays.asList(mockEntity));
-
-        Map<String, Set<String>> appToLEAs = new HashMap<String, Set<String>>();
-        appToLEAs.put("application", new HashSet<String>(Arrays.asList("one")));
-        Mockito.when(helper.getBulkExtractLEAsPerApp()).thenReturn(appToLEAs);
-        Mockito.when(helper.getBulkExtractLEAs()).thenReturn(new HashSet<String>(Arrays.asList("one")));
-
-
-        Map<String, Set<String>> result = extractor.leaToApps();
-    	Assert.assertEquals(result.size(), 1);
-    	Assert.assertEquals(result.get("one").size(), 1);
-    	Assert.assertTrue(result.get("one").contains("app1"));
-    }
 }
