@@ -151,14 +151,14 @@ Scenario: Delete StudentAssessment with cascade = false, force = true and log vi
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentAssessment.xml"
-    And I re-execute saved query "SA2" to get "0" records
-    And I re-execute saved query "SA3" to get "0" records
-    And I re-execute saved query "SA4" to get "0" records
+    And I re-execute saved query "SA2" to get "1" records
+    And I re-execute saved query "SA3" to get "1" records
+    And I re-execute saved query "SA4" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                       |delta|
-      | studentAssessment                |   -1|
-      | studentAssessmentItem            |   -2|
-      | studentObjectiveAssessment       |   -1|
+      | studentAssessment                |    0|
+      | studentAssessmentItem            |    0|
+      | studentObjectiveAssessment       |    0|
       #| recordHash                       |   -1| record Hash is not supported for StudentAssessment
 
 
@@ -186,12 +186,12 @@ Scenario: Delete StudentAssessment Ref with cascade = false, force = true and lo
     And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentAssessment.xml"
-    And I re-execute saved query "SA2" to get "0" records
-    And I re-execute saved query "SA3" to get "0" records
-    And I re-execute saved query "SA4" to get "0" records
+    And I re-execute saved query "SA2" to get "1" records
+    And I re-execute saved query "SA3" to get "1" records
+    And I re-execute saved query "SA4" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                       |delta|
-      | studentAssessment                |   -1|
-      | studentAssessmentItem            |   -2|
-      | studentObjectiveAssessment       |   -1|
+      | studentAssessment                |    0|
+      | studentAssessmentItem            |    0|
+      | studentObjectiveAssessment       |    0|
       #| recordHash                       |   -1|  
