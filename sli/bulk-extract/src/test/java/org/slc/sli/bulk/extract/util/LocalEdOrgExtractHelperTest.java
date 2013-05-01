@@ -1,7 +1,6 @@
 package org.slc.sli.bulk.extract.util;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -16,7 +15,9 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,20 +63,6 @@ public class LocalEdOrgExtractHelperTest {
     }
 
     @Test
-    @Ignore
-    public void getBulkExtractLEAsPerAppTest() {
-//        NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.CRITERIA_IN,
-//                getBulkExtractApps()));
-//        Iterable<Entity> apps = repository.findAll("applicationAuthorization", appQuery);
-//        Map<String, Set<String>> edorgIds = new HashMap<String, Set<String>>();
-//        for (Entity app : apps) {
-//            Set<String> edorgs = new HashSet<String>((Collection<String>) app.getBody().get("edorgs"));
-//            edorgIds.put((String) app.getBody().get("applicationId"), edorgs);
-//        }
-
-    }
-
-    @Test
     public void getBulkExtractAppsTest() {
 
         when(repository.findAll("application", new NeutralQuery())).thenReturn(
@@ -93,6 +80,34 @@ public class LocalEdOrgExtractHelperTest {
         assertTrue(bulkExtractApps.isEmpty());
 
     }
+
+    @Test
+    public void getBulkExtractLEAsPerAppTest() {
+
+        getBulkExtractAppsTest(); // mock applications
+
+        Entity authOne = buildAuthEntity("1", Arrays.asList("edOrg1", "edOrg2"));
+        Entity authTwo = buildAuthEntity("5", new ArrayList<String>());
+
+        List<Entity> auths = Arrays.asList(authOne, authTwo);
+        when(repository.findAll(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(auths);
+
+        Map<String, Set<String>> bulkExtractLEAsPerApp = helper.getBulkExtractLEAsPerApp();
+
+        assertTrue(bulkExtractLEAsPerApp.size() == 2);
+        assertTrue(bulkExtractLEAsPerApp.get(authOne.getBody().get("applicationId")).containsAll(
+                (Collection<?>) authOne.getBody().get("edorgs")));
+        assertTrue(bulkExtractLEAsPerApp.get(authTwo.getBody().get("applicationId")).isEmpty());
+
+    }
+
+    private Entity buildAuthEntity(String applicationId, List<String> edOrgs) {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("applicationId", applicationId);
+        body.put("edorgs", edOrgs);
+        return new MongoEntity("applicationAuthorization", body);
+    }
+
 
     private Entity buildAppEntity(String id, boolean isBulkExtract, boolean isApproved) {
         Map<String, Object> body = new HashMap<String, Object>();
