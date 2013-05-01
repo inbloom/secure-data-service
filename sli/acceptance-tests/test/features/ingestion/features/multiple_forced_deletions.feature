@@ -26,9 +26,9 @@ Scenario: Multiple Orphans
 	And I should not see an error log file created
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                            |    delta|
-        |assessment                             |       -1|
+        |assessment                             |        0|
         |assessmentFamily                       |       -1|
-        |assessmentItem                         |       -2|
+        |assessmentItem                         |       -1|
         |assessmentPeriodDescriptor             |       -1|
         |attendanceEvent                        |       -1|
         |calendarDate                           |       -1|
@@ -47,7 +47,7 @@ Scenario: Multiple Orphans
         |graduationPlan                         |       -1|
         |learningObjective                      |       -1|
         |learningStandard                       |       -1|
-        |objectiveAssessment                    |       -5|
+        |objectiveAssessment                    |       -1|
         |parent                                 |       -1|
         |program                                |       -1|
         |reportCard                             |       -1|
@@ -57,20 +57,20 @@ Scenario: Multiple Orphans
         |staffEducationOrganizationAssociation  |       -1|
         |staffProgramAssociation                |       -1|
         |studentAcademicRecord                  |       -1|
-        |studentAssessment                      |       -1|
-        |studentAssessmentItem                  |       -3|
+        |studentAssessment                      |        0|
+        |studentAssessmentItem                  |       -1|
         |studentCohortAssociation               |       -1|
         |studentCompetency                      |       -1|
         |studentCompetencyObjective             |       -1|
         |studentDisciplineIncidentAssociation   |       -1|
         |studentGradebookEntry                  |       -1|
-        |studentObjectiveAssessment             |       -2|
+        |studentObjectiveAssessment             |       -1|
         |studentParentAssociation               |       -1|
         |studentProgramAssociation              |       -1|
         |studentSchoolAssociation               |       -1|
         |studentSectionAssociation              |       -1|
         |teacherSchoolAssociation               |       -1|
         |teacherSectionAssociation              |       -1|
-        |recordHash                             |      -39|
+        |recordHash                             |      -31|
         |student.schools                        |       -1|
-        |student.section                        |       -1|
+        |student.section                        |        0|
