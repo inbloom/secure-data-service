@@ -74,7 +74,7 @@ end
 
 When /^I navigate to the API authorization endpoint with my client ID$/ do
   url = PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
-  STDOUT.puts url
+  puts url
   @driver.get url
 end
 
@@ -133,7 +133,7 @@ Then /^I request and download a bulk extract file$/ do
 end
 
 Then /^I request and download a bulk extract file from production$/ do
-  url = PropLoader.getProps['api_server_url'] + "api/rest/bulk/extract/tenant"
+  url = PropLoader.getProps['api_server_url'] + "/api/rest/bulk/extract/tenant"
   puts url
   restHttpGet(url, "application/x-tar", @sessionId)
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
