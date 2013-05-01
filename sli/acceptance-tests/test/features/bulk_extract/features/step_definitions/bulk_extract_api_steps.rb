@@ -225,6 +225,7 @@ end
 Then /^I get back a response code of "(.*?)"$/ do |response_code|
   puts "@res.headers: #{@res.headers}"
   puts "@res.code: #{@res.code}"
+
   assert(@res.code.to_i == response_code.to_i, "The return code is #{@res.code}. Expected: #{response_code}")
 end
 
@@ -447,10 +448,9 @@ Then /^I have all the information to make a custom bulk extract request$/ do
 end
 
 When /^I make a head request with each returned URL$/ do
-  assert(@res.body.has_key?("list"), "Response contains no lis of URLs")
 
   types = ["fullLeas", "deltaLeas", "fullSea", "deltaSea"]
-
+  @res
   types.each do |type| 
     @res.body[type].each do |leaId, links|
       puts "Checking LEA #{leaid}"
@@ -462,7 +462,8 @@ When /^I make a head request with each returned URL$/ do
   end
 end
 
-Then /^check to find if record is in collection:$/ do |table|
+Then /^the number of returned URLs is correct:$/ do |table|
+  puts @res
   table.hashes.map do |row|
     assert(@res.body[row["fieldName"]].length == row["count"], "Response contains wrong number of URLS, expected {} count{}, returned {}", row["fieldName"], row["count"], @res.body[row["fieldName"]])
   end
