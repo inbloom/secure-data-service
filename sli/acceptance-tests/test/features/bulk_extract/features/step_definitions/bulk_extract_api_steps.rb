@@ -19,6 +19,8 @@ require 'open3'
 require 'digest/sha1'
 require_relative '../../../utils/sli_utils.rb'
 
+$TAR_FILE_NAME = "Final.tar"
+
 Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"$/ do |token|
   @sessionId=token
 end
@@ -53,10 +55,16 @@ When /^I make a concurrent ranged bulk extract API call and store the results$/ 
   t1.join
   t2.join
 
-  @received_file = Dir.pwd + "/Final.tar"
+  @received_file = Dir.pwd + "/" + $TAR_FILE_NAME
   File.open(@received_file, "wb") do |outf|
     outf << @res2.body
     outf << @res1.body
+  end
+end
+
+When /^I delete the previuos tar file if it exists$/ do
+  if File.exists?(Dir.pwd + "/" + $TAR_FILE_NAME)
+    File.delete( Dir.pwd + "/" + $TAR_FILE_NAME)
   end
 end
 
@@ -225,6 +233,7 @@ end
 Then /^I get back a response code of "(.*?)"$/ do |response_code|
   puts "@res.headers: #{@res.headers}"
   puts "@res.code: #{@res.code}"
+
   assert(@res.code.to_i == response_code.to_i, "The return code is #{@res.code}. Expected: #{response_code}")
 end
 
@@ -244,7 +253,7 @@ Then /^the content length in response header is greater than the requested range
 end
 
 Then /^I store the file content$/ do
-  @received_file = Dir.pwd + "/Final.tar"
+  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
   File.open(@received_file, "a") do |outf|
     outf << @res.body
   end
@@ -255,7 +264,7 @@ Then /^I process the file content$/ do
   original_tar_contents = file.read
 
   res_content = @res.body.split("\r\n")
-  @received_file = Dir.pwd + "/Final.tar"
+  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
 
   File.open(@received_file, "wb") do |outf|
     res_content.each { |content|
@@ -345,7 +354,7 @@ Then /^I store the contents of the second call$/ do
 end
 
 Then /^I combine the file contents$/ do
-  @received_file = Dir.pwd + "/Final.tar"
+  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
   File.open(@received_file, "wb") do |outf|
         outf << @content1
         outf << @content2
@@ -447,10 +456,9 @@ Then /^I have all the information to make a custom bulk extract request$/ do
 end
 
 When /^I make a head request with each returned URL$/ do
-  assert(@res.body.has_key?("list"), "Response contains no lis of URLs")
 
   types = ["fullLeas", "deltaLeas", "fullSea", "deltaSea"]
-
+  @res
   types.each do |type| 
     @res.body[type].each do |leaId, links|
       puts "Checking LEA #{leaid}"
@@ -462,12 +470,18 @@ When /^I make a head request with each returned URL$/ do
   end
 end
 
-Then /^check to find if record is in collection:$/ do |table|
+Then /^the number of returned URLs is correct:$/ do |table|
+  puts @res
   table.hashes.map do |row|
     assert(@res.body[row["fieldName"]].length == row["count"], "Response contains wrong number of URLS, expected {} count{}, returned {}", row["fieldName"], row["count"], @res.body[row["fieldName"]])
   end
 end
 
+After("@TempFileCleanup") do
+  if File.exists?(Dir.pwd + "/" + $TAR_FILE_NAME)
+    File.delete( Dir.pwd + "/" + $TAR_FILE_NAME)
+  end
+end
 
 def getAppId()
   conn ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST'])

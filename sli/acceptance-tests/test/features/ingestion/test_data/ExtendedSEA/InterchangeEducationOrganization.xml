@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+
+  <StateEducationAgency>
+    <StateOrganizationId>IL-Test</StateOrganizationId>
+    <NameOfInstitution>Illinois State Board of Education Test</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL-Test</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+</InterchangeEducationOrganization>

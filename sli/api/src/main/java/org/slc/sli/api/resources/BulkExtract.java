@@ -23,7 +23,7 @@ import java.io.OutputStream;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +39,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
+import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.api.core.HttpRequestContext;
@@ -50,14 +51,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.AppAuthHelper;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
 import org.slc.sli.common.constants.EntityNames;
@@ -98,6 +100,9 @@ public class BulkExtract {
 
     @Autowired
     private EdOrgHelper helper;
+
+    @Autowired
+    private AppAuthHelper appAuthHelper;
 
     @Autowired
     private CertificateValidationHelper validator;
@@ -161,26 +166,25 @@ public class BulkExtract {
             throw new AccessDeniedException("User is not authorized access this extract");
         }
 
-        checkApplicationAuthorization(leaId);
+        appAuthHelper.checkApplicationAuthorization(leaId);
         return getExtractResponse(context.getRequest(), null, leaId);
     }
 
     /**
-     * Send the LEA list the calling user and application have access to
+     * Send the list of BE file links for all LEAs for which the calling user and application have access.
      *
-     * @return A response with the actual LEA list
-     * @throws Exception On Error
+     * @return A response with the complete list of BE file links for all LEAs for this user/app.
+     *
+     * @throws Exception On Error.
      */
     @GET
-    @Path("extract/leas")
+    @Path("extract/list")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
-        info("Received request for LEA list");
-        validateRequestCertificate(request);
+        info("Received request for list of links for all LEAs for this user/app");
+        validateRequestAndApplicationAuthorization(request);
 
-        checkApplicationAuthorization(null);
-
-        return getLEAListResponse(context.getRequest());
+        return getLEAListResponse(context);
     }
 
     /**
@@ -194,9 +198,7 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getTenant(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request to stream tenant bulk extract...");
-        validateRequestCertificate(request);
-
-        checkApplicationAuthorization(null);
+        validateRequestAndApplicationAuthorization(request);
 
         return getExtractResponse(context.getRequest(), null, null);
     }
@@ -215,8 +217,7 @@ public class BulkExtract {
             @PathParam("leaId") String leaId, @PathParam("date") String date) throws Exception {
         if (deltasEnabled) {
             LOG.info("Retrieving delta bulk extract");
-            validateRequestCertificate(request);
-            checkApplicationAuthorization(null);
+            validateRequestAndApplicationAuthorization(request);
             return getExtractResponse(context.getRequest(), date, leaId);
         }
         return Response.status(404).build();
@@ -232,10 +233,7 @@ public class BulkExtract {
      */
     Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId) {
 
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Entity application = getApplication(auth);
-
-        String appId = application.getEntityId();
+        String appId = appAuthHelper.getApplicationId();
 
         Entity entity = getBulkExtractFileEntity(deltaDate, appId, leaId, false);
 
@@ -274,55 +272,95 @@ public class BulkExtract {
      * @param req  the http request context
      * @return the jax-rs response to send back.
      */
-    Response getLEAListResponse(final HttpRequestContext req) {
+    Response getLEAListResponse(final HttpContext context) {
 
-        List<String> userLEAs = checkUserAssociatedLEAs();
+        List<String> userDistrics = retrieveUserAssociatedSLEAs();
 
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Entity application = getApplication(auth);
-        String appId = application.getEntityId();
+        String appId = appAuthHelper.getApplicationId();
 
-        List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserLEAs(userLEAs, appId);
+        List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserSLEAs(userDistrics, appId);
         if (appAuthorizedUserLEAs.size() == 0) {
+            LOG.info("No authorized LEAs for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        List<Entity> extractFiles = getBulkExtractFilesEntities(appId, appAuthorizedUserLEAs);
-        if (extractFiles.size() == 0) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-
-        return assembleLEAListResponse(extractFiles);
+        return assembleLEALinksResponse(context, appId, appAuthorizedUserLEAs);
     }
 
     /**
-     * Assemble the LEA HATEOAS links response
+     * Assemble the LEA HATEOAS links response.
      *
-     * @param extractFiles  the list of BulkExtractFiles Entities
-     * from which the HATEOAS links are assembled
+     * @param req
+     *        Original HTTP Request Context.
+     * @param appId
+     *        Authorized application ID.
+     * @param appAuthorizedUserLEAs
+     *        List of LEAs authorized to use and authorizing the specified application.
+     *
      * @return the jax-rs response to send back.
      */
-    Response assembleLEAListResponse(List<Entity> extractFiles) {
-        ResponseBuilder builder = Response.ok();
-        //TODO set body based on the list of HATEOAS links
+    Response assembleLEALinksResponse(final HttpContext context, String appId, List<String> appAuthorizedUserLEAs) {
+        UriInfo uriInfo = context.getUriInfo();
+        String linkBase = ResourceUtil.getURI(uriInfo).toString() + "/bulk/extract/";
+
+        Map<String, Map<String, String>> leaFullLinks = new HashMap<String, Map<String, String>>();
+        Map<String, List<Map<String, String>>> leaDeltaLinks = new HashMap<String, List<Map<String, String>>>();
+        for (String leaId : appAuthorizedUserLEAs) {
+            Iterable<Entity> leaFileEntities = getLEABulkExtractEntities(appId, leaId);
+            if (leaFileEntities.iterator().hasNext()) {
+                Map<String, String> fullLink = new HashMap<String, String>();
+                List<Map<String, String>> deltaLinks = new ArrayList<Map<String, String>>();
+                for (Entity leaFileEntity : leaFileEntities) {
+                    Map<String, String> deltaLink = new HashMap<String, String>();
+                    String timeStamp = leaFileEntity.getBody().get("date").toString();
+                    if (Boolean.parseBoolean(leaFileEntity.getBody().get("isDelta").toString())) {
+                        deltaLink.put("uri", linkBase + leaId + "/delta/" + timeStamp);
+                        deltaLink.put("timestamp", timeStamp);
+                        deltaLinks.add(deltaLink);
+                    } else {  // Assume only one full extract per LEA.
+                        fullLink.put("uri", linkBase + leaId);
+                        fullLink.put("timestamp", leaFileEntity.getBody().get("date").toString());
+                    }
+                }
+                leaFullLinks.put(leaId, fullLink);
+                leaDeltaLinks.put(leaId, deltaLinks);
+            }
+        }
+
+        if (leaFullLinks.isEmpty() && leaDeltaLinks.isEmpty()) {
+            LOG.info("No LEA bulk extract files exist for application: {}", appId);
+            return Response.status(Status.NOT_FOUND).build();
+        }
+
+        EntityBody list = new EntityBody();
+        list.put("fullLeas", leaFullLinks);
+        list.put("deltaLeas", leaDeltaLinks);
+        ResponseBuilder builder = Response.ok(list);
         return builder.build();
     }
 
-    private Entity getApplication(Authentication authentication) {
-        if (!(authentication instanceof OAuth2Authentication)) {
-            throw new AccessDeniedException("Not logged in with valid oauth context");
+    /**
+     * Get the bulk extract file
+     *
+     * @param deltaDate the date of the delta, or null to retrieve a full extract
+     * @param appId
+     * @return
+     */
+    private Iterable<Entity> getLEABulkExtractEntities(String appId, String leaId) {
+        initializePrincipal();
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
+                principal.getTenantId()));
+        if (leaId != null && !leaId.isEmpty()) {
+            query.addCriteria(new NeutralCriteria("edorg",
+                    NeutralCriteria.OPERATOR_EQUAL, leaId));
         }
-        final OAuth2Authentication oauth = (OAuth2Authentication) authentication;
-
-        final String clientId = oauth.getClientAuthentication().getClientId();
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("client_id", NeutralCriteria.OPERATOR_EQUAL, clientId));
-        final Entity entity = mongoEntityRepository.findOne(EntityNames.APPLICATION, query);
-
-        if (entity == null) {
-            throw new AccessDeniedException("Could not find application with client_id=" + clientId);
+        query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
+        debug("Bulk Extract query is {}", query);
+        Iterable<Entity> entities = mongoEntityRepository.findAll(BULK_EXTRACT_FILES, query);
+        if (!entities.iterator().hasNext()) {
+            debug("Could not find any bulk extract entities");
         }
-
-        return entity;
+        return entities;
     }
 
     /**
@@ -361,31 +399,12 @@ public class BulkExtract {
     /**
      * @throws AccessDeniedException if the application is not BEEP enabled
      */
-    @SuppressWarnings("unchecked")
-    private void checkApplicationAuthorization(String edorgsForExtract) throws AccessDeniedException {
-        OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
-        Entity app = getApplication(auth);
-        Map<String, Object> body = app.getBody();
-        if (!body.containsKey("isBulkExtract") || (Boolean) body.get("isBulkExtract") == false) {
-            throw new AccessDeniedException("Application is not approved for bulk extract");
-        }
-        if (edorgsForExtract != null) {
-            NeutralQuery query = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL,
-                    app.getEntityId()));
-            Entity appAuth = mongoEntityRepository.findOne(ApplicationAuthorizationResource.RESOURCE_NAME, query);
-
-            if (appAuth == null
-                    || !((List) appAuth.getBody().get(ApplicationAuthorizationResource.EDORG_IDS))
-                            .contains(edorgsForExtract)) {
-                throw new AccessDeniedException("Application is not authorized for bulk extract");
-            }
-        }
+    private void validateRequestAndApplicationAuthorization(HttpServletRequest request) throws AccessDeniedException {
+        validateRequestCertificate(request);
+        appAuthHelper.checkApplicationAuthorization(null);
     }
 
-    private List<String> checkUserAssociatedLEAs() throws AccessDeniedException {
-        if (principal == null || principal.getEntity() == null) {
-            throw new AccessDeniedException("User is not authorized for a list of available LEAs extracts");
-        }
+    private List<String> retrieveUserAssociatedSLEAs() throws AccessDeniedException {
         List<String> userDistrics = helper.getDistricts(principal.getEntity());
         if (userDistrics.size() == 0) {
             throw new AccessDeniedException("User is not authorized for a list of available LEAs extracts");
@@ -393,40 +412,10 @@ public class BulkExtract {
         return userDistrics;
     }
 
-    private List<String> getApplicationAuthorizedUserLEAs(List<String> userLEAs, String appId) {
-        List<String> results = new ArrayList<String>();
-        List<String> appAuthorizedEdorgIds = getApplicationAuthorizationEdorgIds(appId);
-
-        for (String edOrgId : userLEAs) {
-            if (appAuthorizedEdorgIds.contains(edOrgId)) {
-                results.add(edOrgId);
-            }
-        }
-
-        return results;
-    }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private List<String> getApplicationAuthorizationEdorgIds(String appId) {
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ApplicationAuthorizationResource.APP_ID,
-                NeutralCriteria.OPERATOR_EQUAL, appId));
-        Entity appAuth = mongoEntityRepository.findOne(ApplicationAuthorizationResource.RESOURCE_NAME, query);
-
-        return appAuth == null ? Collections.emptyList() :
-                (List) appAuth.getBody().get(ApplicationAuthorizationResource.EDORG_IDS);
-    }
-
-    private List<Entity> getBulkExtractFilesEntities(String appId, List<String> appAuthorizedUserLEAs) {
-        List<Entity> results = new ArrayList<Entity>();
-
-        for (String leaId : appAuthorizedUserLEAs) {
-            Entity bulkExtractFileEntity = getBulkExtractFileEntity(null, appId, leaId, true);
-            if (bulkExtractFileEntity != null) {
-                results.add(bulkExtractFileEntity);
-            }
-        }
-
-        return results;
+    private List<String> getApplicationAuthorizedUserSLEAs(List<String> userDistrics, String appId) {
+        List<String> appAuthorizedEdorgIds = appAuthHelper.getApplicationAuthorizationEdorgIds(appId);
+        appAuthorizedEdorgIds.retainAll(userDistrics);
+        return appAuthorizedEdorgIds;
     }
 
     /**
