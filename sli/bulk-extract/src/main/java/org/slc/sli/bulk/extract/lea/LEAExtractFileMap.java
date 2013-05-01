@@ -17,6 +17,7 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -63,7 +64,7 @@ public class LEAExtractFileMap {
     }
 
     public void archiveFiles() {
-        for (ExtractFile file : edOrgToLEAExtract.values()) {
+        for (ExtractFile file : new HashSet<ExtractFile>(edOrgToLEAExtract.values())) {
             if(!file.generateArchive()) {
                 LOG.warn("Unable to create archive: {}", file.getEdorg());
             }
