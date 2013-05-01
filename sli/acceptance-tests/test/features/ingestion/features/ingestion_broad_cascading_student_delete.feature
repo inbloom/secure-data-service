@@ -421,7 +421,8 @@ Scenario: Delete Student with cascade = false and force = true, log violations =
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | recordHash                                |        -1|  
-               
+        | student<hollow>                           |         1|
+
 Scenario: Delete Student Ref with cascade = false and force = true, log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -534,5 +535,6 @@ Scenario: Delete Student Ref with cascade = false and force = true, log violatio
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | recordHash                                |        -1|          
+        | student<hollow>                           |         1|
 
 

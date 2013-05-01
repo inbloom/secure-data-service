@@ -101,6 +101,7 @@ Scenario: Delete Student with cascade = false
         | collection                                |     delta|
         | disciplineAction                          |         0|
         | recordHash                                |        -1|  
+        | student<hollow>                           |         1|
      When the landing zone is reinitialized
     And I save the collection counts in "Midgar" tenant
     And I post "EntityReingest.zip" file as the payload of the ingestion job
@@ -115,9 +116,10 @@ Scenario: Delete Student with cascade = false
      And I re-execute saved query "disciplineAction" to get "8" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
-        | recordHash                                |        1|
-        | disciplineAction                          |        0|
-    
+        | recordHash                                |         1|
+        | disciplineAction                          |         0|
+        | student<hollow>                           |        -1|
+
     
     
     

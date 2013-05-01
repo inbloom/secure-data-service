@@ -157,6 +157,7 @@ Scenario: Delete StudentAssessment with cascade = false, force = true and log vi
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                       |delta|
       | studentAssessment                |    0|
+   	  | studentAssessment<hollow>        |    1|
       | studentAssessmentItem            |    0|
       | studentObjectiveAssessment       |    0|
       #| recordHash                       |   -1| record Hash is not supported for StudentAssessment
@@ -192,6 +193,7 @@ Scenario: Delete StudentAssessment Ref with cascade = false, force = true and lo
     And I see that collections counts have changed as follows in tenant "Midgar"
       | collection                       |delta|
       | studentAssessment                |    0|
+   	  | studentAssessment<hollow>        |    1|
       | studentAssessmentItem            |    0|
       | studentObjectiveAssessment       |    0|
       #| recordHash                       |   -1|  

@@ -27,6 +27,7 @@ Scenario: Multiple Orphans
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                            |    delta|
         |assessment                             |        0|
+        |assessment<hollow>                     |        1|
         |assessmentFamily                       |       -1|
         |assessmentItem                         |       -1|
         |assessmentPeriodDescriptor             |       -1|
@@ -52,12 +53,14 @@ Scenario: Multiple Orphans
         |program                                |       -1|
         |reportCard                             |       -1|
         |section                                |        0|
+        |section<hollow>                        |        1|
         |session                                |       -1|
         |staff                                  |       -2|
         |staffEducationOrganizationAssociation  |       -1|
         |staffProgramAssociation                |       -1|
         |studentAcademicRecord                  |       -1|
         |studentAssessment                      |        0|
+        |studentAssessment<hollow>              |        1|
         |studentAssessmentItem                  |       -1|
         |studentCohortAssociation               |       -1|
         |studentCompetency                      |       -1|
@@ -71,6 +74,6 @@ Scenario: Multiple Orphans
         |studentSectionAssociation              |       -1|
         |teacherSchoolAssociation               |       -1|
         |teacherSectionAssociation              |       -1|
-        |recordHash                             |      -31|
+        |recordHash                             |      -39|
         |student.schools                        |       -1|
-        |student.section                        |        0|
+        |student.section                        |       -1|

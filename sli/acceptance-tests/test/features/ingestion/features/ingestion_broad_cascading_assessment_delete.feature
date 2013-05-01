@@ -177,7 +177,8 @@ Scenario: Delete Assessment with cascade = false, force = true, logViolations = 
 	|assessment                        |   0 |
 	|assessmentItem                    |   0 |
 	|objectiveAssessment               |   0 |
-	
+	|assessment<hollow>                |   1 |
+
 
 Scenario: Delete Assessment Reference with cascade = false, force = true, logviolations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -216,3 +217,4 @@ Scenario: Delete Assessment Reference with cascade = false, force = true, logvio
 	|assessment                        |   0|
 	|assessmentItem                    |   0|
 	|objectiveAssessment               |   0|
+	|assessment<hollow>                |   1|

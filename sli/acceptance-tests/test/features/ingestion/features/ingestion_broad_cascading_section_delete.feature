@@ -255,9 +255,10 @@ Scenario: Delete Section with cascade = false
     And I re-execute saved query "teacherSectionAssociation" to get "1" records
     And I re-execute saved query "studentSectionAssociation" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"
-        | collection |delta|
-        |recordHash  |   -1|
-        
+        | collection    |delta|
+        |recordHash     |   -1|
+        |section<hollow>|    1|
+
  Scenario: Delete Section Ref with cascade = false, force = true and log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -301,5 +302,6 @@ Scenario: Delete Section with cascade = false
     And I re-execute saved query "teacherSectionAssociation" to get "1" records
     And I re-execute saved query "studentSectionAssociation" to get "1" records
     And I see that collections counts have changed as follows in tenant "Midgar"
-        | collection |delta|
-        |recordHash  |   -1|
+        | collection    |delta|
+        |recordHash     |   -1|
+        |section<hollow>|    1|
