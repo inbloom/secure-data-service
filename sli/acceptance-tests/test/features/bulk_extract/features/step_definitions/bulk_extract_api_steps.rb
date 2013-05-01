@@ -19,6 +19,8 @@ require 'open3'
 require 'digest/sha1'
 require_relative '../../../utils/sli_utils.rb'
 
+$TAR_FILE_NAME = "Final.tar"
+
 Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"$/ do |token|
   @sessionId=token
 end
@@ -53,10 +55,16 @@ When /^I make a concurrent ranged bulk extract API call and store the results$/ 
   t1.join
   t2.join
 
-  @received_file = Dir.pwd + "/Final.tar"
+  @received_file = Dir.pwd + "/" + $TAR_FILE_NAME
   File.open(@received_file, "wb") do |outf|
     outf << @res2.body
     outf << @res1.body
+  end
+end
+
+When /^I delete the tar file I'm writing to if it exists$/ do
+  if File.exists?(Dir.pwd + "/" + $TAR_FILE_NAME)
+    File.delete( Dir.pwd + "/" + $TAR_FILE_NAME)
   end
 end
 
