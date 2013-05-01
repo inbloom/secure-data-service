@@ -17,7 +17,9 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.files.ExtractFile;
@@ -41,14 +43,18 @@ public class LEAExtractFileMap {
     }
 
     public void closeFiles() {
-        for (ExtractFile file : edOrgToLEAExtract.values()) {
+        for (ExtractFile file : new HashSet<ExtractFile>(edOrgToLEAExtract.values())) {
             file.closeWriters();
         }
         
     }
+    
+    public Set<String> getLeas() {
+        return edOrgToLEAExtract.keySet();
+    }
 
     public void buildManifestFiles(DateTime startTime) {
-        for (ExtractFile file : edOrgToLEAExtract.values()) {
+        for (ExtractFile file : new HashSet<ExtractFile>(edOrgToLEAExtract.values())) {
             try {
                 file.getManifestFile().generateMetaFile(startTime);
             } catch (IOException e) {
@@ -58,7 +64,7 @@ public class LEAExtractFileMap {
     }
 
     public void archiveFiles() {
-        for (ExtractFile file : edOrgToLEAExtract.values()) {
+        for (ExtractFile file : new HashSet<ExtractFile>(edOrgToLEAExtract.values())) {
             if(!file.generateArchive()) {
                 LOG.warn("Unable to create archive: {}", file.getEdorg());
             }

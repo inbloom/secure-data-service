@@ -15,6 +15,22 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.Launcher;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.lea.EdorgExtractor;
+import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
+import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
+import org.slc.sli.bulk.extract.lea.StudentExtractor;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.File;
 import java.security.PublicKey;
 import java.util.Arrays;
@@ -25,21 +41,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.joda.time.DateTime;
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.Launcher;
-import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.lea.EdorgExtractor;
-import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
-import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 /**
  * Creates local ed org tarballs
  */
@@ -49,7 +50,7 @@ public class LocalEdOrgExtractor {
     private Repository<Entity> repository;
 
     @Autowired
-    LocalEdOrgExtractHelper helper;
+    private LocalEdOrgExtractHelper helper;
 
     private LEAExtractFileMap leaToExtractFileMap;
     private EntityExtractor entityExtractor;
@@ -70,19 +71,25 @@ public class LocalEdOrgExtractor {
         TenantContext.setTenantId(tenant);
         this.tenantDirectory = tenantDirectory;
         this.startTime = startTime;
-        this.factory = new LEAExtractorFactory();
 
-        leaToExtractFileMap = new LEAExtractFileMap(buildLEAToExtractFile());
+        if (factory == null) {
+            factory = new LEAExtractorFactory();
+        }
+        if (leaToExtractFileMap == null) {
+            leaToExtractFileMap = new LEAExtractFileMap(buildLEAToExtractFile());
+        }
 
         // 2. EXTRACT
         EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
         edorg.extractEntities(buildEdOrgCache());
+        StudentExtractor student = factory.buildStudentExtractor(entityExtractor, leaToExtractFileMap, repository);
+        student.extractEntities(null);
         leaToExtractFileMap.closeFiles();
 
         // TODO extract other entities
+
         leaToExtractFileMap.buildManifestFiles(startTime);
         leaToExtractFileMap.archiveFiles();
-
 
         // 3. ARCHIVE
         updateBulkExtractDb(tenant, startTime);
@@ -121,19 +128,6 @@ public class LocalEdOrgExtractor {
     }
 
     /**
-     * Attempts to get all of the LEAs that should have a LEA level extract scheduled.
-     *
-     * @return a set of the LEA ids that need a bulk extract
-     */
-    public Set<String> getAllLEAs(Map<String, Set<String>> bulkExtractLEAs) {
-        Set<String> leas = new HashSet<String>();
-        for (Map.Entry<String, Set<String>> entry : bulkExtractLEAs.entrySet()) {
-            leas.addAll(entry.getValue());
-        }
-        return leas;
-    }
-
-    /**
      * Returns a map that maps an edorg to it's top level LEA, used as a cache
      * to speed up extract
      *
@@ -149,7 +143,7 @@ public class LocalEdOrgExtractor {
         return cache;
     }
     
-    public Map<String, Set<String>> leaToApps() {
+    private Map<String, Set<String>> leaToApps() {
     	Map<String, Set<String>> result = new HashMap<String, Set<String>>();
     	Map<String, Set<String>> beAppsToLEAs = helper.getBulkExtractLEAsPerApp();
     	for(String app : beAppsToLEAs.keySet()) {
@@ -209,5 +203,13 @@ public class LocalEdOrgExtractor {
 
     public void setHelper(LocalEdOrgExtractHelper helper) {
         this.helper = helper;
+    }
+    
+    public void setFactory(LEAExtractorFactory factory) {
+        this.factory = factory;
+    }
+    
+    public void setLeaToExtractMap(LEAExtractFileMap map) {
+        this.leaToExtractFileMap = map;
     }
 }

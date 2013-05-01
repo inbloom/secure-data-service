@@ -44,7 +44,8 @@ import org.slc.sli.dal.repository.MongoEntityRepository;
  */
 public class SecondaryReadRepository extends MongoEntityRepository {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SecondaryReadRepository.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(SecondaryReadRepository.class);
 
     @Value("${sli.be.mongo.tagSet:}")
     private String tagSet;
@@ -54,30 +55,35 @@ public class SecondaryReadRepository extends MongoEntityRepository {
 
     /**
      * Method to set read preference of the mongo template.
+     *
      * @param firstTag
-     *          map representing the first tag
+     *            map representing the first tag
      * @param remainingTags
-     *          map representing the remaining tags
+     *            map representing the remaining tags
      */
     private void setReadPreference(DBObject firstTag, DBObject... remainingTags) {
-        ReadPreference  readPreference;
-        if(firstTag == null) {
-            LOG.info("Setting up databse prefernces to read from secondary");
-            readPreference = failOnPrimary ? ReadPreference.secondary() : ReadPreference.secondaryPreferred();
-        } else if(remainingTags == null ){
-            LOG.info("Setting up databse prefernces to read from secondary with respect to the tag set provided");
-            readPreference = failOnPrimary ? ReadPreference.secondary(firstTag) : ReadPreference.secondaryPreferred(firstTag);
+        ReadPreference readPreference;
+        if (firstTag == null) {
+            LOG.info("Setting up database preferences to read from secondary");
+            readPreference = failOnPrimary ? ReadPreference.secondary()
+                    : ReadPreference.secondaryPreferred();
+        } else if (remainingTags == null) {
+            LOG.info("Setting up database preferences to read from secondary with respect to the tag set provided");
+            readPreference = failOnPrimary ? ReadPreference.secondary(firstTag)
+                    : ReadPreference.secondaryPreferred(firstTag);
         } else {
-            LOG.info("Setting up databse prefernces to read from secondary with respect to the tag sets provided");
-            readPreference = failOnPrimary ? ReadPreference.secondary(firstTag, remainingTags) : ReadPreference.secondaryPreferred(firstTag, remainingTags);
+            LOG.info("Setting up database preferences to read from secondary with respect to the tag sets provided");
+            readPreference = failOnPrimary ? ReadPreference.secondary(firstTag,
+                    remainingTags) : ReadPreference.secondaryPreferred(
+                    firstTag, remainingTags);
         }
         template.setReadPreference(readPreference);
     }
 
     /**
      * Method to convert string property to a list of maps.
-     * @return
-     *      array of DBObject
+     *
+     * @return array of DBObject
      */
     @SuppressWarnings("unchecked")
     protected DBObject[] getTagSetsFromProperty() {
@@ -99,27 +105,31 @@ public class SecondaryReadRepository extends MongoEntityRepository {
             tagMapList = null;
         }
 
-       tags = convertListToDBObjectArray(tagMapList);
+        tags = convertListToDBObjectArray(tagMapList);
 
         return tags;
     }
 
     /**
      * Converts a list of map to array of DBObject.
+     *
      * @param list
-     *      list of map
-     * @return
-     *      array of DBObject
+     *            list of map
+     * @return array of DBObject
      */
-    protected DBObject[] convertListToDBObjectArray(List<Map<String, String>> list) {
+    protected DBObject[] convertListToDBObjectArray(
+            List<Map<String, String>> list) {
+        List<DBObject> objectList = new ArrayList<DBObject>();
+
         DBObject[] object = null;
-        if( list != null && !list.isEmpty()) {
-            int itr =0;
-            object = new DBObject[list.size()];
+
+        if (list != null && !list.isEmpty()) {
             for (Map<String, String> tagSet : list) {
-                object[itr++] = tagSet == null ? null : new BasicDBObject(tagSet);
+                objectList.add(new BasicDBObject(tagSet));
             }
+            object = objectList.toArray(new DBObject[objectList.size()]);
         }
+
         return object;
     }
 
@@ -131,17 +141,18 @@ public class SecondaryReadRepository extends MongoEntityRepository {
 
         DBObject[] tagSets = getTagSetsFromProperty();
         DBObject firstTag = tagSets == null ? null : getFirstTagSet(tagSets);
-        DBObject[] remainingTags = tagSets == null ? null : getRemainingTagSets(tagSets);
+        DBObject[] remainingTags = tagSets == null ? null
+                : getRemainingTagSets(tagSets);
 
         setReadPreference(firstTag, remainingTags);
     }
 
     /**
      * Method to get the first tag set from an array.
+     *
      * @param object
-     *  array of DBObject
-     * @return
-     *  first tag set
+     *            array of DBObject
+     * @return first tag set
      */
     protected DBObject getFirstTagSet(DBObject[] object) {
         return object[0];
@@ -149,10 +160,10 @@ public class SecondaryReadRepository extends MongoEntityRepository {
 
     /**
      * Method to get the remaining tag sets from the array.
+     *
      * @param object
-     *      array of DBObject
-     * @return
-     *      array of remaining tag sets
+     *            array of DBObject
+     * @return array of remaining tag sets
      */
     protected DBObject[] getRemainingTagSets(DBObject[] object) {
         DBObject[] newObject = ArrayUtils.remove(object, 0);
@@ -164,8 +175,9 @@ public class SecondaryReadRepository extends MongoEntityRepository {
 
     /**
      * Setter method for property.
+     *
      * @param failOnPrimary
-     *      boolean value
+     *            boolean value
      */
     public void setFailOnPrimary(boolean failOnPrimary) {
         this.failOnPrimary = failOnPrimary;
@@ -173,8 +185,9 @@ public class SecondaryReadRepository extends MongoEntityRepository {
 
     /**
      * Setter method for property.
+     *
      * @param tagSet
-     *      String representing tagSet
+     *            String representing tagSet
      */
     public void setTagSet(String tagSet) {
         this.tagSet = tagSet;

@@ -26,7 +26,7 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-public class EdorgExtractor {
+public class EdorgExtractor implements EntityExtract {
     private LEAExtractFileMap map;
     private EntityExtractor extractor;
     
@@ -35,11 +35,10 @@ public class EdorgExtractor {
         this.map = map;
     }
     
-    /**
-     * Takes a cache of lea to edorgs and then extracts them to their files
-     * 
-     * @param leaToEdorgCache
+    /* (non-Javadoc)
+     * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(java.util.Map)
      */
+    @Override
     public void extractEntities(Map<String, Set<String>> leaToEdorgCache) {
         for (String lea : new HashSet<String>(leaToEdorgCache.keySet())) {
             ExtractFile extractFile = map.getExtractFileForLea(lea);
