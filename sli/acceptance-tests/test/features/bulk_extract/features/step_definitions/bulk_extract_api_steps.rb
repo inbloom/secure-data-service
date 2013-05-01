@@ -62,7 +62,7 @@ When /^I make a concurrent ranged bulk extract API call and store the results$/ 
   end
 end
 
-When /^I delete the tar file I'm writing to if it exists$/ do
+When /^I delete the previuos tar file if it exists$/ do
   if File.exists?(Dir.pwd + "/" + $TAR_FILE_NAME)
     File.delete( Dir.pwd + "/" + $TAR_FILE_NAME)
   end

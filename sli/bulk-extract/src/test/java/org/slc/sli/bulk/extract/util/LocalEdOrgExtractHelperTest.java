@@ -94,7 +94,7 @@ public class LocalEdOrgExtractHelperTest {
 
         Map<String, Set<String>> bulkExtractLEAsPerApp = helper.getBulkExtractLEAsPerApp();
 
-        assertTrue(bulkExtractLEAsPerApp.size() == 3);
+        assertTrue(bulkExtractLEAsPerApp.size() == 2);
         assertTrue(bulkExtractLEAsPerApp.get(authOne.getBody().get("applicationId")).containsAll(
                 (Collection<?>) authOne.getBody().get("edorgs")));
         assertTrue(bulkExtractLEAsPerApp.get(authTwo.getBody().get("applicationId")).isEmpty());
