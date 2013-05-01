@@ -660,11 +660,15 @@ Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)
 
 end
 
-Then /^I verify this "(.*?)" file contains:$/ do |file_name, table|
+Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name, should, table|
+    look_for = should.downcase == "should"
     json_file_name = @unpackDir + "/#{file_name}.json"
-    exists = File.exists?(json_file_name+".gz")
-    assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
-    `gunzip #{json_file_name}.gz`
+    exists = File.exists?(json_file_name)
+    unless exists
+      exists = File.exists?(json_file_name+".gz") 
+      assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
+      `gunzip #{json_file_name}.gz`
+    end
     json = JSON.parse(File.read("#{json_file_name}"))
 
     json_map = to_map(json)
@@ -672,7 +676,11 @@ Then /^I verify this "(.*?)" file contains:$/ do |file_name, table|
         id = entity['id']
         json_entities = json_map[id]
         field, value = entity['condition'].split('=').map{|s| s.strip}
-        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
+        if ((entity['condition'].nil? || entity['condition'].empty?) && !look_for) 
+            assert(json_entities.nil?, "Entity with id #{id} should not exist, but it does")
+            next 
+        end
+        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}") 
         success = false
         json_entities.each {|e|
             # we may have multiple entities with the same id in the delete file
@@ -682,7 +690,11 @@ Then /^I verify this "(.*?)" file contains:$/ do |file_name, table|
                 break
             end
         }
-        assert(success, "can't find an entity with id #{id} that matches #{entity['condition']}")
+        if (look_for)
+            assert(success, "can't find an entity with id #{id} that matches #{entity['condition']}")
+        else
+            assert(!success, "found an entity with id #{id} that matches #{entity['condition']}, we should not have this entity")
+        end
     end
 end
 
