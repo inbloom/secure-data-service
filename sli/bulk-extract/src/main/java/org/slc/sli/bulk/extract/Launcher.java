@@ -129,14 +129,14 @@ public class Launcher {
      *      input arguments
      */
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring/application-context.xml");
-
-        Launcher main = context.getBean(Launcher.class);
-
         if (args.length < 1) {
             LOG.error(USAGE);
             return;
         }
+        
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring/application-context.xml");
+
+        Launcher main = context.getBean(Launcher.class);
     
         String tenantId = args[0];
         boolean isDelta = false;

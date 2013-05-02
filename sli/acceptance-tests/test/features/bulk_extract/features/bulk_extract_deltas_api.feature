@@ -14,7 +14,7 @@ Scenario: Generate a bulk extract day 0 delta
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
     #    Then The "parent" delta was extracted in the same format as the api
-    #    Then The "studentParentAssociation" delta was extracted in the same format as the api
+        Then The "studentParentAssociation" delta was extracted in the same format as the api
 
 Scenario: Generate a bulk extract in a different LEAs
   Given I clean the bulk extract file system and database
@@ -214,29 +214,30 @@ Scenario: PATCH the zip code of an edOrg, trigger delta, verify contents
    And a "educationOrganization" was extracted in the same format as the api
    And each extracted "educationOrganization" delta matches the mongo entry
 
-@wip
   Scenario: Generate deltas for parents through ingestion
-  Given I clean the bulk extract file system and database
+    Given I clean the bulk extract file system and database
     And I am using local data store
     And I ingest "deltas_parents.zip"
 
-  When I trigger a delta extract
-    And I untar and decrypt the delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-      Then I should see "1" bulk extract files
-    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea1_id>" in "Midgar" contains a file for each of the following entities:
-        |  entityType                            |
-        |  parent                                |
-        |  studentParentAssociation              |
-        |  deleted                               |
-    Then The "parent" delta was extracted in the same format as the api
-    And The "parentStudentAssociation" delta was extracted in the same format as the api
-      And I verify this "deleted" file should contains:
-          | id                                          | condition                             |
-          | "<deleted_parent_id>"                       | entityType = parent                   |
-          | "<deleted_studentParentAssociation_id>"     | entityType = studentParentAssociation |
+    When I trigger a delta extract
+    And I request the latest bulk extract delta using the api
+    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    Then I should see "2" bulk extract files
+    When I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    Then I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "1b223f577827204a1c7e9c851dba06bea6b031fe_id" in "Midgar" contains a file for each of the following entities:
+      | entityType               |
+      #        |  parent                                |
+      | studentParentAssociation |
+      | deleted                  |
+  #  Then The "parent" delta was extracted in the same format as the api
+    Then The "studentParentAssociation" delta was extracted in the same format as the api
+    And I verify this "deleted" file should contains:
+      | id                                                                                     | condition                             |
+      #          | "<deleted_parent_id>"                       | entityType = parent                   |
+      | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
 
-Scenario: deltas for student/studentSchoolAssociation/studentAssessment and studentGradebookEntry
+
+  Scenario: deltas for student/studentSchoolAssociation/studentAssessment and studentGradebookEntry
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
   and only a delete file is generated for lea2.
   Updated two students, 11 and 12, 12 lost contextual resolution to LEA1, so it should not appear
