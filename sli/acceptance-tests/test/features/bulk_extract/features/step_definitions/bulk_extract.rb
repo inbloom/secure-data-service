@@ -644,6 +644,10 @@ Then /^I should see "(.*?)" bulk extract SEA-public data file for the tenant "(.
   #assert(File.exists(@encryptFilePath), "SEA public data doesn't exist.")
 end
 
+Then /^I remove the edorg with id "(.*?)" from the database/ do |edorg_id|
+  remove_edorg_from_mongo(edorg_id)
+end
+
 Then /^there should be no deltas in mongo$/ do
   checkMongoCounts("bulkExtractFiles", 0)
 end
@@ -1021,4 +1025,17 @@ def streamBulkExtractFile(download_file, apiBody)
   download_file ||= Dir.pwd + "/Final.tar"
   f = File.open(download_file, 'a') {|f| f.write(apiBody)}
   return download_file
+end
+
+def remove_edorg_from_mongo(edorg_id)
+  tenant_db = @conn.db(convertTenantIdToDbName(@tenant))
+  collection = tenant_db.collection('educationOrganization')
+  collection.remove({'body.stateOrganizationId' => edorg_id})
+end
+
+After('@scheduler') do
+  command = "crontab -r"
+  puts "blah blah blah"
+  result = runShellCommand(command)
+  puts "Running: #{command} #{result}"
 end

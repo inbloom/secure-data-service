@@ -23,3 +23,4 @@ Scenario: Bulk extract should fail if there are more than 1 SEA in the tenant.
     And The X509 cert "cert" has been installed in the trust store and aliased
     Then I trigger a bulk extract
     Then I should see "0" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    Then I remove the edorg with id "IL-Test" from the database
