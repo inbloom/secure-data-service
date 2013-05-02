@@ -35,6 +35,7 @@ import java.net.URISyntaxException;
 import java.security.Principal;
 import java.security.cert.X509Certificate;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -43,6 +44,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
@@ -110,7 +112,6 @@ import org.slc.sli.domain.Repository;
 public class BulkExtractTest {
 
     private static final String INPUT_FILE_NAME = "mock.in.tar.gz";
-
     private static final String URI_PATH = "http://local.slidev.org:8080/api/rest/v1.2";
 
     private int entityId = 0;
@@ -533,9 +534,10 @@ public class BulkExtractTest {
         body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
 
         Entity fullBulkExtractEntity = mockBulkExtractEntity(null);
-//        String timeStamp = "2013-04-30T11:51:29.279Z";
+        SimpleDateFormat formatter = new SimpleDateFormat(BulkExtract.ISO_DATE_FORMAT);
+        formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date deltaTime = new Date();
-        String timeStamp = deltaTime.toString();
+        String timeStamp = formatter.format(deltaTime);
         Entity deltaBulkExtractEntity1 = mockBulkExtractEntity(deltaTime);
         Entity deltaBulkExtractEntity2 = mockBulkExtractEntity(deltaTime);
         List<Entity> leas = new ArrayList<Entity>();

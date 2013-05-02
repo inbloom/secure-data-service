@@ -21,12 +21,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -89,6 +92,7 @@ public class BulkExtract {
     public static final String BULK_EXTRACT_FILES = "bulkExtractFiles";
     public static final String BULK_EXTRACT_FILE_PATH = "path";
     public static final String BULK_EXTRACT_DATE = "date";
+    public static final String ISO_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     @Autowired
     private Repository<Entity> mongoEntityRepository;
@@ -307,6 +311,8 @@ public class BulkExtract {
 
         Map<String, Map<String, String>> leaFullLinks = new HashMap<String, Map<String, String>>();
         Map<String, List<Map<String, String>>> leaDeltaLinks = new HashMap<String, List<Map<String, String>>>();
+        SimpleDateFormat formatter = new SimpleDateFormat(ISO_DATE_FORMAT);
+        formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
         for (String leaId : appAuthorizedUserLEAs) {
             Iterable<Entity> leaFileEntities = getLEABulkExtractEntities(appId, leaId);
             if (leaFileEntities.iterator().hasNext()) {
@@ -314,7 +320,8 @@ public class BulkExtract {
                 List<Map<String, String>> deltaLinks = new ArrayList<Map<String, String>>();
                 for (Entity leaFileEntity : leaFileEntities) {
                     Map<String, String> deltaLink = new HashMap<String, String>();
-                    String timeStamp = leaFileEntity.getBody().get("date").toString();
+                    Date date = (Date)leaFileEntity.getBody().get("date");
+                    String timeStamp = formatter.format(date);
                     if ((Boolean) leaFileEntity.getBody().get("isDelta")) {
                         deltaLink.put("uri", linkBase + leaId + "/delta/" + timeStamp);
                         deltaLink.put("timestamp", timeStamp);

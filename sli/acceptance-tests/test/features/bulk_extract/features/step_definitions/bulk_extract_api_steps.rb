@@ -473,7 +473,7 @@ When /^I make a head request with each returned URL$/ do
   delta_types.each do |delta_type| 
     hash_body[delta_type].each do |leaId, link_list|
       puts "Checking delta extracts for LEA #{leaId}"
-      link_list.each_value do |link|
+      link_list.each do |link|
         uri = link["uri"]
         puts "Link: #{uri}"
         restHttpHeadFullURL(uri)
