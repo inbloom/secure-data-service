@@ -25,8 +25,8 @@ end
 Given /^there is no bulk extract files in the local directory$/ do
     executeShellCommand("rm -f #{EXTRACT_TO_DIRECTORY}/extract.tar")
     executeShellCommand("rm -rf #{EXTRACT_TO_DIRECTORY}/unpack/")
-    executeShellCommand("rm -f #{EXTRACT_TO_DIRECTORY}/extract/")
-    executeShellCommand("rm -f #{EXTRACT_TO_DIRECTORY}/logs/")
+    executeShellCommand("rm -rf #{EXTRACT_TO_DIRECTORY}/extract/")
+    executeShellCommand("rm -rf #{EXTRACT_TO_DIRECTORY}/logs/")
 end
 
 def executeShellCommand(command)
