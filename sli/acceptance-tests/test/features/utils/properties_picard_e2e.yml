@@ -147,10 +147,10 @@ ci_idp_redirect_url: https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant
 #e2e_password: test1234
 
 ssh_user: jenkins@rcingest01.picard
+extract_to_directory: /jenkins
 
 ################# /e2e test properties #################################
 
 portal_server_address: "https://picard-portal.slidev.org"
 minisb_portal_server_address: "https://picardsandbox.slidev.org"
 portal_app_suffix: "/portal"
-

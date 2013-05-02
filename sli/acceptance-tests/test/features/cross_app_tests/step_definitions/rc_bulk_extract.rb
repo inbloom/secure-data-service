@@ -4,8 +4,8 @@ OUTPUT_DIRECTORY = PropLoader.getProps['bulk_extract_output_directory']
 PROPERTIES_FILE = PropLoader.getProps['bulk_extract_properties_file']
 KEYSTORE_FILE = PropLoader.getProps['bulk_extract_keystore_file']
 JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
-LZ = PropLoader.getProps['landingzone']
 SSH_USER = PropLoader.getProps['ssh_user']
+EXTRACT_TO_DIRECTORY = PropLoader.getProps['extract_to_directory']
 
 require 'archive/tar/minitar'
 include Archive::Tar
@@ -24,6 +24,12 @@ Given /^the production extraction zone is empty$/ do
    `#{ssh_command}`
 end
 
+Given /^there is no extract.tar in the local directory$/ do
+    command = "rm -f #{EXTRACT_TO_DIRECTORY}/extract.tar"
+    puts command
+   `#{command}`
+end
+
 When /^the operator triggers a bulk extract for the production tenant$/ do
     `rm -f \~/.ssh/known_hosts`
     command = getBulkExtractCommand(PropLoader.getProps['tenant'])
@@ -33,8 +39,25 @@ When /^the operator triggers a bulk extract for the production tenant$/ do
 end
 
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
-    command = getBulkExtractCommand(tenant)
-    puts runShellCommand(command)
+
+command  = "sh #{TRIGGER_SCRIPT}"
+if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
+  command = command + " -Dsli.conf=#{PROPERTIES_FILE}"
+  puts "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
+end
+if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
+  command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
+  puts "Using extra property: -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
+end
+if (JAR_FILE !=nil && JAR_FILE != "")
+  command = command + " -f#{JAR_FILE}"
+  puts "Using extra property:  -f#{JAR_FILE}"
+end
+
+command = command + " -t#{tenant}"
+puts "Running: #{command} "
+puts runShellCommand(command)
+
 end
 
 def getBulkExtractCommand(tenant)

@@ -7,6 +7,7 @@ Background:
 
 Scenario: Delete bulk extract files
   When the production extraction zone is empty
+  And there is no extract.tar in the local directory
 
 Scenario:  LEA deletes realm
   When I navigate to the Portal home page

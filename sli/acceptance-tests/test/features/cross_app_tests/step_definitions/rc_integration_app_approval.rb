@@ -118,17 +118,29 @@ Then /^I enter "(.*?)" in the Redirect Endpoint field$/ do |url|
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys url
 end
 
-
 Then /^I request and download a bulk extract file$/ do
-  restHttpGet("/bulk/extract/tenant", "application/x-tar", @sessionId)
+  restTls("/bulk/extract/tenant", nil, "application/x-tar", @sessionId, @oauthClientId)
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
-  @filePath =  "./extract.tar"
+  @filePath = OUTPUT_DIRECTORY + "/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
   if (!File.exists?("extract"))
       FileUtils.mkdir("extract")
   end
   step "the response is decrypted"
   File.open(@filePath, 'w') {|f| f.write(@plain) }
+  assert(File.exists?(@filePath), "Bulk Extract file was unable to be download to: #{@filePath.to_s}")
+end
 
+
+Then /^I request and download a bulk extract file from production$/ do
+  restHttpGet("/bulk/extract/tenant", "application/x-tar", @sessionId)
+  assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
+  @filePath = PropLoader.getProps['extract_to_directory'] + "/extract.tar"
+  @unpackDir = File.dirname(@filePath) + '/unpack'
+  if (!File.exists?("extract"))
+      FileUtils.mkdir("extract")
+  end
+  step "the response is decrypted from production"
+  File.open(@filePath, 'w') {|f| f.write(@plain) }
   assert(File.exists?(@filePath), "Bulk Extract file was unable to be download to: #{@filePath.to_s}")
 end
