@@ -16,7 +16,6 @@
 
 package org.slc.sli.bulk.extract.pub;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
@@ -27,44 +26,14 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
  */
 public class DirectPublicExtractTest {
 
-    private EntityExtractor extractor;
-    private ExtractFile file;
-    private DirectPublicDataExtract edorg;
-
-    @Before
-    public void setUp() throws Exception {
-        extractor = Mockito.mock(EntityExtractor.class);
-        file = Mockito.mock(ExtractFile.class);
-        edorg = new DirectPublicDataExtract(extractor);
-    }
-
     @Test
-    public void testExtractEducationOrganization() {
+    public void testExtract() {
+        EntityExtractor extractor = Mockito.mock(EntityExtractor.class);
+        ExtractFile file = Mockito.mock(ExtractFile.class);
+        DirectPublicDataExtract edorg = new DirectPublicDataExtract(extractor);
+
         edorg.extract("SEA", file);
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "educationOrganization");
-    }
 
-    @Test
-    public void testExtractCourse() {
-        edorg.extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "course");
-    }
-
-    @Test
-    public void testExtractCourseOffering() {
-        edorg.extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "courseOffering");
-    }
-
-    @Test
-    public void testExtractSession() {
-        edorg.extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "session");
-    }
-
-    @Test
-    public void testExtractGraduationPlan() {
-        edorg.extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "graduationPlan");
     }
 }
