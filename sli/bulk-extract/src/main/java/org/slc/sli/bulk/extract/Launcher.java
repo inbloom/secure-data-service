@@ -82,7 +82,7 @@ public class Launcher {
 
     // those two methods should be moved to localEdOrgExtractor once we switched to
     // LEA level extract, for now it's duplicated in both classes.
-    private String getArchiveName(String tenant, Date startTime) {
+    public static String getArchiveName(String tenant, Date startTime) {
         return tenant + "-" + getTimeStamp(startTime);
     }
 
