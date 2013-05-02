@@ -62,7 +62,7 @@ When /^I make a concurrent ranged bulk extract API call and store the results$/ 
   end
 end
 
-When /^I delete the tar file I'm writing to if it exists$/ do
+When /^I delete the previuos tar file if it exists$/ do
   if File.exists?(Dir.pwd + "/" + $TAR_FILE_NAME)
     File.delete( Dir.pwd + "/" + $TAR_FILE_NAME)
   end
@@ -233,6 +233,7 @@ end
 Then /^I get back a response code of "(.*?)"$/ do |response_code|
   puts "@res.headers: #{@res.headers}"
   puts "@res.code: #{@res.code}"
+
   assert(@res.code.to_i == response_code.to_i, "The return code is #{@res.code}. Expected: #{response_code}")
 end
 
@@ -252,7 +253,7 @@ Then /^the content length in response header is greater than the requested range
 end
 
 Then /^I store the file content$/ do
-  @received_file = Dir.pwd + "/Final.tar"
+  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
   File.open(@received_file, "a") do |outf|
     outf << @res.body
   end
@@ -263,7 +264,7 @@ Then /^I process the file content$/ do
   original_tar_contents = file.read
 
   res_content = @res.body.split("\r\n")
-  @received_file = Dir.pwd + "/Final.tar"
+  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
 
   File.open(@received_file, "wb") do |outf|
     res_content.each { |content|
@@ -339,21 +340,21 @@ end
 Then /^I store the contents of the first call$/ do
   res_content = @res.body.split(%r{--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
   @content1 = res_content[1].strip()
-  puts @content1.size
+  assert_equal(@content1.size, 15001)
   @content3 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0].strip()
-  puts @content3.size
+  assert_equal(@content3.size, 22000)
 end
 
 Then /^I store the contents of the second call$/ do
   res_content = @res.body.split(%r{--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
   @content2 = res_content[1].strip()
-  puts @content2.size
+  assert_equal(@content2.size, 5000)
   @content4 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0].strip()
-  puts @content4.size
+  puts "The final chunk is #{@content4.size} bytes long"
 end
 
 Then /^I combine the file contents$/ do
-  @received_file = Dir.pwd + "/Final.tar"
+  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
   File.open(@received_file, "wb") do |outf|
         outf << @content1
         outf << @content2
@@ -491,6 +492,11 @@ Then /^the number of returned URLs is correct:$/ do |table|
   end
 end
 
+After("@TempFileCleanup") do
+  if File.exists?(Dir.pwd + "/" + $TAR_FILE_NAME)
+    File.delete( Dir.pwd + "/" + $TAR_FILE_NAME)
+  end
+end
 
 def getAppId()
   conn ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST'])

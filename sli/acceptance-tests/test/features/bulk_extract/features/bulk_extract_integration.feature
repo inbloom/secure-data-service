@@ -55,7 +55,6 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  teacherSchoolAssociation              |
    |  teacherSectionAssociation             |
    
-   @wip
    Scenario: Trigger a bulk extract on ingested data and retrieve the lea extract through the api
       Given I trigger a bulk extract
 
@@ -80,7 +79,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       #|  courseTranscript                      |   |         |
       #|  disciplineIncident                    |   |         |
       #|  disciplineAction                      |   |         |
-      |  educationOrganization                 | 2 |          |
+      |  educationOrganization                 | 5 |          |
       #|  grade                                 |   |         |
       #|  gradebookEntry                        |   |         |
       #|  gradingPeriod                         |   |         |
@@ -97,7 +96,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       #|  staffCohortAssociation                |   |         |
       #|  staffEducationOrganizationAssociation |   |         |
       #|  staffProgramAssociation               |   |         |
-      #|  student                               |   |         |
+      |  student                               | 156 |         |
       #|  studentAcademicRecord                 |   |         |
       #|  studentAssessment                     |   |         |
       #|  studentCohortAssociation              |   |         |

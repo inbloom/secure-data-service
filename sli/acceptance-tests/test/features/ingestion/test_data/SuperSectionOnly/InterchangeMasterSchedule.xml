@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
+  <Section>
+    <UniqueSectionCode>12</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <AvailableCredit CreditType="Trimester hour credit" CreditConversion="0">
+      <Credit>2</Credit>
+    </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>600</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2002-2003 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+ </InterchangeMasterSchedule>

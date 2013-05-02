@@ -65,12 +65,24 @@ public class SimpleEntityRepository implements Repository<Entity> {
     }
 
     @Override
+    public Entity findById(String collectionName, String id, boolean allFields) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public boolean exists(String collectionName, String id) {
         return true;
     }
 
     @Override
     public Entity findOne(String collectionName, NeutralQuery neutralQuery) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Entity findOne(String collectionName, NeutralQuery neutralQuery, boolean allFields) {
         // TODO Auto-generated method stub
         return null;
     }

@@ -88,6 +88,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
+import org.slc.sli.api.security.context.resolver.AppAuthHelper;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -119,6 +120,10 @@ public class BulkExtractTest {
     @Autowired
     @InjectMocks
     private BulkExtract bulkExtract;
+
+    @Autowired
+    @InjectMocks
+    private AppAuthHelper appAuthHelper;
 
     @Autowired
     private SecurityContextInjector injector;

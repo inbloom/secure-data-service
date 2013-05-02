@@ -315,6 +315,11 @@ public class NaturalKeyExtractorTest {
             public Map<String, List<Entity>> getContainerData() {
                 return null;
             }
+
+            @Override
+            public void hollowOut() {
+                // override super implementation with empty implementation
+            }
         };
     }
 }

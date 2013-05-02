@@ -452,34 +452,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return repositoryType;
     }
 
-    class SafeDeleteAffectedIds {
-        private Set<String> deletedIds;
-        private Set<String> referenceFieldRemovedIds;
-        private Set<String> referenceFieldPatchedIds;
-
-        SafeDeleteAffectedIds() {
-            this.deletedIds = new HashSet<String>();
-            this.referenceFieldRemovedIds = new HashSet<String>();
-            this.referenceFieldPatchedIds = new HashSet<String>();
-        }
-
-        public Set<String> getDeletedIds() {
-            return deletedIds;
-        }
-
-        public Set<String> getReferenceFieldRemovedIds() {
-            return referenceFieldRemovedIds;
-        }
-
-        public Set<String> getReferenceFieldPatchedIds() {
-            return referenceFieldPatchedIds;
-        }
-
-        long getAffectedCount() {
-            return deletedIds.size() + referenceFieldPatchedIds.size() + referenceFieldRemovedIds.size();
-        }
-    }
-
     @Override
     public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun, boolean force,
             boolean logViolations, Integer maxObjects, AccessibilityCheck access) {
@@ -809,7 +781,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             } else {
                 DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Finally deleting "
                         + repositoryEntityType + "." + id);
-                if (!delete(repositoryEntityType, id)) {
+                if (!delete(repositoryEntityType, id, force)) {
                     String message = "Failed to delete entity with id " + id + " and type " + entityType;
                     LOG.debug(message);
                     DELETION_LOG.info(StringUtils.repeat(" ", DEL_LOG_IDENT * depth) + "Failed finally deleting "
@@ -853,8 +825,23 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return count;
     }
 
+    /* Delete the entity with the given ID and type.  Note that "collectionName"
+     * is really the entity type and does not always correspond to the actual
+     * MongoDB collection, in the case of entity types embedded in the collections of
+     * other entity types.
+     */
     @Override
     public boolean delete(String collectionName, String id) {
+    	return delete(collectionName, id, false);
+    }
+
+    /*
+     * Version of delete that has special handling for "force" deletes: if embedded
+     * data in subdocs exists, leave it in place, "hollowing out" the containing
+     * document by removing only the body/metaData, and leaving type, _id, and
+     * contained documents.
+     */
+    private boolean delete(String collectionName, String id, boolean force) {
         boolean result;
         if (subDocs.isSubDoc(collectionName)) {
             Entity entity = subDocs.subDoc(collectionName).findById(id);
@@ -875,7 +862,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             if (denormalizer.isDenormalizedDoc(collectionName)) {
                 denormalizer.denormalization(collectionName).delete(null, id);
             }
-            result = super.delete(collectionName, id);
+            if ( force ) {
+            	result = deleteOrHollowOut(collectionName, id);
+            }
+            else {
+            	result = super.delete(collectionName, id);
+            }
         }
 
         if (result && journal != null) {
@@ -883,6 +875,30 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         return result;
+    }
+
+    /*
+     * Examine document in given MongoDB collection, known not to be a subdoc.
+     * If it contains keys other than
+     * the standard "entity" keys (_id, type, metaData, body), AND these other keys
+     * have non-empty data, then, instead of deleting the document, update it in place
+     * to remove the body and metadata, leaving _id, type and the contained doc data.
+     */
+    private boolean deleteOrHollowOut(String collectionName, String id) {
+    	boolean result = false;
+    	Entity entity = findById(collectionName, id, true);
+        if(entity != null) {
+            if ( entity.getEmbeddedData().size() > 0 ) {
+                entity.hollowOut();
+                result = update(collectionName, entity, true);
+            }
+            else {
+                result = super.delete(collectionName, id);
+            }
+        } else {
+            LOG.warn("Did not find {} with id {}", collectionName, id);
+        }
+    	return result;
     }
 
     @Override
@@ -903,10 +919,24 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     protected Update getUpdateCommand(Entity entity, boolean isSuperdoc) {
         // set up update query
-        Map<String, Object> entityBody = entity.getBody();
-        Map<String, Object> entityMetaData = entity.getMetaData();
         Update update = new Update();
-        update.set("body", entityBody).set("metaData", entityMetaData);
+
+        // It is possible for the body and metaData keys to be absent in the case
+        // of "orphaned" subDoc data when a document has been "hollowed out"
+        Map<String, Object> entityBody = entity.getBody();
+        if ( entityBody != null && entityBody.size() == 0 ) {
+        	update.unset("body");
+        }
+        else {
+        	update.set("body", entityBody);
+        }
+        Map<String, Object> entityMetaData = entity.getMetaData();
+        if (entityMetaData != null && entityMetaData.size() == 0 ) {
+        	update.unset("metaData");
+        }
+        else {
+        	update.set("metaData", entityMetaData);
+        }
 
         // update should also set type in case of upsert
         String entityType = entity.getType();
@@ -987,7 +1017,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             if (deleteAssessmentFamilyReference) {
                 option = SuperdocConverter.Option.DELETE_ASSESSMENT_FAMILY_REFERENCE;
             }
-            converter.bodyFieldToSubdoc(entity, option);
+            // It is possible for the body and metaData keys to be absent in the case
+            // of "orphaned" subDoc data when a document has been "hollowed out"
+            Map<String, Object> body = entity.getBody();
+            if ( body != null && body.size() > 0 ) {
+            	converter.bodyFieldToSubdoc(entity, option);
+            }
         }
         validator.validate(entity);
         if (denormalizer.isDenormalizedDoc(collection)) {
@@ -1022,7 +1057,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
      */
     public void updateTimestamp(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
-        entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
+        Map<String, Object> metaData = entity.getMetaData();
+        if ( null != metaData ) {
+        	metaData.put(EntityMetadataKey.UPDATED.getKey(), now);
+        }
     }
 
     public void setValidator(EntityValidator validator) {
@@ -1032,12 +1070,17 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     @MigrateEntity
     public Entity findById(String collectionName, String id) {
-        if (subDocs.isSubDoc(collectionName)) {
+    	return findById(collectionName, id, false);
+    }
+
+    @Override
+    public Entity findById(String collectionName, String id, boolean allFields) {
+       	if (subDocs.isSubDoc(collectionName)) {
             return subDocs.subDoc(collectionName).findById(id);
         } else if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
             return containerDocumentAccessor.findById(collectionName, id);
         }
-        return super.findById(collectionName, id);
+        return super.findById(collectionName, id, allFields);
     }
 
     @Override

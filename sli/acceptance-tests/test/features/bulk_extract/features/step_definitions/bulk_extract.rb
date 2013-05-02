@@ -175,10 +175,10 @@ Given /^I trigger a delta extract$/ do
 end
 
 Given /^the extraction zone is empty$/ do
-    if (Dir.exists?(OUTPUT_DIRECTORY))
-      puts OUTPUT_DIRECTORY
-      FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
-    end
+  if (Dir.exists?(OUTPUT_DIRECTORY))
+    puts OUTPUT_DIRECTORY
+    FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
+  end
 end
 
 Given /^I have delta bulk extract files generated for today$/ do
@@ -286,7 +286,7 @@ When /^the extract contains a file for each of the following entities with the a
 	end
 
   fileList = Dir.entries(@unpackDir)
-	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
+	assert((fileList.size-3)>=table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
 end
 
 When /^a "(.*?)" extract file exists$/ do |collection|
@@ -555,6 +555,10 @@ Then  /^The "(.*?)" delta was extracted in the same format as the api$/ do |coll
   #  zipfiles << file if file.match(/.gz$/)
   #end
   zipfile = @fileDir + "/" + collection + ".json.gz"
+
+  #Why do we have two different conventions on where to place the untar'd files?
+  zipfile = @unpackDir + "/" + collection + ".json.gz" if (!File.exists? zipfile)
+
   # Loop through each list, extract the file, parse the json, and verify against the api
   Zlib::GzipReader.open(zipfile) { |extracts|
     collFile = JSON.parse(extracts.read)
@@ -632,6 +636,14 @@ Then /^I should see "(.*?)" bulk extract files$/ do |count|
   checkTarfileCounts(directory, count)
 end
 
+Then /^I should see "(.*?)" bulk extract SEA-public data file for the tenant "(.*?)" and application with id "(.*?)"$/ do |count, tenant, app_id|
+  query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isPublicData" => true}
+  count = count.to_i
+  checkMongoQueryCounts("bulklExtractFiles", query, count);
+  getExtractInfoFromMongo(tenant, app_id, false, query)
+  assert(File.exists(@encryptFilePath), "SEA public data doesn't exist.")
+end
+
 Then /^there should be no deltas in mongo$/ do
   checkMongoCounts("bulkExtractFiles", 0)
 end
@@ -660,11 +672,15 @@ Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)
 
 end
 
-Then /^I verify this "(.*?)" file contains:$/ do |file_name, table|
+Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name, should, table|
+    look_for = should.downcase == "should"
     json_file_name = @unpackDir + "/#{file_name}.json"
-    exists = File.exists?(json_file_name+".gz")
-    assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
-    `gunzip #{json_file_name}.gz`
+    exists = File.exists?(json_file_name)
+    unless exists
+      exists = File.exists?(json_file_name+".gz") 
+      assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
+      `gunzip #{json_file_name}.gz`
+    end
     json = JSON.parse(File.read("#{json_file_name}"))
 
     json_map = to_map(json)
@@ -672,7 +688,11 @@ Then /^I verify this "(.*?)" file contains:$/ do |file_name, table|
         id = entity['id']
         json_entities = json_map[id]
         field, value = entity['condition'].split('=').map{|s| s.strip}
-        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
+        if ((entity['condition'].nil? || entity['condition'].empty?) && !look_for) 
+            assert(json_entities.nil?, "Entity with id #{id} should not exist, but it does")
+            next 
+        end
+        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}") 
         success = false
         json_entities.each {|e|
             # we may have multiple entities with the same id in the delete file
@@ -682,7 +702,11 @@ Then /^I verify this "(.*?)" file contains:$/ do |file_name, table|
                 break
             end
         }
-        assert(success, "can't find an entity with id #{id} that matches #{entity['condition']}")
+        if (look_for)
+            assert(success, "can't find an entity with id #{id} that matches #{entity['condition']}")
+        else
+            assert(!success, "found an entity with id #{id} that matches #{entity['condition']}, we should not have this entity")
+        end
     end
 end
 
@@ -718,6 +742,7 @@ end
 After do
   @conn.close if @conn != nil
 end
+
 ############################################################
 # Functions
 ############################################################
@@ -942,6 +967,13 @@ def checkMongoCounts(collection, count)
   @db = @conn["sli"]
   collection = @db[collection]
   assert(collection.count == count, "Found #{collection.count} bulkExtract mongo entries, expected #{count}")
+end
+
+def checkMongoQueryCounts(collection, query, count)
+  @db = @conn["sli"]
+  collection = @db[collection]
+  match = @db.collection(collection).find_one(query)
+  assert(match.count == count, "Found #{collection.count} bulkExtract mongo entries, expected #{count}")
 end
 
 def checkTarfileCounts(directory, count)

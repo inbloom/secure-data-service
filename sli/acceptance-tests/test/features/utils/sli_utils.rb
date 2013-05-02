@@ -611,6 +611,16 @@ module DataProvider
 
 end
 
+def recursive_hash_delete( hash, key_to_remove ) 
+   if  hash.is_a? Hash then
+     hash.delete( key_to_remove )
+     hash.each_value do |value|
+       recursive_hash_delete(value, key_to_remove) if value.is_a? Hash
+      value.each { |el | recursive_hash_delete( el, key_to_remove ) } if value.is_a? Array
+    end
+  end
+end
+
 module CreateEntityHash
   def CreateEntityHash.createBaseStudent()
     data = Hash[

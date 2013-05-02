@@ -118,6 +118,7 @@ Scenario: Delete Orphan Assessment Item from Student Assessment with cascade = f
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
 	|assessment                             |        -1|   
+	|assessment<hollow>                     |        -1|
 #the body assessment is empty after deletion of assessmentItem, so it is deleted too.
 	#|recordHash                             |       -1|
 	
@@ -143,6 +144,7 @@ Scenario: Delete Orphan Assessment Item Reference from Student Assessment with c
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
 	|assessment                             |        -1|
+	|assessment<hollow>                     |        -1|
 	#|recordHash                             |       -1|
 	
 Scenario: Delete Assessment Item from Student Assessment with default settings (Confirm that by default cascade = false, force = true and log violations = true)

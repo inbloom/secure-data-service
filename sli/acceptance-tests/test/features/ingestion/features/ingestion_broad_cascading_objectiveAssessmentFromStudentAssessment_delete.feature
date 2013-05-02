@@ -130,6 +130,7 @@ Scenario: Delete Orphan Objective Assessment From Assessment Metadata with casca
 	|collection                        |delta          |
 	|objectiveAssessment                    |        -1|
 	|assessment                             |        -1|
+	|assessment<hollow>                     |        -1|
 	#|recordHash                             |        -1|
 	
 	
@@ -154,6 +155,7 @@ Scenario: Delete Orphan Objective Assessment Reference From Assessment Metadata 
 	|collection                        |delta          |
 	|objectiveAssessment                    |        -1|
 	|assessment                             |        -1|
+	|assessment<hollow>                     |        -1|
 	#|recordHash                             |        -1|
 	
 	
