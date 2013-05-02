@@ -340,10 +340,10 @@ end
 Then /^I store the contents of the second call$/ do
   res_content = @res.body.split(%r{\r\n--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
   @content2 = res_content[1]
-  puts @content1.size
+  puts @content2.size
   res_content[2][%r{\r\n--MULTIPART_BYTERANGES--\r\n}] = ''
   @content4 = res_content[2]
-  puts @content3.size
+  puts @content4.size
 end
 
 Then /^I combine the file contents$/ do
