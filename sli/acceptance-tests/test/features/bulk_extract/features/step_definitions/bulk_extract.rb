@@ -635,9 +635,9 @@ end
 Then /^I should see "(.*?)" bulk extract SEA-public data file for the tenant "(.*?)" and application with id "(.*?)"$/ do |count, tenant, app_id|
   query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isPublicData" => true}
   count = count.to_i
-  checkMongoQueryCounts("bulklExtractFiles", query, count);
-  getExtractInfoFromMongo(tenant, app_id, false, query)
-  assert(File.exists(@encryptFilePath), "SEA public data doesn't exist.")
+  checkMongoQueryCounts("bulkExtractFiles", query, count);
+  #getExtractInfoFromMongo(tenant, app_id, false, query)
+  #assert(File.exists(@encryptFilePath), "SEA public data doesn't exist.")
 end
 
 Then /^there should be no deltas in mongo$/ do
@@ -762,12 +762,12 @@ def bulkExtractTrigger(trigger_script, jar_file, properties_file, keystore_file,
   puts runShellCommand(command)
 end
 
-def getExtractInfoFromMongo(tenant, appId, delta=false, query=nil, query_opts={})
+def getExtractInfoFromMongo(tenant, appId, delta=false, query=nil, query_opts={}, publicData=false)
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
 
-  query ||= {"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => delta.to_s},{"body.isDelta" => delta}]}
+  query ||= {"body.tenantId" => tenant, "body.applicationId" => appId, "body.isPublicData" => publicData, "$or" => [{"body.isDelta" => delta.to_s},{"body.isDelta" => delta}]}
   match = @coll.find_one(query, query_opts)
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
@@ -968,8 +968,9 @@ end
 def checkMongoQueryCounts(collection, query, count)
   @db = @conn["sli"]
   collection = @db[collection]
-  match = @db.collection(collection).find_one(query)
-  assert(match.count == count, "Found #{collection.count} bulkExtract mongo entries, expected #{count}")
+  match = collection.find(query)
+  assert(match != nil, "No BE record found in db")
+  assert(match.count == count, "Found #{match.count} bulkExtract mongo entries, expected #{count}")
 end
 
 def checkTarfileCounts(directory, count)

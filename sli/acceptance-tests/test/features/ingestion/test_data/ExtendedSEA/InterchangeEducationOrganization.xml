@@ -9,7 +9,8 @@
     <Address>
       <StreetNumberName>123 Street</StreetNumberName>
       <City>Chicago</City>
-      <StateAbbreviation>IL-Test</StateAbbreviation>
+      <StateAbbreviation>AZ</StateAbbreviation>
       <PostalCode>00000</PostalCode>
     </Address>
+  </StateEducationAgency>
 </InterchangeEducationOrganization>
