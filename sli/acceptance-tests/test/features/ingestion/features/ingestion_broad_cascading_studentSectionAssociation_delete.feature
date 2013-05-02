@@ -146,7 +146,7 @@ Scenario: Force Delete Student Section Association with cascade = false, force =
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |student.section            |   -1|
-        #|recordHash                 |   -1|
+        |recordHash                 |   -1|
         |studentSectionAssociation  |   -1|
 
 Scenario: Force Delete Student Section Association Reference with cascade = false, force = true and log violations = true
@@ -185,5 +185,5 @@ Scenario: Force Delete Student Section Association Reference with cascade = fals
 	And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |student.section            |   -1|
-        #|recordHash                 |   -1|
+        |recordHash                 |   -1|
         |studentSectionAssociation  |   -1|

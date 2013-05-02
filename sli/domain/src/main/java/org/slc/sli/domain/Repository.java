@@ -80,6 +80,7 @@ public interface Repository<T> {
      * @return the object retrieved
      */
     public T findById(String collectionName, String id);
+    public T findById(String collectionName, String id, boolean allFields);
 
     public boolean exists(String collectionName, String id);
 
@@ -91,6 +92,7 @@ public interface Repository<T> {
      * @return
      */
     public T findOne(String collectionName, NeutralQuery neutralQuery);
+    public T findOne(String collectionName, NeutralQuery neutralQuery, boolean allFields);
 
     /**
      * @param collectionName

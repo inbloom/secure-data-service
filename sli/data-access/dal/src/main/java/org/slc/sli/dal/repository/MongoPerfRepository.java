@@ -95,12 +95,22 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     }
 
     @Override
+    public Entity findById(String collectionName, String id, boolean allFields) {
+        throw new UnsupportedOperationException("MongoPerfRepository.findById not implemented");
+    }
+
+    @Override
     public boolean exists(String collectionName, String id) {
         throw new UnsupportedOperationException("MongoPerfRepository.exists not implemented");
     }
 
     @Override
     public Entity findOne(String collectionName, NeutralQuery neutralQuery) {
+        throw new UnsupportedOperationException("MongoPerfRepository.findOne not implemented");
+    }
+
+    @Override
+    public Entity findOne(String collectionName, NeutralQuery neutralQuery, boolean allFields) {
         throw new UnsupportedOperationException("MongoPerfRepository.findOne not implemented");
     }
 

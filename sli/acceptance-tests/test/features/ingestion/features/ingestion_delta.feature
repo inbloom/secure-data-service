@@ -77,12 +77,16 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And I should see "InterchangeEducationOrgCalendar.xml gradingPeriod 17 deltas!" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml courseOffering 95 deltas!" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml section 97 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentProgram.xml studentProgramAssociation 6 deltas!" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml teacherSchoolAssociation 3 deltas!" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml staff 11 deltas!" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml teacherSectionAssociation 11 deltas!" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml staffEducationOrgAssignmentAssociation 13 deltas!" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml teacher 3 deltas!" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml staffProgramAssociation 7 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml studentSchoolAssociation 167 deltas!" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml graduationPlan 4 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml studentSectionAssociation 325 deltas!" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-English.xml learningStandard 954 deltas!" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-Math.xml learningStandard 509 deltas!" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml learningStandard 36 deltas!" in the resulting batch job file
@@ -93,10 +97,14 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And I should see "InterchangeStudentGrade.xml studentCompetency 60 deltas!" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml grade 4 deltas!" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml studentGradebookEntry 315 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml gradebookEntry 12 deltas!" in the resulting batch job file
     And I should see "InterchangeStudentParent.xml parent 9 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentParent.xml studentParentAssociation 9 deltas!" in the resulting batch job file
     And I should see "InterchangeStudentCohort.xml cohort 3 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentCohort.xml studentCohortAssociation 6 deltas!" in the resulting batch job file
     And I should see "InterchangeStudentCohort.xml staffCohortAssociation 3 deltas!" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml disciplineAction 2 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml studentDisciplineIncidentAssociation 4 deltas!" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml disciplineIncident 2 deltas!" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-English.xml learningObjective 70 deltas!" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-Math.xml learningObjective 65 deltas!" in the resulting batch job file
@@ -176,7 +184,7 @@ And a batch job for file "Hyrule.zip" is completed in database
 And I should not see a warning log file created
 And I should see following map of entry counts in the corresponding collections:
   | collectionName                           |              count|
-  | recordHash                               |                103|
+  | recordHash                               |                112|
 And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
 And I post "Hyrule.zip" file as the payload of the ingestion job
 And zip file is scp to ingestion landing zone with name "Reingest-Hyrule.zip"
@@ -184,4 +192,4 @@ And a batch job for file "Reingest-Hyrule.zip" is completed in database
 And I should not see a warning log file created
 And I should see following map of entry counts in the corresponding collections:
   | collectionName                           |              count|
-  | recordHash                               |                103|
+  | recordHash                               |                112|
