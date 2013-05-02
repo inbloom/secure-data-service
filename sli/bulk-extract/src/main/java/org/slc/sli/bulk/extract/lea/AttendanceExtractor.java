@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-/**
- * 
- */
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
@@ -28,55 +25,33 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
-/**
- *
- *
- */
-public class StudentExtractor implements EntityExtract {
-    private LEAExtractFileMap map;
+public class AttendanceExtractor implements EntityExtract {
     private EntityExtractor extractor;
+    private LEAExtractFileMap map;
     private Repository<Entity> repo;
-    private EntityToLeaCache cache;
-    
     private ExtractorHelper helper;
-
-    public StudentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper helper, EntityToLeaCache cache) {
+    private EntityToLeaCache studentCache;
+    
+    public AttendanceExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
+            ExtractorHelper extractorHelper, EntityToLeaCache studentCache) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.helper = helper;
-        this.cache = cache;
+        this.helper = extractorHelper;
+        this.studentCache = studentCache;
     }
-    /* (non-Javadoc)
-     * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(java.util.Map)
-     */
+
     @Override
     public void extractEntities(Map<String, Set<String>> leaToEdorgCache) {
-        Iterator<Entity> cursor = repo.findEach("student", new Query());
-        while (cursor.hasNext()) {
-            Entity e = cursor.next();
-            Set<String> schools = helper.fetchCurrentSchoolsFromStudent(e);
-            for (String lea : map.getLeas()) {
-                if (schools.contains(lea)) {
-                    // Write
-                    extractor.extractEntity(e, map.getExtractFileForLea(lea), "student");
-                    
-                    // Update cache
-                    cache.addEntry(e.getEntityId(), lea);
-                }
+        Iterator<Entity> attendances = repo.findEach("attendance", new Query());
+        while (attendances.hasNext()) {
+            Entity attendance = attendances.next();
+            Set<String> leas = studentCache.getEntriesById((String) attendance.getBody().get("studentId"));
+            for (String lea : leas) {
+                extractor.extractEntity(attendance, map.getExtractFileForLea(lea), "attendance");
             }
         }
         
     }
     
-    public void setEntityCache(EntityToLeaCache cache) {
-        this.cache = cache;
-    }
-    
-    public EntityToLeaCache getEntityCache() {
-        return cache;
-    }
-
-
 }

@@ -20,6 +20,13 @@
 package org.slc.sli.bulk.extract.extractor;
 
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
@@ -30,6 +37,8 @@ import org.mockito.Mockito;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.lea.EdorgExtractor;
+import org.slc.sli.bulk.extract.lea.EntityExtract;
+import org.slc.sli.bulk.extract.lea.EntityToLeaCache;
 import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
 import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
 import org.slc.sli.bulk.extract.lea.StudentExtractor;
@@ -44,13 +53,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 /**
  * Tests LocalEdOrgExtractorTest
@@ -67,6 +69,7 @@ public class LocalEdOrgExtractorTest {
     private LocalEdOrgExtractHelper helper;
     private LEAExtractorFactory mockFactory;
     private LEAExtractFileMap mockExtractMap;
+    private EntityExtract mockExtract;
 
     @Autowired
     private LocalEdOrgExtractor extractor;
@@ -79,6 +82,7 @@ public class LocalEdOrgExtractorTest {
         repo = Mockito.mock(Repository.class);
         mockFactory = Mockito.mock(LEAExtractorFactory.class);
         mockExtractMap = Mockito.mock(LEAExtractFileMap.class);
+        mockExtract = Mockito.mock(EntityExtract.class);
         extractor.setLeaToExtractMap(mockExtractMap);
         extractor.setFactory(mockFactory);
         extractor.setRepository(repo);
@@ -100,6 +104,9 @@ public class LocalEdOrgExtractorTest {
         Mockito.when(
                 mockFactory.buildStudentExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
                         Mockito.any(Repository.class))).thenReturn(mockStudent);
+        Mockito.when(
+                mockFactory.buildAttendanceExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
+                        Mockito.any(Repository.class), Mockito.any(EntityToLeaCache.class))).thenReturn(mockExtract);
 
     }
     
