@@ -283,6 +283,7 @@ desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
         :ingestBroadSetOfTypesAndExportData,
         :ingestionSuperStudentDelete,
+        :ingestionSuperAssessmentDelete,
         :multipleForceDeletesTest,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
@@ -614,6 +615,10 @@ end
 
 task :ingestionSuperStudentDelete do
   runTests("test/features/ingestion/features/ingestion_super_student_delete.feature")
+end
+
+task :ingestionSuperAssessmentDelete do
+  runTests("test/features/ingestion/features/ingestion_super_assessment_delete.feature")
 end
 
 ############################################################
