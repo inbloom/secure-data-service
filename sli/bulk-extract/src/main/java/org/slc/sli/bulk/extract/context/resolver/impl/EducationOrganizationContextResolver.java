@@ -16,8 +16,10 @@
 
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -50,10 +52,20 @@ public class EducationOrganizationContextResolver implements ContextResolver {
 
     @Autowired
     @Qualifier("secondaryRepo")
-    Repository<Entity> repo;
+    private Repository<Entity> repo;
+    
+    private final Map<String, Set<String>> cache = new HashMap<String, Set<String>>();
 
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
+        LOG.debug("finding governing LEA of {}", entity);
+        if (entity == null) {
+            return new HashSet<String>();
+        }
+        if(getCache().containsKey(entity.getEntityId())) {
+            LOG.debug("got LEAs from cache for {}", entity);
+            return getCache().get(entity.getEntityId());
+        }
         Set<String> results = new HashSet<String>();
 
         if (!(isLEA(entity) || isSchool(entity))) {
@@ -65,8 +77,17 @@ public class EducationOrganizationContextResolver implements ContextResolver {
         if (topLevelLEA != null) {
             results.add(topLevelLEA.getEntityId());
         }
-
+        getCache().put(entity.getEntityId(), results);
         return results;
+    }
+    
+    public Set<String> findGoverningLEA(String id) {
+        if(getCache().containsKey(id)) {
+            LOG.debug("got LEAs from cache for {}", id);
+            return getCache().get(id);
+        }
+        Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
+        return findGoverningLEA(entity);
     }
 
     @SuppressWarnings("unchecked")
@@ -111,6 +132,10 @@ public class EducationOrganizationContextResolver implements ContextResolver {
         }
 
         return null;
+    }
+
+    Map<String, Set<String>> getCache() {
+        return cache;
     }
 
 }

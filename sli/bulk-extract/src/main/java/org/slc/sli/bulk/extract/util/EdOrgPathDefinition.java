@@ -23,7 +23,11 @@ public enum EdOrgPathDefinition {
 
     STATE_EDUCATION_AGENCY("educationOrganization", "_id"),
     LOCAL_EDUCATION_AGENCY("educationOrganization", "body.parentEducationAgencyReference"),
-    SCHOOL("school", "body.parentEducationAgencyReference");
+    SCHOOL("school", "body.parentEducationAgencyReference"),
+    COURSE("course", "body.schoolId"),
+    COURSE_OFFERING("courseOffering", "body.schoolId"),
+    SESSION("session", "body.schoolId"),
+    GRADUATION_PLAN("graduationPlan", "body.educationOrganizationId");
 
     private final String entityName;
     private final String edOrgRefField;
