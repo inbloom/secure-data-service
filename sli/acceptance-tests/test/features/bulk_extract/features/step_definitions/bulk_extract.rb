@@ -571,13 +571,16 @@ end
 Then /^I should see "(.*?)" bulk extract SEA-public data file for the tenant "(.*?)" and application with id "(.*?)"$/ do |count, tenant, app_id|
   query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isPublicData" => true}
   count = count.to_i
+  @tenant = tenant
   checkMongoQueryCounts("bulkExtractFiles", query, count);
-  #getExtractInfoFromMongo(tenant, app_id, false, query)
-  #assert(File.exists(@encryptFilePath), "SEA public data doesn't exist.")
+  if count != 0
+    getExtractInfoFromMongo(tenant, app_id, false, query)
+    assert(File.exists?(@encryptFilePath), "SEA public data doesn't exist.")
+  end
 end
 
-Then /^I remove the edorg with id "(.*?)" from the database/ do |edorg_id|
-  remove_edorg_from_mongo(edorg_id)
+Then /^I remove the edorg with id "(.*?)" from the "(.*?)" database/ do |edorg_id, tenant|
+  remove_edorg_from_mongo(edorg_id, tenant)
 end
 
 Then /^there should be no deltas in mongo$/ do
@@ -1097,8 +1100,8 @@ def updateApiBodyField(body, field, value, verb)
   return body
 end
 
-def remove_edorg_from_mongo(edorg_id)
-  tenant_db = @conn.db(convertTenantIdToDbName(@tenant))
+def remove_edorg_from_mongo(edorg_id, tenant)
+  tenant_db = @conn.db(convertTenantIdToDbName(tenant))
   collection = tenant_db.collection('educationOrganization')
   collection.remove({'body.stateOrganizationId' => edorg_id})
 end
