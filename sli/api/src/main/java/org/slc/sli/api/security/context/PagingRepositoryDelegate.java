@@ -174,6 +174,16 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     /*
      * (non-Javadoc)
      *
+     * @see org.slc.sli.domain.Repository#findById(java.lang.String, java.lang.String, boolean)
+     */
+    @Override
+    public T findById(String collectionName, String id, boolean allFields) {
+        return repo.findById(collectionName, id, allFields);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
      * @see org.slc.sli.domain.Repository#exists(java.lang.String, java.lang.String)
      */
     @Override
@@ -189,6 +199,16 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     @Override
     public T findOne(String collectionName, NeutralQuery neutralQuery) {
         return repo.findOne(collectionName, neutralQuery);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.slc.sli.domain.Repository#findOne(java.lang.String, org.slc.sli.domain.NeutralQuery)
+     */
+    @Override
+    public T findOne(String collectionName, NeutralQuery neutralQuery, boolean allFields) {
+        return repo.findOne(collectionName, neutralQuery, allFields);
     }
 
     /*

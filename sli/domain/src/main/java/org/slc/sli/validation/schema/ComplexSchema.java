@@ -82,7 +82,12 @@ public class ComplexSchema extends NeutralSchema {
     }
 
     private boolean validate(String validateFieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo, boolean checkForMissingFields) {
-        
+
+    	// Null entity is trivially valid
+    	if ( null == entity ) {
+    		return true;
+    	}
+
         // If this complexSchema only has one ChoiceSchema, swap out the current ComplexSchema object that contains
         // this single choice schema for the actual choice schema itself, and validate use this choiceSchema
         if (getFields().size() == 1) {
@@ -169,12 +174,12 @@ public class ComplexSchema extends NeutralSchema {
         if (fields.size() != 1) {
             return null;
         }
-        
+
         NeutralSchema ns = null;
         for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
             ns = entry.getValue();
         }
-        
+
         return ns;
     }
 

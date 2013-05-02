@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,7 @@ import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.NeutralCriteria;
@@ -261,7 +261,7 @@ public class MongoQueryConverter {
                         return Criteria.where(prefixKey(neutralCriteria)).regex((String) neutralCriteria.getValue());
                     }
                 }
-                
+
                 throw new QueryParseException("Attempted to query against a non-string field", neutralCriteria.toString());
             }
         });
@@ -326,7 +326,10 @@ public class MongoQueryConverter {
      * @return a mongo specific database query implementation of the neutral query
      */
     public Query convert(String entityName, NeutralQuery neutralQuery) {
-        Query mongoQuery = new Query();
+    	return convert(entityName, neutralQuery, false);
+    }
+    public Query convert(String entityName, NeutralQuery neutralQuery, boolean allFields) {
+    	Query mongoQuery = new Query();
 
         if (neutralQuery != null) {
             // Include fields
@@ -341,7 +344,7 @@ public class MongoQueryConverter {
                     mongoQuery.fields().include("metaData");
                 }
             }
-            else {
+            else if ( !allFields ) {
                 mongoQuery.fields().include("body");
                 mongoQuery.fields().include("type");
                 mongoQuery.fields().include("metaData");

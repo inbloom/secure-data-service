@@ -119,6 +119,11 @@ public class TestUtils {
             public Map<String, List<Entity>> getContainerData() {
                 return new HashMap<String, List<Entity>>();
             }
+
+            @Override
+            public void hollowOut() {
+                // override super implementation with empty implementation
+            }
         };
     }
 

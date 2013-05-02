@@ -3845,12 +3845,12 @@ def getEntityCounts(tenant)
     denormalizedEntities.each do |denormalizedType|
       denormalizationInfo = $denormalizedTypeInfo[denormalizedType]
       parent = denormalizationInfo["parent"]
-        puts "parent #{parent}"
+#        puts "parent #{parent}"
       subDoc = denormalizationInfo["subDoc"]
-        puts "subDoc #{subDoc}"
+#        puts "subDoc #{subDoc}"
       count = subDocCount(parent, subDoc)
       entityCounts[parent+"."+subDoc] = count
-      puts "#{parent}.#{subDoc} #{count}"
+#      puts "#{parent}.#{subDoc} #{count}"
     end
     enable_NOTABLESCAN
     return entityCounts
