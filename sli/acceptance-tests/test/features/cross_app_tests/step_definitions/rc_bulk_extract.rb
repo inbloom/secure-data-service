@@ -24,10 +24,16 @@ Given /^the production extraction zone is empty$/ do
    `#{ssh_command}`
 end
 
-Given /^there is no extract.tar in the local directory$/ do
+Given /^there is no bulk extract files in the local directory$/ do
     command = "rm -f #{EXTRACT_TO_DIRECTORY}/extract.tar"
     puts command
    `#{command}`
+    command = "rm -rf #{EXTRACT_TO_DIRECTORY}/unpack/"
+    puts command
+    `#{command}`
+    command = "rm -f #{EXTRACT_TO_DIRECTORY}/extract/"
+    puts command
+    `#{command}`
 end
 
 When /^the operator triggers a bulk extract for the production tenant$/ do
