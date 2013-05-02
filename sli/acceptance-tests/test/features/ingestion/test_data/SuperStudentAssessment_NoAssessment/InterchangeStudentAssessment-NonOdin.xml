@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd">
+    <StudentAssessmentItem>
+        <AssessmentResponse>false</AssessmentResponse>
+
+        <ResponseIndicator>Effective response</ResponseIndicator>
+
+        <AssessmentItemResult>Incorrect</AssessmentItemResult>
+
+        <RawScoreResult>8</RawScoreResult>
+
+        <StudentAssessmentReference>
+            <StudentAssessmentIdentity>
+                <AdministrationDate>2002-09-11</AdministrationDate>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>2</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <AssessmentReference>
+                    <AssessmentIdentity>
+                        <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+                        <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+                    </AssessmentIdentity>
+                </AssessmentReference>
+            </StudentAssessmentIdentity>
+        </StudentAssessmentReference>
+
+        <StudentObjectiveAssessmentReference>
+            <StudentObjectiveAssessmentIdentity>
+                <StudentAssessmentReference>
+                    <StudentAssessmentIdentity>
+                        <AdministrationDate>2002-09-11</AdministrationDate>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>2</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <AssessmentReference>
+                            <AssessmentIdentity>
+                                <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+                                <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+                            </AssessmentIdentity>
+                        </AssessmentReference>
+                    </StudentAssessmentIdentity>
+                </StudentAssessmentReference>
+                <ObjectiveAssessmentReference>
+                    <ObjectiveAssessmentIdentity>
+                        <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+                    </ObjectiveAssessmentIdentity>
+                </ObjectiveAssessmentReference>
+            </StudentObjectiveAssessmentIdentity>
+        </StudentObjectiveAssessmentReference>
+
+        <AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>2002-Seventh grade Assessment 1</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+
+
+    </StudentAssessmentItem>
+    
+   <StudentObjectiveAssessment>
+        <ScoreResults AssessmentReportingMethod="Scale score">
+            <Result>10</Result>
+        </ScoreResults>
+        <StudentAssessmentReference>
+            <StudentAssessmentIdentity>
+                <AdministrationDate>2011-05-01</AdministrationDate>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>900000000</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <AssessmentReference>
+                    <AssessmentIdentity>
+                        <AssessmentTitle>ACT</AssessmentTitle>
+                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                        <Version>1</Version>
+                    </AssessmentIdentity>
+                </AssessmentReference>
+            </StudentAssessmentIdentity>
+        </StudentAssessmentReference>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 1.OA-0 Sub</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
+    </StudentObjectiveAssessment>
+</InterchangeStudentAssessment>

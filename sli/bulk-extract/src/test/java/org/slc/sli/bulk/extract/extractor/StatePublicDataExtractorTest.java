@@ -16,6 +16,7 @@
 package org.slc.sli.bulk.extract.extractor;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -62,12 +65,40 @@ public class StatePublicDataExtractorTest {
     @Mock
     private Repository<Entity> entityRepository;
 
+    @Mock
+    private EntityExtractor entityExtractor;
+
     /**
      * Initialization for tests.
      */
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testBadManifestFile() throws IOException {
+        StatePublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
+        String seaId = "123_id";
+        Map<String, PublicKey> clientKeys = new HashMap<String, PublicKey>();
+        PublicKey key = Mockito.mock(PublicKey.class);
+        clientKeys.put("app_id", key);
+        ExtractFile file = Mockito.mock(ExtractFile.class);
+        ManifestFile maniFile = Mockito.mock(ManifestFile.class);
+        Mockito.when(file.getManifestFile()).thenReturn(maniFile);
+
+        Mockito.doReturn(seaId).when(extractor).retrieveSEAId();
+        Mockito.doReturn(clientKeys).when(bulkExtractMongoDA).getAppPublicKeys();
+        Mockito.doReturn(file).when(extractor).createExtractFile(Mockito.any(File.class), Mockito.anyString(), Mockito.anyMap());
+
+        extractor.execute("tenant", new File("temp"), new DateTime());
+
+        Mockito.verify(extractor, Mockito.atLeastOnce()).extractPublicData(Mockito.anyString(), Mockito.any(ExtractFile.class));
+        Mockito.verify(file, Mockito.times(1)).getManifestFile();
+        Mockito.verify(file, Mockito.times(1)).closeWriters();
+        Mockito.verify(file, Mockito.times(1)).generateArchive();
+
     }
 
     /**
@@ -136,7 +167,7 @@ public class StatePublicDataExtractorTest {
         extractor.execute("tenant", new File("temp"), new DateTime());
 
         Mockito.verify(bulkExtractMongoDA, Mockito.never()).getAppPublicKeys();
-        Mockito.verify(extractor, Mockito.never()).extractPublicData(Mockito.anyString(), Mockito.anyMap());
+        Mockito.verify(extractor, Mockito.never()).extractPublicData(Mockito.anyString(), Mockito.any(ExtractFile.class));
     }
 
     /**
@@ -151,7 +182,7 @@ public class StatePublicDataExtractorTest {
 
         extractor.execute("tenant", new File("temp"), new DateTime());
 
-        Mockito.verify(extractor, Mockito.never()).extractPublicData(Mockito.anyString(), Mockito.anyMap());
+        Mockito.verify(extractor, Mockito.never()).extractPublicData(Mockito.anyString(), Mockito.any(ExtractFile.class));
     }
 
     /**
@@ -170,6 +201,8 @@ public class StatePublicDataExtractorTest {
 
         extractor.execute("tenant", new File("temp"), new DateTime());
 
-        Mockito.verify(extractor, Mockito.atLeastOnce()).extractPublicData(Mockito.anyString(), Mockito.anyMap());
+        Mockito.verify(extractor, Mockito.atLeastOnce()).extractPublicData(Mockito.anyString(), Mockito.any(ExtractFile.class));
     }
+
+
 }

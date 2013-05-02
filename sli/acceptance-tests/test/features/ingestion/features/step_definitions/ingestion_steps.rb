@@ -1328,6 +1328,32 @@ When /^the landing zone is reinitialized$/ do
   initializeLandingZone(@landing_zone_path)
 end
 
+When /^the landing zone for tenant "(.*?)" edOrg "(.*?)" is reinitialized$/ do |tenant, edOrg|
+  disable_NOTABLESCAN()
+
+  # Get the landing zone from the tenant collection
+  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+  @db = @conn["sli"]
+  @tenant_coll = @db.collection('tenant')
+
+  @tenant_coll.find.each do |row|
+    @body = row['body']
+    @landingZones = @body['landingZone'].to_a
+    @landingZones.each do |lz|
+      if lz['educationOrganization'] == edOrg
+        puts "Current lz path is #{lz['path']}"
+        @landing_zone_path = lz['path']
+        break
+      end
+    end
+  end
+
+  @landing_zone_path = @landing_zone_path+"/"
+  initializeLandingZone(@landing_zone_path)
+
+  enable_NOTABLESCAN()
+end
+
 When /^"([^"]*)" seconds have elapsed$/ do |secs|
   sleep(Integer(secs))
 end

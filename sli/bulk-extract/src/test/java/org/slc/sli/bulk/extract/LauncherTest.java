@@ -20,8 +20,8 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
+import org.slc.sli.bulk.extract.extractor.StatePublicDataExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.domain.Entity;
@@ -37,6 +37,7 @@ public class LauncherTest {
     BulkExtractMongoDA bulkExtractMongoDA;
     TenantExtractor tenantExtractor;
     LocalEdOrgExtractor localEdOrgExtractor;
+    private StatePublicDataExtractor statePublicDataExtractor;
 
     Entity testTenantEntity = TestUtils.makeDummyEntity("tenant", "testTenant", null);
 
@@ -51,10 +52,12 @@ public class LauncherTest {
         bulkExtractMongoDA = Mockito.mock(BulkExtractMongoDA.class);
         tenantExtractor = Mockito.mock(TenantExtractor.class);
         localEdOrgExtractor = Mockito.mock(LocalEdOrgExtractor.class);
+        statePublicDataExtractor = Mockito.mock(StatePublicDataExtractor.class);
         launcher.setBulkExtractMongoDA(bulkExtractMongoDA);
 
         launcher.setTenantExtractor(tenantExtractor);
         launcher.setLocalEdOrgExtractor(localEdOrgExtractor);
+        launcher.setStatePublicDataExtractor(statePublicDataExtractor);
         launcher.setBaseDirectory("./");
     }
 
