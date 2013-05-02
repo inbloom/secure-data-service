@@ -29,7 +29,7 @@ Scenario: Ingestion of Assessment-Orphans(Entities referring to missing Assessme
     |body.assessmentTitle                                             |2002-Third grade Assessment 1                       |
     And I read the following entity in "Midgar" tenant and save it as "hollowAssessment"
     | collection | field | value								      |
-    | Assessment    | _id   |458b6701422b88c1e3d01dd217bc7e76f77621a4_id |
+    | assessment    | _id   |458b6701422b88c1e3d01dd217bc7e76f77621a4_id |
     
     #Clear out the database
     And the "Midgar" tenant db is empty
@@ -52,7 +52,7 @@ Scenario: Ingestion of Assessment-Orphans(Entities referring to missing Assessme
     And I re-execute saved query "AssessmentNHCount" to get "0" records
     
     #Take new snapshot and compare with old snapshot
-    #And I read again the entity tagged "hollowAssessment" from the "Midgar" tenant and confirm that it is the same
+    And I read again the entity tagged "hollowAssessment" from the "Midgar" tenant and confirm that it is the same
     
     #Reingest Assessment
     Given I post "SuperAssessmentOnly.zip" file as the payload of the ingestion job
