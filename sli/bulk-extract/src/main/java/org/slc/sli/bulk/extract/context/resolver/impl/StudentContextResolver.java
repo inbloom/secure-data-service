@@ -48,6 +48,8 @@ public class StudentContextResolver implements ContextResolver {
     @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
     private final Map<String, Set<String>> studentEdOrgCache = new MapMaker().softValues().makeMap();
+    @Autowired
+    private EducationOrganizationContextResolver edOrgResolver;
     
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
@@ -57,8 +59,8 @@ public class StudentContextResolver implements ContextResolver {
             for (Map<String, Object> school : schools) {
                 try {
                     if (isCurrent(school)) {
-                        @SuppressWarnings("unchecked")
-                        List<String> edOrgs = (List<String>) school.get("edOrgs");
+                        String schoolId = (String) school.get("_id");
+                        Set<String> edOrgs = edOrgResolver.findGoverningLEA(schoolId);
                         if (edOrgs != null) {
                             leas.addAll(edOrgs);
                         }
