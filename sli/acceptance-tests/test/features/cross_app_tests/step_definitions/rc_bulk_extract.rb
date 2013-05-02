@@ -18,30 +18,26 @@ Given /^the extraction zone is empty$/ do
 end
 
 Given /^the production extraction zone is empty$/ do
-   `rm -f \~/.ssh/known_hosts`
-   ssh_command = "ssh #{SSH_USER} sudo rm -rf #{OUTPUT_DIRECTORY}#{convertTenantIdToDbName(PropLoader.getProps['tenant'])}"
-   puts ssh_command
-   `#{ssh_command}`
+   executeShellCommand("rm -f \~/.ssh/known_hosts")
+   executeShellCommand("ssh #{SSH_USER} sudo rm -rf #{OUTPUT_DIRECTORY}#{convertTenantIdToDbName(PropLoader.getProps['tenant'])}")
 end
 
 Given /^there is no bulk extract files in the local directory$/ do
-    command = "rm -f #{EXTRACT_TO_DIRECTORY}/extract.tar"
-    puts command
-   `#{command}`
-    command = "rm -rf #{EXTRACT_TO_DIRECTORY}/unpack/"
-    puts command
-    `#{command}`
-    command = "rm -f #{EXTRACT_TO_DIRECTORY}/extract/"
+    executeShellCommand("rm -f #{EXTRACT_TO_DIRECTORY}/extract.tar")
+    executeShellCommand("rm -rf #{EXTRACT_TO_DIRECTORY}/unpack/")
+    executeShellCommand("rm -f #{EXTRACT_TO_DIRECTORY}/extract/")
+    executeShellCommand("rm -f #{EXTRACT_TO_DIRECTORY}/logs/")
+end
+
+def executeShellCommand(command)
     puts command
     `#{command}`
 end
 
 When /^the operator triggers a bulk extract for the production tenant$/ do
-    `rm -f \~/.ssh/known_hosts`
+    executeShellCommand("rm -f \~/.ssh/known_hosts")
     command = getBulkExtractCommand(PropLoader.getProps['tenant'])
-    ssh_command = "ssh #{SSH_USER} sudo #{command}"
-    puts ssh_command
-    `#{ssh_command}`
+    executeShellCommand("ssh #{SSH_USER} sudo #{command}")
 end
 
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
