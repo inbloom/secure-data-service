@@ -88,7 +88,7 @@ public class StatePublicDataExtractor {
             LOG.info("No authorized application to extract data.");
             return;
         }
-        ExtractFile extractFile = createExtractFile(tenantDirectory, clientKeys);
+        ExtractFile extractFile = createExtractFile(tenantDirectory, seaId, clientKeys);
 
         extractPublicData(seaId, extractFile);
 
@@ -158,8 +158,8 @@ public class StatePublicDataExtractor {
         }
     }
 
-    protected ExtractFile createExtractFile(File tenantDirectory, Map<String, PublicKey> clientKeys) {
-        return new ExtractFile(tenantDirectory, Launcher.getArchiveName(TenantContext.getTenantId(),
+    protected ExtractFile createExtractFile(File tenantDirectory, String seaId, Map<String, PublicKey> clientKeys) {
+        return new ExtractFile(tenantDirectory, Launcher.getArchiveName(seaId,
                 startTime.toDate()), clientKeys);
     }
 }
