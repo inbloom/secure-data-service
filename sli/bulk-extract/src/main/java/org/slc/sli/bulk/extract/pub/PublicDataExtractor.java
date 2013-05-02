@@ -13,27 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.slc.sli.bulk.extract.pub;
 
-import org.junit.Test;
-import org.mockito.Mockito;
-import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 
 /**
+ * Extracts public data, based on an EdOrg
  * User: ablum
  */
-public class DirectPublicExtractTest {
+public interface PublicDataExtractor {
 
-    @Test
-    public void testExtract() {
-        EntityExtractor extractor = Mockito.mock(EntityExtractor.class);
-        ExtractFile file = Mockito.mock(ExtractFile.class);
-        DirectPublicDataExtract edorg = new DirectPublicDataExtract(extractor);
-
-        edorg.extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "educationOrganization");
-
-    }
+    public abstract void extract(String edOrgid, ExtractFile file);
 }
