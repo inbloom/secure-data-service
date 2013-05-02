@@ -84,6 +84,7 @@ Scenario: Ingestion of Student-Orphans(Entities referring to missing student) co
     And I see that collections counts have changed as follows in tenant "Midgar"
     | collection                                |     delta|
     | recordHash                                |        -1|
+    | student<hollow>                           |         1|
     #Save collection counts for comparison later (Z2)
     And I save the collection counts in "Midgar" tenant
 
@@ -105,6 +106,7 @@ Scenario: Ingestion of Student-Orphans(Entities referring to missing student) co
     And I see that collections counts have changed as follows in tenant "Midgar"
     | collection                                |     delta|
     | recordHash                                |         1|
+    | student<hollow>                           |        -1|
 
     #Take new snapshot of full bodied student and compare with old snapshot
     And I read again the entity tagged "nonHollowStudent" from the "Midgar" tenant and confirm that it is the same
