@@ -170,7 +170,7 @@ public class DeltaExtractor {
             if (success) {
                 for (Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
                     bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(),
-                        archiveFile.getKey(), startTime.toDate(), true, extractFile.getEdorg());
+                        archiveFile.getKey(), startTime.toDate(), true, extractFile.getEdorg(), false);
                 }
             }
             allSuccessful &= success;

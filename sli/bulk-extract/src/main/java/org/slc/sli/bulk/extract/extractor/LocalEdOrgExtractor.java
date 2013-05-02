@@ -15,11 +15,22 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import java.io.File;
+import java.security.PublicKey;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.lea.EdorgExtractor;
+import org.slc.sli.bulk.extract.lea.EntityExtract;
 import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
 import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
 import org.slc.sli.bulk.extract.lea.StudentExtractor;
@@ -30,16 +41,6 @@ import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.File;
-import java.security.PublicKey;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * Creates local ed org tarballs
@@ -84,6 +85,10 @@ public class LocalEdOrgExtractor {
         edorg.extractEntities(buildEdOrgCache());
         StudentExtractor student = factory.buildStudentExtractor(entityExtractor, leaToExtractFileMap, repository);
         student.extractEntities(null);
+        EntityExtract attendance = factory.buildAttendanceExtractor(entityExtractor, leaToExtractFileMap,
+                repository, student.getEntityCache());
+        attendance.extractEntities(null);
+
         leaToExtractFileMap.closeFiles();
 
         // TODO extract other entities
@@ -104,7 +109,7 @@ public class LocalEdOrgExtractor {
                 Set<String> apps = leaToApps.get(lea);
             	for(String app : apps) {
                     bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), app,
-                            startTime.toDate(), false, lea);
+                            startTime.toDate(), false, lea, false);
             	}
             }
         }

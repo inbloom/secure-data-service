@@ -36,8 +36,8 @@ ingestion_timeout_override_seconds: 0
 #Bulk Extract Configuration
 bulk_extract_script: "/opt/bulkextract/local_bulk_extract.sh"
 bulk_extract_output_directory: "/bulkextract/extracts/"
-bulk_extract_jar_loc: "opt/bulkextract/bulk_extract.tar.gz"
-bulk_extract_properties_file: "/opt/tomcat/apache-tomcat-7.0.29/conf/sli.properties"
+bulk_extract_jar_loc: "/opt/bulkextract/bulk_extract.tar.gz"
+bulk_extract_properties_file: "/opt/tomcat/apache-tomcat-7.0.27/conf/sli.properties"
 bulk_extract_keystore_file: "/opt/tomcat/encryption/ciKeyStore.jks"
 
 sif_db: "localhost"
@@ -146,6 +146,8 @@ ci_idp_redirect_url: https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant
 #e2e_dev_email: testdev.wgen@gmail.com
 #e2e_password: test1234
 
+ssh_user: jenkins@rcingest01.picard
+extract_to_directory: /jenkins
 
 ################# /e2e test properties #################################
 

@@ -25,6 +25,11 @@ Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"
   @sessionId=token
 end
 
+Given /^I delete the previous tar file if it exists$/ do
+  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
+  File.delete(@received_file) if File.exists?(@received_file)
+end
+
 When /^I make a call to the bulk extract end point "([^"]*)"$/ do |url|
   restTls(url)
 end
@@ -50,32 +55,20 @@ When /^I make a custom bulk extract API call$/ do
 end
 
 When /^I make a concurrent ranged bulk extract API call and store the results$/ do
-  t1=Thread.new{apiCall1()}
-  t2=Thread.new{apiCall2()}
+  t1=Thread.new{@res1 = bulk_extract_api_range_call('20001-')}
+  t2=Thread.new{@res2 = bulk_extract_api_range_call('0-20000')}
   t1.join
   t2.join
 
-  @received_file = Dir.pwd + "/" + $TAR_FILE_NAME
-  File.open(@received_file, "wb") do |outf|
+  File.open(@received_file, 'wb') do |outf|
     outf << @res2.body
     outf << @res1.body
   end
 end
 
-When /^I delete the previuos tar file if it exists$/ do
-  if File.exists?(Dir.pwd + "/" + $TAR_FILE_NAME)
-    File.delete( Dir.pwd + "/" + $TAR_FILE_NAME)
-  end
-end
-
-def apiCall1()
-  @customHeaders = makeCustomHeader("20001-")
-  @res1 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
-end
-
-def apiCall2()
-  @customHeaders = makeCustomHeader("0-20000")
-  @res2 = restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
+def bulk_extract_api_range_call(range)
+  @customHeaders = makeCustomHeader(range)
+  return restHttpCustomHeadersGet('/bulk/extract/tenant', @customHeaders)
 end
 
 When /^I make API call to retrieve today's delta file$/ do
@@ -253,7 +246,6 @@ Then /^the content length in response header is greater than the requested range
 end
 
 Then /^I store the file content$/ do
-  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
   File.open(@received_file, "a") do |outf|
     outf << @res.body
   end
@@ -264,7 +256,6 @@ Then /^I process the file content$/ do
   original_tar_contents = file.read
 
   res_content = @res.body.split("\r\n")
-  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
 
   File.open(@received_file, "wb") do |outf|
     res_content.each { |content|
@@ -338,23 +329,24 @@ Then /^I verify I do not have the complete file$/ do
 end
 
 Then /^I store the contents of the first call$/ do
-  res_content = @res.body.split(%r{--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
-  @content1 = res_content[1].strip()
-  assert_equal(@content1.size, 15001)
-  @content3 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0].strip()
-  assert_equal(@content3.size, 22000)
+  res_content = @res.body.split(%r{\r\n--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
+  @content1 = res_content[1]
+  puts @content1.size
+  res_content[2][%r{\r\n--MULTIPART_BYTERANGES--\r\n}] = ''
+  @content3 = res_content[2]
+  puts @content3.size
 end
 
 Then /^I store the contents of the second call$/ do
-  res_content = @res.body.split(%r{--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
-  @content2 = res_content[1].strip()
-  assert_equal(@content2.size, 5000)
-  @content4 = res_content[2].split(%r{\r\n--MULTIPART_BYTERANGES--\r\n})[0].strip()
-  puts "The final chunk is #{@content4.size} bytes long"
+  res_content = @res.body.split(%r{\r\n--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
+  @content2 = res_content[1]
+  puts @content2.size
+  res_content[2][%r{\r\n--MULTIPART_BYTERANGES--\r\n}] = ''
+  @content4 = res_content[2]
+  puts @content4.size
 end
 
 Then /^I combine the file contents$/ do
-  @received_file = Dir.pwd + "/#{$TAR_FILE_NAME}"
   File.open(@received_file, "wb") do |outf|
         outf << @content1
         outf << @content2
@@ -437,6 +429,31 @@ Then /^the response is decrypted$/ do
     puts "length #{@res.body.length}"
   end
  # @plain = decrypt(@res.body) 
+end
+
+Then /^the response is decrypted from production$/ do
+  private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
+  assert(@res.body.length >= 512)
+  encryptediv = @res.body[0,256]
+  encryptedsecret = @res.body[256,256]
+  encryptedmessage = @res.body[512,@res.body.length - 512]
+
+  decrypted_iv = private_key.private_decrypt(encryptediv)
+  decrypted_secret = private_key.private_decrypt(encryptedsecret)
+
+  aes = OpenSSL::Cipher.new('AES-128-CBC')
+  aes.decrypt
+  aes.key = decrypted_secret
+  aes.iv = decrypted_iv
+  @plain = aes.update(encryptedmessage) + aes.final
+  if $SLI_DEBUG
+    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
+    puts("Encrypted message is #{encryptedmessage}")
+    puts("Cipher is #{aes}")
+    puts("Plain text length is #{@plain.length} and it is #{@plain}")
+    puts "length #{@res.body.length}"
+  end
+ # @plain = decrypt(@res.body)
 end
 
 Then /^I have all the information to make a custom bulk extract request$/ do
@@ -552,3 +569,5 @@ def makeCustomHeader(range, if_range = @etag, last_modified = @last_modified)
    header.store(:range, "bytes=" + range)
    return header
 end
+
+

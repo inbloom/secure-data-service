@@ -227,7 +227,7 @@ public class BulkExtractTest {
           }
       };
 
-      Response res = bulkExtract.getExtractResponse(context, null, null);
+      Response res = bulkExtract.getExtractResponse(context, null, null, false);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -264,7 +264,7 @@ public class BulkExtractTest {
           }
       };
 
-        Response res = bulkExtract.getExtractResponse(context, null, null);
+        Response res = bulkExtract.getExtractResponse(context, null, null, false);
       assertEquals(200, res.getStatus());
       MultivaluedMap<String, Object> headers = res.getMetadata();
       assertNotNull(headers);
@@ -289,21 +289,21 @@ public class BulkExtractTest {
       Mockito.when(failureContext.getMethod()).thenReturn("HEAD");
       Mockito.when(failureContext.getHeaderValue("Range")).thenReturn("bytes=0");
 
-        Response failureRes = bulkExtract.getExtractResponse(failureContext, null, null);
+        Response failureRes = bulkExtract.getExtractResponse(failureContext, null, null, false);
       assertEquals(416, failureRes.getStatus());
 
       HttpRequestContext validContext = Mockito.mock(HttpRequestContext.class);
       Mockito.when(validContext.getMethod()).thenReturn("HEAD");
       Mockito.when(validContext.getHeaderValue("Range")).thenReturn("bytes=0-5");
 
-        Response validRes = bulkExtract.getExtractResponse(validContext, null, null);
+        Response validRes = bulkExtract.getExtractResponse(validContext, null, null, false);
       assertEquals(200, validRes.getStatus());
 
       HttpRequestContext multiRangeContext = Mockito.mock(HttpRequestContext.class);
       Mockito.when(multiRangeContext.getMethod()).thenReturn("HEAD");
       Mockito.when(multiRangeContext.getHeaderValue("Range")).thenReturn("bytes=0-5,6-10");
 
-        Response multiRangeRes = bulkExtract.getExtractResponse(validContext, null, null);
+        Response multiRangeRes = bulkExtract.getExtractResponse(validContext, null, null, false);
       assertEquals(200, multiRangeRes.getStatus());
 
   }
@@ -321,7 +321,7 @@ public class BulkExtractTest {
           }
       };
 
-        Response res = bulkExtract.getExtractResponse(context, null, null);
+        Response res = bulkExtract.getExtractResponse(context, null, null, false);
       assertEquals(412, res.getStatus());
   }
 

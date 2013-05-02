@@ -15,6 +15,7 @@
  */
 package org.slc.sli.bulk.extract;
 
+
 import java.security.PublicKey;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,6 +34,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
+
 /**
  * Mongo access to bulk extract data.
  * @author tke
@@ -50,6 +52,7 @@ public class BulkExtractMongoDA {
     private static final String DATE = "date";
     private static final String TENANT_ID = "tenantId";
     private static final String IS_DELTA = "isDelta";
+    private static final String IS_PUBLIC_DATA = "isPublicData";
 
     private static final String APP_AUTH_COLLECTION = "applicationAuthorization";
     private static final String TENANT_EDORG_FIELD = "edorgs";
@@ -71,24 +74,26 @@ public class BulkExtractMongoDA {
      * @param appId the id for the application
      */
     public void updateDBRecord(String tenantId, String path, String appId, Date date) {
-        updateDBRecord(tenantId, path, appId, date, false, null);
+        updateDBRecord(tenantId, path, appId, date, false, null, false);
     }
 
     /** Insert a new record is the tenant doesn't exist. Update if existed
      * @param tenantId tenant id
      * @param path  path to the extracted file.
+     * @param appId the id for the application
      * @param date  the date when the bulk extract was created
-     * @param appId  the id for the application
-     * @param isDelta  indicates whether or not extract is delta
-     * @param edorg  the id of the education organization
+     * @param isDelta indicates whether or not extract is delta
+     * @param edorg the id of the education organization
+     * @param isPublicData indicates if the extract is for public data
      */
-    public void updateDBRecord(String tenantId, String path, String appId, Date date,  boolean isDelta, String edorg) {
+    public void updateDBRecord(String tenantId, String path, String appId, Date date,  boolean isDelta, String edorg, boolean isPublicData) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(TENANT_ID, tenantId);
         body.put(FILE_PATH, path);
         body.put(DATE, date);
         body.put(IS_DELTA, isDelta);
         body.put(EDORG, edorg);
+        body.put(IS_PUBLIC_DATA, isPublicData);
         body.put(APP_ID, appId);
 
         String entityId;
