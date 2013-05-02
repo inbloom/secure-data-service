@@ -36,15 +36,17 @@ public class StudentExtractor implements EntityExtract {
     private LEAExtractFileMap map;
     private EntityExtractor extractor;
     private Repository<Entity> repo;
+    private EntityToLeaCache cache;
     
     private ExtractorHelper helper;
 
     public StudentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper helper) {
+            ExtractorHelper helper, EntityToLeaCache cache) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.helper = helper;
+        this.cache = cache;
     }
     /* (non-Javadoc)
      * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(java.util.Map)
@@ -59,12 +61,22 @@ public class StudentExtractor implements EntityExtract {
                 if (schools.contains(lea)) {
                     // Write
                     extractor.extractEntity(e, map.getExtractFileForLea(lea), "student");
+                    
+                    // Update cache
+                    cache.addEntry(e.getEntityId(), lea);
                 }
             }
         }
         
     }
     
+    public void setEntityCache(EntityToLeaCache cache) {
+        this.cache = cache;
+    }
+    
+    public EntityToLeaCache getEntityCache() {
+        return cache;
+    }
 
 
 }
