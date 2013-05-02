@@ -33,7 +33,12 @@ public class LEAExtractorFactory {
     
     public StudentExtractor buildStudentExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo) {
-        return new StudentExtractor(extractor, map, repo, new ExtractorHelper());
+        return new StudentExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToLeaCache());
+    }
+    
+    public EntityExtract buildAttendanceExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo, EntityToLeaCache studentCache) {
+        return new AttendanceExtractor(extractor, map, repo, new ExtractorHelper(), studentCache);
     }
 
     public ExtractFile buildLEAExtractFile(String path, String lea, String archiveName,

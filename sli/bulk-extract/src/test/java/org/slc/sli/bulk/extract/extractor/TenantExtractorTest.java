@@ -15,28 +15,23 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import java.io.File;
+import java.io.IOException;
+import java.security.PublicKey;
+import java.util.*;
 
 
 /**
@@ -113,7 +108,7 @@ public class TenantExtractorTest {
         }
 
         Mockito.verify(bulkExtractMongoDA, Mockito.times(1))
-                .updateDBRecord(Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.any(Date.class), Matchers.eq(false), Matchers.anyString());
+                .updateDBRecord(Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.any(Date.class), Matchers.eq(false), Matchers.anyString(), Matchers.eq(false));
     }
 
 
