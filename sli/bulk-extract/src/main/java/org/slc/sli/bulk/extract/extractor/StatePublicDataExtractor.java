@@ -16,25 +16,31 @@
 
 package org.slc.sli.bulk.extract.extractor;
 
-import java.io.File;
-import java.security.PublicKey;
-import java.util.Arrays;
-import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.Launcher;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.pub.PublicDataExtract;
+import org.slc.sli.bulk.extract.pub.PublicDataFactory;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import java.io.File;
+import java.io.IOException;
+import java.security.PublicKey;
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Extract the Public Data for the State Education Agency.
@@ -52,6 +58,12 @@ public class StatePublicDataExtractor {
     @Qualifier("secondaryRepo")
     private Repository<Entity> entityRepository;
 
+    @Autowired
+    private EntityExtractor extractor;
+
+    private PublicDataFactory factory = new PublicDataFactory();
+    private DateTime startTime;
+
     private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
 
     /**
@@ -62,6 +74,8 @@ public class StatePublicDataExtractor {
      * @param startTime of the extract
      */
     public void execute(String tenant, File tenantDirectory, DateTime startTime) {
+        TenantContext.setTenantId(tenant);
+        this.startTime = startTime;
         String seaId = retrieveSEAId();
 
         if(seaId == null) {
@@ -74,18 +88,35 @@ public class StatePublicDataExtractor {
             LOG.info("No authorized application to extract data.");
             return;
         }
+        ExtractFile extractFile = createExtractFile(tenantDirectory, seaId, clientKeys);
 
-        extractPublicData(seaId, clientKeys);
+        extractPublicData(seaId, extractFile);
+
+        updateBulkExtractDb(tenant, startTime, seaId, extractFile);
     }
 
     /**
      * Extract the public data for the SEA.
      * @param seaId the ID of the SEA to extract
-     * @param clientKeys used to encrypt extract
-     * @return boolean value to indicate the success of the extract
+     * @param extractFile the extract file to extract to
      */
-    protected boolean extractPublicData(String seaId, Map<String, PublicKey> clientKeys) {
-        return false;
+    protected void extractPublicData(String seaId, ExtractFile extractFile) {
+
+        for (PublicDataExtract data : factory.buildAllPublicDataExtracts(extractor)) {
+            data.extract(seaId, extractFile);
+            extractFile.closeWriters();
+        }
+
+        try {
+            extractFile.getManifestFile().generateMetaFile(startTime);
+        } catch (IOException e) {
+            LOG.error("Error creating metadata file: {}", e.getMessage());
+        }
+        try {
+            extractFile.generateArchive();
+        } catch (Exception e) {
+            LOG.error("Error generating archive file: {}", e.getMessage());
+        }
     }
 
     /**
@@ -112,5 +143,23 @@ public class StatePublicDataExtractor {
         }
 
         return seaId;
+    }
+
+
+    /**
+     * Update the bulk extract files db record.
+     * @param tenant the tenant name
+     * @param startTime the time when the extract was initiated
+     * @param seaId the SEA Id
+     */
+    protected void updateBulkExtractDb(String tenant, DateTime startTime, String seaId, ExtractFile extractFile) {
+        for(Map.Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
+            bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), archiveFile.getKey(), startTime.toDate(), false, seaId, true);
+        }
+    }
+
+    protected ExtractFile createExtractFile(File tenantDirectory, String seaId, Map<String, PublicKey> clientKeys) {
+        return new ExtractFile(tenantDirectory, Launcher.getArchiveName(seaId,
+                startTime.toDate()), clientKeys);
     }
 }

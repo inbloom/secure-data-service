@@ -69,9 +69,9 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     private Iterator<Map<String, Object>> deltaCursor;
 
     private long lastDeltaTime;
-    
+
     private final static Map<String, List<String>> REQUIRED_EMBEDDED_FIELDS;
-    
+
     static {
         Map<String, List<String>> requiredDenormalizedFields = new HashMap<String, List<String>>();
         requiredDenormalizedFields.put("student", Arrays.asList("schools"));
@@ -118,7 +118,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
 
     private NeutralQuery queryForLastDeltaTime(String tenant) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, tenant));
-        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, "true"));
+        query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, true));
         query.setSortBy("body.date");
         query.setSortOrder(NeutralQuery.SortOrder.descending);
         query.setIncludeFields(Arrays.asList("date"));
@@ -196,7 +196,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
 
         return null;
     }
-    
+
     NeutralQuery buildQuery(String collection, String id) {
         NeutralQuery q = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, id));
         if (REQUIRED_EMBEDDED_FIELDS.containsKey(collection)) {

@@ -187,7 +187,7 @@ Given /^I have delta bulk extract files generated for today$/ do
     _id: "Midgar_delta-19cca28d-7357-4044-8df9-caad4b1c8ee4",
     body: {
       tenantId: "Midgar",
-      isDelta: "true",
+      isDelta: true,
       applicationId: "19cca28d-7357-4044-8df9-caad4b1c8ee4",
       path: "#{@pre_generated}",
       date: Time.now
@@ -514,7 +514,7 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
   @client_id = client_id
 
   delta = true
-  query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isDelta" => "true", "body.edorg"=>lea}
+  query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isDelta" => true, "body.edorg"=>lea}
   query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
   # Get the edorg and timestamp from bulk extract collection in mongo
   getExtractInfoFromMongo(tenant, app_id, delta, query, query_opts)
@@ -639,9 +639,13 @@ end
 Then /^I should see "(.*?)" bulk extract SEA-public data file for the tenant "(.*?)" and application with id "(.*?)"$/ do |count, tenant, app_id|
   query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isPublicData" => true}
   count = count.to_i
-  checkMongoQueryCounts("bulklExtractFiles", query, count);
-  getExtractInfoFromMongo(tenant, app_id, false, query)
-  assert(File.exists(@encryptFilePath), "SEA public data doesn't exist.")
+  checkMongoQueryCounts("bulkExtractFiles", query, count);
+  #getExtractInfoFromMongo(tenant, app_id, false, query)
+  #assert(File.exists(@encryptFilePath), "SEA public data doesn't exist.")
+end
+
+Then /^I remove the edorg with id "(.*?)" from the database/ do |edorg_id|
+  remove_edorg_from_mongo(edorg_id)
 end
 
 Then /^there should be no deltas in mongo$/ do
@@ -658,12 +662,12 @@ Then /^I verify "(.*?)" delta bulk extract files are generated for "(.*?)" in "(
   @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb ||= @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
-  query = {"body.tenantId"=>tenant, "body.isDelta"=>"true", "body.edorg"=>lea}
+  query = {"body.tenantId"=>tenant, "body.isDelta"=>true, "body.edorg"=>lea}
   assert(count == @coll.count({query: query})) 
 end
 
 Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table| 
-    query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => "true", "body.edorg"=>lea}
+    query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => true, "body.edorg"=>lea}
     opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
     getExtractInfoFromMongo(tenant, appId, true, query, opts)
     openDecryptedFile(appId) 
@@ -766,12 +770,13 @@ def bulkExtractTrigger(trigger_script, jar_file, properties_file, keystore_file,
   puts runShellCommand(command)
 end
 
-def getExtractInfoFromMongo(tenant, appId, delta=false, query=nil, query_opts={})
+def getExtractInfoFromMongo(tenant, appId, delta=false, query=nil, query_opts={}, publicData=false)
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
 
-  query ||= {"body.tenantId" => tenant, "body.applicationId" => appId, "$or" => [{"body.isDelta" => delta.to_s},{"body.isDelta" => delta}]}
+  query ||= {"body.tenantId" => tenant, "body.applicationId" => appId, "body.isPublicData" => publicData, "$or" => [{"body.isDelta" => delta},{"body.isDelta" => delta}]}
+
   match = @coll.find_one(query, query_opts)
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
@@ -972,8 +977,9 @@ end
 def checkMongoQueryCounts(collection, query, count)
   @db = @conn["sli"]
   collection = @db[collection]
-  match = @db.collection(collection).find_one(query)
-  assert(match.count == count, "Found #{collection.count} bulkExtract mongo entries, expected #{count}")
+  match = collection.find(query)
+  assert(match != nil, "No BE record found in db")
+  assert(match.count == count, "Found #{match.count} bulkExtract mongo entries, expected #{count}")
 end
 
 def checkTarfileCounts(directory, count)
@@ -1019,4 +1025,17 @@ def streamBulkExtractFile(download_file, apiBody)
   download_file ||= Dir.pwd + "/Final.tar"
   f = File.open(download_file, 'a') {|f| f.write(apiBody)}
   return download_file
+end
+
+def remove_edorg_from_mongo(edorg_id)
+  tenant_db = @conn.db(convertTenantIdToDbName(@tenant))
+  collection = tenant_db.collection('educationOrganization')
+  collection.remove({'body.stateOrganizationId' => edorg_id})
+end
+
+After('@scheduler') do
+  command = "crontab -r"
+  puts "blah blah blah"
+  result = runShellCommand(command)
+  puts "Running: #{command} #{result}"
 end

@@ -35,6 +35,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -78,7 +79,7 @@ import org.slc.sli.domain.enums.Right;
  */
 @Component
 @Path("/bulk")
-@Produces({ "application/x-tar"})
+@Produces({"application/x-tar", MediaType.APPLICATION_JSON + "; charset=utf-8"})
 public class BulkExtract {
 
     private static final Logger LOG = LoggerFactory.getLogger(BulkExtract.class);
@@ -167,7 +168,7 @@ public class BulkExtract {
         }
 
         appAuthHelper.checkApplicationAuthorization(leaId);
-        return getExtractResponse(context.getRequest(), null, leaId);
+        return getExtractResponse(context.getRequest(), null, leaId, false);
     }
 
     /**
@@ -200,7 +201,7 @@ public class BulkExtract {
         info("Received request to stream tenant bulk extract...");
         validateRequestAndApplicationAuthorization(request);
 
-        return getExtractResponse(context.getRequest(), null, null);
+        return getExtractResponse(context.getRequest(), null, null, false);
     }
 
     /**
@@ -218,7 +219,7 @@ public class BulkExtract {
         if (deltasEnabled) {
             LOG.info("Retrieving delta bulk extract");
             validateRequestAndApplicationAuthorization(request);
-            return getExtractResponse(context.getRequest(), date, leaId);
+            return getExtractResponse(context.getRequest(), date, leaId, false);
         }
         return Response.status(404).build();
     }
@@ -229,13 +230,14 @@ public class BulkExtract {
      * @param req       the http request context
      * @param deltaDate the date of the delta, or null to get the full extract
      * @param leaId     the LEA id
+     * @param isPublicData indicates if the extract is for public data
      * @return the jax-rs response to send back.
      */
-    Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId) {
+    Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId, boolean isPublicData) {
 
         String appId = appAuthHelper.getApplicationId();
 
-        Entity entity = getBulkExtractFileEntity(deltaDate, appId, leaId, false);
+        Entity entity = getBulkExtractFileEntity(deltaDate, appId, leaId, false, isPublicData);
 
         if (entity == null) {
             // return 404 if no bulk extract support for that tenant
@@ -274,6 +276,7 @@ public class BulkExtract {
      */
     Response getLEAListResponse(final HttpContext context) {
 
+        initializePrincipal();
         List<String> userDistrics = retrieveUserAssociatedSLEAs();
 
         String appId = appAuthHelper.getApplicationId();
@@ -301,7 +304,7 @@ public class BulkExtract {
      */
     Response assembleLEALinksResponse(final HttpContext context, String appId, List<String> appAuthorizedUserLEAs) {
         UriInfo uriInfo = context.getUriInfo();
-        String linkBase = ResourceUtil.getURI(uriInfo).toString() + "/bulk/extract/";
+        String linkBase = ResourceUtil.getURI(uriInfo, ResourceUtil.getApiVersion(uriInfo)).toString() + "/bulk/extract/";
 
         Map<String, Map<String, String>> leaFullLinks = new HashMap<String, Map<String, String>>();
         Map<String, List<Map<String, String>>> leaDeltaLinks = new HashMap<String, List<Map<String, String>>>();
@@ -313,7 +316,7 @@ public class BulkExtract {
                 for (Entity leaFileEntity : leaFileEntities) {
                     Map<String, String> deltaLink = new HashMap<String, String>();
                     String timeStamp = leaFileEntity.getBody().get("date").toString();
-                    if (Boolean.parseBoolean(leaFileEntity.getBody().get("isDelta").toString())) {
+                    if ((Boolean) leaFileEntity.getBody().get("isDelta")) {
                         deltaLink.put("uri", linkBase + leaId + "/delta/" + timeStamp);
                         deltaLink.put("timestamp", timeStamp);
                         deltaLinks.add(deltaLink);
@@ -336,6 +339,7 @@ public class BulkExtract {
         list.put("fullLeas", leaFullLinks);
         list.put("deltaLeas", leaDeltaLinks);
         ResponseBuilder builder = Response.ok(list);
+        builder.header("content-type", MediaType.APPLICATION_JSON + "; charset=utf-8");
         return builder.build();
     }
 
@@ -370,7 +374,7 @@ public class BulkExtract {
      * @param appId
      * @return
      */
-    private Entity getBulkExtractFileEntity(String deltaDate, String appId, String leaId, boolean ignoreIsDelta) {
+    private Entity getBulkExtractFileEntity(String deltaDate, String appId, String leaId, boolean ignoreIsDelta, boolean isPublicData) {
         boolean isDelta = deltaDate != null;
         initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
@@ -381,13 +385,15 @@ public class BulkExtract {
         }
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
         if (!ignoreIsDelta) {
-            query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
+            query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, isDelta));
         }
 
         if (isDelta) {
             DateTime d = ISODateTimeFormat.dateTime().parseDateTime(deltaDate);
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, d.toDate()));
         }
+
+        query.addCriteria(new NeutralCriteria("isPublicData", NeutralCriteria.OPERATOR_EQUAL, isPublicData));
         debug("Bulk Extract query is {}", query);
         Entity entity = mongoEntityRepository.findOne(BULK_EXTRACT_FILES, query);
         if (entity == null) {
@@ -405,9 +411,6 @@ public class BulkExtract {
     }
 
     private List<String> retrieveUserAssociatedSLEAs() throws AccessDeniedException {
-        if (principal == null || principal.getEntity() == null) {
-            throw new AccessDeniedException("Missing User security principal");
-        }
         List<String> userDistrics = helper.getDistricts(principal.getEntity());
         if (userDistrics.size() == 0) {
             throw new AccessDeniedException("User is not authorized for a list of available LEAs extracts");

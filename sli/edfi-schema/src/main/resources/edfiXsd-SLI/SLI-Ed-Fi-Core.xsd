@@ -975,7 +975,7 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="StaffUniqueStateId" type="UniqueStateIdentifier"/>
-					<xs:element name="StaffIdentificationCode" type="StaffIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="StaffIdentificationCode" type="SLC-StaffIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Name" type="Name"/>
 					<xs:element name="OtherName" type="OtherName" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Sex" type="SexType"/>
@@ -1030,7 +1030,7 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="StudentUniqueStateId" type="UniqueStateIdentifier"/>
-					<xs:element name="StudentIdentificationCode" type="StudentIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="StudentIdentificationCode" type="SLC-StudentIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Name" type="Name"/>
 					<xs:element name="OtherName" type="OtherName" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Sex" type="SexType"/>
@@ -3405,6 +3405,86 @@
 	<xs:annotation>
 		<xs:documentation>===== Common Types =====</xs:documentation>
 	</xs:annotation>
+	<xs:complexType name="SLC-StaffIdentificationCode">
+		<xs:annotation>
+			<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to staff member.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ID" type="IdentificationCode">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned to a staff member by a school, school system, a state, or other agency or entity.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="IdentificationSystem" type="SLC-StaffIdentificationSystemType" use="required">
+			<xs:annotation>
+				<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a staff member.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="AssigningOrganizationCode" type="IdentificationCode" use="optional">
+			<xs:annotation>
+				<xs:documentation>The organization code or name assigning the staff Identification Code.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="SLC-StaffIdentificationSystemType">
+		<xs:annotation>
+			<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a staff member.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Drivers License"/>
+			<xs:enumeration value="Health Record"/>
+			<xs:enumeration value="Medicaid"/>
+			<xs:enumeration value="Professional Certificate"/>
+			<xs:enumeration value="School"/>
+			<xs:enumeration value="District"/>
+			<xs:enumeration value="State"/>
+			<xs:enumeration value="Federal"/>
+			<xs:enumeration value="Other Federal"/>
+			<xs:enumeration value="Selective Service"/>
+			<xs:enumeration value="US Visa"/>
+			<xs:enumeration value="PIN"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SLC-StudentIdentificationCode">
+		<xs:annotation>
+			<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a student.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IdentificationCode" type="IdentificationCode">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned to a student by a school, school system, a state, or other agency or entity.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="IdentificationSystem" type="SLC-StudentIdentificationSystemType" use="required">
+			<xs:annotation>
+				<xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a student.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="AssigningOrganizationCode" type="IdentificationCode" use="optional">
+			<xs:annotation>
+				<xs:documentation>The organization code or name assigning the student Identification Code.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>	
+	<xs:simpleType name="SLC-StudentIdentificationSystemType">
+		<xs:annotation>
+			<xs:documentation>Definition: A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a student.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="District"/>
+			<xs:enumeration value="Family"/>
+			<xs:enumeration value="Federal"/>
+			<xs:enumeration value="Local"/>
+			<xs:enumeration value="National Migrant"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="School"/>
+			<xs:enumeration value="State"/>
+			<xs:enumeration value="State Migrant"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="SLC-UniqueCourseId">
 		<xs:annotation>
 			<xs:documentation>A unique number or alphanumeric code assigned to a course by a school,

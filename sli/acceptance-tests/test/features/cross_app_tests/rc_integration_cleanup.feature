@@ -5,6 +5,10 @@ Feature:  RC Integration CleanUp Tests
 Background:
   Given I have an open web browser
 
+Scenario: Delete bulk extract files
+  When the production extraction zone is empty
+  And there is no bulk extract files in the local directory
+
 Scenario:  LEA deletes realm
   When I navigate to the Portal home page
   When I selected the realm "inBloom"
