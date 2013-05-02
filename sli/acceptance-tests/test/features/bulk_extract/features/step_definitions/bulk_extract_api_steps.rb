@@ -439,7 +439,7 @@ Then /^the response is decrypted$/ do
  # @plain = decrypt(@res.body) 
 end
 
-Then /^the response is decrypted in production$/ do
+Then /^the response is decrypted from production$/ do
   private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
   assert(@res.body.length >= 512)
   encryptediv = @res.body[0,256]

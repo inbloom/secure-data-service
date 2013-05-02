@@ -131,7 +131,6 @@ Then /^I request and download a bulk extract file$/ do
   assert(File.exists?(@filePath), "Bulk Extract file was unable to be download to: #{@filePath.to_s}")
 end
 
-
 Then /^I request and download a bulk extract file from production$/ do
   restHttpGet("/bulk/extract/tenant", "application/x-tar", @sessionId)
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
