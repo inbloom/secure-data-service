@@ -86,7 +86,7 @@ public class Denormalizer {
 
     		// Constructing from JSON strings will work only because IDs are hex, else we would have quoting issues.
     		String query_json = "{ 'schools.edOrgs': '" + id + "' }";
-    		String update_json = "{ $unset: { 'schools.$.edOrgs' : '" + id + "'}}";
+    		String update_json = "{ $pull: { 'schools.$.edOrgs' : '" + id + "'}}";
     		DBObject query = (DBObject) JSON.parse(query_json);
     		DBObject update = (DBObject) JSON.parse(update_json);
     		TenantContext.setIsSystemCall(false);

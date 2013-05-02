@@ -39,7 +39,6 @@ class Student < BaseEntity
     optional {@studentIdentificationCode = {
         :identificationCode => "abcde",
         :identificationSystem => choose([
-          "Canadian SIN",
           "District",
           "Family",
           "Federal",
@@ -47,7 +46,6 @@ class Student < BaseEntity
           "National Migrant",
           "Other",
           "School",
-          "SSN",
           "State",
           "State Migrant"
         ]),

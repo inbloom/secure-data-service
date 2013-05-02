@@ -1,3 +1,4 @@
+@wip
 @US5618
 @TempFileCleanup
 Feature: Retrieve portions of the bulk extract file through the API and validate

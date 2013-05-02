@@ -555,6 +555,10 @@ Then  /^The "(.*?)" delta was extracted in the same format as the api$/ do |coll
   #  zipfiles << file if file.match(/.gz$/)
   #end
   zipfile = @fileDir + "/" + collection + ".json.gz"
+
+  #Why do we have two different conventions on where to place the untar'd files?
+  zipfile = @unpackDir + "/" + collection + ".json.gz" if (!File.exists? zipfile)
+
   # Loop through each list, extract the file, parse the json, and verify against the api
   Zlib::GzipReader.open(zipfile) { |extracts|
     collFile = JSON.parse(extracts.read)

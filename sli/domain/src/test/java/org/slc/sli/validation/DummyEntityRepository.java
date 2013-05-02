@@ -85,8 +85,13 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public Entity findById(String collectioName, String id) {
-        Map<String, Entity> collection = entities.get(collectioName);
+    public Entity findById(String collectionName, String id) {
+    	return findById(collectionName, id, false);
+    }
+
+    @Override
+    public Entity findById(String collectionName, String id, boolean allFields) {
+        Map<String, Entity> collection = entities.get(collectionName);
         return collection.get(id);
     }
 
@@ -140,6 +145,12 @@ public class DummyEntityRepository implements Repository<Entity> {
 
     @Override
     public Entity findOne(String collectionName, NeutralQuery query) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Entity findOne(String collectionName, NeutralQuery query, boolean allFields) {
         // TODO Auto-generated method stub
         return null;
     }
