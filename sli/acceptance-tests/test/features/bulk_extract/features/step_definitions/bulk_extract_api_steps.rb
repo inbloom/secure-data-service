@@ -340,10 +340,10 @@ end
 Then /^I store the contents of the second call$/ do
   res_content = @res.body.split(%r{\r\n--MULTIPART_BYTERANGES\r\nContent-Type: application/x-tar\r\nContent-Range: bytes \d{1,6}-\d{1,6}/\d{1,6}\r\n})
   @content2 = res_content[1]
-  puts @content1.size
+  puts @content2.size
   res_content[2][%r{\r\n--MULTIPART_BYTERANGES--\r\n}] = ''
   @content4 = res_content[2]
-  puts @content3.size
+  puts @content4.size
 end
 
 Then /^I combine the file contents$/ do
@@ -429,6 +429,31 @@ Then /^the response is decrypted$/ do
     puts "length #{@res.body.length}"
   end
  # @plain = decrypt(@res.body) 
+end
+
+Then /^the response is decrypted from production$/ do
+  private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
+  assert(@res.body.length >= 512)
+  encryptediv = @res.body[0,256]
+  encryptedsecret = @res.body[256,256]
+  encryptedmessage = @res.body[512,@res.body.length - 512]
+
+  decrypted_iv = private_key.private_decrypt(encryptediv)
+  decrypted_secret = private_key.private_decrypt(encryptedsecret)
+
+  aes = OpenSSL::Cipher.new('AES-128-CBC')
+  aes.decrypt
+  aes.key = decrypted_secret
+  aes.iv = decrypted_iv
+  @plain = aes.update(encryptedmessage) + aes.final
+  if $SLI_DEBUG
+    puts("Decrypted iv type is #{decrypted_iv.class} and it is #{decrypted_iv}")
+    puts("Encrypted message is #{encryptedmessage}")
+    puts("Cipher is #{aes}")
+    puts("Plain text length is #{@plain.length} and it is #{@plain}")
+    puts "length #{@res.body.length}"
+  end
+ # @plain = decrypt(@res.body)
 end
 
 Then /^I have all the information to make a custom bulk extract request$/ do

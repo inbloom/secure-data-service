@@ -90,7 +90,7 @@ public class StatePublicDataExtractorTest {
 
         Mockito.doReturn(seaId).when(extractor).retrieveSEAId();
         Mockito.doReturn(clientKeys).when(bulkExtractMongoDA).getAppPublicKeys();
-        Mockito.doReturn(file).when(extractor).createExtractFile(Mockito.any(File.class), Mockito.anyMap());
+        Mockito.doReturn(file).when(extractor).createExtractFile(Mockito.any(File.class), Mockito.anyString(), Mockito.anyMap());
 
         extractor.execute("tenant", new File("temp"), new DateTime());
 
