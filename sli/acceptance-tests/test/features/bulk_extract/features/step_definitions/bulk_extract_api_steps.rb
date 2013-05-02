@@ -415,7 +415,7 @@ Then /^I check the http response headers$/ do
 end
 
 Then /^the response is decrypted$/ do
-  private_key = OpenSSL::PKey::RSA.new File.read './test/features/utils/keys/vavedra9ub.key'
+  private_key = OpenSSL::PKey::RSA.new File.read './test/features/bulk_extract/features/test-key'
   assert(@res.body.length >= 512)
   encryptediv = @res.body[0,256] 
   encryptedsecret = @res.body[256,256]
