@@ -15,18 +15,25 @@
  */
 package org.slc.sli.bulk.extract;
 
+
+import java.security.PublicKey;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Query;
 
-import java.security.PublicKey;
-import java.util.*;
 
 /**
  * Mongo access to bulk extract data.
@@ -41,7 +48,6 @@ public class BulkExtractMongoDA {
      * name of bulkExtract collection.
      */
     public static final String BULK_EXTRACT_COLLECTION = "bulkExtractFiles";
-    private static final String FILES = "files";
     private static final String FILE_PATH = "path";
     private static final String DATE = "date";
     private static final String TENANT_ID = "tenantId";
@@ -61,7 +67,7 @@ public class BulkExtractMongoDA {
     private Repository<Entity> entityRepository;
     private CertificateValidationHelper certHelper;
 
-	/** Insert a new record is the tenant doesn't exist. Update if existed
+    /** Insert a new record is the tenant doesn't exist. Update if existed
      * @param tenantId tenant id
      * @param path  path to the extracted file.
      * @param date  the date when the bulk extract was created
@@ -76,18 +82,16 @@ public class BulkExtractMongoDA {
      * @param path  path to the extracted file.
      * @param appId the id for the application
      * @param date  the date when the bulk extract was created
-     * @param isDelta TODO
-     * @param edorg the edorg this extract belongs to
-     * @param isPublicData TODO
+     * @param isDelta indicates whether or not extract is delta
+     * @param edorg the id of the education organization
      * @param isPublicData indicates if the extract is for public data
-     *
      */
     public void updateDBRecord(String tenantId, String path, String appId, Date date,  boolean isDelta, String edorg, boolean isPublicData) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(TENANT_ID, tenantId);
         body.put(FILE_PATH, path);
         body.put(DATE, date);
-        body.put(IS_DELTA, Boolean.toString(isDelta));
+        body.put(IS_DELTA, isDelta);
         body.put(EDORG, edorg);
         body.put(IS_PUBLIC_DATA, isPublicData);
         body.put(APP_ID, appId);
@@ -111,6 +115,7 @@ public class BulkExtractMongoDA {
      * Get the public keys for all the bulk extract applications.
      * @return A map from clientId to public key
      */
+    @SuppressWarnings("unchecked")
     public Map<String, PublicKey> getAppPublicKeys() {
         Map<String, PublicKey> appKeys = new HashMap<String, PublicKey>();
 

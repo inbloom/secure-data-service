@@ -35,6 +35,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -78,7 +79,7 @@ import org.slc.sli.domain.enums.Right;
  */
 @Component
 @Path("/bulk")
-@Produces({ "application/x-tar"})
+@Produces({"application/x-tar", MediaType.APPLICATION_JSON + "; charset=utf-8"})
 public class BulkExtract {
 
     private static final Logger LOG = LoggerFactory.getLogger(BulkExtract.class);
@@ -303,7 +304,7 @@ public class BulkExtract {
      */
     Response assembleLEALinksResponse(final HttpContext context, String appId, List<String> appAuthorizedUserLEAs) {
         UriInfo uriInfo = context.getUriInfo();
-        String linkBase = ResourceUtil.getURI(uriInfo).toString() + "/bulk/extract/";
+        String linkBase = ResourceUtil.getURI(uriInfo, ResourceUtil.getApiVersion(uriInfo)).toString() + "/bulk/extract/";
 
         Map<String, Map<String, String>> leaFullLinks = new HashMap<String, Map<String, String>>();
         Map<String, List<Map<String, String>>> leaDeltaLinks = new HashMap<String, List<Map<String, String>>>();
@@ -315,7 +316,7 @@ public class BulkExtract {
                 for (Entity leaFileEntity : leaFileEntities) {
                     Map<String, String> deltaLink = new HashMap<String, String>();
                     String timeStamp = leaFileEntity.getBody().get("date").toString();
-                    if (Boolean.parseBoolean(leaFileEntity.getBody().get("isDelta").toString())) {
+                    if ((Boolean) leaFileEntity.getBody().get("isDelta")) {
                         deltaLink.put("uri", linkBase + leaId + "/delta/" + timeStamp);
                         deltaLink.put("timestamp", timeStamp);
                         deltaLinks.add(deltaLink);
@@ -338,6 +339,7 @@ public class BulkExtract {
         list.put("fullLeas", leaFullLinks);
         list.put("deltaLeas", leaDeltaLinks);
         ResponseBuilder builder = Response.ok(list);
+        builder.header("content-type", MediaType.APPLICATION_JSON + "; charset=utf-8");
         return builder.build();
     }
 
@@ -383,7 +385,7 @@ public class BulkExtract {
         }
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
         if (!ignoreIsDelta) {
-            query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, Boolean.toString(isDelta)));
+            query.addCriteria(new NeutralCriteria("isDelta", NeutralCriteria.OPERATOR_EQUAL, isDelta));
         }
 
         if (isDelta) {

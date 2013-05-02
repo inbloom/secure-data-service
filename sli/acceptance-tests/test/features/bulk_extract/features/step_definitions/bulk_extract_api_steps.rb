@@ -456,24 +456,39 @@ Then /^I have all the information to make a custom bulk extract request$/ do
 end
 
 When /^I make a head request with each returned URL$/ do
+  hash_body = JSON.parse(@res.body)
 
-  types = ["fullLeas", "deltaLeas", "fullSea", "deltaSea"]
-  @res
-  types.each do |type| 
-    @res.body[type].each do |leaId, links|
-      puts "Checking LEA #{leaid}"
-      links.each do |key, link|
-        restHttpHeadFullPath(link)
+  full_types = ["fullLeas"]
+  full_types.each do |full_type| 
+    hash_body[full_type].each do |leaId, link|
+      puts "Checking full extract link for LEA #{leaId}"
+      uri = link["uri"]
+      puts "Link: #{uri}"
+      restHttpHeadFullURL(uri)
+      step "the return code is 200 I get expected tar downloaded"
+    end
+  end
+
+  delta_types = ["deltaLeas"]
+  delta_types.each do |delta_type| 
+    hash_body[delta_type].each do |leaId, link_list|
+      puts "Checking delta extracts for LEA #{leaId}"
+      link_list.each_value do |link|
+        uri = link["uri"]
+        puts "Link: #{uri}"
+        restHttpHeadFullURL(uri)
         step "the return code is 200 I get expected tar downloaded"
       end
     end
   end
 end
 
+
 Then /^the number of returned URLs is correct:$/ do |table|
-  puts @res
+  puts "@res.body: #{@res.body}"
+  hash_body = JSON.parse(@res.body)
   table.hashes.map do |row|
-    assert(@res.body[row["fieldName"]].length == row["count"], "Response contains wrong number of URLS, expected {} count{}, returned {}", row["fieldName"], row["count"], @res.body[row["fieldName"]])
+     assert(hash_body[row["fieldName"]].size == row["count"].to_i, "Response contains wrong number of URLS, expected " +  row["count"].to_s + "; actual " + hash_body[row["fieldName"]].size.to_s)
   end
 end
 

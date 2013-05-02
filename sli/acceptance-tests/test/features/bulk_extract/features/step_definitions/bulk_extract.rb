@@ -187,7 +187,7 @@ Given /^I have delta bulk extract files generated for today$/ do
     _id: "Midgar_delta-19cca28d-7357-4044-8df9-caad4b1c8ee4",
     body: {
       tenantId: "Midgar",
-      isDelta: "true",
+      isDelta: true,
       applicationId: "19cca28d-7357-4044-8df9-caad4b1c8ee4",
       path: "#{@pre_generated}",
       date: Time.now
@@ -514,7 +514,7 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
   @client_id = client_id
 
   delta = true
-  query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isDelta" => "true", "body.edorg"=>lea}
+  query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isDelta" => true, "body.edorg"=>lea}
   query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
   # Get the edorg and timestamp from bulk extract collection in mongo
   getExtractInfoFromMongo(tenant, app_id, delta, query, query_opts)
@@ -658,12 +658,12 @@ Then /^I verify "(.*?)" delta bulk extract files are generated for "(.*?)" in "(
   @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb ||= @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
-  query = {"body.tenantId"=>tenant, "body.isDelta"=>"true", "body.edorg"=>lea}
+  query = {"body.tenantId"=>tenant, "body.isDelta"=>true, "body.edorg"=>lea}
   assert(count == @coll.count({query: query})) 
 end
 
 Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table| 
-    query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => "true", "body.edorg"=>lea}
+    query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => true, "body.edorg"=>lea}
     opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
     getExtractInfoFromMongo(tenant, appId, true, query, opts)
     openDecryptedFile(appId) 
@@ -771,7 +771,8 @@ def getExtractInfoFromMongo(tenant, appId, delta=false, query=nil, query_opts={}
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
 
-  query ||= {"body.tenantId" => tenant, "body.applicationId" => appId, "body.isPublicData" => publicData, "$or" => [{"body.isDelta" => delta.to_s},{"body.isDelta" => delta}]}
+  query ||= {"body.tenantId" => tenant, "body.applicationId" => appId, "body.isPublicData" => publicData, "$or" => [{"body.isDelta" => delta},{"body.isDelta" => delta}]}
+
   match = @coll.find_one(query, query_opts)
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
