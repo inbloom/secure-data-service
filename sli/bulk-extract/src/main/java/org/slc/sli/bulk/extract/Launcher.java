@@ -19,6 +19,7 @@ package org.slc.sli.bulk.extract;
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.extractor.DeltaExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
+import org.slc.sli.bulk.extract.extractor.StatePublicDataExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -53,6 +54,9 @@ public class Launcher {
 
     private LocalEdOrgExtractor localEdOrgExtractor;
 
+    @Autowired
+    private StatePublicDataExtractor statePublicDataExtractor;
+
     /**
      * Actually execute the extraction.
      *
@@ -74,6 +78,7 @@ public class Launcher {
 
                 tenantExtractor.execute(tenant, extractFile, startTime);
                 localEdOrgExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
+                statePublicDataExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             }
         } else {
             LOG.error("A bulk extract is not being initiated for the tenant {} because the tenant has not been onboarded.", tenant);
@@ -154,6 +159,10 @@ public class Launcher {
 
     public LocalEdOrgExtractor getLocalEdOrgExtractor() {
         return localEdOrgExtractor;
+    }
+
+    public void setStatePublicDataExtractor(StatePublicDataExtractor statePublicDataExtractor) {
+        this.statePublicDataExtractor = statePublicDataExtractor;
     }
 
     /** Get bulkExtractMongoDA.

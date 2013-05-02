@@ -16,18 +16,7 @@
 
 package org.slc.sli.bulk.extract.extractor;
 
-import java.io.File;
-import java.security.PublicKey;
-import java.util.Arrays;
-import java.util.Map;
-
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -35,6 +24,16 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.security.PublicKey;
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Extract the Public Data for the State Education Agency.
@@ -75,17 +74,19 @@ public class StatePublicDataExtractor {
             return;
         }
 
+
         extractPublicData(seaId, clientKeys);
+
+        updateBulkExtractDb(tenant, startTime, seaId);
     }
 
     /**
      * Extract the public data for the SEA.
      * @param seaId the ID of the SEA to extract
      * @param clientKeys used to encrypt extract
-     * @return boolean value to indicate the success of the extract
      */
-    protected boolean extractPublicData(String seaId, Map<String, PublicKey> clientKeys) {
-        return false;
+    protected void extractPublicData(String seaId, Map<String, PublicKey> clientKeys) {
+        return;
     }
 
     /**
@@ -112,5 +113,17 @@ public class StatePublicDataExtractor {
         }
 
         return seaId;
+    }
+
+    /**
+     * Update the bulk extract files db record.
+     * @param tenant the tenant name
+     * @param startTime the time when the extract was initiated
+     * @param seaId the SEA Id
+     */
+    protected void updateBulkExtractDb(String tenant, DateTime startTime, String seaId) {
+        //for(Map.Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
+            bulkExtractMongoDA.updateDBRecord(tenant, "", "", startTime.toDate(), false, seaId, true);
+        //}
     }
 }
