@@ -587,10 +587,10 @@ public class BulkExtractTest {
         FileUtils.writeStringToFile(inputFile, BULK_DATA);
         Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
         if (isDelta) {
-            Mockito.when(mockBody.get("isDelta")).thenReturn("true");
+            Mockito.when(mockBody.get("isDelta")).thenReturn(true);
             Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(deltaTime);
         } else {
-            Mockito.when(mockBody.get("isDelta")).thenReturn("false");
+            Mockito.when(mockBody.get("isDelta")).thenReturn(false);
             Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
         }
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))

@@ -242,7 +242,7 @@ def restHttpHead(id, extra_headers = nil, format = @format, sessionId = @session
   return @res
 end
 
-# Function restHttpHead
+# Function restHttpHeadFullURL
 # Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
 # Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
 #                               Can be manually overwritten
