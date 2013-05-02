@@ -20,13 +20,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
 
+@RunWith(JUnit4.class)
 public class EdOrgContextResolverFactoryTest {
     
     @InjectMocks
@@ -35,9 +37,11 @@ public class EdOrgContextResolverFactoryTest {
     @Mock
     EducationOrganizationContextResolver edOrgContextResolver;
     
+    @Mock
+    StudentDirectRelatedContextResolver studentDirectContextResolver;
+    
     @Before
     public void setup() {
-        edOrgContextResolver = Mockito.mock(EducationOrganizationContextResolver.class);
         MockitoAnnotations.initMocks(this);
     }
 
@@ -46,6 +50,11 @@ public class EdOrgContextResolverFactoryTest {
         assertNull(factory.getResolver("doesn't exist"));
         ContextResolver resolver = factory.getResolver("educationOrganization");
         assertTrue(resolver instanceof EducationOrganizationContextResolver);
+    }
+    
+    @Test
+    public void testStudentParent() {
+        assertTrue(factory.getResolver("studentParentAssociation") instanceof StudentDirectRelatedContextResolver);
     }
     
 }

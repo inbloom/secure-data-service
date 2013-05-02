@@ -275,6 +275,7 @@ public class BulkExtract {
      */
     Response getLEAListResponse(final HttpContext context) {
 
+        initializePrincipal();
         List<String> userDistrics = retrieveUserAssociatedSLEAs();
 
         String appId = appAuthHelper.getApplicationId();

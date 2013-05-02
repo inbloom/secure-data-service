@@ -267,12 +267,22 @@ public class ElasticSearchRepository implements Repository<Entity> {
     }
 
     @Override
+    public Entity findById(String collectionName, String id, boolean allFields) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.findById not implemented");
+    }
+
+    @Override
     public boolean exists(String collectionName, String id) {
         throw new UnsupportedOperationException("ElasticSearchRepository.exists not implemented");
     }
 
     @Override
     public Entity findOne(String collectionName, NeutralQuery neutralQuery) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.findOne not implemented");
+    }
+
+    @Override
+    public Entity findOne(String collectionName, NeutralQuery neutralQuery, boolean allFields) {
         throw new UnsupportedOperationException("ElasticSearchRepository.findOne not implemented");
     }
 
@@ -534,6 +544,11 @@ public class ElasticSearchRepository implements Repository<Entity> {
         @Override
         public Map<String, List<Entity>> getContainerData() {
             return null;
+        }
+
+        @Override
+        public void hollowOut() {
+            // override super implementation with empty implementation
         }
     }
 

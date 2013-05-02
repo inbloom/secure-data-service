@@ -58,7 +58,7 @@ Scenario: Delete Student Program Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta     |
       |studentProgramAssociation              |        -1|
-#      |recordHash                             |        -1|
+      |recordHash                             |        -1|
 
 
  Scenario: Safe Delete Student Program Association Reference with Cascade = false, Force = false
@@ -85,7 +85,7 @@ Scenario: Delete Student Program Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta     |
       |studentProgramAssociation              |        -1|
-#      |recordHash                             |        -1|
+      |recordHash                             |        -1|
 
 
 
@@ -113,7 +113,7 @@ Scenario: Delete Student Program Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta     |
       |studentProgramAssociation              |        -1|
-#      |recordHash                             |        -1|
+      |recordHash                             |        -1|
 
   Scenario: Delete All Student Program Association with cascade = false, force = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -139,7 +139,7 @@ Scenario: Delete Student Program Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta      |
       |studentProgramAssociation              |        -49|
-#      |recordHash                             |        -1|
+      |recordHash                             |        -49|
     And I should see following map of entry counts in the corresponding collections:
       |collectionName                         |count    |
       |studentProgramAssociation              |      0  |
@@ -169,4 +169,4 @@ Scenario: Delete Student Program Association with cascade
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta     |
       |studentProgramAssociation              |        -1|
-#      |recordHash                             |        -1|
+      |recordHash                             |        -1|

@@ -4,7 +4,7 @@
   <Student id="ID001">
     <StudentUniqueStateId><![CDATA[<Unique
 ID>]]></StudentUniqueStateId>
-    <StudentIdentificationCode IdentificationSystem="SSN" AssigningOrganizationCode="XJo-xQ.tcIYkXhRPQ7gZXGv">
+    <StudentIdentificationCode IdentificationSystem="State" AssigningOrganizationCode="XJo-xQ.tcIYkXhRPQ7gZXGv">
       <IdentificationCode>qVDzEH4OYsrbM__ZnGSF93BSrryuXJrRKOAi9QE_vfe2iWCSWvHFf5F</IdentificationCode>
     </StudentIdentificationCode>
     <StudentIdentificationCode IdentificationSystem="National Migrant"

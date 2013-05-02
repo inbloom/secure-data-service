@@ -12,14 +12,14 @@
     <StaffIdentificationCode IdentificationSystem="Medicaid" AssigningOrganizationCode="DBrJTRtja">
       <ID>CsJnQKpdweS-2.kAmGG7ja2cqFXSlqHgWK_I37Gt5_</ID>
     </StaffIdentificationCode>
-    <StaffIdentificationCode IdentificationSystem="Canadian SIN"
+    <StaffIdentificationCode IdentificationSystem="State"
       AssigningOrganizationCode="vSdkptbIICoQpSDtzVKZqTiPEcd0KAkEJ6o1gn-Xu6ueC9HAm9YvIR9">
       <ID>t2VbBUTI3CcqV88FDZf</ID>
     </StaffIdentificationCode>
-    <StaffIdentificationCode IdentificationSystem="Canadian SIN" AssigningOrganizationCode="AAOSqLqGH51zHGg_yDwixy_x9FQlco9WaBZI2DJC">
+    <StaffIdentificationCode IdentificationSystem="State" AssigningOrganizationCode="AAOSqLqGH51zHGg_yDwixy_x9FQlco9WaBZI2DJC">
       <ID>xrVrJgG19E1Bq</ID>
     </StaffIdentificationCode>
-    <StaffIdentificationCode IdentificationSystem="SSN" AssigningOrganizationCode="Etz1JKzRi1W995.">
+    <StaffIdentificationCode IdentificationSystem="State" AssigningOrganizationCode="Etz1JKzRi1W995.">
       <ID>pkIAY-3-wG9wgVhzJbxGRXt</ID>
     </StaffIdentificationCode>
     <Name Verification="Entry in family Bible">

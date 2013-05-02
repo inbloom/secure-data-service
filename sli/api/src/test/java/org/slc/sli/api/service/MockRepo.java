@@ -131,6 +131,11 @@ public class MockRepo implements Repository<Entity> {
 
     @Override
     public Entity findById(String entityType, String id) {
+        return findById(entityType, id, false);
+    }
+
+    @Override
+    public Entity findById(String entityType, String id, boolean allFields) {
         return repo.get(entityType).get(id);
     }
 
@@ -406,6 +411,11 @@ public class MockRepo implements Repository<Entity> {
 
     @Override
     public Entity findOne(String entityType, NeutralQuery neutralQuery) {
+    	return findOne(entityType, neutralQuery, false);
+    }
+
+    @Override
+    public Entity findOne(String entityType, NeutralQuery neutralQuery, boolean allFields) {
 
         Iterator<Entity> iter = this.findAll(entityType, neutralQuery).iterator();
         return iter.hasNext() ? iter.next() : null;
@@ -486,6 +496,11 @@ public class MockRepo implements Repository<Entity> {
             @Override
             public Map<String, List<Entity>> getContainerData() {
                 return null;
+            }
+
+            @Override
+            public void hollowOut() {
+                // override super implementation with empty implementation
             }
         };
 
@@ -585,6 +600,11 @@ public class MockRepo implements Repository<Entity> {
             @Override
             public Map<String, List<Entity>> getContainerData() {
                 return null;
+            }
+
+            @Override
+            public void hollowOut() {
+                // override super implementation with empty implementation
             }
         };
 

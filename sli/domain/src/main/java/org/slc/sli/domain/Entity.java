@@ -91,4 +91,9 @@ public interface Entity {
      * @return container entities
      */
     public Map<String, List<Entity>> getContainerData();
+
+    /*
+     * Hollow out an entity by removing its body and metadata.
+     */
+    public void hollowOut();
 }

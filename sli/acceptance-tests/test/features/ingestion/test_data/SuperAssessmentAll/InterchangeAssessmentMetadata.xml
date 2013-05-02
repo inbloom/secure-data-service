@@ -1,0 +1,317 @@
+<?xml version="1.0"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+<AssessmentFamily>
+    <AssessmentFamilyTitle>2002 Third grade Standard</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode IdentificationSystem="State">
+        <ID>2002 Third grade Standard</ID>
+    </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
+    <AssessmentPeriods>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-3-2002</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriods>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+</AssessmentFamily>
+
+<Assessment>
+    <AssessmentTitle>2002-Third grade Assessment 1</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>2002-Third grade Assessment 1</ID>
+    </AssessmentIdentificationCode>
+    <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-3-2002</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2002-Third grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyTitle>2002 Third grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+</Assessment>
+
+<AssessmentItem>
+    <AssessmentReference>
+        <AssessmentIdentity>
+            <AssessmentTitle>2002-Third grade Assessment 1</AssessmentTitle>
+            <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+        </AssessmentIdentity>
+    </AssessmentReference>
+    <IdentificationCode>2002-Third grade Assessment 1#1</IdentificationCode>
+    <ItemCategory>True-False</ItemCategory>
+    <MaxRawScore>10</MaxRawScore>
+    <CorrectResponse>true</CorrectResponse>
+</AssessmentItem>
+
+<ObjectiveAssessment>
+  <IdentificationCode>2002-Third grade Assessment 1.OA-0</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 1</Objective>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 2</Objective>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 3</Objective>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 4</Objective>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 5</Objective>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 1.OA-0 Sub</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Third grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>  
+  
+  <ObjectiveAssessment>
+  <IdentificationCode>2002-Third grade Assessment 1.OA-0 Sub</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <AssessmentItemReference>
+      <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Third grade Assessment 1#1</AssessmentItemIdentificationCode>
+      </AssessmentItemIdentity>
+  </AssessmentItemReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 1</Objective>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 2</Objective>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 3</Objective>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 4</Objective>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 5</Objective>
+      <AcademicSubject>Social Studies</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Third grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+<ObjectiveAssessment>
+  <IdentificationCode>2002-Third grade Assessment 1.OA-1</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 1</Objective>
+      <AcademicSubject>Science</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 2</Objective>
+      <AcademicSubject>Science</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 3</Objective>
+      <AcademicSubject>Science</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 4</Objective>
+      <AcademicSubject>Science</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 5</Objective>
+      <AcademicSubject>Science</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 1.OA-1 Sub</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Third grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+<ObjectiveAssessment>
+  <IdentificationCode>2002-Third grade Assessment 1.OA-1 Sub</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 1</Objective>
+      <AcademicSubject>Science</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 2</Objective>
+      <AcademicSubject>Science</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 3</Objective>
+      <AcademicSubject>Science</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 4</Objective>
+      <AcademicSubject>Science</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 5</Objective>
+      <AcademicSubject>Science</AcademicSubject>
+      <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Third grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+
+
+
+
+</InterchangeAssessmentMetadata>
