@@ -36,7 +36,7 @@ public class LEAExtractorFactory {
         return new StudentExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToLeaCache());
     }
     
-    public AttendanceExtractor buildAttendanceExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+    public EntityExtract buildAttendanceExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo, EntityToLeaCache studentCache) {
         return new AttendanceExtractor(extractor, map, repo, new ExtractorHelper(), studentCache);
     }
