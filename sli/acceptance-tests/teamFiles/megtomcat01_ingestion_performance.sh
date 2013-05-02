@@ -34,6 +34,9 @@ sh log_purge_duration.sh
     Sliders-megatron@wgen.net \
     okrook@wgen.net \
     rborde@wgen.net \
+    rmiller@wgen.net \
+    cwilson@contractor.wgen.net \
+    rfarris@wgen.net \
     < message.txt
 
 echo "Done!"

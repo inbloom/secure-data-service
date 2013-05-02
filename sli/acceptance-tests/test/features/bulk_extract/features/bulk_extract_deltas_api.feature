@@ -61,26 +61,25 @@ Scenario: Ingest education organization and perform delta
   #The expected behavior is that the old LEA that school used to belong to would receive an delete file, and
   #the new LEA would only receive a update file since the delete event is not applicable to the new LEA
   And I ingested "deltas_move_between_edorg.zip" dataset
-
- When I trigger a delta extract
-  And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
-  And I verify "2" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
- # should see no delete file for lea 1
-  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
-    |  entityType                            |
-    |  school                                |
-    |  educationOrganization                 |
-  And I verify this "school" file contains:
-    | id                                          | condition                             |
-    | 54b4b51377cd941675958e6e81dce69df801bfe8_id | stateOrganizationId=Daybreak Podunk High |
+    When I trigger a delta extract
+      And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
+      And I verify "2" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+      # should see no delete file for lea 1
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  school                                |
+        |  educationOrganization                 |
+      And I verify this "school" file should contains:
+          | id                                          | condition                             |
+          | 54b4b51377cd941675958e6e81dce69df801bfe8_id | stateOrganizationId=Daybreak Podunk High |
       
-  # should only see delete file for lea 2
-  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
-    |  entityType                            |
-    |  deleted                               |
-  And I verify this "deleted" file contains:
-    | id                                          | condition                             |
-    | 54b4b51377cd941675958e6e81dce69df801bfe8_id | entityType = school                   |
+      # should only see delete file for lea 2
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  deleted                               |
+      And I verify this "deleted" file should contains:
+          | id                                          | condition                             |
+          | 54b4b51377cd941675958e6e81dce69df801bfe8_id | entityType = school                   |
 
 Scenario: Ingest SEA update and verify no deltas generated
   Given I clean the bulk extract file system and database
@@ -101,27 +100,26 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
   Given I clean the bulk extract file system and database
     And I ingested "deltas_delete_sea.zip" dataset
   # We will see a warning file on cascading delete -- there are a lot of children of this SEA
-  
-  When I trigger a delta extract
-   And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
-   And I verify "1" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
-   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
-     |  entityType                            |
-     |  deleted                               |
-   And I verify this "deleted" file contains:
-     | id                                          | condition                             |
-     | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = educationOrganization    |
-     | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = school                   |
+    When I trigger a delta extract
+      And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
+      And I verify "1" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  deleted                               |
+      And I verify this "deleted" file should contains:
+          | id                                          | condition                             |
+          | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = educationOrganization    |
+          | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = school                   |
 
-   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
-     |  entityType                            |
-     |  deleted                               |
-   And I verify this "deleted" file contains:
-     | id                                          | condition                             |
-     | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = educationOrganization    |
-     | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = school                   |
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  deleted                               |
+      And I verify this "deleted" file should contains:
+          | id                                          | condition                             |
+          | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = educationOrganization    |
+          | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = school                   |
 
-  Then I reingest the SEA so I can continue my other tests
+    Then I reingest the SEA so I can continue my other tests
 
 Scenario: Create a new education organization through the API and perform delta
   Given I clean the bulk extract file system and database
@@ -171,7 +169,7 @@ Scenario: Delete an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
- When I "DELETE" the "orphanEdorg" for a "orphanEdorg" entity to "not exist"
+ When I DELETE an "orphanEdOrg"
  Then I should receive a return code of 204
  When I trigger a delta extract
   And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
@@ -208,22 +206,22 @@ Scenario: Generate deltas for parents through ingestion
 Given I clean the bulk extract file system and database
   And I am using local data store
   And I ingest "deltas_parents.zip"
+  When I trigger a delta extract
+    And I untar and decrypt the delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+      Then I should see "1" bulk extract files
+    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  parent                                |
+        |  studentParentAssociation              |
+        |  deleted                               |
+    Then The "parent" delta was extracted in the same format as the api
+    And The "parentStudentAssociation" delta was extracted in the same format as the api
+      And I verify this "deleted" file should contains:
+          | id                                          | condition                             |
+          | "<deleted_parent_id>"                       | entityType = parent                   |
+          | "<deleted_studentParentAssociation_id>"     | entityType = studentParentAssociation |
 
- When I trigger a delta extract
-  And I untar and decrypt the delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
- Then I should see "1" bulk extract files
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
-    |  entityType                            |
-    |  parent                                |
-    |  studentParentAssociation              |
-    |  deleted                               |
- Then The "parent" delta was extracted in the same format as the api
-  And The "parentStudentAssociation" delta was extracted in the same format as the api
-  And I verify this "deleted" file contains:
-    | id                                          | condition                             |
-    | "<deleted_parent_id>"                       | entityType = parent                   |
-    | "<deleted_studentParentAssociation_id>"     | entityType = studentParentAssociation |
 
 @wip
 Scenario: Generate and verify deltas for parents through API PUT, POST, PATCH, DELETE
@@ -244,7 +242,7 @@ Given I clean the bulk extract file system and database
   And The "educationOrganization" delta was extracted in the same format as the api
 
  # UPDATE/UPSERT parent entity via PUT
- When I "PUT" the "postalCode" for a "parent" entity to "11012"
+ When I "PUT" the "loginId" for a "parent" entity to "sue@bazinga.com"
  Then I should receive a return code of 204
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
@@ -273,34 +271,41 @@ Given I clean the bulk extract file system and database
 @wip
 Scenario: deltas for student/studentSchoolAssociation/studentAssessment and studentGradebookEntry
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
-  and nothing is generated for lea2.
+  and only a delete file is generated for lea2.
   Updated two students, 11 and 12, 12 lost contextual resolution to LEA1, so it should not appear
   in the extract file.  
 Given I clean the bulk extract file system and database
   And I ingested "student_high_cardinality_entities.zip" dataset
+  When I trigger a delta extract
+     And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
+     And I verify "1" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+     And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  deleted                               |
+     And I verify this "deleted" file should contains:
+       | id                                          | condition                                |
+       | 07e539779ef81bb36e2936cab7504489a2a3757e_id | entityType = studentSchoolAssociation    |
 
- When I trigger a delta extract
-  And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
-  And I verify "0" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
-  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
-    |  entityType                            |
-    |  student                               |
-    |  studentSchoolAssociation              | 
-    |  studentAssessment                     | 
-    |  studentGradebookEntry                 |
-    |  deleted                               |
+     And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  student                               |
+       |  studentSchoolAssociation              | 
+       |  studentAssessment                     | 
+       |  studentGradebookEntry                 |
+       |  deleted                               |
+   
+     And I verify this "deleted" file should contains:
+       | id                                          | condition                                |
+       | 07e539779ef81bb36e2936cab7504489a2a3757e_id | entityType = studentSchoolAssociation    |
+     And I verify this "student" file should contains: 
+       | id                                          | condition                                |
+       | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                | 
+     And I verify this "student" file should not contains: 
+       | id                                          | condition                                |
+       | 609640f6af263faad3a0cbee2cbe718fb71b9ab2_id |                                          | 
+     And I verify this "studentSchoolAssociation" file should contains:
+         | id                                          | condition                                |
+         | 68c4855bf0bdcc850a883d88fdf953b9657fe255_id | exitWithdrawDate = 2014-05-31            |
   
-  And I verify this "student" file contains:
-    | id                                          | condition                                |
-    | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                |
-  And I verify this "studentSchoolAssociation" file contains:
-    | id                                          | condition                                |
-    | 68c4855bf0bdcc850a883d88fdf953b9657fe255_id | exitWithdrawDate = 2014-05-31            |
-  
-  And The "student" delta was extracted in the same format as the api
-  And The "studentSchoolAssociation" delta was extracted in the same format as the api
-  And The "studentAssessment" delta was extracted in the same format as the api
-  And The "studentGradebookEntry" delta was extracted in the same format as the api
-
 Scenario: Be a good neighbor and clean up before you leave
-Given I clean the bulk extract file system and database
+        Given I clean the bulk extract file system and database

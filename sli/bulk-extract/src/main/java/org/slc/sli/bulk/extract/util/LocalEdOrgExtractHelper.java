@@ -1,12 +1,5 @@
 package org.slc.sli.bulk.extract.util;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -18,6 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Utils to extract LEAs
  */
@@ -25,12 +25,12 @@ import org.springframework.stereotype.Component;
 public class LocalEdOrgExtractHelper {
 
     private Set<String> extractLEAs;
-    public static final Object STATE_EDUCATION_AGENCY = "State Education Agency";
 
     @Autowired
     @Qualifier("secondaryRepo")
     Repository<Entity> repository;
 
+    private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
 
     /**
      * Returns all top level LEAs that will be extracted in the tenant
@@ -52,17 +52,17 @@ public class LocalEdOrgExtractHelper {
         return extractLEAs;
     }
 
-    private Set<String> getTopLevelLEAs() {
+    public Set<String> getTopLevelLEAs() {
         Set<String> topLEAs = new HashSet<String>();
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES,
                 NeutralCriteria.CRITERIA_IN, Arrays.asList(STATE_EDUCATION_AGENCY)));
-        final Iterable<Entity> entities = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        final Iterable<String> seaIds = repository.findAllIds(EntityNames.EDUCATION_ORGANIZATION, query);
 
-        if (entities != null) {
-            for (Entity entity : entities) {
+        if (seaIds != null) {
+            for (String seaId : seaIds) {
                 query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
-                        NeutralCriteria.CRITERIA_IN, Arrays.asList(entity.getEntityId())));
+                        NeutralCriteria.CRITERIA_IN, Arrays.asList(seaId)));
                 final Iterable<String> topLevelLEAs = repository.findAllIds(EntityNames.EDUCATION_ORGANIZATION, query);
                 for (String topLevelLEA : topLevelLEAs) {
                     topLEAs.add(topLevelLEA);
@@ -103,7 +103,8 @@ public class LocalEdOrgExtractHelper {
         Set<String> appIds = new HashSet<String>();
         for (Entity app : apps) {
             if (app.getBody().containsKey("isBulkExtract") && (Boolean) app.getBody().get("isBulkExtract")) {
-                if (((Map<String, Object>) app.getBody().get("registration")).get("status").equals("APPROVED")) {
+                if (app.getBody().containsKey("registration") &&
+                        "APPROVED".equals(((Map<String, Object>) app.getBody().get("registration")).get("status"))) {
                     appIds.add(app.getEntityId());
                 }
             }

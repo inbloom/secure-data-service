@@ -175,10 +175,10 @@ Given /^I trigger a delta extract$/ do
 end
 
 Given /^the extraction zone is empty$/ do
-    if (Dir.exists?(OUTPUT_DIRECTORY))
-      puts OUTPUT_DIRECTORY
-      FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
-    end
+  if (Dir.exists?(OUTPUT_DIRECTORY))
+    puts OUTPUT_DIRECTORY
+    FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
+  end
 end
 
 Given /^I have delta bulk extract files generated for today$/ do
@@ -286,7 +286,7 @@ When /^the extract contains a file for each of the following entities with the a
 	end
 
   fileList = Dir.entries(@unpackDir)
-	assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
+	assert((fileList.size-3)>=table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
 end
 
 When /^a "(.*?)" extract file exists$/ do |collection|
@@ -355,7 +355,7 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
   out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\"")
   match = /token is (.*)/.match(out)
   @sessionId = match[1]
-  puts("The generated token is #{@sessionId}") if $SLI_DEBUG
+  puts "The generated token is #{@sessionId}" if $SLI_DEBUG
 end
 
 When /^I try to POST to the bulk extract endpoint/ do
@@ -401,84 +401,12 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
   untar(@fileDir)
 end
 
-When /^I POOP an entity of type "(.*?)"$/ do |entity|
-  @entityData = {
-    "educationOrganization" => {
-      "organizationCategories" => ["School"],
-      "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
-      "nameOfInstitution" => "Gotham City School District",
-      "address" => [
-                "streetNumberName" => "222 Ave D",
-                "city" => "Chicago",
-                "stateAbbreviation" => "IL",
-                "postalCode" => "10098",
-                "nameOfCounty" => "Hooray"
-                ],
-      "parentEducationAgencyReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
-    },
-  "invalidEducationOrganization" => {
-      "organizationCategories" => ["School"],
-      "stateOrganizationId" => "SchoolInAnInvalidDistrict",
-      "nameOfInstitution" => "Donkey School Wrong District",
-      "address" => [
-                "streetNumberName" => "999 Ave FAIL",
-                "city" => "Chicago",
-                "stateAbbreviation" => "IL",
-                "postalCode" => "10098",
-                "nameOfCounty" => "Whoami"
-                ],
-      "parentEducationAgencyReference" => "ffffffffffffffffffffffffffffffffffffffff_id"
-    }
-  }
-  @fields = @entityData[entity]
-  api_version = "v1"
-  step "I navigate to POST \"/v1/educationOrganizations\""
-  puts "Session ID is #{@sessionId}"
-  headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  #assert(headers['location'] != nil, "There is no location link from the previous request")
-
-end
-
-When /^I POOP the response body for a "(.*?)" in "(.*?)"$/ do |entity, edorg|
-  @response_map = Hash.new
-  @api_version = "v1"
-  # Entity to URI map for GET operations
-  @assocUrlGet = {
-    "school" => "educationOrganizations/#{edorg}/schools?limit=1",
-    "educationOrganization" => "educationOrganizations",
-    "courseOffering" => "courseOfferings",
-    "parent" => "parents",
-    "section" => "sections",
-    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-    "staffProgramAssociation" => "staffProgramAssociations",
-    "studentCohortAssocation" => "studentCohortAssociations",
-    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-    "studentParentAssociation" => "studentParentAssociations",
-    "studentProgramAssociation" => "studentProgramAssociations",
-    "studentSectionAssociation" => "studentSectionAssociations",
-    "teacherSchoolAssociation" => "teacherSchoolAssociations",
-  }
-  # Perform GET request and verify we get a response and a response body
-  restHttpGet("/#{@api_version}/#{@assocUrlGet[entity]}")
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.body != nil, "Response body is nil")
-  # Store the response in an entity-specific response map
-  @response_map[entity] = JSON.parse(@res)
-  # Fail if we do not find the entity in response body from GET request
-  assert(@response_map[entity] != nil, "No response body for #{entity} returned by GET request")
-  begin
-    # Strip off the outside array on the entity I want to update
-    @fields = @response_map[entity][0]
-  rescue NoMethodError
-    puts "The entity #{entity} does not exist in the json response field:"
-    puts @response_map
-    raise
-  end
-end
-
 When /^I POST a "(.*?)" of type "(.*?)"$/ do |entity, type|
   step "I \"POST\" the \"#{entity}\" for a \"#{type}\" entity to \"dummy\""
+end
+
+When /^I DELETE an "(.*?)"$/ do |entity|
+  step "I \"DELETE\" the \"#{entity}\" for a \"#{entity}\" entity to \"dummy\""
 end
 
 # REST Helper step for PUT, PATCH, POST, and DELETE
@@ -489,7 +417,7 @@ When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, 
   response_map = getEntityBodyFromApi(entity, @api_version, verb)
   # Determine the body to be put/post/patch/delete by the restHttp<Verb>() proc
   body = prepareBody(verb, field, entity, value, response_map)
-  # Retrieve entity to endpoint map for CRUD operation
+  # Retrieve entity-to-endpoint map for CRUD operation
   endpoint = getEntityEndpoint(entity)
   # Invoke API to perform CRUD operation
   uri = "/#{@api_version}/#{endpoint}"
@@ -636,6 +564,14 @@ Then /^I should see "(.*?)" bulk extract files$/ do |count|
   checkTarfileCounts(directory, count)
 end
 
+Then /^I should see "(.*?)" bulk extract SEA-public data file for the tenant "(.*?)" and application with id "(.*?)"$/ do |count, tenant, app_id|
+  query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isPublicData" => true}
+  count = count.to_i
+  checkMongoQueryCounts("bulklExtractFiles", query, count);
+  getExtractInfoFromMongo(tenant, app_id, false, query)
+  assert(File.exists(@encryptFilePath), "SEA public data doesn't exist.")
+end
+
 Then /^there should be no deltas in mongo$/ do
   checkMongoCounts("bulkExtractFiles", 0)
 end
@@ -664,11 +600,15 @@ Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)
 
 end
 
-Then /^I verify this "(.*?)" file contains:$/ do |file_name, table|
+Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name, should, table|
+    look_for = should.downcase == "should"
     json_file_name = @unpackDir + "/#{file_name}.json"
-    exists = File.exists?(json_file_name+".gz")
-    assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
-    `gunzip #{json_file_name}.gz`
+    exists = File.exists?(json_file_name)
+    unless exists
+      exists = File.exists?(json_file_name+".gz") 
+      assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
+      `gunzip #{json_file_name}.gz`
+    end
     json = JSON.parse(File.read("#{json_file_name}"))
 
     json_map = to_map(json)
@@ -676,7 +616,11 @@ Then /^I verify this "(.*?)" file contains:$/ do |file_name, table|
         id = entity['id']
         json_entities = json_map[id]
         field, value = entity['condition'].split('=').map{|s| s.strip}
-        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
+        if ((entity['condition'].nil? || entity['condition'].empty?) && !look_for) 
+            assert(json_entities.nil?, "Entity with id #{id} should not exist, but it does")
+            next 
+        end
+        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}") 
         success = false
         json_entities.each {|e|
             # we may have multiple entities with the same id in the delete file
@@ -686,7 +630,11 @@ Then /^I verify this "(.*?)" file contains:$/ do |file_name, table|
                 break
             end
         }
-        assert(success, "can't find an entity with id #{id} that matches #{entity['condition']}")
+        if (look_for)
+            assert(success, "can't find an entity with id #{id} that matches #{entity['condition']}")
+        else
+            assert(!success, "found an entity with id #{id} that matches #{entity['condition']}, we should not have this entity")
+        end
     end
 end
 
@@ -709,6 +657,13 @@ Then /^I ingested "(.*?)" dataset$/ do |dataset|
   step "a batch job for file \"#{dataset}\" is completed in database"
   step "a batch job log has been created"
   step "I should not see an error log file created"
+end
+
+############################################################
+# Hooks
+############################################################
+After do
+  @conn.close if @conn != nil
 end
 
 ############################################################
@@ -908,7 +863,6 @@ def decryptFile(file, client_id)
   aes.iv = decrypted_iv
   @plain = aes.update(encryptedmessage) + aes.final
   if $SLI_DEBUG 
-    puts("Final is #{aes.final}")
     puts("Decrypted iv type is #{decrypted_iv.class}")
     puts("Cipher is #{aes}")
     puts("Plain text length is #{@plain.length}")
@@ -938,6 +892,13 @@ def checkMongoCounts(collection, count)
   @db = @conn["sli"]
   collection = @db[collection]
   assert(collection.count == count, "Found #{collection.count} bulkExtract mongo entries, expected #{count}")
+end
+
+def checkMongoQueryCounts(collection, query, count)
+  @db = @conn["sli"]
+  collection = @db[collection]
+  match = @db.collection(collection).find_one(query)
+  assert(match.count == count, "Found #{collection.count} bulkExtract mongo entries, expected #{count}")
 end
 
 def checkTarfileCounts(directory, count)
@@ -1087,6 +1048,13 @@ def prepareBody(verb, field, entity, value, response_map)
                     "addressType"=>"Physical",
                     "city"=>"Chicago"
                    }]
+      },
+      "parentName" => {
+        "name" => {
+          "middleName" => "ESTRING:DmjoWyZQ5zhIdacj7bJEQw==",
+          "lastSurname" => "ESTRING:S51iAaIsWBo2jTrJSbVylg==",
+          "firstName" => "ESTRING:jnCPRBl8CZWahBRSAhsFUQ=="
+        },
       }
     }
   }
@@ -1095,11 +1063,11 @@ def prepareBody(verb, field, entity, value, response_map)
   if verb == "POST"
     body = field_data[verb][field]
     @id = nil
+  # --> In the case of PATCH, set id from GET request
+  # --> set PATCH body to update field from field_data
   elsif verb == "PATCH"
-    # Retrieve the entity id from GET request
     @id = field_data["GET"]["id"]
-    # PATCH is a modification of partial entity, just set body to field
-    body = field_data["PATCH"][field] 
+    body = field_data["PATCH"][field]
   else 
     body = field_data["GET"]
     puts "body from GET request is #{body}"
@@ -1113,6 +1081,7 @@ end
 def updateApiBodyField(body, field, value, verb)
   # Modify an existing field from 
   body["address"][0]["postalCode"] = value if field == "postalCode"
+  body["loginId"] = value if field == "loginId"
   @id = value if field == "missingEntity"
   @id = getEntityId(orphanEdorg) if field == "orphanEdorg"
   return body

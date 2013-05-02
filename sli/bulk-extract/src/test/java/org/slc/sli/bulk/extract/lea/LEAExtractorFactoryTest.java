@@ -21,7 +21,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
 
 
 public class LEAExtractorFactoryTest {
@@ -47,5 +46,11 @@ public class LEAExtractorFactoryTest {
     public void testBuildExtractFile() {
         Assert.assertTrue(factory.buildLEAExtractFile("bloop", "Bleep", "BLOO BLOO", null) != null);
         Assert.assertTrue(factory.buildLEAExtractFile("bloop", "Bleep", "BLOOB BLOO", null).getClass() == ExtractFile.class);
+    }
+    
+    @Test
+    public void testBuildStudentExtractor() {
+        Assert.assertTrue(factory.buildStudentExtractor(null, null, null) != null);
+        Assert.assertTrue(factory.buildStudentExtractor(null, null, null).getClass() == StudentExtractor.class);
     }
 }
