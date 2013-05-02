@@ -196,7 +196,7 @@ def disable_NOTABLESCAN()
 end
 
 def setTableScan(enabled)
-  if ENV["TOGGLE_TABLESCANS"]
+  unless ENV["DONT_TOGGLE_TABLESCANS"]
     puts "Turning --notablescan flag #{enabled}"
     adminconn = Mongo::Connection.new
     admindb = adminconn.db('admin')
