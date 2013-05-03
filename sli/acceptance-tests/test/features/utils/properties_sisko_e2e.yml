@@ -4,6 +4,7 @@ dashboard_landing_page: "/"
 dashboard_api_server_uri: "https://sisko-api.slidev.org"
 realm_page_url: "https://sisko-api.slidev.org/api/oauth/authorize"
 browser: "firefox"
+rc_env: "sisko"
 
 admintools_server_url: "https://sisko-admin.slidev.org"
 api_server_url: "https://sisko-api.slidev.org"
