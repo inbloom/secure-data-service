@@ -27,6 +27,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
@@ -44,12 +51,6 @@ import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * This class should be concerned about how to generate the delta files per LEA per app
@@ -130,8 +131,16 @@ public class DeltaExtractor {
         }
 
         finalizeExtraction(tenant, deltaUptoTime);
+        logEntityCounts();
     }
 
+
+    private void logEntityCounts() {
+        for (Map.Entry<String, EntityExtractor.CollectionWrittenRecord> entry : appPerLeaCollectionRecords.entrySet()) {
+            EntityExtractor.CollectionWrittenRecord record = entry.getValue();
+            LOG.info(String.format("Processed for %s: %s", entry.getKey(), record.toString()));
+        }
+    }
 
     private void spamDeletes(DeltaRecord delta, Set<String> exceptions, String tenant, DateTime deltaUptoTime, Map<String, Set<String>> appsPerLEA) {
         for (Map.Entry<String, Set<String>> entry : appsPerLEA.entrySet()) {
@@ -181,10 +190,11 @@ public class DeltaExtractor {
             LOG.info("Delta generation succeed.  Clearing delta collections for any entities before: " + startTime);
             deltaEntityIterator.removeAllDeltas(tenant, startTime);
         }
+        
     }
 
     private CollectionWrittenRecord getCollectionRecord(String appId, String lea, String type) {
-        String key = appId + "_" + lea + "_" + type;
+        String key = appId + "|" + lea + "|" + type;
         if (!appPerLeaCollectionRecords.containsKey(key)) {
             EntityExtractor.CollectionWrittenRecord collectionRecord = new EntityExtractor.CollectionWrittenRecord(type);
             appPerLeaCollectionRecords.put(key, collectionRecord);
@@ -195,7 +205,7 @@ public class DeltaExtractor {
     }
 
     private ExtractFile getExtractFile(String appId, String lea, String tenant, DateTime deltaUptoTime) {
-        String key = appId + "_" + lea;
+        String key = appId + "|" + lea;
         if (!appPerLeaExtractFiles.containsKey(key)) {
             ExtractFile appPerLeaExtractFile = getExtractFilePerAppPerLEA(tenant, appId, lea, deltaUptoTime, true);
             appPerLeaExtractFiles.put(key, appPerLeaExtractFile);

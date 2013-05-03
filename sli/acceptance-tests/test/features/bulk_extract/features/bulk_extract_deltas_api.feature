@@ -268,6 +268,7 @@ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And The "educationOrganization" delta was extracted in the same format as the api
 
+@ycao
 Scenario: deltas for student/studentSchoolAssociation/studentAssessment and studentGradebookEntry
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
   and only a delete file is generated for lea2.
@@ -296,15 +297,32 @@ Given I clean the bulk extract file system and database
      And I verify this "deleted" file should contains:
        | id                                          | condition                                |
        | 07e539779ef81bb36e2936cab7504489a2a3757e_id | entityType = studentSchoolAssociation    |
+
      And I verify this "student" file should contains: 
+       #this is student 11, which has updated information
        | id                                          | condition                                |
        | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                | 
      And I verify this "student" file should not contains: 
+       #this is student 12, which has updated information, but we cut his tie with any schools
        | id                                          | condition                                |
        | 609640f6af263faad3a0cbee2cbe718fb71b9ab2_id |                                          | 
+
      And I verify this "studentSchoolAssociation" file should contains:
-         | id                                          | condition                                |
-         | 68c4855bf0bdcc850a883d88fdf953b9657fe255_id | exitWithdrawDate = 2014-05-31            |
+       #updated association for student 11 
+       | id                                          | condition                                |
+       | 68c4855bf0bdcc850a883d88fdf953b9657fe255_id | exitWithdrawDate = 2014-05-31            |
+     And I verify this "studentSchoolAssociation" file should not contains:
+       #this is an expired association, should not show up
+       | id                                          | condition                                |
+       | a13489364c2eb015c219172d561c62350f0453f3_id |                                          |
+
+     And I verify this "studentGradebookEntry" file should contains:
+       | id                                          | condition                                |
+       | 6620fcd37d1095005a67dc330e591279577aede7_id | letterGradeEarned = A                    |
+
+     And I verify this "studentAssessment" file should contains:
+       | id                                          | condition                                |
+       | 13b7e4d3dba87a9fa5a90094124ad28ce07b279a_id | scoreResults.result = 92                 |
   
 Scenario: Be a good neighbor and clean up before you leave
-        Given I clean the bulk extract file system and database
+    Given I clean the bulk extract file system and database
