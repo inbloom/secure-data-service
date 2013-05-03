@@ -10,7 +10,7 @@
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>10000000121</StateOrganizationId>
+				<StateOrganizationId>NY</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<BeginDate>2011-08-22</BeginDate>
@@ -32,7 +32,7 @@
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>10000000121</StateOrganizationId>
+				<StateOrganizationId>NY</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<BeginDate>2011-10-10</BeginDate>
@@ -54,7 +54,7 @@
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000112</StateOrganizationId>
+				<StateOrganizationId>NY</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<BeginDate>2011-11-28</BeginDate>
@@ -76,7 +76,7 @@
 		<SchoolYear>2011-2012</SchoolYear>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000112</StateOrganizationId>
+				<StateOrganizationId>NY</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<BeginDate>2012-01-23</BeginDate>
@@ -147,14 +147,14 @@
 		<TotalInstructionalDays>120</TotalInstructionalDays>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000122</StateOrganizationId>
+				<StateOrganizationId>NY</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<GradingPeriodReference>
 			<GradingPeriodIdentity>
 				<EducationalOrgReference>
 					<EducationalOrgIdentity>
-						<StateOrganizationId>1000000112</StateOrganizationId>
+						<StateOrganizationId>NY</StateOrganizationId>
 					</EducationalOrgIdentity>
 				</EducationalOrgReference>
 				<GradingPeriod>Fourth Six Weeks</GradingPeriod>
@@ -165,7 +165,7 @@
 			<GradingPeriodIdentity>
 				<EducationalOrgReference>
 					<EducationalOrgIdentity>
-						<StateOrganizationId>1000000111</StateOrganizationId>
+						<StateOrganizationId>NY</StateOrganizationId>
 					</EducationalOrgIdentity>
 				</EducationalOrgReference>
 				<GradingPeriod>Fifth Six Weeks</GradingPeriod>
@@ -176,7 +176,7 @@
 			<GradingPeriodIdentity>
 				<EducationalOrgReference>
 					<EducationalOrgIdentity>
-						<StateOrganizationId>1000000111</StateOrganizationId>
+						<StateOrganizationId>NY</StateOrganizationId>
 					</EducationalOrgIdentity>
 				</EducationalOrgReference>
 				<GradingPeriod>Sixth Six Weeks</GradingPeriod>
@@ -193,14 +193,14 @@
 		<TotalInstructionalDays>120</TotalInstructionalDays>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000112</StateOrganizationId>
+				<StateOrganizationId>NY</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<GradingPeriodReference>
 			<GradingPeriodIdentity>
 				<EducationalOrgReference>
 					<EducationalOrgIdentity>
-						<StateOrganizationId>1000000112</StateOrganizationId>
+						<StateOrganizationId>NY</StateOrganizationId>
 					</EducationalOrgIdentity>
 				</EducationalOrgReference>
 				<GradingPeriod>Fourth Six Weeks</GradingPeriod>
@@ -211,7 +211,7 @@
 			<GradingPeriodIdentity>
 				<EducationalOrgReference>
 					<EducationalOrgIdentity>
-						<StateOrganizationId>1000000111</StateOrganizationId>
+						<StateOrganizationId>NY</StateOrganizationId>
 					</EducationalOrgIdentity>
 				</EducationalOrgReference>
 				<GradingPeriod>Fifth Six Weeks</GradingPeriod>
@@ -222,7 +222,7 @@
 			<GradingPeriodIdentity>
 				<EducationalOrgReference>
 					<EducationalOrgIdentity>
-						<StateOrganizationId>1000000111</StateOrganizationId>
+						<StateOrganizationId>NY</StateOrganizationId>
 					</EducationalOrgIdentity>
 				</EducationalOrgReference>
 				<GradingPeriod>Sixth Six Weeks</GradingPeriod>
@@ -239,14 +239,14 @@
 		<TotalInstructionalDays>120</TotalInstructionalDays>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>10000000121</StateOrganizationId>
+				<StateOrganizationId>NY</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 		<GradingPeriodReference>
 			<GradingPeriodIdentity>
 				<EducationalOrgReference>
 					<EducationalOrgIdentity>
-						<StateOrganizationId>1000000112</StateOrganizationId>
+						<StateOrganizationId>NY</StateOrganizationId>
 					</EducationalOrgIdentity>
 				</EducationalOrgReference>
 				<GradingPeriod>Fourth Six Weeks</GradingPeriod>
@@ -257,7 +257,7 @@
 			<GradingPeriodIdentity>
 				<EducationalOrgReference>
 					<EducationalOrgIdentity>
-						<StateOrganizationId>1000000111</StateOrganizationId>
+						<StateOrganizationId>NY</StateOrganizationId>
 					</EducationalOrgIdentity>
 				</EducationalOrgReference>
 				<GradingPeriod>Fifth Six Weeks</GradingPeriod>
@@ -268,7 +268,7 @@
 			<GradingPeriodIdentity>
 				<EducationalOrgReference>
 					<EducationalOrgIdentity>
-						<StateOrganizationId>1000000111</StateOrganizationId>
+						<StateOrganizationId>NY</StateOrganizationId>
 					</EducationalOrgIdentity>
 				</EducationalOrgReference>
 				<GradingPeriod>Sixth Six Weeks</GradingPeriod>
