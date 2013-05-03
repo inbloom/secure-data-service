@@ -37,20 +37,46 @@ Scenario: Ingestion of Student-Orphans(Entities referring to missing student) co
     #Clear out the database
     And the "Midgar" tenant db is empty
     And I re-execute saved query "sectionHCount" to get "0" records
+    And I re-execute saved query "sectionNHCount" to get "0" records
     
     #Ingest same data set again. This time with the lone student not commented out.
     And I post "SuperSectionAll.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SuperSectionAll.zip" is completed in database
+    And I should not see an error log file created
+    And I should not see a warning log file created
     And I should see "All records processed successfully." in the resulting batch job file
     And I re-execute saved query "sectionHCount" to get "1" records
     And I re-execute saved query "sectionNHCount" to get "1" records
-
+    #Take snapshot of full bodied student
+    And I read the following entity in "Midgar" tenant and save it as "nonHollowSection"
+    | collection | field | value								      |
+    | section    | _id   |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id |
+    #Save collection counts for comparison later (Z1)
+    And I save the collection counts in "Midgar" tenant
+    
     #Delete section   
     And I post "SuperSectionOnlyDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SuperSectionOnlyDelete.zip" is completed in database
     And I should see "All records processed successfully." in the resulting batch job file
+    And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+    And I should see "records failed processing: 0" in the resulting batch job file
+    And I should see "records not considered for processing: 0" in the resulting batch job file
+    And I should see "All records processed successfully." in the resulting batch job file
+    And I should not see an error log file created
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeMasterSchedule.xml"
+    And the only errors I want to see in the resulting warning log file for "InterchangeMasterSchedule.xml" are below
+    | code    |
+    | CORE_0066|
+    #Compare saved collection counts(Z1)
+    And I see that collections counts have changed as follows in tenant "Midgar"
+    | collection                                |     delta|
+    | recordHash                                |        -1|
+    | section<hollow>                           |         1|
+    #Save collection counts for comparison later (Z2)
+    And I save the collection counts in "Midgar" tenant
     And I re-execute saved query "sectionHCount" to get "1" records
     And I re-execute saved query "sectionNHCount" to get "0" records
     
@@ -62,7 +88,15 @@ Scenario: Ingestion of Student-Orphans(Entities referring to missing student) co
     When zip file is scp to ingestion landing zone
     And a batch job for file "SuperSectionOnly.zip" is completed in database
     And I should see "All records processed successfully." in the resulting batch job file
+    And I should not see an error log file created
     And I re-execute saved query "sectionHCount" to get "1" records
     And I re-execute saved query "sectionNHCount" to get "1" records
+    #Compare saved collection counts(Z2)
+    And I see that collections counts have changed as follows in tenant "Midgar"
+    | collection                                |     delta|
+    | recordHash                                |         1|
+    | section<hollow>                           |         -1|
+    #Take new snapshot of full bodied student and compare with old snapshot
+    And I read again the entity tagged "nonHollowSection" from the "Midgar" tenant and confirm that it is the same
 	
 
