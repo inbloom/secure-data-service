@@ -16,18 +16,26 @@
 
 package org.slc.sli.bulk.extract.lea;
 
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
+import org.slc.sli.domain.Entity;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.slc.sli.common.util.datetime.DateHelper;
-import org.slc.sli.domain.Entity;
+import java.util.TreeSet;
 
 public class ExtractorHelper {
     
     private DateHelper dateHelper;
 
+    /**
+     * returns all current schools of the student
+     * @param student
+     * @return
+     */
     public Set<String> fetchCurrentSchoolsFromStudent(Entity student) {
         if (dateHelper == null) {
             dateHelper = new DateHelper();
@@ -52,5 +60,23 @@ public class ExtractorHelper {
     
     public void setDateHelper(DateHelper helper) {
         this.dateHelper = helper;
+    }
+
+    /**
+     * returns all parents of the student
+     * @param student
+     * @return
+     */
+    public Set<String> fetchCurrentParentsFromStudent(Entity student) {
+        Set<String> parents = new TreeSet<String>();
+        if (student.getEmbeddedData().containsKey(EntityNames.STUDENT_PARENT_ASSOCIATION)) {
+            for (Entity assoc : student.getEmbeddedData().get(EntityNames.STUDENT_PARENT_ASSOCIATION)) {
+                String parentId = (String) assoc.getBody().get(ParameterConstants.PARENT_ID);
+                if (parentId != null) {
+                    parents.add(parentId);
+                }
+            }
+        }
+        return parents;
     }
 }

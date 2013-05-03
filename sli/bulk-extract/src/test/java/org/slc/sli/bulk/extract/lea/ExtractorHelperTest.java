@@ -16,17 +16,20 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class ExtractorHelperTest {
@@ -82,4 +85,33 @@ public class ExtractorHelperTest {
         Mockito.when(mockHelper.isFieldExpired(school, "exitWithdrawDate")).thenReturn(false);
         Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == edorgs.size());
     }
+
+    @Test
+    public void testFetchCurrentParentsFromStudentNullChecks() {
+
+        Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
+
+        // No denormalized data
+        Assert.assertTrue(helper.fetchCurrentParentsFromStudent(mockEntity).size() == 0);
+
+        // No items in data
+        Mockito.when(mockEntity.getEmbeddedData()).thenReturn(embeddedData);
+        Assert.assertTrue(helper.fetchCurrentParentsFromStudent(mockEntity).size() == 0);
+
+        // contains parent associations
+        Entity parentAssoc1 = Mockito.mock(Entity.class);
+        Entity parentAssoc2 = Mockito.mock(Entity.class);
+        Map<String, Object> body = Mockito.mock(Map.class);
+        Map<String, Object> body2 = Mockito.mock(Map.class);
+        Mockito.when(parentAssoc1.getBody()).thenReturn(body);
+        Mockito.when(parentAssoc2.getBody()).thenReturn(body2);
+        List<Entity> parentAssociations = Arrays.asList(parentAssoc1, parentAssoc2);
+        embeddedData.put(EntityNames.STUDENT_PARENT_ASSOCIATION, parentAssociations);
+        Assert.assertTrue(helper.fetchCurrentParentsFromStudent(mockEntity).size() == 0);
+
+        Mockito.when(body.get(Mockito.eq(ParameterConstants.PARENT_ID))).thenReturn("ParentId123");
+        Mockito.when(body2.get(Mockito.eq(ParameterConstants.PARENT_ID))).thenReturn("ParentId456");
+        Assert.assertTrue(helper.fetchCurrentParentsFromStudent(mockEntity).size() == 2);
+    }
+
 }
