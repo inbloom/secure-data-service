@@ -21,15 +21,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.X509Certificate;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -306,38 +306,24 @@ public class BulkExtract {
      *
      * @return the jax-rs response to send back.
      */
-    Response assembleLEALinksResponse(final HttpContext context, String appId, List<String> appAuthorizedUserLEAs) {
+    private Response assembleLEALinksResponse(final HttpContext context, final String appId, final List<String> appAuthorizedUserLEAs) {
         UriInfo uriInfo = context.getUriInfo();
         String linkBase = ResourceUtil.getURI(uriInfo, ResourceUtil.getApiVersion(uriInfo)).toString() + "/bulk/extract/";
-
         Map<String, Map<String, String>> leaFullLinks = new HashMap<String, Map<String, String>>();
-        Map<String, List<Map<String, String>>> leaDeltaLinks = new HashMap<String, List<Map<String, String>>>();
-        SimpleDateFormat formatter = new SimpleDateFormat(ISO_DATE_FORMAT);
-        formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Map<String, Set<Map<String, String>>> leaDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
+
         for (String leaId : appAuthorizedUserLEAs) {
+            Map<String, String> fullLink = new HashMap<String, String>();
+            Set<Map<String, String>> deltaLinks = newDeltaLinkSet();
             Iterable<Entity> leaFileEntities = getLEABulkExtractEntities(appId, leaId);
             if (leaFileEntities.iterator().hasNext()) {
-                Map<String, String> fullLink = new HashMap<String, String>();
-                List<Map<String, String>> deltaLinks = new ArrayList<Map<String, String>>();
-                for (Entity leaFileEntity : leaFileEntities) {
-                    Map<String, String> deltaLink = new HashMap<String, String>();
-                    Date date = (Date)leaFileEntity.getBody().get("date");
-                    String timeStamp = formatter.format(date);
-                    if ((Boolean) leaFileEntity.getBody().get("isDelta")) {
-                        deltaLink.put("uri", linkBase + leaId + "/delta/" + timeStamp);
-                        deltaLink.put("timestamp", timeStamp);
-                        deltaLinks.add(deltaLink);
-                    } else {  // Assume only one full extract per LEA.
-                        fullLink.put("uri", linkBase + leaId);
-                        fullLink.put("timestamp", leaFileEntity.getBody().get("date").toString());
-                    }
-                }
+                addLinks(leaId, appId, linkBase, leaFileEntities, fullLink, deltaLinks);
                 leaFullLinks.put(leaId, fullLink);
                 leaDeltaLinks.put(leaId, deltaLinks);
             }
         }
 
-        if (leaFullLinks.isEmpty() && leaDeltaLinks.isEmpty()) {
+        if (leaFullLinks.isEmpty() && leaDeltaLinks.isEmpty()) {  // No links!
             LOG.info("No LEA bulk extract files exist for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -347,7 +333,57 @@ public class BulkExtract {
         list.put("deltaLeas", leaDeltaLinks);
         ResponseBuilder builder = Response.ok(list);
         builder.header("content-type", MediaType.APPLICATION_JSON + "; charset=utf-8");
+
         return builder.build();
+    }
+
+    /**
+     * Create the delta links list for an LEA.
+     *
+     * return - Empty set to hold delta links for an LEA, sorted in reverse chronological order.
+     */
+    private Set<Map<String, String>> newDeltaLinkSet() {
+        return new TreeSet<Map<String, String>>(new Comparator<Map<String, String>>() {
+            @Override
+            public int compare(Map<String, String> link1, Map<String, String> link2) {
+                return ISODateTimeFormat.dateTime().parseDateTime(link2.get("timestamp"))
+                    .compareTo(ISODateTimeFormat.dateTime().parseDateTime(link1.get("timestamp")));
+            }
+        });
+    }
+
+    /**
+     * Create the full and delta links for each specified LEA.
+     *
+     * @param leaFullLinks - Set of LEA full links.
+     * @param leaDeltaLinks - Set of LEA delta links.
+     */
+    private void addLinks(final String leaId, final String appId, final String linkBase,
+            final Iterable<Entity> leaFileEntities, final Map<String, String> fullLink, Set<Map<String, String>> deltaLinks) {
+        for (Entity leaFileEntity : leaFileEntities) {
+            Map<String, String> deltaLink = new HashMap<String, String>();
+            String timeStamp = getTimestamp(leaFileEntity);
+            if (Boolean.TRUE.equals(leaFileEntity.getBody().get("isDelta"))) {
+                deltaLink.put("uri", linkBase + leaId + "/delta/" + timeStamp);
+                deltaLink.put("timestamp", timeStamp);
+                deltaLinks.add(deltaLink);
+            } else {  // Assume only one full extract per LEA.
+                fullLink.put("uri", linkBase + leaId);
+                fullLink.put("timestamp", timeStamp);
+            }
+        }
+    }
+
+    /**
+     * Get timestamp string from LEA entity.
+     *
+     * @param leaFileEntity - LEA entity.
+     *
+     * @return - LEA extract timestamp in ISO8601 format.
+     */
+    private String getTimestamp(final Entity leaFileEntity) {
+        Date date = (Date)leaFileEntity.getBody().get("date");
+        return ISODateTimeFormat.dateTime().print(new DateTime(date));
     }
 
     /**
@@ -494,4 +530,5 @@ public class BulkExtract {
 
         this.validator.validateCertificate(certs[0], clientId);
     }
+
 }
