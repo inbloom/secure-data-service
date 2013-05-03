@@ -9,8 +9,8 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
 Scenario: Generate a bulk extract day 0 delta    
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
-   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-  Then I should see "2" bulk extract files
+   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
+    Then I should see "2" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   Then The "educationOrganization" delta was extracted in the same format as the api
     #    Then The "parent" delta was extracted in the same format as the api
@@ -30,8 +30,8 @@ Scenario: Generate a bulk extract in a different LEAs
 
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
-   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>"
-  Then I should see "1" bulk extract files
+   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>" for "<lea2_id>"
+   Then I should see "1" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   Then The "educationOrganization" delta was extracted in the same format as the api
    And The "educationOrganization" entity with id "<ed_org_to_lea2_id>" should belong to LEA with id "<lea2_id>" 
@@ -49,8 +49,8 @@ Scenario: Ingest education organization and perform delta
    And I should not see a warning log file created
 
   When I trigger a delta extract
-   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-  Then I should see "1" bulk extract files
+   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>"
+   Then I should see "1" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   Then The "educationOrganization" delta was extracted in the same format as the api
    And The "school" delta was extracted in the same format as the api
@@ -130,8 +130,8 @@ Scenario: Create a new education organization through the API and perform delta
   Then I should receive a return code of 201   
 
   When I trigger a delta extract
-   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-  Then I should see "1" bulk extract files
+   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
+   Then I should see "1" bulk extract files
    And The "educationOrganization" delta was extracted in the same format as the api
 
 Scenario: Update an existing education organization through the API and perform delta
@@ -208,7 +208,7 @@ Scenario: Generate deltas for parents through ingestion
 
     When I trigger a delta extract
     And I request the latest bulk extract delta using the api
-    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
     Then I should see "2" bulk extract files
     When I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "1b223f577827204a1c7e9c851dba06bea6b031fe_id" in "Midgar" contains a file for each of the following entities:
@@ -268,7 +268,6 @@ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And The "educationOrganization" delta was extracted in the same format as the api
 
-@ycao
 Scenario: deltas for student/studentSchoolAssociation/studentAssessment and studentGradebookEntry
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
   and only a delete file is generated for lea2.
