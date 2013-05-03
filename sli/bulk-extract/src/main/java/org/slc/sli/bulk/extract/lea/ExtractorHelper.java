@@ -86,6 +86,9 @@ public class ExtractorHelper {
      * @return
      */
     public boolean isStaffAssociationCurrent(Entity staffAssociation) {
+        if (dateHelper == null) {
+            dateHelper = new DateHelper();
+        }
         return dateHelper.isFieldExpired(staffAssociation.getBody(), ParameterConstants.END_DATE);
     }
 }
