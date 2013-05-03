@@ -285,7 +285,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionSuperStudentDelete,
         :ingestionSuperSectionDelete,
         :ingestionSuperAssessmentDelete,
-	:ingestionSuperStudentAssessmentDelete,
+	    :ingestionSuperStudentAssessmentDelete,
         :multipleForceDeletesTest,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
