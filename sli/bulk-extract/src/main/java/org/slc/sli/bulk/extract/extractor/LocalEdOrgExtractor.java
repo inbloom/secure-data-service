@@ -88,6 +88,8 @@ public class LocalEdOrgExtractor {
         EntityExtract attendance = factory.buildAttendanceExtractor(entityExtractor, leaToExtractFileMap,
                 repository, student.getEntityCache());
         attendance.extractEntities(null);
+        EntityExtract studentSchoolAssociation = factory.buildStudentSchoolAssociationExractor(entityExtractor, leaToExtractFileMap, repository, student.getEntityCache());
+        studentSchoolAssociation.extractEntities(null);
 
         leaToExtractFileMap.closeFiles();
 

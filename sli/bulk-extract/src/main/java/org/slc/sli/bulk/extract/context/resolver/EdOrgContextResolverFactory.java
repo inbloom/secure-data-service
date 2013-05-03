@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
 
@@ -35,7 +36,7 @@ import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContex
 public class EdOrgContextResolverFactory {
     
     @Autowired
-    EducationOrganizationContextResolver edOrgContextResolver;
+    private EducationOrganizationContextResolver edOrgContextResolver;
     
     /**
      * Two things must in common for a entity to be a student direct related entity:
@@ -44,11 +45,14 @@ public class EdOrgContextResolverFactory {
      * i.e. we only check if the student belongs to a certain LEA
      */
     @Autowired
-    StudentDirectRelatedContextResolver studentDirectRelatedContextResolver;
+    private StudentDirectRelatedContextResolver studentDirectRelatedContextResolver;
     
     @Autowired
-    StudentContextResolver studentResolver;
+    private StudentContextResolver studentResolver;
 
+    @Autowired
+    private ParentContextResolver parentResolver;
+    
     /**
      * find responsible resolver for this entity type
      * 
@@ -78,6 +82,11 @@ public class EdOrgContextResolverFactory {
             // "section" story
             return studentDirectRelatedContextResolver;
         }
+        
+        if ("parent".equals(entityType)) {
+            return parentResolver;
+        }
+        
 
         return null;
     }
