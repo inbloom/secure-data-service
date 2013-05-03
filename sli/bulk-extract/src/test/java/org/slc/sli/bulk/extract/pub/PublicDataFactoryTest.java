@@ -34,15 +34,15 @@ public class PublicDataFactoryTest {
     @Test
     public void testBuildPublicEdOrgExtract() {
         Assert.assertTrue(factory.buildDirectPublicDataExtract(null) != null);
-        Assert.assertTrue(factory.buildDirectPublicDataExtract(null).getClass() == DirectPublicDataExtract.class);
+        Assert.assertTrue(factory.buildDirectPublicDataExtract(null).getClass() == DirectPublicDataExtractor.class);
     }
 
     @Test
     public void testBuildAllPublicDataExtracts() {
         Assert.assertTrue(factory.buildAllPublicDataExtracts(null) != null);
-        List<PublicDataExtract> extractors = factory.buildAllPublicDataExtracts(null);
+        List<PublicDataExtractor> extractors = factory.buildAllPublicDataExtracts(null);
         Assert.assertEquals(extractors.size(), 1);
-        Assert.assertTrue(extractors.get(0).getClass() == DirectPublicDataExtract.class);
+        Assert.assertTrue(extractors.get(0).getClass() == DirectPublicDataExtractor.class);
     }
 
 }

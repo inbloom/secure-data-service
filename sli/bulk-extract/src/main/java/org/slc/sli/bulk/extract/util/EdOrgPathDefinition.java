@@ -16,35 +16,33 @@
 
 package org.slc.sli.bulk.extract.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * User: ablum
  */
-public enum PublicData {
+public enum EdOrgPathDefinition {
 
     STATE_EDUCATION_AGENCY("educationOrganization", "_id"),
-    SCHOOL("educationOrganization", "body.parentEducationAgencyReference"),
+    LOCAL_EDUCATION_AGENCY("educationOrganization", "body.parentEducationAgencyReference"),
+    SCHOOL("school", "body.parentEducationAgencyReference"),
     COURSE("course", "body.schoolId"),
     COURSE_OFFERING("courseOffering", "body.schoolId"),
     SESSION("session", "body.schoolId"),
     GRADUATION_PLAN("graduationPlan", "body.educationOrganizationId");
 
-    private final String entity;
-    private final String pathToEdOrg;
+    private final String entityName;
+    private final String edOrgRefField;
 
-    PublicData(String entity, String pathToEdOrg) {
-        this.entity = entity;
-        this.pathToEdOrg = pathToEdOrg;
+    EdOrgPathDefinition(String entityName, String edOrgRefField) {
+        this.entityName = entityName;
+        this.edOrgRefField = edOrgRefField;
     }
 
-    public String getEntity() {
-        return entity;
+    public String getEntityName() {
+        return entityName;
     }
 
-    public String getPathToEdOrg() {
-        return pathToEdOrg;
+    public String getEdOrgRefField() {
+        return edOrgRefField;
     }
 
 }

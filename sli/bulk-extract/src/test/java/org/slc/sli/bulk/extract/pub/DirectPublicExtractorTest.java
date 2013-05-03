@@ -25,23 +25,24 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 /**
  * User: ablum
  */
-public class DirectPublicExtractTest {
+public class DirectPublicExtractorTest {
 
     private EntityExtractor extractor;
     private ExtractFile file;
-    private DirectPublicDataExtract edorg;
+    private DirectPublicDataExtractor edorg;
 
     @Before
     public void setUp() throws Exception {
         extractor = Mockito.mock(EntityExtractor.class);
         file = Mockito.mock(ExtractFile.class);
-        edorg = new DirectPublicDataExtract(extractor);
+        edorg = new DirectPublicDataExtractor(extractor);
     }
 
     @Test
     public void testExtractEducationOrganization() {
         edorg.extract("SEA", file);
         Mockito.verify(extractor, Mockito.times(2)).extractEntities(file, "educationOrganization");
+        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "school");
     }
 
     @Test

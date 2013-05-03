@@ -31,8 +31,66 @@ Scenario: As an bulk extract user, I want to be able to get the state public ent
     Then I trigger a bulk extract
     Then I should see "1" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
 
+@wip
+Scenario Outline: Extract should have all the valid data for the SEA
+    When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    And there is a metadata file in the extract
+    And the extract contains a file for each of the following entities:
+      |  entityType                            |
+      |  course                                |
+      |  courseOffering                        |
+      |  educationOrganization                 |
+      |  graduationPlan                        |
+      |  school                                |
+      |  session                               |
+    Then the <entity> has the correct number of SEA public data records
+    Then I verify that the <entity> reference an SEA only
 
-Scenario: Bulk extract should fail if there are more than 1 SEA in the tenant.
+    Examples:
+    | entity                                 |
+    |  course                                |
+    |  courseOffering                        |
+    |  educationOrganization                 |
+    |  graduationPlan                        |
+    |  school                                |
+    |  session                               |
+
+@wip
+Scenario Outline: One of the entity doesn't reference the SEA
+    Given the extraction zone is empty
+    And the bulk extract files in the database are scrubbed
+    And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    And no <entity> references the SEA
+    Then I trigger a bulk extract
+    Then I should see "1" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    And there is a metadata file in the extract
+    Then I verify that extract does not contain a file for <entity>
+
+    Examples:
+    | entity                                 |
+    |  course                                |
+
+  @wip
+  Scenario Outline: None of the entities reference the SEA
+    Given the extraction zone is empty
+    And the bulk extract files in the database are scrubbed
+    And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    And no <entity> references the SEA
+    Then I trigger a bulk extract
+    Then I should see "0" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+
+    Examples:
+    | entity                                 |
+    |  courseOffering                        |
+    |  educationOrganization                 |
+    |  graduationPlan                        |
+    |  school                                |
+    |  session                               |
+
+  Scenario: Bulk extract should fail if there are more than 1 SEA in the tenant.
 	Given I am using local data store
 	And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "ExtendedSEA.zip" file as the payload of the ingestion job
@@ -47,5 +105,15 @@ Scenario: Bulk extract should fail if there are more than 1 SEA in the tenant.
     Then I should see "0" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     Then I remove the edorg with id "IL-Test" from the "Midgar" database
 
-Scenario: Clean up the SEA public data in the database
+
+@wip
+ Scenario: No SEA is available for the tenant
+   Given the extraction zone is empty
+   And the bulk extract files in the database are scrubbed
+   And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+   And There is no SEA for the tenant "Midgar"
+   Then I trigger a bulk extract
+   Then I should see "0" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+
+  Scenario: Clean up the SEA public data in the database
     Given all collections are empty
