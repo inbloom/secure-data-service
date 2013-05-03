@@ -81,8 +81,9 @@ public class LocalEdOrgExtractor {
         }
 
         // 2. EXTRACT
+        Map<String, Set<String>> edorgCache = buildEdOrgCache();
         EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
-        edorg.extractEntities(buildEdOrgCache());
+        edorg.extractEntities(edorgCache);
         StudentExtractor student = factory.buildStudentExtractor(entityExtractor, leaToExtractFileMap, repository);
         student.extractEntities(null);
         EntityExtract attendance = factory.buildAttendanceExtractor(entityExtractor, leaToExtractFileMap,
@@ -137,8 +138,8 @@ public class LocalEdOrgExtractor {
     /**
      * Returns a map that maps an edorg to it's top level LEA, used as a cache
      * to speed up extract
-     *
-     * @return
+     * 
+     * @return a map that has the lea to the set of all it's child edorgs
      */
     private Map<String, Set<String>> buildEdOrgCache() {
         Map<String, Set<String>> cache = new HashMap<String, Set<String>>();
