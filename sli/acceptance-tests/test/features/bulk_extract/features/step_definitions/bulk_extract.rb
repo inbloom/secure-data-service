@@ -640,7 +640,7 @@ Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name,
         json_entities.each {|e|
             # we may have multiple entities with the same id in the delete file
             json_value = get_field_value(e, field)
-            if (json_value == value) 
+            if (json_value.to_s == value.to_s) 
                 success = true
                 break
             end
@@ -954,7 +954,7 @@ def get_field_value(json_entity, field)
     end 
     entity = entity[f]
   }
-  entity.strip
+  entity.strip if entity.respond_to?("strip")
 end
 
 def streamBulkExtractFile(download_file, apiBody)
