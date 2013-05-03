@@ -26,12 +26,12 @@ import java.util.List;
  */
 public class PublicDataFactory {
 
-    public PublicDataExtract buildDirectPublicDataExtract(EntityExtractor extractor) {
-        return new DirectPublicDataExtract(extractor);
+    public PublicDataExtractor buildDirectPublicDataExtract(EntityExtractor extractor) {
+        return new DirectPublicDataExtractor(extractor);
     }
 
-    public List<PublicDataExtract> buildAllPublicDataExtracts(EntityExtractor extractor) {
-        List<PublicDataExtract> list = new ArrayList<PublicDataExtract>();
+    public List<PublicDataExtractor> buildAllPublicDataExtracts(EntityExtractor extractor) {
+        List<PublicDataExtractor> list = new ArrayList<PublicDataExtractor>();
         list.add(buildDirectPublicDataExtract(extractor));
         return list;
 

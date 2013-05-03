@@ -72,6 +72,14 @@ Given /^the testing device app key has been created$/ do
   @oauthRedirectURI = "http://device"
 end
 
+Given /^the pre-existing bulk extrac testing app key has been created$/ do
+  @oauthClientId = PropLoader.getProps['bulk_extract_testapp_client_id']
+  @oauthClientSecret = PropLoader.getProps['bulk_extract_testapp_secret']
+  @oauthRedirectURI = "http://device"
+  assert(@oauthClientId != nil, "Pre-existing Bulk Extract App not yet created in this env, or property was not set: bulk_extract_testapp_client_id")
+  assert(@oauthClientSecret != nil, "Pre-existing Bulk Extract App not yet created in this env, or property was not set: bulk_extract_testapp_secret")
+end
+
 When /^I navigate to the API authorization endpoint with my client ID$/ do
   url = PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
   puts url
@@ -126,20 +134,7 @@ Then /^I request and download a bulk extract file$/ do
   if (!File.exists?("extract"))
       FileUtils.mkdir("extract")
   end
-  step "the response is decrypted"
-  File.open(@filePath, 'w') {|f| f.write(@plain) }
-  assert(File.exists?(@filePath), "Bulk Extract file was unable to be download to: #{@filePath.to_s}")
-end
-
-Then /^I request and download a bulk extract file from production$/ do
-  restHttpGet("/bulk/extract/tenant", "application/x-tar", @sessionId)
-  assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
-  @filePath = PropLoader.getProps['extract_to_directory'] + "/extract.tar"
-  @unpackDir = File.dirname(@filePath) + '/unpack'
-  if (!File.exists?("extract"))
-      FileUtils.mkdir("extract")
-  end
-  step "the response is decrypted from production"
+  step "the response is decrypted using the key for app \"#{@oauthClientId}\""
   File.open(@filePath, 'w') {|f| f.write(@plain) }
   assert(File.exists?(@filePath), "Bulk Extract file was unable to be download to: #{@filePath.to_s}")
 end
