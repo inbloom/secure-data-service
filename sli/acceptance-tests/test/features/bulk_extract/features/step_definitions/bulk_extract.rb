@@ -664,7 +664,7 @@ Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name,
     unless exists
       exists = File.exists?(json_file_name+".gz") 
       assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
-      `gunzip #{json_file_name}.gz`
+      `gunzip -c #{json_file_name}.gz > #{json_file_name}`
     end
     json = JSON.parse(File.read("#{json_file_name}"))
 
@@ -1034,7 +1034,7 @@ def get_field_value(json_entity, field)
     end 
     entity = entity[f]
   }
-  entity.strip if entity.respond_to?("strip")
+  entity.to_s.strip
 end
 
 def streamBulkExtractFile(download_file, apiBody)
