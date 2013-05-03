@@ -230,6 +230,11 @@ When /^I get the path to the extract file for the tenant "(.*?)" and application
   getExtractInfoFromMongo(build_bulk_query(tenant,appId))
 end
 
+When /^I retrieve the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId, nil, false, true))
+  openDecryptedFile(appId) 
+end
+
 When /^I know the file-length of the extract file$/ do
   @file_size = File.size(@filePath)
 end
@@ -408,7 +413,6 @@ end
 
 When /^I POST a "(.*?)" of type "(.*?)"$/ do |field, entity|
   response_map = getEntityBodyFromApi(entity, @api_version, "PUT")
-  puts "DEBUG: #{entity} API format is\n #{response_map}"
   response_map, value = nil
   # POST is a special case. We are creating a brand-new entity. 
   # Get entity body from the map specified by prepareBody()
@@ -638,7 +642,7 @@ Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name,
     unless exists
       exists = File.exists?(json_file_name+".gz") 
       assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
-      `gunzip #{json_file_name}.gz`
+      `gunzip -c #{json_file_name}.gz > #{json_file_name}`
     end
     json = JSON.parse(File.read("#{json_file_name}"))
 
@@ -690,6 +694,45 @@ Then /^I ingested "(.*?)" dataset$/ do |dataset|
   step "I should not see an error log file created"
 end
 
+Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entity|
+  disable_NOTABLESCAN()
+	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  SEA = @tenantDB.collection("educationOrganization").find({"body.organizationCategories" => "State Education Agency"})
+  @SEA_id = SEA["_id"]
+
+  puts "Comparing SEA " + SEA_id
+
+  query_field = getSEAPublicRefField(entity)
+  collection = entity
+  if (entity == "school")
+    collection = "educationOrganization"
+  end
+
+  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
+	Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
+    records = JSON.parse(extractFile.read)
+    puts records
+    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
+    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
+  }
+end
+
+Then /^Then I verify that the "(.*?)" reference an SEA only$/ do |entity| 
+  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
+  Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
+    records = JSON.parse(extractFile.read)
+    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
+    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
+  }
+end
+
+Then /^I verify that extract does not contain a file for the following entities:$/ do |table|
+  table.hashes.map do |row|
+    exists = File.exists?(@unpackDir + "/" + row["entity"] + ".json.gz")
+    assert(!exists, "Found " + row["entity"] + ".json file in extracts")
+  end
+end
+
 ############################################################
 # Hooks
 ############################################################
@@ -724,7 +767,7 @@ def getExtractInfoFromMongo(query, query_opts={})
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
-  
+
   match = @coll.find_one(query, query_opts)
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
@@ -969,7 +1012,7 @@ def get_field_value(json_entity, field)
     end 
     entity = entity[f]
   }
-  entity.strip if entity.respond_to?("strip")
+  entity.to_s.strip
 end
 
 def streamBulkExtractFile(download_file, apiBody)

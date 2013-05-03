@@ -23,6 +23,7 @@ import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationConte
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
+import org.slc.sli.common.constants.EntityNames;
 
 /**
  * Factory class for context resolvers, which are used to
@@ -61,21 +62,21 @@ public class EdOrgContextResolverFactory {
      */
     public ContextResolver getResolver(String entityType) {
         
-        if ("educationOrganization".equals(entityType)) {
+        if (EntityNames.EDUCATION_ORGANIZATION.equals(entityType)) {
             return edOrgContextResolver;
         }
         
-        if ("student".equals(entityType)) {
+        if (EntityNames.STUDENT.equals(entityType)) {
             return studentResolver;
         }
 
-        if ("studentSchoolAssociation".equals(entityType)
-                || "studentAssessment".equals(entityType)
-                || "studentParentAssociation".equals(entityType)) {
+        if (EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(entityType)
+                || EntityNames.STUDENT_ASSESSMENT.equals(entityType)
+                || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(entityType)) {
             return studentDirectRelatedContextResolver;
         }
         
-        if ("studentGradebookEntry".equals(entityType)) {
+        if (EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)) {
             // for now use the simple resolver, but be advised this
             // entity may have additional business rules that is depended
             // on section. Need to revisit this entity when we play
@@ -83,7 +84,7 @@ public class EdOrgContextResolverFactory {
             return studentDirectRelatedContextResolver;
         }
         
-        if ("parent".equals(entityType)) {
+        if (EntityNames.PARENT.equals(entityType)) {
             return parentResolver;
         }
         

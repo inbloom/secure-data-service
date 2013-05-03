@@ -75,6 +75,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     static {
         Map<String, List<String>> requiredDenormalizedFields = new HashMap<String, List<String>>();
         requiredDenormalizedFields.put("student", Arrays.asList("schools"));
+        requiredDenormalizedFields.put("studentAssessment", Arrays.asList("studentAssessmentItem", "studentObjectiveAssessment"));
         REQUIRED_EMBEDDED_FIELDS = Collections.unmodifiableMap(requiredDenormalizedFields);
     }
 
