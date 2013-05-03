@@ -360,7 +360,7 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
   out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\"")
   match = /token is (.*)/.match(out)
   @sessionId = match[1]
-  puts "The generated token is #{@sessionId}" if $SLI_DEBUG
+  puts "The generated token is #{@sessionId}"
 end
 
 When /^I try to POST to the bulk extract endpoint/ do
@@ -407,6 +407,8 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
 end
 
 When /^I POST a "(.*?)" of type "(.*?)"$/ do |field, entity|
+  response_map = getEntityBodyFromApi(entity, @api_version, "PUT")
+  puts "DEBUG: #{entity} API format is\n #{response_map}"
   response_map, value = nil
   # POST is a special case. We are creating a brand-new entity. 
   # Get entity body from the map specified by prepareBody()
@@ -1005,7 +1007,7 @@ def getEntityBodyFromApi(entity, api_version, verb)
     "educationOrganization" => "educationOrganizations",
     "courseOffering" => "courseOfferings",
     "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
-    "parent" => "parents",
+    "parent" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students/studentParentAssociations/parents",
     "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
     "section" => "sections",
     "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
@@ -1071,10 +1073,50 @@ def prepareBody(verb, value, response_map)
           "parentEducationAgencyReference" => "ffffffffffffffffffffffffffffffffffffffff_id"
       },
       "newParentMother" => {
-        "parent" => {}
+        "entityType" => "parent",
+        "parentUniqueStateId" => "new-mom-1",
+        "loginId" => "new-mom@bazinga.org",
+        "sex" => "Female",
+        "telephone" => [],
+        "address" => [{
+          "streetNumberName" => "5440 Bazinga Win St.",
+          "postalCode" => "60601",
+          "stateAbbreviation" => "IL",
+          "addressType" => "Home",
+          "city" => "Chicago"
+        }],
+        "electronicMail" => [{
+          "emailAddress" => "new-mom@bazinga.org",
+          "emailAddressType" => "Home/Personal"
+        }],
+        "name" => {
+         "middleName" => "Capistrano",
+         "lastSurname" => "Samsonite",
+         "firstName" => "Mary"
+        },
       },
       "newParentFather" => {
-        "parent" => {}
+        "entityType" => "parent",
+        "parentUniqueStateId" => "new-dad-1",
+        "loginId" => "new-dad@bazinga.org",
+        "sex" => "Male",
+        "telephone" => [],
+        "address" => [{
+          "streetNumberName" => "5440 Bazinga Win St.",
+          "postalCode" => "60601",
+          "stateAbbreviation" => "IL",
+          "addressType" => "Home",
+          "city" => "Chicago"
+        }],
+        "electronicMail" => [{
+          "emailAddress" => "new-mom@bazinga.org",
+          "emailAddressType" => "Home/Personal"
+        }],
+        "name" => {
+         "middleName" => "Badonkadonk",
+         "lastSurname" => "Samsonite",
+         "firstName" => "Keith"
+        },
       }
     },
     "PATCH" => {

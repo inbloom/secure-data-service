@@ -222,14 +222,10 @@ Scenario: Generate deltas for parents through ingestion
       | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
 
 @wip
-Scenario: Generate and verify deltas for parents through API PUT, POST, PATCH, DELETE
+Scenario: Generate and verify deltas for private entities through API PUT, POST, PATCH, DELETE
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
-
- When I GET the response body for a "parent" in "<IL-DAYBREAK>"
- Then I should receive a return code of 200  
-
  # CREATE parent entity via POST
  When I POST a "newParentFather" of type "parent"
  Then I should receive a return code of 201
