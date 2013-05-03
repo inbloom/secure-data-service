@@ -71,7 +71,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       And the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:
       |  entityType                            | count |  id  | 
       #|  assessment                            |   |         |  
-      #|  attendance                            |   |         |
+      |  attendance                            | 150 |         |
       #|  cohort                                |   |         |
       #|  competencyLevelDescriptor             |   |         |
       #|  course                                |   |         |
@@ -93,21 +93,21 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       #|  section                               |   |         |
       #|  session                               |   |         |
       #|  staff                                 |   |         |
-      #|  staffCohortAssociation                |   |         |
+#      |  staffCohortAssociation                | 7 |         |
       #|  staffEducationOrganizationAssociation |   |         |
-      #|  staffProgramAssociation               |   |         |
+      # |  staffProgramAssociation               | 7 |         |
       |  student                               | 156 |         |
       #|  studentAcademicRecord                 |   |         |
       #|  studentAssessment                     |   |         |
-      #|  studentCohortAssociation              |   |         |
+      |  studentCohortAssociation              | 12 |         |
       #|  studentCompetency                     |   |         |
       #|  studentCompetencyObjective            |   |         |
-      #|  studentDisciplineIncidentAssociation  |   |         |
-      #|  studentProgramAssociation             |   |         |
+      |  studentDisciplineIncidentAssociation  |  8 |         |
+      |  studentProgramAssociation             | 12 |         |
       #|  studentGradebookEntry                 |   |         |
       |  studentSchoolAssociation              |  334 |         |
       #|  studentSectionAssociation             |   |         |
-      #|  studentParentAssociation              |   |         |
+      |  studentParentAssociation              | 18 |         |
       #|  teacher                               |   |         |
       #|  teacherSchoolAssociation              |   |         |
       #|  teacherSectionAssociation             |   |         |

@@ -110,7 +110,6 @@ import org.slc.sli.domain.Repository;
 public class BulkExtractTest {
 
     private static final String INPUT_FILE_NAME = "mock.in.tar.gz";
-
     private static final String URI_PATH = "http://local.slidev.org:8080/api/rest/v1.2";
 
     private int entityId = 0;
@@ -533,15 +532,16 @@ public class BulkExtractTest {
         body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
 
         Entity fullBulkExtractEntity = mockBulkExtractEntity(null);
-//        String timeStamp = "2013-04-30T11:51:29.279Z";
-        Date deltaTime = new Date();
-        String timeStamp = deltaTime.toString();
-        Entity deltaBulkExtractEntity1 = mockBulkExtractEntity(deltaTime);
-        Entity deltaBulkExtractEntity2 = mockBulkExtractEntity(deltaTime);
+        Date deltaTime1 = new Date(1000000000000L);
+        String timeStamp1 = ISODateTimeFormat.dateTime().print(new DateTime(deltaTime1));
+        Date deltaTime2 = new Date(2000000000000L);
+        String timeStamp2 = ISODateTimeFormat.dateTime().print(new DateTime(deltaTime2));
+        Entity deltaBulkExtractEntity1 = mockBulkExtractEntity(deltaTime1);
+        Entity deltaBulkExtractEntity2 = mockBulkExtractEntity(deltaTime2);
         List<Entity> leas = new ArrayList<Entity>();
         leas.add(fullBulkExtractEntity);
-        leas.add(deltaBulkExtractEntity1);
-        leas.add(deltaBulkExtractEntity2);
+        leas.add(0, deltaBulkExtractEntity1);  // Add in ascending time order,
+        leas.add(1, deltaBulkExtractEntity2);  // to assure forward chronology.
         Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(leas);
 
@@ -554,11 +554,16 @@ public class BulkExtractTest {
         assertEquals("Mismatched URI for full extract of LEA \"123\"", URI_PATH + "/bulk/extract/123", fullLeas.get("123").get("uri"));
         Map<String, Map<String, String>> deltaLeas = (Map<String, Map<String, String>>) list.get("deltaLeas");
         assertEquals("There should be one LEA delta extract link list", 1, deltaLeas.size());
-        List<Map<String, String>> deltaLinks = (List<Map<String, String>>) deltaLeas.get("123");
+        Set<Map<String, String>> deltaLinks = (Set<Map<String, String>>) deltaLeas.get("123");
         assertEquals("There should be two LEA delta extract links for LEA \"123\"", 2, deltaLinks.size());
-        Map<String, String> deltaLink = deltaLinks.get(0);
-        assertEquals("Mismatched URI for LEA \"123\"", timeStamp, deltaLink.get("timestamp"));
-        assertEquals("Mismatched delta extraction date for LEA \"123\"", URI_PATH + "/bulk/extract/123/delta/" + timeStamp, deltaLink.get("uri"));
+        Map<String, String> deltaLink1 = (Map<String, String>) deltaLinks.toArray()[0];
+        assertEquals("Mismatched delta extraction date for LEA \"123\"", timeStamp2, deltaLink1.get("timestamp"));
+        assertEquals("Mismatched URI for delta extract for LEA \"123\"", URI_PATH + "/bulk/extract/123/delta/" + timeStamp2, deltaLink1.get("uri"));
+        Map<String, String> deltaLink2 = (Map<String, String>) deltaLinks.toArray()[1];
+        assertEquals("Mismatched delta extraction date for LEA \"123\"", timeStamp1, deltaLink2.get("timestamp"));
+        assertEquals("Mismatched URI for delta extract for LEA \"123\"", URI_PATH + "/bulk/extract/123/delta/" + timeStamp1, deltaLink2.get("uri"));
+        assertEquals("Delta links are not in timestamp order", 1, ISODateTimeFormat.dateTime().parseDateTime(deltaLink1.get("timestamp"))
+                .compareTo(ISODateTimeFormat.dateTime().parseDateTime(deltaLink2.get("timestamp"))));
     }
 
     private Entity mockApplicationEntity() {

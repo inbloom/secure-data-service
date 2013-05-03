@@ -25,7 +25,7 @@ Scenario: Get the URL I should use to get the latest full bulk extract for a giv
 	|   deltaLeas  |  1    |
 #	|   fullSea    |  1    |
 #	|   deltaSea   |  1    |
-#	Then I make a head request with each returned URL
+	Then I make a head request with each returned URL
 
 Scenario: No URL is returned if I am not associated with the SEA or top LEA
     Given I am a valid 'service' user with an authorized long-lived token "438e472e-a888-46d1-8087-0195f4e37089"
