@@ -25,6 +25,7 @@ import java.util.List;
 public enum PublicData {
 
     STATE_EDUCATION_AGENCY("educationOrganization", "_id"),
+    SCHOOL("educationOrganization", "body.parentEducationAgencyReference"),
     COURSE("course", "body.schoolId"),
     COURSE_OFFERING("courseOffering", "body.schoolId"),
     SESSION("session", "body.schoolId"),
