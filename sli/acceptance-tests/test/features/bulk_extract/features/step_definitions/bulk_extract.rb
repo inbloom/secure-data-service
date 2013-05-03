@@ -222,12 +222,40 @@ Given /^the bulk extract files in the database are scrubbed/ do
   @coll.remove()
 end
 
+Given /^There is no SEA for the tenant "(.*?)"$/ do |tenant|
+  @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+  collection = @tenant_db.collection('educationOrganization')
+  collection.remove({'body.organizationCategories' => 'State Education Agency'})
+end
+
+Given /^I get the SEA Id for the tenant "(.*?)"$/ do |tenant|
+  @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+  edOrgcollection = @tenant_db.collection('educationOrganization')
+  @seaId = edOrgcollection.find_one({'body.organizationCategories' => 'State Education Agency'})["_id"]
+  assert (@seaId != nil)
+  puts @seaId
+end
+
+Given /^none of the following entities reference the SEA:$/ do |table|
+  table.hashes.map do |row|
+    collection = @tenant_db.collection(row["entity"])
+    collection.remove({row["path"] => @seaId})
+  end
+end
+
+
+
 ############################################################
 # When
 ############################################################
 
 When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(build_bulk_query(tenant,appId))
+end
+
+When /^I retrieve the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+  getExtractInfoFromMongo(tenant,appId,false, nil, {}, true)
+  openDecryptedFile(appId) 
 end
 
 When /^I know the file-length of the extract file$/ do
@@ -690,6 +718,38 @@ Then /^I ingested "(.*?)" dataset$/ do |dataset|
   step "I should not see an error log file created"
 end
 
+Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entity|
+  disable_NOTABLESCAN()
+	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  SEA = @tenantDB.collection("educationOrganization").find({"body.organizationCategories" => "State Education Agency"})
+  @SEA_id = SEA["_id"]
+
+  puts "Comparing SEA " + SEA_id
+
+  query_field = getSEAPublicRefField(entity)
+  collection = entity
+  if (entity == "school")
+    collection = "educationOrganization"
+  end
+
+  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
+	Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
+    records = JSON.parse(extractFile.read)
+    puts records
+    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
+    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
+  }
+end
+
+Then /^Then I verify that the "(.*?)" reference an SEA only$/ do |entity| 
+  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
+  Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
+    records = JSON.parse(extractFile.read)
+    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
+    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
+  }
+end
+
 ############################################################
 # Hooks
 ############################################################
@@ -1147,10 +1207,25 @@ def remove_edorg_from_mongo(edorg_id, tenant)
   collection.remove({'body.stateOrganizationId' => edorg_id})
 end
 
+
+def getSEAPublicRefField(entity)
+  query
+  case entity
+  when "school","educationOrganization"
+    query_field = "body.parentEducationAgencyReference"
+  when "course","courseOffering", "session"#, "gradingPeriod"
+      query_field = "body.schoolId"
+  when "graduationPlan"
+      query_field = "body.educationOrganizationId"
+  end
+  return query
+end
+
 def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
   query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
   query.merge!({"body.edorg"=>lea}) unless lea.nil?
   query
+
 end
 
 After('@scheduler') do

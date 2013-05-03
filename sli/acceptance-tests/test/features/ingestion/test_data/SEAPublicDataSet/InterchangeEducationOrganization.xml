@@ -197,4 +197,32 @@
 		</EducationOrganizationReference>
 		<UniqueCourseId>Math001-4</UniqueCourseId>
 	</Course>
+    <Course>
+        <CourseTitle>PE001</CourseTitle>
+        <NumberOfParts>1</NumberOfParts>
+        <CourseCode IdentificationSystem="CSSC course code">
+            <ID>PE001</ID>
+        </CourseCode>
+        <CourseDescription>Sports Study</CourseDescription>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>10000000121</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <UniqueCourseId>PE001-7</UniqueCourseId>
+    </Course>
+    <Course>
+        <CourseTitle>Sci127</CourseTitle>
+        <NumberOfParts>1</NumberOfParts>
+        <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Sci127</ID>
+        </CourseCode>
+        <CourseDescription>Relativistic Physics</CourseDescription>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>10000000121</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <UniqueCourseId>Sci127-8</UniqueCourseId>
+    </Course>
 </InterchangeEducationOrganization>
