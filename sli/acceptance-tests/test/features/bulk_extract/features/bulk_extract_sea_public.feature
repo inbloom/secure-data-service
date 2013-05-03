@@ -44,8 +44,8 @@ Scenario Outline: Extract should have all the valid data for the SEA
       |  graduationPlan                        |
       |  school                                |
       |  session                               |
-    Then the <entity> has the correct number of SEA public data records
-    Then I verify that the <entity> reference an SEA only
+    Then the "<entity>" has the correct number of SEA public data records
+    Then I verify that the "<entity>" reference an SEA only
 
     Examples:
     | entity                                 |
