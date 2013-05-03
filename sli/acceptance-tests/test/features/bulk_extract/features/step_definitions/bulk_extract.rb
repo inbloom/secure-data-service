@@ -342,6 +342,7 @@ end
 When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tenant "(.*?)", that lasts for "(.*?)" seconds/ do |client_appName, user, role, realm, tenant, expiration_in_seconds|
 
   @edorg = getEntityId(realm)
+  @api_version = "v1"
 
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
@@ -395,41 +396,56 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
   sleep 1
   delta = true
   getExtractInfoFromMongo(tenant, appId, delta)
-
   openDecryptedFile(appId)
   @fileDir = OUTPUT_DIRECTORY if data_store == "API"
   untar(@fileDir)
 end
 
-When /^I POST a "(.*?)" of type "(.*?)"$/ do |entity, type|
-  step "I \"POST\" the \"#{entity}\" for a \"#{type}\" entity to \"dummy\""
-end
-
-When /^I DELETE an "(.*?)" of type "(.*?)"$/ do |entity, type|
-  step "I \"DELETE\" the \"#{entity}\" for a \"#{type}\" entity to \"dummy\""
-end
-
-# REST Helper step for PUT, PATCH, POST, and DELETE
-When /^I "(.*?)" the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |verb, field, entity, value|
-  @api_version = "v1"
-  # Get the response body for the entity to be modified
-  # --> If this is a POST, response_map will be set to nil
-  response_map = getEntityBodyFromApi(entity, @api_version, verb)
-  # Determine the body to be put/post/patch/delete by the restHttp<Verb>() proc
-  body = prepareBody(verb, field, entity, value, response_map)
-  # Retrieve entity-to-endpoint map for CRUD operation
+When /^I POST a "(.*?)" of type "(.*?)"$/ do |field, entity|
+  response_map, value = nil
+  # POST is a special case. We are creating a brand-new entity. 
+  # Get entity body from the map specified by prepareBody()
+  body = prepareBody("POST", value, response_map)
+  # Get the endpoint that corresponds to the desired entity
   endpoint = getEntityEndpoint(entity)
-  # Invoke API to perform CRUD operation
-  uri = "/#{@api_version}/#{endpoint}"
-  uri = uri + "/#{@id}" if @id != nil
-  data = prepareData(@format, body)
-  puts "Session ID is #{@sessionId}" if $SLI_DEBUG
-  @res = nil
-  restHttpPut(uri, data) if verb == "PUT"
-  restHttpPost(uri, data) if verb == "POST"
-  restHttpPatch(uri, data) if verb == "PATCH"
-  restHttpDelete(uri) if verb == "DELETE"
-  assert(@res != nil, "Response from rest-client #{verb} is nil") unless verb == "PATCH"
+  restHttpPost("/#{@api_version}/#{endpoint}", prepareData(@format, body["POST"][field]))
+  assert(@res != nil, "Response from rest-client POST is nil")
+end
+
+When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
+  # Get the desired entity from mongo
+  response_map = getEntityBodyFromApi(entity, @api_version, "PUT")
+  # Modify the response body field with value, will become PUT body 
+  put_body = updateApiPutField(response_map, field, value)
+  # Get the endpoint that corresponds to the desired entity
+  endpoint = getEntityEndpoint(entity)
+  restHttpPut("/#{@api_version}/#{endpoint}/#{put_body["id"]}", prepareData(@format, put_body))
+  assert(@res != nil, "Response from rest-client PUT is nil")
+end
+
+def updateApiPutField(body, field, value)
+  # Set the GET response body as body and edit the requested field
+  body["address"][0]["postalCode"] = value if field == "postalCode"
+  body["loginId"] = value if field == "loginId"
+  body["id"] = value if field == "missingEntity"
+  return body
+end
+
+When /^I PATCH the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
+  # Get the desired entity from mongo, we will only use the _id
+  response_map = getEntityBodyFromApi(entity, @api_version, "PATCH")
+  # We will set the PATCH body to ONLY the field_values map we get from prepareBody()
+  patch_body = prepareBody("PATCH", value, response_map)
+  # Get the endpoint that corresponds to the desired entity
+  endpoint = getEntityEndpoint(entity)
+  restHttpPatch("/#{@api_version}/#{endpoint}/#{patch_body["GET"]["id"]}", prepareData(@format, patch_body["PATCH"][field]))
+  assert(@res != nil, "Response from rest-client PATCH is nil")
+end
+
+When /^I DELETE an "(.*?)" of id "(.*?)"$/ do |entity, id|
+  # Get the endpoint that corresponds to the desired entity
+  endpoint = getEntityEndpoint(entity)
+  restHttpDelete("/#{@api_version}/#{endpoint}/#{id}")
 end
 
 When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
@@ -972,7 +988,8 @@ end
 def getEntityId(entity)
   entity_to_id_map = {
     "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
-    "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+    "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+    "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id"
   }
   return entity_to_id_map[entity]
 end
@@ -1014,7 +1031,7 @@ def getEntityBodyFromApi(entity, api_version, verb)
   return response_map[0]
 end
 
-def prepareBody(verb, field, entity, value, response_map)
+def prepareBody(verb, value, response_map)
   field_data = {
     "GET" => response_map,
     "POST" => {
@@ -1031,23 +1048,29 @@ def prepareBody(verb, field, entity, value, response_map)
                   ],
         "parentEducationAgencyReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
       },
-    "invalidEducationOrganization" => {
-        "organizationCategories" => ["School"],
-        "educationOrgIdentificationCode" => [
-            {
-              "identificationSystem" => "School",
-              "ID" => "Daybreak Podunk High"
-            }],
-        "stateOrganizationId" => "SchoolInAnInvalidDistrict",
-        "nameOfInstitution" => "Donkey School Wrong District",
-        "address" => [
-                  "streetNumberName" => "999 Ave FAIL",
-                  "city" => "Chicago",
-                  "stateAbbreviation" => "IL",
-                  "postalCode" => "10098",
-                  "nameOfCounty" => "Whoami"
-                  ],
-        "parentEducationAgencyReference" => "ffffffffffffffffffffffffffffffffffffffff_id"
+      "invalidEducationOrganization" => {
+          "organizationCategories" => ["School"],
+          "educationOrgIdentificationCode" => [
+              {
+                "identificationSystem" => "School",
+                "ID" => "Daybreak Podunk High"
+              }],
+          "stateOrganizationId" => "SchoolInAnInvalidDistrict",
+          "nameOfInstitution" => "Donkey School Wrong District",
+          "address" => [
+                    "streetNumberName" => "999 Ave FAIL",
+                    "city" => "Chicago",
+                    "stateAbbreviation" => "IL",
+                    "postalCode" => "10098",
+                    "nameOfCounty" => "Whoami"
+                    ],
+          "parentEducationAgencyReference" => "ffffffffffffffffffffffffffffffffffffffff_id"
+      },
+      "newParentMother" => {
+        "parent" {}
+      },
+      "newParentFather" => {
+        "parent" {}
       }
     },
     "PATCH" => {
@@ -1060,41 +1083,16 @@ def prepareBody(verb, field, entity, value, response_map)
                     "city"=>"Chicago"
                    }]
       },
-      "parentName" => {
+      "studentParentName" => {
         "name" => {
-          "middleName" => "ESTRING:DmjoWyZQ5zhIdacj7bJEQw==",
-          "lastSurname" => "ESTRING:S51iAaIsWBo2jTrJSbVylg==",
-          "firstName" => "ESTRING:jnCPRBl8CZWahBRSAhsFUQ=="
+          "middleName" => "Fatang",
+          "lastSurname" => "ZoopBoing",
+          "firstName" => "Pang"
         },
       }
     }
   }
-  # Set the appropriate response body based on HTTP method (verb) and entity type
-  # --> In the case of POST, the entity in field_data IS the entire body
-  if verb == "POST"
-    body = field_data[verb][field]
-    @id = nil
-  # --> In the case of PATCH, set id from GET request
-  # --> set PATCH body to update field from field_data
-  elsif verb == "PATCH"
-    @id = field_data["GET"]["id"]
-    body = field_data["PATCH"][field]
-  else 
-    body = field_data["GET"]
-    @id = body["id"]
-  end
-  # Modify the desired fields of the response body for PUT operation
-  body = updateApiBodyField(body, field, value, verb) if verb == "PUT"
-  return body
-end
-
-def updateApiBodyField(body, field, value, verb)
-  # Modify an existing field from 
-  body["address"][0]["postalCode"] = value if field == "postalCode"
-  body["loginId"] = value if field == "loginId"
-  @id = value if field == "missingEntity"
-  @id = getEntityId(orphanEdorg) if field == "orphanEdorg"
-  return body
+  return field_data
 end
 
 def remove_edorg_from_mongo(edorg_id)
