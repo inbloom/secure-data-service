@@ -239,6 +239,10 @@ When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)
   openDecryptedFile(appId) 
 end
 
+When /^I decrypt the extract file with application with id "(.*?)"$/ do |appId|
+  openDecryptedFile(appId) 
+end
+
 When /^I verify that an extract tar file was created for the tenant "(.*?)"$/ do |tenant|
 
 	puts "Extract FilePath: #{@filePath}"

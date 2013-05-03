@@ -21,7 +21,7 @@ import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.pub.PublicDataExtract;
+import org.slc.sli.bulk.extract.pub.PublicDataExtractor;
 import org.slc.sli.bulk.extract.pub.PublicDataFactory;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -102,7 +102,7 @@ public class StatePublicDataExtractor {
      */
     protected void extractPublicData(String seaId, ExtractFile extractFile) {
 
-        for (PublicDataExtract data : factory.buildAllPublicDataExtracts(extractor)) {
+        for (PublicDataExtractor data : factory.buildAllPublicDataExtracts(extractor)) {
             data.extract(seaId, extractFile);
             extractFile.closeWriters();
         }
