@@ -20,19 +20,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.MapMaker;
+
 import org.joda.time.format.ISODateTimeFormat;
-import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.google.common.collect.MapMaker;
+import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Context resolver for students
@@ -54,6 +55,11 @@ public class StudentContextResolver implements ContextResolver {
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> leas = new HashSet<String>();
+        if (getStudentEdOrgCache().containsKey(entity.getEntityId())) {
+            LOG.debug("got LEAs from cache for {}", entity);
+            return getStudentEdOrgCache().get(entity.getEntityId());
+        }
+
         List<Map<String, Object>> schools = entity.getDenormalizedData().get("schools");
         if (schools != null) {
             for (Map<String, Object> school : schools) {

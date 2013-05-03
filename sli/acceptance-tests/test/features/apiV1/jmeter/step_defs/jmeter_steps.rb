@@ -239,13 +239,9 @@ def parseJtlForTimings(doc)
   map.each do |label, timings|
     integer_timings = timings.map { |x| x.to_i }
     integer_timings.sort!
-    puts "LABEL #{label}"
-    puts "SORT  #{integer_timings}"
     to_keep = (integer_timings.count * CONSIDERATION_PERCENTILE).round
     to_keep -= 1 if to_keep == integer_timings.count
-    puts "to_keep  #{to_keep}"
     map[label] = integer_timings[0 ... to_keep].map { |x| x.to_s }
-    puts "MAP:  #{map[label]}"
   end
 
   return map
