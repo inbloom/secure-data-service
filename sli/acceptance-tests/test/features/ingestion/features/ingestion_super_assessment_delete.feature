@@ -16,7 +16,6 @@ Scenario: Ingestion of Assessment-Orphans(Entities referring to missing Assessme
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
     And I should not see a warning log file created
-    And I should see "All records processed successfully." in the resulting batch job file
     Then there exist "1" "assessment" records like below in "Midgar" tenant. And I save this query as "AssessmentHCount"
     |field       													  |value                                               |
     |_id         													  |458b6701422b88c1e3d01dd217bc7e76f77621a4_id         |
