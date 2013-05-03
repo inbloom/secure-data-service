@@ -239,6 +239,10 @@ When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)
   openDecryptedFile(appId) 
 end
 
+When /^I decrypt the extract file with application with id "(.*?)"$/ do |appId|
+  openDecryptedFile(appId) 
+end
+
 When /^I verify that an extract tar file was created for the tenant "(.*?)"$/ do |tenant|
 
 	puts "Extract FilePath: #{@filePath}"
@@ -392,10 +396,12 @@ When /^I request the latest bulk extract delta using the api$/ do
   puts "stubbed out"
 end
 
-When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appId "(.*?)"$/ do |data_store, tenant, appId|
+When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appId "(.*?)" for "(.*?)"$/ do |data_store, tenant, appId, lea|
   sleep 1
   delta = true
-  getExtractInfoFromMongo(tenant, appId, delta)
+  query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.edorg"=>lea}
+  opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  getExtractInfoFromMongo(tenant, appId, delta, query, opts)
   openDecryptedFile(appId)
   @fileDir = OUTPUT_DIRECTORY if data_store == "API"
   untar(@fileDir)
@@ -587,13 +593,16 @@ end
 Then /^I should see "(.*?)" bulk extract SEA-public data file for the tenant "(.*?)" and application with id "(.*?)"$/ do |count, tenant, app_id|
   query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isPublicData" => true}
   count = count.to_i
+  @tenant = tenant
   checkMongoQueryCounts("bulkExtractFiles", query, count);
-  #getExtractInfoFromMongo(tenant, app_id, false, query)
-  #assert(File.exists(@encryptFilePath), "SEA public data doesn't exist.")
+  if count != 0
+    getExtractInfoFromMongo(tenant, app_id, false, query, {}, true)
+    assert(File.exists?(@encryptFilePath), "SEA public data doesn't exist.")
+  end
 end
 
-Then /^I remove the edorg with id "(.*?)" from the database/ do |edorg_id|
-  remove_edorg_from_mongo(edorg_id)
+Then /^I remove the edorg with id "(.*?)" from the "(.*?)" database/ do |edorg_id, tenant|
+  remove_edorg_from_mongo(edorg_id, tenant)
 end
 
 Then /^there should be no deltas in mongo$/ do
@@ -649,7 +658,7 @@ Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name,
         json_entities.each {|e|
             # we may have multiple entities with the same id in the delete file
             json_value = get_field_value(e, field)
-            if (json_value == value) 
+            if (json_value.to_s == value.to_s) 
                 success = true
                 break
             end
@@ -963,7 +972,7 @@ def get_field_value(json_entity, field)
     end 
     entity = entity[f]
   }
-  entity.strip
+  entity.strip if entity.respond_to?("strip")
 end
 
 def streamBulkExtractFile(download_file, apiBody)
@@ -1067,10 +1076,10 @@ def prepareBody(verb, value, response_map)
           "parentEducationAgencyReference" => "ffffffffffffffffffffffffffffffffffffffff_id"
       },
       "newParentMother" => {
-        "parent" {}
+        "parent" => {}
       },
       "newParentFather" => {
-        "parent" {}
+        "parent" => {}
       }
     },
     "PATCH" => {
@@ -1095,8 +1104,8 @@ def prepareBody(verb, value, response_map)
   return field_data
 end
 
-def remove_edorg_from_mongo(edorg_id)
-  tenant_db = @conn.db(convertTenantIdToDbName(@tenant))
+def remove_edorg_from_mongo(edorg_id, tenant)
+  tenant_db = @conn.db(convertTenantIdToDbName(tenant))
   collection = tenant_db.collection('educationOrganization')
   collection.remove({'body.stateOrganizationId' => edorg_id})
 end

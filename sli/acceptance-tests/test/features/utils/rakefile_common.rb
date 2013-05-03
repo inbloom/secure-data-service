@@ -19,6 +19,7 @@ limitations under the License.
 require 'ldapstorage'
 require 'digest/sha1'
 require 'yaml'
+require 'rest-client'
 
 def cleanUpLdapUser(user_email)
   ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
@@ -127,6 +128,30 @@ end
 def convertTenantIdToDbName(tenantId)
   return Digest::SHA1.hexdigest tenantId
 end
+
+
+def testTls(url, token, client_id, path)
+  puts "Loading Key and Certificate for client ID #{client_id}"
+  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
+  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
+
+  headers = {:accept => "application/x-tar", :Authorization => "bearer #{token}"}
+
+  res = RestClient::Request.execute(:method => :get, :url => url, :headers => headers, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
+  puts "Return Code = #{res.code}, Header = #{res.raw_headers}"
+  if res.code > 300
+    puts "Error Response = #{res.body}"
+    return
+  end
+
+  file = Dir.pwd + "/#{path}"
+  File.delete(file) if File.exists?(file)
+  File.open(file, "a") do |outf|
+    outf << res.body
+  end
+  puts "File was saved to #{Dir.pwd + "/#{path}"}"
+end
+
 # Property Loader class
 
 class PropLoader
