@@ -222,40 +222,12 @@ Given /^the bulk extract files in the database are scrubbed/ do
   @coll.remove()
 end
 
-Given /^There is no SEA for the tenant "(.*?)"$/ do |tenant|
-  @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
-  collection = @tenant_db.collection('educationOrganization')
-  collection.remove({'body.organizationCategories' => 'State Education Agency'})
-end
-
-Given /^I get the SEA Id for the tenant "(.*?)"$/ do |tenant|
-  @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
-  edOrgcollection = @tenant_db.collection('educationOrganization')
-  @seaId = edOrgcollection.find_one({'body.organizationCategories' => 'State Education Agency'})["_id"]
-  assert (@seaId != nil)
-  puts @seaId
-end
-
-Given /^none of the following entities reference the SEA:$/ do |table|
-  table.hashes.map do |row|
-    collection = @tenant_db.collection(row["entity"])
-    collection.remove({row["path"] => @seaId})
-  end
-end
-
-
-
 ############################################################
 # When
 ############################################################
 
 When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(build_bulk_query(tenant,appId))
-end
-
-When /^I retrieve the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
-  getExtractInfoFromMongo(tenant,appId,false, nil, {}, true)
-  openDecryptedFile(appId) 
 end
 
 When /^I know the file-length of the extract file$/ do
@@ -718,38 +690,6 @@ Then /^I ingested "(.*?)" dataset$/ do |dataset|
   step "I should not see an error log file created"
 end
 
-Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entity|
-  disable_NOTABLESCAN()
-	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
-  SEA = @tenantDB.collection("educationOrganization").find({"body.organizationCategories" => "State Education Agency"})
-  @SEA_id = SEA["_id"]
-
-  puts "Comparing SEA " + SEA_id
-
-  query_field = getSEAPublicRefField(entity)
-  collection = entity
-  if (entity == "school")
-    collection = "educationOrganization"
-  end
-
-  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
-	Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
-    records = JSON.parse(extractFile.read)
-    puts records
-    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
-    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
-  }
-end
-
-Then /^Then I verify that the "(.*?)" reference an SEA only$/ do |entity| 
-  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
-  Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
-    records = JSON.parse(extractFile.read)
-    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
-    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
-  }
-end
-
 ############################################################
 # Hooks
 ############################################################
@@ -1055,7 +995,8 @@ def getEntityId(entity)
   entity_to_id_map = {
     "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
     "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
-    "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id"
+    "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
+    "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
   }
   return entity_to_id_map[entity]
 end
@@ -1068,13 +1009,13 @@ def getEntityBodyFromApi(entity, api_version, verb)
     "courseOffering" => "courseOfferings",
     "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
     "parent" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students/studentParentAssociations/parents",
+    "studentParentAssociation" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students/studentParentAssociations",
     "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
     "section" => "sections",
     "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
     "staffProgramAssociation" => "staffProgramAssociations",
     "studentCohortAssocation" => "studentCohortAssociations",
     "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-    "studentParentAssociation" => "studentParentAssociations",
     "studentProgramAssociation" => "studentProgramAssociations",
     "studentSectionAssociation" => "studentSectionAssociations",
     "teacherSchoolAssociation" => "teacherSchoolAssociations",
@@ -1155,6 +1096,13 @@ def prepareBody(verb, value, response_map)
          "firstName" => "Mary"
         },
       },
+      "newStudentMotherAssociation" => {
+        "entityType" => "studentParentAssociation",
+        "parentId" => "41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
+        "studentId" => "b4da0130d823cb5c88c5b9e6eb1a5f0f32180697_id",
+        "relation" => "Mother",
+        "contactPriority" => 3
+      },
       "newParentFather" => {
         "entityType" => "parent",
         "parentUniqueStateId" => "new-dad-1",
@@ -1177,7 +1125,14 @@ def prepareBody(verb, value, response_map)
          "lastSurname" => "Samsonite",
          "firstName" => "Keith"
         },
-      }
+      },
+      "newStudentFatherAssociation" => {
+        "entityType" => "studentParentAssociation",
+        "parentId" => "41f42690a7c8eb5b99637fade00fc72f599dab07_id",
+        "studentId" => "b4da0130d823cb5c88c5b9e6eb1a5f0f32180697_id",
+        "relation" => "Father",
+        "contactPriority" => 3
+      },
     },
     "PATCH" => {
       "postalCode" => {
@@ -1207,25 +1162,10 @@ def remove_edorg_from_mongo(edorg_id, tenant)
   collection.remove({'body.stateOrganizationId' => edorg_id})
 end
 
-
-def getSEAPublicRefField(entity)
-  query
-  case entity
-  when "school","educationOrganization"
-    query_field = "body.parentEducationAgencyReference"
-  when "course","courseOffering", "session"#, "gradingPeriod"
-      query_field = "body.schoolId"
-  when "graduationPlan"
-      query_field = "body.educationOrganizationId"
-  end
-  return query
-end
-
 def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
   query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
   query.merge!({"body.edorg"=>lea}) unless lea.nil?
   query
-
 end
 
 After('@scheduler') do

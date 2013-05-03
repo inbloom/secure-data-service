@@ -229,7 +229,11 @@ Given I clean the bulk extract file system and database
  # CREATE parent entity via POST
  When I POST a "newParentFather" of type "parent"
  Then I should receive a return code of 201
+ When I POST a "newStudentFatherAssociation" of type "studentParentAssociation"
+ Then I should receive a return code of 201
  When I POST a "newParentMother" of type "parent"
+ Then I should receive a return code of 201
+ When I POST a "newStudentMotherAssociation" of type "studentParentAssociation"
  Then I should receive a return code of 201
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
@@ -267,6 +271,17 @@ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
  #Then The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
+
+@wip
+Scenario: POST multiple updates to the same entity, verify one delta per entity
+Given I clean the bulk extract file system and database
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"
+ # CREATE parent entity via POST
+ When I POST a "newParentFather" of type "parent"
+ Then I should receive a return code of 201
+  And I POST a "newParentFather" of type "parent"
+ Then I should receive a return code of 201
 
 Scenario: deltas for student/studentSchoolAssociation/studentAssessment and studentGradebookEntry
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
