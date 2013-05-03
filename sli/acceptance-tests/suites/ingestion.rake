@@ -284,7 +284,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestBroadSetOfTypesAndExportData,
         :ingestionSuperStudentDelete,
         :ingestionSuperAssessmentDelete,
-	:ingestionSuperStudentAssessmentDelete,
+	    :ingestionSuperStudentAssessmentDelete,
         :multipleForceDeletesTest,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,

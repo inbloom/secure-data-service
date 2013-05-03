@@ -76,7 +76,6 @@ Scenario: Ingestion of Student-Orphans(Entities referring to missing student) co
     And I should see "records not considered for processing: 0" in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
-    And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentParent.xml"
     And the only errors I want to see in the resulting warning log file for "InterchangeStudentParent.xml" are below
     | code    |
     | CORE_0066|
@@ -84,7 +83,7 @@ Scenario: Ingestion of Student-Orphans(Entities referring to missing student) co
     And I see that collections counts have changed as follows in tenant "Midgar"
     | collection                                |     delta|
     | recordHash                                |        -1|
-    | student<hollow>                           |         1|
+    | student<hollow>                           |        +1|
     #Save collection counts for comparison later (Z2)
     And I save the collection counts in "Midgar" tenant
 
@@ -105,7 +104,7 @@ Scenario: Ingestion of Student-Orphans(Entities referring to missing student) co
     #Compare saved collection counts(Z2)
     And I see that collections counts have changed as follows in tenant "Midgar"
     | collection                                |     delta|
-    | recordHash                                |         1|
+    | recordHash                                |        +1|
     | student<hollow>                           |        -1|
 
     #Take new snapshot of full bodied student and compare with old snapshot

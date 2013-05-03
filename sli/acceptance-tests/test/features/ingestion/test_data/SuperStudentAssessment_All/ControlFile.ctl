@@ -5,5 +5,3 @@ edfi-xml,StudentAssessment,InterchangeStudentAssessment-NonOdin.xml,3ea55e87b372
 edfi-xml,StudentProgram,InterchangeStudentProgram.xml,9ec46e6d1268bbfa2efd2d1427fdfb91
 edfi-xml,StudentProgram,InterchangeStudentProgram.xml,9ec46e6d1268bbfa2efd2d1427fdfb91
 edfi-xml,StudentCohort,InterchangeStudentCohort.xml,e96bd4b8ab7f056c038a3f258f72e76b
-
-
