@@ -17,7 +17,6 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
@@ -38,11 +37,11 @@ public class StaffExtractor implements EntityExtract {
     }
 
     @Override
-    public void extractEntities(Map<String, Set<String>> staffToEdorgCache) {
+    public void extractEntities(EntityToLeaCache staffToEdorgCache) {
         Iterator<Entity> staffs = repo.findEach(EntityNames.STAFF, new Query());
         while (staffs.hasNext()) {
             Entity staff = staffs.next();
-            Set<String> leas = staffToEdorgCache.get(staff.getEntityId());
+            Set<String> leas = staffToEdorgCache.getEntriesById(staff.getEntityId());
             if (leas == null || leas.size() == 0) {
                 continue;
             }

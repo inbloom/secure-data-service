@@ -17,8 +17,6 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.common.constants.EntityNames;
@@ -45,16 +43,16 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
     }
 
     @Override
-    public void extractEntities(Map<String, Set<String>> leaToEdorgCache) {
+    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
         Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new Query());
         while (associations.hasNext()) {
             Entity association = associations.next();
             if (!extractorHelper.isStaffAssociationCurrent(association)) {
                 continue;
             }
-            for (String lea : leaToEdorgCache.keySet()) {
+            for (String lea : entityToEdorgCache.getEntityIds()) {
                 String edorg = (String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
-                if (leaToEdorgCache.get(lea).contains(edorg)) {
+                if (entityToEdorgCache.getEntriesById(lea).contains(edorg)) {
                     // Write it
                     extractor.extractEntity(association, map.getExtractFileForLea(lea),
                             EntityNames.STAFF_ED_ORG_ASSOCIATION);
@@ -69,4 +67,8 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
         
     }
     
+    public EntityToLeaCache getEntityCache() {
+        return this.cache;
+    }
+
 }

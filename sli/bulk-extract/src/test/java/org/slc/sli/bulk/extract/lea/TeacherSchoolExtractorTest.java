@@ -18,9 +18,7 @@ package org.slc.sli.bulk.extract.lea;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +50,7 @@ public class TeacherSchoolExtractorTest {
     private ExtractFile mockFile;
     
     private Map<String, Object> entityBody;
-    private Map<String, Set<String>> staffToLeaCache;
+    private EntityToLeaCache staffToLeaCache;
     
     @Before
     public void setUp() {
@@ -61,8 +59,9 @@ public class TeacherSchoolExtractorTest {
         extractor = new TeacherSchoolExtractor(mockExtractor, mockMap, mockRepo);
         entityBody.put(ParameterConstants.TEACHER_ID, "Staff1");
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
-        staffToLeaCache = new HashMap<String, Set<String>>();
-        staffToLeaCache.put("Staff1", new HashSet<String>(Arrays.asList("LEA")));
+        
+        staffToLeaCache = new EntityToLeaCache();
+        staffToLeaCache.addEntry("Staff1", "LEA");
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
         Mockito.when(mockEntity.getEntityId()).thenReturn("Staff1");
     }

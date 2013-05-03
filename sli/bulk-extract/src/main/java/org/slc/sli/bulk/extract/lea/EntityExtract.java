@@ -16,16 +16,14 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.Map;
-import java.util.Set;
 
 public interface EntityExtract {
-    
+
     /**
      * Takes a cache of lea to edorgs and then extracts them to their files
      * 
-     * @param leaToEdorgCache
+     * @param entityToEdorgCache
      */
-    public abstract void extractEntities(Map<String, Set<String>> leaToEdorgCache);
-    
+    public abstract void extractEntities(EntityToLeaCache entityToEdorgCache);
+
 }
