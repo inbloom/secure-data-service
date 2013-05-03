@@ -15,6 +15,10 @@ Scenario: Generate a bulk extract day 0 delta
   Then The "educationOrganization" delta was extracted in the same format as the api
    And The "parent" delta was extracted in the same format as the api
    And The "studentParentAssociation" delta was extracted in the same format as the api
+   And The "student" delta was extracted in the same format as the api
+   And The "studentSchoolAssociation" delta was extracted in the same format as the api
+   And The "studentAssessment" delta was extracted in the same format as the api
+   And The "studentGradebookEntry" delta was extracted in the same format as the api
 
 Scenario: Generate a bulk extract in a different LEAs
   Given I clean the bulk extract file system and database
