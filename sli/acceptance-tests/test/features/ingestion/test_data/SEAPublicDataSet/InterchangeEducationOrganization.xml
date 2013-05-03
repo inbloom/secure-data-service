@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) --><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+	<StateEducationAgency>
+		<StateOrganizationId>NY</StateOrganizationId>
+		<NameOfInstitution>New York State Education System</NameOfInstitution>
+		<ShortNameOfInstitution>NYES</ShortNameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>State Education Agency</OrganizationCategory>
+		</OrganizationCategories>
+		<Address AddressType="Home">
+			<StreetNumberName>7600 Capitol Drive</StreetNumberName>
+			<ApartmentRoomSuiteNumber>205</ApartmentRoomSuiteNumber>
+			<City>Albany</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>10437</PostalCode>
+			<NameOfCounty>Albany</NameOfCounty>
+			<CountyFIPSCode>00001</CountyFIPSCode>
+			<Latitude>42.3</Latitude>
+			<Longitude>75.2</Longitude>
+			<BeginDate>2011-03-04</BeginDate>
+			<EndDate>2011-03-04</EndDate>
+		</Address>
+		<OperationalStatus>Active</OperationalStatus>
+	</StateEducationAgency>
+	<LocalEducationAgency>
+		<StateOrganizationId>NY-Parker</StateOrganizationId>
+		<NameOfInstitution>New York Parker District School System</NameOfInstitution>
+		<ShortNameOfInstitution>NYPDSS</ShortNameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>Local Education Agency</OrganizationCategory>
+		</OrganizationCategories>
+		<Address AddressType="Home">
+			<StreetNumberName>2301 Third Street</StreetNumberName>
+			<City>Parker</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>10648</PostalCode>
+			<NameOfCounty>Parker</NameOfCounty>
+			<CountyFIPSCode>00061</CountyFIPSCode>
+			<Latitude>42.3</Latitude>
+			<Longitude>75.2</Longitude>
+			<BeginDate>2011-03-04</BeginDate>
+			<EndDate>2011-03-04</EndDate>
+		</Address>
+		<OperationalStatus>Active</OperationalStatus>
+		<LEACategory>Charter</LEACategory>
+
+		<StateEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</StateEducationAgencyReference>
+	</LocalEducationAgency>
+	<LocalEducationAgency>
+		<StateOrganizationId>NY-Dusk</StateOrganizationId>
+		<NameOfInstitution>New York Dusk District School System</NameOfInstitution>
+		<ShortNameOfInstitution>NYDDSS</ShortNameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>Local Education Agency</OrganizationCategory>
+		</OrganizationCategories>
+		<Address AddressType="Home">
+			<StreetNumberName>3211 Sunset Road</StreetNumberName>
+			<City>Dusk</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>10878</PostalCode>
+			<NameOfCounty>Dusk</NameOfCounty>
+			<CountyFIPSCode>00027</CountyFIPSCode>
+			<Latitude>42.3</Latitude>
+			<Longitude>75.2</Longitude>
+			<BeginDate>2011-03-04</BeginDate>
+			<EndDate>2011-03-04</EndDate>
+		</Address>
+		<OperationalStatus>Active</OperationalStatus>
+		<LEACategory>Charter</LEACategory>
+		<StateEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</StateEducationAgencyReference>
+	</LocalEducationAgency>
+	<School>
+		<StateOrganizationId>10000000121</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>10000000121</ID>
+		</EducationOrgIdentificationCode>
+		<NameOfInstitution>Dusk High School</NameOfInstitution>
+		<ShortNameOfInstitution>DHS</ShortNameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>School</OrganizationCategory>
+		</OrganizationCategories>
+		<Address AddressType="Home">
+			<StreetNumberName>101 Dusk Drive</StreetNumberName>
+			<City>Dusk</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>10878</PostalCode>
+			<NameOfCounty>Dusk</NameOfCounty>
+			<CountyFIPSCode>00027</CountyFIPSCode>
+			<Latitude>42.3</Latitude>
+			<Longitude>75.2</Longitude>
+			<BeginDate>2011-03-04</BeginDate>
+			<EndDate>2011-03-04</EndDate>
+		</Address>
+		<WebSite>http://www.nyduskhs.edu</WebSite>
+		<OperationalStatus>Active</OperationalStatus>
+		<GradesOffered>
+			<GradeLevel>Eighth grade</GradeLevel>
+			<GradeLevel>Eleventh grade</GradeLevel>
+			<GradeLevel>Grade 13</GradeLevel>
+			<GradeLevel>Ninth grade</GradeLevel>
+			<GradeLevel>Postsecondary</GradeLevel>
+			<GradeLevel>Seventh grade</GradeLevel>
+			<GradeLevel>Tenth grade</GradeLevel>
+			<GradeLevel>Twelfth grade</GradeLevel>
+			<GradeLevel>Ungraded</GradeLevel>
+		</GradesOffered>
+		<SchoolCategories>
+			<SchoolCategory>High School</SchoolCategory>
+			<SchoolCategory>Junior High School</SchoolCategory>
+		</SchoolCategories>
+		<SchoolType>Regular</SchoolType>
+		<CharterStatus>Open Enrollment</CharterStatus>
+		<TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+		<MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+		<AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+		<LocalEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</LocalEducationAgencyReference>
+	</School>
+	<Course>
+		<CourseTitle>Mason201</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Mason201</ID>
+		</CourseCode>
+		<GradesOffered>
+		  <GradeLevel>Kindergarten</GradeLevel>
+		  <GradeLevel>First grade</GradeLevel>
+		  <GradeLevel>Second grade</GradeLevel>
+		  <GradeLevel>Third grade</GradeLevel>
+		  <GradeLevel>Fourth grade</GradeLevel>
+		  <GradeLevel>Fifth grade</GradeLevel>
+		  <GradeLevel>Sixth grade</GradeLevel>
+		  <GradeLevel>Seventh grade</GradeLevel>
+		  <GradeLevel>Eighth grade</GradeLevel>
+		  <GradeLevel>Ninth grade</GradeLevel>
+		  <GradeLevel>Tenth grade</GradeLevel>
+		  <GradeLevel>Eleventh grade</GradeLevel>
+		  <GradeLevel>Twelfth grade</GradeLevel>
+		</GradesOffered>
+		<CourseDescription>Advanced Masonry</CourseDescription>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<UniqueCourseId>Mason201-1</UniqueCourseId>
+	</Course>
+	<Course>
+		<CourseTitle>PhySci001</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>PhySci001</ID>
+		</CourseCode>
+		<CourseDescription>Physical Sciences</CourseDescription>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<UniqueCourseId>PhySci001-2</UniqueCourseId>
+	</Course>
+	<Course>
+		<CourseTitle>Chem305</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Chem305</ID>
+		</CourseCode>
+		<CourseDescription>Inorganic Chemistry</CourseDescription>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<UniqueCourseId>Chem305-3</UniqueCourseId>
+	</Course>
+	<Course>
+		<CourseTitle>Math001</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Math001</ID>
+		</CourseCode>
+		<CourseDescription>Mathmatics</CourseDescription>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<UniqueCourseId>Math001-4</UniqueCourseId>
+	</Course>
+</InterchangeEducationOrganization>
