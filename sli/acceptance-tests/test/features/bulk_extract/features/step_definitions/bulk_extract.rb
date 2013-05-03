@@ -1177,6 +1177,7 @@ def getSEAPublicRefField(entity)
       query_field = "body.educationOrganizationId"
   end
   return query
+end
 
 def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
   query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
