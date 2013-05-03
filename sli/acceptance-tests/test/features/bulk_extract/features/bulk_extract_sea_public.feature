@@ -15,8 +15,8 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
     And a batch job for file "SEAPublicDataSet.zip" is completed in database
     Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
-     | course                                   |                  4|
-     | courseOffering                           |                  4|
+     | course                                   |                  6|
+     | courseOffering                           |                  6|
      | educationOrganization                    |                  4|
      | gradingPeriod                            |                  6|
      | graduationPlan                           |                  4|
@@ -106,7 +106,7 @@ Scenario Outline: One of the entity doesn't reference the SEA
     Then I remove the edorg with id "IL-Test" from the "Midgar" database
 
 
-@wip
+
  Scenario: No SEA is available for the tenant
    Given the extraction zone is empty
    And the bulk extract files in the database are scrubbed

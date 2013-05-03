@@ -222,6 +222,12 @@ Given /^the bulk extract files in the database are scrubbed/ do
   @coll.remove()
 end
 
+Given /^There is no SEA for the tenant "(.*?)"/ do |tenant|
+  tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+  collection = tenant_db.collection('educationOrganization')
+  collection.remove({'body.organizationCategories' => 'State Education Agency'})
+end
+
 ############################################################
 # When
 ############################################################
