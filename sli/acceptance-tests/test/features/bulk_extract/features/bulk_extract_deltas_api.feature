@@ -199,28 +199,6 @@ Scenario: PATCH the zip code of an edOrg, trigger delta, verify contents
    And a "educationOrganization" was extracted in the same format as the api
    And each extracted "educationOrganization" delta matches the mongo entry
 
-Scenario: Generate deltas for parents through ingestion
-    Given I clean the bulk extract file system and database
-    And I am using local data store
-    And I ingest "deltas_parents.zip"
-
-    When I trigger a delta extract
-    And I request the latest bulk extract delta using the api
-    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
-    Then I should see "2" bulk extract files
-    When I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-    Then I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "1b223f577827204a1c7e9c851dba06bea6b031fe_id" in "Midgar" contains a file for each of the following entities:
-      | entityType               |
-      |  parent                  |
-      | studentParentAssociation |
-      | deleted                  |
-  #  Then The "parent" delta was extracted in the same format as the api
-    Then The "studentParentAssociation" delta was extracted in the same format as the api
-    And I verify this "deleted" file should contains:
-      | id                                                                                     | condition                             |
-      | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
-      | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
-
 @wip
 Scenario: Generate and verify deltas for parents through API PUT, POST, PATCH, DELETE
 Given I clean the bulk extract file system and database
@@ -272,13 +250,14 @@ Given I clean the bulk extract file system and database
  #Then The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
-Scenario: deltas for student/studentSchoolAssociation/studentAssessment and studentGradebookEntry
+Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
   and only a delete file is generated for lea2.
   Updated two students, 11 and 12, 12 lost contextual resolution to LEA1, so it should not appear
   in the extract file.  
 Given I clean the bulk extract file system and database
-  And I ingested "student_high_cardinality_entities.zip" dataset
+  And I am using local data store
+  And I ingest "bulk_extract_deltas.zip"
   When I trigger a delta extract
      And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
      And I verify "1" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
@@ -286,8 +265,10 @@ Given I clean the bulk extract file system and database
        |  entityType                            |
        |  deleted                               |
      And I verify this "deleted" file should contains:
-       | id                                          | condition                                |
-       | 07e539779ef81bb36e2936cab7504489a2a3757e_id | entityType = studentSchoolAssociation    |
+       | id                                                                                     | condition                             |
+       | 07e539779ef81bb36e2936cab7504489a2a3757e_id                                            | entityType = studentSchoolAssociation |
+       | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
+       | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
 
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
@@ -295,6 +276,8 @@ Given I clean the bulk extract file system and database
        |  studentSchoolAssociation              | 
        |  studentAssessment                     | 
        |  studentGradebookEntry                 |
+       |  studentParentAssociation              |
+       |  parent                                |
        |  deleted                               |
    
      And I verify this "deleted" file should contains:
@@ -326,6 +309,20 @@ Given I clean the bulk extract file system and database
      And I verify this "studentAssessment" file should contains:
        | id                                          | condition                                |
        | 13b7e4d3dba87a9fa5a90094124ad28ce07b279a_id | scoreResults.result = 92                 |
+
+     And I verify this "parent" file should contains:
+       | id                                          | condition                                                    |
+       | 833c746641212c9e6e0fe5831f03570882c7bba1_id | electronicMail.emailAddress = roosevelt_mcgowan@fakemail.com |
+
+     And I verify this "studentParentAssociation" file should contains:
+       | id                                          | condition                                |
+       | 908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id | contactPriority = 0 |
   
+   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+     And The "student" delta was extracted in the same format as the api
+     And The "studentSchoolAssociation" delta was extracted in the same format as the api
+     And The "studentAssessment" delta was extracted in the same format as the api
+     And The "studentGradebookEntry" delta was extracted in the same format as the api
+
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database
