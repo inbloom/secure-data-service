@@ -1027,7 +1027,7 @@ def get_field_value(json_entity, field)
     end 
     entity = entity[f]
   }
-  entity.strip if entity.respond_to?("strip")
+  entity.to_s.strip
 end
 
 def streamBulkExtractFile(download_file, apiBody)
