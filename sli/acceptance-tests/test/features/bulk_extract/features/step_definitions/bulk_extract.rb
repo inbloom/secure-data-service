@@ -254,7 +254,7 @@ When /^I get the path to the extract file for the tenant "(.*?)" and application
 end
 
 When /^I retrieve the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
-  getExtractInfoFromMongo(tenant,appId,false, nil, {}, true)
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId, nil, false, true))
   openDecryptedFile(appId) 
 end
 
@@ -748,6 +748,13 @@ Then /^Then I verify that the "(.*?)" reference an SEA only$/ do |entity|
   }
 end
 
+Then /^I verify that extract does not contain a file for the following entities:$/ do |table|
+  table.hashes.map do |row|
+    exists = File.exists?(@unpackDir + "/" + row["entity"] + ".json.gz")
+    assert(!exists, "Found " + row["entity"] + ".json file in extracts")
+  end
+end
+
 ############################################################
 # Hooks
 ############################################################
@@ -782,7 +789,7 @@ def getExtractInfoFromMongo(query, query_opts={})
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
-  
+
   match = @coll.find_one(query, query_opts)
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
