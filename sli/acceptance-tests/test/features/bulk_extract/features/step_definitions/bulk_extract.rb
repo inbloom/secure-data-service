@@ -239,6 +239,10 @@ When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)
   openDecryptedFile(appId) 
 end
 
+When /^I decrypt the extract file with application with id "(.*?)"$/ do |appId|
+  openDecryptedFile(appId) 
+end
+
 When /^I verify that an extract tar file was created for the tenant "(.*?)"$/ do |tenant|
 
 	puts "Extract FilePath: #{@filePath}"
@@ -391,10 +395,12 @@ When /^I request the latest bulk extract delta using the api$/ do
   puts "stubbed out"
 end
 
-When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appId "(.*?)"$/ do |data_store, tenant, appId|
+When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appId "(.*?)" for "(.*?)"$/ do |data_store, tenant, appId, lea|
   sleep 1
   delta = true
-  getExtractInfoFromMongo(tenant, appId, delta)
+  query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.edorg"=>lea}
+  opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  getExtractInfoFromMongo(tenant, appId, delta, query, opts)
 
   openDecryptedFile(appId)
   @fileDir = OUTPUT_DIRECTORY if data_store == "API"
@@ -574,7 +580,7 @@ Then /^I should see "(.*?)" bulk extract SEA-public data file for the tenant "(.
   @tenant = tenant
   checkMongoQueryCounts("bulkExtractFiles", query, count);
   if count != 0
-    getExtractInfoFromMongo(tenant, app_id, false, query)
+    getExtractInfoFromMongo(tenant, app_id, false, query, {}, true)
     assert(File.exists?(@encryptFilePath), "SEA public data doesn't exist.")
   end
 end

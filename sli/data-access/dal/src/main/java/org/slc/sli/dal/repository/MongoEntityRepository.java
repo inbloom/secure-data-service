@@ -480,9 +480,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 result = safeDeleteHelper(entityType, id, cascade, false, force, logViolations, maxObjects, access, DELETE_BASE_DEPTH,
                         deletedIds);
                 result.setDeletedIds(deletedIds);
-
-                // Delete denormalized stuff
-                denormalizer.deleteDenormalizedReferences(entityType, id);
             }
         }
 
