@@ -162,7 +162,7 @@ And the 'Approve' button is disabled for application "BulkExtractApp"
 And I exit out of the iframe
 And I click on log out
 
-Scenario:  LEA approves Dashboard, Databrowser and BulkExtractApp Applications
+Scenario:  LEA approves Dashboard, Databrowser and Bulk Extract 2 End Applications
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom"
 And I was redirected to the "Simple" IDP Login page
@@ -199,7 +199,7 @@ And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 #Authorize the New Installed App
-And I see an application "BulkExtractApp" in the table
+And I see an application "Bulk Extract 2 End" in the table
 And in Status it says "Not Approved"
 And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'
@@ -207,7 +207,7 @@ When I click on Ok
 # switch back to iframe because of the page reload
 And I switch to the iframe
 Then the application is authorized to use data of "Daybreak School District 4529"
-And the app "BulkExtractApp" Status becomes "Approved"
+And the app "Bulk Extract 2 End" Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
@@ -257,7 +257,7 @@ And the operator triggers a bulk extract for the production tenant
 
 Scenario: App makes an api call to retrieve a bulk extract
 #Get a session to trigger a bulk extract
-Given the testing device app key has been created
+Given the pre-existing bulk extrac testing app key has been created
 When I navigate to the API authorization endpoint with my client ID
 When I select "Daybreak Test Realm" and click go
 And I was redirected to the "Simple" IDP Login page
@@ -267,7 +267,7 @@ When I navigate to the API token endpoint with my client ID, secret, authorizati
 Then I should receive a json response containing my authorization token
 #Get bulk extract tar file
 Then there is no bulk extract files in the local directory
-And I request and download a bulk extract file from production
+And I request and download a bulk extract file
 And there is a metadata file in the extract
 And the extract contains a file for each of the following entities:
    |  entityType                            |
