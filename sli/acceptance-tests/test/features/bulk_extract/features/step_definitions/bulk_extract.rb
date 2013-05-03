@@ -573,9 +573,10 @@ end
 Then /^I should see "(.*?)" bulk extract SEA-public data file for the tenant "(.*?)" and application with id "(.*?)"$/ do |count, tenant, app_id|
   count = count.to_i
   @tenant = tenant
+  query = build_bulk_query(tenant, app_id, nil, false, true)
   checkMongoQueryCounts("bulkExtractFiles", query, count);
   if count != 0
-    getExtractInfoFromMongo(build_bulk_query(tenant, app_id, nil, false, true))
+    getExtractInfoFromMongo(query)
     assert(File.exists?(@encryptFilePath), "SEA public data doesn't exist.")
   end
 end
@@ -1108,6 +1109,7 @@ end
 def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
   query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
   query.merge!({"body.edorg"=>lea}) unless lea.nil?
+  query
 end
 
 After('@scheduler') do

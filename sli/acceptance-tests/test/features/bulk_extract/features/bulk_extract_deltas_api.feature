@@ -10,11 +10,11 @@ Scenario: Generate a bulk extract day 0 delta
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
-    Then I should see "2" bulk extract files
+  Then I should see "2" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   Then The "educationOrganization" delta was extracted in the same format as the api
-    #    Then The "parent" delta was extracted in the same format as the api
-        Then The "studentParentAssociation" delta was extracted in the same format as the api
+   And The "parent" delta was extracted in the same format as the api
+   And The "studentParentAssociation" delta was extracted in the same format as the api
 
 Scenario: Generate a bulk extract in a different LEAs
   Given I clean the bulk extract file system and database
@@ -213,14 +213,14 @@ Scenario: Generate deltas for parents through ingestion
     When I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "1b223f577827204a1c7e9c851dba06bea6b031fe_id" in "Midgar" contains a file for each of the following entities:
       | entityType               |
-      #        |  parent                                |
+      |  parent                  |
       | studentParentAssociation |
       | deleted                  |
   #  Then The "parent" delta was extracted in the same format as the api
     Then The "studentParentAssociation" delta was extracted in the same format as the api
     And I verify this "deleted" file should contains:
       | id                                                                                     | condition                             |
-      #          | "<deleted_parent_id>"                       | entityType = parent                   |
+      | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
       | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
 
 @wip
