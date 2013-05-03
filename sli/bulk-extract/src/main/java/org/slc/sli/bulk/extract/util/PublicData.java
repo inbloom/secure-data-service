@@ -24,7 +24,11 @@ import java.util.List;
  */
 public enum PublicData {
 
-    STATE_EDUCATION_AGENCY("educationOrganization", "_id");
+    STATE_EDUCATION_AGENCY("educationOrganization", "_id"),
+    COURSE("course", "body.schoolId"),
+    COURSE_OFFERING("courseOffering", "body.schoolId"),
+    SESSION("session", "body.schoolId"),
+    GRADUATION_PLAN("graduationPlan", "body.educationOrganizationId");
 
     private final String entity;
     private final String pathToEdOrg;
