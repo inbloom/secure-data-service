@@ -89,6 +89,6 @@ public class ExtractorHelper {
         if (dateHelper == null) {
             dateHelper = new DateHelper();
         }
-        return dateHelper.isFieldExpired(staffAssociation.getBody(), ParameterConstants.END_DATE);
+        return !dateHelper.isFieldExpired(staffAssociation.getBody(), ParameterConstants.END_DATE);
     }
 }

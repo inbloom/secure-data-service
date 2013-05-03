@@ -120,9 +120,9 @@ public class ExtractorHelperTest {
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         
         Mockito.when(mockHelper.isFieldExpired(entityBody, ParameterConstants.END_DATE)).thenReturn(true);
-        Assert.assertTrue(helper.isStaffAssociationCurrent(mockEntity));
+        Assert.assertFalse(helper.isStaffAssociationCurrent(mockEntity));
         
         Mockito.when(mockHelper.isFieldExpired(entityBody, ParameterConstants.END_DATE)).thenReturn(false);
-        Assert.assertFalse(helper.isStaffAssociationCurrent(mockEntity));
+        Assert.assertTrue(helper.isStaffAssociationCurrent(mockEntity));
     }
 }
