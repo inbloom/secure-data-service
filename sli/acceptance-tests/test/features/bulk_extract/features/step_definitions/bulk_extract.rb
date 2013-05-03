@@ -227,7 +227,7 @@ end
 ############################################################
 
 When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
-  getExtractInfoFromMongo(tenant,appId)
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId))
 end
 
 When /^I know the file-length of the extract file$/ do
@@ -235,7 +235,7 @@ When /^I know the file-length of the extract file$/ do
 end
 
 When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
-  getExtractInfoFromMongo(tenant,appId)
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId))
   openDecryptedFile(appId) 
 end
 
@@ -393,10 +393,8 @@ end
 
 When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appId "(.*?)" for "(.*?)"$/ do |data_store, tenant, appId, lea|
   sleep 1
-  delta = true
-  query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.edorg"=>lea}
   opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
-  getExtractInfoFromMongo(tenant, appId, delta, query, opts)
+  getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true), opts)
 
   openDecryptedFile(appId)
   @fileDir = OUTPUT_DIRECTORY if data_store == "API"
@@ -439,11 +437,9 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
   @app_id = app_id
   @client_id = client_id
 
-  delta = true
-  query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isDelta" => true, "body.edorg"=>lea}
   query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
   # Get the edorg and timestamp from bulk extract collection in mongo
-  getExtractInfoFromMongo(tenant, app_id, delta, query, query_opts)
+  getExtractInfoFromMongo(build_bulk_query(tenant, app_id, lea, true), query_opts)
   # Set the download path to stream the delta file from API
   @delta_file = "delta_#{lea}_#{@timestamp}.tar"
   @download_path = OUTPUT_DIRECTORY + @delta_file
@@ -571,12 +567,11 @@ Then /^I should see "(.*?)" bulk extract files$/ do |count|
 end
 
 Then /^I should see "(.*?)" bulk extract SEA-public data file for the tenant "(.*?)" and application with id "(.*?)"$/ do |count, tenant, app_id|
-  query = {"body.tenantId"=>tenant, "body.applicationId" => app_id, "body.isPublicData" => true}
   count = count.to_i
   @tenant = tenant
   checkMongoQueryCounts("bulkExtractFiles", query, count);
   if count != 0
-    getExtractInfoFromMongo(tenant, app_id, false, query)
+    getExtractInfoFromMongo(build_bulk_query(tenant, app_id, nil, false, true))
     assert(File.exists?(@encryptFilePath), "SEA public data doesn't exist.")
   end
 end
@@ -604,9 +599,8 @@ Then /^I verify "(.*?)" delta bulk extract files are generated for LEA "(.*?)" i
 end
 
 Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table| 
-    query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => true, "body.edorg"=>lea}
     opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
-    getExtractInfoFromMongo(tenant, appId, true, query, opts)
+    getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true), opts)
     openDecryptedFile(appId) 
     
     step "the extract contains a file for each of the following entities:", table
@@ -702,13 +696,11 @@ def bulkExtractTrigger(trigger_script, jar_file, properties_file, keystore_file,
   puts runShellCommand(command)
 end
 
-def getExtractInfoFromMongo(tenant, appId, delta=false, query=nil, query_opts={}, publicData=false)
+def getExtractInfoFromMongo(query, query_opts={})
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
-
-  query ||= {"body.tenantId" => tenant, "body.applicationId" => appId, "body.isPublicData" => publicData, "$or" => [{"body.isDelta" => delta},{"body.isDelta" => delta}]}
-
+  
   match = @coll.find_one(query, query_opts)
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
@@ -717,16 +709,17 @@ def getExtractInfoFromMongo(tenant, appId, delta=false, query=nil, query_opts={}
   @unpackDir = File.dirname(@encryptFilePath) + "/#{edorg}/unpack"
   @fileDir = File.dirname(@encryptFilePath) + "/#{edorg}/decrypt/"
   @filePath = @fileDir + File.basename(@encryptFilePath)
-  @tenant = tenant
   @timestamp = match['body']['date'] || ""
   @timestamp = @timestamp.utc.iso8601(3)
+  @tenant = query["body.tenantId"]
 
   if $SLI_DEBUG
+    puts "query is #{query}"
+    puts "query opts is #{query_opts}"
     puts "encryptFilePath is #{@encryptFilePath}"
     puts "unpackDir is #{@unpackDir}"
     puts "fileDir is #{@fileDir}"
     puts "filePath is #{@filePath}"
-    puts "tenant is #{@tenant}"
     puts "timestamp is #{@timestamp}"
   end
 end
@@ -1106,6 +1099,11 @@ def remove_edorg_from_mongo(edorg_id, tenant)
   tenant_db = @conn.db(convertTenantIdToDbName(tenant))
   collection = tenant_db.collection('educationOrganization')
   collection.remove({'body.stateOrganizationId' => edorg_id})
+end
+
+def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
+  query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
+  query.merge!({"body.edorg"=>lea}) unless lea.nil?
 end
 
 After('@scheduler') do
