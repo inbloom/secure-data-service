@@ -230,6 +230,11 @@ When /^I get the path to the extract file for the tenant "(.*?)" and application
   getExtractInfoFromMongo(tenant,appId)
 end
 
+When /^I retrieve the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+  getExtractInfoFromMongo(tenant,appId,false, nil, {}, true)
+  openDecryptedFile(appId) 
+end
+
 When /^I know the file-length of the extract file$/ do
   @file_size = File.size(@filePath)
 end
@@ -676,6 +681,38 @@ Then /^I ingested "(.*?)" dataset$/ do |dataset|
   step "I should not see an error log file created"
 end
 
+Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entity|
+  disable_NOTABLESCAN()
+	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  SEA = @tenantDB.collection("educationOrganization").find({"body.organizationCategories" => "State Education Agency"})
+  @SEA_id = SEA["_id"]
+
+  puts "Comparing SEA " + SEA_id
+
+  query_field = getSEAPublicRefField(entity)
+  collection = entity
+  if (entity == "school")
+    collection = "educationOrganization"
+  end
+
+  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
+	Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
+    records = JSON.parse(extractFile.read)
+    puts records
+    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
+    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
+  }
+end
+
+Then /^Then I verify that the "(.*?)" reference an SEA only$/ do |entity| 
+  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
+  Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
+    records = JSON.parse(extractFile.read)
+    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
+    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
+  }
+end
+
 ############################################################
 # Hooks
 ############################################################
@@ -1110,6 +1147,19 @@ def remove_edorg_from_mongo(edorg_id, tenant)
   tenant_db = @conn.db(convertTenantIdToDbName(tenant))
   collection = tenant_db.collection('educationOrganization')
   collection.remove({'body.stateOrganizationId' => edorg_id})
+end
+
+def getSEAPublicRefField(entity)
+  query
+  case entity
+  when "school","educationOrganization"
+    query_field = "body.parentEducationAgencyReference"
+  when "course","courseOffering", "session"#, "gradingPeriod"
+      query_field = "body.schoolId"
+  when "graduationPlan"
+      query_field = "body.educationOrganizationId"
+  end
+  return query
 end
 
 After('@scheduler') do
