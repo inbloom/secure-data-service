@@ -495,6 +495,16 @@ def updateApiPutField(body, field, value)
   return body
 end
 
+def getEntityId(entity)
+  entity_to_id_map = {
+    "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
+    "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+    "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
+    "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
+  }
+  return entity_to_id_map[entity]
+end
+
 When /^I PATCH the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
   # Get the desired entity from mongo, we will only use the _id
   response_map = getEntityBodyFromApi(entity, @api_version, "PATCH")
@@ -1082,19 +1092,14 @@ def getEntityEndpoint(entity)
     "parent" => "parents",
     "patchEdOrg" => "educationOrganizations",
     "school" => "educationOrganizations",
+    "staffStudent" => "students",
+    "staffStudentParentAssociation" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id/studentParentAssociations",
+    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+    "studentSchoolAssociation" => "studentSchoolAssociations",
+    "studentParentAssociation" => "studentParentAssociations",
     "wrongSchoolURI" => "schoolz"
   }
   return entity_to_endpoint_map[entity]
-end
-
-def getEntityId(entity)
-  entity_to_id_map = {
-    "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
-    "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
-    "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
-    "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
-  }
-  return entity_to_id_map[entity]
 end
 
 def getEntityBodyFromApi(entity, api_version, verb)
@@ -1104,15 +1109,19 @@ def getEntityBodyFromApi(entity, api_version, verb)
     "educationOrganization" => "educationOrganizations",
     "courseOffering" => "courseOfferings",
     "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
-    "parent" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students/studentParentAssociations/parents",
-    "studentParentAssociation" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students/studentParentAssociations",
+    "parent" => "parents",
+    "staffStudentParentAssociation" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id/studentParentAssociations",
     "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
     "section" => "sections",
     "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
     "staffProgramAssociation" => "staffProgramAssociations",
+    "staffStudent" => "students",
+    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
     "studentCohortAssocation" => "studentCohortAssociations",
     "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+    "studentParentAssociation" => "studentParentAssociations",
     "studentProgramAssociation" => "studentProgramAssociations",
+    "studentSchoolAssociation" => "studentSchoolAssociations",
     "studentSectionAssociation" => "studentSectionAssociations",
     "teacherSchoolAssociation" => "teacherSchoolAssociations",
   }
@@ -1195,7 +1204,7 @@ def prepareBody(verb, value, response_map)
       "newStudentMotherAssociation" => {
         "entityType" => "studentParentAssociation",
         "parentId" => "41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
-        "studentId" => "b4da0130d823cb5c88c5b9e6eb1a5f0f32180697_id",
+        "studentId" => "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
         "relation" => "Mother",
         "contactPriority" => 3
       },
@@ -1225,10 +1234,132 @@ def prepareBody(verb, value, response_map)
       "newStudentFatherAssociation" => {
         "entityType" => "studentParentAssociation",
         "parentId" => "41f42690a7c8eb5b99637fade00fc72f599dab07_id",
-        "studentId" => "b4da0130d823cb5c88c5b9e6eb1a5f0f32180697_id",
+        "studentId" => "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
         "relation" => "Father",
         "contactPriority" => 3
       },
+      "newMinStudent" => {
+        "loginId" => "new-student-min@bazinga.org",
+        "sex" => "Male",
+        "entityType" => "student",
+        "race" => ["White"],
+        "languages" => ["English"],
+        "studentUniqueStateId" => "201",
+        "profileThumbnail" => "201 thumb",
+        "name" => {
+            "middleName" => "Robot",
+            "lastSurname" => "Samsonite",
+            "firstName" => "Sammy"
+        },
+        "address" => [{
+            "streetNumberName" => "1024 Byte Street",
+            "postalCode" => "60601",
+            "stateAbbreviation" => "IL",
+            "addressType" => "Home",
+            "city" => "Chicago"
+        }],
+        "birthData" => {
+            "birthDate" => "1998-10-22"
+        }
+      },
+      "newStudentSchoolAssociation" => {
+        "exitWithdrawDate" => "2014-06-02",
+        "entityType" => "studentSchoolAssociation",
+        "entryDate" => "2013-09-05",
+        "entryGradeLevel" => "Tenth grade",
+        "schoolYear" => "2012-2013",
+        "educationalPlans" => [],
+        "schoolChoiceTransfer" => true,
+        "entryType" => "Other",
+        "studentId" => "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+        "repeatGradeIndicator" => true,
+        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+      },
+      "newStudent" => {
+        "loginId" => "new-student-1@bazinga.org",
+        "sex" => "Male",
+        "studentCharacteristics" => [{
+            "endDate" => "2013-04-01",
+            "beginDate" => "2013-03-11",
+            "designatedBy" => "Teacher",
+            "characteristic" => "Unschooled Refugee"
+        }],
+        "disabilities" => [{
+            "orderOfDisability" => 15,
+            "disability" => "Mental Retardation",
+            "disabilityDiagnosis" => "Diagnosis A"
+        }],
+        "hispanicLatinoEthnicity" => false,
+        "cohortYears" => [{
+            "schoolYear" => "2013-2014",
+            "cohortYearType" => "Fourth grade"
+        }],
+        "section504Disabilities" => ["Sensory Impairment"],
+        "oldEthnicity" => "Hispanic",
+        "entityType" => "student",
+        "race" => ["White"],
+        "programParticipations" => [{
+            "program" => "Bilingual Summer",
+            "endDate" => "2014-02-10",
+            "beginDate" => "2013-11-14",
+            "designatedBy" => "Teacher"
+        }],
+        "languages" => ["English"],
+        "studentUniqueStateId" => "101",
+        "profileThumbnail" => "101 thumb",
+        "name" => {
+            "middleName" => "Treble",
+            "lastSurname" => "Samsonite",
+            "firstName" => "Jimson"
+        },
+        "birthData" => {
+            "birthDate" => "1999-11-10"
+        },
+        "otherName" => [{
+            "middleName" => "Camino",
+            "generationCodeSuffix" => "V",
+            "lastSurname" => "Duran",
+            "personalTitlePrefix" => "Mr",
+            "firstName" => "Roberto",
+            "otherNameType" => "Alias"
+        }],
+        "studentIndicators" => [{
+            "indicator" => "Indicator 3",
+            "indicatorName" => "Name 3",
+            "indicatorGroup" => "Group A",
+            "endDate" => "2013-07-12",
+            "beginDate" => "2012-06-15",
+            "designatedBy" => "Parent"
+        }],
+        "homeLanguages" => ["English"],
+        "learningStyles" => {
+            "visualLearning" => 38,
+            "auditoryLearning" => 24,
+            "tactileLearning" => 33
+        },
+        "limitedEnglishProficiency" => "NotLimited",
+        "studentIdentificationCode" => [{
+            "identificationCode" => "abcde",
+            "identificationSystem" => "Other",
+            "assigningOrganizationCode" => "Other"
+        }],
+        "address" => [{
+            "streetNumberName" => "512 Byte Street",
+            "postalCode" => "60601",
+            "stateAbbreviation" => "IL",
+            "addressType" => "Home",
+            "city" => "Chicago"
+        }],
+        "schoolFoodServicesEligibility" => "Full price",
+        "displacementStatus" => "Status BBB",
+        "electronicMail" => [{
+            "emailAddress" => "new-student-1@bazinga.org",
+            "emailAddressType" => "Home/Personal"
+        }],
+        "telephone" => [{
+            "telephoneNumber" => "(919)555-4510"
+        }]
+      }
     },
     "PATCH" => {
       "postalCode" => {

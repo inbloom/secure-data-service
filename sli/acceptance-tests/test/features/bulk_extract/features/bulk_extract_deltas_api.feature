@@ -199,12 +199,15 @@ Scenario: PATCH the zip code of an edOrg, trigger delta, verify contents
    And a "educationOrganization" was extracted in the same format as the api
    And each extracted "educationOrganization" delta matches the mongo entry
 
-@wip
-Scenario: Generate and verify deltas for private entities through API PUT, POST, PATCH, DELETE
+Scenario: Create and verify deltas for private entities through API POST
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
  # CREATE parent entity via POST
+ When I POST a "newMinStudent" of type "staffStudent"
+ Then I should receive a return code of 201
+ When I POST a "newStudentSchoolAssociation" of type "studentSchoolAssociation"
+ Then I should receive a return code of 201
  When I POST a "newParentFather" of type "parent"
  Then I should receive a return code of 201
  When I POST a "newStudentFatherAssociation" of type "studentParentAssociation"
@@ -217,9 +220,16 @@ Given I clean the bulk extract file system and database
   And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "0" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
- #Then The "parent" delta was extracted in the same format as the api
+ Then The "student" delta was extracted in the same format as the api
+  And The "studentSchoolAssociation" delta was extracted in the same format as the api
+  And The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
+@wip
+Scenario: Update private entities via API PUT and verify deltas
+Given I clean the bulk extract file system and database
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"
  # UPDATE/UPSERT parent entity via PUT
  When I PUT the "loginId" for a "parent" entity to "super_mom_you_rock@bazinga.com"
  Then I should receive a return code of 204
@@ -230,7 +240,12 @@ Given I clean the bulk extract file system and database
  #Then The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
- # UPDATE parent and parentStudentAssociation fields via PATCH
+@wip
+Scenario: Update private entity fields via API PATCH and verify deltas
+ Given I clean the bulk extract file system and database
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"
+# UPDATE parent and parentStudentAssociation fields via PATCH
  When I PATCH the "loginId" for a "parent" entity to "super_dad_good_job@bazinga.com"
  Then I should receive a return code of 204
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
@@ -240,6 +255,11 @@ Given I clean the bulk extract file system and database
  #Then The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
+@wip
+Scenario: Delete and verify deltas for private entities through API DELETE
+Given I clean the bulk extract file system and database
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"
  # DELETE parent entity via DELETE
  When I DELETE an "newParentMother" of id "54b4b51377cd941675958e6e81dce69df801bfe8_id"
  Then I should receive a return code of 204
