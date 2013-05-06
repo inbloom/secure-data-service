@@ -20,35 +20,35 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
-public class AttendanceExtractor implements EntityExtract {
+public class StaffExtractor implements EntityExtract {
     private EntityExtractor extractor;
     private LEAExtractFileMap map;
     private Repository<Entity> repo;
-    private ExtractorHelper helper;
-    private EntityToLeaCache studentCache;
     
-    public AttendanceExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper extractorHelper, EntityToLeaCache studentCache) {
+    public StaffExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.helper = extractorHelper;
-        this.studentCache = studentCache;
     }
 
     @Override
-    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        Iterator<Entity> attendances = repo.findEach("attendance", new Query());
-        while (attendances.hasNext()) {
-            Entity attendance = attendances.next();
-            Set<String> leas = studentCache.getEntriesById((String) attendance.getBody().get("studentId"));
-            for (String lea : leas) {
-                extractor.extractEntity(attendance, map.getExtractFileForLea(lea), "attendance");
+    public void extractEntities(EntityToLeaCache staffToEdorgCache) {
+        Iterator<Entity> staffs = repo.findEach(EntityNames.STAFF, new Query());
+        while (staffs.hasNext()) {
+            Entity staff = staffs.next();
+            Set<String> leas = staffToEdorgCache.getEntriesById(staff.getEntityId());
+            if (leas == null || leas.size() == 0) {
+                continue;
             }
+            for (String lea : leas) {
+                extractor.extractEntity(staff, map.getExtractFileForLea(lea), EntityNames.STAFF);
+            }
+            
         }
         
     }

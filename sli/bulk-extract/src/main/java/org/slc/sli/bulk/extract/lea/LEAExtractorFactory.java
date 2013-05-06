@@ -37,6 +37,26 @@ public class LEAExtractorFactory {
                 new EntityToLeaCache());
     }
     
+    public StaffEdorgAssignmentExtractor buildStaffAssociationExtractor(EntityExtractor extractor,
+            LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new StaffEdorgAssignmentExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToLeaCache());
+    }
+    
+    public EntityExtract buildStaffExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+        return new StaffExtractor(extractor, map, repo);
+    }
+    
+    public EntityExtract buildTeacherExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new TeacherExtractor(extractor, map, repo);
+    }
+    
+    public EntityExtract buildTeacherSchoolExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new TeacherSchoolExtractor(extractor, map, repo);
+    }
+
     public EntityExtract buildAttendanceExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo, EntityToLeaCache studentCache) {
         return new AttendanceExtractor(extractor, map, repo, new ExtractorHelper(), studentCache);
