@@ -37,6 +37,11 @@ public class LEAExtractorFactory {
                 new EntityToLeaCache());
     }
     
+    public EntityExtract buildStudentAssessmentExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new StudentAssessmentExtractor(extractor, map, repo);
+    }
+    
     public StaffEdorgAssignmentExtractor buildStaffAssociationExtractor(EntityExtractor extractor,
             LEAExtractFileMap map,
             Repository<Entity> repo) {

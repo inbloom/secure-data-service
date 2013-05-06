@@ -87,6 +87,8 @@ public class LocalEdOrgExtractor {
         EntityToLeaCache edorgCache = buildEdOrgCache();
         EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
         edorg.extractEntities(edorgCache);
+        
+        // Student
         StudentExtractor student = factory.buildStudentExtractor(entityExtractor, leaToExtractFileMap, repository);
         student.extractEntities(null);
         
@@ -96,6 +98,8 @@ public class LocalEdOrgExtractor {
         EntityExtract studentSchoolAssociation = factory.buildStudentSchoolAssociationExractor(entityExtractor,
                 leaToExtractFileMap, repository, student.getEntityCache());
         studentSchoolAssociation.extractEntities(null);
+        genericExtractor = factory.buildStudentAssessmentExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor.extractEntities(student.getEntityCache());
         
         // Staff
         StaffEdorgAssignmentExtractor seaExtractor = factory.buildStaffAssociationExtractor(entityExtractor,
