@@ -92,9 +92,9 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       # |  school                                |   |        |
       #|  section                               |   |         |
       #|  session                               |   |         |
-      #|  staff                                 |   |         |
+      |  staff                                 | 10 |         |
 #      |  staffCohortAssociation                | 7 |         |
-      #|  staffEducationOrganizationAssociation |   |         |
+      |  staffEducationOrganizationAssociation |  10 |         |
       # |  staffProgramAssociation               | 7 |         |
       |  student                               | 156 |         |
       #|  studentAcademicRecord                 |   |         |
@@ -108,8 +108,8 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       |  studentSchoolAssociation              |  334 |         |
       #|  studentSectionAssociation             |   |         |
       |  studentParentAssociation              | 18 |         |
-      #|  teacher                               |   |         |
-      #|  teacherSchoolAssociation              |   |         |
+      |  teacher                               | 3 |         |
+      |  teacherSchoolAssociation              | 3  |         |
       #|  teacherSectionAssociation             |   |         |
                                                     
     Scenario: Un-Authorized user cannot use the endpoint

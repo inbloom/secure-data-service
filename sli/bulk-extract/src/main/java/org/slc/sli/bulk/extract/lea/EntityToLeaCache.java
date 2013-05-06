@@ -61,4 +61,8 @@ public class EntityToLeaCache {
         return cache.get(entityId);
     }
     
+    public Set<String> getEntityIds() {
+        return cache.keySet();
+    }
+
 }
