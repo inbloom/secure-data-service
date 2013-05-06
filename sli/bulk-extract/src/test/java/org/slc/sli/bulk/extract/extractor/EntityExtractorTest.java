@@ -27,17 +27,16 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
+import org.slc.sli.bulk.extract.SecondaryReadRepository;
 import org.slc.sli.bulk.extract.TestUtils;
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
-import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Test bulk extraction into zip files.
@@ -51,10 +50,10 @@ public class EntityExtractorTest {
 
     @InjectMocks
     @Autowired
-    private  EntityExtractor extractor;
+    private EntityExtractor extractor;
 
     @Mock
-    private MongoEntityRepository mongoEntityRepository;
+    private SecondaryReadRepository mongoEntityRepository;
 
     @Mock
     private EntityWriterManager writer;
@@ -69,7 +68,7 @@ public class EntityExtractorTest {
     @Before
     public void init() throws IOException {
         MockitoAnnotations.initMocks(this);
-        mongoEntityRepository = Mockito.mock(MongoEntityRepository.class);
+        mongoEntityRepository = Mockito.mock(SecondaryReadRepository.class);
         archiveFile = Mockito.mock(ExtractFile.class);
         JsonFileWriter json = Mockito.mock(JsonFileWriter.class);
         Mockito.when(archiveFile.getDataFileEntry(Mockito.anyString())).thenReturn(json);
@@ -83,7 +82,7 @@ public class EntityExtractorTest {
      */
     @SuppressWarnings("unchecked")
     @Test
-    public void testExtractEntity() throws IOException{
+    public void testExtractEntities() throws IOException {
         String testTenant = "Midgar";
         String testEntity = "student";
 
@@ -93,11 +92,17 @@ public class EntityExtractorTest {
         Mockito.when(cursor.next()).thenReturn(students.get(0), students.get(1));
         Mockito.when(mongoEntityRepository.findEach(Matchers.eq(testEntity), Matchers.any(Query.class))).thenReturn(cursor);
 
-        extractor.extractEntities(testTenant, archiveFile, testEntity);
+        extractor.extractEntities(archiveFile, testEntity);
 
         Mockito.verify(mongoEntityRepository, Mockito.times(1)).findEach("student", new Query());
         Mockito.verify(writer, Mockito.times(2)).write(Mockito.any(Entity.class), Mockito.any(ExtractFile.class));
 
+    }
+    
+    @Test
+    public void testExtractEntity() throws IOException {
+        extractor.extractEntity(Mockito.mock(Entity.class), Mockito.mock(ExtractFile.class), "BLOOP");
+        Mockito.verify(writer, Mockito.times(1)).write(Mockito.any(Entity.class), Mockito.any(ExtractFile.class));
     }
 
 }

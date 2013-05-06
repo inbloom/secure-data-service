@@ -103,14 +103,9 @@ task :rcSandboxDashboardTests do
   runTests("test/features/cross_app_tests/rc_sandbox_dashboard.feature")
 end
 
-desc "Run RC Sandbox Databrowser Test"
+desc "Run RC Sandbox App Approval Test"
 task :rcSandboxAppApprovalTests do
   runTests("test/features/cross_app_tests/rc_sandbox_app_approval.feature")
-end
-
-desc "Run RC Sandbox Databrowser Test"
-task :rcSandboxBulkExtractTests do
-  runTests("test/features/cross_app_tests/rc_sandbox_bulk_extract.feature")
 end
 
 desc "Run RC Sandbox DAMT Test"

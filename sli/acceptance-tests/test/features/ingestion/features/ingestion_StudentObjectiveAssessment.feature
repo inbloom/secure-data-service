@@ -13,8 +13,7 @@ Given I post "StudentObjectiveAssessment1.zip" file as the payload of the ingest
 When zip file is scp to ingestion landing zone
   And "10" seconds have elapsed
   And a batch job for file "StudentObjectiveAssessment1.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | StudentObjectiveAssessment  | 6    |
    And I check to find if record is in collection:
@@ -34,8 +33,7 @@ Given I post "StudentObjectiveAssessment2.zip" file as the payload of the ingest
 When zip file is scp to ingestion landing zone
   And "10" seconds have elapsed
   And a batch job for file "StudentObjectiveAssessment2.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | session                     | 50    |
    And I check to find if record is in collection:

@@ -12,10 +12,8 @@ Scenario: Ingested Student data should be encrypted: Clean Database
         | student                     |  
         | parent                      | 
 	When zip file is scp to ingestion landing zone
-	And I am willing to wait upto 60 seconds for ingestion to complete
 	And a batch job for file "encryption.zip" is completed in database
-	And a batch job log has been created
-	And I should not see a warning log file created
+		And I should not see a warning log file created
 	And I should not see an error log file created
 	Then I should see "Processed 2 records." in the resulting batch job file
 	 	And I should see following map of entry counts in the corresponding collections:
@@ -45,7 +43,7 @@ Scenario: Ingested Student data should be encrypted: Clean Database
 		And the field "body.cohortYears[0].cohortYearType" has value "First grade"
 		And the field "body.studentIndicators[0].indicatorName" has value "At risk"
 		And the field "body.studentIndicators[0].indicator" has value "At risk"
-		And the field "body.studentIdentificationCode[0].identificationSystem" has value "SSN"
+		And the field "body.studentIdentificationCode[0].identificationSystem" has value "State"
 		And the field "body.studentIdentificationCode[0].assigningOrganizationCode" has value "Federal"
 
 		# ENCRYPTED FIELDS
@@ -88,9 +86,7 @@ Scenario: Ingested Student data should be encrypted: Populated Database
          | collectionName              |
 	    | recordHash                  |
 	When zip file is scp to ingestion landing zone
-	And I am willing to wait upto 30 seconds for ingestion to complete
-	And a batch job for file "encryption.zip" is completed in database
-	And a batch job log has been created
+    And a batch job for file "encryption.zip" is completed in database
 	Then I should see "Processed 2 records." in the resulting batch job file
 	And I should not see a warning log file created
 	And I should not see an error log file created
@@ -121,7 +117,7 @@ Scenario: Ingested Student data should be encrypted: Populated Database
 		And the field "body.cohortYears[0].cohortYearType" has value "First grade"
 		And the field "body.studentIndicators[0].indicatorName" has value "At risk"
 		And the field "body.studentIndicators[0].indicator" has value "At risk"
-		And the field "body.studentIdentificationCode[0].identificationSystem" has value "SSN"
+		And the field "body.studentIdentificationCode[0].identificationSystem" has value "State"
 		And the field "body.studentIdentificationCode[0].assigningOrganizationCode" has value "Federal"
 		# ENCRYPTED FIELDS
 		And the field "body.studentIdentificationCode[0].identificationCode" with value "555-55-5555" is encrypted

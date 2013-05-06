@@ -82,6 +82,7 @@ Then /^my tenant database should be cleared$/ do
                   "realm",
                   "application",
                   "roles",
+                  "deltas",
                   "customRole"]
   disable_NOTABLESCAN
   coll_names.each do |coll|

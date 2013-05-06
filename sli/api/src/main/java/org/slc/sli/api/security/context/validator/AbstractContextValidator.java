@@ -25,18 +25,18 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Abstract class that all context validators must extend.
@@ -132,7 +132,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return DateTime object.
      */
     protected DateTime getDateTime(String convert) {
-        return DateTime.parse(convert, dateHelper.fmt);
+        return DateTime.parse(convert, dateHelper.getDateTimeFormat());
     }
 
     /**
@@ -142,7 +142,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return String representing DateTime (of format yyyy-MM-dd).
      */
     protected String getDateTimeString(DateTime convert) {
-        return convert.toString(dateHelper.fmt);
+        return convert.toString(dateHelper.getDateTimeFormat());
     }
 
     /**

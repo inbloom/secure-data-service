@@ -16,13 +16,8 @@
 
 package org.slc.sli.dal.convert;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -69,34 +64,13 @@ public class Denormalizer {
             String idKey = EmbeddedDocumentRelations.getDenormalizedIdKey(entityType);
             List<String> denormalizedBodyFields = EmbeddedDocumentRelations.getDenormalizedBodyFields(entityType);
             List<String> denormalizedMetaFields = EmbeddedDocumentRelations.getDenormalizedMetaFields(entityType);
+            String [] denormalizedEntityKeys =  EmbeddedDocumentRelations.getDenormalizedEntityKeys(entityType);
 
             if (toEntity != null && referenceKeys != null) {
                 denormalize(entityType).data(denormalizedBodyFields, denormalizedMetaFields).to(toEntity).as(field)
-                        .using(referenceKeys).withCache(cachedReferenceKey).idKey(idKey).register();
+                        .using(referenceKeys).withCache(cachedReferenceKey).idKey(idKey).withDenormalizedEntityKeys(denormalizedEntityKeys).register();
             }
         }
-    }
-
-    // Go through and delete references to given entity type from appropriate collections
-    // that were inserted as a result of de-normalization.
-    public boolean deleteDenormalizedReferences(String entityType, String id) {
-
-    	// Remove security-related edOrg IDs added to "student" collection in the schools[] array
-    	if (    entityType.equals("educationOrganization")
-    	     || entityType.equals("localEducationAgency")
-    	     || entityType.equals("stateEducationAgency")
-    	     || entityType.equals("school")
-    	     || entityType.equals("educationServiceCenter") ) {
-
-    		// Constructing from JSON strings will work only because IDs are hex, else we would have quoting issues.
-    		String query_json = "{ 'schools.edOrgs': '" + id + "' }";
-    		String update_json = "{ $pull: { 'schools': { 'edOrgs' : '" + id + "'}}}";
-    		DBObject query = (DBObject) JSON.parse(query_json);
-    		DBObject update = (DBObject) JSON.parse(update_json);
-    		TenantContext.setIsSystemCall(false);
-    		return template.getCollection("student").update(query, update, false, true, WriteConcern.SAFE).getLastError().ok();
-    	}
-    	return true;
     }
 
     /**
@@ -118,6 +92,7 @@ public class Denormalizer {
         private List<String> bodyFields;
         private List<String> metaFields;
         private Map<String,String> cachedEntityRefKey;
+        private String [] denormalizedEntityKeys;
 
         public DenormalizationBuilder(String type) {
             super();
@@ -155,9 +130,14 @@ public class Denormalizer {
             return this;
         }
 
+        public DenormalizationBuilder withDenormalizedEntityKeys(String [] denormalizedEntityKeys) {
+            this.denormalizedEntityKeys = Arrays.copyOf(denormalizedEntityKeys, denormalizedEntityKeys.length);
+            return this;
+        }
+
         public void register() {
             denormalizations.put(type, new Denormalization(type, collection, field, referenceKeys, idKey, bodyFields,
-                    metaFields, cachedEntityRefKey));
+                    metaFields, cachedEntityRefKey, denormalizedEntityKeys));
         }
 
 
@@ -178,10 +158,11 @@ public class Denormalizer {
         private String denormalizedToField;
         private Map<String,String> cachedEntityRefKey;
         private Map<String,Entity> referencedEntityMap;
+        private String [] denormalizedEntityKeys;
 
         public Denormalization(String type, String denormalizeToEntity, String denormalizedToField,
                 Map<String, String> denormalizationReferenceKeys, String denormalizedIdKey,
-                List<String> denormalizedFields, Map<String,String> cachedEntityRefKey) {
+                List<String> denormalizedFields, Map<String,String> cachedEntityRefKey, String [] denormalizedEntityKeys) {
             this.type = type;
             this.denormalizeToEntity = denormalizeToEntity;
             this.denormalizedToField = denormalizedToField;
@@ -190,12 +171,13 @@ public class Denormalizer {
             this.denormalizedBodyFields = denormalizedFields;
             this.cachedEntityRefKey = cachedEntityRefKey;
             this.referencedEntityMap = null;
+            this.denormalizedEntityKeys = Arrays.copyOf(denormalizedEntityKeys, denormalizedEntityKeys.length);
         }
 
         public Denormalization(String type, String denormalizeToEntity, String denormalizedToField,
                 Map<String, String> denormalizationReferenceKeys, String denormalizedIdKey,
                 List<String> denormalizedBodyFields, List<String> denormalizedMetaDataFields
-                , Map<String,String> cachedEntityRefKey) {
+                , Map<String,String> cachedEntityRefKey, String [] denormalizedEntityKeys) {
             this.type = type;
             this.denormalizeToEntity = denormalizeToEntity;
             this.denormalizedToField = denormalizedToField;
@@ -205,6 +187,7 @@ public class Denormalizer {
             this.denormalizedMetaDataFields = denormalizedMetaDataFields;
             this.cachedEntityRefKey = cachedEntityRefKey;
             this.referencedEntityMap = null;
+            this.denormalizedEntityKeys = Arrays.copyOf(denormalizedEntityKeys, denormalizedEntityKeys.length);
         }
 
         public boolean create(Entity entity) {
@@ -376,9 +359,9 @@ public class Denormalizer {
         }
 
         private DBObject buildPullObject(List<Entity> entities) {
-            Set<String> existingIds = new HashSet<String>();
             Query pullQuery = new Query();
 
+            List <Criteria> orList = new ArrayList<Criteria>();
             for (Entity entity : entities) {
                 String internalId = null;
                 if (denormalizedIdKey.equals("_id")) {
@@ -386,10 +369,20 @@ public class Denormalizer {
                 } else {
                     internalId = (String) entity.getBody().get(denormalizedIdKey);
                 }
-                existingIds.add(internalId);
+                //delete studentSectionAssociation DND where (sectionId(_id) = "x1" and beginDate(denormalizedKey) = "y1") OR (sectionId(_id) = "x2" and beginDate(denormalizedKey) = "y2") ...
+                //delete studentSchoolAssociation  DND where (schoolld(_id)  = "x1" and entryDate(denormalizedKey) = "y1") OR (schoolld(_id)  = "x2" and entryDate(denormalizedKey) = "y2") ...
+                //DND -> denormalizedDoc
+                List<Criteria> andList = new ArrayList<Criteria>();
+                andList.add(Criteria.where("_id").is(internalId));
+                for(String denormalizedKey:denormalizedEntityKeys) {
+                    String denormalizedValue = (String) entity.getBody().get(denormalizedKey);
+                    andList.add( Criteria.where(denormalizedKey).is(denormalizedValue));
+                }
+                    Criteria and = new Criteria().andOperator(andList.toArray(new Criteria[0]));
+                    orList.add(and);
             }
-
-            pullQuery.addCriteria(Criteria.where("_id").in(existingIds));
+            Criteria or = new Criteria().orOperator(orList.toArray(new Criteria[0]));
+            pullQuery.addCriteria(or);
 
             Update update = new Update();
             update.pull(denormalizedToField, pullQuery.getQueryObject());

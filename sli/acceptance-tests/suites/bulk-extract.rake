@@ -25,14 +25,14 @@ end
 desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSetup do
   Rake::Task["bulkExtractCleanup"].execute
-  Rake::Task["ingestionSmokeTests"].execute
+  Rake::Task["ingestionSmokeTests"].execute 
   @tags = ["~@wip", "~@sandbox"]
 
 end
 
 desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSmokeTests do
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC      
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractStudentTest"].execute  
 end
@@ -79,7 +79,40 @@ end
 
 desc "Deltas and Deletes"
 task :bulkExtractDeltasTest do
+  runTests("test/features/bulk_extract/features/bulk_extract_ingestion.feature")
+  Rake::Task["realmInit"].execute
+  Rake::Task["appInit"].execute
+  allLeaAllowApp("SDK Sample")  
+  authorizeEdorg("SDK Sample")
   runTests("test/features/bulk_extract/features/bulk_extract_deltas_api.feature")
+  runTests("test/features/bulk_extract/features/delta_recording.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
+desc "Extract SEA only public data"
+task :bulkExtractSEAPublicTest do
+  runTests("test/features/bulk_extract/features/bulk_extract_sea_public.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
+desc "Negative and Edge Cases"
+task :bulkExtractNegativeTests do
+  runTests("test/features/bulk_extract/features/bulk_extract_neg_and_edge.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
+desc "Client Cert Auth Bulk Extract Tests"
+task :bulkExtractTlsTests do
+  runTests("test/features/bulk_extract/features/bulk_extract_tls.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
+desc "API Bulk Extract Tests"
+task :bulkExtractApiTests do
+  runTests("test/features/bulk_extract/features/bulk_extract_headers.feature")
+  runTests("test/features/bulk_extract/features/bulk_extract_partial_gets.feature")
+  runTests("test/features/bulk_extract/features/bulk_extract_versions.feature")
+  runTests("test/features/bulk_extract/features/bulk_extract_lea_list.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
@@ -90,14 +123,20 @@ task :bulkExtractTests => [:realmInit] do
 
   Rake::Task["bulkExtractSetup"].execute
   Rake::Task["addBootstrapAppAuths"].execute
+  allLeaAllowApp("SDK Sample")  
+  authorizeEdorg("SDK Sample")
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractSimpleEntitiesTest"].execute
   Rake::Task["bulkExtractSuperdocTest"].execute  
   Rake::Task["bulkExtractEdorgStaffTest"].execute
   Rake::Task["bulkExtractIntegrationTest"].execute
+  Rake::Task["bulkExtractApiTests"].execute
   Rake::Task["bulkExtractDeltasTest"].execute
   Rake::Task["bulkExtractSchedulerTest"].execute
-  Rake::Task["bulkExtractCleanup"].execute 
+  Rake::Task["bulkExtractNegativeTests"].execute
+  Rake::Task["bulkExtractTlsTests"].execute
+  Rake::Task["bulkExtractSEAPublicTest"].execute
+  Rake::Task["bulkExtractCleanup"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

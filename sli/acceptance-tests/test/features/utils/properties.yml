@@ -8,6 +8,7 @@ browser: "firefox"
 admintools_server_url: "http://local.slidev.org:3001"
 minisb_admintools_server_url: "http://ycao-mint.slidev.org:3001"
 api_server_url: "http://local.slidev.org:8080"
+api_ssl_server_url: "https://local.slidev.org:8443"
 databrowser_server_url: "http://local.slidev.org:3000"
 
 ingestion_db: "localhost"
@@ -35,6 +36,9 @@ activemq_host: "localhost"
 
 #Bulk Extract Configuration
 bulk_extract_script: "../bulk-extract/scripts/local_bulk_extract.sh"
+bulk_extract_delta_script: "../bulk-extract/scripts/local_bulk_extract.sh"
+bulk_extract_delta_properties: "../config/properties/sli.properties"
+bulk_extract_delta_keystore: "../data-access/dal/keyStore/ciKeyStore.jks"
 bulk_extract_output_directory: "extract/"
 bulk_extract_jar_loc: ""
 bulk_extract_properties_file: ""
@@ -90,6 +94,7 @@ jmeter_bin: "jmeter"
 jmeter_properties: "ci.properties"
 jmeter_regression_threshold: 0.25
 jmeter_reset_regression: false
+jmeter_consideration_percentile: .90
 
 app_bootstrap_server: "local"
 

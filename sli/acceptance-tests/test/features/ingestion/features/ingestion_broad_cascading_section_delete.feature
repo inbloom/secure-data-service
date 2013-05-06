@@ -5,7 +5,7 @@ Background: I have a landing zone route configured
 Given I am using local data store
 
 @wip
-Scenario: Delete Program with cascade
+Scenario: Delete Section with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
@@ -109,6 +109,8 @@ Scenario: Delete Section with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |section     |   0|
+	|recordHash  |   0|
+        |section<hollow>|    0|
 
  Scenario: Delete Section with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -158,6 +160,8 @@ Scenario: Delete Section with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection |delta|
         |section     |   0|
+        |recordHash  |   0|
+        |section<hollow>|    0|
 
  Scenario: Delete Orphan Section with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -210,3 +214,98 @@ Scenario: Delete Section with cascade = false
         | collection |delta|
         |section     |   -1|
         |recordHash  |   -1|
+ 
+     
+ Scenario: Delete Section with cascade = false, force = true and log violations = true
+    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And the "Midgar" tenant db is empty
+    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
+	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "section"
+	|field                                                           |value                                                |
+	|_id                                                             |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
+	Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "student"
+	|field                                                           |value                                                |
+	|section._id                                                  |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id             |
+	Then there exist "24" "studentGradebookEntry" records like below in "Midgar" tenant. And I save this query as "studentGradebookEntry"
+	|field                                                           |value                                                |
+	|body.sectionId                                                  |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
+	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "gradebookEntry"
+	|field                                                           |value                                                |
+	|gradebookEntry.body.sectionId                                   |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
+	Then there exist "1" "yearlyTranscript" records like below in "Midgar" tenant. And I save this query as "grade"
+	|field                                                           |value                                                |
+	|grade.body.sectionId                                            |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
+	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "teacherSectionAssociation"
+	|field                                                           |value                                                |
+	|teacherSectionAssociation.body.sectionId                        |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |	
+	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "studentSectionAssociation"
+	|field                                                           |value                                                |
+	|studentSectionAssociation.body.sectionId                        |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |	
+	And I save the collection counts in "Midgar" tenant
+    And I post "ForceSectionDelete.zip" file as the payload of the ingestion job
+   When zip file is scp to ingestion landing zone
+    And a batch job for file "ForceSectionDelete.zip" is completed in database
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+    And I should see "records failed processing: 0" in the resulting batch job file
+    And I should see "records not considered for processing: 0" in the resulting batch job file
+    And I should see "All records processed successfully." in the resulting batch job file
+    And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeMasterSchedule.xml"	
+    And I re-execute saved query "section" to get "1" records
+    And I re-execute saved query "student" to get "1" records
+    And I re-execute saved query "studentGradebookEntry" to get "24" records
+    And I re-execute saved query "gradebookEntry" to get "1" records
+    And I re-execute saved query "grade" to get "1" records
+    And I re-execute saved query "teacherSectionAssociation" to get "1" records
+    And I re-execute saved query "studentSectionAssociation" to get "1" records
+    And I see that collections counts have changed as follows in tenant "Midgar"
+        | collection    |delta|
+        |recordHash     |   -1|
+        |section<hollow>|    1|
+
+ Scenario: Delete Section Ref with cascade = false, force = true and log violations = true
+    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And the "Midgar" tenant db is empty
+    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
+	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "section"
+	|field                                                           |value                                                |
+	|_id                                                             |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
+	Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "student"
+	|field                                                           |value                                                |
+	|section._id                                                  |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id             |
+	Then there exist "24" "studentGradebookEntry" records like below in "Midgar" tenant. And I save this query as "studentGradebookEntry"
+	|field                                                           |value                                                |
+	|body.sectionId                                                  |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
+	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "gradebookEntry"
+	|field                                                           |value                                                |
+	|gradebookEntry.body.sectionId                                   |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
+	Then there exist "1" "yearlyTranscript" records like below in "Midgar" tenant. And I save this query as "grade"
+	|field                                                           |value                                                |
+	|grade.body.sectionId                                            |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |
+	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "teacherSectionAssociation"
+	|field                                                           |value                                                |
+	|teacherSectionAssociation.body.sectionId                        |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |	
+	Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "studentSectionAssociation"
+	|field                                                           |value                                                |
+	|studentSectionAssociation.body.sectionId                        |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id          |	
+	And I save the collection counts in "Midgar" tenant
+    And I post "ForceSectionRefDelete.zip" file as the payload of the ingestion job
+   When zip file is scp to ingestion landing zone
+    And a batch job for file "ForceSectionRefDelete.zip" is completed in database
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+    And I should see "records failed processing: 0" in the resulting batch job file
+    And I should see "records not considered for processing: 0" in the resulting batch job file
+    And I should see "All records processed successfully." in the resulting batch job file
+    And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "CORE_0066" in the resulting warning log file for "InterchangeMasterSchedule.xml"	
+    And I re-execute saved query "section" to get "1" records
+    And I re-execute saved query "student" to get "1" records
+    And I re-execute saved query "studentGradebookEntry" to get "24" records
+    And I re-execute saved query "gradebookEntry" to get "1" records
+    And I re-execute saved query "grade" to get "1" records
+    And I re-execute saved query "teacherSectionAssociation" to get "1" records
+    And I re-execute saved query "studentSectionAssociation" to get "1" records
+    And I see that collections counts have changed as follows in tenant "Midgar"
+        | collection    |delta|
+        |recordHash     |   -1|
+        |section<hollow>|    1|

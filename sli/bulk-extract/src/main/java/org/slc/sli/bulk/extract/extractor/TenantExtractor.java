@@ -15,18 +15,20 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.security.PublicKey;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Bulk extractor to extract data for a tenant.
@@ -57,8 +59,15 @@ public class TenantExtractor{
      */
     public void execute(String tenant, ExtractFile extractFile, DateTime startTime) {
         Set<String> uniqueCollections = new HashSet<String>(entitiesToCollections.values());
+
+        Map<String, PublicKey> clientKeys = bulkExtractMongoDA.getAppPublicKeys();
+        if(clientKeys == null || clientKeys.isEmpty()) {
+            LOG.info("No authorized application to extract data.");
+            return;
+        }
+        extractFile.setClientKeys(clientKeys);
         for (String collection : uniqueCollections) {
-            entityExtractor.extractEntities(tenant, extractFile, collection);
+            entityExtractor.extractEntities(extractFile, collection);
             extractFile.closeWriters();
         }
 
@@ -71,11 +80,13 @@ public class TenantExtractor{
 
         try {
             extractFile.generateArchive();
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.error("Error generating archive file: {}", e.getMessage());
         }
 
-        bulkExtractMongoDA.updateDBRecord(tenant, extractFile.getArchiveFile().getAbsolutePath(), startTime.toDate(), false);
+        for(Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
+            bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), archiveFile.getKey(), startTime.toDate(), false, null, false);
+        }
     }
 
     /**

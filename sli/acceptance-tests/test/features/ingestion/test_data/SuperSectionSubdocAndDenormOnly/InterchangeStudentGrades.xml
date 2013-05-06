@@ -1,0 +1,1471 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2002-09-09</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2002-09-09</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2002-09-23</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2002-09-23</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2002-10-07</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2002-10-07</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2002-10-21</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2002-10-21</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2002-11-04</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2002-11-04</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2002-11-18</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2002-11-18</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2002-12-02</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2002-12-02</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2002-12-16</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2002-12-16</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2002-12-30</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2002-12-30</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2003-01-13</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2003-01-13</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2003-01-27</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2003-01-27</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2003-02-10</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2003-02-10</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2003-02-24</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2003-02-24</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2003-03-10</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2003-03-10</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2003-03-29</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2003-03-29</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2003-04-07</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2003-04-07</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2003-04-21</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2003-04-21</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2003-05-05</DateAssigned>
+    <Description>Gradebook Entry of type: Homework, assigned on: 2003-05-05</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Quiz</GradebookEntryType>
+    <DateAssigned>2002-09-09</DateAssigned>
+    <Description>Gradebook Entry of type: Quiz, assigned on: 2002-09-09</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Quiz</GradebookEntryType>
+    <DateAssigned>2002-10-23</DateAssigned>
+    <Description>Gradebook Entry of type: Quiz, assigned on: 2002-10-23</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Quiz</GradebookEntryType>
+    <DateAssigned>2002-12-06</DateAssigned>
+    <Description>Gradebook Entry of type: Quiz, assigned on: 2002-12-06</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Quiz</GradebookEntryType>
+    <DateAssigned>2003-01-20</DateAssigned>
+    <Description>Gradebook Entry of type: Quiz, assigned on: 2003-01-20</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Quiz</GradebookEntryType>
+    <DateAssigned>2003-03-04</DateAssigned>
+    <Description>Gradebook Entry of type: Quiz, assigned on: 2003-03-04</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Quiz</GradebookEntryType>
+    <DateAssigned>2003-04-17</DateAssigned>
+    <Description>Gradebook Entry of type: Quiz, assigned on: 2003-04-17</Description>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 1</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 2</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 3</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 4</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Computer and Information Sciences Objective 5</Objective>
+        <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>12</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2002-09-09</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </GradebookEntry>
+ 
+
+
+</InterchangeStudentGrade>

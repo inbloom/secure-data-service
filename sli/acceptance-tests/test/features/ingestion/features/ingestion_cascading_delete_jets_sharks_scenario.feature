@@ -11,8 +11,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And the "Midgar" tenant db is empty
 When zip file is scp to ingestion landing zone
   And a batch job for file "prep_cascading_deletion_school.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                            |              count|
      | student                                   |					1|
      | staff                                     |                  1|
@@ -32,8 +31,7 @@ Then I should see following map of entry counts in the corresponding collections
 	And I post "cascading_deletion_sharks_school.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "cascading_deletion_sharks_school.zip" is completed in database
-    And a batch job log has been created
-	Then I should see following map of entry counts in the corresponding collections:
+    Then I should see following map of entry counts in the corresponding collections:
      | collectionName                            |              count|
      | student                                   |					1|
      | staff                                     |                  1|
@@ -53,8 +51,7 @@ Then I should see following map of entry counts in the corresponding collections
 	And I post "cascading_deletion_jets_school.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "cascading_deletion_jets_school.zip" is completed in database
-    And a batch job log has been created
-	Then I should see following map of entry counts in the corresponding collections:
+    Then I should see following map of entry counts in the corresponding collections:
      | collectionName                            |              count|
      | student                                   |					1|
      | staff                                     |                  1|
@@ -91,8 +88,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | staff                              |
    When zip file is scp to ingestion landing zone
   And a batch job for file "prep_cascading_deletion.zip" is completed in database
-  And a batch job log has been created
-  Then I should see following map of entry counts in the corresponding collections:
+    Then I should see following map of entry counts in the corresponding collections:
      | collectionName                     |              count|
      | student                            |					1|
      | educationOrganization              |					3|
@@ -136,8 +132,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 	And I post "cascading_deletion_school_2.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "cascading_deletion_school_2.zip" is completed in database
-    And a batch job log has been created
-      Then I should see following map of entry counts in the corresponding collections:
+    Then I should see following map of entry counts in the corresponding collections:
      | collectionName                     |              count|
      | student                            |					1|
      | educationOrganization              |					2|

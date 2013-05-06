@@ -4,6 +4,7 @@ dashboard_landing_page: "/"
 dashboard_api_server_uri: "https://picard-api.slidev.org"
 realm_page_url: "https://picard-api.slidev.org/api/oauth/authorize"
 browser: "firefox"
+rc_env: "picard"
 
 admintools_server_url: "https://picard-admin.slidev.org"
 minisb_admintools_server_url: "https://picardsandbox.slidev.org"
@@ -15,7 +16,7 @@ ingestion_db_port: 27018
 ingestion_database_name: "sli"
 ingestion_batchjob_db: "localhost"
 ingestion_batchjob_database_name: "ingestion_batch_job"
-ingestion_batchjob_db_port: 27019
+ingestion_batchjob_db_port: 27018
 lz_server_url: "picard-lz.slidev.org"
 lz_sftp_port: "443"
 ingestion_server_url: "devpantheon.slidev.org"
@@ -36,9 +37,13 @@ ingestion_timeout_override_seconds: 0
 #Bulk Extract Configuration
 bulk_extract_script: "/opt/bulkextract/local_bulk_extract.sh"
 bulk_extract_output_directory: "/bulkextract/extracts/"
-bulk_extract_jar_loc: "opt/bulkextract/bulk_extract.tar.gz"
-bulk_extract_properties_file: "/opt/tomcat/apache-tomcat-7.0.29/conf/sli.properties"
+bulk_extract_jar_loc: "/opt/bulkextract/bulk_extract.tar.gz"
+bulk_extract_properties_file: "/opt/tomcat/apache-tomcat-7.0.27/conf/sli.properties"
 bulk_extract_keystore_file: "/opt/tomcat/encryption/ciKeyStore.jks"
+
+#Bulk Extract Pre-existing App, used in RC E2E Tests
+bulk_extract_testapp_client_id: "9y2071pair"
+bulk_extract_testapp_secret: "lqrbj26161mopqozni5vmyxc5ws21hdzoi5i9q02hpy5azuo"
 
 sif_db: "localhost"
 sif_port: 27018
@@ -146,6 +151,8 @@ ci_idp_redirect_url: https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant
 #e2e_dev_email: testdev.wgen@gmail.com
 #e2e_password: test1234
 
+ssh_user: jenkins@rcingest01.picard
+extract_to_directory: /jenkins
 
 ################# /e2e test properties #################################
 

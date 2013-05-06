@@ -1,10 +1,6 @@
 ############################################################
 # API V1 tests start
 ############################################################
-task :bulkExtract => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/bulkExtract")
-end
 
 desc "Run API V1 Yearly Transcript Tests"
 task :apiV1YearlyTranscriptTests => [:realmInit] do
@@ -223,12 +219,6 @@ end
 desc "Run Tests for list-attendance endpoint"
 task :v1ListAttendanceEndpointTests do
   runTests("test/features/apiV1/endpoints/listAttendancesEndpoint.feature")
-end
-
-desc "Run V1 Assessment User Story Tests"
-task :v1EndUserStoryAssessmentTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/assessments/assessment.feature")
 end
 
 desc "Run V1 Custom entity User Story Tests"

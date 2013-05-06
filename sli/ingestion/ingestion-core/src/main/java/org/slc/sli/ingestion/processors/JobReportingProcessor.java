@@ -502,7 +502,8 @@ public class JobReportingProcessor implements Processor {
         writeInfoLine(jobReportWriter, id + " records considered for processing: " + numProcessed);
         writeInfoLine(jobReportWriter, id + " records ingested successfully: " + numPassed);
         writeInfoLine(jobReportWriter, id + " records deleted successfully: " + numDeleted);
-        writeInfoLine(jobReportWriter, id + " child records deleted successfully: " + numDeletedChild);
+        // TODO uncomment if/when cascade deletes are supported
+//        writeInfoLine(jobReportWriter, id + " child records deleted successfully: " + numDeletedChild);
         writeInfoLine(jobReportWriter, id + " records failed processing: " + numFailed);
         writeInfoLine(jobReportWriter, id + " records not considered for processing: " + numFailedValidation);
     }

@@ -41,10 +41,10 @@
     <value>studentCompetency</value>
     <value>studentCompetencyObjective</value>
     <value>studentDisciplineIncidentAssociation</value>
-    <value>studentParentAssociation</value>
     <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
     <value>studentSectionAssociation</value>
+    <value>studentParentAssociation</value>
     <value>studentGradebookEntry</value>
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>

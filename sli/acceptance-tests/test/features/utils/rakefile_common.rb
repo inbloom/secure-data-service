@@ -19,6 +19,7 @@ limitations under the License.
 require 'ldapstorage'
 require 'digest/sha1'
 require 'yaml'
+require 'rest-client'
 
 def cleanUpLdapUser(user_email)
   ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
@@ -51,6 +52,7 @@ def allLeaAllowApp(appName)
 end
 
 def allLeaAllowAppForTenant(appName, tenantName)
+  sleep 1
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
   db = conn[PropLoader.getProps['api_database_name']]
@@ -70,6 +72,37 @@ def allLeaAllowAppForTenant(appName, tenantName)
   appAuthColl.remove("body.applicationId" => appId)
   newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => appId, "edorgs" => neededEdOrgs}, "metaData" => {"tenantId" => tenantName}}
   appAuthColl.insert(newAppAuth)
+  conn.close
+  enable_NOTABLESCAN()
+end
+
+def authorizeEdorg(appName)
+  authorizeEdorgForTenant(appName, 'Midgar')
+end
+
+def authorizeEdorgForTenant(appName, tenantName)
+  #sleep 1
+  puts "Entered authorizeEdorg" if ENV['DEBUG']
+  disable_NOTABLESCAN()
+  puts "Getting mongo cursor" if ENV['DEBUG']
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
+  puts "Setting into the sli db" if ENV['DEBUG']
+  db = conn[PropLoader.getProps['api_database_name']]
+  puts "Setting into the application collection" if ENV['DEBUG']
+  appColl = db.collection("application")
+  puts "Finding the application with name #{appName}" if ENV['DEBUG']
+  appId = appColl.find_one({"body.name" => appName})["_id"]
+  puts("The app #{appName} id is #{appId}") if ENV['DEBUG']
+  
+  dbTenant = conn[convertTenantIdToDbName(tenantName)]
+  appAuthColl = dbTenant.collection("applicationAuthorization")
+  
+  puts("The app #{appName} id is #{appId}")
+  neededEdOrgs = appAuthColl.find_one({"body.applicationId" => appId})["body"]["edorgs"]
+  neededEdOrgs.each do |edorg|
+    appColl.update({"_id" => appId}, {"$push" => {"body.authorized_ed_orgs" => edorg}})
+  end
+  
   conn.close
   enable_NOTABLESCAN()
 end
@@ -95,6 +128,30 @@ end
 def convertTenantIdToDbName(tenantId)
   return Digest::SHA1.hexdigest tenantId
 end
+
+
+def testTls(url, token, client_id, path)
+  puts "Loading Key and Certificate for client ID #{client_id}"
+  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
+  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
+
+  headers = {:accept => "application/x-tar", :Authorization => "bearer #{token}"}
+
+  res = RestClient::Request.execute(:method => :get, :url => url, :headers => headers, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
+  puts "Return Code = #{res.code}, Header = #{res.raw_headers}"
+  if res.code > 300
+    puts "Error Response = #{res.body}"
+    return
+  end
+
+  file = Dir.pwd + "/#{path}"
+  File.delete(file) if File.exists?(file)
+  File.open(file, "a") do |outf|
+    outf << res.body
+  end
+  puts "File was saved to #{Dir.pwd + "/#{path}"}"
+end
+
 # Property Loader class
 
 class PropLoader
@@ -126,31 +183,39 @@ end
 # turn ON --notablescan MongoDB flag, if set in ENV
 ##############################################################################
 def enable_NOTABLESCAN()
-  if ENV["TOGGLE_TABLESCANS"]
-    puts "Turning --notablescan flag ON!  (indexes must hit queries)"
-    adminconn = Mongo::Connection.new
-    admindb = adminconn.db('admin')
-    cmd = Hash.new
-    cmd['setParameter'] = 1
-    cmd['notablescan'] = true
-    admindb.command(cmd)
-    admindb.get_last_error()
-    adminconn.close
-  end
+  setTableScan true
 end
+
+
 
 ##############################################################################
 # turn OFF --notablescan MongoDB flag, if set in ENV
 ##############################################################################
 def disable_NOTABLESCAN()
+  setTableScan false
+end
+
+def setTableScan(enabled)
   if ENV["TOGGLE_TABLESCANS"]
-    puts "Turning --notablescan flag OFF."
+    puts "Turning --notablescan flag #{enabled}"
     adminconn = Mongo::Connection.new
     admindb = adminconn.db('admin')
-    cmd = Hash.new
-    cmd['setParameter'] = 1
-    cmd['notablescan'] = false
+    cmd = {setParameter: 1, notablescan: enabled}
     admindb.command(cmd)
+    begin
+      shards = admindb.command({listShards: 1})["shards"]
+    rescue Mongo::OperationFailure => e
+      puts "Could not get the shard list"
+      shards = []
+    end
+    shards.each{ |shard|
+      hostname, port = shard['host'].split(":")
+      shardconn = Mongo::Connection.new(hostname, port)
+      sharddb = shardconn['admin']
+      sharddb.command(cmd)
+      sharddb.get_last_error()
+      shardconn.close()
+    }
     admindb.get_last_error()
     adminconn.close
   end

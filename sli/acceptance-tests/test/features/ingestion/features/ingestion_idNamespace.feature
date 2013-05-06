@@ -13,8 +13,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | student                     |
 When zip file is scp to ingestion landing zone
   And a batch job for file "idNamespace.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | student                     | 1     |
    And I check to find if record is in collection:
@@ -36,8 +35,7 @@ Given I post "idNamespaceDefault.zip" file as the payload of the ingestion job
      | student                     |
 When zip file is scp to ingestion landing zone
   And a batch job for file "idNamespaceDefault.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | student                     | 1     |
   And I should see "Processed 1 records." in the resulting batch job file

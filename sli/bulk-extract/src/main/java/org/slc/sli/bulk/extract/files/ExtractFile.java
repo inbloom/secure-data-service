@@ -15,16 +15,31 @@
  */
 package org.slc.sli.bulk.extract.files;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.FileUtils;
-import org.apache.lucene.util.IOUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,9 +55,16 @@ import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
 public class ExtractFile {
 
     private File tempDir;
-    private File archiveFile;
+    private Map<String, File> archiveFiles = new HashMap<String, File>();
     private Map<String, JsonFileWriter> dataFiles = new HashMap<String, JsonFileWriter>();
     private ManifestFile manifestFile;
+    private String edorg;
+
+    private File parentDir;
+    private String archiveName = "";
+
+
+    private Map<String, PublicKey> clientKeys = null;
 
     private static final String FILE_EXT = ".tar";
 
@@ -55,15 +77,20 @@ public class ExtractFile {
      *          parent directory
      * @param archiveName
      *          name of the archive file
+     * @param clientKeys
+     *          Map from application ID to public keys.
      */
-    public ExtractFile(File parentDir, String archiveName) {
-        this.archiveFile = new File(parentDir, archiveName + FILE_EXT);
+    public ExtractFile(File parentDir, String archiveName, Map<String, PublicKey> clientKeys) {
+        this.parentDir = parentDir;
+        this.archiveName = archiveName;
+        this.clientKeys = clientKeys;
         this.tempDir = new File(parentDir, UUID.randomUUID().toString());
         this.tempDir.mkdir();
     }
 
     /**
-     *Get a data file for the extract.
+     * Creates a fileWriter for a given file prefix (file name).
+     * If writer already exists it returns the writer.
      *
      * @param filePrefix
      *          the prefix string to be used in file name generation
@@ -104,15 +131,20 @@ public class ExtractFile {
     /**
      * Generates the archive file for the extract.
      *
-     * @throws IOException
-     *      if an I/O error occurred
      */
-    public void generateArchive() throws IOException {
-        createTarFile();
+    public boolean generateArchive() {
+
+        boolean success = true;
 
         TarArchiveOutputStream tarArchiveOutputStream = null;
+        MultiOutputStream multiOutputStream = new MultiOutputStream();
+
         try {
-            tarArchiveOutputStream = new TarArchiveOutputStream(new FileOutputStream(archiveFile));
+            for(String app : clientKeys.keySet()){
+                multiOutputStream.addStream(getAppStream(app));
+            }
+
+            tarArchiveOutputStream = new TarArchiveOutputStream(multiOutputStream);
 
             archiveFile(tarArchiveOutputStream, manifestFile.getFile());
             for (JsonFileWriter dataFile : dataFiles.values()) {
@@ -122,16 +154,126 @@ public class ExtractFile {
                     archiveFile(tarArchiveOutputStream, df);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.error("Error writing to tar file: {}", e.getMessage());
-            FileUtils.deleteQuietly(archiveFile);
+            success = false;
+            for(File archiveFile : archiveFiles.values()){
+                FileUtils.deleteQuietly(archiveFile);
+            }
         } finally {
-            IOUtils.close(tarArchiveOutputStream);
+            IOUtils.closeQuietly(tarArchiveOutputStream);
             FileUtils.deleteQuietly(tempDir);
         }
+        
+        return success;
     }
 
-    private void archiveFile(TarArchiveOutputStream tarArchiveOutputStream, File fileToArchive) throws IOException {
+    /**
+     * Generate the metadata file and create the tarball
+     * 
+     * @param startTime
+     * @return
+     */
+    public boolean finalizeExtraction(DateTime startTime) {
+        boolean success = true;
+        try {
+            ManifestFile metaDataFile = this.getManifestFile();
+            metaDataFile.generateMetaFile(startTime);
+        } catch (IOException e) {
+            success = false;
+            LOG.error("Error creating metadata file: {}", e.getMessage());
+        }
+        
+        try {
+            success = this.generateArchive();
+        } catch (Exception e) {
+            success = false;
+            LOG.error("Error generating archive file: {}", e.getMessage());
+        }
+        
+        return success;
+    }
+
+    private OutputStream getAppStream(String app) throws Exception {
+        File archive = new File(parentDir, getFileName(app));
+        OutputStream f = null;
+        CipherOutputStream stream = null;
+
+        try {
+            f = new BufferedOutputStream(new FileOutputStream(archive));
+            createTarFile(archive);
+
+            archiveFiles.put(app, archive);
+
+            final Pair<Cipher, SecretKey> cipherSecretKeyPair = getCiphers();
+
+            byte[] ivBytes = cipherSecretKeyPair.getLeft().getIV();
+            byte[] secretBytes = cipherSecretKeyPair.getRight().getEncoded();
+
+            PublicKey publicKey = getApplicationPublicKey(app);
+            byte[] encryptedIV = encryptDataWithRSAPublicKey(ivBytes, publicKey);
+            byte[] encryptedSecret = encryptDataWithRSAPublicKey(secretBytes, publicKey);
+
+            f.write(encryptedIV);
+            f.write(encryptedSecret);
+
+             stream = new CipherOutputStream(f, cipherSecretKeyPair.getLeft());
+
+        } catch(Exception e) {
+            IOUtils.closeQuietly(f);
+            throw e;
+        }
+
+        return stream;
+    }
+
+    /**
+     * Get the file name of the archive file for a specific app.
+     * @param appId the id of the app
+     * @return the name of the archive file for the app
+     */
+    public String getFileName(String appId){
+        return appId + "-" + archiveName + FILE_EXT;
+    }
+
+    private PublicKey getApplicationPublicKey(String app) {
+		return clientKeys.get(app);
+	}
+
+    private static byte[] encryptDataWithRSAPublicKey(byte[] rawData, PublicKey publicKey) {
+        byte[] encryptedData = null;
+
+        try {
+            Cipher cipher = Cipher.getInstance("RSA");
+            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+            encryptedData = cipher.doFinal(rawData);
+        } catch (NoSuchAlgorithmException e) {
+            LOG.error("Exception: NoSuchAlgorithmException {}", e);
+        } catch (NoSuchPaddingException e) {
+            LOG.error("Exception: NoSuchPaddingException {}", e);
+        } catch (InvalidKeyException e) {
+            LOG.error("Exception: InvalidKeyException {}", e);
+        } catch (BadPaddingException e) {
+            LOG.error("Exception: BadPaddingException {}", e);
+        } catch (IllegalBlockSizeException e) {
+            LOG.error("Exception: IllegalBlockSizeException {}", e);
+        }
+
+        return encryptedData;
+    }
+
+
+    private static Pair<Cipher, SecretKey> getCiphers() throws Exception {
+        SecretKey secret = KeyGenerator.getInstance("AES").generateKey();
+
+        Cipher encrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        encrypt.init(Cipher.ENCRYPT_MODE, secret);
+
+        return Pair.of(encrypt, secret);
+    }
+
+
+    private static void archiveFile(TarArchiveOutputStream tarArchiveOutputStream, File fileToArchive) throws IOException {
         tarArchiveOutputStream.putArchiveEntry(tarArchiveOutputStream
                 .createArchiveEntry(fileToArchive, fileToArchive.getName()));
         FileUtils.copyFile(fileToArchive, tarArchiveOutputStream);
@@ -139,7 +281,7 @@ public class ExtractFile {
         fileToArchive.delete();
     }
 
-    private void createTarFile() {
+    private static void createTarFile(File archiveFile) {
         try {
             archiveFile.createNewFile();
         } catch (IOException e) {
@@ -152,8 +294,43 @@ public class ExtractFile {
      * @return
      *      returns a File object
      */
-    public File getArchiveFile() {
-        return archiveFile;
+    public Map<String, File> getArchiveFiles() {
+        return archiveFiles;
     }
+
+
+    /** Get the clientKeys.
+     * @return the clientKeys
+     */
+    public Map<String, PublicKey> getClientKeys() {
+        return clientKeys;
+    }
+
+    /** Set clientKey.
+     * @param clientKeys the clientKeys to set
+     */
+    public void setClientKeys(Map<String, PublicKey> clientKeys) {
+        this.clientKeys = clientKeys;
+    }
+
+    /**
+     * Get edorg
+     * 
+     * @return the edorg this extractFile is responsible
+     */
+    public String getEdorg() {
+        return this.edorg;
+    }
+
+    /**
+     * Set edorg
+     * 
+     * @param the
+     *            edorg this extractFile is responsible
+     */
+    public void setEdorg(String edorg) {
+        this.edorg = edorg;
+    }
+
 
 }

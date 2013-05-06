@@ -2709,10 +2709,8 @@
 			<xs:enumeration value="Federal" />
 			<xs:enumeration value="Other Federal" />
 			<xs:enumeration value="Selective Service" />
-			<xs:enumeration value="SSN" />
 			<xs:enumeration value="US Visa" />
 			<xs:enumeration value="PIN" />
-			<xs:enumeration value="Canadian SIN" />
 			<xs:enumeration value="Other" />
 		</xs:restriction>
 	</xs:simpleType>
@@ -2749,7 +2747,6 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Canadian SIN" />
 			<xs:enumeration value="District" />
 			<xs:enumeration value="Family" />
 			<xs:enumeration value="Federal" />
@@ -2757,7 +2754,6 @@
 			<xs:enumeration value="National Migrant" />
 			<xs:enumeration value="Other" />
 			<xs:enumeration value="School" />
-			<xs:enumeration value="SSN" />
 			<xs:enumeration value="State" />
 			<xs:enumeration value="State Migrant" />
 		</xs:restriction>

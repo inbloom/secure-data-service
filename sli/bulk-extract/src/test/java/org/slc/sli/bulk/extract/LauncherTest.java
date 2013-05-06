@@ -20,15 +20,11 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
+import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
+import org.slc.sli.bulk.extract.extractor.StatePublicDataExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * JUnit test for Launcher class.
@@ -38,8 +34,12 @@ import org.slc.sli.domain.Repository;
 public class LauncherTest {
 
     Launcher launcher;
-    Repository<Entity> repository;
+    BulkExtractMongoDA bulkExtractMongoDA;
     TenantExtractor tenantExtractor;
+    LocalEdOrgExtractor localEdOrgExtractor;
+    private StatePublicDataExtractor statePublicDataExtractor;
+
+    Entity testTenantEntity = TestUtils.makeDummyEntity("tenant", "testTenant", null);
 
     /**
      * Runs before JUnit tests and does the initiation work for the tests.
@@ -48,10 +48,16 @@ public class LauncherTest {
     @Before
     public void setUp() {
         launcher = new Launcher();
-        repository = Mockito.mock(MongoEntityRepository.class);
+
+        bulkExtractMongoDA = Mockito.mock(BulkExtractMongoDA.class);
         tenantExtractor = Mockito.mock(TenantExtractor.class);
-        launcher.setRepository(repository);
+        localEdOrgExtractor = Mockito.mock(LocalEdOrgExtractor.class);
+        statePublicDataExtractor = Mockito.mock(StatePublicDataExtractor.class);
+        launcher.setBulkExtractMongoDA(bulkExtractMongoDA);
+
         launcher.setTenantExtractor(tenantExtractor);
+        launcher.setLocalEdOrgExtractor(localEdOrgExtractor);
+        launcher.setStatePublicDataExtractor(statePublicDataExtractor);
         launcher.setBaseDirectory("./");
     }
 
@@ -61,13 +67,10 @@ public class LauncherTest {
     @Test
     public void testInvalidTenant() {
         String tenantId = "testTenant";
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL ,tenantId));
-        query.addCriteria(new NeutralCriteria("tenantIsReady", NeutralCriteria.OPERATOR_EQUAL, true));
 
-        Mockito.when(repository.findOne("tenant", query)).thenReturn(null);
+        Mockito.when(bulkExtractMongoDA.getTenant(tenantId)).thenReturn(null);
 
-        launcher.execute(tenantId);
+        launcher.execute(tenantId, false);
 
         Mockito.verify(tenantExtractor, Mockito.never()).execute(Mockito.eq("tenant"), Mockito.any(ExtractFile.class), Mockito.any(DateTime.class));
     }
@@ -78,15 +81,12 @@ public class LauncherTest {
     @Test
     public void testValidTenant() {
         String tenantId = "Midgar";
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL ,tenantId));
-        query.addCriteria(new NeutralCriteria("tenantIsReady", NeutralCriteria.OPERATOR_EQUAL, true));
         Mockito.doNothing().when(tenantExtractor).execute(Mockito.eq(tenantId), Mockito.any(ExtractFile.class), Mockito.any(DateTime.class));
 
 
-        Mockito.when(repository.findOne("tenant", query)).thenReturn(new MongoEntity("1234_id", null));
+        Mockito.when(bulkExtractMongoDA.getTenant(tenantId)).thenReturn(testTenantEntity);
 
-        launcher.execute(tenantId);
+        launcher.execute(tenantId, false);
 
         Mockito.verify(tenantExtractor, Mockito.times(1)).execute(Mockito.eq(tenantId), Mockito.any(ExtractFile.class), Mockito.any(DateTime.class));
     }

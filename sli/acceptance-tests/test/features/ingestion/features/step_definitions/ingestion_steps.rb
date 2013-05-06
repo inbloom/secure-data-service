@@ -1162,7 +1162,7 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   @metaData = {}
 
   @newTenant = {
-      "_id" => "tenantTest-id",
+      "_id" => "#{lz_key}",
       "type" => "tenantTest",
       "body" => @body,
       "metaData" => @metaData
@@ -1328,6 +1328,32 @@ When /^the landing zone is reinitialized$/ do
   initializeLandingZone(@landing_zone_path)
 end
 
+When /^the landing zone for tenant "(.*?)" edOrg "(.*?)" is reinitialized$/ do |tenant, edOrg|
+  disable_NOTABLESCAN()
+
+  # Get the landing zone from the tenant collection
+  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+  @db = @conn["sli"]
+  @tenant_coll = @db.collection('tenant')
+
+  @tenant_coll.find.each do |row|
+    @body = row['body']
+    @landingZones = @body['landingZone'].to_a
+    @landingZones.each do |lz|
+      if lz['educationOrganization'] == edOrg
+        puts "Current lz path is #{lz['path']}"
+        @landing_zone_path = lz['path']
+        break
+      end
+    end
+  end
+
+  @landing_zone_path = @landing_zone_path+"/"
+  initializeLandingZone(@landing_zone_path)
+
+  enable_NOTABLESCAN()
+end
+
 When /^"([^"]*)" seconds have elapsed$/ do |secs|
   sleep(Integer(secs))
 end
@@ -1382,24 +1408,24 @@ When /^a batch job log (has|has not) been created$/ do |has_or_has_not|
   checkForBatchJobLog(@landing_zone_path, should_has_log) if !@hasNoLandingZone
 end
 
-When /^a batch job has completed successfully in the database$/ do
+When /^a batch job has completed successfully in the database for tenant "(.*?)"$/ do |tenant|
    disable_NOTABLESCAN()
    old_db = @db
    @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
    @entity_collection = @db.collection("newBatchJob")
-   intervalTime = 1
-   @maxTimeout ? @maxTimeout : @maxTimeout = 900
+   intervalTime = 0.5
+   @maxTimeout ? @maxTimeout : @maxTimeout = 240
    iters = (1.0*@maxTimeout/intervalTime).ceil
    found = false
      if (INGESTION_MODE == 'remote')
        iters.times do |i|
-         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}}).count().to_s
+         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}, "tenantId" => tenant}).count().to_s
          if @entity_count.to_s == "1"
-           puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+           puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
            found = true
            break
          else
-           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}}).count().to_s
+           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}, "tenantId" => tenant}).count().to_s
            if @entity_count.to_s == "1"
                 assert(false, "Batch Job completed with errors")
            end
@@ -1407,15 +1433,14 @@ When /^a batch job has completed successfully in the database$/ do
          end
        end
      else
-       sleep(5) # waiting to check job completion removes race condition (windows-specific)
        iters.times do |i|
-         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}}).count().to_s
+         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}, "tenantId" => tenant}).count().to_s
          if @entity_count.to_s == "1"
-           puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+           puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
            found = true
            break
          else
-           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}}).count().to_s
+           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}, "tenantId" => tenant}).count().to_s
            if @entity_count.to_s == "1"
                 assert(false, "Batch Job completed with errors")
            end
@@ -1441,7 +1466,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
 
   #db.newBatchJob.find({"stages" : {$elemMatch : {"chunks.0.stageName" : "JobReportingProcessor" }} }).count()
 
-  intervalTime = 1 #seconds
+  intervalTime = 0.5 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
@@ -1459,7 +1484,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       end
     end
   else
-    sleep(5) # waiting to check job completion removes race condition (windows-specific)
+    #sleep(5) # waiting to check job completion removes race condition (windows-specific)
     iters.times do |i|
 
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
@@ -1883,6 +1908,8 @@ def cleanupSubDoc(superdocs, subdoc)
   end
 end
 
+$superDocTypes = [ 'section', 'student', 'studentAssessment', 'assessment']
+  
 $subDocEntity2ParentType = {
     "studentSectionAssociation" => "section",
     "gradebookEntry" => "section",
@@ -1899,6 +1926,11 @@ $subDocEntity2ParentType = {
     "studentAcademicRecord" => "yearlyTranscript",
     "grade" => "yearlyTranscript",
     "attendanceEvent" => "attendance"
+}
+
+$denormalizedTypeInfo = {
+    "studentSectionAssociation" => {"parent" => "student", "subDoc" => "section"},
+    "studentSchoolAssociation" => {"parent" => "student", "subDoc" => "schools"}
 }
 
 def subDocParent(subDocType)
@@ -2692,6 +2724,84 @@ def parallelCheckForContentInFileGivenPrefix(message, prefix, landing_zone)
   end
 end
 
+
+def checkForContentInFileGivenPrefixAndXMLNameRegex( regex, prefix, xml_name)
+
+  if (INGESTION_MODE == 'remote')
+
+    @resultOfIngestion = ""
+    Net::SSH.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => INGESTION_PASSWORD) do |ssh|
+      ssh.exec!("ls -l #{@landing_zone_path} | grep #{prefix}#{xml_name} | tail -1 | awk '{print $NF}' | xargs -I x cat #{@landing_zone_path}/x") do |channel, stream, data|
+        @resultOfIngestion << data
+      end
+    end
+
+    @resultOfIngestion.split( "\n" ).each do |line|
+      if ! ( line.match( /#{regex}/) )
+        assert(false, "File contains unexpected error message: " + line )
+      end
+    end
+
+    assert(true, "Processed all the records.")
+
+  else
+    @job_status_filename = ""
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex(prefix) && entry.rindex(xml_name))
+        # XML ENTRY IS OUR FILE
+        @job_status_filename = entry
+      end
+    end
+
+
+    aFile = File.new(@landing_zone_path + @job_status_filename, "r")
+    puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
+    assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
+    if aFile 
+      file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
+      #puts "FILE CONTENTS = " + file_contents
+
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
+      @linesArray = IO.readlines(@landing_zone_path + @job_status_filename)
+      @linesArray.each do |line|
+        if ! ( line.match( /#{regex}/) )
+          assert(false, "File contains unexpected error message: " + line )
+        end
+      end
+      aFile.close
+    else
+      raise "File " + @job_status_filename + "can't be opened"
+    end
+  end
+end
+
+
+And /^the only errors I want to see in the resulting (.*?) log file for "(.*?)" are below$/ do |file_type,xml_name, table|
+
+  case file_type
+     when "warning" then prefix="warn."
+     when "error" then prefix="error."
+     else assert(false, "Unsupported file type:" + file_type )
+  end
+
+  @first = 0
+
+  @codeList = ""
+  table.rows.each do |row|
+    if ( @first != 0 ) 
+      @codeList += "|"
+    end
+    @first = 1
+    @codeList = @codeList + row[0] 
+  end
+  checkForContentInFileGivenPrefixAndXMLNameRegex( @codeList, prefix, xml_name)
+
+end
+
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
   prefix = "job-" + @source_file_name + "-"
   checkForContentInFileGivenPrefix(message, prefix)
@@ -2757,6 +2867,11 @@ end
 Then /^I should not see an error log file created for "([^\"]*)"$/ do |lz_key|
   lz = @ingestion_lz_identifer_map[lz_key]
   checkForErrorWarnLogFile(lz, "error")
+end
+
+Then /^I should not see a warning log file created for "([^\"]*)"$/ do |lz_key|
+  lz = @ingestion_lz_identifer_map[lz_key]
+  checkForErrorWarnLogFile(lz, "warn")
 end
 
 def checkForErrorWarnLogFile(landing_zone, prefix)
@@ -3386,6 +3501,7 @@ end
 
 Then /^I should not see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
        dumpDb(tenant)
+       `rm -f temp/exp_*_deltas.json`
        output = `grep #{id} ./temp/*`
        assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
 
@@ -3578,6 +3694,52 @@ Then /^correct number of records should be ingested for "(.*?)"$/ do |dataSet|
     step "I should see \"Processed #{correct_count} records.\" in the resulting batch job file"
 end
 
+  
+$savedEntities = {}
+ And /^I read the following entity in "([^"]*)" tenant and save it as "([^"]*)"/ do | tenant, entityTag, table |
+  @db         = @conn[convertTenantIdToDbName(tenant)]
+
+  condHash = Hash.new
+
+  table.hashes.map do |row|
+    value = row[ "value" ]
+    if value =~ /float\((.*?)\)/
+      condHash[ row[ "field" ] ] = $1.to_f
+    elsif value =~ /int\((.*)\)/
+      condHash[ row[ "field" ] ] = $1.to_i
+    else
+      condHash[ row[ "field"] ] = value
+    end
+
+    collection = row["collection"]
+    @coll       = @db[ collection ]
+    disable_NOTABLESCAN()
+    record   = @coll.find_one(condHash)
+    enable_NOTABLESCAN()
+    recursive_hash_delete( record, "metaData")
+
+    $savedEntities[ entityTag ] = {"criteria"=>condHash, "collection"=>collection, "tenant"=>tenant, "entity" => record };
+  end
+
+  disable_NOTABLESCAN()
+
+end
+
+And /^I read again the entity tagged "([^"]*)" from the "([^"]*)" tenant and confirm that it is the same/ do | entityTag, tenant |
+  oldRecord = $savedEntities[ entityTag][ "entity" ]
+  tenant = $savedEntities[ entityTag ][ "tenant" ]
+  criteria = $savedEntities[ entityTag][ "criteria" ]
+  collection = $savedEntities[ entityTag][ "collection"]
+
+  @db         = @conn[convertTenantIdToDbName(tenant)]
+  disable_NOTABLESCAN()
+  record   = @coll.find_one( criteria )
+  enable_NOTABLESCAN()
+  recursive_hash_delete( record, "metaData")
+  EntityProvider.verify_entities_match( oldRecord, record)
+
+end
+
 $savedQueries = {}
 Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. And I save this query as "([^"]*)"/ do |count, collection, tenant, queryName, table|
     @db         = @conn[convertTenantIdToDbName(tenant)]
@@ -3619,7 +3781,7 @@ Then /^the data from "(.*?)" is imported$/ do |directory|
     Dir.foreach(directory) {|x|
         db=x.split("_")[1].to_s
         coll=x.split("_")[2].to_s.split(".")[0].to_s
-        if x != "." && x != ".."
+        if x != "." && x != ".." && x != ".gitignore"
             #hack - splitting on underscore doesn't work on custom_entities
             if coll=="custom"
                 coll="custom_entities"
@@ -3651,9 +3813,12 @@ Given /^the "(.*?)" tenant db is empty$/ do |tenant|
      coll_names.each do |coll|
         if !coll_to_skip.include?(coll)
             tenant_db["#{coll}"].remove
+            #tenant_db["#{coll}"].drop_indexes
+            #tenant_db["#{coll}"].drop
 #            assert(tenant_db["#{coll}"].count == 0, "#{coll} is not empty.")
         end
      end
+     #step "the tenant indexes are applied to the tenant \"#{tenant}\""
      enable_NOTABLESCAN
 end
 
@@ -3673,7 +3838,8 @@ def getEntityCounts(tenant)
                      "roles",
                      "applicationAuthorization",
                      "customRole",
-                     "adminDelegation"]
+                     "adminDelegation",
+                     "deltas"]
      disable_NOTABLESCAN
      # Add straight collection counts
      coll_names.each do |coll|
@@ -3683,13 +3849,34 @@ def getEntityCounts(tenant)
 #            puts "#{coll} #{count}"
         end
     end
-    #Add subdoc entity counts
+    # Add counts for "hollowed" superdocs
+    $superDocTypes.each do |superDoc|
+      count = tenant_db[superDoc].find({
+        'body' => { '$exists' => false },
+        'metaData' => { '$exists' => false }
+      }).count().to_i
+      entityCounts[superDoc+"<hollow>"] = count
+#      puts "#{superDoc}<hollow> #{count}"
+    end
+    # Add subdoc entity counts
     subDocEntities = $subDocEntity2ParentType.keys
     subDocEntities.each do |subDocEntity|
         parent = $subDocEntity2ParentType[subDocEntity]
         count = subDocCount(parent, subDocEntity)
         entityCounts[subDocEntity] = count
 #        puts "#{subDocEntity} #{count}"
+    end
+    # Add denormalized data counts
+    denormalizedEntities = $denormalizedTypeInfo.keys
+    denormalizedEntities.each do |denormalizedType|
+      denormalizationInfo = $denormalizedTypeInfo[denormalizedType]
+      parent = denormalizationInfo["parent"]
+#        puts "parent #{parent}"
+      subDoc = denormalizationInfo["subDoc"]
+#        puts "subDoc #{subDoc}"
+      count = subDocCount(parent, subDoc)
+      entityCounts[parent+"."+subDoc] = count
+#      puts "#{parent}.#{subDoc} #{count}"
     end
     enable_NOTABLESCAN
     return entityCounts
@@ -3733,6 +3920,92 @@ And /I see that collections counts have changed as follows in tenant "([^"]*)"/ 
         end
     end
     condHash.each_key { |key| assert(unionOfEntities.include?(key), "Delta check of non-existing entity \"#{key}\"") }
+end
+
+And /I update the md5s/ do
+    Dir.chdir(@local_file_store_path)
+    Dir.glob("*/") do |file_name|
+    STDOUT.puts file_name
+    zip_dir = nil
+    path_name = file_name
+    file_name = file_name.split('/')[-1] if file_name.include? '/'
+
+    # copy everything into a new directory (to avoid touching git tracked files)
+    path_delim = ""
+    if path_name.include? '/'
+      folders = path_name.split '/'
+      if folders.size > 0
+        folders[0...-1].each { |path| path_delim += path + '/'}
+        path_name = folders[-1]
+      end
+    end
+    zip_dir = @local_file_store_path + "temp-" + path_name + "/"
+    #p zip_dir
+    if Dir.exists?(zip_dir)
+      FileUtils.rm_r zip_dir
+    end
+    FileUtils.cp_r @local_file_store_path + path_delim + path_name, zip_dir
+
+    ctl_template = nil
+    Dir.foreach(zip_dir) do |file|
+      if /.*.ctl$/.match file
+        ctl_template = file
+      end
+    end
+
+    if (ctl_template.nil?)
+        next
+    end
+
+    # for each line in the ctl file, recompute the md5 hash
+    new_ctl_file = File.open(zip_dir + ctl_template + "-tmp", "w")
+    File.open(zip_dir + ctl_template, "r") do |ctl_file|
+      ctl_file.each_line do |line|
+        if line.chomp.length == 0
+          next
+        end
+        entries = line.chomp.split ","
+        if entries.length < 3
+          puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
+          new_ctl_file.puts line.chomp
+          next
+        end
+        payload_file = entries[2]
+        if payload_file == "MissingXmlFile.xml"
+          puts "DEBUG: An xml file in control file is missing .."
+          new_ctl_file.puts entries.join ","
+          next
+        end
+        md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
+        if entries[3] != md5.to_s
+          puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"
+        end
+        # swap out the md5 unless we encounter the special all zero md5 used for unhappy path tests
+        entries[3] = md5 unless entries[3] == "00000000000000000000000000000000"
+        new_ctl_file.puts entries.join ","
+      end
+    end
+    new_ctl_file.close
+    FileUtils.mv zip_dir + ctl_template + "-tmp", zip_dir + ctl_template
+    runShellCommand("cd #{zip_dir} && zip -r #{@local_file_store_path}#{file_name} *")
+    FileUtils.cp zip_dir + ctl_template, @local_file_store_path + path_delim + file_name
+    FileUtils.rm_r zip_dir
+    end
+end
+
+
+Given /^I ingest "(.*?)"$/ do |ingestion_file|
+  steps %Q{
+    Given I am using local data store
+    And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+    When I post "#{ingestion_file}" file as the payload of the ingestion job
+    And zip file is scp to ingestion landing zone
+    Then a batch job for file "#{ingestion_file}" is completed in database
+    And I should see "All records processed successfully." in the resulting batch job file
+    And I should not see an error log file created
+    And I should not see a warning log file created
+  }
+
 end
 
 ############################################################

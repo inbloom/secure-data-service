@@ -61,4 +61,32 @@
 
 
     </StudentAssessmentItem>
+    
+   <StudentObjectiveAssessment>
+        <ScoreResults AssessmentReportingMethod="Scale score">
+            <Result>10</Result>
+        </ScoreResults>
+        <StudentAssessmentReference>
+            <StudentAssessmentIdentity>
+                <AdministrationDate>2011-05-01</AdministrationDate>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>900000000</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <AssessmentReference>
+                    <AssessmentIdentity>
+                        <AssessmentTitle>ACT</AssessmentTitle>
+                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                        <Version>1</Version>
+                    </AssessmentIdentity>
+                </AssessmentReference>
+            </StudentAssessmentIdentity>
+        </StudentAssessmentReference>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 1.OA-0 Sub</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
+    </StudentObjectiveAssessment>
 </InterchangeStudentAssessment>

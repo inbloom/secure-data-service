@@ -17,6 +17,10 @@ Scenario: Multiple Orphans
     And I should see "InterchangeEducationOrganization.xml records failed processing: 2" in the resulting batch job file
     And I should see "CORE_0066" in the resulting error log file for "InterchangeEducationOrganization.xml"
     And I should see "CORE_0071" in the resulting error log file for "InterchangeEducationOrganization.xml"
+    And the only errors I want to see in the resulting error log file for "InterchangeEducationOrganization.xml" are below
+        | code    |
+        | CORE_0066|
+	| CORE_0071|
 	And I should not see a warning log file created
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                            |    delta|
@@ -39,6 +43,7 @@ Scenario: Multiple Orphans
         |staffEducationOrganizationAssociation  |       -1|
         |studentAssessment                      |       -1|
         |studentSchoolAssociation               |       -1|
+        |student.schools                        |       -1|
         |teacherSchoolAssociation               |       -1|
         |teacherSectionAssociation              |       -1|
         |recordHash                             |      -16|

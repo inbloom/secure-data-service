@@ -72,8 +72,18 @@ Given /^the testing device app key has been created$/ do
   @oauthRedirectURI = "http://device"
 end
 
+Given /^the pre-existing bulk extrac testing app key has been created$/ do
+  @oauthClientId = PropLoader.getProps['bulk_extract_testapp_client_id']
+  @oauthClientSecret = PropLoader.getProps['bulk_extract_testapp_secret']
+  @oauthRedirectURI = "http://device"
+  assert(@oauthClientId != nil, "Pre-existing Bulk Extract App not yet created in this env, or property was not set: bulk_extract_testapp_client_id")
+  assert(@oauthClientSecret != nil, "Pre-existing Bulk Extract App not yet created in this env, or property was not set: bulk_extract_testapp_secret")
+end
+
 When /^I navigate to the API authorization endpoint with my client ID$/ do
-  @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
+  url = PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
+  puts url
+  @driver.get url
 end
 
 Then /^I should receive a json response containing my authorization code$/ do  
@@ -83,14 +93,15 @@ Then /^I should receive a json response containing my authorization code$/ do
 end
 
 When /^I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI$/ do
-  @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" +
-                   "&client_secret=#{@oauthClientSecret}&code=#{@oauthAuthCode}&redirect_uri=#{@oauthRedirectURI}"
+  url = PropLoader.getProps['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" + "&client_secret=#{@oauthClientSecret}&code=#{@oauthAuthCode}&redirect_uri=#{@oauthRedirectURI}"
+  puts url
+  @driver.get url
 end
 
 Then /^I should receive a json response containing my authorization token$/ do
   assertWithWait("Could not find text 'authorization_token' on page") {@driver.page_source.include?("access_token")}
-
   @sessionId = @driver.page_source.match(/"access_token":"(?<Token>[^"]*)"/)[:Token]
+  puts @sessionId
 end
 
 Then /^I should be able to use the token to make valid API calls$/ do
@@ -115,17 +126,16 @@ Then /^I enter "(.*?)" in the Redirect Endpoint field$/ do |url|
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys url
 end
 
-
 Then /^I request and download a bulk extract file$/ do
-  restHttpGet("/bulk/extract/tenant", "application/x-tar", @sessionId)
+  env_key = PropLoader.getProps['rc_env']
+  restTls("/bulk/extract/tenant", nil, "application/x-tar", @sessionId, env_key)
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
   @filePath = OUTPUT_DIRECTORY + "/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
   if (!File.exists?("extract"))
       FileUtils.mkdir("extract")
   end
-  step "the response is decrypted"
+  step "the response is decrypted using the key for app \"#{env_key}\""
   File.open(@filePath, 'w') {|f| f.write(@plain) }
-
   assert(File.exists?(@filePath), "Bulk Extract file was unable to be download to: #{@filePath.to_s}")
 end

@@ -418,6 +418,24 @@ end
 task :realmInitNoPeople => [:realmInit] do
 end
 
+desc "Manual Test of Bulk Extract"
+task :callBeet do
+  prompt = !(ENV['BEET_URL'] && ENV['BEET_TOKEN'] && ENV['BEET_APP'] && ENV['BEET_OUTFILE'])
+  puts ENV['BEET_URL']
+  puts ENV['BEET_TOKEN']
+  puts ENV['BEET_APP']
+  puts ENV['BEET_OUTFILE']
+  if prompt
+    puts "Missing paramaters detected:"
+    puts "BEET_URL= Full URL to BulkExtractEndPoint, example https://local.slidev.org:8443/api/rest/bulk/extract/tenant"
+    puts "BEET_TOKEN= token of the app/user making the call to the BEEP, example t-1238-61a81be81-1324-e1cb-515cb534a90"
+    puts "BEET_APP= client ID of the app making the call, example vavedra9ub"
+    puts "BEET_OUTFILE= path to output file"
+    return
+  end
+  testTls(ENV['BEET_URL'], ENV['BEET_TOKEN'], ENV['BEET_APP'], ENV['BEET_OUTFILE'])
+end
+
 # Task that initializes the application registration fixture
 task :appInit do
   disable_NOTABLESCAN()
@@ -624,7 +642,6 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1ListTests,
                      :v1NewEndpointTests,
                      :v1TargetTests,
-                     :v1EndUserStoryAssessmentTests,
                      :v1EndUserStoryCustomEntityTests,
                      :v1StudentOptionalFieldsTests,
                      :v1SingleStudentViewTests,
@@ -636,8 +653,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :longLivedSessionTests,
                      :apiVersionTests,
                      :apiV1GranularAccessTests,
-                     :apiV1YearlyTranscriptTests,
-                     :bulkExtract] do                     
+                     :apiV1YearlyTranscriptTests] do                     
   displayFailureReport()
 end
 

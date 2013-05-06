@@ -42,6 +42,7 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
     private int visitBeforeColumnNumber;
     private int visitAfterLineNumber;
     private int visitAfterColumnNumber;
+    private Map<String, String> actionAttributes;
 
     public static final String FIELD_UUID = "UUID";
     public static final String DELETE_AFFECTED_COUNT = "DELETEAFFECTEDCOUNT";
@@ -235,4 +236,38 @@ public class SimpleEntity implements Entity, Resource, ElementSource {
         return new HashMap<String, List<Entity>>();
     }
 
+    @Override
+    public void hollowOut() {
+        // override super implementation with empty implementation
+    }
+
+    public void setActionAttributes(Map<String, String> actionAttributes) {
+        this.actionAttributes = actionAttributes;
+    }
+
+    public Map<String, String> getActionAttributes() {
+        return  actionAttributes;
+    }
+
+    public boolean doForceDelete() {
+        String force = actionAttributes.get("Force");
+        if (force == null) {
+            return true;    // default
+        } else if (force.equals("true")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean doLogViolations() {
+        String logViolations = actionAttributes.get("LogViolations");
+        if (logViolations == null) {
+            return true;    // default
+        } else if (logViolations.equals("true")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

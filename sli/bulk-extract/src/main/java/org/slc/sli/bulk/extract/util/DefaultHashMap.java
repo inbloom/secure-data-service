@@ -25,29 +25,42 @@ import java.util.Map;
  * @param <K>
  * @param <V>
  */
-    public class DefaultHashMap<K, V> extends HashMap<K, V> {
-        private V defaultValue;
-
-        /**
-         *  Constructor.
-         * @param map map
-         * @param defaultValue defaultValue
-         */
-          public DefaultHashMap(Map<K,V> map, V defaultValue) {
-            super(map);
-            this.defaultValue = defaultValue;
-          }
-
-          /**
-           * get the value.
-           * @param key key
-           * @return the value, or the default value if the key does not exist
-           */
-          public V getValue(K key) {
-              if (super.containsKey(key)) {
-                  return super.get(key);
-              }
-              return defaultValue;
-
-          }
+public class DefaultHashMap<K, V> extends HashMap<K, V> {
+    private V defaultValue;
+    
+    /**
+     * Constructor.
+     * 
+     * @param map
+     *            map
+     * @param defaultValue
+     *            defaultValue
+     */
+    public DefaultHashMap(Map<K, V> map, V defaultValue) {
+        super(map);
+        this.defaultValue = defaultValue;
     }
+    
+    /**
+     * get the value.
+     * 
+     * @param key
+     *            key
+     * @return the value, or the default value if the key does not exist
+     */
+    public V getValue(K key) {
+        if (super.containsKey(key)) {
+            return super.get(key);
+        }
+        return defaultValue;
+    }
+    
+    /**
+     * get the default value without passing any keys
+     * 
+     * @return the default value
+     */
+    public V getDefault() {
+        return defaultValue;
+    }
+}

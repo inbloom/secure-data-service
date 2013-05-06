@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd">
+    <Action ActionType="DELETE" Cascade="false"  Force="false">
+
+<ObjectiveAssessment>
+  <IdentificationCode>2001-First grade Assessment 1.OA-0</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 1</Objective>
+      <AcademicSubject>ELA</AcademicSubject>
+      <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 2</Objective>
+      <AcademicSubject>ELA</AcademicSubject>
+      <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 3</Objective>
+      <AcademicSubject>ELA</AcademicSubject>
+      <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 4</Objective>
+      <AcademicSubject>ELA</AcademicSubject>
+      <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 5</Objective>
+      <AcademicSubject>ELA</AcademicSubject>
+      <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 1.OA-0 Sub</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>First grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+</Action>
+</InterchangeStudentAssessment>

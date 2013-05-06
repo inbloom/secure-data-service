@@ -12,8 +12,7 @@ Given I post "rcmiAssessmentMetadata.zip" file as the payload of the ingestion j
      | assessment                  |
 When zip file is scp to ingestion landing zone
   And a batch job for file "rcmiAssessmentMetadata.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | assessment                  | 2     |
 And I check to find if record is in collection:

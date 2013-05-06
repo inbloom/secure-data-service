@@ -37,6 +37,7 @@
     <value>staffProgramAssociation</value>
     <value>student</value>
     <value>studentAcademicRecord</value>
+    <value>studentAssessment</value>
     <value>studentCompetency</value>
     <value>studentCompetencyObjective</value>
     <value>studentGradebookEntry</value>

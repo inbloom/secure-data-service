@@ -223,15 +223,53 @@ end
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using HEAD to retrieve an existing object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpHead(id, format = @format, sessionId = @sessionId)
+def restHttpHead(id, extra_headers = nil, format = @format, sessionId = @sessionId, client_id = "vavedra9ub")
   # Validate SessionId is not nil
-  assert(sessionId != nil, "Session ID passed into GET was nil")
+  assert(sessionId != nil, "Session ID passed into HEAD was nil")
 
-  urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
-  puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
-  @res = RestClient.head(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
+  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
+  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
+
+  urlHeader = makeUrlAndHeaders('head',id,sessionId,format,true)
+  
+  header = urlHeader[:headers]
+  header.merge!(extra_headers) if extra_headers !=nil
+  
+  puts "HEAD urlHeader: #{urlHeader}" if $SLI_DEBUG
+
+  @res = RestClient::Request.execute(:method => :head, :url => urlHeader[:url], :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
   puts(@res.code,@res.raw_headers) if $SLI_DEBUG
+  return @res
 end
+
+# Function restHttpHeadFullURL
+# Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
+# Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
+#                               Can be manually overwritten
+# Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
+#                               Can be manually overwritten
+# Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
+# Returns: Nothing, see Output
+# Description: Helper function that calls the REST API specified in id using HEAD to retrieve an existing object
+#              It is suggested you assert the state of the @res response before returning success from the calling function
+def restHttpHeadFullURL(fullUrl, extra_headers = nil, format = @format, sessionId = @sessionId, client_id = "vavedra9ub")
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into HEAD was nil")
+
+  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
+  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
+
+  header = makeHeaders('head', sessionId, format)
+  
+  header.merge!(extra_headers) if extra_headers !=nil
+  
+  puts "HEAD header: #{header}"
+
+  @res = RestClient::Request.execute(:method => :head, :url => fullUrl, :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
+#, :ssl_client_cert => client_cert, :ssl_client_key => private_key
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
 
 # Function restHttpGet
 # Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
@@ -253,25 +291,30 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+def restHttpCustomHeadersGet(id, customHeaders, format = @format, sessionId = @sessionId)
+  restTls(id, customHeaders, format, sessionId)
+  return @res
+end
 
-def restTls(url, format = @format, sessionId = @sessionId)
+def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, client_id = "vavedra9ub")
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
-  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path('../keys/certificate.crt', __FILE__)
-  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path('../keys/privateKey.key', __FILE__)
+  puts "Loading Key and Certificate for client ID #{client_id}"
+  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
+  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
 
-  urlHeader = makeUrlAndHeaders('get',url,sessionId,format)
+  urlHeader = makeUrlAndHeaders('get',url,sessionId,format,true)
 
-  puts urlHeader[:url]
-  puts urlHeader[:headers]
+  header = urlHeader[:headers]
+  header.merge!(extra_headers) if extra_headers !=nil
   
-  @res = RestClient::Request.execute(:method => :get, :url => urlHeader[:url], :headers => urlHeader[:headers]) {|response, request, result| response }
-#, :ssl_client_cert => client_cert, :ssl_client_key => private_key
-  #puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  puts "GET TLS urlHeader: #{urlHeader}" if $SLI_DEBUG
+
+  @res = RestClient::Request.execute(:method => :get, :url => urlHeader[:url], :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
+  puts(@res.code,@res.raw_headers) if $SLI_DEBUG
+  return @res
 end
-
-
 
 def restHttpGetAbs(url, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
@@ -350,10 +393,13 @@ def restHttpDeleteAbs(url, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
-def makeUrlAndHeaders(verb,id,sessionId,format)
+def makeUrlAndHeaders(verb,id,sessionId,format, ssl_mode = false)
   headers = makeHeaders(verb, sessionId, format)
+  
+  property_name = 'api_server_url'
+  property_name = 'api_ssl_server_url' if ssl_mode
 
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
+  url = PropLoader.getProps[property_name]+"/api/rest"+id
   puts(url, headers) if $SLI_DEBUG
 
   return {:url => url, :headers => headers}
@@ -565,6 +611,16 @@ module DataProvider
 
 end
 
+def recursive_hash_delete( hash, key_to_remove ) 
+   if  hash.is_a? Hash then
+     hash.delete( key_to_remove )
+     hash.each_value do |value|
+       recursive_hash_delete(value, key_to_remove) if value.is_a? Hash
+      value.each { |el | recursive_hash_delete( el, key_to_remove ) } if value.is_a? Array
+    end
+  end
+end
+
 module CreateEntityHash
   def CreateEntityHash.createBaseStudent()
     data = Hash[
@@ -645,6 +701,35 @@ module EntityProvider
 
 end
 
+module X509
+  def self.newApp(clientId, trustStore)
+    cert_path = File.expand_path("../keys/#{clientId}.crt", __FILE__)
+    key_path = File.expand_path("../keys/#{clientId}.key", __FILE__)
+
+    puts "Generating key pair for app: #{clientId}"
+    `openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout #{key_path} -out #{cert_path} -subj "/C=UA/ST=Denial/L=gru/O=pnewed/CN=*.slidev.org"`
+    puts "New Certificate created at #{cert_path}"
+    puts "New Private Key created at #{key_path}"
+    
+    puts "importing generating cert into trust store #{trustStore}"
+    `keytool -import -file #{cert_path} -keystore #{trustStore} -alias #{clientId} -storepass changeit -noprompt` 
+    
+  end
+  
+  def self.cleanse(clientId, trustStore)
+    cert_path = File.expand_path("../keys/#{clientId}.crt", __FILE__)
+    key_path = File.expand_path("../keys/#{clientId}.key", __FILE__)
+    
+    puts "Deleting #{clientId} from #{trustStore}"
+    `keytool -delete -alias #{clientId} -keystore #{trustStore} -storepass changeit -noprompt`
+    
+    puts "Cleaning up Certificate from file system at #{cert_path}"
+    `rm #{cert_path}`
+    puts "Cleaning up Private Key from file system at #{key_path}"
+    `rm #{key_path}`
+
+  end  
+end
 ######################
 ######################
 ### Create uuids that can be used thusly:  @db['collection'].find_one( '_id' => id_from_juuid("e5420397-908e-11e1-9a9d-68a86d2267de"))
@@ -694,6 +779,7 @@ def retryOnFailure(naptime = 2, retries = 5, &block)
     end
     begin
       yield
+      return
     rescue SystemExit, Interrupt
       raise
     rescue Exception => e

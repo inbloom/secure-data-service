@@ -92,6 +92,9 @@ default:
         #Used for security context resultion's internal paging threshold
         sli.api.security.context.paging: 100000
 
+        #Used for X509 Certs for Bulk Extract
+        sli.security.truststore.path: /tmp/trustey.jks
+        sli.security.truststore.password: changeit
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
@@ -142,6 +145,8 @@ default:
 
         sli.mongo.tracking: false
         sli.mongo.tracking.interval.seconds: 5
+
+        sli.bulk.extract.deltasEnabled: true
 
   # Write concerns
 
@@ -446,6 +451,7 @@ default:
         sli.bulk.extract.output.directory: extract
         sli.bulk.extract.log.path: logs
         sli.bulk.extract.log.level: INFO
+        sli.be.mongo.failOnPrimary: false
 
 acceptance-tests:
     api:
@@ -531,8 +537,8 @@ acceptance-tests:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -618,8 +624,8 @@ ci:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -721,8 +727,8 @@ dev:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -1022,8 +1028,8 @@ local:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
@@ -1144,8 +1150,8 @@ local-acceptance-tests:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard:
         # Pick up default here, not local, to avoid overriding the encryption keystore.
@@ -1240,6 +1246,11 @@ team:
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
         sli.api.performance.tracking: false
+        
+        #Used for X509 Certs for Bulk Extract
+        sli.security.truststore.path: /opt/tomcat/encryption/ciTruststore.jks
+        sli.security.truststore.password: changeit
+
 
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
@@ -1317,8 +1328,8 @@ team:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
 
     dashboard: &DASHBOARD-TEAM
@@ -1431,6 +1442,9 @@ perf:
         # Health Check credentials
         sli.ingestion.healthcheck.user: admin
         sli.ingestion.healthcheck.pass: admin
+
+        sli.bulk.extract.deltasEnabled: false
+        sli.be.mongo.failOnPrimary: false
 
     ingestion:
         <<: *INGESTION-DEFAULT

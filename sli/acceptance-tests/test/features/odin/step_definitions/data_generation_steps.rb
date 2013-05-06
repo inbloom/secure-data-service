@@ -97,3 +97,21 @@ Then /^the sli\-verify script completes successfully$/ do
   assert(results.include?("All expected entities found\n"), "verification script failed, results are #{results}")
   enable_NOTABLESCAN
 end
+
+def ingest_odin(scenario)
+  step "I am using preconfigured Ingestion Landing Zone for \"Midgar-Daybreak\""
+  @gen_path = "#{@odin_working_path}generated/"
+  generate(scenario)
+  steps %Q{
+    And the following collections are empty in batch job datastore:
+        | collectionName              |
+        | newBatchJob                 |
+    When I zip generated data under filename OdinSampleDataSet.zip to the new OdinSampleDataSet directory
+    And I copy generated data to the new OdinSampleDataSet directory
+    Given I am using odin data store
+    And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "OdinSampleDataSet.zip" is completed in database
+  }
+end
+

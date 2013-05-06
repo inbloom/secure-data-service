@@ -1,0 +1,19 @@
+{
+    "ALL": {
+        "EducationOrganizationReference": "EducationalOrgReference",
+        "SchoolReference": "EducationalOrgReference",
+        "EducationOrgReference": "EducationalOrgReference"
+    },
+    "AssessmentItemReference": {"AssessmentItemIdentificationCode": "IdentificationCode"},
+    "AssessmentPeriodDescriptorReference": {"AssessmentPeriodDescriptorCodeValue": "CodeValue"},
+    "CompetencyLevelDescriptorReference": {"CompetencyLevelDescriptorCodeValue": "CodeValue"},
+    "GraduationPlanReference": {"EducationalOrgReference": "EducationOrganizationReference"},
+    "GradeReference": {
+        "StudentReference": "StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentReference",
+        "SectionReference": "StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference",
+        "SchoolYear": "SchoolYear"
+    },
+    "LearningStandardReference": {"IdentificationCode": "LearningStandardId.IdentificationCode"},
+    "ObjectiveAssessmentReference": {"ObjectiveAssessmentIdentificationCode": "IdentificationCode"},
+    "StudentCompetencyReference": {"CodeValue": "CompetencyLevel.CodeValue"}
+}

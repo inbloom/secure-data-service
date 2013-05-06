@@ -527,19 +527,16 @@ class WorldBuilder
         state_organization_id = DataUtility.get_local_education_agency_id(edOrg["id"])
         end
 
-        sessions_per_lea = @scenarioYAML["HACK_SESSIONS_PER_LEA"] || 1
-        for s in 1..sessions_per_lea
-          start_date = DateUtility.random_school_day_on_interval(@prng, Date.new(year, 8, 25), Date.new(year, 9, 10))
-          interval   = DateInterval.create_using_start_and_num_days(@prng, start_date, 180)
+        start_date = DateUtility.random_school_day_on_interval(@prng, Date.new(year, 8, 25), Date.new(year, 9, 10))
+        interval   = DateInterval.create_using_start_and_num_days(@prng, start_date, 180)
 
-          session             = Hash.new
-          session["term"]     = :YEAR_ROUND
-          session["year"]     = year
-          session["name"] = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id.to_s
-          session["interval"] = interval
-          session["edOrgId"]  = state_organization_id
-          @world["leas"][index]["sessions"] << session
-        end
+        session             = Hash.new
+        session["term"]     = :YEAR_ROUND
+        session["year"]     = year
+        session["name"] = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id.to_s
+        session["interval"] = interval
+        session["edOrgId"]  = state_organization_id
+        @world["leas"][index]["sessions"] << session
       end
     end
 
@@ -974,10 +971,16 @@ class WorldBuilder
     ['elementary', 'middle', 'high'].each{|type|
       @world[type].each{|ed_org|
         staff = ed_org['staff'].cycle
+        staff_count = ed_org['staff'].count
         ed_org['sessions'].each{|session|
           WorldBuilder.cohorts(ed_org['id'], @scenarioYAML, AcademicSubjectType.send(type), @unique_program_id).each{|cohort|
-            staff_cohort_association_per_staff = DataUtility.rand_float_to_int(@prng, @scenarioYAML['STAFF_COHORT_ASSOCIATION_PER_STAFF'] || 1)
-            for s in 1..staff_cohort_association_per_staff
+            staff_cohort_association_per_staff = DataUtility.rand_float_to_int(@prng, @scenarioYAML['HACK_STAFF_COHORT_ASSOCIATION_PER_STAFF'] || 1)
+            if staff_count < staff_cohort_association_per_staff
+              # prevent duplicate staffCohortAssociations
+              @log.warn "HACK_STAFF_COHORT_ASSOCIATION_PER_STAFF is #{@scenarioYAML['HACK_STAFF_COHORT_ASSOCIATION_PER_STAFF']}, but there are only #{staff_count} staff available for use in edOrg #{ed_org['id']}"
+              staff_cohort_association_per_staff = staff_count
+            end
+            for s in 0..staff_cohort_association_per_staff-1
               @queue.push_work_order(
                 StaffCohortAssociation.new(staff.next['id'], cohort, @scenarioYAML['STAFF_HAVE_COHORT_ACCESS'], session['interval'].get_begin_date))
             end
