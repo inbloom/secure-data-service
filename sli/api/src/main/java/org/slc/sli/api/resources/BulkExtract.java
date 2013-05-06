@@ -319,8 +319,12 @@ public class BulkExtract {
             Iterable<Entity> leaFileEntities = getLEABulkExtractEntities(appId, leaId);
             if (leaFileEntities.iterator().hasNext()) {
                 addLinks(linkBase + leaId, leaFileEntities, fullLink, deltaLinks);
-                leaFullLinks.put(leaId, fullLink);
-                leaDeltaLinks.put(leaId, deltaLinks);
+                if (!fullLink.isEmpty()) {
+                    leaFullLinks.put(leaId, fullLink);
+                }
+                if (!deltaLinks.isEmpty()) {
+                    leaDeltaLinks.put(leaId, deltaLinks);
+                }
             }
         }
 
@@ -398,10 +402,7 @@ public class BulkExtract {
         initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
-        if (leaId != null && !leaId.isEmpty()) {
-            query.addCriteria(new NeutralCriteria("edorg",
-                    NeutralCriteria.OPERATOR_EQUAL, leaId));
-        }
+        query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, leaId));
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
         debug("Bulk Extract query is {}", query);
         Iterable<Entity> entities = mongoEntityRepository.findAll(BULK_EXTRACT_FILES, query);
