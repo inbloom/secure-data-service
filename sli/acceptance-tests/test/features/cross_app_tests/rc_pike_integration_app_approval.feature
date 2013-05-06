@@ -93,53 +93,7 @@ Then the "BulkExtractApp" is enabled for Districts
 And I exit out of the iframe
 And I click on log out
 
-Scenario: SLC Operator Denies Application Registration
-When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
-And under System Tools, I click on "Approve Application Registration"
-And I switch to the iframe
-Then I am redirected to the Application Approval Tool page
-And I see all the applications registered on SLI
-#And I see all the applications pending registration
-#And the pending apps are on top
-When I click on 'Deny' next to application "BulkExtractApp"
-And I get a dialog asking if I want to continue
-When I click 'Yes'
-Then application "BulkExtractApp" is not registered
-And application "BulkExtractApp" is removed from the list
-And I exit out of the iframe
-And I click on log out
-
-Scenario: App developer enables Bulk Extract App Again
-When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom App Developer"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
-Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
-And under System Tools, I click on "Register Application"
-And I switch to the iframe
-Then I am redirected to the Application Registration Tool page
-And I see an application "BulkExtractApp" in the table
-And the client ID and shared secret fields are present
-And I clicked on the button Edit for the application "BulkExtractApp"
-Then I can see the on-boarded states
-When I select the state "Standard State Education Agency"
-Then I see all of the Districts
-Then I check the Districts
-When I click on Save
-Then the "BulkExtractApp" is enabled for Districts
-And I exit out of the iframe
-And I click on log out
-
+@wip @ThisStepIsNotYetNeededSinceAutoApproveAppsIsStillTrueInRC
 Scenario: SLC Operator Approves Application Registration
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom"
