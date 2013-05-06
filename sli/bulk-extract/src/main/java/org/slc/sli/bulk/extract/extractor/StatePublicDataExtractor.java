@@ -100,11 +100,8 @@ public class StatePublicDataExtractor {
         } catch (IOException e) {
             LOG.error("Error creating metadata file: {}", e.getMessage());
         }
-        try {
-            extractFile.generateArchive();
-        } catch (Exception e) {
-            LOG.error("Error generating archive file: {}", e.getMessage());
-        }
+
+        extractFile.generateArchive();
 
         updateBulkExtractDb(seaId, extractFile);
     }
@@ -132,7 +129,7 @@ public class StatePublicDataExtractor {
         final Iterable<Entity> entities = entityRepository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
 
         if (entities == null || !entities.iterator().hasNext()) {
-            LOG.error("More than one SEA is found for the tenant");
+            LOG.error("No SEA is available for the tenant");
         } else {
             Iterator<Entity> iterator = entities.iterator();
             Entity seaEntity = iterator.next();
