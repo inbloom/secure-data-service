@@ -17,7 +17,6 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
@@ -42,7 +41,7 @@ public class AttendanceExtractor implements EntityExtract {
     }
 
     @Override
-    public void extractEntities(Map<String, Set<String>> leaToEdorgCache) {
+    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
         Iterator<Entity> attendances = repo.findEach("attendance", new Query());
         while (attendances.hasNext()) {
             Entity attendance = attendances.next();

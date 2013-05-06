@@ -1,3 +1,3 @@
 edfi-xml,StaffAssociation,InterchangeStaffAssociation.xml,4495e38dad9fae931579163e292ba61d
 edfi-xml,StudentEnrollment,InterchangeStudentEnrollment.xml,dad79208f12cce22c162628c5ffde47b
-edfi-xml,StudentGrades,InterchangeStudentGrades.xml,ca6c3d4b5830b0d44338ca7354857294
+edfi-xml,StudentGrades,InterchangeStudentGrades.xml,d5ab4c3152b795adfc9a9bc8b76d1b92

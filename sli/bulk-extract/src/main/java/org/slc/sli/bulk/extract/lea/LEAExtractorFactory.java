@@ -16,14 +16,14 @@
 
 package org.slc.sli.bulk.extract.lea;
 
+import java.io.File;
+import java.security.PublicKey;
+import java.util.Map;
+
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
-
-import java.io.File;
-import java.security.PublicKey;
-import java.util.Map;
 
 public class LEAExtractorFactory {
     
@@ -37,6 +37,21 @@ public class LEAExtractorFactory {
                 new EntityToLeaCache());
     }
     
+    public StaffEdorgAssignmentExtractor buildStaffAssociationExtractor(EntityExtractor extractor,
+            LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new StaffEdorgAssignmentExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToLeaCache());
+    }
+    
+    public EntityExtract buildStaffExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+        return new StaffExtractor(extractor, map, repo);
+    }
+    
+    public EntityExtract buildTeacherSchoolExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new TeacherSchoolExtractor(extractor, map, repo);
+    }
+
     public EntityExtract buildAttendanceExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo, EntityToLeaCache studentCache) {
         return new AttendanceExtractor(extractor, map, repo, new ExtractorHelper(), studentCache);

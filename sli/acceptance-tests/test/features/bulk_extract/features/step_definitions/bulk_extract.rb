@@ -107,6 +107,27 @@ Given /^I clean the bulk extract file system and database$/ do
   steps "Given I have an empty bulk extract files collection"
 end
 
+Given /^There is no SEA for the tenant "(.*?)"$/ do |tenant|
+    @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+    collection = @tenant_db.collection('educationOrganization')
+    collection.remove({'body.organizationCategories' => 'State Education Agency'})
+end
+
+Given /^I get the SEA Id for the tenant "(.*?)"$/ do |tenant|
+    @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+    edOrgcollection = @tenant_db.collection('educationOrganization')
+    @seaId = edOrgcollection.find_one({'body.organizationCategories' => 'State Education Agency'})["_id"]
+    assert (@seaId != nil)
+    puts @seaId
+end
+
+Given /^none of the following entities reference the SEA:$/ do |table|
+    table.hashes.map do |row|
+        collection = @tenant_db.collection(row["entity"])
+        collection.remove({row["path"] => @seaId})
+    end
+end
+
 And /^I clean up the cron extraction zone$/ do
     Dir.chdir
     puts "pwd: #{Dir.pwd}"
@@ -221,29 +242,6 @@ Given /^the bulk extract files in the database are scrubbed/ do
   @coll = @sliDb.collection("bulkExtractFiles")
   @coll.remove()
 end
-
-Given /^There is no SEA for the tenant "(.*?)"$/ do |tenant|
-  @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
-  collection = @tenant_db.collection('educationOrganization')
-  collection.remove({'body.organizationCategories' => 'State Education Agency'})
-end
-
-Given /^I get the SEA Id for the tenant "(.*?)"$/ do |tenant|
-  @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
-  edOrgcollection = @tenant_db.collection('educationOrganization')
-  @seaId = edOrgcollection.find_one({'body.organizationCategories' => 'State Education Agency'})["_id"]
-  assert (@seaId != nil)
-  puts @seaId
-end
-
-Given /^none of the following entities reference the SEA:$/ do |table|
-  table.hashes.map do |row|
-    collection = @tenant_db.collection(row["entity"])
-    collection.remove({row["path"] => @seaId})
-  end
-end
-
-
 
 ############################################################
 # When
@@ -389,7 +387,7 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
   out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\"")
   match = /token is (.*)/.match(out)
   @sessionId = match[1]
-  puts "The generated token is #{@sessionId}" if $SLI_DEBUG
+  puts "The generated token is #{@sessionId}"
 end
 
 When /^I try to POST to the bulk extract endpoint/ do
@@ -436,6 +434,7 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
 end
 
 When /^I POST a "(.*?)" of type "(.*?)"$/ do |field, entity|
+  response_map = getEntityBodyFromApi(entity, @api_version, "PUT")
   response_map, value = nil
   # POST is a special case. We are creating a brand-new entity. 
   # Get entity body from the map specified by prepareBody()
@@ -463,6 +462,16 @@ def updateApiPutField(body, field, value)
   body["loginId"] = value if field == "loginId"
   body["id"] = value if field == "missingEntity"
   return body
+end
+
+def getEntityId(entity)
+  entity_to_id_map = {
+    "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
+    "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+    "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
+    "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
+  }
+  return entity_to_id_map[entity]
 end
 
 When /^I PATCH the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
@@ -665,7 +674,7 @@ Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name,
     unless exists
       exists = File.exists?(json_file_name+".gz") 
       assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
-      `gunzip #{json_file_name}.gz`
+      `gunzip -c #{json_file_name}.gz > #{json_file_name}`
     end
     json = JSON.parse(File.read("#{json_file_name}"))
 
@@ -767,6 +776,13 @@ Then /^I verify that the "(.*?)" reference an SEA only$/ do |entity|
   }
 end
 
+Then /^I verify that extract does not contain a file for the following entities:$/ do |table|
+  table.hashes.map do |row|
+    exists = File.exists?(@unpackDir + "/" + row["entity"] + ".json.gz")
+    assert(!exists, "Found " + row["entity"] + ".json file in extracts")
+  end
+end
+
 ############################################################
 # Hooks
 ############################################################
@@ -801,7 +817,7 @@ def getExtractInfoFromMongo(query, query_opts={})
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
-  
+
   match = @coll.find_one(query, query_opts)
   assert(match !=nil, "Database was not updated with bulk extract file location")
   
@@ -1046,7 +1062,7 @@ def get_field_value(json_entity, field)
     end 
     entity = entity[f]
   }
-  entity.strip if entity.respond_to?("strip")
+  entity.to_s.strip
 end
 
 def streamBulkExtractFile(download_file, apiBody)
@@ -1063,18 +1079,14 @@ def getEntityEndpoint(entity)
     "parent" => "parents",
     "patchEdOrg" => "educationOrganizations",
     "school" => "educationOrganizations",
+    "staffStudent" => "students",
+    "staffStudentParentAssociation" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id/studentParentAssociations",
+    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+    "studentSchoolAssociation" => "studentSchoolAssociations",
+    "studentParentAssociation" => "studentParentAssociations",
     "wrongSchoolURI" => "schoolz"
   }
   return entity_to_endpoint_map[entity]
-end
-
-def getEntityId(entity)
-  entity_to_id_map = {
-    "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
-    "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
-    "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id"
-  }
-  return entity_to_id_map[entity]
 end
 
 def getEntityBodyFromApi(entity, api_version, verb)
@@ -1085,14 +1097,18 @@ def getEntityBodyFromApi(entity, api_version, verb)
     "courseOffering" => "courseOfferings",
     "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
     "parent" => "parents",
+    "staffStudentParentAssociation" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id/studentParentAssociations",
     "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
     "section" => "sections",
     "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
     "staffProgramAssociation" => "staffProgramAssociations",
+    "staffStudent" => "students",
+    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
     "studentCohortAssocation" => "studentCohortAssociations",
     "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
     "studentParentAssociation" => "studentParentAssociations",
     "studentProgramAssociation" => "studentProgramAssociations",
+    "studentSchoolAssociation" => "studentSchoolAssociations",
     "studentSectionAssociation" => "studentSectionAssociations",
     "teacherSchoolAssociation" => "teacherSchoolAssociations",
   }
@@ -1150,10 +1166,186 @@ def prepareBody(verb, value, response_map)
           "parentEducationAgencyReference" => "ffffffffffffffffffffffffffffffffffffffff_id"
       },
       "newParentMother" => {
-        "parent" => {}
+        "entityType" => "parent",
+        "parentUniqueStateId" => "new-mom-1",
+        "loginId" => "new-mom@bazinga.org",
+        "sex" => "Female",
+        "telephone" => [],
+        "address" => [{
+          "streetNumberName" => "5440 Bazinga Win St.",
+          "postalCode" => "60601",
+          "stateAbbreviation" => "IL",
+          "addressType" => "Home",
+          "city" => "Chicago"
+        }],
+        "electronicMail" => [{
+          "emailAddress" => "new-mom@bazinga.org",
+          "emailAddressType" => "Home/Personal"
+        }],
+        "name" => {
+         "middleName" => "Capistrano",
+         "lastSurname" => "Samsonite",
+         "firstName" => "Mary"
+        },
+      },
+      "newStudentMotherAssociation" => {
+        "entityType" => "studentParentAssociation",
+        "parentId" => "41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
+        "studentId" => "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+        "relation" => "Mother",
+        "contactPriority" => 3
       },
       "newParentFather" => {
-        "parent" => {}
+        "entityType" => "parent",
+        "parentUniqueStateId" => "new-dad-1",
+        "loginId" => "new-dad@bazinga.org",
+        "sex" => "Male",
+        "telephone" => [],
+        "address" => [{
+          "streetNumberName" => "5440 Bazinga Win St.",
+          "postalCode" => "60601",
+          "stateAbbreviation" => "IL",
+          "addressType" => "Home",
+          "city" => "Chicago"
+        }],
+        "electronicMail" => [{
+          "emailAddress" => "new-mom@bazinga.org",
+          "emailAddressType" => "Home/Personal"
+        }],
+        "name" => {
+         "middleName" => "Badonkadonk",
+         "lastSurname" => "Samsonite",
+         "firstName" => "Keith"
+        },
+      },
+      "newStudentFatherAssociation" => {
+        "entityType" => "studentParentAssociation",
+        "parentId" => "41f42690a7c8eb5b99637fade00fc72f599dab07_id",
+        "studentId" => "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+        "relation" => "Father",
+        "contactPriority" => 3
+      },
+      "newMinStudent" => {
+        "loginId" => "new-student-min@bazinga.org",
+        "sex" => "Male",
+        "entityType" => "student",
+        "race" => ["White"],
+        "languages" => ["English"],
+        "studentUniqueStateId" => "201",
+        "profileThumbnail" => "201 thumb",
+        "name" => {
+            "middleName" => "Robot",
+            "lastSurname" => "Samsonite",
+            "firstName" => "Sammy"
+        },
+        "address" => [{
+            "streetNumberName" => "1024 Byte Street",
+            "postalCode" => "60601",
+            "stateAbbreviation" => "IL",
+            "addressType" => "Home",
+            "city" => "Chicago"
+        }],
+        "birthData" => {
+            "birthDate" => "1998-10-22"
+        }
+      },
+      "newStudentSchoolAssociation" => {
+        "exitWithdrawDate" => "2014-06-02",
+        "entityType" => "studentSchoolAssociation",
+        "entryDate" => "2013-09-05",
+        "entryGradeLevel" => "Tenth grade",
+        "schoolYear" => "2012-2013",
+        "educationalPlans" => [],
+        "schoolChoiceTransfer" => true,
+        "entryType" => "Other",
+        "studentId" => "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+        "repeatGradeIndicator" => true,
+        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+      },
+      "newStudent" => {
+        "loginId" => "new-student-1@bazinga.org",
+        "sex" => "Male",
+        "studentCharacteristics" => [{
+            "endDate" => "2013-04-01",
+            "beginDate" => "2013-03-11",
+            "designatedBy" => "Teacher",
+            "characteristic" => "Unschooled Refugee"
+        }],
+        "disabilities" => [{
+            "orderOfDisability" => 15,
+            "disability" => "Mental Retardation",
+            "disabilityDiagnosis" => "Diagnosis A"
+        }],
+        "hispanicLatinoEthnicity" => false,
+        "cohortYears" => [{
+            "schoolYear" => "2013-2014",
+            "cohortYearType" => "Fourth grade"
+        }],
+        "section504Disabilities" => ["Sensory Impairment"],
+        "oldEthnicity" => "Hispanic",
+        "entityType" => "student",
+        "race" => ["White"],
+        "programParticipations" => [{
+            "program" => "Bilingual Summer",
+            "endDate" => "2014-02-10",
+            "beginDate" => "2013-11-14",
+            "designatedBy" => "Teacher"
+        }],
+        "languages" => ["English"],
+        "studentUniqueStateId" => "101",
+        "profileThumbnail" => "101 thumb",
+        "name" => {
+            "middleName" => "Treble",
+            "lastSurname" => "Samsonite",
+            "firstName" => "Jimson"
+        },
+        "birthData" => {
+            "birthDate" => "1999-11-10"
+        },
+        "otherName" => [{
+            "middleName" => "Camino",
+            "generationCodeSuffix" => "V",
+            "lastSurname" => "Duran",
+            "personalTitlePrefix" => "Mr",
+            "firstName" => "Roberto",
+            "otherNameType" => "Alias"
+        }],
+        "studentIndicators" => [{
+            "indicator" => "Indicator 3",
+            "indicatorName" => "Name 3",
+            "indicatorGroup" => "Group A",
+            "endDate" => "2013-07-12",
+            "beginDate" => "2012-06-15",
+            "designatedBy" => "Parent"
+        }],
+        "homeLanguages" => ["English"],
+        "learningStyles" => {
+            "visualLearning" => 38,
+            "auditoryLearning" => 24,
+            "tactileLearning" => 33
+        },
+        "limitedEnglishProficiency" => "NotLimited",
+        "studentIdentificationCode" => [{
+            "identificationCode" => "abcde",
+            "identificationSystem" => "Other",
+            "assigningOrganizationCode" => "Other"
+        }],
+        "address" => [{
+            "streetNumberName" => "512 Byte Street",
+            "postalCode" => "60601",
+            "stateAbbreviation" => "IL",
+            "addressType" => "Home",
+            "city" => "Chicago"
+        }],
+        "schoolFoodServicesEligibility" => "Full price",
+        "displacementStatus" => "Status BBB",
+        "electronicMail" => [{
+            "emailAddress" => "new-student-1@bazinga.org",
+            "emailAddressType" => "Home/Personal"
+        }],
+        "telephone" => [{
+            "telephoneNumber" => "(919)555-4510"
+        }]
       }
     },
     "PATCH" => {
@@ -1184,6 +1376,11 @@ def remove_edorg_from_mongo(edorg_id, tenant)
   collection.remove({'body.stateOrganizationId' => edorg_id})
 end
 
+def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
+  query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
+  query.merge!({"body.edorg"=>lea}) unless lea.nil?
+  query
+end
 
 def getSEAPublicRefField(entity)
   query_field = ""
@@ -1196,13 +1393,6 @@ def getSEAPublicRefField(entity)
       query_field = "educationOrganizationId"
   end
   return query_field
-end
-
-def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
-  query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
-  query.merge!({"body.edorg"=>lea}) unless lea.nil?
-  query
-
 end
 
 After('@scheduler') do

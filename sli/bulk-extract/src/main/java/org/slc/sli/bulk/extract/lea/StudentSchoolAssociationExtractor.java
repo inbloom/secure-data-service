@@ -1,7 +1,6 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
@@ -25,7 +24,7 @@ public class StudentSchoolAssociationExtractor implements EntityExtract {
 
 	
 	@Override
-	public void extractEntities(Map<String, Set<String>> leaToEdorgCache) {
+    public void extractEntities(EntityToLeaCache entityCache) {
         Iterator<Entity> cursor = repo.findEach("studentSchoolAssociation", new Query());
         while(cursor.hasNext()) {
         	Entity ssa = cursor.next();

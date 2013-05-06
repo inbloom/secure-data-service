@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd">
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Nonscorable response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>68</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-04</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Ninth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Ninth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Effective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>51</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2001-09-05</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2001-Ninth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2001-Ninth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Partial response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>31</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-10</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Tenth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Tenth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+  <StudentAssessmentItem>
+    <AssessmentResponse>true</AssessmentResponse>
+
+      <ResponseIndicator>Ineffective response</ResponseIndicator>
+
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    
+    <RawScoreResult>76</RawScoreResult>
+
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2002-09-11</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2002-Tenth grade Assessment 1</AssessmentTitle>
+                    <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2002-Tenth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>25</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2001-09-04</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2001-Ninth grade Assessment 1</AssessmentTitle>
+               <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+</InterchangeStudentAssessment>

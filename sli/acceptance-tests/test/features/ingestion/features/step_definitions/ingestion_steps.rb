@@ -3996,13 +3996,14 @@ end
 
 Given /^I ingest "(.*?)"$/ do |ingestion_file|
   steps %Q{
-    And I am using local data store
-    And I post "#{ingestion_file}" file as the payload of the ingestion job
-    When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+    Given I am using local data store
+    And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+    When I post "#{ingestion_file}" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone
-    And a batch job for file "#{ingestion_file}" is completed in database
-    And a batch job log has been created
-    Then I should not see an error log file created
+    Then a batch job for file "#{ingestion_file}" is completed in database
+    And I should see "All records processed successfully." in the resulting batch job file
+    And I should not see an error log file created
+    And I should not see a warning log file created
   }
 
 end
