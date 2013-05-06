@@ -246,19 +246,25 @@ Given I clean the bulk extract file system and database
   And The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
-@wip
 Scenario: Update private entity fields via API PATCH and verify deltas
  Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
 # UPDATE parent and parentStudentAssociation fields via PATCH
- When I PATCH the "loginId" for a "parent" entity to "super_dad_good_job@bazinga.com"
+ When I PATCH the "studentLoginId" for a "newStudent" entity to "average_student_youre_ok@bazinga.com"
+ Then I should receive a return code of 204
+ When I PATCH the "momLoginId" for a "newParentMom" entity to "average_mom_youre_ok@bazinga.com"
+ Then I should receive a return code of 204
+ When I PATCH the "dadLoginId" for a "newParentDad" entity to "average_dad_youre_ok@bazinga.com"
+ Then I should receive a return code of 204
+ When I PATCH the "contactPriority" for a "newStudentParentAssociation" entity to "1"
  Then I should receive a return code of 204
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "0" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
- #Then The "parent" delta was extracted in the same format as the api
+  And The "student" delta was extracted in the same format as the api
+  And The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
 @wip
