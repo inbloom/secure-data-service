@@ -17,11 +17,13 @@ package org.slc.sli.bulk.extract.extractor;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -114,14 +116,12 @@ public class DeltaExtractor {
                 for (String lea : delta.getBelongsToLEA()) {
                     // we have apps for this lea
                     if (appsPerTopLEA.containsKey(lea)) {
-                        for (String appId : appsPerTopLEA.get(lea)) {
-                            ExtractFile extractFile = getExtractFile(appId, lea, tenant, deltaUptoTime);
-                            EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(appId, lea, delta.getType());
-                            try {
-                                entityExtractor.write(delta.getEntity(), extractFile, record);
-                            } catch (IOException e) {
-                                LOG.error("Error while extracting for " + lea + "with app " + appId, e);
-                            }
+                        ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, appsPerTopLEA.get(lea));
+                        EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(lea, delta.getType());
+                        try {
+                            entityExtractor.write(delta.getEntity(), extractFile, record);
+                        } catch (IOException e) {
+                            LOG.error("Error while extracting for " + lea, e);
                         }
                     }
                 }
@@ -145,25 +145,22 @@ public class DeltaExtractor {
     private void spamDeletes(DeltaRecord delta, Set<String> exceptions, String tenant, DateTime deltaUptoTime, Map<String, Set<String>> appsPerLEA) {
         for (Map.Entry<String, Set<String>> entry : appsPerLEA.entrySet()) {
             String lea = entry.getKey();
-            Set<String> apps = entry.getValue();
 
             if (exceptions.contains(lea)) {
                 continue;
             }
 
-            for (String appId : apps) {
-                ExtractFile extractFile = getExtractFile(appId, lea, tenant, deltaUptoTime);
-                // for some entities we have to spam delete the same id in two collections
-                // since we cannot reliably retrieve the "type". For example, teacher/staff
-                // edorg/school, if the entity has been deleted, all we know if it a staff
-                // or edorg, but it may be stored as teacher or school in vendor db, so
-                // we must spam delete the id in both teacher/staff or edorg/school collection
-                Entity entity = delta.getEntity();
-                Set<String> types = typeResolver.resolveType(entity.getType());
-                for (String type : types) {
-                    Entity e = new MongoEntity(type, entity.getEntityId(), new HashMap<String, Object>(), null);
-                    entityWriteManager.writeDelete(e, extractFile);
-                }
+            ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, entry.getValue());
+            // for some entities we have to spam delete the same id in two collections
+            // since we cannot reliably retrieve the "type". For example, teacher/staff
+            // edorg/school, if the entity has been deleted, all we know if it a staff
+            // or edorg, but it may be stored as teacher or school in vendor db, so
+            // we must spam delete the id in both teacher/staff or edorg/school collection
+            Entity entity = delta.getEntity();
+            Set<String> types = typeResolver.resolveType(entity.getType());
+            for (String type : types) {
+                Entity e = new MongoEntity(type, entity.getEntityId(), new HashMap<String, Object>(), null);
+                entityWriteManager.writeDelete(e, extractFile);
             }
         }
     }
@@ -193,8 +190,8 @@ public class DeltaExtractor {
         
     }
 
-    private CollectionWrittenRecord getCollectionRecord(String appId, String lea, String type) {
-        String key = appId + "|" + lea + "|" + type;
+    private CollectionWrittenRecord getCollectionRecord(String lea, String type) {
+        String key = lea + "|" + type;
         if (!appPerLeaCollectionRecords.containsKey(key)) {
             EntityExtractor.CollectionWrittenRecord collectionRecord = new EntityExtractor.CollectionWrittenRecord(type);
             appPerLeaCollectionRecords.put(key, collectionRecord);
@@ -204,10 +201,10 @@ public class DeltaExtractor {
         return appPerLeaCollectionRecords.get(key);
     }
 
-    private ExtractFile getExtractFile(String appId, String lea, String tenant, DateTime deltaUptoTime) {
-        String key = appId + "|" + lea;
-        if (!appPerLeaExtractFiles.containsKey(key)) {
-            ExtractFile appPerLeaExtractFile = getExtractFilePerAppPerLEA(tenant, appId, lea, deltaUptoTime, true);
+    private ExtractFile getExtractFile(String lea, String tenant, DateTime deltaUptoTime, Set<String> appsForLEA) {
+        String key = lea;
+        if (!appPerLeaExtractFiles.containsKey(lea)) {
+            ExtractFile appPerLeaExtractFile = getExtractFilePerLEA(tenant, lea, deltaUptoTime, appsForLEA);
             appPerLeaExtractFiles.put(key, appPerLeaExtractFile);
         }
 
@@ -252,23 +249,27 @@ public class DeltaExtractor {
      * 
      * @param
      */
-    public ExtractFile getExtractFilePerAppPerLEA(String tenant, String appId, String edorg, DateTime startTime,
-            boolean isDelta) {
-        ExtractFile extractFile = new ExtractFile(getAppSpecificDirectory(tenant, appId), getArchiveName(edorg,
-                startTime.toDate(), isDelta), bulkExtractMongoDA.getClientIdAndPublicKey(appId, Arrays.asList(edorg)));
+    public ExtractFile getExtractFilePerLEA(String tenant, String edorg, DateTime startTime, Set<String> appsForLEA) {
+        List<String> edorgList = Arrays.asList(edorg);
+        Map<String, PublicKey> appKeyMap = new HashMap<String, PublicKey>();
+        for (String appId : appsForLEA) {
+            appKeyMap.putAll(bulkExtractMongoDA.getClientIdAndPublicKey(appId, edorgList));
+        }
+        ExtractFile extractFile = new ExtractFile(getTenantDirectory(tenant), getArchiveName(edorg,
+                startTime.toDate()), appKeyMap);
         extractFile.setEdorg(edorg);
         return extractFile;
     }
     
-    private String getArchiveName(String edorg, Date startTime, boolean isDelta) {
-        return edorg + "-" + Launcher.getTimeStamp(startTime) + (isDelta ? "-delta" : "");
+    private String getArchiveName(String edorg, Date startTime) {
+        return edorg + "-" + Launcher.getTimeStamp(startTime) + "-delta";
     }
 
-    private File getAppSpecificDirectory(String tenant, String app) {
-        String tenantPath = baseDirectory + File.separator + TenantAwareMongoDbFactory.getTenantDatabaseName(tenant);
-        File appDirectory = new File(tenantPath, app);
-        appDirectory.mkdirs();
-        return appDirectory;
+    private File getTenantDirectory(String tenant) {
+        String tenantPath = baseDirectory + File.separator;
+        File tenantDirectory = new File(tenantPath, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
+        tenantDirectory.mkdirs();
+        return tenantDirectory;
     }
     
     /**
