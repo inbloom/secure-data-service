@@ -4,6 +4,7 @@ dashboard_landing_page: "/"
 dashboard_api_server_uri: "https://pike-api.slidev.org"
 realm_page_url: "https://pike-api.slidev.org/api/oauth/authorize"
 browser: "firefox"
+rc_env: "pike"
 
 admintools_server_url: "https://pike-admin.slidev.org"
 minisb_admintools_server_url: "https://pikesandbox.slidev.org"

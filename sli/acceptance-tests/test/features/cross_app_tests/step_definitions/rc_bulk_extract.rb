@@ -42,23 +42,23 @@ end
 
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
 
-command  = "sh #{TRIGGER_SCRIPT}"
-if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
-  command = command + " -Dsli.conf=#{PROPERTIES_FILE}"
-  puts "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
-end
-if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
-  command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
-  puts "Using extra property: -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
-end
-if (JAR_FILE !=nil && JAR_FILE != "")
-  command = command + " -f#{JAR_FILE}"
-  puts "Using extra property:  -f#{JAR_FILE}"
-end
-
-command = command + " -t#{tenant}"
-puts "Running: #{command} "
-puts runShellCommand(command)
+  command  = "sh #{TRIGGER_SCRIPT}"
+  if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
+    command = command + " -Dsli.conf=#{PROPERTIES_FILE}"
+    puts "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
+  end
+  if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
+    command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
+    puts "Using extra property: -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
+  end
+  if (JAR_FILE !=nil && JAR_FILE != "")
+    command = command + " -f#{JAR_FILE}"
+    puts "Using extra property:  -f#{JAR_FILE}"
+  end
+  
+  command = command + " -t#{tenant}"
+  puts "Running: #{command} "
+  puts runShellCommand(command)
 
 end
 

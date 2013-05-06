@@ -16,9 +16,6 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +27,9 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 
 public class StudentExtractorTest {
@@ -46,13 +46,16 @@ public class StudentExtractorTest {
     private ExtractorHelper helper;
     
     @Mock
-    private EntityToLeaCache mockCache;
+    private EntityToLeaCache studentCache;
+
+    @Mock
+    private EntityToLeaCache parentCache;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Mockito.when(mockMap.getLeas()).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
-        extractor = new StudentExtractor(mockExtractor, mockMap, mockRepo, helper, mockCache);
+        extractor = new StudentExtractor(mockExtractor, mockMap, mockRepo, helper, studentCache, parentCache);
     }
     
     @After
@@ -79,11 +82,14 @@ public class StudentExtractorTest {
                 Arrays.asList(e).iterator());
         Mockito.when(helper.fetchCurrentSchoolsFromStudent(Mockito.any(Entity.class))).thenReturn(
                 new HashSet<String>(Arrays.asList("LEA")));
+        Mockito.when(helper.fetchCurrentParentsFromStudent(Mockito.any(Entity.class))).thenReturn(
+                new HashSet<String>(Arrays.asList("Parent1", "Parent2")));
         extractor.extractEntities(null);
-        Mockito.verify(mockCache, Mockito.times(1)).addEntry(Mockito.any(String.class), Mockito.any(String.class));
+        Mockito.verify(studentCache, Mockito.times(1)).addEntry(Mockito.any(String.class), Mockito.any(String.class));
         Mockito.verify(mockExtractor).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class),
                 Mockito.eq("student"));
-        
+        Mockito.verify(parentCache, Mockito.times(2)).addEntry(Mockito.any(String.class), Mockito.eq("LEA"));
+
     }
     
     @Test

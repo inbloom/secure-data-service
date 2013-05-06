@@ -35,6 +35,8 @@ JMETER_JTL_ARCHIVE = PropLoader.getProps['jmeter_jtl_archive']
 JMETER_FAILED_JTL_ARCHIVE = PropLoader.getProps['jmeter_failed_jtl_archive']
 REGRESSION_THRESHOLD = PropLoader.getProps['jmeter_regression_threshold'].to_f
 RESET_REGRESSIONS = PropLoader.getProps['jmeter_reset_regression']
+CONSIDERATION_PERCENTILE = PropLoader.getProps['jmeter_consideration_percentile']
+
 puts "pre-float REGRESSION_THRESHOLD is #{PropLoader.getProps['jmeter_regression_threshold']}"
 puts "REGRESSION_THRESHOLD is #{REGRESSION_THRESHOLD}"
 
@@ -232,6 +234,14 @@ def parseJtlForTimings(doc)
       end
       timings << sample.attributes["t"]
     end
+  end
+
+  map.each do |label, timings|
+    integer_timings = timings.map { |x| x.to_i }
+    integer_timings.sort!
+    to_keep = (integer_timings.count * CONSIDERATION_PERCENTILE).round
+    to_keep -= 1 if to_keep == integer_timings.count
+    map[label] = integer_timings[0 ... to_keep].map { |x| x.to_s }
   end
 
   return map
