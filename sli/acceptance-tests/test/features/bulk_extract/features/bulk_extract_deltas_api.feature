@@ -291,9 +291,18 @@ Given I clean the bulk extract file system and database
      And I verify "2" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
+       |  student                               |
+       |  studentSchoolAssociation              |
+       |  studentAssessment                     |
+       |  studentGradebookEntry                 |
+       |  studentParentAssociation              |
+       |  parent                                |
+       |  school                                |
+       |  educationOrganization                 |
        |  deleted                               |
      And I verify this "deleted" file should contains:
        | id                                                                                     | condition                             |
+       | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id                                            | entityType = student                  |
        | 07e539779ef81bb36e2936cab7504489a2a3757e_id                                            | entityType = studentSchoolAssociation |
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
@@ -336,7 +345,7 @@ Given I clean the bulk extract file system and database
 
      And I verify this "studentAssessment" file should contains:
        | id                                          | condition                                |
-       | 13b7e4d3dba87a9fa5a90094124ad28ce07b279a_id | scoreResults.result = 92                 |
+       | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92                 |
 
      And I verify this "parent" file should contains:
        | id                                          | condition                                                    |
