@@ -101,6 +101,9 @@ public class LocalEdOrgExtractor {
         genericExtractor = factory.buildStudentAssessmentExtractor(entityExtractor, leaToExtractFileMap, repository);
         genericExtractor.extractEntities(student.getEntityCache());
         
+        genericExtractor = factory.buildYearlyTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor.extractEntities(student.getEntityCache());
+
         // Staff
         StaffEdorgAssignmentExtractor seaExtractor = factory.buildStaffAssociationExtractor(entityExtractor,
                 leaToExtractFileMap, repository);
