@@ -10,7 +10,7 @@ Scenario: Generate a bulk extract day 0 delta
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
-  Then I should see "2" bulk extract files
+  Then I should see "4" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   Then The "educationOrganization" delta was extracted in the same format as the api
    And The "parent" delta was extracted in the same format as the api
@@ -31,7 +31,7 @@ Scenario: Generate a bulk extract in a different LEAs
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>" for "<lea2_id>"
-   Then I should see "1" bulk extract files
+   Then I should see "2" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   Then The "educationOrganization" delta was extracted in the same format as the api
    And The "educationOrganization" entity with id "<ed_org_to_lea2_id>" should belong to LEA with id "<lea2_id>" 
@@ -50,7 +50,7 @@ Scenario: Ingest education organization and perform delta
 
   When I trigger a delta extract
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>"
-   Then I should see "1" bulk extract files
+   Then I should see "2" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   Then The "educationOrganization" delta was extracted in the same format as the api
    And The "school" delta was extracted in the same format as the api
@@ -62,8 +62,8 @@ Scenario: Ingest education organization and perform delta
   #the new LEA would only receive a update file since the delete event is not applicable to the new LEA
   And I ingested "deltas_move_between_edorg.zip" dataset
     When I trigger a delta extract
-      And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
-      And I verify "2" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+      And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
+      And I verify "4" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
       # should see no delete file for lea 1
       And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
@@ -101,8 +101,8 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
     And I ingested "deltas_delete_sea.zip" dataset
   # We will see a warning file on cascading delete -- there are a lot of children of this SEA
     When I trigger a delta extract
-      And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
-      And I verify "1" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+      And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
+      And I verify "2" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
       And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  deleted                               |
@@ -129,7 +129,7 @@ Given I clean the bulk extract file system and database
  Then I should receive a return code of 201   
  When I trigger a delta extract
   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
- Then I should see "1" bulk extract files
+ Then I should see "2" bulk extract files
   And The "educationOrganization" delta was extracted in the same format as the api
 
 Scenario: Update an existing education organization through the API and perform delta
@@ -143,7 +143,7 @@ Given I clean the bulk extract file system and database
   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id>" clientId "<client id>"
   And I should receive a return code of 200
   And I download and decrypt the delta
- Then I should see "1" bulk extract files
+ Then I should see "2" bulk extract files
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And The "educationOrganization" delta was extracted in the same format as the api
 
@@ -170,8 +170,8 @@ Given I clean the bulk extract file system and database
  When I DELETE an "orphanEdorg" of id "54b4b51377cd941675958e6e81dce69df801bfe8_id" 
  Then I should receive a return code of 204
  When I trigger a delta extract
-  And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
-  And I verify "1" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar"
+  And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
+  And I verify "2" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar"
 
 Scenario: Patch an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
@@ -184,7 +184,7 @@ Given I clean the bulk extract file system and database
   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id>" clientId "<client id>"
   And I should receive a return code of 200
   And I download and decrypt the delta
- Then I should see "1" bulk extract files
+ Then I should see "2" bulk extract files
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And The "educationOrganization" delta was extracted in the same format as the api
 
@@ -217,7 +217,7 @@ Given I clean the bulk extract file system and database
  When I POST a "newStudentMotherAssociation" of type "studentParentAssociation"
  Then I should receive a return code of 201
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-  And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
+  And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "0" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
  Then The "student" delta was extracted in the same format as the api
@@ -239,7 +239,7 @@ Given I clean the bulk extract file system and database
  When I PUT the "contactPriority" for a "newStudentParentAssociation" entity to "1"
  Then I should receive a return code of 204
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-  And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
+  And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "0" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And The "student" delta was extracted in the same format as the api
@@ -267,7 +267,7 @@ Scenario: Update private entity fields via API PATCH and verify deltas
   And The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-  And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
+  And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "0" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
  #Then The "parent" delta was extracted in the same format as the api
@@ -282,8 +282,8 @@ Given I clean the bulk extract file system and database
  When I DELETE an "newParentMother" of id "54b4b51377cd941675958e6e81dce69df801bfe8_id"
  Then I should receive a return code of 204
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-  And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
-  And I verify "1" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+  And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
+  And I verify "2" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
  #Then The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
@@ -308,8 +308,8 @@ Given I clean the bulk extract file system and database
   And I am using local data store
   And I ingest "bulk_extract_deltas.zip"
   When I trigger a delta extract
-     And I verify "1" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
-     And I verify "1" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+     And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
+     And I verify "2" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  deleted                               |

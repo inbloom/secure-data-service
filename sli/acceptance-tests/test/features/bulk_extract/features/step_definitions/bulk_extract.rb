@@ -804,16 +804,17 @@ Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entit
   query = {}
   collection = entity
   count = 0
+
+  query = {query_field => @SEA_id}
+  
   case entity
   when "educationOrganization"
     #adding 1 because SEA is not part of the this mongo query
     count = 1
-    query = {query_field => @SEA_id}
   when "school"
     collection = "educationOrganization"
-    query = {query_field => @SEA_id, "type" => "school"}
+    query["type"] = "school"
   else
-    query = {query_field => @SEA_id}
   end
 
   count += @tenantDb.collection(collection).find(query).count()
@@ -824,6 +825,7 @@ Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entit
     puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
     assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
   }
+ enable_NOTABLESCAN()
 end
 
 Then /^I verify that the "(.*?)" reference an SEA only$/ do |entity|

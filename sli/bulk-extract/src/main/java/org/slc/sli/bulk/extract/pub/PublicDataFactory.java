@@ -16,20 +16,31 @@
 
 package org.slc.sli.bulk.extract.pub;
 
-import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+
 /**
+ * Factory class that returns an instance of PublicDataExtractor.
  * @author ablum
  */
 public class PublicDataFactory {
 
+    /**
+     * Builds a DirectPublicDataExtract instance.
+     * @param extractor the extractor
+     * @return the new PublicDataExtractor instance
+     */
     public PublicDataExtractor buildDirectPublicDataExtract(EntityExtractor extractor) {
         return new DirectPublicDataExtractor(extractor);
     }
 
+    /**
+     * Build all instances of a PublicDataExtractor.
+     * @param extractor the extractor
+     * @return all PublicDataExtractor instances
+     */
     public List<PublicDataExtractor> buildAllPublicDataExtracts(EntityExtractor extractor) {
         List<PublicDataExtractor> list = new ArrayList<PublicDataExtractor>();
         list.add(buildDirectPublicDataExtract(extractor));
