@@ -86,7 +86,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       #|  graduationPlan                        |   |         |
       #|  learningObjective                     |   |         |
       #|  learningStandard                      |   |         |
-      #|  parent                                |   |         |
+      |  parent                                | 18 |         |
       #|  program                               |   |         |
       |  reportCard                            | 4 |         |
       # |  school                                |   |        |
