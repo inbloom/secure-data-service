@@ -188,17 +188,6 @@ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And The "educationOrganization" delta was extracted in the same format as the api
 
-@wip
-Scenario: PATCH the zip code of an edOrg, trigger delta, verify contents
-  When I trigger a delta extract
-   And I log in to the "SDK Sample" as "jstevenson" and get a token
-   And I request the latest bulk extract delta
-   And I untar and decrypt the tarfile with cert "<app id>"
-
-  Then I should see "0" entities of type "educationOrganization" in the bulk extract deltas tarfile
-   And a "educationOrganization" was extracted in the same format as the api
-   And each extracted "educationOrganization" delta matches the mongo entry
-
 Scenario: CREATE and verify deltas for private entities through API POST
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
