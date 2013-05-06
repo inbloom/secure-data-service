@@ -83,7 +83,6 @@ public class LocalEdOrgExtractor {
         if (leaToExtractFileMap == null) {
             leaToExtractFileMap = new LEAExtractFileMap(buildLEAToExtractFile());
         }
-
         // 2. EXTRACT
         EntityToLeaCache edorgCache = buildEdOrgCache();
         EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
@@ -116,6 +115,8 @@ public class LocalEdOrgExtractor {
 
         // 3. ARCHIVE
         updateBulkExtractDb(tenant, startTime);
+        LOG.info("Finished LEA based extract in: {} seconds",
+                (new DateTime().getMillis() - this.startTime.getMillis()) / 1000);
     }
 
     private void updateBulkExtractDb(String tenant, DateTime startTime) {
