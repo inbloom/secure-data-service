@@ -434,7 +434,6 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
 end
 
 When /^I POST a "(.*?)" of type "(.*?)"$/ do |field, entity|
-  response_map = getEntityBodyFromApi(entity, @api_version, "PUT")
   response_map, value = nil
   # POST is a special case. We are creating a brand-new entity. 
   # Get entity body from the map specified by prepareBody()
@@ -448,11 +447,13 @@ end
 When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
   # Get the desired entity from mongo
   response_map = getEntityBodyFromApi(entity, @api_version, "PUT")
+  assert(response_map != nil, "No response from GET request for entity #{entity}")
+  response_map = response_map[0] if response_map.is_a?(Array)
   # Modify the response body field with value, will become PUT body 
   put_body = updateApiPutField(response_map, field, value)
   # Get the endpoint that corresponds to the desired entity
   endpoint = getEntityEndpoint(entity)
-  restHttpPut("/#{@api_version}/#{endpoint}/#{put_body["id"]}", prepareData(@format, put_body))
+  restHttpPut("/#{@api_version}/#{endpoint}/#{put_body['id']}", prepareData(@format, put_body))
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
@@ -460,6 +461,7 @@ def updateApiPutField(body, field, value)
   # Set the GET response body as body and edit the requested field
   body["address"][0]["postalCode"] = value if field == "postalCode"
   body["loginId"] = value if field == "loginId"
+  body["contactPriority"] = value.to_i if field == "contactPriority"
   body["id"] = value if field == "missingEntity"
   return body
 end
@@ -489,6 +491,69 @@ When /^I DELETE an "(.*?)" of id "(.*?)"$/ do |entity, id|
   # Get the endpoint that corresponds to the desired entity
   endpoint = getEntityEndpoint(entity)
   restHttpDelete("/#{@api_version}/#{endpoint}/#{id}")
+end
+
+
+def getEntityEndpoint(entity)
+  entity_to_endpoint_map = {
+    "educationOrganization" => "educationOrganizations",
+    "invalidEntry" => "school",
+    "newParentDad" => "parents",
+    "newParentMom" => "parents",
+    "orphanEdorg" => "educationOrganizations",
+    "parent" => "parents",
+    "patchEdOrg" => "educationOrganizations",
+    "school" => "educationOrganizations",
+    "staffStudent" => "students",
+    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+    "newStudent" => "students",
+    "studentSchoolAssociation" => "studentSchoolAssociations",
+    "studentParentAssociation" => "studentParentAssociations",
+    "newStudentParentAssociation" => "studentParentAssociations",
+    "wrongSchoolURI" => "schoolz"
+  }
+  return entity_to_endpoint_map[entity]
+end
+
+def getEntityBodyFromApi(entity, api_version, verb)
+  return {entity=>nil} if verb == "POST"
+  entity_to_uri_map = {
+    "school" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+    "educationOrganization" => "educationOrganizations",
+    "courseOffering" => "courseOfferings",
+    "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
+    "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
+    "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
+    "parent" => "parents",
+    "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+    "section" => "sections",
+    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffProgramAssociation" => "staffProgramAssociations",
+    "staffStudent" => "students",
+    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+    "newStudent" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+    "studentCohortAssocation" => "studentCohortAssociations",
+    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+    "studentParentAssociation" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id/studentParentAssociations",
+    "newStudentParentAssociation" => "studentParentAssociations/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id62cf87d9afc36d56bea7507ea0bee138ddcb2524_id",
+    "studentProgramAssociation" => "studentProgramAssociations",
+    "studentSchoolAssociation" => "studentSchoolAssociations",
+    "studentSectionAssociation" => "studentSectionAssociations",
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+  }
+  # Perform GET request and verify we get a response and a response body
+  restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.body != nil, "Response body is nil")
+  # Make sure we actually hit the entity
+  puts "Ensuring the GET request returned 200"
+  step "I should receive a return code of 200"
+  puts "GET request: 200 (OK)"
+  # Store the response in an entity-specific response map
+  response_map = JSON.parse(@res)
+  # Fail if we do not find the entity in response body from GET request
+  assert(response_map != nil, "No response body for #{entity} returned by GET request")
+  return response_map
 end
 
 When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
@@ -1071,65 +1136,6 @@ def streamBulkExtractFile(download_file, apiBody)
   return download_file
 end
 
-def getEntityEndpoint(entity)
-  entity_to_endpoint_map = {
-    "educationOrganization" => "educationOrganizations",
-    "invalidEntry" => "school",
-    "orphanEdorg" => "educationOrganizations",
-    "parent" => "parents",
-    "patchEdOrg" => "educationOrganizations",
-    "school" => "educationOrganizations",
-    "staffStudent" => "students",
-    "staffStudentParentAssociation" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id/studentParentAssociations",
-    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-    "studentSchoolAssociation" => "studentSchoolAssociations",
-    "studentParentAssociation" => "studentParentAssociations",
-    "wrongSchoolURI" => "schoolz"
-  }
-  return entity_to_endpoint_map[entity]
-end
-
-def getEntityBodyFromApi(entity, api_version, verb)
-  return {entity=>nil} if verb == "POST"
-  entity_to_uri_map = {
-    "school" => "educationOrganizations/#{@edorg}/schools?limit=1",
-    "educationOrganization" => "educationOrganizations",
-    "courseOffering" => "courseOfferings",
-    "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
-    "parent" => "parents",
-    "staffStudentParentAssociation" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id/studentParentAssociations",
-    "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-    "section" => "sections",
-    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-    "staffProgramAssociation" => "staffProgramAssociations",
-    "staffStudent" => "students",
-    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-    "studentCohortAssocation" => "studentCohortAssociations",
-    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-    "studentParentAssociation" => "studentParentAssociations",
-    "studentProgramAssociation" => "studentProgramAssociations",
-    "studentSchoolAssociation" => "studentSchoolAssociations",
-    "studentSectionAssociation" => "studentSectionAssociations",
-    "teacherSchoolAssociation" => "teacherSchoolAssociations",
-  }
-  # Perform GET request and verify we get a response and a response body
-  puts "Calling restHttpGet to retreive entity response body for modification."
-  restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.body != nil, "Response body is nil")
-  # Make sure we actually hit the entity
-  puts "Ensuring the GET request returned 200"
-  step "I should receive a return code of 200"
-  puts "GET request: 200 (OK)"
-  # Store the response in an entity-specific response map
-  response_map = JSON.parse(@res)
-  # Fail if we do not find the entity in response body from GET request
-  assert(response_map != nil, "No response body for #{entity} returned by GET request")
-  return response_map if verb == "DELETE"
-  return response_map if verb == "PATCH"
-  return response_map[0]
-end
-
 def prepareBody(verb, value, response_map)
   field_data = {
     "GET" => response_map,
@@ -1357,6 +1363,11 @@ def prepareBody(verb, value, response_map)
                     "addressType"=>"Physical",
                     "city"=>"Chicago"
                    }]
+      },
+      "contactPriority" => {
+        "newStudentFatherAssociation" => {
+          "contactPriority" => 1
+        }
       },
       "studentParentName" => {
         "name" => {

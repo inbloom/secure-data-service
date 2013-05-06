@@ -225,19 +225,25 @@ Given I clean the bulk extract file system and database
   And The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
-@wip
 Scenario: Update private entities via API PUT and verify deltas
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
  # UPDATE/UPSERT parent entity via PUT
- When I PUT the "loginId" for a "parent" entity to "super_mom_you_rock@bazinga.com"
+ When I PUT the "loginId" for a "newStudent" entity to "super_student_you_rock@bazinga.com"
+ Then I should receive a return code of 204
+ When I PUT the "loginId" for a "newParentMom" entity to "super_mom_you_rock@bazinga.com"
+ Then I should receive a return code of 204
+ When I PUT the "loginId" for a "newParentDad" entity to "super_dad_good_job@bazinga.com"
+ Then I should receive a return code of 204
+ When I PUT the "contactPriority" for a "newStudentParentAssociation" entity to "1"
  Then I should receive a return code of 204
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "0" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
- #Then The "parent" delta was extracted in the same format as the api
+  And The "student" delta was extracted in the same format as the api
+  And The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
 @wip
