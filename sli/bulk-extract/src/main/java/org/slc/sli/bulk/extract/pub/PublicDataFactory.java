@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * User: ablum
+ * @author ablum
  */
 public class PublicDataFactory {
 

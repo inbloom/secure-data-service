@@ -18,8 +18,8 @@ package org.slc.sli.bulk.extract.pub;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 
 /**
- * Extracts public data, based on an EdOrg
- * User: ablum
+ * Extracts public data, based on an EdOrg.
+ * @author ablum
  */
 public interface PublicDataExtractor {
 

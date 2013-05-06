@@ -23,7 +23,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 /**
- * User: ablum
+ * @author ablum
  */
 public class DirectPublicDataExtractor implements PublicDataExtractor {
 
