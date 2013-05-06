@@ -307,7 +307,38 @@ public class BulkExtract {
      *
      * @return the jax-rs response to send back.
      */
+    @SuppressWarnings("unchecked")
     private Response assembleLEALinksResponse(final HttpContext context, final String appId, final List<String> appAuthorizedUserLEAs) {
+        EntityBody list = assembleLEALinks(context, appId, appAuthorizedUserLEAs);
+
+        Map<String, Map<String, String>> leaFullLinks = (Map<String, Map<String, String>>) list.get("fullLeas");
+        Map<String, Set<Map<String, String>>> leaDeltaLinks = (Map<String, Set<Map<String, String>>>) list.get("deltaLeas");
+        if (leaFullLinks.isEmpty() && leaDeltaLinks.isEmpty()) {  // No links!
+            LOG.info("No LEA bulk extract files exist for application: {}", appId);
+            return Response.status(Status.NOT_FOUND).build();
+        }
+
+        ResponseBuilder builder = Response.ok(list);
+        builder.header("content-type", MediaType.APPLICATION_JSON + "; charset=utf-8");
+
+        return builder.build();
+    }
+
+    /**
+     * Assemble the LEA HATEOAS links entity body.
+     *
+     * @param context
+     *        Original HTTP Request Context.
+     * @param appId
+     *        Authorized application ID.
+     * @param appAuthorizedUserLEAs
+     *        List of LEAs authorized to use and authorizing the specified application.
+     *
+     * @return the jax-rs response to send back.
+     */
+    private EntityBody assembleLEALinks(final HttpContext context, final String appId, final List<String> appAuthorizedUserLEAs) {
+        EntityBody list = new EntityBody();
+
         UriInfo uriInfo = context.getUriInfo();
         String linkBase = ResourceUtil.getURI(uriInfo, ResourceUtil.getApiVersion(uriInfo)).toString() + "/bulk/extract/";
         Map<String, Map<String, String>> leaFullLinks = new HashMap<String, Map<String, String>>();
@@ -328,18 +359,10 @@ public class BulkExtract {
             }
         }
 
-        if (leaFullLinks.isEmpty() && leaDeltaLinks.isEmpty()) {  // No links!
-            LOG.info("No LEA bulk extract files exist for application: {}", appId);
-            return Response.status(Status.NOT_FOUND).build();
-        }
-
-        EntityBody list = new EntityBody();
         list.put("fullLeas", leaFullLinks);
         list.put("deltaLeas", leaDeltaLinks);
-        ResponseBuilder builder = Response.ok(list);
-        builder.header("content-type", MediaType.APPLICATION_JSON + "; charset=utf-8");
 
-        return builder.build();
+        return list;
     }
 
     /**
@@ -363,17 +386,17 @@ public class BulkExtract {
      * @param leaFullLinks - Set of LEA full links.
      * @param leaDeltaLinks - Set of LEA delta links.
      */
-    private void addLinks(final String linkBase,
+    private void addLinks(final String leaLinkBase,
             final Iterable<Entity> leaFileEntities, final Map<String, String> fullLink, Set<Map<String, String>> deltaLinks) {
         for (Entity leaFileEntity : leaFileEntities) {
             Map<String, String> deltaLink = new HashMap<String, String>();
             String timeStamp = getTimestamp(leaFileEntity);
             if (Boolean.TRUE.equals(leaFileEntity.getBody().get("isDelta"))) {
-                deltaLink.put("uri", linkBase + "/delta/" + timeStamp);
+                deltaLink.put("uri", leaLinkBase + "/delta/" + timeStamp);
                 deltaLink.put("timestamp", timeStamp);
                 deltaLinks.add(deltaLink);
             } else {  // Assume only one full extract per LEA.
-                fullLink.put("uri", linkBase);
+                fullLink.put("uri", leaLinkBase);
                 fullLink.put("timestamp", timeStamp);
             }
         }
