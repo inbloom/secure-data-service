@@ -720,7 +720,7 @@ Then /^I verify "(.*?)" delta bulk extract files are generated for LEA "(.*?)" i
   @sliDb ||= @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
   query = {"body.tenantId"=>tenant, "body.isDelta"=>true, "body.edorg"=>lea}
-  assert(count == @coll.count({query: query})) 
+  assert(count == @coll.count({query: query}), "Found #{@coll.count}, expected #{count}") 
 end
 
 Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table| 
