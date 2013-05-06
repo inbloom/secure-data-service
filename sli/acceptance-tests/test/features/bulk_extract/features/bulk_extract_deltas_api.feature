@@ -289,17 +289,6 @@ Given I clean the bulk extract file system and database
         | fb63ac98670f5a762df1a13cdc912bce9c2187e7_id62cf87d9afc36d56bea7507ea0bee138ddcb2524_id | entityType = studentParentAssociation |
         | fb63ac98670f5a762df1a13cdc912bce9c2187e7_id24f7d7a3025831bcdebefb5fc1ce1f7cfb28bba5_id | entityType = studentParentAssociation |
 
-@wip
-Scenario: POST multiple updates to the same entity, verify one delta per entity
-Given I clean the bulk extract file system and database
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And format "application/json"
- # CREATE parent entity via POST
- When I POST a "newParentFather" of type "parent"
- Then I should receive a return code of 201
-  And I POST a "newParentFather" of type "parent"
- Then I should receive a return code of 201
-
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
   and only a delete file is generated for lea2.
