@@ -128,38 +128,6 @@ Given /^none of the following entities reference the SEA:$/ do |table|
     end
 end
 
-Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entity|
-  disable_NOTABLESCAN()
-	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
-  SEA = @tenantDB.collection("educationOrganization").find({"body.organizationCategories" => "State Education Agency"})
-  @SEA_id = SEA["_id"]
-
-  puts "Comparing SEA " + SEA_id
-
-  query_field = getSEAPublicRefField(entity)
-  collection = entity
-  if (entity == "school")
-    collection = "educationOrganization"
-  end
-
-  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
-	Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
-    records = JSON.parse(extractFile.read)
-    puts records
-    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
-    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
-  }
-end
-
-Then /^Then I verify that the "(.*?)" reference an SEA only$/ do |entity| 
-  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
-  Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
-    records = JSON.parse(extractFile.read)
-    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
-    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
-  }
-end
-
 And /^I clean up the cron extraction zone$/ do
     Dir.chdir
     puts "pwd: #{Dir.pwd}"
@@ -284,7 +252,8 @@ When /^I get the path to the extract file for the tenant "(.*?)" and application
 end
 
 When /^I retrieve the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
-  getExtractInfoFromMongo(build_bulk_query(tenant,appId, nil, false, true))
+  @tenant = tenant
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId,nil,false, true))
   openDecryptedFile(appId) 
 end
 
@@ -465,7 +434,6 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
 end
 
 When /^I POST a "(.*?)" of type "(.*?)"$/ do |field, entity|
-  response_map = getEntityBodyFromApi(entity, @api_version, "PUT")
   response_map, value = nil
   # POST is a special case. We are creating a brand-new entity. 
   # Get entity body from the map specified by prepareBody()
@@ -479,11 +447,13 @@ end
 When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
   # Get the desired entity from mongo
   response_map = getEntityBodyFromApi(entity, @api_version, "PUT")
+  assert(response_map != nil, "No response from GET request for entity #{entity}")
+  response_map = response_map[0] if response_map.is_a?(Array)
   # Modify the response body field with value, will become PUT body 
   put_body = updateApiPutField(response_map, field, value)
   # Get the endpoint that corresponds to the desired entity
   endpoint = getEntityEndpoint(entity)
-  restHttpPut("/#{@api_version}/#{endpoint}/#{put_body["id"]}", prepareData(@format, put_body))
+  restHttpPut("/#{@api_version}/#{endpoint}/#{put_body['id']}", prepareData(@format, put_body))
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
@@ -491,6 +461,7 @@ def updateApiPutField(body, field, value)
   # Set the GET response body as body and edit the requested field
   body["address"][0]["postalCode"] = value if field == "postalCode"
   body["loginId"] = value if field == "loginId"
+  body["contactPriority"] = value.to_i if field == "contactPriority"
   body["id"] = value if field == "missingEntity"
   return body
 end
@@ -520,6 +491,69 @@ When /^I DELETE an "(.*?)" of id "(.*?)"$/ do |entity, id|
   # Get the endpoint that corresponds to the desired entity
   endpoint = getEntityEndpoint(entity)
   restHttpDelete("/#{@api_version}/#{endpoint}/#{id}")
+end
+
+
+def getEntityEndpoint(entity)
+  entity_to_endpoint_map = {
+    "educationOrganization" => "educationOrganizations",
+    "invalidEntry" => "school",
+    "newParentDad" => "parents",
+    "newParentMom" => "parents",
+    "orphanEdorg" => "educationOrganizations",
+    "parent" => "parents",
+    "patchEdOrg" => "educationOrganizations",
+    "school" => "educationOrganizations",
+    "staffStudent" => "students",
+    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+    "newStudent" => "students",
+    "studentSchoolAssociation" => "studentSchoolAssociations",
+    "studentParentAssociation" => "studentParentAssociations",
+    "newStudentParentAssociation" => "studentParentAssociations",
+    "wrongSchoolURI" => "schoolz"
+  }
+  return entity_to_endpoint_map[entity]
+end
+
+def getEntityBodyFromApi(entity, api_version, verb)
+  return {entity=>nil} if verb == "POST"
+  entity_to_uri_map = {
+    "school" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+    "educationOrganization" => "educationOrganizations",
+    "courseOffering" => "courseOfferings",
+    "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
+    "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
+    "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
+    "parent" => "parents",
+    "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+    "section" => "sections",
+    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffProgramAssociation" => "staffProgramAssociations",
+    "staffStudent" => "students",
+    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+    "newStudent" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+    "studentCohortAssocation" => "studentCohortAssociations",
+    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+    "studentParentAssociation" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id/studentParentAssociations",
+    "newStudentParentAssociation" => "studentParentAssociations/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id62cf87d9afc36d56bea7507ea0bee138ddcb2524_id",
+    "studentProgramAssociation" => "studentProgramAssociations",
+    "studentSchoolAssociation" => "studentSchoolAssociations",
+    "studentSectionAssociation" => "studentSectionAssociations",
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+  }
+  # Perform GET request and verify we get a response and a response body
+  restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.body != nil, "Response body is nil")
+  # Make sure we actually hit the entity
+  puts "Ensuring the GET request returned 200"
+  step "I should receive a return code of 200"
+  puts "GET request: 200 (OK)"
+  # Store the response in an entity-specific response map
+  response_map = JSON.parse(@res)
+  # Fail if we do not find the entity in response body from GET request
+  assert(response_map != nil, "No response body for #{entity} returned by GET request")
+  return response_map
 end
 
 When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
@@ -759,33 +793,53 @@ end
 
 Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entity|
   disable_NOTABLESCAN()
+
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
-  SEA = @tenantDB.collection("educationOrganization").find({"body.organizationCategories" => "State Education Agency"})
+  SEA = @tenantDb.collection("educationOrganization").find_one({"body.organizationCategories" => "State Education Agency"})
   @SEA_id = SEA["_id"]
 
-  puts "Comparing SEA " + SEA_id
+  puts "Comparing SEA " + @SEA_id
 
-  query_field = getSEAPublicRefField(entity)
+  query_field = "body." + getSEAPublicRefField(entity)
+  query = {}
   collection = entity
-  if (entity == "school")
+  count = 0
+
+  query = {query_field => @SEA_id}
+  
+  case entity
+  when "educationOrganization"
+    #adding 1 because SEA is not part of the this mongo query
+    count = 1
+  when "school"
     collection = "educationOrganization"
+    query["type"] = "school"
+  else
   end
 
-  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
+  count += @tenantDb.collection(collection).find(query).count()
+
 	Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     puts records
     puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
     assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
   }
+ enable_NOTABLESCAN()
 end
 
-Then /^Then I verify that the "(.*?)" reference an SEA only$/ do |entity| 
-  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
+Then /^I verify that the "(.*?)" reference an SEA only$/ do |entity|
+  query_field = getSEAPublicRefField(entity)
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
-    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
-    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
+    records.each do |record|
+      if(entity == "educationOrganization" || entity == "school")
+        if(record["organizationCategories"][0] == "State Education Agency")
+          next
+        end
+      end
+      assert(record[query_field] == @SEA_id, "Incorrect reference " + record[query_field] + " expected " + @SEA_id)
+    end
   }
 end
 
@@ -1084,65 +1138,6 @@ def streamBulkExtractFile(download_file, apiBody)
   return download_file
 end
 
-def getEntityEndpoint(entity)
-  entity_to_endpoint_map = {
-    "educationOrganization" => "educationOrganizations",
-    "invalidEntry" => "school",
-    "orphanEdorg" => "educationOrganizations",
-    "parent" => "parents",
-    "patchEdOrg" => "educationOrganizations",
-    "school" => "educationOrganizations",
-    "staffStudent" => "students",
-    "staffStudentParentAssociation" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id/studentParentAssociations",
-    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-    "studentSchoolAssociation" => "studentSchoolAssociations",
-    "studentParentAssociation" => "studentParentAssociations",
-    "wrongSchoolURI" => "schoolz"
-  }
-  return entity_to_endpoint_map[entity]
-end
-
-def getEntityBodyFromApi(entity, api_version, verb)
-  return {entity=>nil} if verb == "POST"
-  entity_to_uri_map = {
-    "school" => "educationOrganizations/#{@edorg}/schools?limit=1",
-    "educationOrganization" => "educationOrganizations",
-    "courseOffering" => "courseOfferings",
-    "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
-    "parent" => "parents",
-    "staffStudentParentAssociation" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id/studentParentAssociations",
-    "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-    "section" => "sections",
-    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-    "staffProgramAssociation" => "staffProgramAssociations",
-    "staffStudent" => "students",
-    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-    "studentCohortAssocation" => "studentCohortAssociations",
-    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-    "studentParentAssociation" => "studentParentAssociations",
-    "studentProgramAssociation" => "studentProgramAssociations",
-    "studentSchoolAssociation" => "studentSchoolAssociations",
-    "studentSectionAssociation" => "studentSectionAssociations",
-    "teacherSchoolAssociation" => "teacherSchoolAssociations",
-  }
-  # Perform GET request and verify we get a response and a response body
-  puts "Calling restHttpGet to retreive entity response body for modification."
-  restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.body != nil, "Response body is nil")
-  # Make sure we actually hit the entity
-  puts "Ensuring the GET request returned 200"
-  step "I should receive a return code of 200"
-  puts "GET request: 200 (OK)"
-  # Store the response in an entity-specific response map
-  response_map = JSON.parse(@res)
-  # Fail if we do not find the entity in response body from GET request
-  assert(response_map != nil, "No response body for #{entity} returned by GET request")
-  return response_map if verb == "DELETE"
-  return response_map if verb == "PATCH"
-  return response_map[0]
-end
-
 def prepareBody(verb, value, response_map)
   field_data = {
     "GET" => response_map,
@@ -1371,6 +1366,11 @@ def prepareBody(verb, value, response_map)
                     "city"=>"Chicago"
                    }]
       },
+      "contactPriority" => {
+        "newStudentFatherAssociation" => {
+          "contactPriority" => 1
+        }
+      },
       "studentParentName" => {
         "name" => {
           "middleName" => "Fatang",
@@ -1396,16 +1396,16 @@ def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
 end
 
 def getSEAPublicRefField(entity)
-  query
+  query_field = ""
   case entity
   when "school","educationOrganization"
-    query_field = "body.parentEducationAgencyReference"
+    query_field = "parentEducationAgencyReference"
   when "course","courseOffering", "session"#, "gradingPeriod"
-      query_field = "body.schoolId"
+      query_field = "schoolId"
   when "graduationPlan"
-      query_field = "body.educationOrganizationId"
+      query_field = "educationOrganizationId"
   end
-  return query
+  return query_field
 end
 
 After('@scheduler') do

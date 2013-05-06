@@ -84,6 +84,8 @@ task :bulkExtractDeltasTest do
   Rake::Task["appInit"].execute
   allLeaAllowApp("SDK Sample")  
   authorizeEdorg("SDK Sample")
+  allLeaAllowApp("Paved Z00")
+  authorizeEdorg("Paved Z00")
   runTests("test/features/bulk_extract/features/bulk_extract_deltas_api.feature")
   runTests("test/features/bulk_extract/features/delta_recording.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
@@ -123,7 +125,7 @@ task :bulkExtractTests => [:realmInit] do
 
   Rake::Task["bulkExtractSetup"].execute
   Rake::Task["addBootstrapAppAuths"].execute
-  allLeaAllowApp("SDK Sample")  
+  allLeaAllowApp("SDK Sample")
   authorizeEdorg("SDK Sample")
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractSimpleEntitiesTest"].execute

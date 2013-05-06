@@ -27,10 +27,10 @@ import java.util.Map;
  */
 public class DefaultHashMap<K, V> extends HashMap<K, V> {
     private V defaultValue;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param map
      *            map
      * @param defaultValue
@@ -40,10 +40,10 @@ public class DefaultHashMap<K, V> extends HashMap<K, V> {
         super(map);
         this.defaultValue = defaultValue;
     }
-    
+
     /**
      * get the value.
-     * 
+     *
      * @param key
      *            key
      * @return the value, or the default value if the key does not exist
@@ -54,10 +54,10 @@ public class DefaultHashMap<K, V> extends HashMap<K, V> {
         }
         return defaultValue;
     }
-    
+
     /**
-     * get the default value without passing any keys
-     * 
+     * get the default value without passing any keys.
+     *
      * @return the default value
      */
     public V getDefault() {
