@@ -16,19 +16,25 @@
 
 package org.slc.sli.bulk.extract.pub;
 
-import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.util.EdOrgPathDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.EdOrgPathDefinition;
+
 /**
- * User: ablum
+ * PublicData Extractor that extracts entities which have a field that directly references and EdOrg.
+ * @author ablum
  */
 public class DirectPublicDataExtractor implements PublicDataExtractor {
 
     private EntityExtractor extractor;
 
+    /**
+     * Constructor.
+     * @param extractor the entity extractor
+     */
     public DirectPublicDataExtractor(EntityExtractor extractor) {
         this.extractor = extractor;
     }
