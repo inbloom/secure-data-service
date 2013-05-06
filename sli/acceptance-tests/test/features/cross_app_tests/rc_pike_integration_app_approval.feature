@@ -92,7 +92,7 @@ When I click on Save
 Then the "BulkExtractApp" is enabled for Districts
 And I exit out of the iframe
 And I click on log out
-
+@wip @TODO
 Scenario: SLC Operator Denies Application Registration
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom"
@@ -115,7 +115,7 @@ Then application "BulkExtractApp" is not registered
 And application "BulkExtractApp" is removed from the list
 And I exit out of the iframe
 And I click on log out
-
+@wip @TODO
 Scenario: App developer enables Bulk Extract App Again
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom App Developer"
