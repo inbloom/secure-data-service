@@ -175,8 +175,13 @@ public final class SliDeltaManager {
             if (value != null) {
                 if( value instanceof Map) {
                     @SuppressWarnings("unchecked")
-                    Map<String, String> valueMap = (Map<String, String>) value;
-                    strValue = valueMap.get(VALUE);
+                    Map<String, Object> valueMap = (Map<String, Object>) value;
+                    Object objValue = valueMap.get(VALUE);
+                    if (objValue instanceof Integer) {
+                        strValue = Integer.toString((Integer) objValue);
+                    } else {
+                        strValue = (String) objValue;
+                    }
                 } else {
                     strValue = value.toString();
                 }

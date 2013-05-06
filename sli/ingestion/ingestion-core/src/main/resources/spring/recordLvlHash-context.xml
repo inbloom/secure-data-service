@@ -51,6 +51,8 @@
     <value>teacherSectionAssociation</value>
     <value>assessment</value>
     <value>assessmentItem</value>
+    <value>assessmentFamily</value>
+    <value>assessmentPeriodDescriptor</value>
     <value>objectiveAssessment</value>
     <value>studentAssessment</value>
     <value>studentAssessmentItem</value>

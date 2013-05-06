@@ -83,7 +83,7 @@
 			<xs:element name="Assessment" type="SLC-Assessment"/>
 			<xs:element name="AssessmentFamily" type="SLC-AssessmentFamily"/>
 			<xs:element name="AssessmentItem" type="SLC-AssessmentItem"/>
-			<xs:element name="AssessmentPeriodDescriptor" type="AssessmentPeriodDescriptor"/>
+			<xs:element name="AssessmentPeriodDescriptor" type="SLC-AssessmentPeriodDescriptor"/>
 			<xs:element name="AttendanceEvent" type="SLC-AttendanceEvent"/>
 			<xs:element name="CalendarDate" type="SLC-CalendarDate"/>
 			<xs:element name="Cohort" type="SLC-Cohort"/>
@@ -222,34 +222,55 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="SLC-AssessmentFamily">
-		<xs:annotation>
-			<xs:documentation>AssessmentFamily record with key fields: AssessmentFamilyTitle and
+    <xs:complexType name="SLC-AssessmentFamily">
+        <xs:annotation>
+            <xs:documentation>AssessmentFamily record with key fields: AssessmentFamilyTitle and
                 Version (optional).</xs:documentation>
-			<xs:appinfo>
+            <xs:appinfo>
                 <sli:recordType>assessmentFamily</sli:recordType>
+                <sli:naturalKeys>AssessmentFamilyTitle,Version</sli:naturalKeys>
             </xs:appinfo>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
-				<xs:sequence>
-					<xs:element name="AssessmentFamilyTitle" type="AssessmentTitle"/>
-					<xs:element name="AssessmentFamilyIdentificationCode" type="AssessmentIdentificationCode" maxOccurs="unbounded"/>
-					<xs:element name="AssessmentCategory" type="AssessmentCategoryType" minOccurs="0"/>
-					<xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0"/>
-					<xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
-					<xs:element name="LowestGradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
-					<xs:element name="ContentStandard" type="ContentStandardType" minOccurs="0"/>
-					<xs:element name="Version" type="Version" minOccurs="0"/>
-					<xs:element name="RevisionDate" type="xs:date" minOccurs="0"/>
-					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
-					<xs:element name="AssessmentPeriods" type="SLC-AssessmentPeriodDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="AssessmentFamilyReference" type="SLC-AssessmentFamilyReferenceType" minOccurs="0"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="AssessmentFamilyTitle" type="AssessmentTitle"/>
+                    <xs:element name="AssessmentFamilyIdentificationCode" type="AssessmentIdentificationCode" maxOccurs="unbounded"/>
+                    <xs:element name="AssessmentCategory" type="AssessmentCategoryType" minOccurs="0"/>
+                    <xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0"/>
+                    <xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
+                    <xs:element name="LowestGradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
+                    <xs:element name="ContentStandard" type="ContentStandardType" minOccurs="0"/>
+                    <xs:element name="Version" type="Version" minOccurs="0"/>
+                    <xs:element name="RevisionDate" type="xs:date" minOccurs="0"/>
+                    <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
+                    <xs:element name="AssessmentPeriods" type="SLC-AssessmentPeriodDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="AssessmentFamilyReference" type="SLC-AssessmentFamilyReferenceType" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="SLC-AssessmentPeriodDescriptor">
+        <xs:annotation>
+            <xs:documentation>This descriptor holds the period or window in which an assessment is supposed to be administered (e.g., Beginning of Year, Middle of Year, End of Year).</xs:documentation>
+            <xs:appinfo>
+                <sli:recordType>assessmentPeriodDescriptor</sli:recordType>
+                <sli:naturalKeys>CodeValue</sli:naturalKeys>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="CodeValue" type="CodeValue"/>
+                    <xs:element name="Description" type="Description"/>
+                    <xs:element name="ShortDescription" type="ShortDescription" minOccurs="0"/>
+                    <xs:element name="BeginDate" type="xs:date" minOccurs="0"/>
+                    <xs:element name="EndDate" type="xs:date" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
 	<xs:complexType name="SLC-AssessmentItem">
 		<xs:annotation>
@@ -792,7 +813,7 @@
                 ObjectiveAssessmentReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>objectiveAssessment</sli:recordType>
-				<sli:naturalKeys>IdentificationCode</sli:naturalKeys>
+				<sli:naturalKeys>AssessmentReference,IdentificationCode,ObjectiveAssessmentReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
