@@ -31,7 +31,6 @@ Scenario: As an bulk extract user, I want to be able to get the state public ent
     Then I trigger a bulk extract
     Then I should see "1" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
 
-@wip
 Scenario Outline: Extract should have all the valid data for the SEA
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     And I verify that an extract tar file was created for the tenant "Midgar"

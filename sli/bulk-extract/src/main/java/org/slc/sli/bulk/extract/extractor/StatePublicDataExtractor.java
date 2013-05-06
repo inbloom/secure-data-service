@@ -40,16 +40,17 @@ import java.io.File;
 import java.io.IOException;
 import java.security.PublicKey;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
  * Extract the Public Data for the State Education Agency.
- * ablum
+ * @author ablum
  */
 @Component
 public class StatePublicDataExtractor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TenantExtractor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StatePublicDataExtractor.class);
 
     @Autowired
     private BulkExtractMongoDA bulkExtractMongoDA;
@@ -92,7 +93,16 @@ public class StatePublicDataExtractor {
 
         extractPublicData(seaId, extractFile);
 
-        updateBulkExtractDb(tenant, startTime, seaId, extractFile);
+        extractFile.closeWriters();
+        try {
+            extractFile.getManifestFile().generateMetaFile(startTime);
+        } catch (IOException e) {
+            LOG.error("Error creating metadata file: {}", e.getMessage());
+        }
+
+        extractFile.generateArchive();
+
+        updateBulkExtractDb(startTime, seaId, extractFile);
     }
 
     /**
@@ -101,21 +111,8 @@ public class StatePublicDataExtractor {
      * @param extractFile the extract file to extract to
      */
     protected void extractPublicData(String seaId, ExtractFile extractFile) {
-
         for (PublicDataExtractor data : factory.buildAllPublicDataExtracts(extractor)) {
             data.extract(seaId, extractFile);
-            extractFile.closeWriters();
-        }
-
-        try {
-            extractFile.getManifestFile().generateMetaFile(startTime);
-        } catch (IOException e) {
-            LOG.error("Error creating metadata file: {}", e.getMessage());
-        }
-        try {
-            extractFile.generateArchive();
-        } catch (Exception e) {
-            LOG.error("Error generating archive file: {}", e.getMessage());
         }
     }
 
@@ -130,31 +127,29 @@ public class StatePublicDataExtractor {
                 NeutralCriteria.CRITERIA_IN, Arrays.asList(STATE_EDUCATION_AGENCY)));
         final Iterable<Entity> entities = entityRepository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
 
-        if (entities != null) {
-            for(Entity seaEntity : entities) {
-                if (seaId != null) {
-                    LOG.error("More than one SEA is found for the tenant");
-                    return null;
-                }
+        if (entities == null || !entities.iterator().hasNext()) {
+            LOG.error("No SEA is available for the tenant");
+        } else {
+            Iterator<Entity> iterator = entities.iterator();
+            Entity seaEntity = iterator.next();
+            if (iterator.hasNext()) {
+                LOG.error("More than one SEA is found for the tenant");
+            } else {
                 seaId = seaEntity.getEntityId();
             }
-        } else {
-            LOG.error("No SEA is available for the tenant");
         }
 
         return seaId;
     }
 
-
     /**
      * Update the bulk extract files db record.
-     * @param tenant the tenant name
      * @param startTime the time when the extract was initiated
      * @param seaId the SEA Id
      */
-    protected void updateBulkExtractDb(String tenant, DateTime startTime, String seaId, ExtractFile extractFile) {
+    protected void updateBulkExtractDb(DateTime startTime, String seaId, ExtractFile extractFile) {
         for(Map.Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
-            bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), archiveFile.getKey(), startTime.toDate(), false, seaId, true);
+            bulkExtractMongoDA.updateDBRecord(TenantContext.getTenantId(), archiveFile.getValue().getAbsolutePath(), archiveFile.getKey(), startTime.toDate(), false, seaId, true);
         }
     }
 
