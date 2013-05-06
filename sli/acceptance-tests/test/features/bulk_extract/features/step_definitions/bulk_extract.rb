@@ -254,7 +254,8 @@ When /^I get the path to the extract file for the tenant "(.*?)" and application
 end
 
 When /^I retrieve the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
-  getExtractInfoFromMongo(tenant,appId,false, nil, {}, true)
+  @tenant = tenant
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId,nil,false, true))
   openDecryptedFile(appId) 
 end
 
@@ -718,19 +719,31 @@ end
 
 Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entity|
   disable_NOTABLESCAN()
+
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
-  SEA = @tenantDB.collection("educationOrganization").find({"body.organizationCategories" => "State Education Agency"})
+  SEA = @tenantDb.collection("educationOrganization").find_one({"body.organizationCategories" => "State Education Agency"})
   @SEA_id = SEA["_id"]
 
-  puts "Comparing SEA " + SEA_id
+  puts "Comparing SEA " + @SEA_id
 
-  query_field = getSEAPublicRefField(entity)
+  query_field = "body." + getSEAPublicRefField(entity)
+  query = {}
   collection = entity
-  if (entity == "school")
+  count = 0
+  case entity
+  when "educationOrganization"
+    #adding 1 because SEA is not part of the this mongo query
+    count = 1
+    query = {query_field => @SEA_id}
+  when "school"
     collection = "educationOrganization"
+    query = {query_field => @SEA_id, "type" => "school"}
+  else
+    query = {query_field => @SEA_id}
   end
 
-  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
+  count += @tenantDb.collection(collection).find(query).count()
+
 	Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     puts records
@@ -739,12 +752,18 @@ Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entit
   }
 end
 
-Then /^Then I verify that the "(.*?)" reference an SEA only$/ do |entity| 
-  count = @tenantDb.collection(collection).find({query_field => SEA_id}).count()
+Then /^I verify that the "(.*?)" reference an SEA only$/ do |entity|
+  query_field = getSEAPublicRefField(entity)
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
-    puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
-    assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
+    records.each do |record|
+      if(entity == "educationOrganization" || entity == "school")
+        if(record["organizationCategories"][0] == "State Education Agency")
+          next
+        end
+      end
+      assert(record[query_field] == @SEA_id, "Incorrect reference " + record[query_field] + " expected " + @SEA_id)
+    end
   }
 end
 
@@ -1167,16 +1186,16 @@ end
 
 
 def getSEAPublicRefField(entity)
-  query
+  query_field = ""
   case entity
   when "school","educationOrganization"
-    query_field = "body.parentEducationAgencyReference"
+    query_field = "parentEducationAgencyReference"
   when "course","courseOffering", "session"#, "gradingPeriod"
-      query_field = "body.schoolId"
+      query_field = "schoolId"
   when "graduationPlan"
-      query_field = "body.educationOrganizationId"
+      query_field = "educationOrganizationId"
   end
-  return query
+  return query_field
 end
 
 def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
