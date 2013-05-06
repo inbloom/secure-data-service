@@ -282,17 +282,6 @@ Given I clean the bulk extract file system and database
  #Then The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
-@wip
-Scenario: POST multiple updates to the same entity, verify one delta per entity
-Given I clean the bulk extract file system and database
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And format "application/json"
- # CREATE parent entity via POST
- When I POST a "newParentFather" of type "parent"
- Then I should receive a return code of 201
-  And I POST a "newParentFather" of type "parent"
- Then I should receive a return code of 201
-
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
   and only a delete file is generated for lea2.
