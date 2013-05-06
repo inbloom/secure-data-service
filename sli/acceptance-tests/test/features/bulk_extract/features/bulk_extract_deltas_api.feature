@@ -199,7 +199,8 @@ Scenario: PATCH the zip code of an edOrg, trigger delta, verify contents
    And a "educationOrganization" was extracted in the same format as the api
    And each extracted "educationOrganization" delta matches the mongo entry
 
-Scenario: Create and verify deltas for private entities through API POST
+@shortcut
+Scenario: CREATE and verify deltas for private entities through API POST
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
@@ -225,8 +226,7 @@ Given I clean the bulk extract file system and database
   And The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
-Scenario: Update private entities via API PUT and verify deltas
-Given I clean the bulk extract file system and database
+ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
  # UPDATE/UPSERT parent entity via PUT
@@ -246,11 +246,10 @@ Given I clean the bulk extract file system and database
   And The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
-Scenario: Update private entity fields via API PATCH and verify deltas
+ # UPDATE parent and parentStudentAssociation fields via PATCH 
  Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
-# UPDATE parent and parentStudentAssociation fields via PATCH
  When I PATCH the "studentLoginId" for a "newStudent" entity to "average_student_youre_ok@bazinga.com"
  Then I should receive a return code of 204
  When I PATCH the "momLoginId" for a "newParentMom" entity to "average_mom_youre_ok@bazinga.com"
@@ -267,20 +266,29 @@ Scenario: Update private entity fields via API PATCH and verify deltas
   And The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
-@wip
-Scenario: Delete and verify deltas for private entities through API DELETE
-Given I clean the bulk extract file system and database
+ # DELETE entities
+ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
- # DELETE parent entity via DELETE
- When I DELETE an "newParentMother" of id "54b4b51377cd941675958e6e81dce69df801bfe8_id"
+ When I DELETE an "newStudent" of id "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id"
+ Then I should receive a return code of 204
+ When I DELETE an "newParentDad" of id "41f42690a7c8eb5b99637fade00fc72f599dab07_id"
+ Then I should receive a return code of 204
+ When I DELETE an "newParentMom" of id "41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id" 
  Then I should receive a return code of 204
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-  And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
-  And I verify "2" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  deleted                               |
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
- #Then The "parent" delta was extracted in the same format as the api
-  And The "studentParentAssociation" delta was extracted in the same format as the api
+  And I verify this "deleted" file should contains:
+        | id                                          | condition                             |
+        | fb63ac98670f5a762df1a13cdc912bce9c2187e7_id | entityType = student                  |
+        | 41f42690a7c8eb5b99637fade00fc72f599dab07_id | entityType = parent                   |
+        | 41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id | entityType = parent                   |
+        | 6f3f208aaa373e2efd803994047cf5e63ac455d4_id | entityType = studentSchoolAssociation |
+        | fb63ac98670f5a762df1a13cdc912bce9c2187e7_id62cf87d9afc36d56bea7507ea0bee138ddcb2524_id | entityType = studentParentAssociation |
+        | fb63ac98670f5a762df1a13cdc912bce9c2187e7_id24f7d7a3025831bcdebefb5fc1ce1f7cfb28bba5_id | entityType = studentParentAssociation |
 
 @wip
 Scenario: POST multiple updates to the same entity, verify one delta per entity
