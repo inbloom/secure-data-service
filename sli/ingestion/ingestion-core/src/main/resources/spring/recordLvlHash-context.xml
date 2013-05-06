@@ -49,6 +49,12 @@
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
+    <value>assessment</value>
+    <value>assessmentItem</value>
+    <value>objectiveAssessment</value>
+    <value>studentAssessment</value>
+    <value>studentAssessmentItem</value>
+    <value>studentObjectiveAssessment</value>
   </util:set>
 
 </beans>
