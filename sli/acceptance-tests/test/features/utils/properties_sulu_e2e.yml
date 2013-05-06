@@ -4,6 +4,7 @@ dashboard_landing_page: "/"
 dashboard_api_server_uri: "https://sulu-api.slidev.org"
 realm_page_url: "https://sulu-api.slidev.org/api/oauth/authorize"
 browser: "firefox"
+rc_env: "sulu"
 
 admintools_server_url: "https://sulu-admin.slidev.org"
 api_server_url: "https://sulu-api.slidev.org"

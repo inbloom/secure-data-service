@@ -21,7 +21,7 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
  * Extracts public data, based on an EdOrg
  * User: ablum
  */
-public interface PublicDataExtract {
+public interface PublicDataExtractor {
 
     public abstract void extract(String edOrgid, ExtractFile file);
 }

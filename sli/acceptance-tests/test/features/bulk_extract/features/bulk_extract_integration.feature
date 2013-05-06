@@ -105,7 +105,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       |  studentDisciplineIncidentAssociation  |  8 |         |
       |  studentProgramAssociation             | 12 |         |
       #|  studentGradebookEntry                 |   |         |
-      #|  studentSchoolAssociation              |   |         |
+      |  studentSchoolAssociation              |  334 |         |
       #|  studentSectionAssociation             |   |         |
       |  studentParentAssociation              | 18 |         |
       #|  teacher                               |   |         |

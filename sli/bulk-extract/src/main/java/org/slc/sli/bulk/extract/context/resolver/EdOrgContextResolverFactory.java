@@ -20,8 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
+import org.slc.sli.common.constants.EntityNames;
 
 /**
  * Factory class for context resolvers, which are used to
@@ -35,7 +37,7 @@ import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContex
 public class EdOrgContextResolverFactory {
     
     @Autowired
-    EducationOrganizationContextResolver edOrgContextResolver;
+    private EducationOrganizationContextResolver edOrgContextResolver;
     
     /**
      * Two things must in common for a entity to be a student direct related entity:
@@ -44,11 +46,14 @@ public class EdOrgContextResolverFactory {
      * i.e. we only check if the student belongs to a certain LEA
      */
     @Autowired
-    StudentDirectRelatedContextResolver studentDirectRelatedContextResolver;
+    private StudentDirectRelatedContextResolver studentDirectRelatedContextResolver;
     
     @Autowired
-    StudentContextResolver studentResolver;
+    private StudentContextResolver studentResolver;
 
+    @Autowired
+    private ParentContextResolver parentResolver;
+    
     /**
      * find responsible resolver for this entity type
      * 
@@ -57,27 +62,32 @@ public class EdOrgContextResolverFactory {
      */
     public ContextResolver getResolver(String entityType) {
         
-        if ("educationOrganization".equals(entityType)) {
+        if (EntityNames.EDUCATION_ORGANIZATION.equals(entityType)) {
             return edOrgContextResolver;
         }
         
-        if ("student".equals(entityType)) {
+        if (EntityNames.STUDENT.equals(entityType)) {
             return studentResolver;
         }
 
-        if ("studentSchoolAssociation".equals(entityType)
-                || "studentAssessment".equals(entityType)
-                || "studentParentAssociation".equals(entityType)) {
+        if (EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(entityType)
+                || EntityNames.STUDENT_ASSESSMENT.equals(entityType)
+                || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(entityType)) {
             return studentDirectRelatedContextResolver;
         }
         
-        if ("studentGradebookEntry".equals(entityType)) {
+        if (EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)) {
             // for now use the simple resolver, but be advised this
             // entity may have additional business rules that is depended
             // on section. Need to revisit this entity when we play
             // "section" story
             return studentDirectRelatedContextResolver;
         }
+        
+        if (EntityNames.PARENT.equals(entityType)) {
+            return parentResolver;
+        }
+        
 
         return null;
     }
