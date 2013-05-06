@@ -20,19 +20,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.MapMaker;
+
 import org.joda.time.format.ISODateTimeFormat;
-import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.google.common.collect.MapMaker;
+import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Context resolver for students
@@ -48,17 +49,24 @@ public class StudentContextResolver implements ContextResolver {
     @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
     private final Map<String, Set<String>> studentEdOrgCache = new MapMaker().softValues().makeMap();
+    @Autowired
+    private EducationOrganizationContextResolver edOrgResolver;
     
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> leas = new HashSet<String>();
+        if (getStudentEdOrgCache().containsKey(entity.getEntityId())) {
+            LOG.debug("got LEAs from cache for {}", entity);
+            return getStudentEdOrgCache().get(entity.getEntityId());
+        }
+
         List<Map<String, Object>> schools = entity.getDenormalizedData().get("schools");
         if (schools != null) {
             for (Map<String, Object> school : schools) {
                 try {
                     if (isCurrent(school)) {
-                        @SuppressWarnings("unchecked")
-                        List<String> edOrgs = (List<String>) school.get("edOrgs");
+                        String schoolId = (String) school.get("_id");
+                        Set<String> edOrgs = edOrgResolver.findGoverningLEA(schoolId);
                         if (edOrgs != null) {
                             leas.addAll(edOrgs);
                         }

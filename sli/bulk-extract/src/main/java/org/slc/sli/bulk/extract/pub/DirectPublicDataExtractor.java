@@ -2,18 +2,18 @@ package org.slc.sli.bulk.extract.pub;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.util.PublicData;
+import org.slc.sli.bulk.extract.util.EdOrgPathDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * User: ablum
  */
-public class DirectPublicDataExtract implements PublicDataExtract{
+public class DirectPublicDataExtractor implements PublicDataExtractor {
 
     private EntityExtractor extractor;
 
-    public DirectPublicDataExtract(EntityExtractor extractor) {
+    public DirectPublicDataExtractor(EntityExtractor extractor) {
         this.extractor = extractor;
     }
 
@@ -21,10 +21,10 @@ public class DirectPublicDataExtract implements PublicDataExtract{
     @Override
     public void extract(String edOrgid, ExtractFile file) {
 
-        for (PublicData data : PublicData.values()) {
-            Query query = new Query((new Criteria(data.getPathToEdOrg())).is(edOrgid));
+        for (EdOrgPathDefinition definition : EdOrgPathDefinition.values()) {
+            Query query = new Query((new Criteria(definition.getEdOrgRefField())).is(edOrgid));
             extractor.setExtractionQuery(query);
-            extractor.extractEntities(file, data.getEntity());
+            extractor.extractEntities(file, definition.getEntityName());
         }
      }
 }

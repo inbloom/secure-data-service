@@ -21,12 +21,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -46,6 +49,7 @@ import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.api.core.HttpRequestContext;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +93,7 @@ public class BulkExtract {
     public static final String BULK_EXTRACT_FILES = "bulkExtractFiles";
     public static final String BULK_EXTRACT_FILE_PATH = "path";
     public static final String BULK_EXTRACT_DATE = "date";
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = ISODateTimeFormat.dateTime();
 
     @Autowired
     private Repository<Entity> mongoEntityRepository;
@@ -162,7 +167,7 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getLEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("leaId") String leaId) throws Exception {
 
-		validateRequestCertificate(request);
+        validateRequestCertificate(request);
         if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
             throw new AccessDeniedException("User is not authorized access this extract");
         }
@@ -271,17 +276,17 @@ public class BulkExtract {
     /**
      * Get the LEA list response
      *
-     * @param req  the http request context
+     * @param context  the http request context
      * @return the jax-rs response to send back.
      */
     Response getLEAListResponse(final HttpContext context) {
 
         initializePrincipal();
-        List<String> userDistrics = retrieveUserAssociatedSLEAs();
+        List<String> userDistricts = retrieveUserAssociatedSLEAs();
 
         String appId = appAuthHelper.getApplicationId();
 
-        List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserSLEAs(userDistrics, appId);
+        List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserSLEAs(userDistricts, appId);
         if (appAuthorizedUserLEAs.size() == 0) {
             LOG.info("No authorized LEAs for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
@@ -293,7 +298,7 @@ public class BulkExtract {
     /**
      * Assemble the LEA HATEOAS links response.
      *
-     * @param req
+     * @param context
      *        Original HTTP Request Context.
      * @param appId
      *        Authorized application ID.
@@ -302,35 +307,24 @@ public class BulkExtract {
      *
      * @return the jax-rs response to send back.
      */
-    Response assembleLEALinksResponse(final HttpContext context, String appId, List<String> appAuthorizedUserLEAs) {
+    private Response assembleLEALinksResponse(final HttpContext context, final String appId, final List<String> appAuthorizedUserLEAs) {
         UriInfo uriInfo = context.getUriInfo();
         String linkBase = ResourceUtil.getURI(uriInfo, ResourceUtil.getApiVersion(uriInfo)).toString() + "/bulk/extract/";
-
         Map<String, Map<String, String>> leaFullLinks = new HashMap<String, Map<String, String>>();
-        Map<String, List<Map<String, String>>> leaDeltaLinks = new HashMap<String, List<Map<String, String>>>();
+        Map<String, Set<Map<String, String>>> leaDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
+
         for (String leaId : appAuthorizedUserLEAs) {
+            Map<String, String> fullLink = new HashMap<String, String>();
+            Set<Map<String, String>> deltaLinks = newDeltaLinkSet();
             Iterable<Entity> leaFileEntities = getLEABulkExtractEntities(appId, leaId);
             if (leaFileEntities.iterator().hasNext()) {
-                Map<String, String> fullLink = new HashMap<String, String>();
-                List<Map<String, String>> deltaLinks = new ArrayList<Map<String, String>>();
-                for (Entity leaFileEntity : leaFileEntities) {
-                    Map<String, String> deltaLink = new HashMap<String, String>();
-                    String timeStamp = leaFileEntity.getBody().get("date").toString();
-                    if ((Boolean) leaFileEntity.getBody().get("isDelta")) {
-                        deltaLink.put("uri", linkBase + leaId + "/delta/" + timeStamp);
-                        deltaLink.put("timestamp", timeStamp);
-                        deltaLinks.add(deltaLink);
-                    } else {  // Assume only one full extract per LEA.
-                        fullLink.put("uri", linkBase + leaId);
-                        fullLink.put("timestamp", leaFileEntity.getBody().get("date").toString());
-                    }
-                }
+                addLinks(linkBase + leaId, leaFileEntities, fullLink, deltaLinks);
                 leaFullLinks.put(leaId, fullLink);
                 leaDeltaLinks.put(leaId, deltaLinks);
             }
         }
 
-        if (leaFullLinks.isEmpty() && leaDeltaLinks.isEmpty()) {
+        if (leaFullLinks.isEmpty() && leaDeltaLinks.isEmpty()) {  // No links!
             LOG.info("No LEA bulk extract files exist for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -340,7 +334,57 @@ public class BulkExtract {
         list.put("deltaLeas", leaDeltaLinks);
         ResponseBuilder builder = Response.ok(list);
         builder.header("content-type", MediaType.APPLICATION_JSON + "; charset=utf-8");
+
         return builder.build();
+    }
+
+    /**
+     * Create the delta links list for an LEA.
+     *
+     * return - Empty set to hold delta links for an LEA, sorted in reverse chronological order.
+     */
+    private Set<Map<String, String>> newDeltaLinkSet() {
+        return new TreeSet<Map<String, String>>(new Comparator<Map<String, String>>() {
+            @Override
+            public int compare(Map<String, String> link1, Map<String, String> link2) {
+                return DATE_TIME_FORMATTER.parseDateTime(link2.get("timestamp"))
+                    .compareTo(DATE_TIME_FORMATTER.parseDateTime(link1.get("timestamp")));
+            }
+        });
+    }
+
+    /**
+     * Create the full and delta links for each specified LEA.
+     *
+     * @param leaFullLinks - Set of LEA full links.
+     * @param leaDeltaLinks - Set of LEA delta links.
+     */
+    private void addLinks(final String linkBase,
+            final Iterable<Entity> leaFileEntities, final Map<String, String> fullLink, Set<Map<String, String>> deltaLinks) {
+        for (Entity leaFileEntity : leaFileEntities) {
+            Map<String, String> deltaLink = new HashMap<String, String>();
+            String timeStamp = getTimestamp(leaFileEntity);
+            if (Boolean.TRUE.equals(leaFileEntity.getBody().get("isDelta"))) {
+                deltaLink.put("uri", linkBase + "/delta/" + timeStamp);
+                deltaLink.put("timestamp", timeStamp);
+                deltaLinks.add(deltaLink);
+            } else {  // Assume only one full extract per LEA.
+                fullLink.put("uri", linkBase);
+                fullLink.put("timestamp", timeStamp);
+            }
+        }
+    }
+
+    /**
+     * Get timestamp string from LEA entity.
+     *
+     * @param leaFileEntity - LEA entity.
+     *
+     * @return - LEA extract timestamp in ISO8601 format.
+     */
+    private String getTimestamp(final Entity leaFileEntity) {
+        Date date = (Date)leaFileEntity.getBody().get("date");
+        return DATE_TIME_FORMATTER.print(new DateTime(date));
     }
 
     /**
@@ -389,7 +433,7 @@ public class BulkExtract {
         }
 
         if (isDelta) {
-            DateTime d = ISODateTimeFormat.dateTime().parseDateTime(deltaDate);
+            DateTime d = DATE_TIME_FORMATTER.parseDateTime(deltaDate);
             query.addCriteria(new NeutralCriteria("date", NeutralCriteria.OPERATOR_EQUAL, d.toDate()));
         }
 
@@ -411,11 +455,11 @@ public class BulkExtract {
     }
 
     private List<String> retrieveUserAssociatedSLEAs() throws AccessDeniedException {
-        List<String> userDistrics = helper.getDistricts(principal.getEntity());
-        if (userDistrics.size() == 0) {
+        List<String> userDistricts = helper.getDistricts(principal.getEntity());
+        if (userDistricts.size() == 0) {
             throw new AccessDeniedException("User is not authorized for a list of available LEAs extracts");
         }
-        return userDistrics;
+        return userDistricts;
     }
 
     private List<String> getApplicationAuthorizedUserSLEAs(List<String> userDistrics, String appId) {
@@ -487,4 +531,5 @@ public class BulkExtract {
 
         this.validator.validateCertificate(certs[0], clientId);
     }
+
 }
