@@ -199,7 +199,6 @@ Scenario: PATCH the zip code of an edOrg, trigger delta, verify contents
    And a "educationOrganization" was extracted in the same format as the api
    And each extracted "educationOrganization" delta matches the mongo entry
 
-@shortcut
 Scenario: CREATE and verify deltas for private entities through API POST
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
