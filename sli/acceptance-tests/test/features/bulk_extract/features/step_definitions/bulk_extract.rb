@@ -1365,9 +1365,17 @@ def prepareBody(verb, value, response_map)
                    }]
       },
       "contactPriority" => {
-        "newStudentFatherAssociation" => {
-          "contactPriority" => 1
-        }
+        "contactPriority" => value.to_i
+      },
+      "studentLoginId" => {
+        "loginId" => value,
+        "sex" => "Male"
+      },
+      "momLoginId" => {
+          "loginId" => value
+      },
+      "dadLoginId" => {
+          "loginId" => value
       },
       "studentParentName" => {
         "name" => {
