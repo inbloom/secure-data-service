@@ -31,6 +31,7 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -76,7 +77,7 @@ public class StaffEdorgAssignmentExtractorTest {
     
     @Test
     public void testExtractOneEntity() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockExtractorHelper.isStaffAssociationCurrent(mockEntity)).thenReturn(true);
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
@@ -88,7 +89,7 @@ public class StaffEdorgAssignmentExtractorTest {
     
     @Test
     public void testExtractManyEntity() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity, mockEntity).iterator());
         Mockito.when(mockExtractorHelper.isStaffAssociationCurrent(mockEntity)).thenReturn(true);
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
@@ -100,7 +101,7 @@ public class StaffEdorgAssignmentExtractorTest {
     
     @Test
     public void testExtractNoEntityBecauseOfExpiration() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity, mockEntity).iterator());
         Mockito.when(mockExtractorHelper.isStaffAssociationCurrent(mockEntity)).thenReturn(false);
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
@@ -112,7 +113,7 @@ public class StaffEdorgAssignmentExtractorTest {
     
     @Test
     public void testExtractNoEntityBecauseOfLEAMiss() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity, mockEntity).iterator());
         Mockito.when(mockExtractorHelper.isStaffAssociationCurrent(mockEntity)).thenReturn(false);
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);

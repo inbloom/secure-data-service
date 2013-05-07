@@ -30,6 +30,7 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -73,7 +74,7 @@ public class AttendanceExtractorTest {
     
     @Test
     public void testWriteOneAttendance() {
-        Mockito.when(mockRepo.findEach(Mockito.eq("attendance"), Mockito.eq(new Query()))).thenReturn(
+        Mockito.when(mockRepo.findEach(Mockito.eq("attendance"), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity).iterator());
         entityBody.put("studentId", "student");
         extractor.extractEntities(null);
@@ -83,7 +84,7 @@ public class AttendanceExtractorTest {
     
     @Test
     public void testWriteManyAttendances() {
-        Mockito.when(mockRepo.findEach(Mockito.eq("attendance"), Mockito.eq(new Query()))).thenReturn(
+        Mockito.when(mockRepo.findEach(Mockito.eq("attendance"), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity, mockEntity, mockEntity).iterator());
         entityBody.put("studentId", "student");
         extractor.extractEntities(null);
@@ -93,7 +94,7 @@ public class AttendanceExtractorTest {
     
     @Test
     public void testWriteNoAttendances() {
-        Mockito.when(mockRepo.findEach(Mockito.eq("attendance"), Mockito.eq(new Query()))).thenReturn(
+        Mockito.when(mockRepo.findEach(Mockito.eq("attendance"), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity, mockEntity, mockEntity).iterator());
         entityBody.put("studentId", "student");
         Mockito.when(mockCache.getEntriesById("student")).thenReturn(new HashSet<String>());

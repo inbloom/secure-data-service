@@ -26,6 +26,7 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -49,7 +50,7 @@ public class StudentAssessmentExtractor implements EntityExtract {
      */
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        Iterator<Entity> assessments = repo.findEach(EntityNames.STUDENT_ASSESSMENT, new Query());
+        Iterator<Entity> assessments = repo.findEach(EntityNames.STUDENT_ASSESSMENT, new NeutralQuery());
         while (assessments.hasNext()) {
             Entity assessment = assessments.next();
             String studentId = (String) assessment.getBody().get(ParameterConstants.STUDENT_ID);
