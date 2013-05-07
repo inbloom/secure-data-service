@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -257,7 +258,7 @@ public class BulkExtract {
         ExtractFile bulkExtractFileEntity =  new ExtractFile(entity.getBody().get(BULK_EXTRACT_DATE).toString(), entity.getBody().get(BULK_EXTRACT_FILE_PATH).toString());
 
         final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
-        if (bulkExtractFile == null || !bulkExtractFile.exists()) {
+        if (!bulkExtractFile.exists()) {
             // return 404 if the bulk extract file is missing
             if (leaId != null) {
                 LOG.info("No bulk extract file found for lea: {}", leaId);
@@ -347,8 +348,8 @@ public class BulkExtract {
         for (String leaId : appAuthorizedUserLEAs) {
             Map<String, String> fullLink = new HashMap<String, String>();
             Set<Map<String, String>> deltaLinks = newDeltaLinkSet();
-            Iterable<Entity> leaFileEntities = getLEABulkExtractEntities(appId, leaId);
-            if (leaFileEntities.iterator().hasNext()) {
+            List<Entity> leaFileEntities = getLEABulkExtractEntities(appId, leaId);
+            if (!leaFileEntities.isEmpty()) {
                 addLinks(linkBase + leaId, leaFileEntities, fullLink, deltaLinks);
                 if (!fullLink.isEmpty()) {
                     leaFullLinks.put(leaId, fullLink);
@@ -386,8 +387,8 @@ public class BulkExtract {
      * @param leaFullLinks - Set of LEA full links.
      * @param leaDeltaLinks - Set of LEA delta links.
      */
-    private void addLinks(final String leaLinkBase,
-            final Iterable<Entity> leaFileEntities, final Map<String, String> fullLink, Set<Map<String, String>> deltaLinks) {
+    private void addLinks(final String leaLinkBase, final List<Entity> leaFileEntities,
+            final Map<String, String> fullLink, Set<Map<String, String>> deltaLinks) {
         for (Entity leaFileEntity : leaFileEntities) {
             Map<String, String> deltaLink = new HashMap<String, String>();
             String timeStamp = getTimestamp(leaFileEntity);
@@ -421,7 +422,7 @@ public class BulkExtract {
      * @param appId
      * @return
      */
-    private Iterable<Entity> getLEABulkExtractEntities(String appId, String leaId) {
+    private List<Entity> getLEABulkExtractEntities(String appId, String leaId) {
         initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
@@ -432,7 +433,26 @@ public class BulkExtract {
         if (!entities.iterator().hasNext()) {
             debug("Could not find any bulk extract entities");
         }
-        return entities;
+        return filterBulkExtractFileEntities(entities);
+    }
+
+    /**
+     * Filter the list of bulk extract entities to include only those which reference existing files.
+     *
+     * @param fileEntities - List of BE file entities to filter
+     *
+     * @return Filtered list of BE file entities
+     */
+    private List<Entity> filterBulkExtractFileEntities(Iterable<Entity> fileEntities) {
+        List<Entity> bulkExtractFileEntities = new LinkedList<Entity>();
+        for (Entity fileEntity : fileEntities) {
+            File beFile = new File((String) fileEntity.getBody().get("path"));
+            if (beFile.exists()) {
+                bulkExtractFileEntities.add(fileEntity);
+            }
+        }
+
+        return bulkExtractFileEntities;
     }
 
     /**
