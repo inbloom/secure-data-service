@@ -26,8 +26,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 /**
@@ -49,8 +47,9 @@ public class ParentContextResolver implements ContextResolver {
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> leas = new HashSet<String>();
-        Iterator<Entity> kids = repo.findEach("student",
-                Query.query(Criteria.where("studentParentAssociation.body.parentId").is(entity.getEntityId())));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("studentParentAssociation.body.parentId",
+                NeutralCriteria.OPERATOR_EQUAL, entity.getEntityId(), false));
+        Iterator<Entity> kids = repo.findEach("student", query);
         while(kids.hasNext()) {
             Entity kid = kids.next();
             leas.addAll(studentResolver.findGoverningLEA(kid));
