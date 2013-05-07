@@ -207,6 +207,7 @@ And under My Applications, I see the following apps: "inBloom Dashboards"
 Scenario: Operator triggers a bulk extract
 Given the production extraction zone is empty
 And the operator triggers a bulk extract for the production tenant
+And the operator triggers a delta for the production tenant
 
 Scenario: App makes an api call to retrieve a bulk extract
 #Get a session to trigger a bulk extract
@@ -263,3 +264,31 @@ And the extract contains a file for each of the following entities:
    |  teacher                               |
    |  teacherSchoolAssociation              |
    |  teacherSectionAssociation             |
+
+Scenario: Get the URL I should use to get the latest full bulk extract for a given LEA
+Scenario: App makes an api call to retrieve a bulk extract
+#Get a session to trigger a bulk extract
+Given the pre-existing bulk extrac testing app key has been created
+  When I navigate to the API authorization endpoint with my client ID
+   And I select "Daybreak Test Realm" and click go
+   And I was redirected to the "Simple" IDP Login page
+  When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+  Then I should receive a json response containing my authorization code
+  When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+  Then I should receive a json response containing my authorization token
+   And there is no bulk extract files in the local directory 
+  When I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
+   And I get back a response code of "200"
+   And I store the URL for the latest delta
+  When the number of returned URLs is correct:
+   |   fieldName  | count |
+   |   fullLeas   |  1    |
+   |   deltaLeas  |  1    |
+
+  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+   And the extract contains a file for each of the following entities:
+   |  educationOrganization                 |
+   |  parent                                |
+   |  student                               |
+   |  studentParentAssociation              |
+   |  studentSchoolAssociation              |
