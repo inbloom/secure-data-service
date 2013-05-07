@@ -24,8 +24,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.NeutralRecord;
 
@@ -35,8 +33,8 @@ import org.slc.sli.ingestion.NeutralRecord;
  * @author jcole
  * @author shalka
  */
-@Scope("prototype")
-@Component("courseTranscriptTransformationStrategy")
+//@Scope("prototype")
+//@Component("courseTranscriptTransformationStrategy")
 public class CourseTranscriptCombiner extends AbstractTransformationStrategy {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseTranscriptCombiner.class);
