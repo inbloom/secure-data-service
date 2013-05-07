@@ -1229,7 +1229,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Iterator<Entity> findEach(String collectionName, NeutralQuery neutralQuery) {
         guideIfTenantAgnostic(collectionName);
-        Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
+        Query query = this.getQueryConverter().convert(collectionName, neutralQuery, true);
         return template.findEach(query, Entity.class, collectionName);
     }
 
