@@ -16,14 +16,14 @@
 
 package org.slc.sli.bulk.extract.lea;
 
+import java.io.File;
+import java.security.PublicKey;
+import java.util.Map;
+
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
-
-import java.io.File;
-import java.security.PublicKey;
-import java.util.Map;
 
 public class LEAExtractorFactory {
     
@@ -37,6 +37,20 @@ public class LEAExtractorFactory {
                 new EntityToLeaCache());
     }
     
+    public EntityExtract buildStudentAssessmentExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new StudentAssessmentExtractor(extractor, map, repo);
+    }
+    
+    public EntityExtract buildYearlyTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new YearlyTranscriptExtractor(extractor, map, repo);
+    }
+    
+    public EntityExtract buildParentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+        return new ParentExtractor(extractor, map, repo);
+    }
+
     public StaffEdorgAssignmentExtractor buildStaffAssociationExtractor(EntityExtractor extractor,
             LEAExtractFileMap map,
             Repository<Entity> repo) {
@@ -45,11 +59,6 @@ public class LEAExtractorFactory {
     
     public EntityExtract buildStaffExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
         return new StaffExtractor(extractor, map, repo);
-    }
-    
-    public EntityExtract buildTeacherExtractor(EntityExtractor extractor, LEAExtractFileMap map,
-            Repository<Entity> repo) {
-        return new TeacherExtractor(extractor, map, repo);
     }
     
     public EntityExtract buildTeacherSchoolExtractor(EntityExtractor extractor, LEAExtractFileMap map,

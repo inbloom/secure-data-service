@@ -178,15 +178,30 @@ class AppsController < ApplicationController
 
 
     logger.debug {"App found (Update): #{@app.to_json}"}
-
+    
     respond_to do |format|
-      if @app.update_attributes(params[:app])
-        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
-        format.json { head :ok }
-      else
+      begin
+        if @app.update_attributes(params[:app])
+          format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
+          format.json { head :ok }
+        else
+          format.html { render action: "edit" }
+          format.json { render json: @app.errors, status: :unprocessable_entity }
+        end
+      rescue ActiveResource::BadRequest => e
+        logger.error {"Bad Request Exception: #{e.inspect}"}
+        start_index = e.response.body.index("fieldName=")
+        while start_index != nil
+          start_index = start_index + 10 #move to after fieldName=
+          end_index = e.response.body.index(",", start_index) #find the comma after the field name
+          field_name = e.response.body.slice(start_index, end_index-start_index)
+          logger.debug {"Validation failure on field: #{field_name}"}
+          @app.errors.add(field_name, "Validation error. Field contains characters or text that is not allowed.") 
+          start_index = e.response.body.index("fieldName=", end_index)
+        end
         format.html { render action: "edit" }
         format.json { render json: @app.errors, status: :unprocessable_entity }
-      end
+      end        
     end
   end
 

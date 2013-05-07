@@ -352,7 +352,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionJetsSharksScenario,
         :ingestionCascadingDeletionReportCardNotFoundTest,
         :ingestionCascadingDeleteReportTest,
-	:ingestionCascadingDeletionReingestTest,
+	    :ingestionCascadingDeletionReingestTest,
         ] do
 
   displayFailureReport()

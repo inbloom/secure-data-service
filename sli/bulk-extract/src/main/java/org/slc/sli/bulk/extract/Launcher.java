@@ -16,6 +16,11 @@
 
 package org.slc.sli.bulk.extract;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.extractor.DeltaExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
@@ -30,11 +35,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 /**
  * Bulk extract launcher.
  *
@@ -76,8 +76,11 @@ public class Launcher {
                     getArchiveName(tenant, startTime.toDate()),
                     bulkExtractMongoDA.getAppPublicKeys());
 
+                LOG.info("Starting tenant based extract...");
                 tenantExtractor.execute(tenant, extractFile, startTime);
+                LOG.info("Starting LEA Based extract...");
                 localEdOrgExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
+                LOG.info("Starting public data extract...");
                 statePublicDataExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             }
         } else {

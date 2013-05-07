@@ -25,7 +25,8 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 
 /**
- * User: ablum
+ * Test DirectPublicExtractor
+ * @author ablum
  */
 public class DirectPublicExtractorTest {
 

@@ -125,10 +125,18 @@ public class LocalEdOrgExtractorTest {
                 mockFactory.buildStaffExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
                         Mockito.any(Repository.class))).thenReturn(mockExtract);
         Mockito.when(
-                mockFactory.buildTeacherExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
+                mockFactory.buildTeacherSchoolExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
+                        Mockito.any(Repository.class))).thenReturn(mockExtract);
+        
+        Mockito.when(
+                mockFactory.buildStudentAssessmentExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
+                        Mockito.any(Repository.class))).thenReturn(mockExtract);
+        
+        Mockito.when(
+                mockFactory.buildYearlyTranscriptExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
                         Mockito.any(Repository.class))).thenReturn(mockExtract);
         Mockito.when(
-                mockFactory.buildTeacherSchoolExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
+                mockFactory.buildParentExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
                         Mockito.any(Repository.class))).thenReturn(mockExtract);
 
 

@@ -83,11 +83,12 @@ public class LocalEdOrgExtractor {
         if (leaToExtractFileMap == null) {
             leaToExtractFileMap = new LEAExtractFileMap(buildLEAToExtractFile());
         }
-
         // 2. EXTRACT
         EntityToLeaCache edorgCache = buildEdOrgCache();
         EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
         edorg.extractEntities(edorgCache);
+        
+        // Student
         StudentExtractor student = factory.buildStudentExtractor(entityExtractor, leaToExtractFileMap, repository);
         student.extractEntities(null);
         
@@ -97,7 +98,15 @@ public class LocalEdOrgExtractor {
         EntityExtract studentSchoolAssociation = factory.buildStudentSchoolAssociationExractor(entityExtractor,
                 leaToExtractFileMap, repository, student.getEntityCache());
         studentSchoolAssociation.extractEntities(null);
+        genericExtractor = factory.buildStudentAssessmentExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor.extractEntities(student.getEntityCache());
         
+        genericExtractor = factory.buildYearlyTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor.extractEntities(student.getEntityCache());
+        
+        genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor.extractEntities(student.getParentCache());
+
         // Staff
         StaffEdorgAssignmentExtractor seaExtractor = factory.buildStaffAssociationExtractor(entityExtractor,
                 leaToExtractFileMap, repository);
@@ -116,6 +125,8 @@ public class LocalEdOrgExtractor {
 
         // 3. ARCHIVE
         updateBulkExtractDb(tenant, startTime);
+        LOG.info("Finished LEA based extract in: {} seconds",
+                (new DateTime().getMillis() - this.startTime.getMillis()) / 1000);
     }
 
     private void updateBulkExtractDb(String tenant, DateTime startTime) {
