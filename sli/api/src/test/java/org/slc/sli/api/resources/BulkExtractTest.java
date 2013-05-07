@@ -214,7 +214,7 @@ public class BulkExtractTest {
   public void testGetExtractResponse() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
       mockApplicationEntity();
-      mockBulkExtractEntity(null);
+      mockBulkExtractEntity(null, false);
 
       HttpRequestContext context = new HttpRequestContextAdapter() {
           @Override
@@ -251,7 +251,7 @@ public class BulkExtractTest {
   public void testHeadTenant() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
       mockApplicationEntity();
-      mockBulkExtractEntity(null);
+      mockBulkExtractEntity(null, false);
 
       HttpRequestContext context = new HttpRequestContextAdapter() {
           @Override
@@ -279,7 +279,7 @@ public class BulkExtractTest {
   public void testRange() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
       mockApplicationEntity();
-      mockBulkExtractEntity(null);
+      mockBulkExtractEntity(null, false);
 
       HttpRequestContext failureContext = Mockito.mock(HttpRequestContext.class);
       Mockito.when(failureContext.getMethod()).thenReturn("HEAD");
@@ -308,7 +308,7 @@ public class BulkExtractTest {
   public void testFailedEvaluatePreconditions() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
       mockApplicationEntity();
-      mockBulkExtractEntity(null);
+      mockBulkExtractEntity(null, false);
 
       HttpRequestContext context = new HttpRequestContextAdapter() {
           @Override
@@ -328,7 +328,7 @@ public class BulkExtractTest {
         mockAppAuth();
 
         Map<String, Object> body = new HashMap<String, Object>();
-        File f = File.createTempFile("bulkExtract", ".tgz");
+        File f = File.createTempFile("bulkExtract", ".tar");
 
         try {
             body.put(BulkExtract.BULK_EXTRACT_FILE_PATH, f.getAbsolutePath());
@@ -516,6 +516,35 @@ public class BulkExtractTest {
         assertEquals(404, res.getStatus());
     }
 
+    @Test()
+    public void testGetLEAListNoBulkExtractFilesExist() throws Exception {
+        injector.setEducatorContext();
+        mockApplicationEntity();
+        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+
+        Entity fullBulkExtractEntity = mockBulkExtractEntity(null, true);
+        Date deltaTime1 = new Date(1000000000000L);
+        Date deltaTime2 = new Date(2000000000000L);
+        Entity deltaBulkExtractEntity1 = mockBulkExtractEntity(deltaTime1, true);
+        Entity deltaBulkExtractEntity2 = mockBulkExtractEntity(deltaTime2, true);
+        List<Entity> leas = new ArrayList<Entity>();
+        leas.add(fullBulkExtractEntity);
+        leas.add(0, deltaBulkExtractEntity1);
+        leas.add(1, deltaBulkExtractEntity2);
+        Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
+            .thenReturn(leas);
+
+        Entity mockAppAuthEntity = Mockito.mock(Entity.class);
+        Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
+            .thenReturn(mockAppAuthEntity);
+        Map<String, Object> body = new HashMap<String, Object>();
+        Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
+        body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
+
+        Response res = bulkExtract.getLEAList(req, new HttpContextAdapter());
+        assertEquals(404, res.getStatus());
+    }
+
     @SuppressWarnings("unchecked")
     @Test()
     public void testGetLEAListSuccess() throws Exception {
@@ -529,13 +558,13 @@ public class BulkExtractTest {
         Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
         body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
 
-        Entity fullBulkExtractEntity = mockBulkExtractEntity(null);
+        Entity fullBulkExtractEntity = mockBulkExtractEntity(null, false);
         Date deltaTime1 = new Date(1000000000000L);
         String timeStamp1 = ISODateTimeFormat.dateTime().print(new DateTime(deltaTime1));
         Date deltaTime2 = new Date(2000000000000L);
         String timeStamp2 = ISODateTimeFormat.dateTime().print(new DateTime(deltaTime2));
-        Entity deltaBulkExtractEntity1 = mockBulkExtractEntity(deltaTime1);
-        Entity deltaBulkExtractEntity2 = mockBulkExtractEntity(deltaTime2);
+        Entity deltaBulkExtractEntity1 = mockBulkExtractEntity(deltaTime1, false);
+        Entity deltaBulkExtractEntity2 = mockBulkExtractEntity(deltaTime2, false);
         List<Entity> leas = new ArrayList<Entity>();
         leas.add(fullBulkExtractEntity);
         leas.add(0, deltaBulkExtractEntity1);  // Add in ascending time order,
@@ -577,7 +606,7 @@ public class BulkExtractTest {
         Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
         body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
 
-        Entity fullBulkExtractEntity = mockBulkExtractEntity(null);
+        Entity fullBulkExtractEntity = mockBulkExtractEntity(null, false);
         List<Entity> leas = new ArrayList<Entity>();
         leas.add(fullBulkExtractEntity);
         Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
@@ -611,8 +640,8 @@ public class BulkExtractTest {
         String timeStamp1 = ISODateTimeFormat.dateTime().print(new DateTime(deltaTime1));
         Date deltaTime2 = new Date(2000000000000L);
         String timeStamp2 = ISODateTimeFormat.dateTime().print(new DateTime(deltaTime2));
-        Entity deltaBulkExtractEntity1 = mockBulkExtractEntity(deltaTime1);
-        Entity deltaBulkExtractEntity2 = mockBulkExtractEntity(deltaTime2);
+        Entity deltaBulkExtractEntity1 = mockBulkExtractEntity(deltaTime1, false);
+        Entity deltaBulkExtractEntity2 = mockBulkExtractEntity(deltaTime2, false);
         List<Entity> leas = new ArrayList<Entity>();
         leas.add(0, deltaBulkExtractEntity1);  // Add in ascending time order,
         leas.add(1, deltaBulkExtractEntity2);  // to assure forward chronology.
@@ -657,23 +686,27 @@ public class BulkExtractTest {
     }
 
     @SuppressWarnings({ "unchecked" })
-    private Entity mockBulkExtractEntity(Date deltaTime) throws IOException, ParseException {
+    private Entity mockBulkExtractEntity(Date deltaTime, boolean useBogusPath) throws IOException, ParseException {
         boolean isDelta = (deltaTime != null);
         File tmpDir = FileUtils.getTempDirectory();
         Entity mockEntity = Mockito.mock(Entity.class);
         Map<String, Object> mockBody = Mockito.mock(Map.class);
         Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
 
-        File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
-
-        FileUtils.writeStringToFile(inputFile, BULK_DATA);
-        Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
+        if (useBogusPath) {
+            Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn("/bogusPath/bogusFile");
+        } else {
+            File inputFile = FileUtils.getFile(tmpDir, INPUT_FILE_NAME);
+            FileUtils.writeStringToFile(inputFile, BULK_DATA);
+            Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_FILE_PATH)).thenReturn(inputFile.getAbsolutePath());
+        }
         Mockito.when(mockBody.get("isDelta")).thenReturn(isDelta);
         if (isDelta) {
             Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(deltaTime);
         } else {
             Mockito.when(mockBody.get(BulkExtract.BULK_EXTRACT_DATE)).thenReturn(new Date());
         }
+
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockEntity);
 
