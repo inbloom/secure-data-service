@@ -80,36 +80,36 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       #|  disciplineIncident                    |   |         |
       #|  disciplineAction                      |   |         |
       |  educationOrganization                 | 5 |          |
-      #|  grade                                 |   |         |
+      |  grade                                 | 8 |         |
       #|  gradebookEntry                        |   |         |
       #|  gradingPeriod                         |   |         |
       #|  graduationPlan                        |   |         |
       #|  learningObjective                     |   |         |
       #|  learningStandard                      |   |         |
-      #|  parent                                |   |         |
+      |  parent                                | 18 |         |
       #|  program                               |   |         |
-      #|  reportCard                            |   |         |
+      |  reportCard                            | 4 |         |
       # |  school                                |   |        |
       #|  section                               |   |         |
       #|  session                               |   |         |
-      #|  staff                                 |   |         |
+      |  staff                                 | 10 | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
 #      |  staffCohortAssociation                | 7 |         |
-      #|  staffEducationOrganizationAssociation |   |         |
+      |  staffEducationOrganizationAssociation | 10 | 346a3cc0939419b34283ec6cac2330e19a483f6f_id |
       # |  staffProgramAssociation               | 7 |         |
       |  student                               | 156 |         |
-      #|  studentAcademicRecord                 |   |         |
-      #|  studentAssessment                     |   |         |
+      |  studentAcademicRecord                 | 234 |         |
+      |  studentAssessment                     | 406 |         |
       |  studentCohortAssociation              | 12 |         |
       #|  studentCompetency                     |   |         |
       #|  studentCompetencyObjective            |   |         |
       |  studentDisciplineIncidentAssociation  |  8 |         |
       |  studentProgramAssociation             | 12 |         |
       #|  studentGradebookEntry                 |   |         |
-      |  studentSchoolAssociation              |  334 |         |
+      |  studentSchoolAssociation              | 334 |         |
       #|  studentSectionAssociation             |   |         |
       |  studentParentAssociation              | 18 |         |
-      #|  teacher                               |   |         |
-      #|  teacherSchoolAssociation              |   |         |
+      |  teacher                               | 3 |         |
+      |  teacherSchoolAssociation              | 3  |         |
       #|  teacherSectionAssociation             |   |         |
                                                     
     Scenario: Un-Authorized user cannot use the endpoint

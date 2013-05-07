@@ -8,6 +8,7 @@ rc_env: "sisko"
 
 admintools_server_url: "https://sisko-admin.slidev.org"
 api_server_url: "https://sisko-api.slidev.org"
+api_ssl_server_url: "https://sisko-api.slidev.org"
 databrowser_server_url: "https://sisko-databrowser.slidev.org"
 
 ingestion_db: "localhost"

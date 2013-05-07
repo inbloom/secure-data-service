@@ -283,8 +283,9 @@ desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
         :ingestBroadSetOfTypesAndExportData,
         :ingestionSuperStudentDelete,
+        :ingestionSuperSectionDelete,
         :ingestionSuperAssessmentDelete,
-	:ingestionSuperStudentAssessmentDelete,
+	    :ingestionSuperStudentAssessmentDelete,
         :multipleForceDeletesTest,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
@@ -346,7 +347,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionJetsSharksScenario,
         :ingestionCascadingDeletionReportCardNotFoundTest,
         :ingestionCascadingDeleteReportTest,
-	:ingestionCascadingDeletionReingestTest,
+	    :ingestionCascadingDeletionReingestTest,
         ] do
 
   displayFailureReport()
@@ -616,6 +617,10 @@ end
 
 task :ingestionSuperStudentDelete do
   runTests("test/features/ingestion/features/ingestion_super_student_delete.feature")
+end
+
+task :ingestionSuperSectionDelete do
+  runTests("test/features/ingestion/features/ingestion_super_section_delete.feature")
 end
 
 task :ingestionSuperAssessmentDelete do

@@ -22,11 +22,8 @@ import org.junit.Test;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ablum
- * Date: 5/1/13
- * Time: 4:43 PM
- * To change this template use File | Settings | File Templates.
+ * The the PublicDataFactory
+ * @author ablum
  */
 public class PublicDataFactoryTest {
     private PublicDataFactory factory = new PublicDataFactory();

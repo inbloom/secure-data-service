@@ -3741,6 +3741,12 @@ And /^I read again the entity tagged "([^"]*)" from the "([^"]*)" tenant and con
 end
 
 $savedQueries = {}
+
+#simulate Perl's autovivification. [[http://t-a-w.blogspot.com/2006/07/autovivification-in-ruby.html]]
+def autovivifying_hash
+   Hash.new {|ht,k| ht[k] = autovivifying_hash}
+end
+
 Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. And I save this query as "([^"]*)"/ do |count, collection, tenant, queryName, table|
     @db         = @conn[convertTenantIdToDbName(tenant)]
     @coll       = @db[collection]
@@ -3753,6 +3759,20 @@ Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. A
 	    condHash[field] = $1.to_i
 	end
     end
+
+    elemMatch = autovivifying_hash
+    condHash.each do |field, value|
+        if field =~ /(.*)\.\$\.(.*)/
+            k1,k2 = $1, $2
+            elemMatch[k1][k2] = value
+            condHash.delete(field)
+        end
+    end
+
+    elemMatch.each do |arrName, memberCriteria|
+          condHash[arrName] = {'$elemMatch' => memberCriteria};
+    end
+
     $savedQueries[queryName] = {"criteria"=>condHash, "collection"=>collection, "tenant"=>tenant};
     disable_NOTABLESCAN()
     recordCnt   = @coll.find(condHash).count()
@@ -3996,17 +4016,22 @@ end
 
 Given /^I ingest "(.*?)"$/ do |ingestion_file|
   steps %Q{
-    And I am using local data store
-    And I post "#{ingestion_file}" file as the payload of the ingestion job
-    When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+    Given I am using local data store
+    And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+    When I post "#{ingestion_file}" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone
-    And a batch job for file "#{ingestion_file}" is completed in database
-    And a batch job log has been created
-    Then I should not see an error log file created
+    Then a batch job for file "#{ingestion_file}" is completed in database
+    And I should see "All records processed successfully." in the resulting batch job file
+    And I should not see an error log file created
+    And I should not see a warning log file created
   }
 
 end
 
+And /I wait for user input/ do
+      print "Waiting for user input. Press Enter to continue."
+      STDIN.getc
+end
 ############################################################
 # STEPS: AFTER
 ############################################################

@@ -1758,18 +1758,6 @@
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:simpleType name="staffId">
-		<xs:annotation>
-			<xs:documentation>The person's Social Security number or a
-				state-approved alternative identification number.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:minLength value="9" />
-			<xs:maxLength value="9" />
-		</xs:restriction>
-	</xs:simpleType>
-
 	<xs:simpleType name="uniqueStateIdentifier">
 		<xs:annotation>
 			<xs:documentation>A unique numeric code assigned to a person by a

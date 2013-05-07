@@ -1,18 +1,11 @@
 @RALLY_US5635
 Feature: Super Section Deletion
 
-Background: I have a landing zone route configured
-Given I am using local data store
-
-
 Scenario: Ingestion of Student-Orphans(Entities referring to missing student) conforms to Student and Children ingestion followed by Student deletion
-    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And the "Midgar" tenant db is empty
-    
+
     #Ingest data set with the lone student comment out. aka out of order data set. Then take snapshot.
-    And I post "SuperSectionSubdocAndDenormOnly.zip" file as the payload of the ingestion job
-    When zip file is scp to ingestion landing zone
-    And a batch job for file "SuperSectionSubdocAndDenormOnly.zip" is completed in database
+    Given the "Midgar" tenant db is empty
+    When I ingest "SuperSectionSubdocAndDenormOnly.zip"
     Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "sectionHCount"
     |field       													  |value                                               |
     |_id         													  |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id         |
@@ -34,35 +27,48 @@ Scenario: Ingestion of Student-Orphans(Entities referring to missing student) co
     | collection | field | value								      |
     | section    | _id   |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id |
     
-    #Clear out the database
-    And the "Midgar" tenant db is empty
-    And I re-execute saved query "sectionHCount" to get "0" records
-    
     #Ingest same data set again. This time with the lone student not commented out.
-    And I post "SuperSectionAll.zip" file as the payload of the ingestion job
-    When zip file is scp to ingestion landing zone
-    And a batch job for file "SuperSectionAll.zip" is completed in database
-    And I should see "All records processed successfully." in the resulting batch job file
-    And I re-execute saved query "sectionHCount" to get "1" records
+    Given the "Midgar" tenant db is empty
+    When I ingest "SuperSectionAll.zip"
+    Then I re-execute saved query "sectionHCount" to get "1" records
     And I re-execute saved query "sectionNHCount" to get "1" records
-
+    #Take snapshot of full bodied student
+    And I read the following entity in "Midgar" tenant and save it as "nonHollowSection"
+    | collection | field | value								      |
+    | section    | _id   |48fcd5a76d5c21262d625718ee26aca9ec0c058f_id |
+    And I save the collection counts in "Midgar" tenant
+    
     #Delete section   
     And I post "SuperSectionOnlyDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "SuperSectionOnlyDelete.zip" is completed in database
     And I should see "All records processed successfully." in the resulting batch job file
+    And I should see "Processed 1 records." in the resulting batch job file
+    And I should see "records deleted successfully: 1" in the resulting batch job file
+    And I should see "records failed processing: 0" in the resulting batch job file
+    And I should see "records not considered for processing: 0" in the resulting batch job file
+    And I should see "All records processed successfully." in the resulting batch job file
+    And I should not see an error log file created
+    And the only errors I want to see in the resulting warning log file for "InterchangeMasterSchedule.xml" are below
+    | code    |
+    | CORE_0066|
+    And I see that collections counts have changed as follows in tenant "Midgar"
+    | collection                                |     delta|
+    | recordHash                                |        -1|
+    | section<hollow>                           |        +1|
+    And I save the collection counts in "Midgar" tenant
     And I re-execute saved query "sectionHCount" to get "1" records
     And I re-execute saved query "sectionNHCount" to get "0" records
-    
-    #Take new snapshot and compare with old snapshot
     And I read again the entity tagged "hollowSection" from the "Midgar" tenant and confirm that it is the same
     
     #Reingest section
-    Given I post "SuperSectionOnly.zip" file as the payload of the ingestion job
-    When zip file is scp to ingestion landing zone
-    And a batch job for file "SuperSectionOnly.zip" is completed in database
-    And I should see "All records processed successfully." in the resulting batch job file
+    When I ingest "SuperSectionOnly.zip"
     And I re-execute saved query "sectionHCount" to get "1" records
     And I re-execute saved query "sectionNHCount" to get "1" records
+    And I see that collections counts have changed as follows in tenant "Midgar"
+    | collection                                |     delta|
+    | recordHash                                |        +1|
+    | section<hollow>                           |        -1|
+    And I read again the entity tagged "nonHollowSection" from the "Midgar" tenant and confirm that it is the same
 	
 

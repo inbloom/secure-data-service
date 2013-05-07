@@ -36,6 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
@@ -95,20 +96,18 @@ public class DeltaExtractorTest {
     
     // two delta records
     // first is an update event in lea1 with a spam delete request
-    // --> app1 should generate an edorg record for lea1
-    // --> app1 should generate an delete event for lea2
-    // --> app2 should generate an delete event for lea2
-    // 1 write calls and 2 writeDelete call
+    // --> lea1 should generate an update event (with both apps)
+    // --> lea2 should generate an delete event
+    // 1 write calls and 1 writeDelete call
     
     // second is an delete event in lea2
-    // --> app1 should generate an delete event for lea1 (delete is spammed)
-    // --> app1 should generate an delete event for lea2 (delete is spammed)
-    // --> app2 should generate an delete event for lea2
-    // 3 writeDelete calls
+    // --> lea1 should generate an delete event
+    // --> lea2 should generate an delete event
+    // 2 writeDelete calls
     
-    // 5 writeDeletes <--> however since educationOrganization contains both
+    // 3 writeDeletes <--> however since educationOrganization contains both
     // school and educationOrganization, we must spam delete in both collections
-    // which results 10 writeDelete calls
+    // which results 6 writeDelete calls
 
     @Before
     public void setUp() throws Exception {
@@ -179,7 +178,7 @@ public class DeltaExtractorTest {
         extractor.execute("Midgar", new DateTime(), "");
         try {
             verify(entityExtractor, times(1)).write(any(Entity.class), any(ExtractFile.class), any(EntityExtractor.CollectionWrittenRecord.class));
-            verify(entityWriteManager, times(10)).writeDelete(any(Entity.class), any(ExtractFile.class));
+            verify(entityWriteManager, times(6)).writeDelete(any(Entity.class), any(ExtractFile.class));
         } catch (FileNotFoundException e) {
             fail("should never throw exceptions in mocks");
         } catch (IOException e) {

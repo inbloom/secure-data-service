@@ -16,17 +16,16 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.common.util.datetime.DateHelper;
-import org.slc.sli.domain.Entity;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
+import org.slc.sli.domain.Entity;
 public class ExtractorHelper {
     
     private DateHelper dateHelper;
@@ -78,5 +77,18 @@ public class ExtractorHelper {
             }
         }
         return parents;
+    }
+    
+    /**
+     * uses the date helper to tell us if the staff association is current or not
+     * 
+     * @param staffAssociation
+     * @return
+     */
+    public boolean isStaffAssociationCurrent(Entity staffAssociation) {
+        if (dateHelper == null) {
+            dateHelper = new DateHelper();
+        }
+        return !dateHelper.isFieldExpired(staffAssociation.getBody(), ParameterConstants.END_DATE);
     }
 }
