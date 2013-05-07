@@ -30,6 +30,7 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -72,7 +73,7 @@ public class StaffExtractorTest {
     
     @Test
     public void testExtractOneEntity() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
         extractor.extractEntities(staffToLeaCache);
@@ -82,7 +83,7 @@ public class StaffExtractorTest {
     
     @Test
     public void testExtractManyEntity() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity, mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
         extractor.extractEntities(staffToLeaCache);
@@ -94,7 +95,7 @@ public class StaffExtractorTest {
     @Test
     public void testExtractNoEntityBecauseOfLEAMiss() {
         Mockito.when(mockEntity.getEntityId()).thenReturn("Staff2");
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF), Mockito.eq(new NeutralQuery())))
 .thenReturn(
                 Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);

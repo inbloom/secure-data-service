@@ -30,6 +30,7 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -68,7 +69,7 @@ public class TeacherSchoolExtractorTest {
     
     @Test
     public void testExtractOneEntity() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(
                 Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
@@ -79,7 +80,7 @@ public class TeacherSchoolExtractorTest {
     
     @Test
     public void testExtractManyEntity() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(
                 Arrays.asList(mockEntity, mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
@@ -90,7 +91,7 @@ public class TeacherSchoolExtractorTest {
     
     @Test
     public void testExtractNoEntityBecauseOfLEAMiss() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(
                 Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);
@@ -102,7 +103,7 @@ public class TeacherSchoolExtractorTest {
     @Test
     public void testExtractNoEntityBecauseOfIdMiss() {
         entityBody.put(ParameterConstants.TEACHER_ID, "STAFFX");
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(
                 Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);

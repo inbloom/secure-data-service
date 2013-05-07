@@ -23,6 +23,7 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -39,7 +40,7 @@ public class TeacherSchoolExtractor implements EntityExtract {
 
     @Override
     public void extractEntities(EntityToLeaCache staffToEdorgCache) {
-        Iterator<Entity> teachers = repo.findEach(EntityNames.TEACHER_SCHOOL_ASSOCIATION, new Query());
+        Iterator<Entity> teachers = repo.findEach(EntityNames.TEACHER_SCHOOL_ASSOCIATION, new NeutralQuery());
         while (teachers.hasNext()) {
             Entity tsa = teachers.next();
             String teacherId = (String) tsa.getBody().get(ParameterConstants.TEACHER_ID);

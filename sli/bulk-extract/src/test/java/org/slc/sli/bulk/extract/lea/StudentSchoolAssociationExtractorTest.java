@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -44,7 +45,7 @@ public class StudentSchoolAssociationExtractorTest {
         Map entityBody = new HashMap<String, Object>();
         entityBody.put("studentId", "student-1");
         Mockito.when(e.getBody()).thenReturn(entityBody);
-        Mockito.when(mockRepo.findEach(Mockito.eq("studentSchoolAssociation"), Mockito.eq(new Query()))).thenReturn(Arrays.asList(e).iterator());
+        Mockito.when(mockRepo.findEach(Mockito.eq("studentSchoolAssociation"), Mockito.eq(new NeutralQuery()))).thenReturn(Arrays.asList(e).iterator());
 
 		ssaExtractor.extractEntities(null);
         Mockito.verify(mockExtractor, Mockito.times(2)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class),
@@ -61,7 +62,7 @@ public class StudentSchoolAssociationExtractorTest {
         Map entityBody = new HashMap<String, Object>();
         entityBody.put("studentId", "student-1");
         Mockito.when(e.getBody()).thenReturn(entityBody);
-        Mockito.when(mockRepo.findEach(Mockito.eq("studentSchoolAssociation"), Mockito.eq(new Query()))).thenReturn(Arrays.asList(e).iterator());
+        Mockito.when(mockRepo.findEach(Mockito.eq("studentSchoolAssociation"), Mockito.eq(new NeutralQuery()))).thenReturn(Arrays.asList(e).iterator());
 
 		ssaExtractor.extractEntities(null);
         Mockito.verify(mockExtractor, Mockito.times(1)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class),
@@ -84,7 +85,7 @@ public class StudentSchoolAssociationExtractorTest {
         entityBody2.put("studentId", "student-2");
         Mockito.when(e2.getBody()).thenReturn(entityBody1);
 
-        Mockito.when(mockRepo.findEach(Mockito.eq("studentSchoolAssociation"), Mockito.eq(new Query()))).thenReturn(Arrays.asList(e1, e2).iterator());
+        Mockito.when(mockRepo.findEach(Mockito.eq("studentSchoolAssociation"), Mockito.eq(new NeutralQuery()))).thenReturn(Arrays.asList(e1, e2).iterator());
 
 		ssaExtractor.extractEntities(null);
         Mockito.verify(mockExtractor, Mockito.times(2)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class),
