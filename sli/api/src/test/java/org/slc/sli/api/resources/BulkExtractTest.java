@@ -498,6 +498,7 @@ public class BulkExtractTest {
         assertEquals(404, res.getStatus());
     }
 
+    @SuppressWarnings("unchecked")
     @Test()
     public void testGetLEAListEmptyBulkExtractFilesEntities() throws Exception {
         injector.setEducatorContext();
@@ -513,9 +514,16 @@ public class BulkExtractTest {
             .thenReturn(new ArrayList<Entity>());
 
         Response res = bulkExtract.getLEAList(req, new HttpContextAdapter());
-        assertEquals(404, res.getStatus());
+        assertEquals(200, res.getStatus());
+        EntityBody list = (EntityBody) res.getEntity();
+        assertNotNull("LEA links list should not be null", list);
+        Map<String, Map<String, String>> fullLeas = (Map<String, Map<String, String>>) list.get("fullLeas");
+        assertTrue("LEA full extract list should be empty", fullLeas.isEmpty());
+        Map<String, Map<String, String>> deltaLeas = (Map<String, Map<String, String>>) list.get("deltaLeas");
+        assertTrue("LEA delta extract list should be empty", deltaLeas.isEmpty());
     }
 
+    @SuppressWarnings("unchecked")
     @Test()
     public void testGetLEAListNoBulkExtractFilesExist() throws Exception {
         injector.setEducatorContext();
@@ -542,7 +550,13 @@ public class BulkExtractTest {
         body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
 
         Response res = bulkExtract.getLEAList(req, new HttpContextAdapter());
-        assertEquals(404, res.getStatus());
+        assertEquals(200, res.getStatus());
+        EntityBody list = (EntityBody) res.getEntity();
+        assertNotNull("LEA links list should not be null", list);
+        Map<String, Map<String, String>> fullLeas = (Map<String, Map<String, String>>) list.get("fullLeas");
+        assertTrue("LEA full extract list should be empty", fullLeas.isEmpty());
+        Map<String, Map<String, String>> deltaLeas = (Map<String, Map<String, String>>) list.get("deltaLeas");
+        assertTrue("LEA delta extract list should be empty", deltaLeas.isEmpty());
     }
 
     @SuppressWarnings("unchecked")
