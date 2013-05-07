@@ -103,7 +103,7 @@ When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
 
 end
 
-def getBulkExtractCommand(tenant, options=nil)
+def getBulkExtractCommand(tenant, options="")
    command  = "sh #{TRIGGER_SCRIPT}"
    if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
      command = command + " -Dsli.conf=#{PROPERTIES_FILE}"
@@ -118,7 +118,7 @@ def getBulkExtractCommand(tenant, options=nil)
      puts "Using extra property:  -f#{JAR_FILE}"
    end
 
-   command = command + " -t#{tenant}" + options
+   command = command + " -t#{tenant}" + "#{options}"
    puts "Running: #{command} "
    return command
 end
