@@ -291,6 +291,14 @@ public interface Repository<T> {
      * @param query TODO
      * @return
      */
+    public Iterator<T> findEach(String collectionName, NeutralQuery query);
+
+    /**
+     * Get DB cursor for the collection
+     * @param collectionName
+     * @param query TODO
+     * @return
+     */
     public Iterator<T> findEach(String collectionName, Query query);
 
     /**

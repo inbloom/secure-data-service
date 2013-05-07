@@ -15,12 +15,10 @@
  */
 package org.slc.sli.dal.template;
 
-import java.util.Iterator;
-
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-
+import com.mongodb.ReadPreference;
 import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -29,6 +27,8 @@ import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoPersistentEntity;
 import org.springframework.data.mongodb.core.mapping.MongoPersistentProperty;
 import org.springframework.data.mongodb.core.query.Query;
+
+import java.util.Iterator;
 /**
  *
  * @author ablum npandey
@@ -49,6 +49,9 @@ public class MongoEntityTemplate extends MongoTemplate {
        MongoPersistentEntity<?> entity = mappingContext.getPersistentEntity(entityClass);
 
        DBCollection collection = getDb().getCollection(collectionName);
+
+       prepareCollection(collection);
+
        DBObject dbQuery = mapper.getMappedObject(query.getQueryObject(), entity);
        final DBCursor cursor;
 

@@ -33,6 +33,7 @@ import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
@@ -90,11 +91,11 @@ public class EntityExtractorTest {
         List<Entity> students = TestUtils.createStudents();
         Mockito.when(cursor.hasNext()).thenReturn(true, true, true, false);
         Mockito.when(cursor.next()).thenReturn(students.get(0), students.get(1));
-        Mockito.when(mongoEntityRepository.findEach(Matchers.eq(testEntity), Matchers.any(Query.class))).thenReturn(cursor);
+        Mockito.when(mongoEntityRepository.findEach(Matchers.eq(testEntity), Matchers.any(NeutralQuery.class))).thenReturn(cursor);
 
         extractor.extractEntities(archiveFile, testEntity);
 
-        Mockito.verify(mongoEntityRepository, Mockito.times(1)).findEach("student", new Query());
+        Mockito.verify(mongoEntityRepository, Mockito.times(1)).findEach("student", new NeutralQuery());
         Mockito.verify(writer, Mockito.times(2)).write(Mockito.any(Entity.class), Mockito.any(ExtractFile.class));
 
     }
