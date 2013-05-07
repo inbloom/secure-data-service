@@ -292,7 +292,7 @@ And the extract contains a file for each of the following entities:
       # |  disciplineIncident                    |
       # |  disciplineAction                      |
       |  educationOrganization                 |
-      # |  grade                                 |
+      |  grade                                 |
       # |  gradebookEntry                        |
       # |  gradingPeriod                         |
       # |  learningObjective                     |
@@ -310,7 +310,7 @@ And the extract contains a file for each of the following entities:
       |  student                               |
       |  studentAcademicRecord                 |
       |  studentAssessment                     |
-      # |  studentCohortAssociation              |
+      |  studentCohortAssociation              |
       # |  studentCompetency                     |
       # |  studentCompetencyObjective            |
       |  studentDisciplineIncidentAssociation  |
