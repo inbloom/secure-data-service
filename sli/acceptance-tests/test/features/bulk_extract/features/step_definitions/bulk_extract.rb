@@ -574,6 +574,31 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
   restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar')
 end
 
+When /^I store the URL for the latest delta for LEA "(.*?)"$/ do |lea|
+  puts "result body from previous API call is #{@res}"
+  @delta_uri = JSON.parse(@res)
+  @list_url  = @delta_uri["deltaLeas"][lea][0]["uri"]
+  # @list_irl is in the format https://<url>/api/rest/v1.2/bulk/extract/<lea>/delta/<timestamp>
+  # -> strip off everything before v1.2, store: /v1.2/bulk/extract/<lea>/delta/<timestamp>
+  @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
+  puts "Bulk Extract Delta URI suffix: #{$2}"
+  @list_uri = $2
+  # Get the timestamp from the URL
+  @list_url.match(/delta\/(.*)$/)
+  @delta_file = "delta_#{lea}_#{$1}.tar"
+  # Store directory information for later retrieval
+  @download_path = OUTPUT_DIRECTORY + @delta_file
+  @fileDir = OUTPUT_DIRECTORY + "decrypt"
+  @filePath = @fileDir + "/" + @delta_file
+  @unpackDir = @fileDir
+  @encryptFilePath = @download_path
+end
+
+When /^I request listed delta via API for "(.*?)"$/ do |app_id|
+  @app_id = app_id
+  restTls("/#{@list_uri}", nil, 'application/x-tar')
+end
+
 When /^I download and decrypt the delta$/ do
   # Open the file, decrypt, and check against API
   download_path = streamBulkExtractFile(@download_path, @res.body)
@@ -658,12 +683,11 @@ Then /^each extracted "(.*?)" delta matches the mongo entry$/ do |collection|
 end
 
 Then /^The bulk extract tarfile should be empty$/ do
-  puts "stubbed out"
+  puts "This is a description step"
 end
 
 Then /^I should see "(.*?)" entities of type "(.*?)" in the bulk extract tarfile$/ do |count, collection|
-  count = count.to_i
-  puts "stubbed out"
+  puts "This is a description step"
 end
 
 Then /^the extract contains no entity files/ do
@@ -720,7 +744,7 @@ Then /^I verify "(.*?)" delta bulk extract files are generated for LEA "(.*?)" i
   @sliDb ||= @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
   query = {"body.tenantId"=>tenant, "body.isDelta"=>true, "body.edorg"=>lea}
-  assert(count == @coll.count({query: query})) 
+  assert(count == @coll.count({query: query}), "Found #{@coll.count}, expected #{count}") 
 end
 
 Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table| 
@@ -1367,9 +1391,17 @@ def prepareBody(verb, value, response_map)
                    }]
       },
       "contactPriority" => {
-        "newStudentFatherAssociation" => {
-          "contactPriority" => 1
-        }
+        "contactPriority" => value.to_i
+      },
+      "studentLoginId" => {
+        "loginId" => value,
+        "sex" => "Male"
+      },
+      "momLoginId" => {
+          "loginId" => value
+      },
+      "dadLoginId" => {
+          "loginId" => value
       },
       "studentParentName" => {
         "name" => {

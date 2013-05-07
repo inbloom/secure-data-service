@@ -8,6 +8,7 @@ rc_env: "sulu"
 
 admintools_server_url: "https://sulu-admin.slidev.org"
 api_server_url: "https://sulu-api.slidev.org"
+api_ssl_server_url: "https://sulu-api.slidev.org"
 databrowser_server_url: "https://sulu-databrowser.slidev.org"
 
 ingestion_db: "localhost"

@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -85,6 +86,10 @@ public class StudentExtractor implements EntityExtract {
     
     public EntityToLeaCache getEntityCache() {
         return studentCache;
+    }
+    
+    public EntityToLeaCache getParentCache() {
+        return parentCache;
     }
 
 

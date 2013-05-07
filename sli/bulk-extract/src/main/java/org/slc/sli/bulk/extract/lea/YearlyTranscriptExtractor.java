@@ -20,36 +20,34 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
-public class StaffExtractor implements EntityExtract {
+public class YearlyTranscriptExtractor implements EntityExtract {
     private EntityExtractor extractor;
     private LEAExtractFileMap map;
     private Repository<Entity> repo;
     
-    public StaffExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+    public YearlyTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
     }
 
     @Override
-    public void extractEntities(EntityToLeaCache staffToEdorgCache) {
-        Iterator<Entity> staffs = repo.findEach(EntityNames.STAFF, new NeutralQuery());
-        while (staffs.hasNext()) {
-            Entity staff = staffs.next();
-            Set<String> leas = staffToEdorgCache.getEntriesById(staff.getEntityId());
-            if (leas == null || leas.size() == 0) {
-                continue;
-            }
-            for (String lea : leas) {
-                extractor.extractEntity(staff, map.getExtractFileForLea(lea), EntityNames.STAFF);
-            }
+    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        Iterator<Entity> yearlyTranscripts = repo.findEach("yearlyTranscript", new Query());
+        
+        while (yearlyTranscripts.hasNext()) {
+            Entity yearlyTranscript = yearlyTranscripts.next();
+            String studentId = (String) yearlyTranscript.getBody().get(ParameterConstants.STUDENT_ID);
+            Set<String> studentLeas = entityToEdorgCache.getEntriesById(studentId);
             
+            for (String lea : studentLeas) {
+                extractor.extractEntity(yearlyTranscript, map.getExtractFileForLea(lea), "yearlyTranscript");
+            }
         }
         
     }

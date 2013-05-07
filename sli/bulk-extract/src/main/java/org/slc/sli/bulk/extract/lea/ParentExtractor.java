@@ -26,30 +26,30 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
-public class StaffExtractor implements EntityExtract {
+public class ParentExtractor implements EntityExtract {
     private EntityExtractor extractor;
     private LEAExtractFileMap map;
     private Repository<Entity> repo;
     
-    public StaffExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+    public ParentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
     }
 
     @Override
-    public void extractEntities(EntityToLeaCache staffToEdorgCache) {
-        Iterator<Entity> staffs = repo.findEach(EntityNames.STAFF, new NeutralQuery());
-        while (staffs.hasNext()) {
-            Entity staff = staffs.next();
-            Set<String> leas = staffToEdorgCache.getEntriesById(staff.getEntityId());
-            if (leas == null || leas.size() == 0) {
+    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        Iterator<Entity> parents = repo.findEach(EntityNames.PARENT, new NeutralQuery());
+        Set<String> validParents = entityToEdorgCache.getEntityIds();
+        while (parents.hasNext()) {
+            Entity parent = parents.next();
+            if (!validParents.contains(parent.getEntityId())) {
                 continue;
             }
-            for (String lea : leas) {
-                extractor.extractEntity(staff, map.getExtractFileForLea(lea), EntityNames.STAFF);
+            for (String lea : entityToEdorgCache.getEntriesById(parent.getEntityId())) {
+                extractor.extractEntity(parent, map.getExtractFileForLea(lea), EntityNames.PARENT);
             }
-            
+
         }
         
     }

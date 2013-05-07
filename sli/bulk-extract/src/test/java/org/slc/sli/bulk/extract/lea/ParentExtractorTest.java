@@ -18,9 +18,7 @@ package org.slc.sli.bulk.extract.lea;
 
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,16 +28,13 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
-public class StudentAssessmentExtractorTest {
-    
-    private StudentAssessmentExtractor extractor;
-    
+public class ParentExtractorTest {
+    private ParentExtractor extractor;
     @Mock
     private Repository<Entity> mockRepo;
     @Mock
@@ -50,67 +45,57 @@ public class StudentAssessmentExtractorTest {
     private ExtractFile mockFile;
     
     @Mock
-    private EntityToLeaCache mockStudentCache;
+    private EntityToLeaCache mockParentCache;
     
     @Mock
     private Entity mockEntity;
 
-    private Map<String, Object> entityBody;
-
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        extractor = new StudentAssessmentExtractor(mockExtractor, mockMap, mockRepo);
-        entityBody = new HashMap<String, Object>();
-        Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
+        extractor = new ParentExtractor(mockExtractor, mockMap, mockRepo);
+        Mockito.when(mockEntity.getEntityId()).thenReturn("parent");
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
-        Mockito.when(mockStudentCache.getEntriesById("student")).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
+        Mockito.when(mockParentCache.getEntriesById("parent")).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
+        Mockito.when(mockParentCache.getEntityIds()).thenReturn(new HashSet<String>(Arrays.asList("parent")));
     }
-    
     
     @Test
     public void testWriteOneEntity() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STUDENT_ASSESSMENT), Mockito.eq(new NeutralQuery())))
-                .thenReturn(
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.PARENT), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity).iterator());
-        entityBody.put(ParameterConstants.STUDENT_ID, "student");
-        extractor.extractEntities(mockStudentCache);
+        extractor.extractEntities(mockParentCache);
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq(EntityNames.STUDENT_ASSESSMENT));
+                Mockito.eq(EntityNames.PARENT));
     }
     
     @Test
     public void testWriteManyEntities() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STUDENT_ASSESSMENT), Mockito.eq(new NeutralQuery())))
-                .thenReturn(
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.PARENT), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity, mockEntity, mockEntity).iterator());
-        entityBody.put(ParameterConstants.STUDENT_ID, "student");
-        extractor.extractEntities(mockStudentCache);
+        extractor.extractEntities(mockParentCache);
         Mockito.verify(mockExtractor, Mockito.times(3)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq(EntityNames.STUDENT_ASSESSMENT));
+                Mockito.eq(EntityNames.PARENT));
     }
     
     @Test
     public void testExtractNoEntityBecauseOfLEAMiss() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STUDENT_ASSESSMENT), Mockito.eq(new NeutralQuery())))
-                .thenReturn(
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.PARENT), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);
-        extractor.extractEntities(mockStudentCache);
+        extractor.extractEntities(mockParentCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq(EntityNames.STUDENT_ASSESSMENT));
+                Mockito.eq(EntityNames.PARENT));
     }
     
     @Test
     public void testExtractNoEntityBecauseOfIdMiss() {
-        entityBody.put(ParameterConstants.STUDENT_ID, "STUDENT1");
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STUDENT_ASSESSMENT), Mockito.eq(new NeutralQuery())))
-                .thenReturn(
+        Mockito.when(mockEntity.getEntityId()).thenReturn("parent2");
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.PARENT), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
-        extractor.extractEntities(mockStudentCache);
+        extractor.extractEntities(mockParentCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq(EntityNames.STUDENT_ASSESSMENT));
+                Mockito.eq(EntityNames.PARENT));
     }
-
 }

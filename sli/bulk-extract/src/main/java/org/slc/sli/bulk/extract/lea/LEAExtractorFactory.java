@@ -42,6 +42,15 @@ public class LEAExtractorFactory {
         return new StudentAssessmentExtractor(extractor, map, repo);
     }
     
+    public EntityExtract buildYearlyTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new YearlyTranscriptExtractor(extractor, map, repo);
+    }
+    
+    public EntityExtract buildParentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+        return new ParentExtractor(extractor, map, repo);
+    }
+
     public StaffEdorgAssignmentExtractor buildStaffAssociationExtractor(EntityExtractor extractor,
             LEAExtractFileMap map,
             Repository<Entity> repo) {

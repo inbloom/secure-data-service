@@ -7,8 +7,7 @@ JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 SSH_USER = PropLoader.getProps['ssh_user']
 EXTRACT_TO_DIRECTORY = PropLoader.getProps['extract_to_directory']
 
-require 'archive/tar/minitar'
-include Archive::Tar
+Dir["./test/features/bulk_extract/features/step_definitions/*.rb"].each {|file| require file}
 
 Given /^the extraction zone is empty$/ do
     if (Dir.exists?(OUTPUT_DIRECTORY))
@@ -40,6 +39,17 @@ When /^the operator triggers a bulk extract for the production tenant$/ do
     executeShellCommand("ssh #{SSH_USER} sudo #{command}")
 end
 
+When /^the operator triggers a delta for the production tenant$/ do
+    executeShellCommand("rm -f \~/.ssh/known_hosts")
+    command = getBulkExtractCommand(PropLoader.getProps['tenant'], " -d")
+    executeShellCommand("ssh #{SSH_USER} sudo #{command}")
+end
+
+When /^I store the URL for the latest delta$/ do
+  puts "result body from previous API call is @res"
+  @delta_uri = @res
+end
+
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
 
   command  = "sh #{TRIGGER_SCRIPT}"
@@ -62,7 +72,7 @@ When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
 
 end
 
-def getBulkExtractCommand(tenant)
+def getBulkExtractCommand(tenant, options=nil)
    command  = "sh #{TRIGGER_SCRIPT}"
    if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
      command = command + " -Dsli.conf=#{PROPERTIES_FILE}"
@@ -77,7 +87,7 @@ def getBulkExtractCommand(tenant)
      puts "Using extra property:  -f#{JAR_FILE}"
    end
 
-   command = command + " -t#{tenant}"
+   command = command + " -t#{tenant}" + options
    puts "Running: #{command} "
    return command
 end

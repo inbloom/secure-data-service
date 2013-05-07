@@ -80,15 +80,15 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       #|  disciplineIncident                    |   |         |
       #|  disciplineAction                      |   |         |
       |  educationOrganization                 | 5 |          |
-      #|  grade                                 |   |         |
+      |  grade                                 | 8 |         |
       #|  gradebookEntry                        |   |         |
       |  gradingPeriod                         |  1 |         |
       #|  graduationPlan                        |   |         |
       #|  learningObjective                     |   |         |
       #|  learningStandard                      |   |         |
-      #|  parent                                |   |         |
+      |  parent                                | 18 |         |
       #|  program                               |   |         |
-      #|  reportCard                            |   |         |
+      |  reportCard                            | 4 |         |
       # |  school                                |   |        |
       #|  section                               |   |         |
       |  session                               |  22 |         |
@@ -97,7 +97,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       |  staffEducationOrganizationAssociation | 10 | 346a3cc0939419b34283ec6cac2330e19a483f6f_id |
       # |  staffProgramAssociation               | 7 |         |
       |  student                               | 156 |         |
-      #|  studentAcademicRecord                 |   |         |
+      |  studentAcademicRecord                 | 234 |         |
       |  studentAssessment                     | 406 |         |
       |  studentCohortAssociation              | 12 |         |
       #|  studentCompetency                     |   |         |

@@ -78,10 +78,12 @@ public class DeltaEntityIteratorTest {
         MockitoAnnotations.initMocks(this);
        
         List<Map<String, Object>> deltaEntities = buildDeltaCollections();
+        Set<String> ids = new HashSet<String>(Arrays.asList("update_id"));
+        List<Entity> edorgList = new ArrayList<Entity>();
+        edorgList.add(buildEdorgEntity("update_id"));
         
         when(deltaJournal.findDeltaRecordBetween(anyLong(), anyLong())).thenReturn(deltaEntities.iterator());
-        when(repo.findOne("educationOrganization", iterator.buildQuery("educationOrganization", "update_id"))).thenReturn(buildEdorgEntity("update_id"));
-        when(repo.findOne("educationOrganization", iterator.buildQuery("educationOrganization", "delete_id"))).thenReturn(buildEdorgEntity("delete_id"));
+        when(repo.findAll("educationOrganization", iterator.buildBatchQuery("educationOrganization", ids))).thenReturn(edorgList);
         when(resolverFactory.getResolver(anyString())).thenReturn(testResolver);
     }
     
@@ -109,7 +111,7 @@ public class DeltaEntityIteratorTest {
     }
 
     private Entity buildEdorgEntity(String id) {
-        Entity edorg = new MongoEntity(id, new HashMap<String, Object>());
+        Entity edorg = new MongoEntity("educationOrganization", id, new HashMap<String, Object>(), new HashMap<String, Object>());
         return edorg;
     }
 

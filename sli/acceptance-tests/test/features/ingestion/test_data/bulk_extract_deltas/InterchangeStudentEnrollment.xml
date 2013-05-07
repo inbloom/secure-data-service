@@ -3,6 +3,39 @@
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Midvale_School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SchoolYear>2014-2015</SchoolYear>
+    <EntryDate>2013-09-05</EntryDate>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+    <EntryType>Transfer from a school outside of the country</EntryType>
+    <RepeatGradeIndicator>true</RepeatGradeIndicator>
+    <ClassOf>2015-2016</ClassOf>
+    <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2014-05-31</ExitWithdrawDate>
+    <EducationalPlans>
+      <EducationalPlan>IDEA IEP</EducationalPlan>
+    </EducationalPlans>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Standard</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
         <StudentUniqueStateId>11</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
