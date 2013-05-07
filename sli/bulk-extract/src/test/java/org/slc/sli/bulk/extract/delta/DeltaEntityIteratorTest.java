@@ -127,13 +127,13 @@ public class DeltaEntityIteratorTest {
             DeltaRecord record = iterator.next();
             if (count == 1) {
                 // first one is a spam delete update record
-                assertEquals(record.getBelongsToLEA(), governingLEAs);
+                assertEquals(governingLEAs, record.getBelongsToLEA());
                 assertTrue(record.isSpamDelete());
-                assertEquals(record.getOp(), DeltaEntityIterator.Operation.UPDATE);
+                assertEquals(DeltaEntityIterator.Operation.UPDATE, record.getOp());
             } else if (count == 2) {
-                assertEquals(record.getBelongsToLEA(), null);
+                assertEquals(null, record.getBelongsToLEA());
                 assertFalse(record.isSpamDelete());
-                assertEquals(record.getOp(), DeltaEntityIterator.Operation.DELETE);
+                assertEquals(DeltaEntityIterator.Operation.DELETE, record.getOp());
             }
         }
         assertTrue(count == 2);
