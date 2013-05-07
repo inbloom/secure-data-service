@@ -131,7 +131,7 @@ Scenario: Delete Orphan Objective Assessment From Assessment Metadata with casca
 	|objectiveAssessment                    |        -1|
 	|assessment                             |        -1|
 	|assessment<hollow>                     |        -1|
-	#|recordHash                             |        -1|
+	|recordHash                             |        -1|
 	
 	
 Scenario: Delete Orphan Objective Assessment Reference From Assessment Metadata with cascade = false
@@ -156,7 +156,7 @@ Scenario: Delete Orphan Objective Assessment Reference From Assessment Metadata 
 	|objectiveAssessment                    |        -1|
 	|assessment                             |        -1|
 	|assessment<hollow>                     |        -1|
-	#|recordHash                             |        -1|
+	|recordHash                             |        -1|
 	
 	
 Scenario: Delete Objective Assessment From Assessment Metadata with default settings (Confirm that by default cascade = false, force = true and log violations = true)
@@ -191,7 +191,7 @@ Scenario: Delete Objective Assessment From Assessment Metadata with default sett
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|objectiveAssessment                    |        -1|
-	#|recordHash                             |         -1|
+	|recordHash                             |         -1|
 	
 
 Scenario: Delete Objective Assessment Reference From Assessment Metadata with default settings (Confirm that by default cascade = false, force = true and log violations = true)
@@ -226,4 +226,4 @@ Scenario: Delete Objective Assessment Reference From Assessment Metadata with de
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|objectiveAssessment                    |        -1|
-	#|recordHash                             |         -1|
+	|recordHash                             |         -1|
