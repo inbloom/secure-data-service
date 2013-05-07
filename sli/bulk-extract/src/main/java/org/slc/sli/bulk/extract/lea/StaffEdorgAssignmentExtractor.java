@@ -22,6 +22,7 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -44,7 +45,7 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
 
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new Query());
+        Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
         while (associations.hasNext()) {
             Entity association = associations.next();
             if (!extractorHelper.isStaffAssociationCurrent(association)) {

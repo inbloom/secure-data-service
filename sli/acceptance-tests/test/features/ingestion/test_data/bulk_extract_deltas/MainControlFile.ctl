@@ -1,4 +1,4 @@
-edfi-xml,StudentEnrollment,InterchangeStudentEnrollment.xml,0389301c9351aeb98f00c7920512f722
+edfi-xml,StudentEnrollment,InterchangeStudentEnrollment.xml,529456c2d5667f5c5bc3bb9d85334e3d
 edfi-xml,StudentParent,Students.xml,6c0c66edc66ad514f5c4c111ef3e213f
 edfi-xml,StudentGrades,InterchangeStudentGrades.xml,49e0ee6d809e974e08e4ea21a0207d33
 edfi-xml,StudentAssessment,InterchangeStudentAssessment.xml,2265e5a5808d5420923af4eea1872a5a

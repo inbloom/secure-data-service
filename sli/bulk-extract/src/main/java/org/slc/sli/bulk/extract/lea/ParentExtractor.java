@@ -22,6 +22,7 @@ import java.util.Set;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -38,7 +39,7 @@ public class ParentExtractor implements EntityExtract {
 
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        Iterator<Entity> parents = repo.findEach(EntityNames.PARENT, new Query());
+        Iterator<Entity> parents = repo.findEach(EntityNames.PARENT, new NeutralQuery());
         Set<String> validParents = entityToEdorgCache.getEntityIds();
         while (parents.hasNext()) {
             Entity parent = parents.next();

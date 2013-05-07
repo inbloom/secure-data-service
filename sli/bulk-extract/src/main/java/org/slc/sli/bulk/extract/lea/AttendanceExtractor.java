@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -42,7 +43,7 @@ public class AttendanceExtractor implements EntityExtract {
 
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        Iterator<Entity> attendances = repo.findEach("attendance", new Query());
+        Iterator<Entity> attendances = repo.findEach("attendance", new NeutralQuery());
         while (attendances.hasNext()) {
             Entity attendance = attendances.next();
             Set<String> leas = studentCache.getEntriesById((String) attendance.getBody().get("studentId"));

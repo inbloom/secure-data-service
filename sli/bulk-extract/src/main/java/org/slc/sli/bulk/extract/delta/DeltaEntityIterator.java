@@ -87,7 +87,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     private Queue<DeltaRecord> deleteQueue = new LinkedList<DeltaRecord>();
     
     // the list that we are currently serving
-    private Queue<DeltaRecord> workingQueue = new LinkedList<DeltaRecord>();
+    private Queue<DeltaRecord> workQueue = new LinkedList<DeltaRecord>();
 
     static {
         Map<String, List<String>> requiredDenormalizedFields = new HashMap<String, List<String>>();
@@ -156,14 +156,15 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         return res;
     }
 
+    @SuppressWarnings("rawtypes")
     private DeltaRecord setupNext() {
         if (deltaCursor == null) {
             return null;
         }
 
         // we have existing stuff to serve the call, use it
-        if (!workingQueue.isEmpty()) {
-            return workingQueue.poll();
+        if (!workQueue.isEmpty()) {
+            return workQueue.poll();
         }
         
         String batchedCollection = null;
@@ -195,14 +196,13 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             }
 
             boolean spamDelete = false;
-            Operation op = deletedTime > updatedTime ? Operation.DELETE : Operation.UPDATE;
-            if (op == Operation.DELETE) {
+            if (deletedTime > updatedTime) {
                 Entity deleted = new MongoEntity(collection, id, null, null);
-                deleteQueue.add(new DeltaRecord(deleted, null, op, false, collection));
-                if (deleteQueue.size() == batchSize) {
-                    workingQueue = deleteQueue;
+                deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, collection));
+                if (deleteQueue.size() >= batchSize) {
+                    workQueue = deleteQueue;
                     deleteQueue = new LinkedList<DeltaRecord>();
-                    return workingQueue.poll();
+                    return workQueue.poll();
                 }
             } else { // (op == Operation.UPDATE )
                 if (deletedTime >= lastDeltaTime) {
@@ -230,8 +230,9 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         // I am here because workingQueue is empty, and I either got enough ids to do next batch
         // query, or there is no more delta records that I should just start retrieve entities
         // collection by collection
-        while (workingQueue.isEmpty()) {
-            // populate the work queue
+        while (workQueue.isEmpty()) {
+            // if batchedCollection is null, just pick anything from the ids collection to use to
+            // populate the workqueue
             if (batchedCollection == null) {
                 List<String> keys = new ArrayList<String>(idsForCollection.keySet());
                 if (keys.size() > 0) {
@@ -239,45 +240,61 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 } else {
                     // there is nothing to retrieve anymore,
                     // just set the working queue to delete queue
-                    workingQueue = deleteQueue;
+                    workQueue = deleteQueue;
                     break;
                 }
             }
 
-            workingQueue = new LinkedList<DeltaRecord>();
+            // populate the work queue
+            workQueue = new LinkedList<DeltaRecord>();
             Map<String, Boolean> ids = idsForCollection.remove(batchedCollection);
             ContextResolver resolver = resolverFactory.getResolver(batchedCollection);
-            Iterator<Entity> it = repo.findAll(batchedCollection, buildBatchQuery(batchedCollection, ids.keySet())).iterator();
+            Iterable<Entity> entities = repo.findAll(batchedCollection, buildBatchQuery(batchedCollection, ids.keySet()));
+            if (entities instanceof List) {
+                LOG.debug(String.format("Retrieved %d entities from %s", ((List) entities).size(), batchedCollection));
+            }
             
+            Iterator<Entity> it = entities.iterator();
             while (it.hasNext()) {
                 Entity entity = it.next();
+                // those stuff are deleted with empty bodies around...
+                if (entity.getBody() == null) {
+                    Entity deleted = new MongoEntity(batchedCollection, entity.getEntityId(), null, null);
+                    deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, batchedCollection));
+                    continue;
+                }
+
                 Set<String> topLevelGoverningLEA = resolver.findGoverningLEA(entity);
+
+                Boolean spamDelete = ids.remove(entity.getEntityId());
+                spamDelete = spamDelete != null ? spamDelete : false;
+
                 if (topLevelGoverningLEA != null && !topLevelGoverningLEA.isEmpty()) {
-                    workingQueue.add(new DeltaRecord(entity, topLevelGoverningLEA,
-                            Operation.UPDATE, ids.get(entity.getEntityId()), batchedCollection));
+                    workQueue.add(new DeltaRecord(entity, topLevelGoverningLEA,
+                            Operation.UPDATE, spamDelete, batchedCollection));
                 } else {
                     LOG.debug(String.format("Can not resolve the governing lea for entity: %s", entity.getEntityId()));
                 }
             }
-            
+
+            if (!ids.isEmpty()) {
+                LOG.warn("Entity IDs were in deltas collection, but was not in the result of findAll query: " + ids);
+                // those ids are most likely been deleted as well...
+                for (String id : ids.keySet()) {
+                    Entity deleted = new MongoEntity(batchedCollection, id, null, null);
+                    deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, batchedCollection));
+                }
+            }
+
             // done with this batch
             batchedCollection = null;
         }
         
-        return workingQueue.poll();
+        return workQueue.poll();
     }
 
     NeutralQuery buildBatchQuery(String collection, Set<String> ids) {
         NeutralQuery q = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
-        LOG.info(String.format("Retrieving %d entities from %s", ids.size(), collection));
-        if (REQUIRED_EMBEDDED_FIELDS.containsKey(collection)) {
-            q.setEmbeddedFields(REQUIRED_EMBEDDED_FIELDS.get(collection));
-        }
-        return q;
-    }
-
-    NeutralQuery buildQuery(String collection, String id) {
-        NeutralQuery q = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, id));
         if (REQUIRED_EMBEDDED_FIELDS.containsKey(collection)) {
             q.setEmbeddedFields(REQUIRED_EMBEDDED_FIELDS.get(collection));
         }

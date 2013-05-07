@@ -21,8 +21,8 @@ import java.util.HashSet;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 public class EdorgExtractor implements EntityExtract {
     private LEAExtractFileMap map;
@@ -40,9 +40,8 @@ public class EdorgExtractor implements EntityExtract {
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
         for (String lea : new HashSet<String>(entityToEdorgCache.getEntityIds())) {
             ExtractFile extractFile = map.getExtractFileForLea(lea);
-            Criteria criteria = new Criteria("_id");
-            criteria.in(new ArrayList<String>(entityToEdorgCache.getEntriesById(lea)));
-            Query query = new Query(criteria);
+            NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id",
+                    NeutralCriteria.CRITERIA_IN, new ArrayList<String>(entityToEdorgCache.getEntriesById(lea))));
             extractor.setExtractionQuery(query);
             extractor.extractEntities(extractFile, "educationOrganization");
         }
