@@ -702,6 +702,11 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
+    public Iterator<Entity> findEach(String collectionName, NeutralQuery query) {
+        return null;
+    }
+
+    @Override
     public Iterator<Entity> findEach(String collectionName, Query query) {
         return null;
     }

@@ -72,7 +72,7 @@ public class PurgeProcessor implements Processor {
 
     private final static Set<String> EXCLUDED_COLLECTIONS = new HashSet<String>(Arrays.asList("system.indexes", "system.js",
             "system.namespaces", "system.profile", "system.users", "tenant", "securityEvent", "realm", "application",
-            "roles", "customRole", "deltas"));
+            "roles", "customRole"));
 
     private ReportStats reportStats = null;
 

@@ -40,6 +40,47 @@ When /^the operator triggers a bulk extract for the production tenant$/ do
     executeShellCommand("ssh #{SSH_USER} sudo #{command}")
 end
 
+When /^the operator triggers a delta for the production tenant$/ do
+    executeShellCommand("rm -f \~/.ssh/known_hosts")
+    command = getBulkExtractCommand(PropLoader.getProps['tenant'], " -d")
+    executeShellCommand("ssh #{SSH_USER} sudo #{command}")
+end
+
+When /^I store the URL for the latest delta for the LEA$/ do
+  puts "result body from previous API call is #{@res}"
+  @delta_uri = JSON.parse(@res)
+  @list_url  = @delta_uri["deltaLeas"][@lea][0]["uri"]
+  # @list_irl is in the format https://<url>/api/rest/v1.2/bulk/extract/<lea>/delta/<timestamp>
+  # -> strip off everything before v1.2, store: bulk/extract/<lea>/delta/<timestamp>
+  @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
+  puts "Bulk Extract Delta URI suffix: #{$2}"
+  @list_uri = $2
+  # Get the timestamp from the URL
+  @list_url.match(/delta\/(.*)$/)
+  @delta_file = "delta_#{lea}_#{$1}.tar"
+  # Store directory information for later retrieval
+  @download_path = OUTPUT_DIRECTORY + @delta_file
+  @fileDir = OUTPUT_DIRECTORY + "decrypt"
+  @filePath = @fileDir + "/" + @delta_file
+  @unpackDir = @fileDir
+  @encryptFilePath = @download_path
+end
+
+When /^I PATCH the postalCode for the lea entity to 11999$/ do
+  patch_body = {
+    "address"=>[{"postalCode"=>"11999",
+      "nameOfCounty"=>"Wake",
+      "streetNumberName"=>"111 Ave A",
+      "stateAbbreviation"=>"IL",
+      "addressType"=>"Physical",
+      "city"=>"Chicago"
+    }]
+  }
+
+  restHttpPatch("/v1/educationOrganizations/#{@lea}", prepareData("application/json", patch_body))
+  assert(@res != nil, "Patch failed: Received no response from API.")
+end
+
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
 
   command  = "sh #{TRIGGER_SCRIPT}"
@@ -62,7 +103,7 @@ When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
 
 end
 
-def getBulkExtractCommand(tenant)
+def getBulkExtractCommand(tenant, options="")
    command  = "sh #{TRIGGER_SCRIPT}"
    if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
      command = command + " -Dsli.conf=#{PROPERTIES_FILE}"
@@ -77,7 +118,7 @@ def getBulkExtractCommand(tenant)
      puts "Using extra property:  -f#{JAR_FILE}"
    end
 
-   command = command + " -t#{tenant}"
+   command = command + " -t#{tenant}" + "#{options}"
    puts "Running: #{command} "
    return command
 end

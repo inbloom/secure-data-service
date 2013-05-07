@@ -119,7 +119,7 @@ public class BulkExtractMongoDA {
     public Map<String, PublicKey> getAppPublicKeys() {
         Map<String, PublicKey> appKeys = new HashMap<String, PublicKey>();
 
-        Iterator<Entity> cursor = entityRepository.findEach(APP_AUTH_COLLECTION, new Query());
+        Iterator<Entity> cursor = entityRepository.findEach(APP_AUTH_COLLECTION, new NeutralQuery());
         while(cursor.hasNext()){
             Entity appAuth = cursor.next();
             String appId = (String) appAuth.getBody().get(APP_ID);

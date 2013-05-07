@@ -266,6 +266,11 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     @Override
+    public Iterator<NeutralRecord> findEach(String collectionName, NeutralQuery query) {
+        return null;
+    }
+
+    @Override
     public Iterator<NeutralRecord> findEach(String collectionName, Query query) {
         return null;
     }
