@@ -156,6 +156,13 @@ Then /^I request and download a "(.*?)" extract file for the lea$/ do |arg1|
 end
 
 Then /I get the id for the lea "(.*?)"$/ do |arg1|
-  restHttpGet("/v1/educationOrganizations?stateOrganizationId=#{arg1}", "application/json")
-  @lea = JSON.parse(@res.body)[0]['id']
+  restHttpGet("/v1/educationOrganizations?stateOrganizationId=#{arg1}", "application/json", @sessionId)
+  assert(@res.code == 200)
+  json = JSON.parse(@res.body)
+  puts json
+  if json.is_a? Array
+    @lea = json[0]['id']
+  else
+    @lea = json['id']
+  end
 end
