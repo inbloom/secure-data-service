@@ -196,10 +196,9 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             }
 
             boolean spamDelete = false;
-            Operation op = deletedTime > updatedTime ? Operation.DELETE : Operation.UPDATE;
-            if (op == Operation.DELETE) {
+            if (deletedTime > updatedTime) {
                 Entity deleted = new MongoEntity(collection, id, null, null);
-                deleteQueue.add(new DeltaRecord(deleted, null, op, false, collection));
+                deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, collection));
                 if (deleteQueue.size() >= batchSize) {
                     workQueue = deleteQueue;
                     deleteQueue = new LinkedList<DeltaRecord>();
@@ -258,6 +257,13 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             Iterator<Entity> it = entities.iterator();
             while (it.hasNext()) {
                 Entity entity = it.next();
+                // those stuff are deleted with empty bodies around...
+                if (entity.getBody() == null) {
+                    Entity deleted = new MongoEntity(batchedCollection, entity.getEntityId(), null, null);
+                    deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, batchedCollection));
+                    continue;
+                }
+
                 Set<String> topLevelGoverningLEA = resolver.findGoverningLEA(entity);
 
                 Boolean spamDelete = ids.remove(entity.getEntityId());
@@ -273,6 +279,11 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
 
             if (!ids.isEmpty()) {
                 LOG.warn("Entity IDs were in deltas collection, but was not in the result of findAll query: " + ids);
+                // those ids are most likely been deleted as well...
+                for (String id : ids.keySet()) {
+                    Entity deleted = new MongoEntity(batchedCollection, id, null, null);
+                    deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, batchedCollection));
+                }
             }
 
             // done with this batch
