@@ -559,7 +559,7 @@ end
 When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
   @lea = lea
   @app_id = app_id
-  @client_id = client_id
+  @client_id ||= client_id
 
   query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
   # Get the edorg and timestamp from bulk extract collection in mongo
