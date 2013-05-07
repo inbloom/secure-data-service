@@ -157,5 +157,5 @@ end
 
 Then /I get the id for the lea "(.*?)"$/ do |arg1|
   restHttpGet("/v1/educationOrganizations?stateOrganizationId=#{arg1}", "application/json")
-  @lea = JSON.parse(@res.body)['id']
+  @lea = JSON.parse(@res.body)[0]['id']
 end
