@@ -29,6 +29,7 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -61,7 +62,7 @@ public class ParentExtractorTest {
     
     @Test
     public void testWriteOneEntity() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.PARENT), Mockito.eq(new Query()))).thenReturn(
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.PARENT), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity).iterator());
         extractor.extractEntities(mockParentCache);
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
@@ -70,7 +71,7 @@ public class ParentExtractorTest {
     
     @Test
     public void testWriteManyEntities() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.PARENT), Mockito.eq(new Query()))).thenReturn(
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.PARENT), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity, mockEntity, mockEntity).iterator());
         extractor.extractEntities(mockParentCache);
         Mockito.verify(mockExtractor, Mockito.times(3)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
@@ -79,7 +80,7 @@ public class ParentExtractorTest {
     
     @Test
     public void testExtractNoEntityBecauseOfLEAMiss() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.PARENT), Mockito.eq(new Query()))).thenReturn(
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.PARENT), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);
         extractor.extractEntities(mockParentCache);
@@ -90,7 +91,7 @@ public class ParentExtractorTest {
     @Test
     public void testExtractNoEntityBecauseOfIdMiss() {
         Mockito.when(mockEntity.getEntityId()).thenReturn("parent2");
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.PARENT), Mockito.eq(new Query()))).thenReturn(
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.PARENT), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
         extractor.extractEntities(mockParentCache);

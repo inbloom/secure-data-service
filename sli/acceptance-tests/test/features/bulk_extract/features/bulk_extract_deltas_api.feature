@@ -147,6 +147,35 @@ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And The "educationOrganization" delta was extracted in the same format as the api
 
+Scenario: Update an existing education organization through the API and perform delta
+Given I clean the bulk extract file system and database
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"   
+ When I PUT the "postalCode" for a "school" entity to "11012"
+ Then I should receive a return code of 204
+ When I trigger a delta extract
+
+Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+  And in my list of rights I have BULK_EXTRACT
+  When I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
+  When I get back a response code of "200"
+  When I store the URL for the latest delta for LEA "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+  When the number of returned URLs is correct:
+  |   fieldName  | count |
+  |   fullLeas   |  0    |
+  |   deltaLeas  |  1    |
+  When I request listed delta via API for "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+  Then I should receive a return code of 200
+  #And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I download and decrypt the delta
+  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+  |  entityType                            |
+  |  educationOrganization                 |
+  |  school                                |
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And The "educationOrganization" delta was extracted in the same format as the api
+  And The "school" delta was extracted in the same format as the api
+
 Scenario: Update an existing edOrg with invalid API call, verify no delta created
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
