@@ -7,7 +7,8 @@ JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 SSH_USER = PropLoader.getProps['ssh_user']
 EXTRACT_TO_DIRECTORY = PropLoader.getProps['extract_to_directory']
 
-Dir["./test/features/bulk_extract/features/step_definitions/*.rb"].each {|file| require file}
+require 'archive/tar/minitar'
+include Archive::Tar
 
 Given /^the extraction zone is empty$/ do
     if (Dir.exists?(OUTPUT_DIRECTORY))
