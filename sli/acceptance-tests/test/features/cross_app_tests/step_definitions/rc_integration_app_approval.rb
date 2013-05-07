@@ -159,6 +159,7 @@ Then /I get the id for the lea "(.*?)"$/ do |arg1|
   restHttpGet("/v1/educationOrganizations?stateOrganizationId=#{arg1}", "application/json", @sessionId)
   assert(@res.code == 200)
   json = JSON.parse(@res.body)
+  puts @res.headers
   puts json
   if json.is_a? Array
     @lea = json[0]['id']
