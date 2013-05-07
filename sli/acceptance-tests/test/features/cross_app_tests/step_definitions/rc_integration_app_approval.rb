@@ -140,9 +140,10 @@ Then /^I request and download a bulk extract file$/ do
   assert(File.exists?(@filePath), "Bulk Extract file was unable to be download to: #{@filePath.to_s}")
 end
 
-Then /^I request and download a bulk extract file for the lea$/ do |arg1|
+Then /^I request and download a "(.*?)" extract file for the lea$/ do |arg1|
   env_key = PropLoader.getProps['rc_env']
-  restTls("/bulk/extract/#{@lea}", nil, "application/x-tar", @sessionId, env_key)
+  restTls("/bulk/extract/#{@lea}", nil, "application/x-tar", @sessionId, env_key) if arg1 == "bulk"
+  restTls("/#{@list_uri}", nil, "application/x-tar", @sessionId, env_key) if arg1 == "delta"
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
   @filePath = OUTPUT_DIRECTORY + "/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
