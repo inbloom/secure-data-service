@@ -19,14 +19,13 @@
  */
 package org.slc.sli.bulk.extract.lea;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
-
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -51,11 +50,12 @@ public class StudentExtractor implements EntityExtract {
         this.studentCache = studentCache;
         this.parentCache = parentCache;
     }
+
     /* (non-Javadoc)
      * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(java.util.Map)
      */
     @Override
-    public void extractEntities(Map<String, Set<String>> leaToEdorgCache) {
+    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
         Iterator<Entity> cursor = repo.findEach("student", new Query());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
@@ -85,6 +85,10 @@ public class StudentExtractor implements EntityExtract {
     
     public EntityToLeaCache getEntityCache() {
         return studentCache;
+    }
+    
+    public EntityToLeaCache getParentCache() {
+        return parentCache;
     }
 
 

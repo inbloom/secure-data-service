@@ -18,8 +18,6 @@ package org.slc.sli.bulk.extract.lea;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
@@ -34,16 +32,16 @@ public class EdorgExtractor implements EntityExtract {
         this.extractor = extractor;
         this.map = map;
     }
-    
+
     /* (non-Javadoc)
      * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(java.util.Map)
      */
     @Override
-    public void extractEntities(Map<String, Set<String>> leaToEdorgCache) {
-        for (String lea : new HashSet<String>(leaToEdorgCache.keySet())) {
+    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        for (String lea : new HashSet<String>(entityToEdorgCache.getEntityIds())) {
             ExtractFile extractFile = map.getExtractFileForLea(lea);
             Criteria criteria = new Criteria("_id");
-            criteria.in(new ArrayList<String>(leaToEdorgCache.get(lea)));
+            criteria.in(new ArrayList<String>(entityToEdorgCache.getEntriesById(lea)));
             Query query = new Query(criteria);
             extractor.setExtractionQuery(query);
             extractor.extractEntities(extractFile, "educationOrganization");

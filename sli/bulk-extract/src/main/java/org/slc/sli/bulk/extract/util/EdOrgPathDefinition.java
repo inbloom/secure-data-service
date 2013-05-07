@@ -17,7 +17,8 @@
 package org.slc.sli.bulk.extract.util;
 
 /**
- * User: ablum
+ * A definition for each entity and the path to a field that references an EdOrg entity.
+ * @author ablum
  */
 public enum EdOrgPathDefinition {
 
@@ -37,10 +38,18 @@ public enum EdOrgPathDefinition {
         this.edOrgRefField = edOrgRefField;
     }
 
+    /**
+     * Gets the name of the entity.
+     * @return the name of the entity
+     */
     public String getEntityName() {
         return entityName;
     }
 
+    /**
+     * Gets the fieldname path for the EdOrg Reference in the entity.
+     * @return edOrgRefField
+     */
     public String getEdOrgRefField() {
         return edOrgRefField;
     }

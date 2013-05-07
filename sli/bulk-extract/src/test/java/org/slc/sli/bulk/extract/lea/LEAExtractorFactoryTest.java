@@ -59,4 +59,10 @@ public class LEAExtractorFactoryTest {
         Assert.assertTrue(factory.buildStudentExtractor(null, null, null) != null);
         Assert.assertTrue(factory.buildStudentExtractor(null, null, null).getClass() == StudentExtractor.class);
     }
+    
+    @Test
+    public void testBuildStudentAssessmentExtractor() {
+        Assert.assertTrue(factory.buildStudentAssessmentExtractor(null, null, null) != null);
+        Assert.assertTrue(factory.buildStudentAssessmentExtractor(null, null, null).getClass() == StudentAssessmentExtractor.class);
+    }
 }

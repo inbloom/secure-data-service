@@ -16,6 +16,11 @@
 
 package org.slc.sli.bulk.extract.lea;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,11 +30,6 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class ExtractorHelperTest {
@@ -114,4 +114,15 @@ public class ExtractorHelperTest {
         Assert.assertTrue(helper.fetchCurrentParentsFromStudent(mockEntity).size() == 2);
     }
 
+    @Test
+    public void testIsStaffAssignmentCurrent() {
+        Map<String, Object> entityBody = new HashMap<String, Object>();
+        Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
+        
+        Mockito.when(mockHelper.isFieldExpired(entityBody, ParameterConstants.END_DATE)).thenReturn(true);
+        Assert.assertFalse(helper.isStaffAssociationCurrent(mockEntity));
+        
+        Mockito.when(mockHelper.isFieldExpired(entityBody, ParameterConstants.END_DATE)).thenReturn(false);
+        Assert.assertTrue(helper.isStaffAssociationCurrent(mockEntity));
+    }
 }
