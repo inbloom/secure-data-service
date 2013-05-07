@@ -33,20 +33,16 @@
         <jb:value property="finalLetterGradeEarned" data="attributes FinalLetterGradeEarned _value"/>
         <jb:value property="finalNumericGradeEarned" data="attributes FinalNumericGradeEarned _value" decoder="Integer"/>
         <jb:value property="courseRepeatCode" data="attributes CourseRepeatCode _value"/>
-        <jb:expression property="gradeType" execOnElement="attributes">
-	   'Final' 
-	</jb:expression>
 	<jb:wiring property="gradeType" beanIdRef="gradeTypeValue"/>
+	<jb:wiring property="gradeType" beanIdRef="gradeTypeValueFixed"/>
+	<jb:expression property="gradeType" execOnElement="attributes">
+	    GradeType != null ? GradeType.typeValue : 'Final' 
+	</jb:expression>
         <jb:value property="courseId" data="attributes CourseReference"/>
 	    <jb:wiring property="educationOrganizationReference" beanIdRef="CourseTranscript_EdOrgReferenceArray"/>
         <jb:value property="studentAcademicRecordId" data="attributes StudentAcademicRecordReference"/>
         <jb:value property="studentId" data="attributes DiDResolved_StudentReference"/>
     </jb:bean>
-
- <jb:bean beanId="gradeTypeValue" class="java.util.Hashtable" createOnElement="attributes">
-     <condition>VARS.isdef("GradeType")</condition>
-     <jb:value property="gradeType" data="attributes GradeType _value"/>
- </jb:bean>
 
     
     <jb:bean beanId="CreditsAttempted" class="java.util.HashMap" createOnElement="attributes CreditsAttempted">
@@ -72,6 +68,10 @@
     <jb:bean beanId="AdditionalCredit" class="java.util.HashMap" createOnElement="attributes AdditionalCreditsEarned element">
         <jb:value property="credit" data="attributes AdditionalCreditsEarned element Credit _value" decoder="Float"/>
         <jb:value property="additionalCreditType" data="attributes AdditionalCreditsEarned element a_AdditionalCreditType"/>
+    </jb:bean>
+
+    <jb:bean beanId="GradeType" class="java.util.HashMap" createOnElement="attributes GradeType">
+      <jb:value property="typeValue" data="attributes GradeType _value" />
     </jb:bean>
 
 </smooks-resource-list>
