@@ -26,10 +26,10 @@ import java.util.Map;
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Query;
 
 
 /**
@@ -46,7 +46,7 @@ public class EntityExtractor{
 
     private EntityWriterManager writer;
 
-    private Query extractionQuery;
+    private NeutralQuery extractionQuery;
 
     /**
      * extract all the records of entity.
@@ -59,7 +59,7 @@ public class EntityExtractor{
     public void extractEntities(ExtractFile archiveFile, String collectionName) {
         try {
             if (extractionQuery == null) {
-                extractionQuery = new Query();
+                extractionQuery = new NeutralQuery();
             }
             Iterator<Entity> cursor = entityRepository.findEach(collectionName, extractionQuery);
             if (cursor.hasNext()) {
@@ -148,7 +148,7 @@ public class EntityExtractor{
      *
      * @param extractionQuery
      */
-    public void setExtractionQuery(Query extractionQuery) {
+    public void setExtractionQuery(NeutralQuery extractionQuery) {
         this.extractionQuery = extractionQuery;
     }
 

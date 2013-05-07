@@ -112,17 +112,12 @@ public class PurgeProcessorTest {
 
         Set<String> collectionNames = new HashSet<String>();
         collectionNames.add("student");
-        collectionNames.add("deltas");
 
         Mockito.when(mongoTemplate.getCollectionNames()).thenReturn(collectionNames);
 
         DBCollection studentCollection = Mockito.mock(DBCollection.class);
 
         Mockito.when(mongoTemplate.getCollection(Mockito.eq("student"))).thenReturn(studentCollection);
-
-        DBCollection deltasCollection = Mockito.mock(DBCollection.class);
-
-        Mockito.when(mongoTemplate.getCollection(Mockito.eq("deltas"))).thenReturn(deltasCollection);
 
         DBCursor cursor = Mockito.mock(DBCursor.class);
 
@@ -146,7 +141,6 @@ public class PurgeProcessorTest {
         purgeProcessor.process(ex);
 
         Mockito.verify(studentCollection, Mockito.atLeast(2)).remove(Mockito.any(DBObject.class));
-        Mockito.verify(deltasCollection, Mockito.never()).remove(Mockito.any(DBObject.class));
     }
 
     @Test
