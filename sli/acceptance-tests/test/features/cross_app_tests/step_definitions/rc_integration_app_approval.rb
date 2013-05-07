@@ -130,7 +130,7 @@ Then /^I request and download a bulk extract file$/ do
   env_key = PropLoader.getProps['rc_env']
   restTls("/bulk/extract/tenant", nil, "application/x-tar", @sessionId, env_key)
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
-  @filePath = OUTPUT_DIRECTORY + "/extract.tar"
+  @filePath = PropLoader.getProps['extract_to_directory'] + "/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
   if (!File.exists?("extract"))
       FileUtils.mkdir("extract")
