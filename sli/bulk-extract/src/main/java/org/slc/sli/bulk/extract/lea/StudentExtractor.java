@@ -87,6 +87,10 @@ public class StudentExtractor implements EntityExtract {
     public EntityToLeaCache getEntityCache() {
         return studentCache;
     }
+    
+    public EntityToLeaCache getParentCache() {
+        return parentCache;
+    }
 
 
 }

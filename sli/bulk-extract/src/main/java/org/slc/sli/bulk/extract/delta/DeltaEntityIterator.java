@@ -15,13 +15,16 @@
  */
 package org.slc.sli.bulk.extract.delta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -29,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
@@ -53,16 +57,19 @@ import org.slc.sli.domain.Repository;
 public class DeltaEntityIterator implements Iterator<DeltaRecord> {
 
     private static final Logger LOG = LoggerFactory.getLogger(DeltaEntityIterator.class);
+    
+    @Value("${sli.bulk.extract.deltasBatchSize:100}")
+    private int batchSize;
 
     @Autowired
-    EdOrgContextResolverFactory resolverFactory;
+    private EdOrgContextResolverFactory resolverFactory;
 
     @Autowired
     @Qualifier("secondaryRepo")
-    Repository<Entity> repo;
+    private Repository<Entity> repo;
 
     @Autowired
-    DeltaJournal deltaJournal;
+    private DeltaJournal deltaJournal;
 
     private DeltaRecord nextDelta;
 
@@ -71,6 +78,16 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     private long lastDeltaTime;
 
     private final static Map<String, List<String>> REQUIRED_EMBEDDED_FIELDS;
+    
+    // the Map<String, Boolean> is a map of entityId:isSpamDelete, must record the
+    // spamDelete information before it's lost
+    private Map<String, Map<String, Boolean>> idsForCollection = new HashMap<String, Map<String, Boolean>>();
+    
+    // a queue of stuff that we need to delete
+    private Queue<DeltaRecord> deleteQueue = new LinkedList<DeltaRecord>();
+    
+    // the list that we are currently serving
+    private Queue<DeltaRecord> workingQueue = new LinkedList<DeltaRecord>();
 
     static {
         Map<String, List<String>> requiredDenormalizedFields = new HashMap<String, List<String>>();
@@ -144,6 +161,14 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             return null;
         }
 
+        // we have existing stuff to serve the call, use it
+        if (!workingQueue.isEmpty()) {
+            return workingQueue.poll();
+        }
+        
+        String batchedCollection = null;
+
+        // populate the id lists so we can do query in batch
         while (deltaCursor.hasNext()) {
             Map<String, Object> delta = deltaCursor.next();
             long deletedTime = -1;
@@ -173,29 +198,82 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             Operation op = deletedTime > updatedTime ? Operation.DELETE : Operation.UPDATE;
             if (op == Operation.DELETE) {
                 Entity deleted = new MongoEntity(collection, id, null, null);
-                return new DeltaRecord(deleted, null, op, false, collection);
-            }
-
-            if (op == Operation.UPDATE && deletedTime >= lastDeltaTime) {
-                // this entity's last operation is update, but has a delete that occured within the
-                // delta window which means this entity has been removed from one LEA and possibly
-                // moved to another, need to spam this delete to all
-                spamDelete = true;
-            }
-
-
-            Entity entity = repo.findOne(collection, buildQuery(collection, id));
-            Set<String> topLevelGoverningLEA = null;
-            if (entity != null) {
-                topLevelGoverningLEA = resolver.findGoverningLEA(entity);
-            }
-
-            if (topLevelGoverningLEA != null && !topLevelGoverningLEA.isEmpty()) {
-                return new DeltaRecord(entity, topLevelGoverningLEA, op, spamDelete, collection);
+                deleteQueue.add(new DeltaRecord(deleted, null, op, false, collection));
+                if (deleteQueue.size() == batchSize) {
+                    workingQueue = deleteQueue;
+                    deleteQueue = new LinkedList<DeltaRecord>();
+                    return workingQueue.poll();
+                }
+            } else { // (op == Operation.UPDATE )
+                if (deletedTime >= lastDeltaTime) {
+                    // this entity's last operation is update, but has a delete that occured within the
+                    // delta window which means this entity has been removed from one LEA and possibly
+                    // moved to another, need to spam this delete to all
+                    spamDelete = true;
+                }
+                
+                if (!idsForCollection.containsKey(collection)) {
+                    Map<String, Boolean> idList = new HashMap<String, Boolean>(batchSize);
+                    idsForCollection.put(collection, idList);
+                }
+                
+                Map<String, Boolean> ids = idsForCollection.get(collection);
+                ids.put(id, spamDelete);
+                
+                if (ids.size() >= batchSize) {
+                    batchedCollection = collection;
+                    break;
+                }
             }
         }
+        
+        // I am here because workingQueue is empty, and I either got enough ids to do next batch
+        // query, or there is no more delta records that I should just start retrieve entities
+        // collection by collection
+        while (workingQueue.isEmpty()) {
+            // populate the work queue
+            if (batchedCollection == null) {
+                List<String> keys = new ArrayList<String>(idsForCollection.keySet());
+                if (keys.size() > 0) {
+                    batchedCollection = keys.get(0);
+                } else {
+                    // there is nothing to retrieve anymore,
+                    // just set the working queue to delete queue
+                    workingQueue = deleteQueue;
+                    break;
+                }
+            }
 
-        return null;
+            workingQueue = new LinkedList<DeltaRecord>();
+            Map<String, Boolean> ids = idsForCollection.remove(batchedCollection);
+            ContextResolver resolver = resolverFactory.getResolver(batchedCollection);
+            Iterator<Entity> it = repo.findAll(batchedCollection, buildBatchQuery(batchedCollection, ids.keySet())).iterator();
+            
+            while (it.hasNext()) {
+                Entity entity = it.next();
+                Set<String> topLevelGoverningLEA = resolver.findGoverningLEA(entity);
+                if (topLevelGoverningLEA != null && !topLevelGoverningLEA.isEmpty()) {
+                    workingQueue.add(new DeltaRecord(entity, topLevelGoverningLEA,
+                            Operation.UPDATE, ids.get(entity.getEntityId()), batchedCollection));
+                } else {
+                    LOG.debug(String.format("Can not resolve the governing lea for entity: %s", entity.getEntityId()));
+                }
+            }
+            
+            // done with this batch
+            batchedCollection = null;
+        }
+        
+        return workingQueue.poll();
+    }
+
+    NeutralQuery buildBatchQuery(String collection, Set<String> ids) {
+        NeutralQuery q = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
+        LOG.info(String.format("Retrieving %d entities from %s", ids.size(), collection));
+        if (REQUIRED_EMBEDDED_FIELDS.containsKey(collection)) {
+            q.setEmbeddedFields(REQUIRED_EMBEDDED_FIELDS.get(collection));
+        }
+        return q;
     }
 
     NeutralQuery buildQuery(String collection, String id) {

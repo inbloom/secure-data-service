@@ -9,6 +9,7 @@ rc_env: "picard"
 admintools_server_url: "https://picard-admin.slidev.org"
 minisb_admintools_server_url: "https://picardsandbox.slidev.org"
 api_server_url: "https://picard-api.slidev.org"
+api_ssl_server_url: "https://picard-api.slidev.org"
 databrowser_server_url: "https://picard-databrowser.slidev.org"
 
 ingestion_db: "localhost"
