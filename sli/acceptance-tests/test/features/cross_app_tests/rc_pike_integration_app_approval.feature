@@ -221,7 +221,7 @@ When I navigate to the API token endpoint with my client ID, secret, authorizati
 Then I should receive a json response containing my authorization token
 #Get bulk extract tar file
 Then there is no bulk extract files in the local directory
-And I request and download a "bulk" extract file
+And I request and download a bulk extract file
 And there is a metadata file in the extract
 And the extract contains a file for each of the following entities:
    |  entityType                            |
