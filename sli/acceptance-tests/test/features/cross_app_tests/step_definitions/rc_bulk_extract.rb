@@ -57,7 +57,7 @@ When /^I store the URL for the latest delta for the LEA$/ do
   @list_uri = $2
   # Get the timestamp from the URL
   @list_url.match(/delta\/(.*)$/)
-  @delta_file = "delta_#{lea}_#{$1}.tar"
+  @delta_file = "delta_#{@lea}_#{$1}.tar"
   # Store directory information for later retrieval
   @download_path = OUTPUT_DIRECTORY + @delta_file
   @fileDir = OUTPUT_DIRECTORY + "decrypt"
@@ -67,11 +67,27 @@ When /^I store the URL for the latest delta for the LEA$/ do
 end
 
 When /^I PATCH the postalCode for the lea entity to 11999$/ do
+  restHttpGet("/v1/educationOrganizations/#{@lea}/schools")
+  puts "result from '/v1/educationOrganizations/#{@lea}/schools' is #{@res}"
+  assert(@res.code == 200, "Response from GET '/v1/educationOrganizations/#{@lea}/schools' is #{@res.code}, expected 200")
+  json = JSON.parse(@res.body)
+  if json.is_a? Array
+    school_id = json[0]['id']
+  else
+    school_id = json['id']
+  end
   patch_body = {
-    "address"=>[{"postalCode"=>"11999"}]
+    "address" => [{"postalCode" => "11999",
+    "nameOfCounty" => "Wake",
+    "streetNumberName" => "111 Ave A",
+    "stateAbbreviation" => "IL",
+    "addressType" => "Physical",
+    "city" => "Chicago"}]
   }
-  puts "PATCHing body #{patch_body} to /v1/educationOrganizations/#{@lea}"
-  restHttpPatch("/v1/educationOrganizations/#{@lea}", prepareData("application/json", patch_body))
+  @format = "application/json"
+  puts "PATCHing body #{patch_body} to /v1/educationOrganizations/#{school_id}"
+  restHttpPatch("/v1/educationOrganizations/#{school_id}", prepareData(@format, patch_body), @format)
+  puts @res
   assert(@res != nil, "Patch failed: Received no response from API.")
 end
 
