@@ -16,25 +16,18 @@
 
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
-public class EducationOrganizationContextResolver implements ContextResolver {
+public class EducationOrganizationContextResolver extends ReferrableResolver {
     /*
      * TODO: REMOVE THIS CLASS
      *
@@ -49,12 +42,6 @@ public class EducationOrganizationContextResolver implements ContextResolver {
      */
 
     private static final Logger LOG = LoggerFactory.getLogger(EducationOrganizationContextResolver.class);
-
-    @Autowired
-    @Qualifier("secondaryRepo")
-    private Repository<Entity> repo;
-    
-    private final Map<String, Set<String>> cache = new HashMap<String, Set<String>>();
 
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
@@ -81,15 +68,6 @@ public class EducationOrganizationContextResolver implements ContextResolver {
         return results;
     }
     
-    public Set<String> findGoverningLEA(String id) {
-        if(getCache().containsKey(id)) {
-            LOG.debug("got LEAs from cache for {}", id);
-            return getCache().get(id);
-        }
-        Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
-        return findGoverningLEA(entity);
-    }
-
     @SuppressWarnings("unchecked")
     private boolean isLEA(Entity entity) {
         if (entity == null) {
@@ -120,7 +98,7 @@ public class EducationOrganizationContextResolver implements ContextResolver {
 
     private Entity getTopLEAOfEdOrg(Entity entity) {
         if (entity.getBody().containsKey("parentEducationAgencyReference")) {
-            Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
+            Entity parentEdorg = getRepo().findById(EntityNames.EDUCATION_ORGANIZATION,
                     (String) entity.getBody().get("parentEducationAgencyReference"));
             if (isLEA(parentEdorg)) {
                 return getTopLEAOfEdOrg(parentEdorg);
@@ -134,8 +112,9 @@ public class EducationOrganizationContextResolver implements ContextResolver {
         return null;
     }
 
-    Map<String, Set<String>> getCache() {
-        return cache;
+    @Override
+    public String getCollection() {
+        return EntityNames.EDUCATION_ORGANIZATION;
     }
 
 }
