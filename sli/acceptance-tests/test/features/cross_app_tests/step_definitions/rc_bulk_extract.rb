@@ -67,10 +67,25 @@ When /^I store the URL for the latest delta for the LEA$/ do
 end
 
 When /^I PATCH the postalCode for the lea entity to 11999$/ do
+  restHttpGet("/v1/schools")
+  puts "result from '/v1/schools' is #{@res}"
+  assert(@res.code == 200, "Response from GET '/v1/schools' is #{@res.code}, expected 200")
+  json = JSON.parse(@res.body)
+  if json.is_a? Array
+    school_id = json[0]['id']
+  else
+    school_id = json['id']
+  end
   patch_body = {
-    "address"=>[{"postalCode"=>"11999"}]
+    "address" => [{"postalCode" => "11999",
+    "nameOfCounty" => "Wake",
+    "streetNumberName" => "111 Ave A",
+    "stateAbbreviation" => "IL",
+    "addressType" => "Physical",
+    "city" => "Chicago"}]
   }
-  puts "PATCHing body #{patch_body} to /v1/educationOrganizations/#{@lea}"
+ 
+  puts "PATCHing body #{patch_body} to /v1/educationOrganizations/#{school_id}"
   restHttpPatch("/v1/educationOrganizations/#{@lea}", prepareData("application/json", patch_body))
   assert(@res != nil, "Patch failed: Received no response from API.")
 end
