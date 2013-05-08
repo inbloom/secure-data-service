@@ -339,7 +339,8 @@ Given the pre-existing bulk extrac testing app key has been created
   When I PATCH the postalCode for the lea entity to 11999
   Then I should receive a return code of 204
   When the operator triggers a delta for the production tenant
-   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
+   #And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
+   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "picard"
    And I get back a response code of "200"
    And I store the URL for the latest delta for the LEA
    And the number of returned URLs is correct:
