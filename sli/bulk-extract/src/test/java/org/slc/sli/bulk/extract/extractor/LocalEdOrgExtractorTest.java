@@ -127,6 +127,17 @@ public class LocalEdOrgExtractorTest {
         Mockito.when(
                 mockFactory.buildTeacherSchoolExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
                         Mockito.any(Repository.class))).thenReturn(mockExtract);
+        
+        Mockito.when(
+                mockFactory.buildStudentAssessmentExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
+                        Mockito.any(Repository.class))).thenReturn(mockExtract);
+        
+        Mockito.when(
+                mockFactory.buildYearlyTranscriptExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
+                        Mockito.any(Repository.class))).thenReturn(mockExtract);
+        Mockito.when(
+                mockFactory.buildParentExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
+                        Mockito.any(Repository.class))).thenReturn(mockExtract);
 
 
     }
@@ -176,7 +187,7 @@ public class LocalEdOrgExtractorTest {
 
     	extractor.execute("Midgar", tenantDir, new DateTime());
         Mockito.verify(entityExtractor, Mockito.times(3)).extractEntities(Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION));
-        Mockito.verify(entityExtractor, Mockito.times(3)).setExtractionQuery(Mockito.any(Query.class));
+        Mockito.verify(entityExtractor, Mockito.times(3)).setExtractionQuery(Mockito.any(NeutralQuery.class));
 
     }
     

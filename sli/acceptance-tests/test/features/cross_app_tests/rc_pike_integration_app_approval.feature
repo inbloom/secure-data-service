@@ -93,53 +93,7 @@ Then the "BulkExtractApp" is enabled for Districts
 And I exit out of the iframe
 And I click on log out
 
-Scenario: SLC Operator Denies Application Registration
-When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
-And under System Tools, I click on "Approve Application Registration"
-And I switch to the iframe
-Then I am redirected to the Application Approval Tool page
-And I see all the applications registered on SLI
-#And I see all the applications pending registration
-#And the pending apps are on top
-When I click on 'Deny' next to application "BulkExtractApp"
-And I get a dialog asking if I want to continue
-When I click 'Yes'
-Then application "BulkExtractApp" is not registered
-And application "BulkExtractApp" is removed from the list
-And I exit out of the iframe
-And I click on log out
-
-Scenario: App developer enables Bulk Extract App Again
-When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom App Developer"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
-Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
-And under System Tools, I click on "Register Application"
-And I switch to the iframe
-Then I am redirected to the Application Registration Tool page
-And I see an application "BulkExtractApp" in the table
-And the client ID and shared secret fields are present
-And I clicked on the button Edit for the application "BulkExtractApp"
-Then I can see the on-boarded states
-When I select the state "Standard State Education Agency"
-Then I see all of the Districts
-Then I check the Districts
-When I click on Save
-Then the "BulkExtractApp" is enabled for Districts
-And I exit out of the iframe
-And I click on log out
-
+@wip @ThisStepIsNotYetNeededSinceAutoApproveAppsIsStillTrueInRC
 Scenario: SLC Operator Approves Application Registration
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom"
@@ -253,6 +207,7 @@ And under My Applications, I see the following apps: "inBloom Dashboards"
 Scenario: Operator triggers a bulk extract
 Given the production extraction zone is empty
 And the operator triggers a bulk extract for the production tenant
+And the operator triggers a delta for the production tenant
 
 Scenario: App makes an api call to retrieve a bulk extract
 #Get a session to trigger a bulk extract
@@ -309,3 +264,88 @@ And the extract contains a file for each of the following entities:
    |  teacher                               |
    |  teacherSchoolAssociation              |
    |  teacherSectionAssociation             |
+
+
+   Scenario: App makes an api call to retrieve an lea level bulk extract
+   #Get a session to trigger a bulk extract
+   Given the pre-existing bulk extrac testing app key has been created
+   When I navigate to the API authorization endpoint with my client ID
+   When I select "Daybreak Test Realm" and click go
+   And I was redirected to the "Simple" IDP Login page
+   When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+   Then I should receive a json response containing my authorization code
+   When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+   Then I should receive a json response containing my authorization token
+   Then I get the id for the lea "IL-DAYBREAK"
+   #Get bulk extract tar file
+   Then there is no bulk extract files in the local directory
+   And I request and download a "bulk" extract file for the lea
+   And there is a metadata file in the extract
+   And the extract contains a file for each of the following entities:
+      |  entityType                            |
+      # |  assessment                            |
+      |  attendance                            |
+      # |  cohort                                |
+      # |  course                                |
+      # |  courseTranscript                      |
+      # |  courseOffering                        |
+      # |  disciplineIncident                    |
+      # |  disciplineAction                      |
+      |  educationOrganization                 |
+      |  grade                                 |
+      # |  gradebookEntry                        |
+      # |  gradingPeriod                         |
+      # |  learningObjective                     |
+      # |  learningStandard                      |
+      |  parent                                |
+      # |  program                               |
+      |  reportCard                            |
+      |  school                                |
+      # |  section                               |
+      # |  session                               |
+      |  staff                                 |
+      # |  staffCohortAssociation                |
+      |  staffEducationOrganizationAssociation |
+      # |  staffProgramAssociation               |
+      |  student                               |
+      |  studentAcademicRecord                 |
+      |  studentAssessment                     |
+      |  studentCohortAssociation              |
+      # |  studentCompetency                     |
+      # |  studentCompetencyObjective            |
+      |  studentDisciplineIncidentAssociation  |
+      |  studentProgramAssociation             |
+      # |  studentGradebookEntry                 |
+      |  studentSchoolAssociation              |
+      # |  studentSectionAssociation             |
+      |  studentParentAssociation              |
+      |  teacher                               |
+      |  teacherSchoolAssociation              |
+      # |  teacherSectionAssociation             |
+
+Scenario: App makes an api call to retrieve a bulk extract delta
+#Get a session to trigger a bulk extract
+Given the pre-existing bulk extrac testing app key has been created
+  When I navigate to the API authorization endpoint with my client ID
+   And I select "Daybreak Test Realm" and click go
+   And I was redirected to the "Simple" IDP Login page
+  When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+  Then I should receive a json response containing my authorization code
+  When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+  Then I should receive a json response containing my authorization token
+   And there is no bulk extract files in the local directory 
+ 
+  Then I get the id for the lea "IL-DAYBREAK"
+  When I PATCH the postalCode for the lea entity to 11999
+  Then I should receive a return code of 204
+  When the operator triggers a delta for the production tenant
+   #And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
+   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "picard"
+   And I get back a response code of "200"
+   And I store the URL for the latest delta for the LEA
+   And the number of returned URLs is correct:
+   |   fieldName  | count |
+   |   fullLeas   |  1    |
+   |   deltaLeas  |  1    |
+   And I request and download a "delta" extract file for the lea
+   And there is a metadata file in the extract

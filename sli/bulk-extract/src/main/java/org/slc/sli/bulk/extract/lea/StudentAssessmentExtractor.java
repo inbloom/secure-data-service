@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+/**
+ * 
+ */
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
@@ -21,33 +24,39 @@ import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 
-public class StaffExtractor implements EntityExtract {
+/**
+ * @author rlatta
+ *
+ */
+public class StudentAssessmentExtractor implements EntityExtract {
     private EntityExtractor extractor;
     private LEAExtractFileMap map;
     private Repository<Entity> repo;
     
-    public StaffExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+    public StudentAssessmentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+        this.repo = repo;
         this.extractor = extractor;
         this.map = map;
-        this.repo = repo;
     }
 
+    /* (non-Javadoc)
+     * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(org.slc.sli.bulk.extract.lea.EntityToLeaCache)
+     */
     @Override
-    public void extractEntities(EntityToLeaCache staffToEdorgCache) {
-        Iterator<Entity> staffs = repo.findEach(EntityNames.STAFF, new NeutralQuery());
-        while (staffs.hasNext()) {
-            Entity staff = staffs.next();
-            Set<String> leas = staffToEdorgCache.getEntriesById(staff.getEntityId());
-            if (leas == null || leas.size() == 0) {
-                continue;
-            }
-            for (String lea : leas) {
-                extractor.extractEntity(staff, map.getExtractFileForLea(lea), EntityNames.STAFF);
+    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        Iterator<Entity> assessments = repo.findEach(EntityNames.STUDENT_ASSESSMENT, new NeutralQuery());
+        while (assessments.hasNext()) {
+            Entity assessment = assessments.next();
+            String studentId = (String) assessment.getBody().get(ParameterConstants.STUDENT_ID);
+            Set<String> studentLeas = entityToEdorgCache.getEntriesById(studentId);
+            for (String lea : studentLeas) {
+                extractor.extractEntity(assessment, map.getExtractFileForLea(lea), EntityNames.STUDENT_ASSESSMENT);
             }
             
         }

@@ -395,6 +395,11 @@ public class ElasticSearchRepository implements Repository<Entity> {
     }
 
     @Override
+    public Iterator<Entity> findEach(String collectionName, NeutralQuery query) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.getDBCursor not implemented");
+    }
+
+    @Override
     public Iterator<Entity> findEach(String collectionName, Query query) {
         throw new UnsupportedOperationException("ElasticSearchRepository.getDBCursor not implemented");
     }
