@@ -18,10 +18,15 @@ package org.slc.sli.api.representation;
 
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Field;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.test.context.ContextConfiguration;
@@ -42,11 +47,22 @@ public class InsufficientAuthenticationHandlerTest {
     private InsufficientAuthenticationHandler handler;
     
     @Test
-    public void checkResponse() {
+    public void checkResponse() throws Exception {
         handler = new InsufficientAuthenticationHandler();
+
+        HttpHeaders headers = Mockito.mock(HttpHeaders.class);
+        Mockito.when(headers.getMediaType()).thenReturn(MediaType.APPLICATION_JSON_TYPE);
+        
+        //  DONE BY WHAT IS CALLED AN "EXPERT"
+        //  DO NOT TRY THIS AT HOME
+        Field f = handler.getClass().getDeclaredField("headers");
+        f.setAccessible(true);
+        f.set(handler, headers);
+
         Response resp = handler.toResponse(new InsufficientAuthenticationException("Invalid Token"));
         assertTrue(resp != null);
         Object entity = resp.getEntity();
+        
         // No exception has been thrown.
         assertTrue(entity != null);
         
