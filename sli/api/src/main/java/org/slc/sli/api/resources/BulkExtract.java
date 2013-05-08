@@ -312,13 +312,6 @@ public class BulkExtract {
     private Response assembleLEALinksResponse(final HttpContext context, final String appId, final List<String> appAuthorizedUserLEAs) {
         EntityBody list = assembleLEALinks(context, appId, appAuthorizedUserLEAs);
 
-        Map<String, Map<String, String>> leaFullLinks = (Map<String, Map<String, String>>) list.get("fullLeas");
-        Map<String, Set<Map<String, String>>> leaDeltaLinks = (Map<String, Set<Map<String, String>>>) list.get("deltaLeas");
-        if (leaFullLinks.isEmpty() && leaDeltaLinks.isEmpty()) {  // No links!
-            LOG.info("No LEA bulk extract files exist for application: {}", appId);
-            return Response.status(Status.NOT_FOUND).build();
-        }
-
         ResponseBuilder builder = Response.ok(list);
         builder.header("content-type", MediaType.APPLICATION_JSON + "; charset=utf-8");
 
