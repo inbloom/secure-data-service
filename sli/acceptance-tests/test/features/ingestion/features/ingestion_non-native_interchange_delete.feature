@@ -107,7 +107,7 @@ Scenario: Delete Objective Assessment by Ref From Student Assessment with cascad
 	|objectiveAssessment                    |         0|
 	|recordHash                             |         0|
 	
-	
+@wip
 Scenario: Delete Orphan Objective Assessment From Assessment Metadata with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
