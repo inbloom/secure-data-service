@@ -813,7 +813,7 @@
                 ObjectiveAssessmentReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>objectiveAssessment</sli:recordType>
-				<sli:naturalKeys>AssessmentReference,IdentificationCode,ObjectiveAssessmentReference</sli:naturalKeys>
+				<sli:naturalKeys>IdentificationCode</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>

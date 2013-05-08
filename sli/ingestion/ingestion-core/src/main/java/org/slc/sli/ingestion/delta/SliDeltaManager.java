@@ -185,7 +185,7 @@ public final class SliDeltaManager {
                 } else {
                     strValue = value.toString();
                 }
-                } else {
+            } else {
                 handleFieldAccessException(fieldName, neutralRecord, naturalKey.isOptional());
             }
 

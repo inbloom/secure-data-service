@@ -85,7 +85,7 @@ When zip file is scp to ingestion landing zone
      | learningStandard                            | 3 |
      | parent                                      | 763 |
      | program                                     | 13 |
-     | recordHash                                  | 45416 |
+     | recordHash                                  | 45415 |
      | reportCard                                  | 500 |
      | school                                      | 0 |
      | schoolSessionAssociation                    | 0 |
