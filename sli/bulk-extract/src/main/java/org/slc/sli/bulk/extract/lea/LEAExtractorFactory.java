@@ -82,4 +82,9 @@ public class LEAExtractorFactory {
         leaDirectory.mkdirs();
         return new ExtractFile(leaDirectory, archiveName, appPublicKeys);
     }
+    
+    public EntityExtract buildCohortExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new CohortExtractor(extractor, map, repo);
+    }
 }
