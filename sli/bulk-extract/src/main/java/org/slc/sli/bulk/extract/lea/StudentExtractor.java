@@ -26,7 +26,6 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  *
@@ -57,7 +56,7 @@ public class StudentExtractor implements EntityExtract {
      */
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        Iterator<Entity> cursor = repo.findEach("student", new Query());
+        Iterator<Entity> cursor = repo.findEach("student", new NeutralQuery());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
             Set<String> schools = helper.fetchCurrentSchoolsFromStudent(e);

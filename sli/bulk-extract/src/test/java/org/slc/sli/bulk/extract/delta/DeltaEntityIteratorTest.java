@@ -111,7 +111,10 @@ public class DeltaEntityIteratorTest {
     }
 
     private Entity buildEdorgEntity(String id) {
-        Entity edorg = new MongoEntity("educationOrganization", id, new HashMap<String, Object>(), new HashMap<String, Object>());
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("must", "have something");
+        body.put("or", "I think you have been deleted");
+        Entity edorg = new MongoEntity("educationOrganization", id, body, new HashMap<String, Object>());
         return edorg;
     }
 
@@ -127,13 +130,13 @@ public class DeltaEntityIteratorTest {
             DeltaRecord record = iterator.next();
             if (count == 1) {
                 // first one is a spam delete update record
-                assertEquals(record.getBelongsToLEA(), governingLEAs);
+                assertEquals(governingLEAs, record.getBelongsToLEA());
                 assertTrue(record.isSpamDelete());
-                assertEquals(record.getOp(), DeltaEntityIterator.Operation.UPDATE);
+                assertEquals(DeltaEntityIterator.Operation.UPDATE, record.getOp());
             } else if (count == 2) {
-                assertEquals(record.getBelongsToLEA(), null);
+                assertEquals(null, record.getBelongsToLEA());
                 assertFalse(record.isSpamDelete());
-                assertEquals(record.getOp(), DeltaEntityIterator.Operation.DELETE);
+                assertEquals(DeltaEntityIterator.Operation.DELETE, record.getOp());
             }
         }
         assertTrue(count == 2);
