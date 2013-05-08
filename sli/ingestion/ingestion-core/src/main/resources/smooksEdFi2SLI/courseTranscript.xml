@@ -33,8 +33,6 @@
         <jb:value property="finalLetterGradeEarned" data="attributes FinalLetterGradeEarned _value"/>
         <jb:value property="finalNumericGradeEarned" data="attributes FinalNumericGradeEarned _value" decoder="Integer"/>
         <jb:value property="courseRepeatCode" data="attributes CourseRepeatCode _value"/>
-	<jb:wiring property="gradeType" beanIdRef="gradeTypeValue"/>
-	<jb:wiring property="gradeType" beanIdRef="gradeTypeValueFixed"/>
 	<jb:expression property="gradeType" execOnElement="attributes">
 	    GradeType != null ? GradeType.typeValue : 'Final' 
 	</jb:expression>
