@@ -258,7 +258,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             while (it.hasNext()) {
                 Entity entity = it.next();
                 // those stuff are deleted with empty bodies around...
-                if (entity.getBody() == null) {
+                if (entity.getBody() == null || entity.getBody().isEmpty()) {
                     Entity deleted = new MongoEntity(batchedCollection, entity.getEntityId(), null, null);
                     deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, batchedCollection));
                     continue;
