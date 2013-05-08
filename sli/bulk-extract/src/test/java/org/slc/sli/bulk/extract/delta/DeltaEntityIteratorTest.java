@@ -111,7 +111,10 @@ public class DeltaEntityIteratorTest {
     }
 
     private Entity buildEdorgEntity(String id) {
-        Entity edorg = new MongoEntity("educationOrganization", id, new HashMap<String, Object>(), new HashMap<String, Object>());
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("must", "have something");
+        body.put("or", "I think you have been deleted");
+        Entity edorg = new MongoEntity("educationOrganization", id, body, new HashMap<String, Object>());
         return edorg;
     }
 
