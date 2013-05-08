@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
 import org.slc.sli.common.constants.EntityNames;
@@ -50,9 +51,12 @@ public class EdOrgContextResolverFactory {
     
     @Autowired
     private StudentContextResolver studentResolver;
-
+    
     @Autowired
     private ParentContextResolver parentResolver;
+    
+    @Autowired
+    private SectionContextResolver sectionResolver;
     
     /**
      * find responsible resolver for this entity type
@@ -69,10 +73,11 @@ public class EdOrgContextResolverFactory {
         if (EntityNames.STUDENT.equals(entityType)) {
             return studentResolver;
         }
-
+        
         if (EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(entityType)
                 || EntityNames.STUDENT_ASSESSMENT.equals(entityType)
-                || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(entityType)) {
+                || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(entityType)
+                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(entityType)) {
             return studentDirectRelatedContextResolver;
         }
         
@@ -88,7 +93,10 @@ public class EdOrgContextResolverFactory {
             return parentResolver;
         }
         
-
+        if (EntityNames.SECTION.equals(entityType)) {
+            return sectionResolver;
+        }
+        
         return null;
     }
 }

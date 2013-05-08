@@ -6,7 +6,7 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
 
-Scenario: Generate a bulk extract day 0 delta    
+Scenario: Generate a bulk extract delta after day 0 ingestion
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
@@ -15,6 +15,8 @@ Scenario: Generate a bulk extract day 0 delta
   Then The "educationOrganization" delta was extracted in the same format as the api
    And The "parent" delta was extracted in the same format as the api
    And The "studentParentAssociation" delta was extracted in the same format as the api
+   And The "section" delta was extracted in the same format as the api
+   And The "studentSectionAssociation" delta was extracted in the same format as the api
 
 Scenario: Generate a bulk extract in a different LEAs
   Given I clean the bulk extract file system and database
@@ -310,8 +312,9 @@ Given I clean the bulk extract file system and database
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
   and only a delete file is generated for lea2.
-  Updated two students, 11 and 12, 12 lost contextual resolution to LEA1, so it should not appear
+  Updated two students, 1 and 12, 12 lost contextual resolution to LEA1, so it should not appear
   in the extract file.  
+  1 is added to LEA2, so its stuff should go in there as well
 Given I clean the bulk extract file system and database
   And I am using local data store
   And I ingest "bulk_extract_deltas.zip"
@@ -328,6 +331,7 @@ Given I clean the bulk extract file system and database
        |  parent                                |
        |  school                                |
        |  educationOrganization                 |
+       |  section                               |
        |  deleted                               |
      And I verify this "deleted" file should contains:
        | id                                                                                     | condition                             |
@@ -335,6 +339,11 @@ Given I clean the bulk extract file system and database
        | 07e539779ef81bb36e2936cab7504489a2a3757e_id                                            | entityType = studentSchoolAssociation |
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
+  
+     # Student 1 was in this section, should receive delta for it
+     And I verify this "section" file should contains:
+       | id                                          | condition                                |
+       | e003fc1479112d3e953a0220a2d0ddd31077d6d9_id | educationalEnvironment = Laboratory      |
 
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
@@ -344,6 +353,7 @@ Given I clean the bulk extract file system and database
        |  studentGradebookEntry                 |
        |  studentParentAssociation              |
        |  parent                                |
+       |  section                               |
        |  deleted                               |
    
      And I verify this "deleted" file should contains:
@@ -383,6 +393,10 @@ Given I clean the bulk extract file system and database
      And I verify this "studentParentAssociation" file should contains:
        | id                                          | condition                                |
        | 908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id | contactPriority = 0 |
+  
+     And I verify this "section" file should contains:
+       | id                                          | condition                                |
+       | e003fc1479112d3e953a0220a2d0ddd31077d6d9_id | educationalEnvironment = Laboratory      |
   
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
      And The "student" delta was extracted in the same format as the api
