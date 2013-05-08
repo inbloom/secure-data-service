@@ -21,8 +21,6 @@ import java.util.Set;
 
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

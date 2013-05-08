@@ -292,7 +292,7 @@ And the extract contains a file for each of the following entities:
       # |  disciplineIncident                    |
       # |  disciplineAction                      |
       |  educationOrganization                 |
-      # |  grade                                 |
+      |  grade                                 |
       # |  gradebookEntry                        |
       # |  gradingPeriod                         |
       # |  learningObjective                     |
@@ -310,7 +310,7 @@ And the extract contains a file for each of the following entities:
       |  student                               |
       |  studentAcademicRecord                 |
       |  studentAssessment                     |
-      # |  studentCohortAssociation              |
+      |  studentCohortAssociation              |
       # |  studentCompetency                     |
       # |  studentCompetencyObjective            |
       |  studentDisciplineIncidentAssociation  |
@@ -346,7 +346,7 @@ Given the pre-existing bulk extrac testing app key has been created
    |   fieldName  | count |
    |   fullLeas   |  0    |
    |   deltaLeas  |  1    |
-   And I request and download "delta" extract file for the lea
+   And I request and download a "delta" extract file for the lea
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
    |  educationOrganization                 |

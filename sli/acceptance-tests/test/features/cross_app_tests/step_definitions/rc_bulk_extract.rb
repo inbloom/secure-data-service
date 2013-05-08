@@ -68,15 +68,9 @@ end
 
 When /^I PATCH the postalCode for the lea entity to 11999$/ do
   patch_body = {
-    "address"=>[{"postalCode"=>"11999",
-      "nameOfCounty"=>"Wake",
-      "streetNumberName"=>"111 Ave A",
-      "stateAbbreviation"=>"IL",
-      "addressType"=>"Physical",
-      "city"=>"Chicago"
-    }]
+    "address"=>[{"postalCode"=>"11999"}]
   }
-
+  puts "PATCHing body #{patch_body} to /v1/educationOrganizations/#{@lea}"
   restHttpPatch("/v1/educationOrganizations/#{@lea}", prepareData("application/json", patch_body))
   assert(@res != nil, "Patch failed: Received no response from API.")
 end
