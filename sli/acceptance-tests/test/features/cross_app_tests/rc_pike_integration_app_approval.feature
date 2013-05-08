@@ -279,7 +279,7 @@ And the extract contains a file for each of the following entities:
    Then I get the id for the lea "IL-DAYBREAK"
    #Get bulk extract tar file
    Then there is no bulk extract files in the local directory
-   And I request and download a bulk extract file for the lea
+   And I request and download a "bulk" extract file for the lea
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
       |  entityType                            |
@@ -292,7 +292,7 @@ And the extract contains a file for each of the following entities:
       # |  disciplineIncident                    |
       # |  disciplineAction                      |
       |  educationOrganization                 |
-      # |  grade                                 |
+      |  grade                                 |
       # |  gradebookEntry                        |
       # |  gradingPeriod                         |
       # |  learningObjective                     |
@@ -310,7 +310,7 @@ And the extract contains a file for each of the following entities:
       |  student                               |
       |  studentAcademicRecord                 |
       |  studentAssessment                     |
-      # |  studentCohortAssociation              |
+      |  studentCohortAssociation              |
       # |  studentCompetency                     |
       # |  studentCompetencyObjective            |
       |  studentDisciplineIncidentAssociation  |
@@ -334,18 +334,19 @@ Given the pre-existing bulk extrac testing app key has been created
   When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
   Then I should receive a json response containing my authorization token
    And there is no bulk extract files in the local directory 
-  When I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
+ 
+  Then I get the id for the lea "IL-DAYBREAK"
+  When I PATCH the postalCode for the lea entity to 11999
+  Then I should receive a return code of 204
+  When the operator triggers a delta for the production tenant
+   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
    And I get back a response code of "200"
-   And I store the URL for the latest delta
-  When the number of returned URLs is correct:
+   And I store the URL for the latest delta for the LEA
+   And the number of returned URLs is correct:
    |   fieldName  | count |
-   |   fullLeas   |  1    |
+   |   fullLeas   |  0    |
    |   deltaLeas  |  1    |
-
-  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+   And I request and download a "delta" extract file for the lea
+   And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
    |  educationOrganization                 |
-   |  parent                                |
-   |  student                               |
-   |  studentParentAssociation              |
-   |  studentSchoolAssociation              |

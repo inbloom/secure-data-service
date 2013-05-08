@@ -16,12 +16,11 @@
 
 package org.slc.sli.bulk.extract.pub;
 
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.EdOrgPathDefinition;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * PublicData Extractor that extracts entities which have a field that directly references and EdOrg.
@@ -44,7 +43,8 @@ public class DirectPublicDataExtractor implements PublicDataExtractor {
     public void extract(String edOrgid, ExtractFile file) {
 
         for (EdOrgPathDefinition definition : EdOrgPathDefinition.values()) {
-            Query query = new Query((new Criteria(definition.getEdOrgRefField())).is(edOrgid));
+            NeutralQuery query = new NeutralQuery(new NeutralCriteria(definition.getEdOrgRefField(),
+                    NeutralCriteria.OPERATOR_EQUAL, edOrgid, false));
             extractor.setExtractionQuery(query);
             extractor.extractEntities(file, definition.getEntityName());
         }

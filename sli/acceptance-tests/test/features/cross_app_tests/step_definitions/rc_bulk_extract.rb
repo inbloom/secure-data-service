@@ -7,7 +7,8 @@ JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 SSH_USER = PropLoader.getProps['ssh_user']
 EXTRACT_TO_DIRECTORY = PropLoader.getProps['extract_to_directory']
 
-Dir["./test/features/bulk_extract/features/step_definitions/*.rb"].each {|file| require file}
+require 'archive/tar/minitar'
+include Archive::Tar
 
 Given /^the extraction zone is empty$/ do
     if (Dir.exists?(OUTPUT_DIRECTORY))
@@ -45,9 +46,33 @@ When /^the operator triggers a delta for the production tenant$/ do
     executeShellCommand("ssh #{SSH_USER} sudo #{command}")
 end
 
-When /^I store the URL for the latest delta$/ do
-  puts "result body from previous API call is @res"
-  @delta_uri = @res
+When /^I store the URL for the latest delta for the LEA$/ do
+  puts "result body from previous API call is #{@res}"
+  @delta_uri = JSON.parse(@res)
+  @list_url  = @delta_uri["deltaLeas"][@lea][0]["uri"]
+  # @list_irl is in the format https://<url>/api/rest/v1.2/bulk/extract/<lea>/delta/<timestamp>
+  # -> strip off everything before v1.2, store: bulk/extract/<lea>/delta/<timestamp>
+  @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
+  puts "Bulk Extract Delta URI suffix: #{$2}"
+  @list_uri = $2
+  # Get the timestamp from the URL
+  @list_url.match(/delta\/(.*)$/)
+  @delta_file = "delta_#{lea}_#{$1}.tar"
+  # Store directory information for later retrieval
+  @download_path = OUTPUT_DIRECTORY + @delta_file
+  @fileDir = OUTPUT_DIRECTORY + "decrypt"
+  @filePath = @fileDir + "/" + @delta_file
+  @unpackDir = @fileDir
+  @encryptFilePath = @download_path
+end
+
+When /^I PATCH the postalCode for the lea entity to 11999$/ do
+  patch_body = {
+    "address"=>[{"postalCode"=>"11999"}]
+  }
+  puts "PATCHing body #{patch_body} to /v1/educationOrganizations/#{@lea}"
+  restHttpPatch("/v1/educationOrganizations/#{@lea}", prepareData("application/json", patch_body))
+  assert(@res != nil, "Patch failed: Received no response from API.")
 end
 
 When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
@@ -72,7 +97,7 @@ When /^the operator triggers a bulk extract for tenant "(.*?)"$/ do |tenant|
 
 end
 
-def getBulkExtractCommand(tenant, options=nil)
+def getBulkExtractCommand(tenant, options="")
    command  = "sh #{TRIGGER_SCRIPT}"
    if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
      command = command + " -Dsli.conf=#{PROPERTIES_FILE}"
@@ -87,7 +112,7 @@ def getBulkExtractCommand(tenant, options=nil)
      puts "Using extra property:  -f#{JAR_FILE}"
    end
 
-   command = command + " -t#{tenant}" + options
+   command = command + " -t#{tenant}" + "#{options}"
    puts "Running: #{command} "
    return command
 end
