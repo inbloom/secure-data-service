@@ -17,11 +17,6 @@
 package org.slc.sli.bulk.extract.lea;
 
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -31,8 +26,14 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class YearlyTranscriptExtractorTest {
     private YearlyTranscriptExtractor extractor;
@@ -65,7 +66,7 @@ public class YearlyTranscriptExtractorTest {
     
     @Test
     public void testWriteOneEntity() {
-        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         entityBody.put(ParameterConstants.STUDENT_ID, "student");
         extractor.extractEntities(mockStudentCache);
@@ -75,7 +76,7 @@ public class YearlyTranscriptExtractorTest {
     
     @Test
     public void testWriteManyEntities() {
-        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity, mockEntity, mockEntity).iterator());
         entityBody.put(ParameterConstants.STUDENT_ID, "student");
         extractor.extractEntities(mockStudentCache);
@@ -85,7 +86,7 @@ public class YearlyTranscriptExtractorTest {
     
     @Test
     public void testExtractNoEntityBecauseOfLEAMiss() {
-        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);
         extractor.extractEntities(mockStudentCache);
@@ -96,7 +97,7 @@ public class YearlyTranscriptExtractorTest {
     @Test
     public void testExtractNoEntityBecauseOfIdMiss() {
         entityBody.put(ParameterConstants.STUDENT_ID, "STUDENT1");
-        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new Query())))
+        Mockito.when(mockRepo.findEach(Mockito.eq("yearlyTranscript"), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
         extractor.extractEntities(mockStudentCache);

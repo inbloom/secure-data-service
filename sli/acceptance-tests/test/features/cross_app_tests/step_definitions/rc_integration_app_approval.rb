@@ -145,7 +145,7 @@ Then /^I request and download a "(.*?)" extract file for the lea$/ do |arg1|
   restTls("/bulk/extract/#{@lea}", nil, "application/x-tar", @sessionId, env_key) if arg1 == "bulk"
   restTls("/#{@list_uri}", nil, "application/x-tar", @sessionId, env_key) if arg1 == "delta"
   assert(@res.code==200, "Bulk Extract file was unable to be retrieved: #{@res.to_s}")
-  @filePath = OUTPUT_DIRECTORY + "/extract.tar"
+  @filePath = PropLoader.getProps['extract_to_directory'] + "/extract.tar"
   @unpackDir = File.dirname(@filePath) + '/unpack'
   if (!File.exists?("extract"))
       FileUtils.mkdir("extract")
@@ -156,6 +156,14 @@ Then /^I request and download a "(.*?)" extract file for the lea$/ do |arg1|
 end
 
 Then /I get the id for the lea "(.*?)"$/ do |arg1|
-  restHttpGet("/v1/educationOrganizations?stateOrganizationId=#{arg1}", "application/json")
-  @lea = JSON.parse(@res.body)[0]['id']
+  restHttpGet("/v1/educationOrganizations?stateOrganizationId=#{arg1}", "application/json", @sessionId)
+  assert(@res.code == 200)
+  json = JSON.parse(@res.body)
+  puts @res.headers
+  puts json
+  if json.is_a? Array
+    @lea = json[0]['id']
+  else
+    @lea = json['id']
+  end
 end
