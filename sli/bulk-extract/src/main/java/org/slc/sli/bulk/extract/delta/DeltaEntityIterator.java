@@ -29,6 +29,13 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.EdOrgContextResolverFactory;
@@ -40,12 +47,6 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * This class provides ways to interact with the delta collection
@@ -265,6 +266,10 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             Iterator<Entity> it = entities.iterator();
             while (it.hasNext()) {
                 Entity entity = it.next();
+                
+                Boolean spamDelete = ids.remove(entity.getEntityId());
+                spamDelete = spamDelete != null ? spamDelete : false;
+
                 // those stuff are deleted with empty bodies around...
                 if (entity.getBody() == null || entity.getBody().isEmpty()) {
                     Entity deleted = new MongoEntity(batchedCollection, entity.getEntityId(), null, null);
@@ -277,9 +282,6 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                     entity.getDenormalizedData().clear();
                     entity.getEmbeddedData().clear();
                 }
-                
-                Boolean spamDelete = ids.remove(entity.getEntityId());
-                spamDelete = spamDelete != null ? spamDelete : false;
                 
                 if (topLevelGoverningLEA != null && !topLevelGoverningLEA.isEmpty()) {
                     workQueue.add(new DeltaRecord(entity, topLevelGoverningLEA, Operation.UPDATE, spamDelete,
