@@ -67,9 +67,9 @@ When /^I store the URL for the latest delta for the LEA$/ do
 end
 
 When /^I PATCH the postalCode for the lea entity to 11999$/ do
-  restHttpGet("/v1/schools")
-  puts "result from '/v1/schools' is #{@res}"
-  assert(@res.code == 200, "Response from GET '/v1/schools' is #{@res.code}, expected 200")
+  restHttpGet("/v1/educationOrganizations/#{@lea}/schools")
+  puts "result from '/v1/educationOrganizations/#{@lea}/schools' is #{@res}"
+  assert(@res.code == 200, "Response from GET '/v1/educationOrganizations/#{@lea}/schools' is #{@res.code}, expected 200")
   json = JSON.parse(@res.body)
   if json.is_a? Array
     school_id = json[0]['id']
