@@ -57,7 +57,7 @@ When /^I store the URL for the latest delta for the LEA$/ do
   @list_uri = $2
   # Get the timestamp from the URL
   @list_url.match(/delta\/(.*)$/)
-  @delta_file = "delta_#{lea}_#{$1}.tar"
+  @delta_file = "delta_#{@lea}_#{$1}.tar"
   # Store directory information for later retrieval
   @download_path = OUTPUT_DIRECTORY + @delta_file
   @fileDir = OUTPUT_DIRECTORY + "decrypt"
