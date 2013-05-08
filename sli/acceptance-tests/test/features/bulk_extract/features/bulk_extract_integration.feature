@@ -82,7 +82,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       |  educationOrganization                 | 5 |          |
       |  grade                                 | 8 |         |
       #|  gradebookEntry                        |   |         |
-      |  gradingPeriod                         |  1 |         |
+      |  gradingPeriod                         |  13 |         |
       #|  graduationPlan                        |   |         |
       #|  learningObjective                     |   |         |
       #|  learningStandard                      |   |         |
