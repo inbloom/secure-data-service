@@ -84,9 +84,9 @@ When /^I PATCH the postalCode for the lea entity to 11999$/ do
     "addressType" => "Physical",
     "city" => "Chicago"}]
   }
- 
+  @format = "application/json"
   puts "PATCHing body #{patch_body} to /v1/educationOrganizations/#{school_id}"
-  restHttpPatch("/v1/educationOrganizations/#{school_id}", prepareData("application/json", patch_body))
+  restHttpPatch("/v1/educationOrganizations/#{school_id}", prepareData(@format, patch_body), @format)
   puts @res
   assert(@res != nil, "Patch failed: Received no response from API.")
 end
