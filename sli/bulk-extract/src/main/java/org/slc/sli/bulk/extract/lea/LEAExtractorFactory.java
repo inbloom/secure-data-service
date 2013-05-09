@@ -75,14 +75,6 @@ public class LEAExtractorFactory {
             Repository<Entity> repo, EntityToLeaCache studentCache) {
         return new StudentSchoolAssociationExtractor(extractor, map, repo, studentCache);
     }
-    
-    public SessionExtractor buildSessionExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
-    	return new SessionExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToLeaCache());
-    }
-    
-    public EntityExtract buildGradingPeriodExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
-    	return new GradingPeriodExtractor(extractor, map, repo);
-    }
 
     public ExtractFile buildLEAExtractFile(String path, String lea, String archiveName,
             Map<String, PublicKey> appPublicKeys) {
