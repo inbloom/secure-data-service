@@ -36,6 +36,7 @@ public class ExtractorHelper {
      * @param student
      * @return
      */
+    @SuppressWarnings("unchecked")
     public Set<String> fetchCurrentSchoolsFromStudent(Entity student) {
         if (dateHelper == null) {
             dateHelper = new DateHelper();
@@ -47,7 +48,7 @@ public class ExtractorHelper {
         }
         List<Map<String, Object>> schools = data.get("schools");
         for (Map<String, Object> school : schools) {
-            if (dateHelper.isFieldExpired(school, "exitWithdrawDate")) {
+             if (dateHelper.isFieldExpired(school, "exitWithdrawDate")) {
                 continue;
             }
             if (school.containsKey("edOrgs")) {
