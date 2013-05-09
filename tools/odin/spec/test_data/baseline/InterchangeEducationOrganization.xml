@@ -1383,13 +1383,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StateEducationAgencyReference>
   </LocalEducationAgency>
   <LocalEducationAgency>
-    <StateOrganizationId>IL-HIGHWIND</StateOrganizationId>
-    <NameOfInstitution>IL-HIGHWIND School District</NameOfInstitution>
+    <StateOrganizationId>5</StateOrganizationId>
+    <NameOfInstitution>5 School District</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
     <Address>
-      <StreetNumberName>827 Braeburn Lane</StreetNumberName>
+      <StreetNumberName>867 Braeburn Lane</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60601</PostalCode>

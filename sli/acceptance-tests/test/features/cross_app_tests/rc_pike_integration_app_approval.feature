@@ -349,3 +349,7 @@ Given the pre-existing bulk extrac testing app key has been created
    |   deltaLeas  |  1    |
    And I request and download a "delta" extract file for the lea
    And there is a metadata file in the extract
+   And the extract contains a file for each of the following entities:
+   |  entityType                            |
+   |  educationOrganization                 |
+   |  school                                |
