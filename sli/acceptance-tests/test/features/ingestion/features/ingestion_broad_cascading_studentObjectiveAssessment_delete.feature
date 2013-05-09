@@ -26,8 +26,7 @@ Scenario: Safe delete of StudentObjectiveAssessment with Cascade = false, Force 
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentObjectiveAssessment                |        -1|
-        # uncomment the following line once studentObjectiveAssessment is supported by the recordHash
-        # | recordHash                                |      	 -1|
+        | recordHash                                |      	 -1|
 
 Scenario: Safe delete of StudentObjectiveAssessment by ref with Cascade = false, Force = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -51,8 +50,7 @@ Scenario: Safe delete of StudentObjectiveAssessment by ref with Cascade = false,
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentObjectiveAssessment                |        -1|
-        # uncomment the following line once studentObjectiveAssessment is supported by the recordHash
-        # | recordHash                                |      	 -1|
+        | recordHash                                |      	 -1|
 
 
 Scenario: Force delete of StudentObjectiveAssessment with Cascade = false, Force = true and LogViolations = true
@@ -77,8 +75,7 @@ Scenario: Force delete of StudentObjectiveAssessment with Cascade = false, Force
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentObjectiveAssessment                |        -1|
-        # uncomment the following line once studentObjectiveAssessment is supported by the recordHash
-        # | recordHash                                |      	 -1|
+        | recordHash                                |      	 -1|
 
 Scenario: Force delete of StudentObjectiveAssessment by ref with Cascade = false, Force = true and LogViolations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -102,7 +99,6 @@ Scenario: Force delete of StudentObjectiveAssessment by ref with Cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentObjectiveAssessment                |        -1|
-        # uncomment the following line once studentObjectiveAssessment is supported by the recordHash
-        # | recordHash                                |      	 -1|
+        | recordHash                                |      	 -1|
 
 
