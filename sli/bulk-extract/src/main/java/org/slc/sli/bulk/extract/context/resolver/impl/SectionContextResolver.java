@@ -59,7 +59,7 @@ public class SectionContextResolver implements ContextResolver {
                 if (studentId == null) {
                     LOG.warn("Student Section association without a student id: {}", studentAssociation);
                 } else {
-                    leas.addAll(studentResolver.getLEAsForStudentId(studentId));
+                    leas.addAll(studentResolver.findGoverningLEA(studentId));
                 }
             }
         }
