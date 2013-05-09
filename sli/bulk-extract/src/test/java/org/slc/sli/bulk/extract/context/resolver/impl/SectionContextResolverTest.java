@@ -53,9 +53,9 @@ public class SectionContextResolverTest {
     public void testSectionResolver() {
         when(edOrgResolver.findGoverningLEA("osirisHigh")).thenReturn(
                 new HashSet<String>(Arrays.asList("OsirisSchoolDistrict")));
-        when(studentResolver.getLEAsForStudentId("river")).thenReturn(
+        when(studentResolver.findGoverningLEA("river")).thenReturn(
                 new HashSet<String>(Arrays.asList("OsirisSchoolDistrict", "Academy")));
-        when(studentResolver.getLEAsForStudentId("simon")).thenReturn(
+        when(studentResolver.findGoverningLEA("simon")).thenReturn(
                 new HashSet<String>(Arrays.asList("OsirisSchoolDistrict", "MedSchool")));
         Entity section = mock(Entity.class);
         Map<String, Object> body = new HashMap<String, Object>();
