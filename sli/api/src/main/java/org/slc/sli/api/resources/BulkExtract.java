@@ -175,7 +175,11 @@ public class BulkExtract {
             throw new AccessDeniedException("User is not authorized access this extract");
         }
 
-        return getExtractResponse(context.getRequest(), null, leaId, false);
+
+        Entity entity = helper.byId(leaId);
+        boolean isSEA = entity != null && helper.isSEA(entity);
+
+        return getExtractResponse(context.getRequest(), null, leaId, isSEA);
     }
 
     /**
