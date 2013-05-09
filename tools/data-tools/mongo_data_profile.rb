@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# mongo_data_profile.rg
+# mongo_data_profile.rb
 #
 # This script prfiles data in a mongo database, counting documents and field occurrences
 
@@ -8,12 +8,12 @@
 #        mongo_data_profile.rb [<db>] ...
 #        mongo_data_profile.rb [<db>:<collection1>,<collection2>] ...
 #        
-# With no database, lists all the databases and their colleciton counts
-# With a database argument, shows all collections in that database
-# Database name may be followed by a colon (":") and a comma-separated list of collections in that database
+# With no database, lists all the databases and their collection counts.
+# With a database argument, shows all collections in that database.
+# Database name may be optionally followed by a colon (":") and a
+# comma-separated list of collections in that database
 #
-
-# For each document, the keys ane values are summarized, showing
+# For each document, the keys and values are summarized, showing
 # counts by the type of data elements that occur.  For documents of
 # consistent structure, there will usually be only one data type and
 # associated count for each field.
@@ -22,7 +22,7 @@
 # appear to be Hex IDs
 #
 # Where arrays occur, a count of the number of arrays occurring in the
-# field is shown together with statistics on the minumum size, maximum
+# field is shown, together with statistics on the minumum size, maximum
 # size, and total elements across all the array occurrences.  Then,
 # total statistics across all the array elements is given under the
 # pseudo-field "ALL_ELEMENTS"
