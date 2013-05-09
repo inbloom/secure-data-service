@@ -22,7 +22,6 @@ import java.util.Set;
 
 import com.google.common.collect.MapMaker;
 
-import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -45,6 +45,8 @@ import org.slc.sli.domain.Repository;
 public class StudentContextResolver implements ContextResolver {
     private static final Logger LOG = LoggerFactory.getLogger(StudentContextResolver.class);
     
+    public static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
+
     @Autowired
     @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
@@ -52,6 +54,10 @@ public class StudentContextResolver implements ContextResolver {
     @Autowired
     private EducationOrganizationContextResolver edOrgResolver;
     
+    @Autowired
+    private DateHelper dateHelper;
+    
+
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> leas = new HashSet<String>();
@@ -64,7 +70,7 @@ public class StudentContextResolver implements ContextResolver {
         if (schools != null) {
             for (Map<String, Object> school : schools) {
                 try {
-                    if (isCurrent(school)) {
+                    if (!dateHelper.isFieldExpired(school, EXIT_WITHDRAW_DATE)) {
                         String schoolId = (String) school.get("_id");
                         Set<String> edOrgs = edOrgResolver.findGoverningLEA(schoolId);
                         if (edOrgs != null) {
@@ -78,20 +84,6 @@ public class StudentContextResolver implements ContextResolver {
         }
         getStudentEdOrgCache().put(entity.getEntityId(), leas);
         return leas;
-    }
-    
-    /**
-     * Determine if a school association is 'current', meaning it has not
-     * finished
-     * 
-     * @param schoolAssociation
-     *            the school association to evaluate
-     * @return true iff the school association is current
-     */
-    private boolean isCurrent(Map<String, Object> schoolAssociation) {
-        String exitDate = (String) schoolAssociation.get("exitWithdrawDate");
-        return exitDate == null
-                || !ISODateTimeFormat.date().parseDateTime(exitDate).isBeforeNow();
     }
     
     /**
@@ -125,5 +117,9 @@ public class StudentContextResolver implements ContextResolver {
     
     Map<String, Set<String>> getStudentEdOrgCache() {
         return studentEdOrgCache;
+    }
+    
+    void setDateHelper(DateHelper dateHelper) {
+        this.dateHelper = dateHelper;
     }
 }

@@ -36,6 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -56,9 +57,12 @@ public class StudentContextResolverTest {
     @Mock
     private EducationOrganizationContextResolver edOrgResolver;
     
+    private DateHelper helper = new DateHelper();
+
     @Before
     public void setup() {
         underTest.getStudentEdOrgCache().clear();
+        underTest.setDateHelper(helper);
     }
     
     @Test
