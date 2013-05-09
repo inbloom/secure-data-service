@@ -158,6 +158,47 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals("nomenclature", result.get(0).getBody().get("nomenclature"));
     }
 
+
+
+    @Test
+    public void testCourseTranscriptMapping() {
+        NeutralRecord transcript = createCourseTranscriptNeutralRecord(false);
+
+        ReportStats reportStats = new SimpleReportStats();
+
+        List<? extends Entity> result = transformer.transform(transcript, new DummyMessageReport(),
+                reportStats);
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(1, result.size());
+        Assert.assertFalse( transcript.getAttributes().containsKey( "GradeType"));
+
+        Assert.assertEquals("courseAttemptResult", result.get(0).getBody().get("courseAttemptResult"));
+        Assert.assertEquals("C", result.get(0).getBody().get("finalLetterGradeEarned"));
+        Assert.assertEquals("Final", result.get(0).getBody().get("gradeType"));
+        Assert.assertEquals("courseTranscript", result.get(0).getType());
+
+        NeutralRecord transcript1 = createCourseTranscriptNeutralRecord( true );
+
+        ReportStats reportStats1 = new SimpleReportStats();
+
+        result = transformer.transform(transcript1, new DummyMessageReport(),
+                reportStats1);
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(1, result.size());
+        Assert.assertTrue( transcript1.getAttributes().containsKey( "GradeType"));
+
+        Assert.assertEquals("courseAttemptResult", result.get(0).getBody().get("courseAttemptResult"));
+        Assert.assertEquals("C", result.get(0).getBody().get("finalLetterGradeEarned"));
+        Assert.assertEquals("GradeType", result.get(0).getBody().get("gradeType"));
+        Assert.assertEquals("courseTranscript", result.get(0).getType());
+
+
+
+
+    }
+
     /**
      * @author tke Test the transformation and matching steps behave as expected
      */
@@ -324,6 +365,41 @@ public class SmooksEdFi2SLITransformerTest {
         return assessment;
     }
 
+    /**
+     * @author
+     * @param
+     *
+     * @return neutral record
+     */
+    private NeutralRecord createCourseTranscriptNeutralRecord(boolean setGradeType) {
+        // Create neutral record for entity.
+        NeutralRecord courseTranscript = new NeutralRecord();
+
+
+        Map<String,Object>  body = new HashMap<String, Object>();
+        Map<String, Object> a1 = new HashMap<String, Object>();
+        a1.put("_value", "courseAttemptResult");
+        body.put( "CourseAttemptResult", a1);
+
+        Map<String, Object> a4 = new HashMap<String, Object>();
+        a4.put("_value", "C");
+        body.put( "FinalLetterGradeEarned", a4);
+
+
+        if( setGradeType ) {
+            Map<String, Object> a3 = new HashMap<String, Object>();
+            a3.put("_value", "GradeType");
+            body.put( "GradeType", a3);
+        }
+
+        courseTranscript.setAttributes( body);
+        courseTranscript.setRecordId( "1a-323-fg4");
+        courseTranscript.setSourceId(TENANT_ID);
+        courseTranscript.setRecordType("courseTranscript");
+
+
+        return courseTranscript;
+    }
     /**
      * @author tke
      * @param setId
