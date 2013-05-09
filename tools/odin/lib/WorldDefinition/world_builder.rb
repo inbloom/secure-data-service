@@ -239,7 +239,12 @@ class WorldBuilder
       members          = []
 
       school_id, members = @pre_requisites[index].shift if @pre_requisites[index].size > 0
-
+      # Set the parent edOrg based on catalog, or keep nil and dump school into first LEA in list
+      if members != []
+        parent = members[0][:parent]
+      else
+        parent = nil
+      end
       # remember the school's state organization id if it's a String --> pop off later when creating education organizations
       @schools << school_id if school_id.kind_of? String
 
@@ -248,7 +253,7 @@ class WorldBuilder
 
       school = {
         "id" => school_id,
-        "parent" => nil,
+        "parent" => parent,
         "sessions" => [],
         "staff" => staff,
         "teachers" => teachers,
@@ -339,10 +344,17 @@ class WorldBuilder
   # unique "id" is contained within "schools_in_this_district", and sets the "parent" attribute
   # of those matching edOrgs to the district id.
   def update_schools_with_district_id(district_id, schools_in_this_district)
-    # check in elementary, middle, and high schools
-    @world["elementary"].each { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
-    @world["middle"].each     { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
-    @world["high"].each       { |edOrg| edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"]) }
+  # check in elementary, middle, and high schools
+   ["elementary", "middle", "high"].each do |type|
+      @world[type].each do |edOrg|
+        puts "######################"
+        puts "DEBUG: edOrg['id'] is #{edOrg['id']}"
+        puts "DEBUG: edOrg['parent'] is #{edOrg['parent']}"
+        next if edOrg["parent"] != nil
+        edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"])
+        puts "DEBUG: edOrg['parent'] is #{edOrg['parent']}"
+      end
+    end
   end
 
   # updates the populated edOrgs arrays for leas (local education agencies) by determining how many districts are to be

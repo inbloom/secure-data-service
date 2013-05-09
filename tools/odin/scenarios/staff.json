@@ -6,12 +6,14 @@
       {
         "role": "Educator",
         "type": "High School",
-        "association": "Daybreak Central High"
+        "association": "Daybreak Central High",
+        "parent" : "IL-DAYBREAK"
       },
       {
         "role": "Educator",
         "type": "High School",
-        "association": "Sunset Central High School"
+        "association": "Sunset Central High School",
+        "parent" : "IL-DAYBREAK"
       }
     ]
   },
@@ -22,7 +24,8 @@
       {
         "role": "Educator",
         "type": "Middle School",
-        "association": "East Daybreak Junior High"
+        "association": "East Daybreak Junior High",
+        "parent" : "IL-DAYBREAK"
       }
     ]
   },
@@ -33,7 +36,8 @@
       {
         "role": "Educator",
         "type": "Elementary School",
-        "association": "South Daybreak Elementary"
+        "association": "South Daybreak Elementary",
+        "parent" : "IL-DAYBREAK"
       }
     ]
   },
@@ -56,6 +60,11 @@
         "role": "IT Administrator",
         "type": "Local Education Agency",
         "association": "IL-DAYBREAK"
+      },
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": "IL-HIGHWIND"
       }
     ]
   },
@@ -77,7 +86,8 @@
       {
         "role": "Leader",
         "type": "Elementary School",
-        "association": "South Daybreak Elementary"
+        "association": "South Daybreak Elementary",
+        "parent" : "IL-DAYBREAK"
       }
     ]
   },
@@ -88,7 +98,8 @@
       {
         "role": "IT Administrator",
         "type": "Elementary School",
-        "association": "South Daybreak Elementary"
+        "association": "South Daybreak Elementary",
+        "parent" : "IL-DAYBREAK"
       }
     ]
   },
@@ -99,7 +110,8 @@
       {
         "role": "Aggregate Viewer",
         "type": "Elementary School",
-        "association": "South Daybreak Elementary"
+        "association": "South Daybreak Elementary",
+        "parent" : "IL-DAYBREAK"
       }
     ]
   },
@@ -166,6 +178,139 @@
         "role": "Aggregate Viewer",
         "type": "Local Education Agency",
         "association": "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "dgray",
+    "name": "Dominic Gray",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Highwind Central High",
+        "parent": "IL-HIGHWIND"
+      },
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Highwind Central High School",
+        "parent": "IL-HIGHWIND"
+      }
+    ]
+  },
+  {
+    "userId": "melinda.kim",
+    "name": "Melinda Kim",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "Middle School",
+        "association": "East Highwind Junior High",
+        "parent": "IL-HIGHWIND"
+      }
+    ]
+  },
+  {
+    "userId": "sbraverman",
+    "name": "Susan Braverman",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "Elementary School",
+        "association": "South Highwind Elementary",
+        "parent": "IL-HIGHWIND"
+      }
+    ]
+  },
+  {
+    "userId": "demo",
+    "name": "Kenny Admin",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": "IL-HIGHWIND"
+      }
+    ]
+  },
+  {
+    "userId": "sampleUser",
+    "name": "Craig Admin",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": "IL-HIGHWIND"
+      }
+    ]
+  },
+  {
+    "userId": "ngonzales",
+    "name": "Nancy Gonzales",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "Elementary School",
+        "association": "South Highwind Elementary",
+        "parent": "IL-HIGHWIND"
+      }
+    ]
+  },
+  {
+    "userId": "bkopel",
+    "name": "Bonnie Kopel",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Elementary School",
+        "association": "South Highwind Elementary",
+        "parent": "IL-HIGHWIND"
+      }
+    ]
+  },
+  {
+    "userId": "nsmith",
+    "name": "Ned Smith",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Elementary School",
+        "association": "South Highwind Elementary",
+        "parent": "IL-HIGHWIND"
+      }
+    ]
+  },
+  {
+    "userId": "sbantu",
+    "name": "Susan Bantu",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "Local Education Agency",
+        "association": "IL-HIGHWIND"
+      }
+    ]
+  },
+  {
+    "userId": "lstevenson",
+    "name": "Larold Stevenson",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": "IL-HIGHWIND"
+      }
+    ]
+  },
+  {
+    "userId": "jjackson",
+    "name": "Jack Jackson",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Local Education Agency",
+        "association": "IL-HIGHWIND"
       }
     ]
   }
