@@ -22,18 +22,16 @@ import java.util.Set;
 
 import com.google.common.collect.MapMaker;
 
-import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * Context resolver for students
@@ -42,16 +40,19 @@ import org.slc.sli.domain.Repository;
  * 
  */
 @Component
-public class StudentContextResolver implements ContextResolver {
+public class StudentContextResolver extends ReferrableResolver {
     private static final Logger LOG = LoggerFactory.getLogger(StudentContextResolver.class);
     
-    @Autowired
-    @Qualifier("secondaryRepo")
-    private Repository<Entity> repo;
+    public static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
+
     private final Map<String, Set<String>> studentEdOrgCache = new MapMaker().softValues().makeMap();
     @Autowired
     private EducationOrganizationContextResolver edOrgResolver;
     
+    @Autowired
+    private DateHelper dateHelper;
+    
+
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> leas = new HashSet<String>();
@@ -64,7 +65,7 @@ public class StudentContextResolver implements ContextResolver {
         if (schools != null) {
             for (Map<String, Object> school : schools) {
                 try {
-                    if (isCurrent(school)) {
+                    if (!dateHelper.isFieldExpired(school, EXIT_WITHDRAW_DATE)) {
                         String schoolId = (String) school.get("_id");
                         Set<String> edOrgs = edOrgResolver.findGoverningLEA(schoolId);
                         if (edOrgs != null) {
@@ -81,20 +82,6 @@ public class StudentContextResolver implements ContextResolver {
     }
     
     /**
-     * Determine if a school association is 'current', meaning it has not
-     * finished
-     * 
-     * @param schoolAssociation
-     *            the school association to evaluate
-     * @return true iff the school association is current
-     */
-    private boolean isCurrent(Map<String, Object> schoolAssociation) {
-        String exitDate = (String) schoolAssociation.get("exitWithdrawDate");
-        return exitDate == null
-                || !ISODateTimeFormat.date().parseDateTime(exitDate).isBeforeNow();
-    }
-    
-    /**
      * Find the LEAs based on a given student id
      * Will use local cache if available, otherwise will pull student from Mongo
      * 
@@ -102,12 +89,13 @@ public class StudentContextResolver implements ContextResolver {
      *            the ID of the student
      * @return the set of LEAs
      */
-    public Set<String> getLEAsForStudentId(String id) {
+    @Override
+    public Set<String> findGoverningLEA(String id) {
         Set<String> cached = getStudentEdOrgCache().get(id);
         if (cached != null) {
             return cached;
         }
-        Entity entity = repo.findOne("student", new NeutralQuery(new NeutralCriteria("_id",
+        Entity entity = getRepo().findOne("student", new NeutralQuery(new NeutralCriteria("_id",
                 NeutralCriteria.OPERATOR_EQUAL, id)).setEmbeddedFieldString("schools"));
         if (entity != null) {
             return findGoverningLEA(entity);
@@ -115,15 +103,16 @@ public class StudentContextResolver implements ContextResolver {
         return new HashSet<String>();
     }
     
-    Repository<Entity> getRepo() {
-        return repo;
-    }
-    
-    void setRepo(Repository<Entity> repo) {
-        this.repo = repo;
-    }
-    
     Map<String, Set<String>> getStudentEdOrgCache() {
         return studentEdOrgCache;
+    }
+    
+    void setDateHelper(DateHelper dateHelper) {
+        this.dateHelper = dateHelper;
+    }
+
+    @Override
+    protected String getCollection() {
+        return EntityNames.STUDENT;
     }
 }

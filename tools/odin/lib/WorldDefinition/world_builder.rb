@@ -347,12 +347,8 @@ class WorldBuilder
   # check in elementary, middle, and high schools
    ["elementary", "middle", "high"].each do |type|
       @world[type].each do |edOrg|
-        puts "######################"
-        puts "DEBUG: edOrg['id'] is #{edOrg['id']}"
-        puts "DEBUG: edOrg['parent'] is #{edOrg['parent']}"
         next if edOrg["parent"] != nil
         edOrg["parent"] = district_id if schools_in_this_district.include?(edOrg["id"])
-        puts "DEBUG: edOrg['parent'] is #{edOrg['parent']}"
       end
     end
   end

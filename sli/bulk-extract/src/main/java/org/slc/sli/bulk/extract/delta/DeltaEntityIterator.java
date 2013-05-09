@@ -59,7 +59,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     
     private static final Logger LOG = LoggerFactory.getLogger(DeltaEntityIterator.class);
     
-    @Value("${sli.bulk.extract.deltasBatchSize:100}")
+    @Value("${sli.bulk.extract.deltasBatchSize:1000}")
     private int batchSize;
     
     @Autowired

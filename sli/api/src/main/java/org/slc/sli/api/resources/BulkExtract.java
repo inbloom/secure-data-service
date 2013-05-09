@@ -26,7 +26,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -166,14 +165,16 @@ public class BulkExtract {
     @GET
     @Path("extract/{leaId}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getLEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("leaId") String leaId) throws Exception {
+    public Response getLEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("leaId") String leaId) {
 
+        if (leaId == null || leaId.isEmpty()) {
+            throw new IllegalArgumentException("leaId cannot be missing");
+        }
         validateRequestCertificate(request);
         if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
             throw new AccessDeniedException("User is not authorized access this extract");
         }
 
-        appAuthHelper.checkApplicationAuthorization(leaId);
         return getExtractResponse(context.getRequest(), null, leaId, false);
     }
 
@@ -205,7 +206,7 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getTenant(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request to stream tenant bulk extract...");
-        validateRequestAndApplicationAuthorization(request);
+        validateRequestCertificate(request);
 
         return getExtractResponse(context.getRequest(), null, null, false);
     }
@@ -221,7 +222,7 @@ public class BulkExtract {
     @Path("extract/{leaId}/delta/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@Context HttpServletRequest request, @Context HttpContext context,
-            @PathParam("leaId") String leaId, @PathParam("date") String date) throws Exception {
+            @PathParam("leaId") String leaId, @PathParam("date") String date) {
         if (deltasEnabled) {
             LOG.info("Retrieving delta bulk extract for {}, at date {}", leaId, date);
             if (leaId == null || leaId.isEmpty()) {
@@ -230,7 +231,7 @@ public class BulkExtract {
             if (date == null || date.isEmpty()) {
                 throw new IllegalArgumentException("date cannot be missing");
             }
-            validateRequestAndApplicationAuthorization(request);
+            validateRequestCertificate(request);
             return getExtractResponse(context.getRequest(), date, leaId, false);
         }
         return Response.status(404).build();
@@ -247,6 +248,7 @@ public class BulkExtract {
      */
     Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId, boolean isPublicData) {
 
+        appAuthHelper.checkApplicationAuthorization(leaId);
         String appId = appAuthHelper.getApplicationId();
 
         Entity entity = getBulkExtractFileEntity(deltaDate, appId, leaId, false, isPublicData);
@@ -347,8 +349,8 @@ public class BulkExtract {
         for (String leaId : appAuthorizedUserLEAs) {
             Map<String, String> fullLink = new HashMap<String, String>();
             Set<Map<String, String>> deltaLinks = newDeltaLinkSet();
-            List<Entity> leaFileEntities = getLEABulkExtractEntities(appId, leaId);
-            if (!leaFileEntities.isEmpty()) {
+            Iterable<Entity> leaFileEntities = getLEABulkExtractEntities(appId, leaId);
+            if (leaFileEntities.iterator().hasNext()) {
                 addLinks(linkBase + leaId, leaFileEntities, fullLink, deltaLinks);
                 if (!fullLink.isEmpty()) {
                     leaFullLinks.put(leaId, fullLink);
@@ -386,7 +388,7 @@ public class BulkExtract {
      * @param leaFullLinks - Set of LEA full links.
      * @param leaDeltaLinks - Set of LEA delta links.
      */
-    private void addLinks(final String leaLinkBase, final List<Entity> leaFileEntities,
+    private void addLinks(final String leaLinkBase, final Iterable<Entity> leaFileEntities,
             final Map<String, String> fullLink, Set<Map<String, String>> deltaLinks) {
         for (Entity leaFileEntity : leaFileEntities) {
             Map<String, String> deltaLink = new HashMap<String, String>();
@@ -421,7 +423,7 @@ public class BulkExtract {
      * @param appId
      * @return
      */
-    private List<Entity> getLEABulkExtractEntities(String appId, String leaId) {
+    private Iterable<Entity> getLEABulkExtractEntities(String appId, String leaId) {
         initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 principal.getTenantId()));
@@ -432,26 +434,7 @@ public class BulkExtract {
         if (!entities.iterator().hasNext()) {
             debug("Could not find any bulk extract entities");
         }
-        return filterBulkExtractFileEntities(entities);
-    }
-
-    /**
-     * Filter the list of bulk extract entities to include only those which reference existing files.
-     *
-     * @param fileEntities - List of BE file entities to filter
-     *
-     * @return Filtered list of BE file entities
-     */
-    private List<Entity> filterBulkExtractFileEntities(Iterable<Entity> fileEntities) {
-        List<Entity> bulkExtractFileEntities = new LinkedList<Entity>();
-        for (Entity fileEntity : fileEntities) {
-            File beFile = new File((String) fileEntity.getBody().get("path"));
-            if (beFile.exists()) {
-                bulkExtractFileEntities.add(fileEntity);
-            }
-        }
-
-        return bulkExtractFileEntities;
+        return entities;
     }
 
     /**

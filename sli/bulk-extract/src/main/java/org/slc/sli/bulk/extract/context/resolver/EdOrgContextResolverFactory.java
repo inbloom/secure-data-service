@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
 import org.slc.sli.common.constants.EntityNames;
@@ -58,6 +59,9 @@ public class EdOrgContextResolverFactory {
     @Autowired
     private SectionContextResolver sectionResolver;
     
+    @Autowired
+    private StaffTeacherContextResolver staffTeacherResolver;
+
     /**
      * find responsible resolver for this entity type
      * 
@@ -77,15 +81,8 @@ public class EdOrgContextResolverFactory {
         if (EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(entityType)
                 || EntityNames.STUDENT_ASSESSMENT.equals(entityType)
                 || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(entityType)
-                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(entityType)) {
-            return studentDirectRelatedContextResolver;
-        }
-        
-        if (EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)) {
-            // for now use the simple resolver, but be advised this
-            // entity may have additional business rules that is depended
-            // on section. Need to revisit this entity when we play
-            // "section" story
+                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(entityType)
+                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)) {
             return studentDirectRelatedContextResolver;
         }
         
@@ -96,7 +93,12 @@ public class EdOrgContextResolverFactory {
         if (EntityNames.SECTION.equals(entityType)) {
             return sectionResolver;
         }
-        
+      
+        if (EntityNames.TEACHER.equals(entityType) 
+                || EntityNames.STAFF.equals(entityType)) {
+            return staffTeacherResolver;
+        }
+
         return null;
     }
 }
