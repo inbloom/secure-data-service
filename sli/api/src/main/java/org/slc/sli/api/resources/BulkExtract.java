@@ -165,8 +165,11 @@ public class BulkExtract {
     @GET
     @Path("extract/{leaId}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getLEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("leaId") String leaId) throws Exception {
+    public Response getLEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("leaId") String leaId) {
 
+        if (leaId == null || leaId.isEmpty()) {
+            throw new IllegalArgumentException("leaId cannot be missing");
+        }
         validateRequestCertificate(request);
         if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
             throw new AccessDeniedException("User is not authorized access this extract");
@@ -220,7 +223,7 @@ public class BulkExtract {
     @Path("extract/{leaId}/delta/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@Context HttpServletRequest request, @Context HttpContext context,
-            @PathParam("leaId") String leaId, @PathParam("date") String date) throws Exception {
+            @PathParam("leaId") String leaId, @PathParam("date") String date) {
         if (deltasEnabled) {
             LOG.info("Retrieving delta bulk extract for {}, at date {}", leaId, date);
             if (leaId == null || leaId.isEmpty()) {
