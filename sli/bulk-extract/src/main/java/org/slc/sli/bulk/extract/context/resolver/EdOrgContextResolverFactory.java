@@ -23,6 +23,7 @@ import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationConte
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherDirectRelatedContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
 import org.slc.sli.common.constants.EntityNames;
@@ -61,6 +62,9 @@ public class EdOrgContextResolverFactory {
     
     @Autowired
     private StaffTeacherContextResolver staffTeacherResolver;
+    
+    @Autowired
+    private StaffTeacherDirectRelatedContextResolver staffTeacherRelatedResolver;
 
     /**
      * find responsible resolver for this entity type
@@ -97,6 +101,12 @@ public class EdOrgContextResolverFactory {
         if (EntityNames.TEACHER.equals(entityType) 
                 || EntityNames.STAFF.equals(entityType)) {
             return staffTeacherResolver;
+        }
+        
+        if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(entityType)
+                || EntityNames.TEACHER_SECTION_ASSOCIATION.equals(entityType)
+                || EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType)) {
+            return staffTeacherRelatedResolver;
         }
 
         return null;
