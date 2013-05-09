@@ -90,6 +90,9 @@ public class EdOrgContextResolverFactory {
                 || EntityNames.STUDENT_ASSESSMENT.equals(entityType)
                 || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(entityType)
                 || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(entityType)
+                || EntityNames.GRADE.equals(entityType)
+                || EntityNames.REPORT_CARD.equals(entityType)
+                || EntityNames.STUDENT_ACADEMIC_RECORD.equals(entityType)
                 || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)) {
             return studentDirectRelatedContextResolver;
         }
