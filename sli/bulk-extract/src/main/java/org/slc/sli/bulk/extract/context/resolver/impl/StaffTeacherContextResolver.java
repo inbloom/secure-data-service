@@ -16,24 +16,18 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.MapMaker;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * resolve a staff or teacher
@@ -42,21 +36,15 @@ import org.slc.sli.domain.Repository;
  * 
  */
 @Component
-public class StaffTeacherContextResolver implements ContextResolver {
+public class StaffTeacherContextResolver extends ReferrableResolver {
     private static final Logger LOG = LoggerFactory.getLogger(SectionContextResolver.class);
 
     @Autowired
     private EducationOrganizationContextResolver edOrgResolver;
     
     @Autowired
-    @Qualifier("secondaryRepo")
-    private Repository<Entity> repo;
-    
-    @Autowired
     private DateHelper dateHelper;
 
-    private final Map<String, Set<String>> staffEdOrgCache = new MapMaker().softValues().makeMap();
-    
     private final static String STAFF_REFERENCE = "staffReference";
     private final static String EDORG_REFERENCE = "educationOrganizationReference";
     private final static String END_DATE = "endDate";
@@ -64,9 +52,9 @@ public class StaffTeacherContextResolver implements ContextResolver {
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> leas = new HashSet<String>();
-        if (getStaffEdOrgCache().containsKey(entity.getEntityId())) {
+        if (getCache().containsKey(entity.getEntityId())) {
             LOG.debug("got LEAs from cache for {}", entity);
-            return getStaffEdOrgCache().get(entity.getEntityId());
+            return getCache().get(entity.getEntityId());
         }
        
         String id = entity.getEntityId();
@@ -74,7 +62,7 @@ public class StaffTeacherContextResolver implements ContextResolver {
             return leas;
         }
         
-        Iterable<Entity> staffEdorgAssociations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, buildStaffEdorgQuery(id));
+        Iterable<Entity> staffEdorgAssociations = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, buildStaffEdorgQuery(id));
         for (Entity association : staffEdorgAssociations) {
             if (!dateHelper.isFieldExpired(association.getBody(), END_DATE)) {
                 String edorgReference = (String) association.getBody().get(EDORG_REFERENCE);
@@ -84,7 +72,7 @@ public class StaffTeacherContextResolver implements ContextResolver {
             }
         }
         
-        getStaffEdOrgCache().put(entity.getEntityId(), leas);
+        getCache().put(entity.getEntityId(), leas);
         return leas;
     }
     
@@ -93,12 +81,13 @@ public class StaffTeacherContextResolver implements ContextResolver {
         return q;
     }
 
-    private Map<String, Set<String>> getStaffEdOrgCache() {
-        return this.staffEdOrgCache;
-    }
-
     void setDateHelper(DateHelper dateHelper) {
         this.dateHelper = dateHelper;
+    }
+
+    @Override
+    protected String getCollection() {
+        return EntityNames.STAFF;
     }
 
 }

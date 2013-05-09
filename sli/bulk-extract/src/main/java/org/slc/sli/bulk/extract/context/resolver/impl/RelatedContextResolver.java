@@ -27,7 +27,7 @@ import org.slc.sli.domain.Entity;
  * @author nbrown
  *
  */
-public abstract class RelatedContextResolver implements ContextResolver{
+public abstract class RelatedContextResolver implements ContextResolver {
     
     public RelatedContextResolver() {
         super();
