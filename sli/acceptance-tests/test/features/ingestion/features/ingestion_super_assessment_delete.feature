@@ -52,6 +52,7 @@ Scenario: Ingestion of Assessment-Orphans(Entities referring to missing Assessme
     And I see that collections counts have changed as follows in tenant "Midgar"
     | collection                                |     delta|
     | assessment<hollow>                        |         1|
+    | recordHash                                |        -1|
     And I save the collection counts in "Midgar" tenant
     And I re-execute saved query "AssessmentHollowCount" to get "1" records
     And I re-execute saved query "AssessmentNonHollowCount" to get "0" records
@@ -64,5 +65,6 @@ Scenario: Ingestion of Assessment-Orphans(Entities referring to missing Assessme
     And I see that collections counts have changed as follows in tenant "Midgar"
     | collection                                |     delta|
     | assessment<hollow>                        |        -1|
+    | recordHash                                |         1|
     And I read again the entity tagged "nonHollowAssessment" from the "Midgar" tenant and confirm that it is the same
 	

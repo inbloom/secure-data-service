@@ -114,6 +114,7 @@ Scenario: Delete Orphan Assessment with cascade = false
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta|
 	|assessment                        |   -1|
+	|recordHash                        |   -1|
 
 Scenario: Delete Orphan Assessment Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -138,7 +139,8 @@ Scenario: Delete Orphan Assessment Reference with cascade = false
 	And I re-execute saved query "assessment" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta|
-	|assessment                        |    -1|
+	|assessment                        |   -1|
+	|recordHash                        |   -1|
 
 Scenario: Delete Assessment with cascade = false, force = true, logViolations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -178,6 +180,7 @@ Scenario: Delete Assessment with cascade = false, force = true, logViolations = 
 	|assessmentItem                    |   0 |
 	|objectiveAssessment               |   0 |
 	|assessment<hollow>                |   1 |
+	|recordHash                        |  -1 |
 
 
 Scenario: Delete Assessment Reference with cascade = false, force = true, logviolations = true
@@ -218,3 +221,4 @@ Scenario: Delete Assessment Reference with cascade = false, force = true, logvio
 	|assessmentItem                    |   0|
 	|objectiveAssessment               |   0|
 	|assessment<hollow>                |   1|
+	|recordHash                        |  -1|

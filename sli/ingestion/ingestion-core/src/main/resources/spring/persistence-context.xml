@@ -32,6 +32,7 @@
     <value>cohort</value>
     <value>competencyLevelDescriptor</value>
     <value>course</value>
+    <value>courseTranscript</value>
     <value>courseOffering</value>
     <value>disciplineAction</value>
     <value>disciplineIncident</value>
@@ -77,7 +78,6 @@
   <!-- collections that should be persisted using the new pipeline and a transformation has been performed. the collection
     to use will be <name>_transformed -->
   <util:set id="transformedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
-    <value>courseTranscript</value>
   </util:set>
 
   <!-- collections that only exist in the staging database because they are combined into a _transformed collection for another

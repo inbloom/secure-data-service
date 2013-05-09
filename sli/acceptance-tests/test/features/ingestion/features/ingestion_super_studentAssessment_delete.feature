@@ -61,7 +61,7 @@ Scenario: Ingestion of StudentAssessment-Orphans(Entities referring to missing S
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentAssessment          |    0|
-        |recordHash                 |    0|
+        |recordHash                 |   -1|
         |studentAssessment<hollow>  |    1|
     And I read again the entity tagged "hollowStudentAssessment" from the "Midgar" tenant and confirm that it is the same
     And I save the collection counts in "Midgar" tenant
@@ -73,6 +73,6 @@ Scenario: Ingestion of StudentAssessment-Orphans(Entities referring to missing S
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |studentAssessment          |    0|
-        |recordHash                 |    0|
+        |recordHash                 |    1|
         |studentAssessment<hollow>  |   -1|
     And I read again the entity tagged "FullStudentAssessment" from the "Midgar" tenant and confirm that it is the same
