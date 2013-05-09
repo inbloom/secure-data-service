@@ -78,7 +78,7 @@ import org.slc.sli.ingestion.util.LogUtil;
  * @author shalka
  */
 @Component
-public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNote, Resource> implements  BatchJobStage{
+public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNote, Resource> implements BatchJobStage {
 
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
@@ -150,9 +150,9 @@ public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNo
      * @param args
      *            neutral record list coming in from delta processor
      */
-    protected void process(Exchange exchange, ProcessorArgs<NeutralRecordWorkNote> args) {
-        List<NeutralRecord> neutralRecords = args.workNote.getNeutralRecords();
-        RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
+    @Override
+    protected void process(Exchange exchange, IngestionProcessor.ProcessorArgs<NeutralRecordWorkNote> args) {
+        NeutralRecordWorkNote workNote = args.workNote;
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             handleNoBatchJobIdInExchange(exchange);
@@ -169,7 +169,7 @@ public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNo
      * @param exchange
      *            camel exchange.
      */
-    private void processPersistence(RangedWorkNote workNote, Exchange exchange) {
+    private void processPersistence(NeutralRecordWorkNote workNote, Exchange exchange) {
         Stage stage = initializeStage(workNote);
 
         String batchJobId = workNote.getBatchJobId();
@@ -198,15 +198,12 @@ public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNo
      * Initialize the current (persistence) stage.
      *
      * @param workNote
-     *            specifies the entity to be persisted.
+     *            specifies the neutral records to be persisted.
      * @return current (started) stage.
      */
-    private Stage initializeStage(RangedWorkNote workNote) {
+    private Stage initializeStage(NeutralRecordWorkNote workNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
-        stage.setProcessingInformation("stagedEntity="
-                + workNote.getIngestionStagedEntity().getCollectionNameAsStaged() + ", rangeMin="
-                + workNote.getRangeMinimum() + ", rangeMax=" + workNote.getRangeMaximum() + ", batchSize="
-                + workNote.getBatchSize());
+        stage.setProcessingInformation("processing neutral record work note of size " +  workNote.getNeutralRecords().size());
         return stage;
     }
 
@@ -220,80 +217,47 @@ public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNo
      * @param stage
      *            persistence stage.
      */
-    private void processWorkNote(RangedWorkNote workNote, NewBatchJob job, Stage stage) {
-        String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
-
-        EntityPipelineType entityPipelineType = getEntityPipelineType(collectionNameAsStaged);
-        String collectionToPersistFrom = getCollectionToPersistFrom(collectionNameAsStaged, entityPipelineType);
-
-        LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
+    private void processWorkNote(NeutralRecordWorkNote workNote, NewBatchJob job, Stage stage) {
+        String currentEntityType = null;
 
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
-        ReportStats reportStatsForCollection = createReportStats(job.getId(), collectionNameAsStaged,
-                stage.getStageName());
+        ReportStats reportStatsForCollection = new SimpleReportStats();
         try {
             ReportStats reportStatsForNrEntity = null;
 
             Iterable<NeutralRecord> records = null;
-            AggregatedSource source = new AggregatedSource(collectionNameAsStaged);
-            try {
-                records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
-                for (NeutralRecord nr : records) {
-                    source.addSource(new ElementSourceImpl(nr));
-                }
-            } catch (MongoException me) {
-                // Add collection name to job resources for later error reporting, if not already
-                // there.
-                NewBatchJob savedJob = batchJobDAO.findBatchJobById(job.getId());
-                if (savedJob.getResourceEntry(collectionNameAsStaged) == null) {
-                    ResourceEntry resourceEntry = new ResourceEntry();
-                    resourceEntry.setResourceId(collectionNameAsStaged);
-                    job.addResourceEntry(resourceEntry);
-                    batchJobDAO.saveBatchJob(job);
-                }
-                databaseMessageReport.error(reportStatsForCollection, source, CoreMessageCode.CORE_0015,
-                        collectionNameAsStaged);
-                LogUtil.error(LOG, "MongoException when attempting to extract " + collectionNameAsStaged
-                        + " NeutralRecords from staging db", me);
-                throw (me);
-            }
 
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
-
-            // UN: Added the records to the recordHashStore
+            List<NeutralRecord> recordStore = new ArrayList<NeutralRecord>();
+            List<SimpleEntity> persist = new ArrayList<SimpleEntity>();
             for (NeutralRecord neutralRecord : records) {
+                currentEntityType = neutralRecord.getRecordType();
+
                 if (reportStatsForNrEntity == null) {
                     reportStatsForNrEntity = createReportStats(job.getId(), neutralRecord.getSourceFile(),
                             stage.getStageName());
                 }
                 recordHashStore.add(neutralRecord);
-            }
 
-            List<NeutralRecord> recordStore = new ArrayList<NeutralRecord>();
-            List<SimpleEntity> persist = new ArrayList<SimpleEntity>();
-            for (NeutralRecord neutralRecord : records) {
                 reportStatsForCollection = createReportStats(job.getId(), neutralRecord.getSourceFile(),
                         stage.getStageName());
                 Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
-                if (entityPipelineType.equals(EntityPipelineType.PASSTHROUGH)
-                        || entityPipelineType.equals(EntityPipelineType.TRANSFORMED)) {
+                SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, job,
+                        reportStatsForCollection);
 
-                    SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, job,
-                            reportStatsForCollection);
+                if (dbConfirmed(xformedEntity)) {
 
-                    if (dbConfirmed(xformedEntity)) {
+                    recordStore.add(neutralRecord);
 
-                        recordStore.add(neutralRecord);
+                    // queue up for bulk insert
+                    persist.add(xformedEntity);
 
-                        // queue up for bulk insert
-                        persist.add(xformedEntity);
-
-                    } else {
-                        currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
-                    }
-                    currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
+                } else {
+                    currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
                 }
+                currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
+
                 perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
             }
 
@@ -332,9 +296,9 @@ public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNo
                 LOG.error("Exception processing record with entityPersistentHandler", darfe);
             }
         } catch (Exception e) {
-            databaseMessageReport.error(reportStatsForCollection, new ProcessorSource(collectionNameAsStaged),
-                    CoreMessageCode.CORE_0005, collectionNameAsStaged);
-            LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
+            databaseMessageReport.error(reportStatsForCollection, new ProcessorSource(currentEntityType),
+                    CoreMessageCode.CORE_0005, currentEntityType);
+            LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + currentEntityType, e);
         } finally {
             Iterator<Metrics> it = perFileMetrics.values().iterator();
             while (it.hasNext()) {
@@ -394,11 +358,11 @@ public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNo
      * @return
      */
     private static Metrics getOrCreateMetric(Map<String, Metrics> perFileMetrics, NeutralRecord neutralRecord,
-            RangedWorkNote workNote) {
+                                             NeutralRecordWorkNote workNote) {
 
         String sourceFile = neutralRecord.getSourceFile();
         if (sourceFile == null) {
-            sourceFile = "unknown_" + workNote.getIngestionStagedEntity().getEdfiEntity() + "_file";
+            sourceFile = "unknown_" + neutralRecord.getRecordType() + "_file";
         }
 
         Metrics currentMetric = perFileMetrics.get(sourceFile);
@@ -596,11 +560,12 @@ public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNo
 
     @Override
     protected BatchJobStageType getStage() {
-        return BatchJobStageType.PERSISTENCE_PROCESSOR;
+        return BATCH_JOB_STAGE;
     }
 
     @Override
     protected String getStageDescription() {
-        return BATCH_JOB_STAGE.getName();
+        return BATCH_JOB_STAGE_DESC;
     }
+
 }
