@@ -17,6 +17,11 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "studentParentAssociation" delta was extracted in the same format as the api
    And The "section" delta was extracted in the same format as the api
    And The "studentSectionAssociation" delta was extracted in the same format as the api
+   And The "staff" delta was extracted in the same format as the api
+   And The "teacher" delta was extracted in the same format as the api
+   And The "teacherSectionAssociation" delta was extracted in the same format as the api
+   And The "teacherSchoolAssociation" delta was extracted in the same format as the api
+   And The "staffEducationOrganizationAssociation" delta was extracted in the same format as the api
 
 Scenario: Generate a bulk extract in a different LEAs
   Given I clean the bulk extract file system and database
