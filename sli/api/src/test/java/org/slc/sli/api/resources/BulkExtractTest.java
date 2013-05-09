@@ -421,7 +421,30 @@ public class BulkExtractTest {
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAuth);
-        bulkExtract.getLEAExtract(null, req, "BLEEP");
+        bulkExtract.getLEAExtract(CONTEXT, req, "BLEEP");
+    }
+
+    @Test(expected = AccessDeniedException.class)
+    public void testAppIsNotAuthorizedForDeltaLea() throws Exception {
+        injector.setEducatorContext();
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("isBulkExtract", true);
+        body.put("authorized_ed_orgs", Arrays.asList("ONE"));
+        body.put("public_key", "KEY");
+        Entity mockEntity = Mockito.mock(Entity.class);
+        when(mockEntity.getBody()).thenReturn(body);
+        when(mockEntity.getEntityId()).thenReturn("App1");
+        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+                mockEntity);
+
+        Map<String, Object> authBody = new HashMap<String, Object>();
+        authBody.put("applicationId", "App1");
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("TWO"));
+        Entity mockAuth = Mockito.mock(Entity.class);
+        when(mockAuth.getBody()).thenReturn(authBody);
+        when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockAuth);
+        bulkExtract.getDelta(req, CONTEXT, "BLEEP", "2012-12-21");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -446,7 +469,7 @@ public class BulkExtractTest {
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAuth);
-        bulkExtract.getLEAExtract(null, req, "BLEEP");
+        bulkExtract.getLEAExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -462,7 +485,7 @@ public class BulkExtractTest {
         when(mockEntity.getEntityId()).thenReturn("App1");
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        bulkExtract.getLEAExtract(null, req, "BLEEP");
+        bulkExtract.getLEAExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -471,7 +494,7 @@ public class BulkExtractTest {
         // No BE Field
         Mockito.when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class)))
                 .thenReturn(false);
-        bulkExtract.getLEAExtract(null, req, "BLEEP");
+        bulkExtract.getLEAExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
