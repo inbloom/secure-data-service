@@ -394,7 +394,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .choice()
                 .when().method("fileEntryLatch", "lastFileProcessed")
                     .log(LoggingLevel.INFO, "CamelRouting", "FileEntryWorkNote latch opened.")
-                    .to("direct:postExtract");
+                    .to("direct:stop");
 
         // routeId: assembledJobs
         from("direct:assembledJobs").routeId("assembledJobs")

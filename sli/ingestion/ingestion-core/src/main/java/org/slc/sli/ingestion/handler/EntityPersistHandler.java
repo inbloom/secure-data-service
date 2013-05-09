@@ -268,6 +268,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             try {
                 validator.validate(entity);
                 addTimestamps(entity);
+                if (!queued.containsKey(entity.getType())) {
+                    queued.put(entity.getType(),new ArrayList<Entity>());
+                }
                 queued.get(entity.getType()).add(entity);
             } catch (EntityValidationException e) {
                 reportErrors(e.getValidationErrors(), entity, report, reportStats, new ElementSourceImpl(entity));

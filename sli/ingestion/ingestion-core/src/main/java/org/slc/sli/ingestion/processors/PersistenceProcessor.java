@@ -225,7 +225,7 @@ public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNo
         try {
             ReportStats reportStatsForNrEntity = null;
 
-            Iterable<NeutralRecord> records = null;
+            Iterable<NeutralRecord> records = workNote.getNeutralRecords();
 
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
             List<NeutralRecord> recordStore = new ArrayList<NeutralRecord>();
