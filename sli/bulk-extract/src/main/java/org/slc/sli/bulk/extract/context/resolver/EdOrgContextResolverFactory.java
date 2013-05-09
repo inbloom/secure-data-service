@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.GradebookEntryContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherContextResolver;
@@ -66,6 +67,9 @@ public class EdOrgContextResolverFactory {
     @Autowired
     private StaffTeacherDirectRelatedContextResolver staffTeacherRelatedResolver;
 
+    @Autowired
+    private GradebookEntryContextResolver gradebookEntryContextResolver;
+
     /**
      * find responsible resolver for this entity type
      * 
@@ -107,6 +111,10 @@ public class EdOrgContextResolverFactory {
                 || EntityNames.TEACHER_SECTION_ASSOCIATION.equals(entityType)
                 || EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType)) {
             return staffTeacherRelatedResolver;
+        }
+
+        if (EntityNames.GRADEBOOK_ENTRY.equals(entityType)) {
+            return gradebookEntryContextResolver;
         }
 
         return null;
