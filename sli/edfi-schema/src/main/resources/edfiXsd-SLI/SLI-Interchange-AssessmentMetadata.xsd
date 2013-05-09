@@ -12,7 +12,7 @@
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="AssessmentFamily" type="SLC-AssessmentFamily"/>
 				<xs:element name="Assessment" type="SLC-Assessment"/>
-				<xs:element name="AssessmentPeriodDescriptor" type="AssessmentPeriodDescriptor"/>
+				<xs:element name="AssessmentPeriodDescriptor" type="SLC-AssessmentPeriodDescriptor"/>
 				<xs:element name="ObjectiveAssessment" type="SLC-ObjectiveAssessment"/>
 				<xs:element name="AssessmentItem" type="SLC-AssessmentItem"/>
 				<xs:element name="LearningObjective" type="SLC-LearningObjective"/>
