@@ -217,12 +217,18 @@ public class BulkExtract {
      * @throws Exception On Error
      */
     @GET
-    @Path("extract/{leadId}/delta/{date}")
+    @Path("extract/{leaId}/delta/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@Context HttpServletRequest request, @Context HttpContext context,
             @PathParam("leaId") String leaId, @PathParam("date") String date) throws Exception {
         if (deltasEnabled) {
-            LOG.info("Retrieving delta bulk extract");
+            LOG.info("Retrieving delta bulk extract for {}, at date {}", leaId, date);
+            if (leaId == null || leaId.isEmpty()) {
+                throw new IllegalArgumentException("leaId cannot be missing");
+            }
+            if (date == null || date.isEmpty()) {
+                throw new IllegalArgumentException("date cannot be missing");
+            }
             validateRequestAndApplicationAuthorization(request);
             return getExtractResponse(context.getRequest(), date, leaId, false);
         }
