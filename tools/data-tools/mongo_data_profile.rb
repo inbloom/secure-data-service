@@ -1,34 +1,79 @@
 #!/usr/bin/env ruby
 
-# Profile data in a mongo database, counting documents and field occurrences
+# mongo_data_profile.rg
+#
+# This script prfiles data in a mongo database, counting documents and field occurrences
 
-# Usage: mongo_data_profile [<database>]
+# Usage: mongo_data_profile.rb
+#        mongo_data_profile.rb [<db>] ...
+#        mongo_data_profile.rb [<db>:<collection1>,<collection2>] ...
+#        
+# With no database, lists all the databases and their colleciton counts
+# With a database argument, shows all collections in that database
+# Database name may be followed by a colon (":") and a comma-separated list of collections in that database
+#
 
-# With no database, lists all the databases.
-# With a database argument, shows collections in that database
+# For each document, the keys ane values are summarized, showing
+# counts by the type of data elements that occur.  For documents of
+# consistent structure, there will usually be only one data type and
+# associated count for each field.
+#
+# The script will recognize encrypted types and string types that
+# appear to be Hex IDs
+#
+# Where arrays occur, a count of the number of arrays occurring in the
+# field is shown together with statistics on the minumum size, maximum
+# size, and total elements across all the array occurrences.  Then,
+# total statistics across all the array elements is given under the
+# pseudo-field "ALL_ELEMENTS"
+#
+
 
 require 'mongo'
 require 'pp'
+
+COUNT_TAG = "__count"
+ELEMENTS_TAG = "ALL_ELEMENTS"
+
 
 # Main driver
 def main(argv)
   host = "localhost"
   conn = Mongo::Connection.new(host)
   dbs = argv
-  if 0 == dbs.length
+
+  # If no args, just show all databases
+  if dbs.empty?
     dbs = conn.database_names.sort()
     puts "Databases on server '" + host + "':"
     for dbname in dbs
-      puts "    " + dbname + " (" + conn.db(dbname).collection_names.length.to_s() + " colls)"
+      puts "    " + db_summary(conn, dbname)
     end
+
+    puts "\nTo data profile specific database(s) or collections, give argument(s) as follows:\n"
+    puts "     <dbname>                    Profile all collections in <dbname>\n"
+    puts "     <dbname>:<coll1>,<coll2>    Profile collections <coll1> and <coll2. in <dbname>\n"
+    puts "\n"
     return
   end
   
   # conn.database_info.each { |info| puts info.inspect }
-  for dbname in dbs
-    puts dbname
+  for dbname_and_colls in dbs
+
+    # Split to see if specific collection(s) given
+    inf = dbname_and_colls.split(/:+/)
+    dbname = inf.shift()
+    coll_list = inf
+    colls = []
+    if not coll_list.empty?
+      colls = coll_list[0].split(/,+/)
+    end
+
+    puts db_summary(conn, dbname)
     db = conn.db(dbname)
-    colls = db.collection_names.sort()
+    if colls.empty?
+      colls = db.collection_names.sort()
+    end
     for collname in colls
       coll = db[collname]
       ndoc = coll.count
@@ -40,12 +85,15 @@ def main(argv)
         countstr = ndoc.to_s() + " docs"
       end
       puts "    " + collname + " (" + countstr + ")"
-      print_hash(analyze(coll), 2)
+      summary_data = analyze(coll)
+      # PP.pp(summary_data)
+      summary_data.delete(COUNT_TAG)
+      print_hash(summary_data, 2)
     end
   end
 end
 
-# Analyze data in collection
+# Analyze data in collection and return summary data
 def analyze(coll)
   summary = {}
   coll.find({}, :timeout => false) do |cursor|
@@ -59,72 +107,135 @@ def analyze(coll)
 end
 
 # Accumulate summary from document
-def summarize(summary, document)
-  document.each do |k, kval|
+def summarize(summary, val)
 
-    count_tag = "__count"
-    # Count up by types
-    if not summary.has_key?(k)
-      summary[k] = { count_tag => {} }
-    end
-    counts = summary[k][count_tag]
+  # Accumulate counts by data type
+  if not summary.has_key?(COUNT_TAG)
+    summary[COUNT_TAG] = {}
+  end
+  counts = summary[COUNT_TAG]
 
-    kvtype = kval.class.name
-    inc_count(counts, kvtype)
+  vtype = get_type(val)
+  inc_count(counts, vtype, val)
 
-    is_array = (kvtype == "Array")
-    if is_array
-      vals = kval
-    else
-      vals = [ kval ]
-    end
-    
-    vals.each do |v|
-      vtype = v.class.name
-
-      if is_array
-        inc_count(counts, vtype)
+  # Handle composite types (hash, 
+  if vtype == "BSON::OrderedHash"
+    # Maintain summary stats on hash sizes
+    val.each do |k, v|
+      if not summary.has_key?(k)
+        summary[k] = {}
       end
-      
-      # If a hash, add subkeys in summary
-      if vtype == "BSON::OrderedHash"
-        summarize(summary[k], v)
-      end
+      summarize(summary[k], v)
+    end
+  elsif vtype == "Array"
+    # Maintain summary stats on array sizes
+
+    if not summary.has_key?(ELEMENTS_TAG)
+      summary[ELEMENTS_TAG] = {}
+    end
+    val.each do |v|
+      summarize(summary[ELEMENTS_TAG], v)
     end
   end
 end
 
 # Print hash, indented
 def print_hash(h, indent)
-  h.each do |k, v|
+  # print "print_hash called on"
+  # PP.pp(h)
+  # print "doing keys bnd avlues"
+  h.sort.each do |k, v|
+    if v.empty?
+      next
+    end
+    # print "doing key '" + k.to_s() + "' and value '" + v.to_s() + "'"
     print "    " * indent + k + ":" + " " + counts_summary(v) + "\n"
-    count_tag = "__count"
-    v.delete(count_tag)
+    v.delete(COUNT_TAG)
     print_hash(v, indent + 1)
   end
 end
 
 # Counts summary
 def counts_summary(v)
-  count_tag = "__count"
-  h = v[count_tag]
+  h = v[COUNT_TAG]
   result = ""
-  h.each do |typ, cnt|
+  h.each do |typ, inf|
     if result.length > 0
       result += ", "
     end
-    result += cnt.to_s() + " [" + typ + "]"
+    if typ == "Array"
+      cnt, min, max, total = inf
+      if min < 0
+        minstr = ""
+      else
+        minstr = ", minelt=" + min.to_s()
+      end
+      if max < 0
+        maxstr = ""
+      else
+        maxstr = ", maxelt=" + max.to_s()
+      end
+      result += "count=" + cnt.to_s() + minstr + maxstr + ", totalelt=" + total.to_s() + " [" + typ + "]"
+    else
+      result += inf.to_s() + " [" + typ + "]"
+    end
   end
   return result
 end
 
-# Increment count
-def inc_count(counts, k)
-  if counts.has_key?(k)
-      counts[k] += 1
+# Increment count and collect stats for types
+def inc_count(counts, k, v)
+  # Handle array
+  if ( k == "Array" )
+    if counts.has_key?(k)
+      cnt, min, max, total = counts[k]
+    else
+      cnt, min, max, total = [ 0, -1, -1, 0 ]
+    end
+    
+    cnt +=1
+    n = v.length
+    if min < 0 or n < min
+      min = n
+    end
+    if max < 0 or n > max
+      max = n
+    end
+    total += n
+    counts[k] = [ cnt, min, max, total ]
   else
-    counts[k] = 1
+    if counts.has_key?(k)
+      counts[k] += 1
+    else
+      counts[k] = 1
+    end
   end
+end
+
+# Database and collection count info
+def db_summary(conn, dbname)
+  return dbname + " (" + conn.db(dbname).collection_names.length.to_s() + " colls)"
+end
+
+# Get data type
+def get_type(val)
+  typ = val.class.name
+  if typ == "String"
+    if starts_with?(val, "ESTRING:")
+      return "Encrypted String"
+    elsif starts_with?(val, "EBOOL:")
+      return "Encrypted Bool"
+    elsif val.match(/^[a-f0-9]{40}_id$/)
+      return "Entity ID '%40x_id'"
+    elsif val.match(/^[a-f0-9]{40}_id[a-f0-9]{40}_id$/)
+      return "SubDoc ID '%40x_id%40x_id'"
+    end
+  end
+  return typ
+end    
+
+def starts_with?(s, prefix)
+  s[0, prefix.length] == prefix
 end
 
 # Run it

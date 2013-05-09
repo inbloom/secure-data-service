@@ -19,6 +19,7 @@ package org.slc.sli.api.resources;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
@@ -109,6 +110,7 @@ import org.slc.sli.domain.Repository;
         DirtiesContextTestExecutionListener.class })
 public class BulkExtractTest {
 
+    private static final HttpContextAdapter CONTEXT = new HttpContextAdapter();
     private static final String INPUT_FILE_NAME = "mock.in.tar.gz";
     private static final String URI_PATH = "http://local.slidev.org:8080/api/rest/v1.2";
 
@@ -206,7 +208,7 @@ public class BulkExtractTest {
         Mockito.when(mockBody.get("date")).thenReturn("2013-05-04");
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockEntity);
-        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant(req, new HttpContextAdapter());
+        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant(req, CONTEXT);
         assertEquals(404, res.getStatus());
     }
 
@@ -354,9 +356,9 @@ public class BulkExtractTest {
                                 public void describeTo(Description arg0) {
                                 }
                             }))).thenReturn(e);
-            Response r = bulkExtract.getDelta(req, new HttpContextAdapter(), "Midvale", "2013-03-31T11:00:00.000Z");
+            Response r = bulkExtract.getDelta(req, CONTEXT, "Midvale", "2013-03-31T11:00:00.000Z");
             assertEquals(200, r.getStatus());
-            Response notExisting = bulkExtract.getDelta(req, new HttpContextAdapter(), "Midvale", "2013-04-01T11:00:00.000Z");
+            Response notExisting = bulkExtract.getDelta(req, CONTEXT, "Midvale", "2013-04-01T11:00:00.000Z");
             assertEquals(404, notExisting.getStatus());
         } finally {
             f.delete();
@@ -382,7 +384,7 @@ public class BulkExtractTest {
         when(mockEntity.getBody()).thenReturn(body);
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        bulkExtract.getTenant(req, new HttpContextAdapter());
+        bulkExtract.getTenant(req, CONTEXT);
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -396,7 +398,7 @@ public class BulkExtractTest {
         when(mockEntity.getBody()).thenReturn(body);
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        bulkExtract.getTenant(req, new HttpContextAdapter());
+        bulkExtract.getTenant(req, CONTEXT);
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -478,14 +480,14 @@ public class BulkExtractTest {
         // No BE Field
         Entity mockEntity = mockApplicationEntity();
         mockEntity.getBody().put("isBulkExtract", false);
-        bulkExtract.getLEAList(req, new HttpContextAdapter());
+        bulkExtract.getLEAList(req, CONTEXT);
     }
 
     @Test(expected = AccessDeniedException.class)
     public void testGetLEAListCheckUserAssociatedLEAsFailure() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        bulkExtract.getLEAList(req, new HttpContextAdapter());
+        bulkExtract.getLEAList(req, CONTEXT);
     }
 
     @Test()
@@ -494,7 +496,7 @@ public class BulkExtractTest {
         mockApplicationEntity();
         Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
 
-        Response res = bulkExtract.getLEAList(req, new HttpContextAdapter());
+        Response res = bulkExtract.getLEAList(req, CONTEXT);
         assertEquals(404, res.getStatus());
     }
 
@@ -513,7 +515,7 @@ public class BulkExtractTest {
         Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(new ArrayList<Entity>());
 
-        Response res = bulkExtract.getLEAList(req, new HttpContextAdapter());
+        Response res = bulkExtract.getLEAList(req, CONTEXT);
         assertEquals(200, res.getStatus());
         EntityBody list = (EntityBody) res.getEntity();
         assertNotNull("LEA links list should not be null", list);
@@ -549,7 +551,7 @@ public class BulkExtractTest {
         Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
         body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
 
-        Response res = bulkExtract.getLEAList(req, new HttpContextAdapter());
+        Response res = bulkExtract.getLEAList(req, CONTEXT);
         assertEquals(200, res.getStatus());
         EntityBody list = (EntityBody) res.getEntity();
         assertNotNull("LEA links list should not be null", list);
@@ -586,7 +588,7 @@ public class BulkExtractTest {
         Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(leas);
 
-        Response res = bulkExtract.getLEAList(req, new HttpContextAdapter());
+        Response res = bulkExtract.getLEAList(req, CONTEXT);
         assertEquals(200, res.getStatus());
         EntityBody list = (EntityBody) res.getEntity();
         assertNotNull("LEA links list should not be null", list);
@@ -626,7 +628,7 @@ public class BulkExtractTest {
         Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(leas);
 
-        Response res = bulkExtract.getLEAList(req, new HttpContextAdapter());
+        Response res = bulkExtract.getLEAList(req, CONTEXT);
         assertEquals(200, res.getStatus());
         EntityBody list = (EntityBody) res.getEntity();
         assertNotNull("LEA links list should not be null", list);
@@ -662,7 +664,7 @@ public class BulkExtractTest {
         Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(leas);
 
-        Response res = bulkExtract.getLEAList(req, new HttpContextAdapter());
+        Response res = bulkExtract.getLEAList(req, CONTEXT);
         assertEquals(200, res.getStatus());
         EntityBody list = (EntityBody) res.getEntity();
         assertNotNull("LEA links list should not be null", list);
@@ -680,6 +682,32 @@ public class BulkExtractTest {
         assertEquals("Mismatched URI for delta extract for LEA \"123\"", URI_PATH + "/bulk/extract/123/delta/" + timeStamp1, deltaLink2.get("uri"));
         assertEquals("Delta links are not in timestamp order", 1, ISODateTimeFormat.dateTime().parseDateTime(deltaLink1.get("timestamp"))
                 .compareTo(ISODateTimeFormat.dateTime().parseDateTime(deltaLink2.get("timestamp"))));
+    }
+
+    @Test
+    public void testNullLEA() {
+        try {
+            bulkExtract.getDelta(req, CONTEXT, null, "2012-12-21");
+            fail("Should have thrown exception for null lea");
+        } catch (IllegalArgumentException e) {
+            assertTrue(!e.getMessage().isEmpty());
+        }
+        try {
+            bulkExtract.getLEAExtract(CONTEXT, req, null);
+            fail("Should have thrown exception for null lea");
+        } catch (IllegalArgumentException e) {
+            assertTrue(!e.getMessage().isEmpty());
+        }
+    }
+
+    @Test
+    public void testNullDeltaDate() {
+        try {
+            bulkExtract.getDelta(req, CONTEXT, "Midgar", null);
+            fail("Should have thrown exception for null date");
+        } catch (IllegalArgumentException e) {
+            assertTrue(!e.getMessage().isEmpty());
+        }
     }
 
     private Entity mockApplicationEntity() {
