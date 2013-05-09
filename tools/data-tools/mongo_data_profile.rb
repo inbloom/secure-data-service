@@ -18,6 +18,9 @@
 # consistent structure, there will usually be only one data type and
 # associated count for each field.
 #
+# The script will recognize encrypted types and string types that
+# appear to be Hex IDs
+#
 # Where arrays occur, a count of the number of arrays occurring in the
 # field is shown together with statistics on the minumum size, maximum
 # size, and total elements across all the array occurrences.  Then,
@@ -112,7 +115,7 @@ def summarize(summary, val)
   end
   counts = summary[COUNT_TAG]
 
-  vtype = val.class.name
+  vtype = get_type(val)
   inc_count(counts, vtype, val)
 
   # Handle composite types (hash, 
@@ -212,6 +215,27 @@ end
 # Database and collection count info
 def db_summary(conn, dbname)
   return dbname + " (" + conn.db(dbname).collection_names.length.to_s() + " colls)"
+end
+
+# Get data type
+def get_type(val)
+  typ = val.class.name
+  if typ == "String"
+    if starts_with?(val, "ESTRING:")
+      return "Encrypted String"
+    elsif starts_with?(val, "EBOOL:")
+      return "Encrypted Bool"
+    elsif val.match(/^[a-f0-9]{40}_id$/)
+      return "Entity ID '%40x_id'"
+    elsif val.match(/^[a-f0-9]{40}_id[a-f0-9]{40}_id$/)
+      return "SubDoc ID '%40x_id%40x_id'"
+    end
+  end
+  return typ
+end    
+
+def starts_with?(s, prefix)
+  s[0, prefix.length] == prefix
 end
 
 # Run it
