@@ -375,7 +375,12 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .bean(batchJobManager, "prepareTenantContext")
             .log(LoggingLevel.INFO, "CamelRouting", "Batch of ${body.neutralRecords.size} is recieved for delta processing")
             .beanRef("deltaFilterProcessor")
-            .to("direct:staging");
+            .to("direct:persister");
+
+        from("direct:persister").routeId("persister")
+                .bean(batchJobManager, "prepareTenantContext")
+                .log(LoggingLevel.INFO, "CamelRouting", "Batch of ${body.neutralRecords.size} is recieved to persist")
+                .beanRef("persistenceProcessor");
 
         from("direct:staging").routeId("staging")
             .bean(batchJobManager, "prepareTenantContext")

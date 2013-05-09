@@ -32,6 +32,7 @@ import com.mongodb.MongoException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slc.sli.ingestion.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +43,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.BatchJobStage;
-import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordReadConverter;
 import org.slc.sli.ingestion.delta.SliDeltaManager;
@@ -82,7 +78,7 @@ import org.slc.sli.ingestion.util.LogUtil;
  * @author shalka
  */
 @Component
-public class PersistenceProcessor implements Processor, BatchJobStage {
+public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNote, Resource> implements  BatchJobStage{
 
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
@@ -151,9 +147,11 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      *
      * @param exchange
      *            camel exchange.
+     * @param args
+     *            neutral record list coming in from delta processor
      */
-    @Override
-    public void process(Exchange exchange) {
+    protected void process(Exchange exchange, ProcessorArgs<NeutralRecordWorkNote> args) {
+        List<NeutralRecord> neutralRecords = args.workNote.getNeutralRecords();
         RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
 
         if (workNote == null || workNote.getBatchJobId() == null) {
@@ -596,4 +594,13 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         return BATCH_JOB_STAGE.getName();
     }
 
+    @Override
+    protected BatchJobStageType getStage() {
+        return BatchJobStageType.PERSISTENCE_PROCESSOR;
+    }
+
+    @Override
+    protected String getStageDescription() {
+        return BATCH_JOB_STAGE.getName();
+    }
 }
