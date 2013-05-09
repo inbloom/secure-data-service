@@ -37,6 +37,10 @@ import org.slc.sli.domain.NeutralQuery;
  */
 @Component
 public class StaffTeacherContextResolver extends ReferrableResolver {
+    public final static String STAFF_REFERENCE = "staffReference";
+    public final static String EDORG_REFERENCE = "educationOrganizationReference";
+    public final static String END_DATE = "endDate";
+
     private static final Logger LOG = LoggerFactory.getLogger(SectionContextResolver.class);
 
     @Autowired
@@ -44,10 +48,6 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
     
     @Autowired
     private DateHelper dateHelper;
-
-    private final static String STAFF_REFERENCE = "staffReference";
-    private final static String EDORG_REFERENCE = "educationOrganizationReference";
-    private final static String END_DATE = "endDate";
 
     @Override
     public Set<String> findGoverningLEA(Entity entity) {

@@ -175,8 +175,11 @@ public class BulkExtract {
             throw new AccessDeniedException("User is not authorized access this extract");
         }
 
-        appAuthHelper.checkApplicationAuthorization(leaId);
-        return getExtractResponse(context.getRequest(), null, leaId, false);
+
+        Entity entity = helper.byId(leaId);
+        boolean isSEA = entity != null && helper.isSEA(entity);
+
+        return getExtractResponse(context.getRequest(), null, leaId, isSEA);
     }
 
     /**
@@ -207,7 +210,7 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getTenant(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request to stream tenant bulk extract...");
-        validateRequestAndApplicationAuthorization(request);
+        validateRequestCertificate(request);
 
         return getExtractResponse(context.getRequest(), null, null, false);
     }
@@ -232,7 +235,7 @@ public class BulkExtract {
             if (date == null || date.isEmpty()) {
                 throw new IllegalArgumentException("date cannot be missing");
             }
-            validateRequestAndApplicationAuthorization(request);
+            validateRequestCertificate(request);
             return getExtractResponse(context.getRequest(), date, leaId, false);
         }
         return Response.status(404).build();
@@ -249,6 +252,7 @@ public class BulkExtract {
      */
     Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId, boolean isPublicData) {
 
+        appAuthHelper.checkApplicationAuthorization(leaId);
         String appId = appAuthHelper.getApplicationId();
 
         Entity entity = getBulkExtractFileEntity(deltaDate, appId, leaId, false, isPublicData);
