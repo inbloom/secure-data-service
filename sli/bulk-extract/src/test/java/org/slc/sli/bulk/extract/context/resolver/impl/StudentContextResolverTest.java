@@ -75,9 +75,8 @@ public class StudentContextResolverTest {
     public void testGetLEAsForStudentId() {
         Entity testStudent = buildTestStudent();
         when(repo.findOne("student", buildQuery("42"))).thenReturn(testStudent);
-        underTest.setRepo(repo);
         assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
-                underTest.getLEAsForStudentId("42"));
+                underTest.findGoverningLEA("42"));
     }
     
     @SuppressWarnings("unchecked")
@@ -123,7 +122,7 @@ public class StudentContextResolverTest {
     public void testCache() {
         Entity testEntity = buildTestStudent();
         Set<String> fromEntity1 = underTest.findGoverningLEA(testEntity);
-        Set<String> fromId = underTest.getLEAsForStudentId("testStudent");
+        Set<String> fromId = underTest.findGoverningLEA("testStudent");
         Set<String> fromEntity2 = underTest.findGoverningLEA(testEntity);
         assertEquals(fromEntity1, fromId);
         assertEquals(fromEntity2, fromId);
