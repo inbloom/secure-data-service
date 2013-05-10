@@ -1024,11 +1024,11 @@ def entityToUri(entity)
   uri
 end
 
-def compareToApi(collection, collFile)
+def compareToApi(collection, collFile, sample_size=10)
   found = false
   uri = entityToUri(collection)
     
-  collFile.each do |extractRecord|
+  (collFile.shuffle.take(sample_size)).each do |extractRecord|
     
     id = extractRecord["id"]
       
