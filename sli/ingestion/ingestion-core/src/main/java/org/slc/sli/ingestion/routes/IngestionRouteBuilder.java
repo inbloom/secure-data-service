@@ -163,7 +163,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.tenant.loadDefaultTenants}")
     private boolean loadDefaultTenants;
 
-    private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
+    public static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
 
     // Spring's dependency management can confuse camel due to some circular dependencies. Removing
     // this constructor, even if it doesn't look like it will change things, may affect loading
@@ -363,7 +363,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .beanRef("deltaHashPurgeProcessor")
                 .endChoice()
                 .split().method("ZipFileSplitter", "splitZipFile")
-                .log(LoggingLevel.INFO, "CamemRoutring", "Zip file split").to(parserQueueUri);
+                .log(LoggingLevel.INFO, "CamelRouting", "Zip file split").to(parserQueueUri);
 
         from(parserQueueUri).routeId("edFiParser")
             .bean(batchJobManager, "prepareTenantContext")
@@ -375,7 +375,15 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .bean(batchJobManager, "prepareTenantContext")
             .log(LoggingLevel.INFO, "CamelRouting", "Batch of ${body.neutralRecords.size} is recieved for delta processing")
             .beanRef("deltaFilterProcessor")
-            .to("direct:persister");
+            .choice()
+                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PERSIST_REQUEST.name()))
+                .choice()
+                    .when()
+                    .method(batchJobManager, "isDryRun")
+                        .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Bypassing persistence.")
+                    .otherwise()
+                        .log(LoggingLevel.INFO, "CamelRouting", "Routing to PersistenceProcessor.")
+                        .to("direct:persister");
 
         from("direct:persister").routeId("persister")
                 .bean(batchJobManager, "prepareTenantContext")
