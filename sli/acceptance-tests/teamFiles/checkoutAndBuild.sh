@@ -25,7 +25,7 @@ cd /opt/megatron/sli/
 #git checkout -- /opt/megatron/sli/sli/acceptance-tests/test/data/application_fixture.json
 #git checkout -- /opt/megatron/sli/sli/acceptance-tests/test/data/realm_fixture.json
 #git checkout -- /opt/megatron/sli/sli/acceptance-tests/test/data/securityEvent_fixture.json
-git checkout -- /opt/megatron/sli/sli/acceptance-tests/test/features/utils/properties.yml
+#git checkout -- /opt/megatron/sli/sli/acceptance-tests/test/features/utils/properties.yml
 #git checkout -- /opt/megatron/sli/sli/admin-tools/admin-rails/config/config.yml
 #git checkout -- /opt/megatron/sli/sli/databrowser/config/config.yml
 git checkout -- /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01.properties
@@ -36,11 +36,11 @@ git pull
 #cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_application_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/application_fixture.json
 #cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_realm_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/realm_fixture.json
 #cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_securityEvent_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/securityEvent_fixture.json
-cp /opt/megatron/sli/sli/acceptance-tests/test/features/utils/teamProps/megtomcat01_properties.yml /opt/megatron/sli/sli/acceptance-tests/test/features/utils/properties.yml
+#cp /opt/megatron/sli/sli/acceptance-tests/test/features/utils/teamProps/megtomcat01_properties.yml /opt/megatron/sli/sli/acceptance-tests/test/features/utils/properties.yml
 #cp /opt/megatron/sli/sli/admin-tools/admin-rails/config/megtomcat01_admin_config.yml /opt/megatron/sli/sli/admin-tools/admin-rails/config/config.yml
 #cp /opt/megatron/sli/sli/databrowser/config/megtomcat01_databrowser_config.yml /opt/megatron/sli/sli/databrowser/config/config.yml
 cp /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01.properties /opt/tomcat/apache-tomcat-7.0.34/conf/sli.properties
-cp /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01.properties /opt/megatron/sli/sli/config/properties/sli.properties
+#cp /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01.properties /opt/megatron/sli/sli/config/properties/sli.properties
 #cd /opt/megatron/sli/sli/acceptance-tests/test/data/
 #sed -i.bk 's#\:8[0-9][0-9][0-9]/#/#g' application_fixture.json
 #sed -i.bk2 's#lY83c5HmTPX#XY83c5HmTPX#g' application_fixture.json
