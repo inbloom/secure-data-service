@@ -275,7 +275,6 @@
 			<FirstName>Rebecca</FirstName>
 			<LastSurname>Braverman</LastSurname>
 		</Name>
-		<Sex>Female</Sex>
 		<BirthDate>1976-01-10</BirthDate>
 		<Address AddressType="Mailing">
 			<StreetNumberName>123 Smith Street</StreetNumberName>
@@ -296,7 +295,6 @@
 		<Race>
 			<RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
 		</Race>
-		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
 		<YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
 		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
 		<LoginId>a</LoginId>
@@ -533,7 +531,6 @@
 			<CredentialType>Certification</CredentialType>
 			<CredentialField>
 				<CodeValue>IT Admin</CodeValue>
-
 			</CredentialField>
 			<Level>All Level (Grade Level PK-12)</Level>
 			<TeachingCredentialType>Standard</TeachingCredentialType>
@@ -1053,7 +1050,6 @@
 			<FirstName>Jack</FirstName>
 			<LastSurname>Jackson</LastSurname>
 		</Name>
-
 		<BirthDate>1980-02-01</BirthDate>
 		<Address AddressType="Work">
 			<StreetNumberName>123 Wall Street</StreetNumberName>
