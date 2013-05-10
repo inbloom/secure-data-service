@@ -245,7 +245,7 @@ public class ControlFilePreProcessor implements Processor, InitializingBean {
         LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
         boolean result = MongoCommander.ensureIndexes(INDEX_SCRIPT, dbName, batchJobDAO.getMongoTemplate()) == null;
         if (deltasEnabled) {
-            result &= (MongoCommander.ensureIndexes(new HashSet<String>(Arrays.asList("deltas,false,t:1")), dbName,
+            result &= (MongoCommander.ensureIndexes(new HashSet<String>(Arrays.asList("deltas,false,t:1,_id:1")), dbName,
                     batchJobDAO.getMongoTemplate()) == null);
         }
 

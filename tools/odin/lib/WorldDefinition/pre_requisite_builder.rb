@@ -56,11 +56,11 @@ class PreRequisiteBuilder
           member["edOrgs"].each do |edOrg|
             type = get_symbol_using_type(edOrg["type"])
             if !type.nil?
-              association = edOrg["association"]
+              association = edOrg["association"]              
               if !association.nil? and association.size > 0
                 if !member["userId"].nil? and member["userId"].size > 0
                   pre_requisites[type][association] = [] if pre_requisites[type][association].nil?
-                  pre_requisites[type][association] << {:staff_id => member["userId"], :name => member["name"], :role => edOrg["role"]}
+                  pre_requisites[type][association] << {:staff_id => member["userId"], :name => member["name"], :role => edOrg["role"], :parent => edOrg["parent"]}
                 else
                   @log.warn "Failed to add staff member from staff catalog due to nil or empty user id."
                 end
