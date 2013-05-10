@@ -113,10 +113,8 @@ public class BulkExtract {
     @Autowired
     private CertificateValidationHelper validator;
 
-    private SLIPrincipal principal;
-
-    private void initializePrincipal() {
-        this.principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private SLIPrincipal getPrincipal() {
+        return (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     /**
@@ -262,7 +260,7 @@ public class BulkExtract {
             if (leaId != null) {
                 LOG.info("No bulk extract support for lea: {}", leaId);
             } else {
-                LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
+                LOG.info("No bulk extract support for tenant: {}", getPrincipal().getTenantId());
             }
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -275,7 +273,7 @@ public class BulkExtract {
             if (leaId != null) {
                 LOG.info("No bulk extract file found for lea: {}", leaId);
             } else {
-                LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
+                LOG.info("No bulk extract file found for tenant: {}", getPrincipal().getTenantId());
             }
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -294,7 +292,6 @@ public class BulkExtract {
      */
     Response getLEAListResponse(final HttpContext context) {
 
-        initializePrincipal();
         List<String> userDistricts = retrieveUserAssociatedSLEAs();
 
         String appId = appAuthHelper.getApplicationId();
@@ -428,9 +425,8 @@ public class BulkExtract {
      * @return
      */
     private Iterable<Entity> getLEABulkExtractEntities(String appId, String leaId) {
-        initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
-                principal.getTenantId()));
+                getPrincipal().getTenantId()));
         query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, leaId));
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
         debug("Bulk Extract query is {}", query);
@@ -450,9 +446,8 @@ public class BulkExtract {
      */
     private Entity getBulkExtractFileEntity(String deltaDate, String appId, String leaId, boolean ignoreIsDelta, boolean isPublicData) {
         boolean isDelta = deltaDate != null;
-        initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
-                principal.getTenantId()));
+                getPrincipal().getTenantId()));
         if (leaId != null && !leaId.isEmpty()) {
             query.addCriteria(new NeutralCriteria("edorg",
                     NeutralCriteria.OPERATOR_EQUAL, leaId));
@@ -485,7 +480,7 @@ public class BulkExtract {
     }
 
     private List<String> retrieveUserAssociatedSLEAs() throws AccessDeniedException {
-        List<String> userDistricts = helper.getDistricts(principal.getEntity());
+        List<String> userDistricts = helper.getDistricts(getPrincipal().getEntity());
         if (userDistricts.size() == 0) {
             throw new AccessDeniedException("User is not authorized for a list of available LEAs extracts");
         }
