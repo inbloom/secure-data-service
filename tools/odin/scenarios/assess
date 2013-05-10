@@ -1,0 +1,26 @@
+#
+# Assessment-heavy data set to test memory problems
+#
+
+STUDENT_COUNT: 200
+NUMBER_OF_YEARS: 1
+
+# The number of assessments each student has taken.
+# GRADE_WIDE_ASSESSMENTS are taken by every student in the
+# grade. Section-specific assessments are possible in Ed-fi but not
+# current implemented in Odin (may be fractional)
+ASSESSMENTS_TAKEN: {GRADE_WIDE_ASSESSMENTS: 10}
+
+# Number of assessments to create per grade level
+ASSESSMENTS_PER_GRADE: 10
+
+# The number of assessment items to generate per assessment
+ASSESSMENT_ITEMS_PER_ASSESSMENT: {GRADE_WIDE_ASSESSMENTS: 30}
+
+ENTITY_WHITELIST: [
+"Student",
+"Assessment",
+"AssessmentItem",
+"StudentAssessment",
+"StudentAssessmentItem",
+]
