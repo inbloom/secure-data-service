@@ -153,10 +153,10 @@ public class BulkExtract {
     }
 
     /**
-     * Send an LEA extract
+     * Send an LEA extract or a SEA public data extract
      *
      * @param lea
-     *            The uuid of the lea to get the extract
+     *            The uuid of the lea/sea to get the extract
      * @return
      *         A response with a lea tar file
      * @throws Exception
@@ -165,7 +165,7 @@ public class BulkExtract {
     @GET
     @Path("extract/{leaId}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getLEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("leaId") String leaId) {
+    public Response getLEAorSEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("leaId") String leaId) {
 
         if (leaId == null || leaId.isEmpty()) {
             throw new IllegalArgumentException("leaId cannot be missing");

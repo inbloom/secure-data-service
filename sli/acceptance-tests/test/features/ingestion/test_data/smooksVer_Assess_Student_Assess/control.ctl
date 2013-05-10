@@ -1,3 +1,3 @@
-edfi-xml,StudentParent,student.xml,563fbbff4fa70baf7e96f354985b4818
+edfi-xml,StudentParent,student.xml,1147db7b423c4abff60841a61b77b02c
 edfi-xml,AssessmentMetadata,assess.xml,8fdf01f379411a0b022e9d1b7bbaca09
 edfi-xml,StudentAssessment,stu_assess.xml,97391f42be5f9533e178dd928ae094b0

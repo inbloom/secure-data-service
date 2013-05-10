@@ -13,7 +13,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -58,7 +58,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -105,7 +105,7 @@
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities>Motor Impairment</Section504Disabilities>
     <BirthData>
@@ -130,7 +130,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -170,7 +170,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -217,7 +217,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -254,7 +254,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -306,7 +306,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -354,7 +354,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -396,7 +396,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -444,7 +444,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -498,7 +498,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -532,7 +532,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -583,7 +583,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -623,7 +623,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -660,7 +660,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -699,7 +699,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -751,7 +751,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -788,7 +788,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -828,7 +828,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -887,7 +887,7 @@
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -941,7 +941,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -981,7 +981,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1031,7 +1031,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1067,7 +1067,7 @@
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1110,7 +1110,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1149,7 +1149,7 @@
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1191,7 +1191,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1239,7 +1239,7 @@
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1290,7 +1290,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1312,7 +1312,7 @@
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1334,7 +1334,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1372,7 +1372,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1418,7 +1418,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1472,7 +1472,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1517,7 +1517,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1554,7 +1554,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1594,7 +1594,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1622,7 +1622,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1658,7 +1658,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1702,7 +1702,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1751,7 +1751,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1791,7 +1791,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1825,7 +1825,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1868,7 +1868,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1917,7 +1917,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -1983,7 +1983,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2017,7 +2017,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2036,7 +2036,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2070,7 +2070,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2109,7 +2109,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2149,7 +2149,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2186,7 +2186,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2234,7 +2234,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2280,7 +2280,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2333,7 +2333,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2361,7 +2361,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2404,7 +2404,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2447,7 +2447,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2488,7 +2488,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2518,7 +2518,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2548,7 +2548,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2603,7 +2603,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2664,7 +2664,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2698,7 +2698,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2741,7 +2741,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2793,7 +2793,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2821,7 +2821,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2869,7 +2869,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2900,7 +2900,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2937,7 +2937,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -2985,7 +2985,7 @@
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility></SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-    <Race></Race>
+    
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities>Motor Impairment</Section504Disabilities>
     <BirthData>
@@ -3482,7 +3482,7 @@
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
@@ -3512,7 +3512,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
     <BirthData>
