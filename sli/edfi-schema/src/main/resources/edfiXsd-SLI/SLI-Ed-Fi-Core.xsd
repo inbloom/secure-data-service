@@ -3662,7 +3662,7 @@
 			<xs:element name="RacialCategory" type="RaceItemType" minOccurs="1"
 				maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Zero or more racial categories associated with the student or
+					<xs:documentation>One or more racial categories associated with the student or
 						staff.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
