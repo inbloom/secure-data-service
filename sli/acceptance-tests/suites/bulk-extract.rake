@@ -28,8 +28,10 @@ task :bulkExtractSetup do
   Rake::Task["bulkExtractCleanup"].execute
   runTests("test/features/bulk_extract/features/bulk_extract_ingestion.feature")
   puts "DEBUG: running realmInit"
-  Rake::Task["realmInit"].execute
-  setFixture("application", "application_fixture.json", "test/data", false)
+  Rake::Task["realmInit"].invoke
+  
+  # Don't do this, you just nuked all the bootstrapped apps
+  #setFixture("application", "application_fixture.json", "test/data", false)
   puts "DEBUG: running allLeaAllowApp SDK Sample"
   allLeaAllowApp("SDK Sample")  
   puts "DEBUG: running authorizeEdorg SDK Sample"
@@ -113,17 +115,17 @@ end
 
 desc "Run RC E2E Tests in Production mode"
 task :bulkExtractTests => [:bulkExtractSetup]do
-  Rake::Task["bulkExtractSimpleEntitiesTest"].execute
-  Rake::Task["bulkExtractSuperdocTest"].execute  
-  Rake::Task["bulkExtractEdorgStaffTest"].execute
-  Rake::Task["bulkExtractIntegrationTest"].execute
-  Rake::Task["bulkExtractApiTests"].execute
-  Rake::Task["bulkExtractDeltasTest"].execute
-  Rake::Task["bulkExtractSchedulerTest"].execute
-  Rake::Task["bulkExtractNegativeTests"].execute
-  Rake::Task["bulkExtractTlsTests"].execute
-  Rake::Task["bulkExtractSEAPublicTest"].execute
-  Rake::Task["bulkExtractCleanup"].execute
+  Rake::Task["bulkExtractSimpleEntitiesTest"].invoke
+  Rake::Task["bulkExtractSuperdocTest"].invoke
+  Rake::Task["bulkExtractEdorgStaffTest"].invoke
+  Rake::Task["bulkExtractIntegrationTest"].invoke
+  Rake::Task["bulkExtractApiTests"].invoke
+  Rake::Task["bulkExtractDeltasTest"].invoke
+  Rake::Task["bulkExtractSchedulerTest"].invoke
+  Rake::Task["bulkExtractNegativeTests"].invoke
+  Rake::Task["bulkExtractTlsTests"].invoke
+  Rake::Task["bulkExtractSEAPublicTest"].invoke
+  Rake::Task["bulkExtractCleanup"].invoke
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
