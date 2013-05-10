@@ -24,10 +24,25 @@ end
 
 desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSetup do
+  puts "DEBUG: Running bulk extract cleanup"
   Rake::Task["bulkExtractCleanup"].execute
-  Rake::Task["ingestionSmokeTests"].execute 
-  @tags = ["~@wip", "~@sandbox"]
+  runTests("test/features/bulk_extract/features/bulk_extract_ingestion.feature")
+  puts "DEBUG: running realmInit"
+  Rake::Task["realmInit"].execute
+  setFixture("application", "application_fixture.json", "test/data", false)
+  puts "DEBUG: running allLeaAllowApp SDK Sample"
+  allLeaAllowApp("SDK Sample")  
+  puts "DEBUG: running authorizeEdorg SDK Sample"
+  authorizeEdorg("SDK Sample")
+  puts "DEBUG: running allLeaAllowApp Paved ZOO"
+  allLeaAllowApp("Paved Z00")
+  puts "DEBUG: running authorizeEdorg Paved ZOO"
+  authorizeEdorg("Paved Z00")
+  puts "DEBUG: running bulkExtractTriggerTest"
+  Rake::Task["bulkExtractTriggerTest"].execute
 
+  # TODO: why do we need this
+  #@tags = ["~@wip", "~@sandbox"]
 end
 
 desc "Trigger ingestion and extract of the ingestion"
@@ -43,91 +58,61 @@ task :bulkExtractTriggerTest do
 end
 
 desc "Trigger ingestion and extract of the ingestion"
-task :bulkExtractStudentTest do
-  Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
+task :bulkExtractStudentTest => [:bulkExtractSetup] do
   runTests("test/features/bulk_extract/features/bulk_extract_student.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
 desc "Trigger ingestion and extract of the ingestion"
-task :bulkExtractSimpleEntitiesTest do
-  Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
+task :bulkExtractSimpleEntitiesTest => [:bulkExtractSetup] do
   runTests("test/features/bulk_extract/features/bulk_extract_simple_entities.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
 desc "Trigger ingestion and extract of the ingestion"
-task :bulkExtractEdorgStaffTest do
-  Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
+task :bulkExtractEdorgStaffTest => [:bulkExtractSetup] do
   runTests("test/features/bulk_extract/features/bulk_extract_edorg_staff.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
 desc "Trigger ingestion and extract of the ingestion"
-task :bulkExtractSuperdocTest do
-  Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
+task :bulkExtractSuperdocTest => [:bulkExtractSetup] do
   runTests("test/features/bulk_extract/features/bulk_extract_superdoc.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
 desc "Trigger ingestion and extract of the ingestion"
-task :bulkExtractIntegrationTest do
-  #Rake::Task["bulkExtractSetup"].execute if TRIGGER_NEW_EXTRACT
+task :bulkExtractIntegrationTest => [:bulkExtractSetup] do
   runTests("test/features/bulk_extract/features/bulk_extract_integration.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
 desc "Deltas and Deletes"
-task :bulkExtractDeltasTest do
-  runTests("test/features/bulk_extract/features/bulk_extract_ingestion.feature")
-  Rake::Task["realmInit"].execute
-  Rake::Task["appInit"].execute
-  allLeaAllowApp("SDK Sample")  
-  authorizeEdorg("SDK Sample")
-  allLeaAllowApp("Paved Z00")
-  authorizeEdorg("Paved Z00")
+task :bulkExtractDeltasTest => [:bulkExtractSetup] do
   runTests("test/features/bulk_extract/features/bulk_extract_deltas_api.feature")
   runTests("test/features/bulk_extract/features/delta_recording.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
 desc "Extract SEA only public data"
-task :bulkExtractSEAPublicTest do
+task :bulkExtractSEAPublicTest => [:bulkExtractSetup] do
   runTests("test/features/bulk_extract/features/bulk_extract_sea_public.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
 desc "Negative and Edge Cases"
-task :bulkExtractNegativeTests do
+task :bulkExtractNegativeTests => [:bulkExtractSetup] do
   runTests("test/features/bulk_extract/features/bulk_extract_neg_and_edge.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
 desc "Client Cert Auth Bulk Extract Tests"
-task :bulkExtractTlsTests do
+task :bulkExtractTlsTests => [:bulkExtractSetup] do
   runTests("test/features/bulk_extract/features/bulk_extract_tls.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
 desc "API Bulk Extract Tests"
-task :bulkExtractApiTests do
+task :bulkExtractApiTests => [:bulkExtractSetup] do
   runTests("test/features/bulk_extract/features/bulk_extract_headers.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_partial_gets.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_versions.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_lea_list.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
 desc "Run RC E2E Tests in Production mode"
-task :bulkExtractTests => [:realmInit] do
-  CLEAN_EXTRACT_LOC = false
-  TRIGGER_NEW_EXTRACT = false
-
-  Rake::Task["bulkExtractSetup"].execute
-  Rake::Task["addBootstrapAppAuths"].execute
-  allLeaAllowApp("SDK Sample")
-  authorizeEdorg("SDK Sample")
-  Rake::Task["bulkExtractTriggerTest"].execute
+task :bulkExtractTests => [:bulkExtractSetup]do
   Rake::Task["bulkExtractSimpleEntitiesTest"].execute
   Rake::Task["bulkExtractSuperdocTest"].execute  
   Rake::Task["bulkExtractEdorgStaffTest"].execute
