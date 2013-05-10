@@ -3,7 +3,6 @@ package org.slc.sli.bulk.extract.lea;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.common.constants.EntityNames;
@@ -43,6 +42,10 @@ public class SessionExtractor implements EntityExtract {
 			Collection<String> gradingPeriods = (Collection<String>) session.getBody().get("gradingPeriodReference");
 
 			String lea = schoolToLea.get(schoolId);
+			if (lea == null) {
+				LOG.warn("There is no LEA for school {}", schoolId);
+				continue;
+			}
 			extractor.extractEntity(session, map.getExtractFileForLea(lea),
 					EntityNames.SESSION);
 
