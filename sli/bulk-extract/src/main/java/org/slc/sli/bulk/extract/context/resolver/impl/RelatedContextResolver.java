@@ -39,15 +39,20 @@ public abstract class RelatedContextResolver implements ContextResolver {
             return Collections.emptySet();
         }
         
-        String studentId = (String) entity.getBody().get(getReferenceProperty());
-        if (studentId == null) {
+        String reference = getReferenceProperty(entity.getType());
+        if (reference == null) {
             return Collections.emptySet();
         }
         
-        return getReferredResolver().findGoverningLEA(studentId);
+        String referredId = (String) entity.getBody().get(reference);
+        if (referredId == null) {
+            return Collections.emptySet();
+        }
+        
+        return getReferredResolver().findGoverningLEA(referredId);
     }
     
-    protected abstract String getReferenceProperty();
+    protected abstract String getReferenceProperty(String entityType);
     
     protected abstract ReferrableResolver getReferredResolver();
     

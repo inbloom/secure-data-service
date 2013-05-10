@@ -22,9 +22,6 @@ sh log_delete_duration.sh $3
 sh ingestDataset.sh purge.zip 4
 sh log_purge_duration.sh
 
-# No longer used
-# tail -16 megtomcat01_logs/auto_perf_results.log| ingestion-mailx  -s "Megatron Mini Slirp Performance Testing" Sliders-MegatronDev@wgen.net
-
 # Send PDF report
 ./ingestion-report.py < megtomcat01_logs/auto_perf_results.log > message.txt
 /usr/local/bin/ingestion-mailx \

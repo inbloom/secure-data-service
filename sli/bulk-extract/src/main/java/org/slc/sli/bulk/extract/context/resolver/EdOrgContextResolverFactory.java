@@ -24,6 +24,7 @@ import org.slc.sli.bulk.extract.context.resolver.impl.GradebookEntryContextResol
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherDirectRelatedContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
 import org.slc.sli.common.constants.EntityNames;
@@ -64,6 +65,9 @@ public class EdOrgContextResolverFactory {
     private StaffTeacherContextResolver staffTeacherResolver;
     
     @Autowired
+    private StaffTeacherDirectRelatedContextResolver staffTeacherRelatedResolver;
+
+    @Autowired
     private GradebookEntryContextResolver gradebookEntryContextResolver;
 
     /**
@@ -86,6 +90,9 @@ public class EdOrgContextResolverFactory {
                 || EntityNames.STUDENT_ASSESSMENT.equals(entityType)
                 || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(entityType)
                 || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(entityType)
+                || EntityNames.GRADE.equals(entityType)
+                || EntityNames.REPORT_CARD.equals(entityType)
+                || EntityNames.STUDENT_ACADEMIC_RECORD.equals(entityType)
                 || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)) {
             return studentDirectRelatedContextResolver;
         }
@@ -103,6 +110,12 @@ public class EdOrgContextResolverFactory {
             return staffTeacherResolver;
         }
         
+        if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(entityType)
+                || EntityNames.TEACHER_SECTION_ASSOCIATION.equals(entityType)
+                || EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType)) {
+            return staffTeacherRelatedResolver;
+        }
+
         if (EntityNames.GRADEBOOK_ENTRY.equals(entityType)) {
             return gradebookEntryContextResolver;
         }

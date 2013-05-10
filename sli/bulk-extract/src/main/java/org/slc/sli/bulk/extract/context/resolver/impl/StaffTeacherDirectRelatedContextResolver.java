@@ -18,27 +18,39 @@ package org.slc.sli.bulk.extract.context.resolver.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.constants.EntityNames;
 
 /**
- * Resolver for gradebook entries
+ * Staff / Teacher related entities resolver
  * 
- * @author nbrown
- *
+ * @author ycao
+ * 
  */
 @Component
-public class GradebookEntryContextResolver extends RelatedContextResolver {
+public class StaffTeacherDirectRelatedContextResolver extends RelatedContextResolver {
+    
+    public static final String TEACHER_ID = "teacherId";
 
     @Autowired
-    private SectionContextResolver sectionResolver;
+    private StaffTeacherContextResolver staffTeacherResolver;
     
     @Override
     protected String getReferenceProperty(String entityType) {
-        return "sectionId";
-    }
+        if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(entityType)
+                || EntityNames.TEACHER_SECTION_ASSOCIATION.equals(entityType)) {
+            return TEACHER_ID;
+        }
+        
+        if (EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType)) {
+            return StaffTeacherContextResolver.STAFF_REFERENCE;
+        }
 
+        return null;
+    }
+    
     @Override
     protected ReferrableResolver getReferredResolver() {
-        return sectionResolver;
+        return staffTeacherResolver;
     }
     
 }
