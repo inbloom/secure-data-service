@@ -90,10 +90,8 @@ public class BulkExtract {
     @Autowired
     private GenericToEdOrgValidator edorgValidator;
 
-    private SLIPrincipal principal;
-
-    private void initializePrincipal() {
-        this.principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private SLIPrincipal getPrincipal() {
+        return (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     /**
@@ -213,7 +211,7 @@ public class BulkExtract {
             if (leaId != null) {
                 LOG.info("No bulk extract support for lea: {}", leaId);
             } else {
-                LOG.info("No bulk extract support for tenant: {}", principal.getTenantId());
+                LOG.info("No bulk extract support for tenant: {}", getPrincipal().getTenantId());
             }
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -224,7 +222,7 @@ public class BulkExtract {
             if (leaId != null) {
                 LOG.info("No bulk extract file found for lea: {}", leaId);
             } else {
-                LOG.info("No bulk extract file found for tenant: {}", principal.getTenantId());
+                LOG.info("No bulk extract file found for tenant: {}", getPrincipal().getTenantId());
             }
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -263,9 +261,8 @@ public class BulkExtract {
      */
     private ExtractFile getBulkExtractFile(String deltaDate, String appId, String leaId) {
         boolean isDelta = deltaDate != null;
-        initializePrincipal();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
-                principal.getTenantId()));
+                getPrincipal().getTenantId()));
         if (leaId != null && !leaId.isEmpty()) {
             query.addCriteria(new NeutralCriteria("edorg",
                     NeutralCriteria.OPERATOR_EQUAL, leaId));
