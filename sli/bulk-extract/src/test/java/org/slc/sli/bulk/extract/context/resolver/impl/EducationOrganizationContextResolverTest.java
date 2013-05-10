@@ -16,7 +16,10 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,9 +33,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 
 /**
  * Unit test for the student context resolver
@@ -56,10 +61,12 @@ public class EducationOrganizationContextResolverTest {
         Entity level1 = createLevel1();
         Entity level2 = createLevel2();
         Entity sea = createSEA();
+        underTest.setHelper(new EdOrgHierarchyHelper(repo));
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "school")).thenReturn(school);
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "level1")).thenReturn(level1);
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "level2")).thenReturn(level2);
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "sea")).thenReturn(sea);
+
     }
     
     @Test
