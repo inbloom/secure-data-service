@@ -74,9 +74,10 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Re
                 filteredRecords = filterRecords(metrics, args.workNote, args.reportStats);
                 args.workNote.setNeutralRecords(filteredRecords);
 
-                exchange.getIn().setHeader(IngestionRouteBuilder.INGESTION_MESSAGE_TYPE, MessageType.PERSIST_REQUEST.name());
                 exchange.getIn().setBody(args.workNote);
             }
+
+            exchange.getIn().setHeader(IngestionRouteBuilder.INGESTION_MESSAGE_TYPE, MessageType.PERSIST_REQUEST.name());
         }
     }
 
