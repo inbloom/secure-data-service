@@ -4,7 +4,7 @@ Scenario: Generate and ingest data set for bulk extract
   Given I am using the odin working directory
     And I am using odin data store 
 
-    When I generate the api data set in the generated directory
+    When I generate the bulk extract data set in the generated directory
     And I zip generated data under filename OdinSampleDataSet.zip to the new OdinSampleDataSet directory
     And I copy generated data to the new OdinSampleDataSet directory
     Then I should see generated file <File>
@@ -90,6 +90,6 @@ When zip file is scp to ingestion landing zone
   
 Then I should see following map of entry counts in the corresponding collections:
   | collectionName                           |              count|
-  | student                                  |                100|
+  | student                                  |                260|
   And I should not see an error log file created
   And I should not see a warning log file created
