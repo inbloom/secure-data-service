@@ -24,6 +24,7 @@ require 'digest/sha1'
 require 'yaml'
 require 'mongo'
 require 'time'
+require 'fileutils'
 
 properties = YAML::load_file('../config/bulk_extract_cleanup.yml')
 DATABASE_NAME = properties["sli_database_name"]
@@ -32,79 +33,118 @@ DATABASE_PORT = properties["bulk_extract_port"]
 
 class TenantCleaner
   def initialize(tenantName, dateTime, edOrgName, filePathname)
-
     @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
     @sliDb = @conn.db(DATABASE_NAME)
     @beColl = @sliDb.collection('bulkExtractFiles')
 
     verifyInitParams(tenantName, dateTime, edOrgName, filePathname)
-
-    @tenant = tenantName
-    @date = dateTime
-    @edOrg = edOrgName
-    @file = filePathname
   end
 
   def verifyInitParams(tenantName, dateTime, edOrgName, filePathname)
     # Verify tenant name.
-    @tenantDBName = convertTenantIdToDbName(tenantName)
-    @tenantDbs = @conn.database_names
-    if (!@tenantDbs.include?(@tenantDBName))
-      raise(ArgumentError, "Tenant " + tenantName + " does not exist in the database")
-    end
-    @tenantDb = @conn.db(@tenantDBName)
+    verifytenantName(tenantName)
 
+    # Verify Ed Org name, if not null.
+    verifyEdOrgName(edOrgName)
+
+    # Verify date time, if not null.
+    verifyDateTime(dateTime)
+
+    # Verify file pathname, if not null.
+    verifyFilePathname(filePathname)
+  end
+
+  def verifytenantName(tenantName)
+    # Verify tenant name.
+    @tenantDbName = convertTenantIdToDbName(tenantName)
+    tenantDbs = @conn.database_names
+    if (!tenantDbs.include?(@tenantDbName))
+      raise(NameError, "Tenant " + tenantName + " does not exist in the database")
+    end
+    @tenantBERecords = @beColl.find({"body.tenantId"=>tenantName})
+    if (!@tenantBERecords.has_next?)
+      raise(NameError, "Tenant " + tenantName + " does not have bulk extract files")
+    end
+    @tenantDb = @conn.db(@tenantDbName)
+    @tenant = tenantName
+  end
+
+  def verifyEdOrgName(edOrgName)
     # Verify Ed Org, if not null.
     if (edOrgName != nil)
       edOrgColl = @tenantDb.collection('educationOrganization')
-      edOrgRecord = edOrgColl.find_one({"body.stateOrganizationId"=>edOrgName})
+      if (edOrgName.end_with?("_id"))
+        edOrgRecord = edOrgColl.find_one({"_id"=>edOrgName})
+      else
+        edOrgRecord = edOrgColl.find_one({"body.stateOrganizationId"=>edOrgName})
+      end
       if (edOrgRecord == nil)
-        raise(ArgumentError, "Tenant " + tenantName + " does not contain EdOrg " + edOrgName)
+        raise(NameError, "Tenant " + @tenant + " does not contain EdOrg " + edOrgName)
       end
       @edOrgId = edOrgRecord['_id']
+      @edOrgBERecords = @beColl.find({"body.tenantId"=>@tenant, "body.edorg"=>@edOrgId})
+      if (!@edOrgBERecords.has_next?)
+        raise(NameError, "Tenant " + @tenant + " does not have bulk extract files for EdOrg " + edOrgName)
+      end
     end
+    @edOrg = edOrgName
+  end
 
+  def verifyDateTime(dateTime)
     # Verify date time, if not null.
     if (dateTime != nil)
-      isoTime = Time.iso8601(dateTime)
-      if (isoTime == nil)
-        raise(ArgumentError, "Date-time " + dateTime + " does not conform to ISO8601 format")
-      end
-      if (@edOrgId != nil)
-        tenantRecords = @beColl.find({"body.tenantId"=>tenantName, "body.edorg"=>@edOrgId})
-      else
-        tenantRecords = @beColl.find({"body.tenantId"=>tenantName})
-      end
-      @datedFiles = Array.new
-      tenantRecords.each do |tenantRecord|
-        if (tenantRecord['body']['date'] <= isoTime)
-          @datedFiles.push(tenantRecord['body']['path'])
+      begin
+        isoTime = Time.iso8601(dateTime)
+      rescue Exception => ex
+        begin
+          utcTime = Time.parse(dateTime)
+        rescue Exception => ex
+          raise(NameError, "Date-time " + dateTime + " is invalid")
+        end
+        begin
+          dateTime = utcTime.iso8601
+          isoTime = Time.iso8601(dateTime)
+        rescue Exception => ex
+          raise(NameError, "Date-time " + dateTime + " cannot be converted to ISO8601 format")
         end
       end
-      if (@datedFiles.empty?)
+      if (isoTime == nil)
+        raise(NameError, "Date-time " + dateTime + " cannot be converted to ISO8601 format")
+      end
+      if (@edOrgId != nil)
+        @datedBERecords = @beColl.find({"body.tenantId"=>@tenant, "body.edorg"=>@edOrgId, \
+                                        :"body.date"=>{:$lte=>isoTime}})
+      else
+        @datedBERecords = @beColl.find({"body.tenantId"=>@tenant, :"body.date"=>{:$lte=>isoTime}})
+      end
+      if (!@datedBERecords.has_next?)
         if (@edOrgId != nil)
-          raise(ArgumentError, "Tenant " + tenantName + " does not have bulk extract files for EdOrg " + edOrgName + \
-                               " dated up to " + dateTime)
+          raise(NameError, "Tenant " + @tenant + " does not have bulk extract files for EdOrg " + edOrgName + \
+                           " dated up to " + dateTime)
         else
-          raise(ArgumentError, "Tenant " + tenantName + " does not have bulk extract files dated up to " + dateTime)
+          raise(NameError, "Tenant " + @tenant + " does not have bulk extract files dated up to " + dateTime)
         end
       end
     end
+    @date = dateTime
+  end
 
+  def verifyFilePathname(filePathname)
     # Verify file pathname, if not null.
     if (filePathname != nil)
       if (filePathname[0] != '/')
-        raise(ArgumentError, "File path " + filePathname + " is not absolute")
+        raise(NameError, "File path " + filePathname + " is not absolute")
       elsif (File.extname(filePathname) != ".tar")
-        raise(ArgumentError, "File " + filePathname + " is not a tar file")
+        raise(NameError, "File " + filePathname + " is not a tar file")
       elsif (!File.exist?(filePathname))
-        raise(ArgumentError, "File " + filePathname + " does not exist")
+        raise(NameError, "File " + filePathname + " does not exist")
       end
-      fileRecord = @beColl.find_one({"body.tenantId"=>tenantName, "body.path"=>filePathname})
-      if (fileRecord == nil)
-        raise(ArgumentError, "Tenant " + tenantName + " does not have bulk extract file " + filePathname)
+      @fileRecord = @beColl.find_one({"body.tenantId"=>@tenant, "body.path"=>filePathname})
+      if (@fileRecord == nil)
+        raise(NameError, "Tenant " + @tenant + " does not have bulk extract file " + filePathname)
       end
     end
+    @file = filePathname
   end
 
   def tenant()
@@ -124,13 +164,13 @@ class TenantCleaner
   end
 
   def clean()
-    if (file != nil)
+    if (@file != nil)
       cleanFile()
-    elsif ((edOrg != nil) && (date != nil))
+    elsif ((@edOrg != nil) && (@date != nil))
       cleanEdOrgDate()
-    elsif (date != nil)
+    elsif (@date != nil)
       cleanDate()
-    elsif (edOrg != nil)
+    elsif (@edOrg != nil)
       cleanEdOrg()
     else
       cleanTenant()
@@ -139,35 +179,106 @@ class TenantCleaner
 
   def cleanFile()
     okayed = getOkay("You are about to delete bulk extract file " + @file + " and its database metadata " + \
-                               "for tenant " + @tenant)
+                     "for tenant " + @tenant)
     if (okayed)
+      begin
+        FileUtils.rm(@file, :verbose => true)
+      rescue Exception => ex
+        puts "No files removed"
+      end
+      @beColl.remove(@fileRecord)
+      puts "One file removed"
     end
   end
 
   def cleanEdOrgDate()
     okayed = getOkay("You are about to delete all bulk extract files and database metadata for " + \
-                               "education organization " + @edOrg + " for tenant " + @tenant + " up to date " + @date)
+                     "education organization " + @edOrg + " for tenant " + @tenant + " up to date " + @date)
     if (okayed)
+      removed = 0
+      failed = 0
+      @datedBERecords.each do |datedBERecord|
+        begin
+        fileToRm = datedBERecord['body']['path']
+          FileUtils.rm(fileToRm, :verbose => true)
+          removed += 1
+        rescue Exception => ex
+          puts "WARNING: " + ex.message
+          failed += 1
+        end
+        @beColl.remove(datedBERecord)
+      end
+      puts (removed + failed).to_s + " total files "
+      puts removed.to_s + " files removed"
+      puts failed.to_s + " files failed"
     end
   end
 
   def cleanEdOrg()
     okayed = getOkay("You are about to delete all bulk extract files and database metadata for " + \
-                               "education organization " + @edOrg + " for tenant " + @tenant)
+                     "education organization " + @edOrg + " for tenant " + @tenant)
     if (okayed)
+      removed = 0
+      failed = 0
+      @edOrgBERecords.each do |edOrgBERecord|
+        begin
+          fileToRm = edOrgBERecord['body']['path']
+          FileUtils.rm(fileToRm, :verbose => true)
+          removed += 1
+        rescue Exception => ex
+          puts "WARNING: " + ex.message
+          failed += 1
+        end
+        @beColl.remove(edOrgBERecord)
+      end
+      puts (removed + failed).to_s + " total files "
+      puts removed.to_s + " files removed"
+      puts failed.to_s + " files failed"
     end
   end
 
   def cleanDate()
     okayed = getOkay("You are about to delete all bulk extract files and database metadata " + \
-                               "for tenant " + @tenant + " up to date " + @date)
+                     "for tenant " + @tenant + " up to date " + @date)
     if (okayed)
+      removed = 0
+      failed = 0
+      @datedBERecords.each do |datedBERecord|
+        begin
+          fileToRm = datedBERecord['body']['path']
+          FileUtils.rm(fileToRm, :verbose => true)
+          removed += 1
+        rescue Exception => ex
+          puts "WARNING: " + ex.message
+          failed += 1
+        end
+        @beColl.remove(datedBERecord)
+      end
+      puts (removed + failed).to_s + " total files "
+      puts removed.to_s + " files removed"
+      puts failed.to_s + " files failed"
     end
   end
 
   def cleanTenant()
     okayed = getOkay("You are about to delete all bulk extract files and database metadata for " + "tenant " + @tenant)
     if (okayed)
+      removed = 0
+      failed = 0
+      @tenantBERecords.each do |tenantBERecord|
+        begin
+          fileToRm = tenantBERecord['body']['path']
+          FileUtils.rm(fileToRm, :verbose => true)
+          removed += 1
+        rescue Exception => ex
+          puts "WARNING: " + ex.message
+          failed += 1
+        end
+        @beColl.remove(tenantBERecord)
+      end
+      puts (removed + failed).to_s + " total files "
+      puts removed.to_s + " files removed"
+      puts failed.to_s + " files failed"
     end
   end
 
@@ -175,7 +286,7 @@ class TenantCleaner
     puts(prompt)
     print("Do you wish to proceed ('y' or 'yes' to proceed)? ")
     answer = STDIN.gets
-    return (answer.eql?("y") || answer.eql?("yes"))
+    return (answer.strip.eql?("y") || answer.strip.eql?("yes"))
   end
 
   def convertTenantIdToDbName(tenantId)

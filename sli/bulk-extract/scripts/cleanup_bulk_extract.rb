@@ -27,14 +27,14 @@ def main()
   # Check the argumment signature.
   begin
     tenantCleaner = check_args(ARGV)
-    if (tenantCleaner == nil)
-      print_help()
-      exit 0
-    end
   rescue Exception => ex
-    puts ex.message
-    print_usage()
+    puts "ERROR: " + ex.message
+    print_usage() if (ex.class == ArgumentError)
     exit 1
+  end
+  if (tenantCleaner == nil)
+    print_help()
+    exit 0
   end
 
   # Perform the actual bulk extract cleanup.
@@ -73,10 +73,15 @@ def print_help()
   puts "    Print this help page and exit."
   puts
   puts "Note:"
-  puts "      <tenant> specifies tenant unique ID, e.g. \"Midgar\""
-  puts "      <date> is in ISO8601 datetime format, e.g. \"2013-05-10T01:33:27.857Z\""
-  puts "      <edOrg> specifies educational organization unique ID, e.g. \"IL-DAYBREAK\""
-  puts "      <file> specifies extract file full directory pathname, e.g.\"/bulk/extract/tarfile.tar\""
+  puts "      <tenant> specifies tenant unique ID, e.g. Midgar"
+  puts "      <date> is in UTC or ISO8601 datetime format (YYYY-MM-DD[Thh[:mm[:ss[.s[s[s]]]]]][Z|+/-hh:hh]),\n" + \
+       "             e.g. 2013-05-10T01:33:27.857Z, 2013-05-10T01:33:27-04:00, 2013-05-10T01:33:27,\n" + \
+       "             2013-05-10T01:33, 2013-05-10, etc.  CAUTION: Time without at least a 'hh:mmZ' suffix\n" + \
+       "             is local time, e.g. 2013-05-10T00:33:27 (EST) becomes 2013-05-10T00:33:27-05:00,\n" + \
+       "             or 2013-05-10T05:33:27Z (GMT)"
+  puts "      <edOrg> specifies educational organization state unique ID or database ID,\n" + \
+       "              e.g. IL-DAYBREAK or 1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+  puts "      <file> specifies extract file full directory pathname, e.g. /bulk/extract/tarfile.tar"
 end
 
 def check_args(argv)
@@ -105,7 +110,7 @@ def check_args(argv)
         end
         date = param[2..param.length - 1]
       when "-f"
-        if ((file != nil) || (edorg != nil) || (date != nil) || (param.length < 7))
+        if ((file != nil) || (edorg != nil) || (date != nil) || (param.length < 3))
           raise(ArgumentError, "Illegal or wrongly included file argument")
         end
         file = param[2..param.length - 1]
