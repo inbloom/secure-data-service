@@ -61,7 +61,7 @@ public class StudentContextResolverTest {
 
     @Before
     public void setup() {
-        underTest.getStudentEdOrgCache().clear();
+        underTest.getCache().clear();
         underTest.setDateHelper(helper);
     }
     
