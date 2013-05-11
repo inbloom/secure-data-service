@@ -1,0 +1,7 @@
+# Bulk Extract cleanup configuration file.
+# Read by cleanup_bulk_extract.rb script upon cleanup of bulk extract files.
+
+# Bulk extract cleanup variables.
+sli_database_name: sli
+bulk_extract_host: localhost
+bulk_extract_port: 27017

@@ -1,6 +1,27 @@
 #!/usr/bin/ruby
 
+=begin
+
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
 # Clean up the bulk extraction zone and bulk extract database according to arguments.
+# This is the implementation which uses the TenantCleaner class.
+
+require_relative '../lib/TenantCleaner.rb'
 
 def main()
   # Check the argumment signature.
@@ -8,6 +29,7 @@ def main()
     tenantCleaner = check_args(ARGV)
     if (tenantCleaner == nil)
       print_help()
+      exit 0
     end
   rescue Exception => ex
     puts ex.message
@@ -73,18 +95,18 @@ def check_args(argv)
   argv[1..argv.length - 1].each do |param|
     case param[0..1]
       when "-e"
-        if (edorg != nil)
-          raise(ArgumentError, "Argument for edorg repeated")
+        if ((edorg != nil) || (file != nil) || (param.length < 3))
+          raise(ArgumentError, "Illegal or wrongly included edorg argument")
         end
         edorg = param[2..param.length - 1]
       when "-d"
-        if (date != nil)
-          raise(ArgumentError, "Argument for date repeated")
+        if ((date != nil) || (file != nil) || (param.length < 3))
+          raise(ArgumentError, "Illegal or wrongly included date argument")
         end
         date = param[2..param.length - 1]
       when "-f"
-        if (file != nil)
-          raise(ArgumentError, "Argument for file repeated")
+        if ((file != nil) || (edorg != nil) || (date != nil) || (param.length < 7))
+          raise(ArgumentError, "Illegal or wrongly included file argument")
         end
         file = param[2..param.length - 1]
       else
@@ -92,77 +114,6 @@ def check_args(argv)
     end
   end
   return TenantCleaner.new(tenant, date, edorg, file)
-end
-
-class TenantCleaner
-  def initialize(tenantName, dateTime, edOrgName, filePathname)
-    @tenant = tenantName
-    @date = dateTime
-    @edOrg = edOrgName
-    @file = filePathname
-  end
-
-  def tenant()
-    return @tenant
-  end
-
-  def date()
-    return @date
-  end
-
-  def edorg()
-    return @edorg
-  end
-
-  def file()
-    return @file
-  end
-
-  def clean()
-    if (file != nil)
-      cleanFile()
-    elsif ((edorg != nil) && (date != nil))
-      cleanEdOrgDate()
-    elsif (date != nil)
-      cleanDate()
-    elsif (edorg != nil)
-      cleanEdOrg()
-    else
-      cleanTenant()
-    end
-  end
-
-  def cleanFile()
-    verified = getVerification("You are about to delete bulk extract file " + @file + " and its database metadata " + \
-                               "for tenant " + @tenant)
-  end
-
-  def cleanEdOrgDate()
-    verified = getVerification("You are about to delete all bulk extract files and database metadata for " + \
-                               "education organization " + @edOrg + "for tenant " + @tenant + " before date " + @date)
-  end
-
-  def cleanEdOrg()
-    verified = getVerification("You are about to delete all bulk extract files and database metadata for " + \
-                               "education organization " + @edOrg + "for tenant " + @tenant)
-  end
-
-  def cleanDate()
-    verified = getVerification("You are about to delete all bulk extract files and database metadata " + \
-                               "for tenant " + @tenant + " before date " + @date)
-  end
-
-  def cleanTenant()
-    verified = getVerification("You are about to delete all bulk extract files and database metadata for " + \
-                               "tenant " + @tenant)
-  end
-
-  def getVerification(prompt)
-    puts(prompt)
-    print("Do you wish to proceed ('y' or 'yes' to proceed)? ")
-    answer = STDIN.gets
-    return (answer.eql?("y") || answer.eql?("yes"))
-  end
 end
 
 # Run the main program here.
