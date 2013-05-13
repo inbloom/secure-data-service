@@ -62,7 +62,7 @@ public class SectionExtractorTest {
 
     @Test
     public void testEdorgBasedExtract() throws Exception {
-        List<Entity> list = Arrays.asList(AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate());
+        List<Entity> list = Arrays.asList(AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate(), AccessibleVia.NONE.generate());
         Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         se.extractEntities(null);
@@ -71,12 +71,24 @@ public class SectionExtractorTest {
 
     @Test
     public void testStudentBasedExtract() throws Exception {
-        List<Entity> list = Arrays.asList(AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate());
+        List<Entity> list = Arrays.asList(AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate(), AccessibleVia.NONE.generate());
         Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         se.extractEntities(null);
         Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class));
     }
+
+    @Test
+    public void testMixedExtract() throws Exception {
+        List<Entity> list = Arrays.asList(AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate(), AccessibleVia.NONE.generate(),
+                AccessibleVia.NONE.generate(), AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate());
+        Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
+
+        se.extractEntities(null);
+        Mockito.verify(ex, Mockito.times(5)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class));
+    }
+
+
 
 
     private static enum AccessibleVia {
@@ -101,16 +113,16 @@ public class SectionExtractorTest {
             @SuppressWarnings("unchecked")
             public Entity apply(Entity input) {
                 List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-                Map<String, Object> entity = new HashMap<String,Object>();
+                Map<String, Object> entity = new HashMap<String, Object>();
                 entity.put("body", new HashMap<String, Object>());
-                ((Map<String,Object>)entity.get("body")).put("studentId", students.get(1));
+                ((Map<String, Object>) entity.get("body")).put("studentId", students.get(1));
                 list.add(entity);
 
-                Map<String,List<Map<String,Object>>> map = new HashMap<String, List<Map<String, Object>>>();
+                Map<String, List<Map<String, Object>>> map = new HashMap<String, List<Map<String, Object>>>();
                 map.put("studentSectionAssociation", list);
                 Mockito.when(input.getDenormalizedData()).thenReturn(map);
 
-                 return input;
+                return input;
             }
         }),
         BOTH(new Function<Entity, Entity>() {
