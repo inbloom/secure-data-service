@@ -16,8 +16,8 @@ Feature: Ingestion
             And I should see following map of entry counts in the corresponding collections:
                  | collectionName                           |              count|
                  | assessment                               |                 19|
-                 | assessment                               |                 19|
                  | assessmentFamily                         |                 38|
+                 | assessmentPeriodDescriptor               |                  2|
                  | attendance                               |                 75|
                  | calendarDate                             |                556|
                  | cohort                                   |                  3|
@@ -38,7 +38,7 @@ Feature: Ingestion
                  | learningStandard                         |               1499|
                  | parent                                   |                  9|
                  | program                                  |                  2|
-                 | recordHash                               |              10092|
+                 | recordHash                               |              10095|
                  | reportCard                               |                  2|
                  | schoolSessionAssociation                 |                  0|
                  | section                                  |                 97|

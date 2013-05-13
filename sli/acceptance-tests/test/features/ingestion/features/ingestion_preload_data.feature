@@ -41,7 +41,7 @@ Scenario: Preload Sample Data Sets
      | learningStandard                         |               1499|
      | parent                                   |                  9|
      | program                                  |                  2|
-     | recordHash                               |              10092|
+     | recordHash                               |              10095|
      | reportCard                               |                  2|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                 97|
@@ -60,7 +60,7 @@ Scenario: Preload Sample Data Sets
      | studentCompetency                        |                 59|
      | studentCompetencyObjective               |                  4|
      | studentDisciplineIncidentAssociation     |                  4|
-     | studentObjectiveAssessment               |                297|
+     | studentObjectiveAssessment               |                300|
      | studentParentAssociation                 |                  9|
      | studentProgramAssociation                |                  6|
      | studentSchoolAssociation                 |                167|
