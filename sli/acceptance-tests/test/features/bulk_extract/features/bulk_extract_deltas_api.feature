@@ -26,6 +26,144 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "grade" delta was extracted in the same format as the api
    And The "reportCard" delta was extracted in the same format as the api
    And The "studentAcademicRecord" delta was extracted in the same format as the api
+   And The "student" delta was extracted in the same format as the api
+   And The "studentSchoolAssociation" delta was extracted in the same format as the api
+   And The "studentAssessment" delta was extracted in the same format as the api
+   And The "studentGradebookEntry" delta was extracted in the same format as the api
+
+Scenario: Triggering deltas via ingestion
+  All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
+  and only a delete file is generated for lea2.
+  Updated two students, 1 and 12, 12 lost contextual resolution to LEA1, so it should not appear
+  in the extract file.  
+  1 is added to LEA2, so its stuff should go in there as well
+Given I clean the bulk extract file system and database
+  And I am using local data store
+  And I ingest "bulk_extract_deltas.zip"
+  When I trigger a delta extract
+     And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
+     And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
+     When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  student                               |
+       |  studentSchoolAssociation              |
+       |  studentAssessment                     |
+       |  studentGradebookEntry                 |
+       |  studentParentAssociation              |
+       |  parent                                |
+       |  school                                |
+       |  educationOrganization                 |
+       |  staff                                 |
+       |  staffEducationOrganizationAssociation |
+       |  teacher                               |
+       |  teacherSchoolAssociation              |
+       |  deleted                               |
+     And I verify this "deleted" file should contains:
+       | id                                                                                     | condition                             |
+       | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id                                            | entityType = student                  |
+       | 35c58d16b854fc2bca711f77a6cc48a98813687f_id                                            | entityType = studentSchoolAssociation |
+       | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
+       | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
+
+     # Teacher 03 and related entities should be in both DAYBREAk and HIGHWIND
+     And I verify this "teacher" file should contains:
+       | id                                          | condition                                |
+       | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
+     And I verify this "teacherSchoolAssociation" file should contains:
+       | id                                          | condition                                |
+       | c063086ce77b13c4e593ff8261024a6ef30e0a8d_id | teacherId = cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id |
+
+     # Teacher 01 should NOT be in HIGHWIND
+     And I verify this "teacher" file should not contains:
+       | id                                          | condition                                |
+       | fe472294f0e40fd428b1a67b9765360004562bab_id |                                          |
+
+     # staff 04 should be in both DAYBREAk and HIGHWIND
+     And I verify this "staff" file should contains:
+       | id                                          | condition                                |
+       | b7beb5d73c2189c680e16826e2e57d4d71970181_id | staffUniqueStateId = stff-0000000004     |
+
+     # Student 1 was in this section, should receive delta for it
+     #And I verify this "section" file should contains:
+     #  | id                                          | condition                                |
+     #  | e003fc1479112d3e953a0220a2d0ddd31077d6d9_id | educationalEnvironment = Laboratory      |
+
+     And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  parent                                |
+       |  section                               |
+       |  student                               |
+       |  studentAssessment                     | 
+       |  studentGradebookEntry                 |
+       |  studentSchoolAssociation              | 
+       |  studentParentAssociation              |
+       |  staff                                 |
+       |  staffEducationOrganizationAssociation |
+       |  teacher                               |
+       |  teacherSchoolAssociation              |
+       |  teacherSectionAssociation             |
+       |  deleted                               |
+   
+     And I verify this "deleted" file should contains:
+       | id                                          | condition                                |
+       | 35c58d16b854fc2bca711f77a6cc48a98813687f_id | entityType = studentSchoolAssociation    |
+       | 1b4aa93f01d11ad51072f3992583861ed080f15c_id | entityType = parent                      |
+       | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
+       | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
+
+     And I verify this "student" file should contains: 
+       #this is student 11, which has updated information
+       | id                                          | condition                                |
+       | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                | 
+     # TODO: Need to update SSA, flip should back to should not
+     #And I verify this "student" file should contains: 
+       #this is student 12, which has updated information, but we cut his tie with any schools
+       #| id                                          | condition                                |
+       #| 609640f6af263faad3a0cbee2cbe718fb71b9ab2_id |                                          | 
+
+     And I verify this "studentSchoolAssociation" file should contains:
+       #updated association for student 11 
+       | id                                          | condition                                |
+       | 68c4855bf0bdcc850a883d88fdf953b9657fe255_id | exitWithdrawDate = 2014-05-31            |
+     And I verify this "studentSchoolAssociation" file should not contains:
+       #this is an expired association, should not show up
+       | id                                          | condition                                |
+       | a13489364c2eb015c219172d561c62350f0453f3_id |                                          |
+
+     And I verify this "studentGradebookEntry" file should contains:
+       | id                                          | condition                                |
+       | 6620fcd37d1095005a67dc330e591279577aede7_id | letterGradeEarned = A                    |
+
+     And I verify this "studentAssessment" file should contains:
+       | id                                          | condition                                |
+       | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92                 |
+
+     And I verify this "parent" file should contains:
+       | id                                          | condition                                                    |
+       | 833c746641212c9e6e0fe5831f03570882c7bba1_id | electronicMail.emailAddress = roosevelt_mcgowan@fakemail.com |
+
+     And I verify this "studentParentAssociation" file should contains:
+       | id                                          | condition                                |
+       | 908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id | contactPriority = 0 |
+  
+     And I verify this "section" file should contains:
+       | id                                          | condition                                |
+       | e003fc1479112d3e953a0220a2d0ddd31077d6d9_id | educationalEnvironment = Laboratory      |
+  
+     # Both Teacher 01 and 03 should be in DAYBREAk
+     And I verify this "teacher" file should contains:
+       | id                                          | condition                                |
+       | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
+       | fe472294f0e40fd428b1a67b9765360004562bab_id | staffUniqueStateId = tech-0000000001     |
+     And I verify this "teacherSchoolAssociation" file should contains:
+       | id                                          | condition                                |
+       | c063086ce77b13c4e593ff8261024a6ef30e0a8d_id | teacherId = cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id |
+
+     # staff 04 should be in both DAYBREAk and HIGHWIND
+     And I verify this "staff" file should contains:
+       | id                                          | condition                                |
+       | b7beb5d73c2189c680e16826e2e57d4d71970181_id | staffUniqueStateId = stff-0000000004     |
+
 
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database
@@ -325,145 +463,6 @@ Given I clean the bulk extract file system and database
         | bc3588737cb477e9f721421104b783179887fbdb_id | entityType = studentSchoolAssociation |
         | 9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id | entityType = studentParentAssociation |
         | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
-
-Scenario: Triggering deltas via ingestion
-  All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
-  and only a delete file is generated for lea2.
-  Updated two students, 1 and 12, 12 lost contextual resolution to LEA1, so it should not appear
-  in the extract file.  
-  1 is added to LEA2, so its stuff should go in there as well
-Given I clean the bulk extract file system and database
-  And I am using local data store
-  And I ingest "bulk_extract_deltas.zip"
-  When I trigger a delta extract
-     And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
-     And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
-     When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
-       |  entityType                            |
-       |  student                               |
-       |  studentSchoolAssociation              |
-       |  studentAssessment                     |
-       |  studentGradebookEntry                 |
-       |  studentParentAssociation              |
-       |  parent                                |
-       |  school                                |
-       |  educationOrganization                 |
-       |  staff                                 |
-       |  staffEducationOrganizationAssociation |
-       |  teacher                               |
-       |  teacherSchoolAssociation              |
-       |  deleted                               |
-     And I verify this "deleted" file should contains:
-       | id                                                                                     | condition                             |
-       | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id                                            | entityType = student                  |
-       | 35c58d16b854fc2bca711f77a6cc48a98813687f_id                                            | entityType = studentSchoolAssociation |
-       | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
-       | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
-
-     # Teacher 03 and related entities should be in both DAYBREAk and HIGHWIND
-     And I verify this "teacher" file should contains:
-       | id                                          | condition                                |
-       | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
-     And I verify this "teacherSchoolAssociation" file should contains:
-       | id                                          | condition                                |
-       | c063086ce77b13c4e593ff8261024a6ef30e0a8d_id | teacherId = cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id |
-
-     # Teacher 01 should NOT be in HIGHWIND
-     And I verify this "teacher" file should not contains:
-       | id                                          | condition                                |
-       | fe472294f0e40fd428b1a67b9765360004562bab_id |                                          |
-
-     # staff 04 should be in both DAYBREAk and HIGHWIND
-     And I verify this "staff" file should contains:
-       | id                                          | condition                                |
-       | b7beb5d73c2189c680e16826e2e57d4d71970181_id | staffUniqueStateId = stff-0000000004     |
-
-     # Student 1 was in this section, should receive delta for it
-     #And I verify this "section" file should contains:
-     #  | id                                          | condition                                |
-     #  | e003fc1479112d3e953a0220a2d0ddd31077d6d9_id | educationalEnvironment = Laboratory      |
-
-     And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
-       |  entityType                            |
-       |  parent                                |
-       |  section                               |
-       |  student                               |
-       |  studentAssessment                     | 
-       |  studentGradebookEntry                 |
-       |  studentSchoolAssociation              | 
-       |  studentParentAssociation              |
-       |  staff                                 |
-       |  staffEducationOrganizationAssociation |
-       |  teacher                               |
-       |  teacherSchoolAssociation              |
-       |  teacherSectionAssociation             |
-       |  deleted                               |
-   
-     And I verify this "deleted" file should contains:
-       | id                                          | condition                                |
-       | 35c58d16b854fc2bca711f77a6cc48a98813687f_id | entityType = studentSchoolAssociation    |
-       | 1b4aa93f01d11ad51072f3992583861ed080f15c_id | entityType = parent                      |
-       | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
-       | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
-
-     And I verify this "student" file should contains: 
-       #this is student 11, which has updated information
-       | id                                          | condition                                |
-       | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                | 
-     # TODO: Need to update SSA, flip should back to should not
-     #And I verify this "student" file should contains: 
-       #this is student 12, which has updated information, but we cut his tie with any schools
-       #| id                                          | condition                                |
-       #| 609640f6af263faad3a0cbee2cbe718fb71b9ab2_id |                                          | 
-
-     And I verify this "studentSchoolAssociation" file should contains:
-       #updated association for student 11 
-       | id                                          | condition                                |
-       | 68c4855bf0bdcc850a883d88fdf953b9657fe255_id | exitWithdrawDate = 2014-05-31            |
-     And I verify this "studentSchoolAssociation" file should not contains:
-       #this is an expired association, should not show up
-       | id                                          | condition                                |
-       | a13489364c2eb015c219172d561c62350f0453f3_id |                                          |
-
-     And I verify this "studentGradebookEntry" file should contains:
-       | id                                          | condition                                |
-       | 6620fcd37d1095005a67dc330e591279577aede7_id | letterGradeEarned = A                    |
-
-     And I verify this "studentAssessment" file should contains:
-       | id                                          | condition                                |
-       | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92                 |
-
-     And I verify this "parent" file should contains:
-       | id                                          | condition                                                    |
-       | 833c746641212c9e6e0fe5831f03570882c7bba1_id | electronicMail.emailAddress = roosevelt_mcgowan@fakemail.com |
-
-     And I verify this "studentParentAssociation" file should contains:
-       | id                                          | condition                                |
-       | 908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id | contactPriority = 0 |
-  
-     And I verify this "section" file should contains:
-       | id                                          | condition                                |
-       | e003fc1479112d3e953a0220a2d0ddd31077d6d9_id | educationalEnvironment = Laboratory      |
-  
-     # Both Teacher 01 and 03 should be in DAYBREAk
-     And I verify this "teacher" file should contains:
-       | id                                          | condition                                |
-       | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
-       | fe472294f0e40fd428b1a67b9765360004562bab_id | staffUniqueStateId = tech-0000000001     |
-     And I verify this "teacherSchoolAssociation" file should contains:
-       | id                                          | condition                                |
-       | c063086ce77b13c4e593ff8261024a6ef30e0a8d_id | teacherId = cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id |
-
-     # staff 04 should be in both DAYBREAk and HIGHWIND
-     And I verify this "staff" file should contains:
-       | id                                          | condition                                |
-       | b7beb5d73c2189c680e16826e2e57d4d71970181_id | staffUniqueStateId = stff-0000000004     |
-
-   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-     And The "student" delta was extracted in the same format as the api
-     And The "studentSchoolAssociation" delta was extracted in the same format as the api
-     And The "studentAssessment" delta was extracted in the same format as the api
-     And The "studentGradebookEntry" delta was extracted in the same format as the api
 
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database
