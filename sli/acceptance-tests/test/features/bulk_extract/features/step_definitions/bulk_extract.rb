@@ -49,7 +49,9 @@ COMBINED_SUB_ENTITIES = ['assessmentItem','objectiveAssessment','studentAssessme
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
 
-$APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub"}
+$APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub",
+                       "22c2a28d-7327-4444-8ff9-caad4b1c7aa3" => "pavedz00ua" 
+                      }
 
 ############################################################
 # Transform
@@ -60,12 +62,15 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "app id"
   id = "vavedRa9uB"                                         if human_readable_id == "client id"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
+  id = "99d527622dcb51c465c515c0636d17e085302d5e_id"        if human_readable_id == "IL-HIGHWIND"
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
   id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "lea1_id"
   id = "884daa27d806c2d725bc469b273d840493f84b4d_id"        if human_readable_id == "sea_id"
   id = "352e8570bd1116d11a72755b987902440045d346_id"        if human_readable_id == "IL-DAYBREAK school"
   id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id"        if human_readable_id == "Orphaned School"
+  id = "02bdd6bf0fd5f761e6fc316ca6c763d4bb96c055_id"        if human_readable_id == "11 School District"
+  id = "c67b5565b3b6475bae9e042c96cb0b9db6b37b29_id"        if human_readable_id == "10 School District"
 
   id
 end
@@ -302,7 +307,7 @@ end
 
 When /^the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:$/ do |table|
   Minitar.unpack(@filePath, @unpackDir)
-
+  puts "DEBUG: @filePath is #{@filePath}"
 	table.hashes.map do |entity|
     exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
     assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
@@ -470,6 +475,7 @@ def getEntityId(entity)
   entity_to_id_map = {
     "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
     "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+    "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
     "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
     "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
   }
@@ -531,11 +537,11 @@ def getEntityBodyFromApi(entity, api_version, verb)
     "staffProgramAssociation" => "staffProgramAssociations",
     "staffStudent" => "students",
     "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-    "newStudent" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+    "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
     "studentCohortAssocation" => "studentCohortAssociations",
     "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-    "studentParentAssociation" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id/studentParentAssociations",
-    "newStudentParentAssociation" => "studentParentAssociations/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id62cf87d9afc36d56bea7507ea0bee138ddcb2524_id",
+    "studentParentAssociation" => "students/9bf3036428c40861238fdc820568fde53e658d88_id/studentParentAssociations",
+    "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
     "studentProgramAssociation" => "studentProgramAssociations",
     "studentSchoolAssociation" => "studentSchoolAssociations",
     "studentSectionAssociation" => "studentSectionAssociations",
@@ -744,7 +750,7 @@ Then /^I verify "(.*?)" delta bulk extract files are generated for LEA "(.*?)" i
   @sliDb ||= @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
   query = {"body.tenantId"=>tenant, "body.isDelta"=>true, "body.edorg"=>lea}
-  assert(count == @coll.count({query: query}), "Found #{@coll.count}, expected #{count}") 
+  assert(count == @coll.count({query: query}), "Found #{@coll.count({query: query})}, expected #{count}") 
 end
 
 Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table| 
@@ -1247,7 +1253,7 @@ def prepareBody(verb, value, response_map)
       "newStudentMotherAssociation" => {
         "entityType" => "studentParentAssociation",
         "parentId" => "41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
-        "studentId" => "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
         "relation" => "Mother",
         "contactPriority" => 3
       },
@@ -1277,7 +1283,7 @@ def prepareBody(verb, value, response_map)
       "newStudentFatherAssociation" => {
         "entityType" => "studentParentAssociation",
         "parentId" => "41f42690a7c8eb5b99637fade00fc72f599dab07_id",
-        "studentId" => "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
         "relation" => "Father",
         "contactPriority" => 3
       },
@@ -1287,8 +1293,8 @@ def prepareBody(verb, value, response_map)
         "entityType" => "student",
         "race" => ["White"],
         "languages" => ["English"],
-        "studentUniqueStateId" => "201",
-        "profileThumbnail" => "201 thumb",
+        "studentUniqueStateId" => "nsmin-1",
+        "profileThumbnail" => "1201 thumb",
         "name" => {
             "middleName" => "Robot",
             "lastSurname" => "Samsonite",
@@ -1314,7 +1320,7 @@ def prepareBody(verb, value, response_map)
         "educationalPlans" => [],
         "schoolChoiceTransfer" => true,
         "entryType" => "Other",
-        "studentId" => "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
         "repeatGradeIndicator" => true,
         "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
       },

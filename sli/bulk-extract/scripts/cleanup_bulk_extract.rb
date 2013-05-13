@@ -21,7 +21,8 @@ limitations under the License.
 # Clean up the bulk extraction zone and bulk extract database according to arguments.
 # This is the implementation which uses the TenantCleaner class.
 
-require_relative '../lib/TenantCleaner.rb'
+CURRENT_ABSOLUTE_PARENT_DIRNAME ||= File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME)))
+require_relative CURRENT_ABSOLUTE_PARENT_DIRNAME + '/lib/TenantCleaner.rb'
 
 def main()
   @logger.info ""
