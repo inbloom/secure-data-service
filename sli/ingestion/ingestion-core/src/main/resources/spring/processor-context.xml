@@ -41,10 +41,6 @@
     <property name="recordLevelDeltaEnabledEntities" ref="recordLevelDeltaEnabledEntities" />
   </bean>
 
-  <bean id="stagingProcessor" class="org.slc.sli.ingestion.processors.StagingProcessor" parent="ingestionProcessor">
-    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
-  </bean>
-
   <bean id="xsdTypeProvider" class="org.slc.sli.ingestion.parser.impl.XsdTypeProvider">
     <property name="schemaFiles" value="classpath:edfiXsd-SLI/*.xsd" />
   </bean>
