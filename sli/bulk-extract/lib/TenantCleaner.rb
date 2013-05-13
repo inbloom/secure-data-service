@@ -71,12 +71,9 @@ class TenantCleaner
     # Verify Ed Org, if not null.
     if (edOrgName != nil)
       edOrgColl = @tenantDb.collection('educationOrganization')
-      edOrgRecord = edOrgColl.find_one({"_id"=>edOrgName})
+      edOrgRecord = edOrgColl.find_one({"body.stateOrganizationId"=>edOrgName})
       if (edOrgRecord == nil)
-        edOrgRecord = edOrgColl.find_one({"body.stateOrganizationId"=>edOrgName})
-        if (edOrgRecord == nil)
-          raise(NameError, "Tenant " + @tenant + " does not contain EdOrg " + edOrgName)
-        end
+        raise(NameError, "Tenant " + @tenant + " does not contain EdOrg " + edOrgName)
       end
       @edOrgId = edOrgRecord['_id']
       @edOrgBERecords = @beColl.find({"body.tenantId"=>@tenant, "body.edorg"=>@edOrgId})
