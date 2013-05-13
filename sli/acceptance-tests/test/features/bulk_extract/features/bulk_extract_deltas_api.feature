@@ -30,6 +30,9 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "studentSchoolAssociation" delta was extracted in the same format as the api
    And The "studentAssessment" delta was extracted in the same format as the api
    And The "studentGradebookEntry" delta was extracted in the same format as the api
+   And The "cohort" delta was extracted in the same format as the api
+   And The "studentCohortAssociation" delta was extracted in the same format as the api
+   And The "staffCohortAssociation" delta was extracted in the same format as the api
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
@@ -163,7 +166,6 @@ Given I clean the bulk extract file system and database
      And I verify this "staff" file should contains:
        | id                                          | condition                                |
        | b7beb5d73c2189c680e16826e2e57d4d71970181_id | staffUniqueStateId = stff-0000000004     |
-
 
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database
