@@ -10,7 +10,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
-  Then I should see "4" bulk extract files
+  Then I should see "8" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   Then The "educationOrganization" delta was extracted in the same format as the api
    And The "parent" delta was extracted in the same format as the api
@@ -27,7 +27,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "reportCard" delta was extracted in the same format as the api
    And The "studentAcademicRecord" delta was extracted in the same format as the api
 
-Scenario: Generate a bulk extract in a different LEAs
+Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database
     And I am using local data store
     And I post "deltas_new_edorg_wrong_lea.zip" file as the payload of the ingestion job
@@ -40,12 +40,16 @@ Scenario: Generate a bulk extract in a different LEAs
    And I should not see a warning log file created
 
   When I trigger a delta extract
-   And I request the latest bulk extract delta using the api
-   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>" for "<lea2_id>"
+   #And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+   And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
+   And I should receive a return code of 200
+   #And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>" for "<IL-HIGHWIND>"
+   And I download and decrypt the delta
    Then I should see "2" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  Then The "educationOrganization" delta was extracted in the same format as the api
-   And The "educationOrganization" entity with id "<ed_org_to_lea2_id>" should belong to LEA with id "<lea2_id>" 
+   And The "educationOrganization" delta was extracted in the same format as the api
+   And The "educationOrganization" entity with id "<ed_org_to_lea2_id>" should belong to LEA with id "<IL-HIGHWIND>" 
 
 Scenario: Ingest education organization and perform delta   
   Given I clean the bulk extract file system and database
@@ -60,7 +64,7 @@ Scenario: Ingest education organization and perform delta
    And I should not see a warning log file created
 
   When I trigger a delta extract
-   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>"
+   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
    Then I should see "2" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   Then The "educationOrganization" delta was extracted in the same format as the api
@@ -73,10 +77,14 @@ Scenario: Ingest education organization and perform delta
   #the new LEA would only receive a update file since the delete event is not applicable to the new LEA
   And I ingested "deltas_move_between_edorg.zip" dataset
     When I trigger a delta extract
-      And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
-      And I verify "4" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+      And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "22c2a28d-7327-4444-8ff9-caad4b1c7aa3" for "<IL-HIGHWIND>"
+      And I verify "4" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
+      And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
+      And I verify "2" delta bulk extract files are generated for LEA "<10 School District>" in "Midgar"
+      And I verify "2" delta bulk extract files are generated for LEA "<11 School District>" in "Midgar"
       # should see no delete file for lea 1
-      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+      #And I verify the last delta bulk extract by app "22c2a28d-7327-4444-8ff9-caad4b1c7aa3" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
+      And the extract contains a file for each of the following entities:
         |  entityType                            |
         |  school                                |
         |  educationOrganization                 |
@@ -85,7 +93,7 @@ Scenario: Ingest education organization and perform delta
           | 54b4b51377cd941675958e6e81dce69df801bfe8_id | stateOrganizationId=Daybreak Podunk High |
       
       # should only see delete file for lea 2
-      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
+      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  deleted                               |
       And I verify this "deleted" file should contains:
@@ -113,7 +121,7 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
   # We will see a warning file on cascading delete -- there are a lot of children of this SEA
     When I trigger a delta extract
       And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
-      And I verify "2" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+      And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
       And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  deleted                               |
@@ -122,7 +130,7 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
           | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = educationOrganization    |
           | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = school                   |
 
-      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
+      And I verify the last delta bulk extract by app "22c2a28d-7327-4444-8ff9-caad4b1c7aa3" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  deleted                               |
       And I verify this "deleted" file should contains:
@@ -203,15 +211,15 @@ Given I clean the bulk extract file system and database
  Then I should receive a return code of 403   
   And deltas collection should have "0" records
 
-Scenario: Delete an existing school with API call, verify delta
+Scenario: As SEA Admin, delete an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
  When I DELETE an "orphanEdorg" of id "54b4b51377cd941675958e6e81dce69df801bfe8_id" 
  Then I should receive a return code of 204
  When I trigger a delta extract
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
-  And I verify "2" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar"
+  And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
 
 Scenario: Patch an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
@@ -247,7 +255,7 @@ Given I clean the bulk extract file system and database
  Then I should receive a return code of 201
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
-  And I verify "0" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+  And I verify "0" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
  Then The "student" delta was extracted in the same format as the api
   And The "studentSchoolAssociation" delta was extracted in the same format as the api
@@ -268,7 +276,7 @@ Given I clean the bulk extract file system and database
  Then I should receive a return code of 204
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
-  And I verify "0" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+  And I verify "0" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And The "student" delta was extracted in the same format as the api
   And The "parent" delta was extracted in the same format as the api
@@ -288,7 +296,7 @@ Given I clean the bulk extract file system and database
  Then I should receive a return code of 204
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
-  And I verify "0" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
+  And I verify "0" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And The "student" delta was extracted in the same format as the api
   And The "parent" delta was extracted in the same format as the api
@@ -298,7 +306,7 @@ Given I clean the bulk extract file system and database
  Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
- When I DELETE an "newStudent" of id "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id"
+ When I DELETE an "newStudent" of id "9bf3036428c40861238fdc820568fde53e658d88_id"
  Then I should receive a return code of 204
  When I DELETE an "newParentDad" of id "41f42690a7c8eb5b99637fade00fc72f599dab07_id"
  Then I should receive a return code of 204
@@ -311,13 +319,14 @@ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I verify this "deleted" file should contains:
         | id                                          | condition                             |
-        | fb63ac98670f5a762df1a13cdc912bce9c2187e7_id | entityType = student                  |
+        | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                  |
         | 41f42690a7c8eb5b99637fade00fc72f599dab07_id | entityType = parent                   |
         | 41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id | entityType = parent                   |
-        | 6f3f208aaa373e2efd803994047cf5e63ac455d4_id | entityType = studentSchoolAssociation |
-        | fb63ac98670f5a762df1a13cdc912bce9c2187e7_id62cf87d9afc36d56bea7507ea0bee138ddcb2524_id | entityType = studentParentAssociation |
-        | fb63ac98670f5a762df1a13cdc912bce9c2187e7_id24f7d7a3025831bcdebefb5fc1ce1f7cfb28bba5_id | entityType = studentParentAssociation |
+        | bc3588737cb477e9f721421104b783179887fbdb_id | entityType = studentSchoolAssociation |
+        | 9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id | entityType = studentParentAssociation |
+        | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
 
+@shortcut
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
   and only a delete file is generated for lea2.
@@ -329,8 +338,8 @@ Given I clean the bulk extract file system and database
   And I ingest "bulk_extract_deltas.zip"
   When I trigger a delta extract
      And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
-     And I verify "2" delta bulk extract files are generated for LEA "<lea2_id>" in "Midgar" 
-     And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<lea2_id>" in "Midgar" contains a file for each of the following entities:
+     And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
+     And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  student                               |
        |  studentSchoolAssociation              |
