@@ -285,7 +285,7 @@ And the extract contains a file for each of the following entities:
       |  entityType                            |
       # |  assessment                            |
       |  attendance                            |
-      # |  cohort                                |
+      |  cohort                                |
       # |  course                                |
       # |  courseTranscript                      |
       # |  courseOffering                        |
@@ -294,7 +294,7 @@ And the extract contains a file for each of the following entities:
       |  educationOrganization                 |
       |  grade                                 |
       # |  gradebookEntry                        |
-      # |  gradingPeriod                         |
+      |  gradingPeriod                         |
       # |  learningObjective                     |
       # |  learningStandard                      |
       |  parent                                |
@@ -302,9 +302,9 @@ And the extract contains a file for each of the following entities:
       |  reportCard                            |
       |  school                                |
       # |  section                               |
-      # |  session                               |
+      |  session                               |
       |  staff                                 |
-      # |  staffCohortAssociation                |
+      |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |
       # |  staffProgramAssociation               |
       |  student                               |
