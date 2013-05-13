@@ -174,9 +174,10 @@ Given I clean the bulk extract file system and database
  Then I should receive a return code of 204
  When I trigger a delta extract
 
-Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
-  And in my list of rights I have BULK_EXTRACT
-  When I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
+#Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  #And in my list of rights I have BULK_EXTRACT
+  When I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "vavedra9ub"
   When I get back a response code of "200"
   When I store the URL for the latest delta for LEA "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
   When the number of returned URLs is correct:
@@ -241,18 +242,15 @@ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
  # CREATE parent entity via POST
- When I POST a "newMinStudent" of type "staffStudent"
- Then I should receive a return code of 201
- When I POST a "newStudentSchoolAssociation" of type "studentSchoolAssociation"
- Then I should receive a return code of 201
- When I POST a "newParentFather" of type "parent"
- Then I should receive a return code of 201
- When I POST a "newStudentFatherAssociation" of type "studentParentAssociation"
- Then I should receive a return code of 201
- When I POST a "newParentMother" of type "parent"
- Then I should receive a return code of 201
- When I POST a "newStudentMotherAssociation" of type "studentParentAssociation"
- Then I should receive a return code of 201
+  When I POST and validate the following entities:
+    |  entity                       |  type                      |  returnCode  |
+    |  newMinStudent                |  staffStudent              |  201         |
+    |  newStudentSchoolAssociation  |  studentSchoolAssociation  |  201         |
+    |  newParentFather              |  parent                    |  201         |
+    |  newParentMother              |  parent                    |  201         |
+    |  newStudentFatherAssociation  |  studentParentAssociation  |  201         |
+    |  newStudentMotherAssociation  |  studentParentAssociation  |  201         |
+
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "0" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
@@ -266,14 +264,13 @@ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
  # UPDATE/UPSERT parent entity via PUT
- When I PUT the "loginId" for a "newStudent" entity to "super_student_you_rock@bazinga.com"
- Then I should receive a return code of 204
- When I PUT the "loginId" for a "newParentMom" entity to "super_mom_you_rock@bazinga.com"
- Then I should receive a return code of 204
- When I PUT the "loginId" for a "newParentDad" entity to "super_dad_good_job@bazinga.com"
- Then I should receive a return code of 204
- When I PUT the "contactPriority" for a "newStudentParentAssociation" entity to "1"
- Then I should receive a return code of 204
+ When I PUT and validate the following entities:
+    |  field            |  entity                       |  value                           |  returnCode  |
+    |  loginId          |  newStudent                   |  super_student_you_rock@bazinga  |  204         |
+    |  loginId          |  newParentMom                 |  super_mom_you_rock@bazinga.com  |  204         |
+    |  loginId          |  newParentDad                 |  super_dad_good_job@bazinga.com  |  204         |
+    |  contactPriority  |  newStudentParentAssociation  |  1                               |  204         |
+
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "0" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
@@ -282,18 +279,18 @@ Given I clean the bulk extract file system and database
   And The "parent" delta was extracted in the same format as the api
   And The "studentParentAssociation" delta was extracted in the same format as the api
 
- # UPDATE parent and parentStudentAssociation fields via PATCH 
  Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
- When I PATCH the "studentLoginId" for a "newStudent" entity to "average_student_youre_ok@bazinga.com"
- Then I should receive a return code of 204
- When I PATCH the "momLoginId" for a "newParentMom" entity to "average_mom_youre_ok@bazinga.com"
- Then I should receive a return code of 204
- When I PATCH the "dadLoginId" for a "newParentDad" entity to "average_dad_youre_ok@bazinga.com"
- Then I should receive a return code of 204
- When I PATCH the "contactPriority" for a "newStudentParentAssociation" entity to "1"
- Then I should receive a return code of 204
+
+ # UPDATE parent and parentStudentAssociation fields via PATCH 
+  When I PATCH and validate the following entities:
+    |  field            |  entity                       |  value                                 |  returnCode  |
+    |  studentLoginId   |  newStudent                   |  average_student_youre_ok@bazinga.com  |  204         |
+    |  momLoginId       |  newParentMom                 |  average_mom_youre_ok@bazinga.com      |  204         |
+    |  dadLoginId       |  newParentDad                 |  average_dad_youre_ok@bazinga.com      |  204         |
+    |  contactPriority  |  newStudentParentAssociation  |  1                                     |  204         |
+
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "0" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
@@ -306,12 +303,12 @@ Given I clean the bulk extract file system and database
  Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
- When I DELETE an "newStudent" of id "9bf3036428c40861238fdc820568fde53e658d88_id"
- Then I should receive a return code of 204
- When I DELETE an "newParentDad" of id "41f42690a7c8eb5b99637fade00fc72f599dab07_id"
- Then I should receive a return code of 204
- When I DELETE an "newParentMom" of id "41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id" 
- Then I should receive a return code of 204
+ When I DELETE and validate the following entities:
+    |  entity        |  id                                           |  returnCode  |
+    |  newStudent    |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
+    |  newParentDad  |  41f42690a7c8eb5b99637fade00fc72f599dab07_id  |  204         |
+    |  newParentMom  |  41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |  204         |
+
  When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |

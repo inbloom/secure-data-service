@@ -438,6 +438,14 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
   untar(@fileDir)
 end
 
+When /^I POST and validate the following entities:$/ do |table|
+  table.hashes.map do |api_params|
+    puts "DEBUG: entity is #{api_params['entity']}, type is #{api_params['type']}, return code is #{api_params['returnCode']}"
+    step "I POST a \"#{api_params['entity']}\" of type \"#{api_params['type']}\""
+    step "I should receive a return code of #{api_params['returnCode']}"
+  end
+end
+
 When /^I POST a "(.*?)" of type "(.*?)"$/ do |field, entity|
   response_map, value = nil
   # POST is a special case. We are creating a brand-new entity. 
@@ -447,6 +455,13 @@ When /^I POST a "(.*?)" of type "(.*?)"$/ do |field, entity|
   endpoint = getEntityEndpoint(entity)
   restHttpPost("/#{@api_version}/#{endpoint}", prepareData(@format, body["POST"][field]))
   assert(@res != nil, "Response from rest-client POST is nil")
+end
+
+When /^I PUT and validate the following entities:$/ do |table|
+  table.hashes.map do |api_params|
+    step "I PUT the \"#{api_params['field']}\" for a \"#{api_params['entity']}\" entity to \"#{api_params['value']}\""
+    step "I should receive a return code of #{api_params['returnCode']}"
+  end
 end
 
 When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
@@ -482,6 +497,13 @@ def getEntityId(entity)
   return entity_to_id_map[entity]
 end
 
+When /^I PATCH and validate the following entities:$/ do |table|
+  table.hashes.map do |api_params|
+    step "I PATCH the \"#{api_params['field']}\" for a \"#{api_params['entity']}\" entity to \"#{api_params['value']}\""
+    step "I should receive a return code of #{api_params['returnCode']}"
+  end
+end
+
 When /^I PATCH the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
   # Get the desired entity from mongo, we will only use the _id
   response_map = getEntityBodyFromApi(entity, @api_version, "PATCH")
@@ -493,12 +515,18 @@ When /^I PATCH the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, 
   assert(@res != nil, "Response from rest-client PATCH is nil")
 end
 
+When /^I DELETE and validate the following entities:$/ do |table|
+  table.hashes.map do |api_params|
+    step "I DELETE an \"#{api_params['entity']}\" of id \"#{api_params['id']}\""
+    step "I should receive a return code of #{api_params['returnCode']}"
+  end
+end
+
 When /^I DELETE an "(.*?)" of id "(.*?)"$/ do |entity, id|
   # Get the endpoint that corresponds to the desired entity
   endpoint = getEntityEndpoint(entity)
   restHttpDelete("/#{@api_version}/#{endpoint}/#{id}")
 end
-
 
 def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
@@ -607,6 +635,7 @@ end
 
 When /^I download and decrypt the delta$/ do
   # Open the file, decrypt, and check against API
+  cleanDir(@download_path)
   download_path = streamBulkExtractFile(@download_path, @res.body)
   @decrypt_path = OUTPUT_DIRECTORY + "decrypt/" + @delta_file
   openDecryptedFile(@app_id, @decrypt_path, @download_path)
@@ -1449,6 +1478,10 @@ def remove_edorg_from_mongo(edorg_id, tenant)
   tenant_db = @conn.db(convertTenantIdToDbName(tenant))
   collection = tenant_db.collection('educationOrganization')
   collection.remove({'body.stateOrganizationId' => edorg_id})
+end
+
+def cleanDir(directory)
+  puts "stubbed out"
 end
 
 def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
