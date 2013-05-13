@@ -162,6 +162,9 @@ public class LocalEdOrgExtractorTest {
                 mockFactory.buildCohortExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
                         Mockito.any(Repository.class))).thenReturn(mockExtract);
 
+        Mockito.when(mockFactory.buildSectionExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),Mockito.any(Repository.class),
+                Mockito.any(EntityToLeaCache.class), Mockito.any(EntityToLeaCache.class))).thenReturn(mockExtract);
+
 
     }
     
