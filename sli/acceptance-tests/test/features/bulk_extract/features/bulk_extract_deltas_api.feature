@@ -33,6 +33,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "cohort" delta was extracted in the same format as the api
    And The "studentCohortAssociation" delta was extracted in the same format as the api
    And The "staffCohortAssociation" delta was extracted in the same format as the api
+   And The "session" delta was extracted in the same format as the api
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
@@ -55,6 +56,7 @@ Given I clean the bulk extract file system and database
        |  studentParentAssociation              |
        |  parent                                |
        |  school                                |
+       |  section                               |
        |  educationOrganization                 |
        |  staff                                 |
        |  staffEducationOrganizationAssociation |
@@ -64,7 +66,7 @@ Given I clean the bulk extract file system and database
      And I verify this "deleted" file should contains:
        | id                                                                                     | condition                             |
        | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id                                            | entityType = student                  |
-       | 35c58d16b854fc2bca711f77a6cc48a98813687f_id                                            | entityType = studentSchoolAssociation |
+       | 8a0a6c0791cd0656d07278b0813d113065c6426f_id                                            | entityType = studentSchoolAssociation |
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
 
@@ -81,15 +83,15 @@ Given I clean the bulk extract file system and database
        | id                                          | condition                                |
        | fe472294f0e40fd428b1a67b9765360004562bab_id |                                          |
 
-     # staff 04 should be in both DAYBREAk and HIGHWIND
+     # staff 04 should be in both DAYBREAK and HIGHWIND
      And I verify this "staff" file should contains:
        | id                                          | condition                                |
        | b7beb5d73c2189c680e16826e2e57d4d71970181_id | staffUniqueStateId = stff-0000000004     |
 
      # Student 1 was in this section, should receive delta for it
-     #And I verify this "section" file should contains:
-     #  | id                                          | condition                                |
-     #  | e003fc1479112d3e953a0220a2d0ddd31077d6d9_id | educationalEnvironment = Laboratory      |
+     And I verify this "section" file should contains:
+       | id                                          | condition                                |
+       | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
 
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
@@ -109,7 +111,7 @@ Given I clean the bulk extract file system and database
    
      And I verify this "deleted" file should contains:
        | id                                          | condition                                |
-       | 35c58d16b854fc2bca711f77a6cc48a98813687f_id | entityType = studentSchoolAssociation    |
+       | 8a0a6c0791cd0656d07278b0813d113065c6426f_id | entityType = studentSchoolAssociation |
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id | entityType = parent                      |
        | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
@@ -118,11 +120,10 @@ Given I clean the bulk extract file system and database
        #this is student 11, which has updated information
        | id                                          | condition                                |
        | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                | 
-     # TODO: Need to update SSA, flip should back to should not
-     #And I verify this "student" file should contains: 
+     And I verify this "student" file should not contains: 
        #this is student 12, which has updated information, but we cut his tie with any schools
-       #| id                                          | condition                                |
-       #| 609640f6af263faad3a0cbee2cbe718fb71b9ab2_id |                                          | 
+       | id                                          | condition                                |
+       | 609640f6af263faad3a0cbee2cbe718fb71b9ab2_id |                                          | 
 
      And I verify this "studentSchoolAssociation" file should contains:
        #updated association for student 11 
@@ -151,7 +152,7 @@ Given I clean the bulk extract file system and database
   
      And I verify this "section" file should contains:
        | id                                          | condition                                |
-       | e003fc1479112d3e953a0220a2d0ddd31077d6d9_id | educationalEnvironment = Laboratory      |
+       | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
   
      # Both Teacher 01 and 03 should be in DAYBREAk
      And I verify this "teacher" file should contains:
@@ -162,7 +163,7 @@ Given I clean the bulk extract file system and database
        | id                                          | condition                                |
        | c063086ce77b13c4e593ff8261024a6ef30e0a8d_id | teacherId = cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id |
 
-     # staff 04 should be in both DAYBREAk and HIGHWIND
+     # staff 04 should be in both DAYBREAK and HIGHWIND
      And I verify this "staff" file should contains:
        | id                                          | condition                                |
        | b7beb5d73c2189c680e16826e2e57d4d71970181_id | staffUniqueStateId = stff-0000000004     |
