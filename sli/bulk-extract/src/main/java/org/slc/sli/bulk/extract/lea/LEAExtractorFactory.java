@@ -99,4 +99,8 @@ public class LEAExtractorFactory {
             Repository<Entity> repo) {
         return new StaffCohortAssociationExtractor(extractor, map, repo);
     }
+    public EntityExtract buildStaffProgramAssociationExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new StaffProgramAssociationExtractor(extractor, map, repo);
+    }
 }
