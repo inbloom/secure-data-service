@@ -22,17 +22,41 @@ limitations under the License.
 require 'rubygems'
 require 'digest/sha1'
 require 'yaml'
+require 'logger'
 require 'mongo'
 require 'time'
 require 'fileutils'
 
+LogLevels = {"FATAL" => Logger::FATAL, "ERROR" => Logger::ERROR, "WARN" => Logger::WARN, \
+             "INFO" => Logger::INFO, "DEBUG" => Logger::DEBUG}
+
+CONFIGURATION_FILE = "../config/bulk_extract_cleanup.yml"
+DEFAULT_LOG_FILE_PATHNAME = "/tmp/logs/cleanup_bulk_extract.log"
+
 properties = YAML::load_file('../config/bulk_extract_cleanup.yml')
-DATABASE_NAME = properties["sli_database_name"]
-DATABASE_HOST = properties["bulk_extract_host"]
-DATABASE_PORT = properties["bulk_extract_port"]
+
+# Logger setup.
+LOG_FILE_PATHNAME = properties['log_file_pathname']
+if ((File.exist?(LOG_FILE_PATHNAME) && !File.writable?(LOG_FILE_PATHNAME)) || \
+     !File.writable?(File.dirname(LOG_FILE_PATHNAME)))
+  puts "WARNING: Configured log file " + LOG_FILE_PATHNAME + " cannot be written"
+  LOG_FILE_PATHNAME = DEFAULT_LOG_FILE_PATHNAME
+end
+puts "Writing output to log file " + LOG_FILE_PATHNAME
+@logger = Logger.new(LOG_FILE_PATHNAME, properties['log_file_rotation'])
+@logger.level = LogLevels[properties['log_level']]
+
+# TenantCleaner setup.
+DATABASE_NAME = properties['sli_database_name']
+DATABASE_HOST = properties['bulk_extract_host']
+DATABASE_PORT = properties['bulk_extract_port']
+REMOVE_DB_RECORD_RETRIES = properties['remove_db_record_retries']
+REMOVE_DB_RECORD_RETRY_SECS = properties['remove_db_record_retry_interval_secs']
 
 class TenantCleaner
-  def initialize(tenantName, dateTime, edOrgName, filePathname)
+  def initialize(tenantName, dateTime, edOrgName, filePathname, logger)
+    @logger = logger
+
     @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
     @sliDb = @conn.db(DATABASE_NAME)
     @beColl = @sliDb.collection('bulkExtractFiles')
@@ -73,13 +97,12 @@ class TenantCleaner
     # Verify Ed Org, if not null.
     if (edOrgName != nil)
       edOrgColl = @tenantDb.collection('educationOrganization')
-      if (edOrgName.end_with?("_id"))
-        edOrgRecord = edOrgColl.find_one({"_id"=>edOrgName})
-      else
-        edOrgRecord = edOrgColl.find_one({"body.stateOrganizationId"=>edOrgName})
-      end
+      edOrgRecord = edOrgColl.find_one({"_id"=>edOrgName})
       if (edOrgRecord == nil)
-        raise(NameError, "Tenant " + @tenant + " does not contain EdOrg " + edOrgName)
+        edOrgRecord = edOrgColl.find_one({"body.stateOrganizationId"=>edOrgName})
+        if (edOrgRecord == nil)
+          raise(NameError, "Tenant " + @tenant + " does not contain EdOrg " + edOrgName)
+        end
       end
       @edOrgId = edOrgRecord['_id']
       @edOrgBERecords = @beColl.find({"body.tenantId"=>@tenant, "body.edorg"=>@edOrgId})
@@ -139,8 +162,8 @@ class TenantCleaner
       elsif (!File.exist?(filePathname))
         raise(NameError, "File " + filePathname + " does not exist")
       end
-      @fileRecord = @beColl.find_one({"body.tenantId"=>@tenant, "body.path"=>filePathname})
-      if (@fileRecord == nil)
+      @fileRecords = @beColl.find({"body.tenantId"=>@tenant, "body.path"=>filePathname})
+      if (!@fileRecords.has_next?)
         raise(NameError, "Tenant " + @tenant + " does not have bulk extract file " + filePathname)
       end
     end
@@ -181,13 +204,9 @@ class TenantCleaner
     okayed = getOkay("You are about to delete bulk extract file " + @file + " and its database metadata " + \
                      "for tenant " + @tenant)
     if (okayed)
-      begin
-        FileUtils.rm(@file, :verbose => true)
-      rescue Exception => ex
-        puts "No files removed"
-      end
-      @beColl.remove(@fileRecord)
-      puts "One file removed"
+      puts "Removing bulk extract file " + @file + " and its database metadata for tenant " + @tenant
+      @logger.info "Removing bulk extract file " + @file + " and its database metadata for tenant " + @tenant
+      remove_files_and_records(@fileRecords)
     end
   end
 
@@ -195,22 +214,11 @@ class TenantCleaner
     okayed = getOkay("You are about to delete all bulk extract files and database metadata for " + \
                      "education organization " + @edOrg + " for tenant " + @tenant + " up to date " + @date)
     if (okayed)
-      removed = 0
-      failed = 0
-      @datedBERecords.each do |datedBERecord|
-        begin
-        fileToRm = datedBERecord['body']['path']
-          FileUtils.rm(fileToRm, :verbose => true)
-          removed += 1
-        rescue Exception => ex
-          puts "WARNING: " + ex.message
-          failed += 1
-        end
-        @beColl.remove(datedBERecord)
-      end
-      puts (removed + failed).to_s + " total files "
-      puts removed.to_s + " files removed"
-      puts failed.to_s + " files failed"
+      puts "Removing all bulk extract files and database metadata for " + \
+           "education organization " + @edOrg + " for tenant " + @tenant + " up to date " + @date
+      @logger.info "Removing all bulk extract files and database metadata for " + \
+                  "education organization " + @edOrg + " for tenant " + @tenant + " up to date " + @date
+      remove_files_and_records(@datedBERecords)
     end
   end
 
@@ -218,22 +226,11 @@ class TenantCleaner
     okayed = getOkay("You are about to delete all bulk extract files and database metadata for " + \
                      "education organization " + @edOrg + " for tenant " + @tenant)
     if (okayed)
-      removed = 0
-      failed = 0
-      @edOrgBERecords.each do |edOrgBERecord|
-        begin
-          fileToRm = edOrgBERecord['body']['path']
-          FileUtils.rm(fileToRm, :verbose => true)
-          removed += 1
-        rescue Exception => ex
-          puts "WARNING: " + ex.message
-          failed += 1
-        end
-        @beColl.remove(edOrgBERecord)
-      end
-      puts (removed + failed).to_s + " total files "
-      puts removed.to_s + " files removed"
-      puts failed.to_s + " files failed"
+      puts "Removing all bulk extract files and database metadata for " + \
+           "education organization " + @edOrg + " for tenant " + @tenant
+      @logger.info "Removing all bulk extract files and database metadata for " + \
+                   "education organization " + @edOrg + " for tenant " + @tenant
+      remove_files_and_records(@edOrgBERecords)
     end
   end
 
@@ -241,49 +238,87 @@ class TenantCleaner
     okayed = getOkay("You are about to delete all bulk extract files and database metadata " + \
                      "for tenant " + @tenant + " up to date " + @date)
     if (okayed)
-      removed = 0
-      failed = 0
-      @datedBERecords.each do |datedBERecord|
-        begin
-          fileToRm = datedBERecord['body']['path']
-          FileUtils.rm(fileToRm, :verbose => true)
-          removed += 1
-        rescue Exception => ex
-          puts "WARNING: " + ex.message
-          failed += 1
-        end
-        @beColl.remove(datedBERecord)
-      end
-      puts (removed + failed).to_s + " total files "
-      puts removed.to_s + " files removed"
-      puts failed.to_s + " files failed"
+      puts "Removing all bulk extract files and database metadata " + \
+           "for tenant " + @tenant + " up to date " + @date
+      @logger.info "Removing all bulk extract files and database metadata " + \
+                   "for tenant " + @tenant + " up to date " + @date
+      remove_files_and_records(@datedBERecords)
     end
   end
 
   def cleanTenant()
     okayed = getOkay("You are about to delete all bulk extract files and database metadata for " + "tenant " + @tenant)
     if (okayed)
-      removed = 0
-      failed = 0
-      @tenantBERecords.each do |tenantBERecord|
-        begin
-          fileToRm = tenantBERecord['body']['path']
-          FileUtils.rm(fileToRm, :verbose => true)
-          removed += 1
-        rescue Exception => ex
-          puts "WARNING: " + ex.message
-          failed += 1
-        end
-        @beColl.remove(tenantBERecord)
-      end
-      puts (removed + failed).to_s + " total files "
-      puts removed.to_s + " files removed"
-      puts failed.to_s + " files failed"
+      puts "Removing all bulk extract files and database metadata for " + "tenant " + @tenant
+      @logger.info "Removing all bulk extract files and database metadata for " + "tenant " + @tenant
+      remove_files_and_records(@tenantBERecords)
     end
   end
 
+  def remove_files_and_records(dbRecordsToRemove)
+    totalFiles = dbRecordsToRemove.count
+    removedFiles = 0
+    failedFiles = 0
+    success = false
+    dbRecordsToRemove.each do |dbRecordToRemove|
+      # Remove db record.
+      retries = 0
+      success = false
+      begin
+        @beColl.remove(dbRecordToRemove)
+        success = true
+        if (retries > 0)
+          puts "Retry successful!"
+          @logger.info "Retry successful!"
+        end
+      rescue Exception => ex
+        retries += 1
+        if (retries <= REMOVE_DB_RECORD_RETRIES)
+          puts "ERROR: Cannot remove database record: " + ex.message
+          puts "Retrying in " + REMOVE_DB_RECORD_RETRY_SECS.to_s + " seconds (retry # " + retries.to_s + ")..."
+          @logger.error "Cannot remove database record: " + ex.message
+          @logger.error "Retrying in " + REMOVE_DB_RECORD_RETRY_SECS.to_s + " seconds (retry # " + retries.to_s + ")..."
+          sleep(REMOVE_DB_RECORD_RETRY_SECS)
+          retry
+        end
+      end
+      if (!success)
+        puts "Retries failed!"
+        @logger.info "Retries failed!"
+        break
+      end
+
+      # Remove file.
+      begin
+        fileToRm = dbRecordToRemove['body']['path']
+        @logger.info "rm " + fileToRm
+        FileUtils.rm(fileToRm)
+        removedFiles += 1
+      rescue Exception => ex
+        @logger.warn ex.message
+        failedFiles += 1
+      end
+    end
+
+    printStats(totalFiles, removedFiles, failedFiles)
+
+    raise(NameError, "Number of retries exceeded - aborting bulk extract cleanup") if (!success)
+  end
+
+  def printStats(totalFiles, removedFiles, failedFiles)
+    processedFiles = removedFiles + failedFiles
+    puts processedFiles.to_s + " files processed of " + totalFiles.to_s + " total files"
+    puts removedFiles.to_s + " files removed"
+    puts failedFiles.to_s + " files failed"
+    puts (totalFiles - processedFiles).to_s + " files not processed"
+    @logger.info processedFiles.to_s + " files processed of " + totalFiles.to_s + " total files"
+    @logger.info (removedFiles + failedFiles).to_s + " total files"
+    @logger.info removedFiles.to_s + " files removed"
+    @logger.info failedFiles.to_s + " files failed"
+  end
+
   def getOkay(prompt)
-    puts(prompt)
+    puts prompt
     print("Do you wish to proceed ('y' or 'yes' to proceed)? ")
     answer = STDIN.gets
     return (answer.strip.eql?("y") || answer.strip.eql?("yes"))
