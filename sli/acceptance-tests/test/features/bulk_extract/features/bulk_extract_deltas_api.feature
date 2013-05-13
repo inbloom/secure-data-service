@@ -348,6 +348,10 @@ Given I clean the bulk extract file system and database
        |  parent                                |
        |  school                                |
        |  educationOrganization                 |
+       |  staff                                 |
+       |  staffEducationOrganizationAssociation |
+       |  teacher                               |
+       |  teacherSchoolAssociation              |
        |  deleted                               |
      And I verify this "deleted" file should contains:
        | id                                                                                     | condition                             |
@@ -355,7 +359,25 @@ Given I clean the bulk extract file system and database
        | 35c58d16b854fc2bca711f77a6cc48a98813687f_id                                            | entityType = studentSchoolAssociation |
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
-  
+
+     # Teacher 03 and related entities should be in both DAYBREAk and HIGHWIND
+     And I verify this "teacher" file should contains:
+       | id                                          | condition                                |
+       | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
+     And I verify this "teacherSchoolAssociation" file should contains:
+       | id                                          | condition                                |
+       | c063086ce77b13c4e593ff8261024a6ef30e0a8d_id | teacherId = cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id |
+
+     # Teacher 01 should NOT be in HIGHWIND
+     And I verify this "teacher" file should not contains:
+       | id                                          | condition                                |
+       | fe472294f0e40fd428b1a67b9765360004562bab_id |                                          |
+
+     # staff 04 should be in both DAYBREAk and HIGHWIND
+     And I verify this "staff" file should contains:
+       | id                                          | condition                                |
+       | b7beb5d73c2189c680e16826e2e57d4d71970181_id | staffUniqueStateId = stff-0000000004     |
+
      # Student 1 was in this section, should receive delta for it
      #And I verify this "section" file should contains:
      #  | id                                          | condition                                |
@@ -370,6 +392,11 @@ Given I clean the bulk extract file system and database
        |  studentGradebookEntry                 |
        |  studentSchoolAssociation              | 
        |  studentParentAssociation              |
+       |  staff                                 |
+       |  staffEducationOrganizationAssociation |
+       |  teacher                               |
+       |  teacherSchoolAssociation              |
+       |  teacherSectionAssociation             |
        |  deleted                               |
    
      And I verify this "deleted" file should contains:
@@ -418,6 +445,20 @@ Given I clean the bulk extract file system and database
        | id                                          | condition                                |
        | e003fc1479112d3e953a0220a2d0ddd31077d6d9_id | educationalEnvironment = Laboratory      |
   
+     # Both Teacher 01 and 03 should be in DAYBREAk
+     And I verify this "teacher" file should contains:
+       | id                                          | condition                                |
+       | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
+       | fe472294f0e40fd428b1a67b9765360004562bab_id | staffUniqueStateId = tech-0000000001     |
+     And I verify this "teacherSchoolAssociation" file should contains:
+       | id                                          | condition                                |
+       | c063086ce77b13c4e593ff8261024a6ef30e0a8d_id | teacherId = cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id |
+
+     # staff 04 should be in both DAYBREAk and HIGHWIND
+     And I verify this "staff" file should contains:
+       | id                                          | condition                                |
+       | b7beb5d73c2189c680e16826e2e57d4d71970181_id | staffUniqueStateId = stff-0000000004     |
+
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
      And The "student" delta was extracted in the same format as the api
      And The "studentSchoolAssociation" delta was extracted in the same format as the api
