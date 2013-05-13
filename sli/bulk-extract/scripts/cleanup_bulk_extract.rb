@@ -33,10 +33,7 @@ def main()
   begin
     # Check the argumment signature.
     tenantCleaner = check_args(ARGV)
-    if (tenantCleaner == nil)
-      # Help was requested.
-      print_help()
-    else
+    if (tenantCleaner != nil)
       # Perform the actual bulk extract cleanup.
       tenantCleaner.clean()
     end
@@ -97,6 +94,7 @@ def check_args(argv)
   if ((argv.length < 1) || (argv.length > 3))
     raise(ArgumentError, "Wrong number of arguments")
   elsif ((argv.length == 1) && (argv[0].eql?("-h") || argv[0].eql?("-help")))
+    print_help()
     return nil
   end
 
