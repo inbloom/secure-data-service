@@ -55,6 +55,7 @@ Given I clean the bulk extract file system and database
        |  studentParentAssociation              |
        |  parent                                |
        |  school                                |
+       |  section                               |
        |  educationOrganization                 |
        |  staff                                 |
        |  staffEducationOrganizationAssociation |
@@ -87,9 +88,9 @@ Given I clean the bulk extract file system and database
        | b7beb5d73c2189c680e16826e2e57d4d71970181_id | staffUniqueStateId = stff-0000000004     |
 
      # Student 1 was in this section, should receive delta for it
-     #And I verify this "section" file should contains:
-     #  | id                                          | condition                                |
-     #  | e003fc1479112d3e953a0220a2d0ddd31077d6d9_id | educationalEnvironment = Laboratory      |
+     And I verify this "section" file should contains:
+       | id                                          | condition                                |
+       | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
 
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
@@ -150,7 +151,7 @@ Given I clean the bulk extract file system and database
   
      And I verify this "section" file should contains:
        | id                                          | condition                                |
-       | e003fc1479112d3e953a0220a2d0ddd31077d6d9_id | educationalEnvironment = Laboratory      |
+       | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
   
      # Both Teacher 01 and 03 should be in DAYBREAk
      And I verify this "teacher" file should contains:
