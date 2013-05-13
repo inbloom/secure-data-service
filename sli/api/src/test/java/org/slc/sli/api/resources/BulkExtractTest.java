@@ -705,10 +705,11 @@ public class BulkExtractTest {
         Entity mockedEntity = mockBulkExtractEntity(null);
         Mockito.when(edOrgHelper.byId(eq("SeaPub"))).thenReturn(mockedEntity);
         Mockito.when(edOrgHelper.isSEA(mockedEntity)).thenReturn(true);
+        Mockito.when(edOrgHelper.getChildLEAsOfEdOrg(mockedEntity)).thenReturn(Arrays.asList("lea123"));
 
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
-        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("SeaPub"));
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("lea123"));
         Entity mockAppAuth = Mockito.mock(Entity.class);
         Mockito.when(mockAppAuth.getBody()).thenReturn(authBody);
         Mockito.when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))

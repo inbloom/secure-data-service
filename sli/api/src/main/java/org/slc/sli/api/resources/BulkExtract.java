@@ -169,15 +169,20 @@ public class BulkExtract {
             throw new IllegalArgumentException("leaId cannot be missing");
         }
         validateRequestCertificate(request);
+
+        Entity entity = helper.byId(leaId);
+        boolean isSEA = entity != null && helper.isSEA(entity);
+        if (isSEA) {
+            return getSEAExtractResponse(context.getRequest(), entity, leaId);
+        }
+
         if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
             throw new AccessDeniedException("User is not authorized access this extract");
         }
 
+        appAuthHelper.checkApplicationAuthorization(leaId);
 
-        Entity entity = helper.byId(leaId);
-        boolean isSEA = entity != null && helper.isSEA(entity);
-
-        return getExtractResponse(context.getRequest(), null, leaId, isSEA);
+        return getExtractResponse(context.getRequest(), null, leaId, false);
     }
 
     /**
@@ -210,6 +215,8 @@ public class BulkExtract {
         info("Received request to stream tenant bulk extract...");
         validateRequestCertificate(request);
 
+        appAuthHelper.checkApplicationAuthorization(null);
+
         return getExtractResponse(context.getRequest(), null, null, false);
     }
 
@@ -234,9 +241,41 @@ public class BulkExtract {
                 throw new IllegalArgumentException("date cannot be missing");
             }
             validateRequestCertificate(request);
+            appAuthHelper.checkApplicationAuthorization(leaId);
             return getExtractResponse(context.getRequest(), date, leaId, false);
         }
         return Response.status(404).build();
+    }
+
+    /**
+     * Get the SEA public bulk extract response
+     *
+     * @param req       the http request context
+     * @param seaEntity the SEA Entity
+     * @param seaId     the SEA id
+     * @return the jax-rs response to send back.
+     */
+    Response getSEAExtractResponse(final HttpRequestContext req, final Entity seaEntity, final String seaId) {
+
+        boolean leaFound = false;
+        for (String edorgId : helper.getChildLEAsOfEdOrg(seaEntity)) {
+            LOG.debug("Checking leaId: {} for seaId: {}",edorgId,seaId);
+            if (edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(edorgId)))) {
+                try {
+                    appAuthHelper.checkApplicationAuthorization(edorgId);
+                    leaFound = true;
+                    break;
+                } catch (AccessDeniedException e) {
+                    leaFound = false;
+                }
+            }
+        }
+
+        if (!leaFound) {
+            throw new AccessDeniedException("User is not authorized access SEA public extract");
+        }
+
+        return getExtractResponse(req, null, seaId, true);
     }
 
     /**
@@ -250,7 +289,6 @@ public class BulkExtract {
      */
     Response getExtractResponse(final HttpRequestContext req, final String deltaDate, final String leaId, boolean isPublicData) {
 
-        appAuthHelper.checkApplicationAuthorization(leaId);
         String appId = appAuthHelper.getApplicationId();
 
         Entity entity = getBulkExtractFileEntity(deltaDate, appId, leaId, false, isPublicData);
