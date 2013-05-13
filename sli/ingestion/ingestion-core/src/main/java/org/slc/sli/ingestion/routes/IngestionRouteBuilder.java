@@ -295,11 +295,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "CamelRouting", "Batch of ${body.neutralRecords.size} is recieved to persist")
                 .beanRef("persistenceProcessor");
 
-        from("direct:staging").routeId("staging")
-            .bean(batchJobManager, "prepareTenantContext")
-            .log(LoggingLevel.INFO, "CamelRouting", "Batch of ${body.neutralRecords.size} is recieved to stage")
-            .beanRef("stagingProcessor");
-
         // file entry Latch
         from("direct:fileEntryLatch").routeId("fileEntryLatch")
             .bean(batchJobManager, "prepareTenantContext")
