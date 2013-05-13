@@ -133,7 +133,7 @@
     </GraduationPlanReference>
   </StudentSchoolAssociation>
   <Action ActionType="DELETE">
-   <StudentSchoolAssociation>
+  <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>12</StudentUniqueStateId>
@@ -144,16 +144,16 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-      <SchoolYear>2014-2015</SchoolYear>
-    <EntryDate>2012-08-27</EntryDate>
-    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
-      <EntryType>Re-entry from the same school with no interruption of schooling</EntryType>
-      <RepeatGradeIndicator>true</RepeatGradeIndicator>
-      <ClassOf>2013-2014</ClassOf>
+      <SchoolYear>2013-2014</SchoolYear>
+    <EntryDate>2013-09-09</EntryDate>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+      <EntryType>Transfer from a school outside of the country</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2015-2016</ClassOf>
       <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
-    <ExitWithdrawDate>2013-05-23</ExitWithdrawDate>
+    <ExitWithdrawDate>2014-06-04</ExitWithdrawDate>
       <EducationalPlans>
-        <EducationalPlan>High School Education Plan</EducationalPlan>
+      	<EducationalPlan>Completion and Reach Age 22</EducationalPlan>
       </EducationalPlans>
     <GraduationPlanReference>
       <GraduationPlanIdentity>
