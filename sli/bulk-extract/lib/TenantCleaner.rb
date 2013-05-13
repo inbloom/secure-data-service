@@ -30,10 +30,11 @@ require 'fileutils'
 LogLevels = {"FATAL" => Logger::FATAL, "ERROR" => Logger::ERROR, "WARN" => Logger::WARN, \
              "INFO" => Logger::INFO, "DEBUG" => Logger::DEBUG}
 
-CONFIGURATION_FILE = "../config/bulk_extract_cleanup.yml"
+CURRENT_ABSOLUTE_PARENT_DIRNAME ||= File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME)))
+CONFIGURATION_FILE = CURRENT_ABSOLUTE_PARENT_DIRNAME + "/config/bulk_extract_cleanup.yml"
 DEFAULT_LOG_FILE_PATHNAME = "/tmp/logs/cleanup_bulk_extract.log"
 
-properties = YAML::load_file('../config/bulk_extract_cleanup.yml')
+properties = YAML::load_file(CURRENT_ABSOLUTE_PARENT_DIRNAME + '/config/bulk_extract_cleanup.yml')
 
 # Logger setup.
 LOG_FILE_PATHNAME = properties['log_file_pathname']
