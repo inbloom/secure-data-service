@@ -307,14 +307,16 @@ class TenantCleaner
 
   def printStats(totalFiles, removedFiles, failedFiles)
     processedFiles = removedFiles + failedFiles
+
     puts processedFiles.to_s + " files processed of " + totalFiles.to_s + " total files"
     puts removedFiles.to_s + " files removed"
     puts failedFiles.to_s + " files failed"
     puts (totalFiles - processedFiles).to_s + " files not processed"
+
     @logger.info processedFiles.to_s + " files processed of " + totalFiles.to_s + " total files"
-    @logger.info (removedFiles + failedFiles).to_s + " total files"
     @logger.info removedFiles.to_s + " files removed"
     @logger.info failedFiles.to_s + " files failed"
+    @logger.info (totalFiles - processedFiles).to_s + " files not processed"
   end
 
   def getOkay(prompt)
