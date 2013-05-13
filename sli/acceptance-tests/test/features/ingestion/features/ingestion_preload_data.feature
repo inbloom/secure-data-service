@@ -45,6 +45,7 @@ Scenario: Preload Sample Data Sets
      | reportCard                               |                  2|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                 97|
+     | sectionAssessmentAssociation             |                  0|
      | sectionSchoolAssociation                 |                  0|
      | session                                  |                 22|
      | sessionCourseAssociation                 |                  0|
@@ -59,6 +60,7 @@ Scenario: Preload Sample Data Sets
      | studentCompetency                        |                 59|
      | studentCompetencyObjective               |                  4|
      | studentDisciplineIncidentAssociation     |                  4|
+     | studentObjectiveAssessment               |                297|
      | studentParentAssociation                 |                  9|
      | studentProgramAssociation                |                  6|
      | studentSchoolAssociation                 |                167|

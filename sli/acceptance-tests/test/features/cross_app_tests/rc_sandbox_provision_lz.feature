@@ -31,6 +31,8 @@ Background:
     And I should see following map of entry counts in the corresponding collections:
          | collectionName                           |              count|
          | assessment                               |                 19|
+         | assessmentFamily                         |                 38|
+         | assessmentPeriodDescriptor               |                  2|
          | attendance                               |                 75|
          | calendarDate                             |                556|
          | cohort                                   |                  3|
@@ -70,6 +72,7 @@ Background:
          | studentCompetency                        |                 59|
          | studentCompetencyObjective               |                  4|
          | studentDisciplineIncidentAssociation     |                  4|
+         | studentObjectiveAssessment               |                300|
          | studentParentAssociation                 |                  9|
          | studentProgramAssociation                |                  6|
          | studentSchoolAssociation                 |                167|

@@ -109,7 +109,7 @@ When zip file is scp to ingestion landing zone
      | studentCompetency                        |                 59|
      | studentCompetencyObjective               |                  4|
      | studentDisciplineIncidentAssociation     |                  4|
-     | studentObjectiveAssessment               |                297|
+     | studentObjectiveAssessment               |                300|
      | studentParentAssociation                 |                  9|
      | studentProgramAssociation                |                  6|
      | studentSchoolAssociation                 |                167|
