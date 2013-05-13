@@ -122,7 +122,10 @@ public class LocalEdOrgExtractor {
         sessionExtractor.extractEntities(edorgCache);
         EntityExtract gradingPeriodExtractor = factory.buildGradingPeriodExtractor(entityExtractor, leaToExtractFileMap, repository);
         gradingPeriodExtractor.extractEntities(sessionExtractor.getEntityToLeaCache());
-
+        
+        genericExtractor = factory.buildStaffProgramAssociationExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor.extractEntities(seaExtractor.getEntityCache());
+        
         genericExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, leaToExtractFileMap, repository);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
         
