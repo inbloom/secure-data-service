@@ -30,8 +30,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Context resolver for students
@@ -56,9 +54,9 @@ public class StudentContextResolver extends ReferrableResolver {
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
         Set<String> leas = new HashSet<String>();
-        if (getStudentEdOrgCache().containsKey(entity.getEntityId())) {
+        if (getCache().containsKey(entity.getEntityId())) {
             LOG.debug("got LEAs from cache for {}", entity);
-            return getStudentEdOrgCache().get(entity.getEntityId());
+            return getCache().get(entity.getEntityId());
         }
 
         List<Map<String, Object>> schools = entity.getDenormalizedData().get("schools");
@@ -77,33 +75,12 @@ public class StudentContextResolver extends ReferrableResolver {
                 }
             }
         }
-        getStudentEdOrgCache().put(entity.getEntityId(), leas);
+        getCache().put(entity.getEntityId(), leas);
         return leas;
     }
+
     
-    /**
-     * Find the LEAs based on a given student id
-     * Will use local cache if available, otherwise will pull student from Mongo
-     * 
-     * @param id
-     *            the ID of the student
-     * @return the set of LEAs
-     */
-    @Override
-    public Set<String> findGoverningLEA(String id) {
-        Set<String> cached = getStudentEdOrgCache().get(id);
-        if (cached != null) {
-            return cached;
-        }
-        Entity entity = getRepo().findOne("student", new NeutralQuery(new NeutralCriteria("_id",
-                NeutralCriteria.OPERATOR_EQUAL, id)).setEmbeddedFieldString("schools"));
-        if (entity != null) {
-            return findGoverningLEA(entity);
-        }
-        return new HashSet<String>();
-    }
-    
-    Map<String, Set<String>> getStudentEdOrgCache() {
+    protected Map<String, Set<String>> getCache() {
         return studentEdOrgCache;
     }
     

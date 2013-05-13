@@ -291,6 +291,12 @@ When /^the return code is 200 I get expected tar downloaded$/ do
 	assert(@res.headers[:content_type]==EXPECTED_CONTENT_TYPE, "Content Type must be #{EXPECTED_CONTENT_TYPE} was #{@res.headers[:content_type]}")
 end
 
+When /^I know where the extracted tar is for tenant "(.*?)"$/ do |tenant|
+  @tenant = tenant
+  @filePath = "extract/extract.tar"
+  @unpackDir = File.dirname(@filePath) + '/unpack'
+end
+
 Then /^I get back a response code of "(.*?)"$/ do |response_code|
   puts "@res.headers: #{@res.headers}"
   puts "@res.code: #{@res.code}"

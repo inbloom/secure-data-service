@@ -880,6 +880,30 @@ Then /^I verify that extract does not contain a file for the following entities:
   end
 end
 
+
+Then /^I have a fake bulk extract tar file for the following tenants and different dates:$/ do |table|
+  @parentDir = "cleanup/"
+  testData = "#{File.dirname(__FILE__)}/../../test_data/cleanup/cleanup.tar"
+
+  unless File.directory?(@parentDir)
+    FileUtils.mkdir_p(@parentDir)
+  end
+
+  table.hashes.map do |row|
+    subDir = @parentDir + "/" + row["tenant"] + "/" + row["Edorg"] + "/"
+    puts subDir
+    FileUtils.mkdir_p(subDir);
+    destFile = subDir + row["Edorg"] + "-" + row["app"] + "-" + row["date"] + ".tar"
+    puts destFile
+    FileUtils.cp(testData, destFile)
+  end
+end
+
+Then /^I clean up the cleanup script test data$/ do
+  FileUtils.rm_rf(@parentDir)
+end
+
+
 ############################################################
 # Hooks
 ############################################################
@@ -1030,11 +1054,11 @@ def entityToUri(entity)
   uri
 end
 
-def compareToApi(collection, collFile)
+def compareToApi(collection, collFile, sample_size=10)
   found = false
   uri = entityToUri(collection)
     
-  collFile.each do |extractRecord|
+  (collFile.shuffle.take(sample_size)).each do |extractRecord|
     
     id = extractRecord["id"]
       
