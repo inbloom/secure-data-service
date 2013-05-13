@@ -37,7 +37,6 @@ import org.slc.sli.ingestion.processors.LandingZoneProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TenantProcessor;
-import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -79,8 +78,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired(required = true)
     private PersistenceProcessor persistenceProcessor;
 
-    @Autowired
-    private TransformationProcessor transformationProcessor;
 
     @Autowired
     private OrchestraPreProcessor orchestraPreProcessor;
