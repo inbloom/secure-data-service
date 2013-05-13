@@ -15,15 +15,17 @@
  */
 package org.slc.sli.bulk.extract.lea;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.google.common.base.Predicate;
 
 /**
  * @author dkornishev
@@ -62,11 +64,19 @@ public class SectionExtractor implements EntityExtract {
 
                     for (Map<String, Object> assoc : assocs) {
                         Map<String, String> body = (Map<String, String>) assoc.get("body");
-                        String studentId = body.get("studentId");
+                        final String studentId = body.get("studentId");
                         Set<String> leas = this.studentCache.getEntriesById(studentId);
                         for (String lea2 : leas) {
-                            //  TODO: a flag to not grab super-docs
-                            this.entityExtractor.extractEntity(section, this.leaToExtractFileMap.getExtractFileForLea(lea2), "section");
+                        	Predicate<Entity> filter = new Predicate<Entity>() {
+								@Override
+								public boolean apply(Entity input) {
+									Map<String, Object> body = input.getBody();
+									return body.keySet().contains("studentId") && studentId.equals(body.get("studentId"));
+								}
+                        	};
+                        	
+                        	
+                            this.entityExtractor.extractEntity(section, this.leaToExtractFileMap.getExtractFileForLea(lea2), "section", filter);
                         }
                     }
                 }

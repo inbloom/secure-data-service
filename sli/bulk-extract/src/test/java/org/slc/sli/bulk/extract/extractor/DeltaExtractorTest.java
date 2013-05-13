@@ -177,7 +177,7 @@ public class DeltaExtractorTest {
     public void test() {
         extractor.execute("Midgar", new DateTime(), "");
         try {
-            verify(entityExtractor, times(1)).write(any(Entity.class), any(ExtractFile.class), any(EntityExtractor.CollectionWrittenRecord.class));
+            verify(entityExtractor, times(1)).write(any(Entity.class), any(ExtractFile.class), any(EntityExtractor.CollectionWrittenRecord.class), null);
             verify(entityWriteManager, times(6)).writeDelete(any(Entity.class), any(ExtractFile.class));
         } catch (FileNotFoundException e) {
             fail("should never throw exceptions in mocks");
