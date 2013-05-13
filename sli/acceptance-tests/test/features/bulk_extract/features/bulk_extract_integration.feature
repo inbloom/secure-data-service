@@ -95,7 +95,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       |  staff                                 | 10 | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
       |  staffCohortAssociation                | 2 |         |
       |  staffEducationOrganizationAssociation | 10 | 346a3cc0939419b34283ec6cac2330e19a483f6f_id |
-      # |  staffProgramAssociation               | 7 |         |
+      |  staffProgramAssociation               | 6 |         |
       |  student                               | 156 |         |
       |  studentAcademicRecord                 | 234 |         |
       |  studentAssessment                     | 406 |         |

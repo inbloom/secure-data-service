@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ed-fi.org/0100"
-	xmlns:sli="http://slc-sli/ed-org/0.1" targetNamespace="http://ed-fi.org/0100"
-	elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ed-fi.org/0100" xmlns:sli="http://slc-sli/ed-org/0.1" targetNamespace="http://ed-fi.org/0100" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:include schemaLocation="../edfiXsd/Ed-Fi-Core.xsd"/>
-
 	<xs:annotation>
 		<xs:documentation>===== SLI Transactional Entity =====</xs:documentation>
 	</xs:annotation>
-
 	<xs:simpleType name="ActionTypeType">
 		<xs:annotation>
 			<xs:documentation>HTTP like method for update operation</xs:documentation>
@@ -20,33 +16,26 @@
 			<xs:enumeration value="PATCH"/>
 		</xs:restriction>
 	</xs:simpleType>
-
 	<xs:complexType name="SLC-ActionType">
 		<xs:annotation>
 			<xs:documentation>This is the verb wrapper that surrounds a sequence of objects to be
 				operated on.</xs:documentation>
 		</xs:annotation>
-
-		<!-- Sequence of entities wrapped -->
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
-
 			<!-- All reference types  -->
 			<xs:element name="AssessmentFamilyReference" type="SLC-AssessmentFamilyReferenceType"/>
 			<xs:element name="AssessmentItemReference" type="SLC-AssessmentItemReferenceType"/>
-			<xs:element name="AssessmentPeriodDescriptorReference"
-				type="SLC-AssessmentPeriodDescriptorReferenceType"/>
+			<xs:element name="AssessmentPeriodDescriptorReference" type="SLC-AssessmentPeriodDescriptorReferenceType"/>
 			<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType"/>
 			<xs:element name="AttendanceEventReference" type="SLC-AttendanceEventReferenceType"/>
 			<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType"/>
 			<xs:element name="CohortReference" type="SLC-CohortReferenceType"/>
-			<xs:element name="CompetencyLevelDescriptorReference"
-				type="SLC-CompetencyLevelDescriptorReferenceType"/>
+			<xs:element name="CompetencyLevelDescriptorReference" type="SLC-CompetencyLevelDescriptorReferenceType"/>
 			<xs:element name="CourseOfferingReference" type="SLC-CourseOfferingReferenceType"/>
 			<xs:element name="CourseReference" type="SLC-CourseReferenceType"/>
 			<xs:element name="CourseTranscriptReference" type="SLC-CourseTranscriptReferenceType"/>
 			<xs:element name="DisciplineActionReference" type="SLC-DisciplineActionReferenceType"/>
-			<xs:element name="DisciplineIncidentReference"
-				type="SLC-DisciplineIncidentReferenceType"/>
+			<xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType"/>
 			<xs:element name="GradebookEntryReference" type="SLC-GradebookEntryReferenceType"/>
 			<xs:element name="GradeReference" type="SLC-GradeReferenceType"/>
 			<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"/>
@@ -54,55 +43,35 @@
 			<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType"/>
 			<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType"/>
 			<xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType"/>
-			<xs:element name="ObjectiveAssessmentReference"
-				type="SLC-ObjectiveAssessmentReferenceType"/>
+			<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType"/>
 			<xs:element name="ParentReference" type="SLC-ParentReferenceType"/>
 			<xs:element name="ProgramReference" type="SLC-ProgramReferenceType"/>
 			<xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType"/>
 			<xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType"/>
 			<xs:element name="SectionReference" type="SLC-SectionReferenceType"/>
 			<xs:element name="SessionReference" type="SLC-SessionReferenceType"/>
-			<xs:element name="StaffCohortAssociationReference"
-				type="SLC-StaffCohortAssociationReferenceType"/>
-			<xs:element name="StaffEducationOrgAssignmentAssociationReference"
-				type="SLC-StaffEducationOrgAssignmentAssociationReferenceType"/>
-			<xs:element name="StaffProgramAssociationReference"
-				type="SLC-StaffProgramAssociationReferenceType"/>
+			<xs:element name="StaffCohortAssociationReference" type="SLC-StaffCohortAssociationReferenceType"/>
+			<xs:element name="StaffEducationOrgAssignmentAssociationReference" type="SLC-StaffEducationOrgAssignmentAssociationReferenceType"/>
+			<xs:element name="StaffProgramAssociationReference" type="SLC-StaffProgramAssociationReferenceType"/>
 			<xs:element name="StaffReference" type="SLC-StaffReferenceType"/>
 			<xs:element name="StateEducationAgencyReference" type="SLC-EducationalOrgReferenceType"/>
-			<xs:element name="StudentAcademicRecordReference"
-				type="SLC-StudentAcademicRecordReferenceType"/>
+			<xs:element name="StudentAcademicRecordReference" type="SLC-StudentAcademicRecordReferenceType"/>
 			<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType"/>
-			<xs:element name="StudentAssessmentItemReference"
-				type="SLC-StudentAssessmentItemReferenceType"/>
-			<xs:element name="StudentCohortAssociationReference"
-				type="SLC-StudentCohortAssociationReferenceType"/>
-			<xs:element name="StudentCompetencyObjectiveReference"
-				type="SLC-StudentCompetencyObjectiveReferenceType"/>
+			<xs:element name="StudentAssessmentItemReference" type="SLC-StudentAssessmentItemReferenceType"/>
+			<xs:element name="StudentCohortAssociationReference" type="SLC-StudentCohortAssociationReferenceType"/>
+			<xs:element name="StudentCompetencyObjectiveReference" type="SLC-StudentCompetencyObjectiveReferenceType"/>
 			<xs:element name="StudentCompetencyReference" type="SLC-StudentCompetencyReferenceType"/>
-			<xs:element name="StudentDisciplineIncidentAssociationReference"
-				type="SLC-StudentDisciplineIncidentAssociationReferenceType"/>
-			<xs:element name="StudentGradebookEntryReference"
-				type="SLC-StudentGradebookEntryReferenceType"/>
-			<xs:element name="StudentObjectiveAssessmentReference"
-				type="SLC-StudentObjectiveAssessmentReferenceType"/>
-			<xs:element name="StudentParentAssociationReference"
-				type="SLC-StudentParentAssociationReferenceType"/>
-			<xs:element name="StudentProgramAssociationReference"
-				type="SLC-StudentProgramAssociationReferenceType"/>
+			<xs:element name="StudentDisciplineIncidentAssociationReference" type="SLC-StudentDisciplineIncidentAssociationReferenceType"/>
+			<xs:element name="StudentGradebookEntryReference" type="SLC-StudentGradebookEntryReferenceType"/>
+			<xs:element name="StudentObjectiveAssessmentReference" type="SLC-StudentObjectiveAssessmentReferenceType"/>
+			<xs:element name="StudentParentAssociationReference" type="SLC-StudentParentAssociationReferenceType"/>
+			<xs:element name="StudentProgramAssociationReference" type="SLC-StudentProgramAssociationReferenceType"/>
 			<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
-			<xs:element name="StudentSchoolAssociationReference"
-				type="SLC-StudentSchoolAssociationReferenceType"/>
-			<xs:element name="StudentSectionAssociationReference"
-				type="SLC-StudentSectionAssociationReferenceType"/>
+			<xs:element name="StudentSchoolAssociationReference" type="SLC-StudentSchoolAssociationReferenceType"/>
+			<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
 			<xs:element name="TeacherReference" type="SLC-StaffReferenceType"/>
-			<xs:element name="TeacherSchoolAssociationReference"
-				type="SLC-TeacherSchoolAssociationReferenceType"/>
-			<xs:element name="TeacherSectionAssociationReference"
-				type="SLC-TeacherSectionAssociationReferenceType"/>
-
-
-
+			<xs:element name="TeacherSchoolAssociationReference" type="SLC-TeacherSchoolAssociationReferenceType"/>
+			<xs:element name="TeacherSectionAssociationReference" type="SLC-TeacherSectionAssociationReferenceType"/>
 			<!-- All top level entity types from the Interchange schemas -->
 			<xs:element name="Assessment" type="SLC-Assessment"/>
 			<xs:element name="AssessmentFamily" type="SLC-AssessmentFamily"/>
@@ -133,8 +102,7 @@
 			<xs:element name="Session" type="SLC-Session"/>
 			<xs:element name="Staff" type="SLC-Staff"/>
 			<xs:element name="StaffCohortAssociation" type="SLC-StaffCohortAssociation"/>
-			<xs:element name="StaffEducationOrgAssignmentAssociation"
-				type="SLC-StaffEducationOrgAssignmentAssociation"/>
+			<xs:element name="StaffEducationOrgAssignmentAssociation" type="SLC-StaffEducationOrgAssignmentAssociation"/>
 			<xs:element name="StaffProgramAssociation" type="SLC-StaffProgramAssociation"/>
 			<xs:element name="StateEducationAgency" type="SLC-StateEducationAgency"/>
 			<xs:element name="Student" type="SLC-Student"/>
@@ -144,8 +112,7 @@
 			<xs:element name="StudentCohortAssociation" type="SLC-StudentCohortAssociation"/>
 			<xs:element name="StudentCompetency" type="SLC-StudentCompetency"/>
 			<xs:element name="StudentCompetencyObjective" type="SLC-StudentCompetencyObjective"/>
-			<xs:element name="StudentDisciplineIncidentAssociation"
-				type="SLC-StudentDisciplineIncidentAssociation"/>
+			<xs:element name="StudentDisciplineIncidentAssociation" type="SLC-StudentDisciplineIncidentAssociation"/>
 			<xs:element name="StudentGradebookEntry" type="SLC-StudentGradebookEntry"/>
 			<xs:element name="StudentObjectiveAssessment" type="SLC-StudentObjectiveAssessment"/>
 			<xs:element name="StudentParentAssociation" type="SLC-StudentParentAssociation"/>
@@ -155,11 +122,7 @@
 			<xs:element name="Teacher" type="SLC-Teacher"/>
 			<xs:element name="TeacherSchoolAssociation" type="SLC-TeacherSchoolAssociation"/>
 			<xs:element name="TeacherSectionAssociation" type="SLC-TeacherSectionAssociation"/>
-
-
 		</xs:choice>
-
-		<!--  Attributes -->
 		<xs:attribute name="ActionType" type="ActionTypeType" use="optional">
 			<xs:annotation>
 				<xs:documentation>The HTTP method indicating the type of operation being done on the
@@ -189,13 +152,12 @@
 					operation. If absent, use system default. If zero, unbounded.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
+		<!-- Sequence of entities wrapped -->
+		<!--  Attributes -->
 	</xs:complexType>
-
 	<xs:annotation>
 		<xs:documentation>===== Domain Entities =====</xs:documentation>
 	</xs:annotation>
-
 	<xs:complexType name="SLC-AcademicWeek">
 		<xs:annotation>
 			<xs:documentation>Changed type of CalendarDateReference to SLC reference
@@ -211,8 +173,7 @@
 					<xs:element name="BeginDate" type="xs:date"/>
 					<xs:element name="EndDate" type="xs:date"/>
 					<xs:element name="TotalInstructionalDays" type="xs:int"/>
-					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType"
-						maxOccurs="unbounded"/>
+					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -232,84 +193,75 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="AssessmentTitle" type="AssessmentTitle"/>
-					<xs:element name="AssessmentIdentificationCode"
-						type="AssessmentIdentificationCode" maxOccurs="unbounded"/>
-					<xs:element name="AssessmentCategory" type="AssessmentCategoryType"
-						minOccurs="0"/>
+					<xs:element name="AssessmentIdentificationCode" type="AssessmentIdentificationCode" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentCategory" type="AssessmentCategoryType" minOccurs="0"/>
 					<xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0"/>
 					<xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
 					<xs:element name="LowestGradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
-					<xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="ContentStandard" type="ContentStandardType" minOccurs="0"/>
 					<xs:element name="AssessmentForm" type="AssessmentForm" minOccurs="0"/>
 					<xs:element name="Version" type="Version" minOccurs="0"/>
 					<xs:element name="RevisionDate" type="xs:date" minOccurs="0"/>
 					<xs:element name="MaxRawScore" type="xs:int" minOccurs="0"/>
 					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
-					<xs:element name="AssessmentPeriod"
-						type="SLC-AssessmentPeriodDescriptorReferenceType" minOccurs="0"/>
-					<xs:element name="AssessmentItemReference" type="AssessmentItemReferenceType"
-						minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="ObjectiveAssessmentReference"
-						type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="AssessmentFamilyReference"
-						type="SLC-AssessmentFamilyReferenceType" minOccurs="0"/>
-					<xs:element name="SectionReference" type="SLC-SectionReferenceType"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentPeriod" type="SLC-AssessmentPeriodDescriptorReferenceType" minOccurs="0"/>
+					<xs:element name="AssessmentItemReference" type="AssessmentItemReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentFamilyReference" type="SLC-AssessmentFamilyReferenceType" minOccurs="0"/>
+					<xs:element name="SectionReference" type="SLC-SectionReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-    <xs:complexType name="SLC-AssessmentFamily">
-        <xs:annotation>
-            <xs:documentation>AssessmentFamily record with key fields: AssessmentFamilyTitle and
+	<xs:complexType name="SLC-AssessmentFamily">
+		<xs:annotation>
+			<xs:documentation>AssessmentFamily record with key fields: AssessmentFamilyTitle and
                 Version (optional).</xs:documentation>
-            <xs:appinfo>
-                <sli:recordType>assessmentFamily</sli:recordType>
-                <sli:naturalKeys>AssessmentFamilyTitle,Version</sli:naturalKeys>
-            </xs:appinfo>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="AssessmentFamilyTitle" type="AssessmentTitle"/>
-                    <xs:element name="AssessmentFamilyIdentificationCode" type="AssessmentIdentificationCode" maxOccurs="unbounded"/>
-                    <xs:element name="AssessmentCategory" type="AssessmentCategoryType" minOccurs="0"/>
-                    <xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0"/>
-                    <xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
-                    <xs:element name="LowestGradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
-                    <xs:element name="ContentStandard" type="ContentStandardType" minOccurs="0"/>
-                    <xs:element name="Version" type="Version" minOccurs="0"/>
-                    <xs:element name="RevisionDate" type="xs:date" minOccurs="0"/>
-                    <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
-                    <xs:element name="AssessmentPeriods" type="SLC-AssessmentPeriodDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="AssessmentFamilyReference" type="SLC-AssessmentFamilyReferenceType" minOccurs="0"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>  
-    <xs:complexType name="SLC-AssessmentPeriodDescriptor">
-        <xs:annotation>
-            <xs:documentation>This descriptor holds the period or window in which an assessment is supposed to be administered (e.g., Beginning of Year, Middle of Year, End of Year).</xs:documentation>
-            <xs:appinfo>
-                <sli:recordType>assessmentPeriodDescriptor</sli:recordType>
-                <sli:naturalKeys>CodeValue</sli:naturalKeys>
-            </xs:appinfo>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="CodeValue" type="CodeValue"/>
-                    <xs:element name="Description" type="Description"/>
-                    <xs:element name="ShortDescription" type="ShortDescription" minOccurs="0"/>
-                    <xs:element name="BeginDate" type="xs:date" minOccurs="0"/>
-                    <xs:element name="EndDate" type="xs:date" minOccurs="0"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
+			<xs:appinfo>
+				<sli:recordType>assessmentFamily</sli:recordType>
+				<sli:naturalKeys>AssessmentFamilyTitle,Version</sli:naturalKeys>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="AssessmentFamilyTitle" type="AssessmentTitle"/>
+					<xs:element name="AssessmentFamilyIdentificationCode" type="AssessmentIdentificationCode" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentCategory" type="AssessmentCategoryType" minOccurs="0"/>
+					<xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0"/>
+					<xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
+					<xs:element name="LowestGradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
+					<xs:element name="ContentStandard" type="ContentStandardType" minOccurs="0"/>
+					<xs:element name="Version" type="Version" minOccurs="0"/>
+					<xs:element name="RevisionDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
+					<xs:element name="AssessmentPeriods" type="SLC-AssessmentPeriodDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentFamilyReference" type="SLC-AssessmentFamilyReferenceType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-AssessmentPeriodDescriptor">
+		<xs:annotation>
+			<xs:documentation>This descriptor holds the period or window in which an assessment is supposed to be administered (e.g., Beginning of Year, Middle of Year, End of Year).</xs:documentation>
+			<xs:appinfo>
+				<sli:recordType>assessmentPeriodDescriptor</sli:recordType>
+				<sli:naturalKeys>CodeValue</sli:naturalKeys>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="CodeValue" type="CodeValue"/>
+					<xs:element name="Description" type="Description"/>
+					<xs:element name="ShortDescription" type="ShortDescription" minOccurs="0"/>
+					<xs:element name="BeginDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="EndDate" type="xs:date" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:complexType name="SLC-AssessmentItem">
 		<xs:annotation>
 			<xs:documentation>AssessmentItem record with key field: IdentificationCode. Changed
@@ -328,8 +280,7 @@
 					<xs:element name="ItemCategory" type="ItemCategoryType"/>
 					<xs:element name="MaxRawScore" type="xs:int"/>
 					<xs:element name="CorrectResponse" type="CorrectResponse"/>
-					<xs:element name="LearningStandardReference"
-						type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
@@ -353,16 +304,12 @@
 					<xs:element name="EventDate" type="xs:date"/>
 					<xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0"/>
 					<xs:element name="AttendanceEventCategory" type="AttendanceEventCategoryType"/>
-					<xs:element name="AttendanceEventReason" type="AttendanceEventReason"
-						minOccurs="0"/>
-					<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType"
-						minOccurs="0"/>
+					<xs:element name="AttendanceEventReason" type="AttendanceEventReason" minOccurs="0"/>
+					<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0"/>
 					<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
 					<xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType"/>
-					<xs:element name="SessionReference" type="SLC-SessionReferenceType"
-						minOccurs="0"/>
-					<xs:element name="SectionReference" type="SLC-SectionReferenceType"
-						minOccurs="0"/>
+					<xs:element name="SessionReference" type="SLC-SessionReferenceType" minOccurs="0"/>
+					<xs:element name="SectionReference" type="SLC-SectionReferenceType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -389,10 +336,8 @@
 						</xs:simpleType>
 					</xs:element>
 					<xs:element name="SessionReference" type="SLC-SessionReferenceType"/>
-					<xs:element name="MeetingTimeReference" type="SLC-MeetingTimeReferenceType"
-						maxOccurs="unbounded"/>
-					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="MeetingTimeReference" type="SLC-MeetingTimeReferenceType" maxOccurs="unbounded"/>
+					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -411,8 +356,7 @@
 				<xs:sequence>
 					<xs:element name="Date" type="xs:date"/>
 					<xs:element name="CalendarEvent" type="CalendarEventType"/>
-					<xs:element name="EducationOrgReference" type="SLC-EducationalOrgReferenceType"
-					/>
+					<xs:element name="EducationOrgReference" type="SLC-EducationalOrgReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -436,8 +380,7 @@
 					<xs:element name="CohortScope" type="CohortScopeType" minOccurs="0"/>
 					<xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0"/>
 					<xs:element name="EducationOrgReference" type="SLC-EducationalOrgReferenceType"/>
-					<xs:element name="ProgramReference" type="SLC-ProgramReferenceType"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ProgramReference" type="SLC-ProgramReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -456,8 +399,7 @@
 				<xs:sequence>
 					<xs:element name="CodeValue" type="CodeValue"/>
 					<xs:element name="Description" type="Description" minOccurs="0"/>
-					<xs:element name="PerformanceBaseConversion" type="PerformanceBaseType"
-						minOccurs="0"/>
+					<xs:element name="PerformanceBaseConversion" type="PerformanceBaseType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -487,28 +429,21 @@
 					</xs:element>
 					<xs:element name="CourseCode" type="CourseCode" maxOccurs="unbounded"/>
 					<xs:element name="CourseLevel" type="CourseLevelType" minOccurs="0"/>
-					<xs:element name="CourseLevelCharacteristics"
-						type="CourseLevelCharacteristicsType" minOccurs="0"/>
+					<xs:element name="CourseLevelCharacteristics" type="CourseLevelCharacteristicsType" minOccurs="0"/>
 					<xs:element name="GradesOffered" type="GradeLevelsType" minOccurs="0"/>
 					<xs:element name="SubjectArea" type="AcademicSubjectType" minOccurs="0"/>
 					<xs:element name="CourseDescription" type="Description" minOccurs="0"/>
 					<xs:element name="DateCourseAdopted" type="xs:date" minOccurs="0"/>
 					<xs:element name="HighSchoolCourseRequirement" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="CourseGPAApplicability" type="CourseGPAApplicabilityType"
-						minOccurs="0"/>
+					<xs:element name="CourseGPAApplicability" type="CourseGPAApplicabilityType" minOccurs="0"/>
 					<xs:element name="CourseDefinedBy" type="CourseDefinedByType" minOccurs="0"/>
 					<xs:element name="MinimumAvailableCredit" type="Credits" minOccurs="0"/>
 					<xs:element name="MaximumAvailableCredit" type="Credits" minOccurs="0"/>
 					<xs:element name="CareerPathway" type="CareerPathwayType" minOccurs="0"/>
-					<xs:element name="EducationOrganizationReference"
-						type="SLC-EducationalOrgReferenceType"/>
-					<xs:element name="LearningStandardReference"
-						type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="LearningObjectiveReference"
-						type="SLC-LearningObjectiveReferenceType" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="CompetencyLevels" type="CompetencyLevelDescriptorType"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType"/>
+					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="CompetencyLevels" type="CompetencyLevelDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="UniqueCourseId" type="SLC-UniqueCourseId"/>
 				</xs:sequence>
 			</xs:extension>
@@ -556,11 +491,9 @@
 					<xs:element name="CourseAttemptResult" type="CourseAttemptResultType"/>
 					<xs:element name="CreditsAttempted" type="Credits" minOccurs="0"/>
 					<xs:element name="CreditsEarned" type="Credits"/>
-					<xs:element name="AdditionalCreditsEarned" type="AdditionalCredits"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AdditionalCreditsEarned" type="AdditionalCredits" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="GradeLevelWhenTaken" type="GradeLevelType" minOccurs="0"/>
-					<xs:element name="MethodCreditEarned" type="MethodCreditEarnedType"
-						minOccurs="0"/>
+					<xs:element name="MethodCreditEarned" type="MethodCreditEarnedType" minOccurs="0"/>
 					<xs:element name="FinalLetterGradeEarned" minOccurs="0">
 						<xs:simpleType>
 							<xs:restriction base="GradeEarned">
@@ -571,10 +504,8 @@
 					<xs:element name="FinalNumericGradeEarned" type="xs:integer" minOccurs="0"/>
 					<xs:element name="CourseRepeatCode" type="CourseRepeatCodeType" minOccurs="0"/>
 					<xs:element name="CourseReference" type="SLC-CourseReferenceType"/>
-					<xs:element name="EducationOrganizationReference"
-						type="SLC-EducationalOrgReferenceType" maxOccurs="unbounded"/>
-					<xs:element name="StudentAcademicRecordReference"
-						type="SLC-StudentAcademicRecordReferenceType"/>
+					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType" maxOccurs="unbounded"/>
+					<xs:element name="StudentAcademicRecordReference" type="SLC-StudentAcademicRecordReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -595,23 +526,16 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="DisciplineActionIdentifier" type="DisciplineActionIdentifier"/>
-					<xs:element name="Disciplines" type="DisciplineDescriptorType"
-						maxOccurs="unbounded"/>
+					<xs:element name="Disciplines" type="DisciplineDescriptorType" maxOccurs="unbounded"/>
 					<xs:element name="DisciplineDate" type="xs:date"/>
 					<xs:element name="DisciplineActionLength" type="xs:integer" minOccurs="0"/>
 					<xs:element name="ActualDisciplineActionLength" type="xs:integer" minOccurs="0"/>
-					<xs:element name="DisciplineActionLengthDifferenceReason"
-						type="DisciplineActionLengthDifferenceReasonType" minOccurs="0"/>
-					<xs:element name="StudentReference" type="SLC-StudentReferenceType"
-						maxOccurs="unbounded"/>
-					<xs:element name="DisciplineIncidentReference"
-						type="SLC-DisciplineIncidentReferenceType" maxOccurs="unbounded"/>
-					<xs:element name="StaffReference" type="SLC-StaffReferenceType" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="ResponsibilitySchoolReference"
-						type="SLC-EducationalOrgReferenceType"/>
-					<xs:element name="AssignmentSchoolReference"
-						type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
+					<xs:element name="DisciplineActionLengthDifferenceReason" type="DisciplineActionLengthDifferenceReasonType" minOccurs="0"/>
+					<xs:element name="StudentReference" type="SLC-StudentReferenceType" maxOccurs="unbounded"/>
+					<xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType" maxOccurs="unbounded"/>
+					<xs:element name="StaffReference" type="SLC-StaffReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ResponsibilitySchoolReference" type="SLC-EducationalOrgReferenceType"/>
+					<xs:element name="AssignmentSchoolReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -633,12 +557,10 @@
 					<xs:element name="IncidentDate" type="xs:date"/>
 					<xs:element name="IncidentTime" type="xs:time"/>
 					<xs:element name="IncidentLocation" type="IncidentLocationType"/>
-					<xs:element name="ReporterDescription" type="ReporterDescriptionType"
-						minOccurs="0"/>
+					<xs:element name="ReporterDescription" type="ReporterDescriptionType" minOccurs="0"/>
 					<xs:element name="ReporterName" type="ReporterName" minOccurs="0"/>
 					<xs:element name="Behaviors" type="BehaviorDescriptorType" maxOccurs="unbounded"/>
-					<xs:element name="SecondaryBehaviors" type="SecondaryBehavior" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="SecondaryBehaviors" type="SecondaryBehavior" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Weapons" type="WeaponsType" minOccurs="0"/>
 					<xs:element name="ReportedToLawEnforcement" type="xs:boolean" minOccurs="0"/>
 					<xs:element name="CaseNumber" type="CaseNumber" minOccurs="0"/>
@@ -661,23 +583,17 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="StateOrganizationId" type="IdentificationCode"/>
-					<xs:element name="EducationOrgIdentificationCode"
-						type="EducationOrgIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="NameOfInstitution" type="NameOfInstitution"/>
 					<xs:element name="ShortNameOfInstitution" type="NameOfInstitution" minOccurs="0"/>
-					<xs:element name="OrganizationCategories"
-						type="EducationOrganizationCategoriesType"/>
+					<xs:element name="OrganizationCategories" type="EducationOrganizationCategoriesType"/>
 					<xs:element name="Address" type="Address" maxOccurs="unbounded"/>
-					<xs:element name="Telephone" type="InstitutionTelephone" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="Telephone" type="InstitutionTelephone" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="WebSite" type="WebSite" minOccurs="0"/>
 					<xs:element name="OperationalStatus" type="OperationalStatusType" minOccurs="0"/>
-					<xs:element name="AccountabilityRatings" type="AccountabilityRating"
-						minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="ProgramReference" type="SLC-ProgramReferenceType"
-						minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="EducationOrganizationPeerReference"
-						type="EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AccountabilityRatings" type="AccountabilityRating" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ProgramReference" type="SLC-ProgramReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="EducationOrganizationPeerReference" type="EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -693,8 +609,7 @@
 		<xs:complexContent>
 			<xs:extension base="SLC-EducationOrganization">
 				<xs:sequence>
-					<xs:element name="StateEducationAgencyReference"
-						type="EducationalOrgReferenceType" minOccurs="0"/>
+					<xs:element name="StateEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -724,12 +639,9 @@
 					<xs:element name="NumericGradeEarned" type="xs:integer" minOccurs="0"/>
 					<xs:element name="DiagnosticStatement" type="text" minOccurs="0"/>
 					<xs:element name="GradeType" type="GradeType"/>
-					<xs:element name="PerformanceBaseConversion" type="PerformanceBaseType"
-						minOccurs="0"/>
-					<xs:element name="StudentSectionAssociationReference"
-						type="SLC-StudentSectionAssociationReferenceType"/>
-					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"
-						minOccurs="0"/>
+					<xs:element name="PerformanceBaseConversion" type="PerformanceBaseType" minOccurs="0"/>
+					<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
+					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0"/>
 					<xs:element name="SchoolYear" type="SchoolYearType"/>
 				</xs:sequence>
 			</xs:extension>
@@ -752,14 +664,10 @@
 					<xs:element name="GradebookEntryType" type="GradebookEntryType"/>
 					<xs:element name="DateAssigned" type="xs:date"/>
 					<xs:element name="Description" type="Description" minOccurs="0"/>
-					<xs:element name="LearningStandardReference"
-						type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="LearningObjectiveReference"
-						type="SLC-LearningObjectiveReferenceType" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="SectionReference" type="SLC-SectionReferenceType"/>
-					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"
-						minOccurs="0"/>
+					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -780,8 +688,7 @@
 				<xs:sequence>
 					<xs:element name="GradingPeriod" type="GradingPeriodType"/>
 					<xs:element name="SchoolYear" type="SchoolYearType"/>
-					<xs:element name="EducationOrganizationReference"
-						type="SLC-EducationalOrgReferenceType"/>
+					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType"/>
 					<xs:element name="BeginDate" type="xs:date"/>
 					<xs:element name="EndDate" type="xs:date"/>
 					<xs:element name="TotalInstructionalDays">
@@ -791,8 +698,7 @@
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:element>
-					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType"
-						maxOccurs="unbounded"/>
+					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -817,12 +723,9 @@
 					</xs:element>
 					<xs:element name="IndividualPlan" type="xs:boolean" minOccurs="0"/>
 					<xs:element name="TotalCreditsRequired" type="Credits"/>
-					<xs:element name="CreditsBySubject" type="CreditsBySubject" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="CreditsByCourse" type="CreditsByCourse" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="EducationOrganizationReference"
-						type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
+					<xs:element name="CreditsBySubject" type="CreditsBySubject" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="CreditsByCourse" type="CreditsByCourse" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -845,10 +748,8 @@
 					<xs:element name="Description" type="Description" minOccurs="0"/>
 					<xs:element name="AcademicSubject" type="AcademicSubjectType"/>
 					<xs:element name="ObjectiveGradeLevel" type="GradeLevelType"/>
-					<xs:element name="LearningStandardReference"
-						type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="LearningObjectiveReference"
-						type="SLC-LearningObjectiveReferenceType" minOccurs="0"/>
+					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -875,7 +776,6 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
 	<xs:complexType name="SLC-LocalEducationAgency">
 		<xs:annotation>
 			<xs:documentation>LocalEducationAgency record with key field: StateOrganizationId.
@@ -891,12 +791,9 @@
 				<xs:sequence>
 					<xs:element name="LEACategory" type="LEACategoryType"/>
 					<xs:element name="CharterStatus" type="CharterStatusType" minOccurs="0"/>
-					<xs:element name="LocalEducationAgencyReference"
-						type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
-					<xs:element name="EducationServiceCenterReference"
-						type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
-					<xs:element name="StateEducationAgencyReference"
-						type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
+					<xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
+					<xs:element name="EducationServiceCenterReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
+					<xs:element name="StateEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -916,20 +813,13 @@
 				<xs:sequence>
 					<xs:element name="IdentificationCode" type="IdentificationCode"/>
 					<xs:element name="MaxRawScore" type="xs:int" minOccurs="0"/>
-					<xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="PercentOfAssessment" type="percent" minOccurs="0"/>
 					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
-					<xs:element name="AssessmentItemReference"
-						type="SLC-AssessmentItemReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="LearningObjectiveReference"
-						type="SLC-LearningObjectiveReferenceType" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="LearningStandardReference"
-						type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="ObjectiveAssessmentReference"
-						type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="AssessmentItemReference" type="SLC-AssessmentItemReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
@@ -949,14 +839,11 @@
 				<xs:sequence>
 					<xs:element name="ParentUniqueStateId" type="UniqueStateIdentifier"/>
 					<xs:element name="Name" type="Name"/>
-					<xs:element name="OtherName" type="OtherName" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="OtherName" type="OtherName" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Sex" type="SexType" minOccurs="0"/>
 					<xs:element name="Address" type="Address" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="Telephone" type="Telephone" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="Telephone" type="Telephone" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LoginId" type="IdentificationCode" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
@@ -977,8 +864,7 @@
 					<xs:element name="ProgramId" type="ProgramId"/>
 					<xs:element name="ProgramType" type="ProgramType"/>
 					<xs:element name="ProgramSponsor" type="ProgramSponsorType" minOccurs="0"/>
-					<xs:element name="Services" type="ServiceDescriptorType" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="Services" type="ServiceDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:restriction>
 		</xs:complexContent>
@@ -998,11 +884,8 @@
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:element name="GradeReference" type="SLC-GradeReferenceType" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="StudentCompetencyReference"
-						type="SLC-StudentCompetencyReferenceType" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="GradeReference" type="SLC-GradeReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="StudentCompetencyReference" type="SLC-StudentCompetencyReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="GPAGivenGradingPeriod" type="xs:decimal"/>
 					<xs:element name="GPACumulative" type="xs:decimal"/>
 					<xs:element name="NumberOfDaysAbsent" minOccurs="0">
@@ -1049,18 +932,12 @@
 					<xs:element name="SchoolCategories" type="SchoolCategoriesType"/>
 					<xs:element name="SchoolType" type="SchoolType" minOccurs="0"/>
 					<xs:element name="CharterStatus" type="CharterStatusType" minOccurs="0"/>
-					<xs:element name="TitleIPartASchoolDesignation"
-						type="TitleIPartASchoolDesignationType" minOccurs="0"/>
-					<xs:element name="MagnetSpecialProgramEmphasisSchool"
-						type="MagnetSpecialProgramEmphasisSchoolType" minOccurs="0"/>
-					<xs:element name="AdministrativeFundingControl"
-						type="AdministrativeFundingControlType" minOccurs="0"/>
-					<xs:element name="LocalEducationAgencyReference"
-						type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
-					<xs:element name="ClassPeriodReference" type="ReferenceType" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="LocationReference" type="ReferenceType" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="TitleIPartASchoolDesignation" type="TitleIPartASchoolDesignationType" minOccurs="0"/>
+					<xs:element name="MagnetSpecialProgramEmphasisSchool" type="MagnetSpecialProgramEmphasisSchoolType" minOccurs="0"/>
+					<xs:element name="AdministrativeFundingControl" type="AdministrativeFundingControlType" minOccurs="0"/>
+					<xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
+					<xs:element name="ClassPeriodReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LocationReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1087,22 +964,16 @@
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:element>
-					<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType"
-						minOccurs="0"/>
-					<xs:element name="MediumOfInstruction" type="MediumOfInstructionType"
-						minOccurs="0"/>
+					<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0"/>
+					<xs:element name="MediumOfInstruction" type="MediumOfInstructionType" minOccurs="0"/>
 					<xs:element name="PopulationServed" type="PopulationServedType" minOccurs="0"/>
 					<xs:element name="AvailableCredit" type="Credits" minOccurs="0"/>
-					<xs:element name="CourseOfferingReference"
-						type="SLC-CourseOfferingReferenceType"/>
+					<xs:element name="CourseOfferingReference" type="SLC-CourseOfferingReferenceType"/>
 					<xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType"/>
-					<xs:element name="SessionReference" type="SLC-SessionReferenceType"
-						minOccurs="0"/>
+					<xs:element name="SessionReference" type="SLC-SessionReferenceType" minOccurs="0"/>
 					<xs:element name="LocationReference" type="LocationReferenceType" minOccurs="0"/>
-					<xs:element name="ClassPeriodReference" type="ClassPeriodReferenceType"
-						minOccurs="0"/>
-					<xs:element name="ProgramReference" type="SLC-ProgramReferenceType"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ClassPeriodReference" type="ClassPeriodReferenceType" minOccurs="0"/>
+					<xs:element name="ProgramReference" type="SLC-ProgramReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1127,19 +998,14 @@
 					<xs:element name="BeginDate" type="xs:date"/>
 					<xs:element name="EndDate" type="xs:date"/>
 					<xs:element name="TotalInstructionalDays" type="xs:int"/>
-					<xs:element name="EducationOrganizationReference"
-						type="SLC-EducationalOrgReferenceType"/>
-					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"
-						maxOccurs="unbounded"/>
-					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType"
-						minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="AcademicWeekReference" type="SLC-AcademicWeekReferenceType"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType"/>
+					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" maxOccurs="unbounded"/>
+					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AcademicWeekReference" type="SLC-AcademicWeekReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
 	<xs:complexType name="SLC-Staff">
 		<xs:annotation>
 			<xs:documentation>This entity represents an individual who performs specified activities
@@ -1162,34 +1028,26 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="StaffUniqueStateId" type="UniqueStateIdentifier"/>
-					<xs:element name="StaffIdentificationCode" type="SLC-StaffIdentificationCode"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="StaffIdentificationCode" type="SLC-StaffIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Name" type="Name"/>
-					<xs:element name="OtherName" type="OtherName" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="OtherName" type="OtherName" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Sex" type="SexType" minOccurs="0"/>
 					<xs:element name="BirthDate" type="xs:date" minOccurs="0"/>
 					<xs:element name="Address" type="Address" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="Telephone" type="Telephone" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="Telephone" type="Telephone" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="HispanicLatinoEthnicity" type="xs:boolean" nillable="true"/>
 					<xs:element name="OldEthnicity" type="OldEthnicityType" minOccurs="0"/>
 					<xs:element name="Race" type="SLC-RaceType" minOccurs="0"/>
-					<xs:element name="HighestLevelOfEducationCompleted" type="LevelOfEducationType"
-						minOccurs="0"/>
-					<xs:element name="YearsOfPriorProfessionalExperience" type="xs:int"
-						minOccurs="0"/>
+					<xs:element name="HighestLevelOfEducationCompleted" type="LevelOfEducationType" minOccurs="0"/>
+					<xs:element name="YearsOfPriorProfessionalExperience" type="xs:int" minOccurs="0"/>
 					<xs:element name="YearsOfPriorTeachingExperience" type="xs:int" minOccurs="0"/>
-					<xs:element name="Credentials" type="Credential" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="Credentials" type="Credential" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LoginId" type="IdentificationCode" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
 	<xs:complexType name="SLC-Student">
 		<xs:annotation>
 			<xs:documentation>This entity represents an individual for whom instruction, services
@@ -1206,50 +1064,36 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="StudentUniqueStateId" type="UniqueStateIdentifier"/>
-					<xs:element name="StudentIdentificationCode"
-						type="SLC-StudentIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="StudentIdentificationCode" type="SLC-StudentIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Name" type="Name"/>
-					<xs:element name="OtherName" type="OtherName" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="OtherName" type="OtherName" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Sex" type="SexType" minOccurs="0"/>
 					<xs:element name="BirthData" type="BirthData"/>
 					<xs:element name="Address" type="Address" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="Telephone" type="Telephone" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="Telephone" type="Telephone" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="ProfileThumbnail" type="ProfileThumbnail" minOccurs="0"/>
 					<xs:element name="HispanicLatinoEthnicity" type="xs:boolean" nillable="true"/>
 					<xs:element name="OldEthnicity" type="OldEthnicityType" minOccurs="0"/>
 					<xs:element name="Race" type="SLC-RaceType" minOccurs="0"/>
 					<xs:element name="EconomicDisadvantaged" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="SchoolFoodServicesEligibility"
-						type="SchoolFoodServicesEligibilityType" minOccurs="0"/>
-					<xs:element name="StudentCharacteristics" type="StudentCharacteristic"
-						minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="LimitedEnglishProficiency"
-						type="LimitedEnglishProficiencyType" minOccurs="0"/>
+					<xs:element name="SchoolFoodServicesEligibility" type="SchoolFoodServicesEligibilityType" minOccurs="0"/>
+					<xs:element name="StudentCharacteristics" type="StudentCharacteristic" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LimitedEnglishProficiency" type="LimitedEnglishProficiencyType" minOccurs="0"/>
 					<xs:element name="Languages" type="LanguagesType" minOccurs="0"/>
 					<xs:element name="HomeLanguages" type="LanguagesType" minOccurs="0"/>
-					<xs:element name="Disabilities" type="Disability" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="Section504Disabilities" type="Section504DisabilitiesType"
-						minOccurs="0"/>
-					<xs:element name="DisplacementStatus" type="DisplacementStatusType"
-						minOccurs="0"/>
-					<xs:element name="ProgramParticipations" type="ProgramParticipation"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Disabilities" type="Disability" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Section504Disabilities" type="Section504DisabilitiesType" minOccurs="0"/>
+					<xs:element name="DisplacementStatus" type="DisplacementStatusType" minOccurs="0"/>
+					<xs:element name="ProgramParticipations" type="ProgramParticipation" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LearningStyles" type="LearningStyles" minOccurs="0"/>
-					<xs:element name="CohortYears" type="CohortYear" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="StudentIndicators" type="StudentIndicator" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="CohortYears" type="CohortYear" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="StudentIndicators" type="StudentIndicator" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LoginId" type="IdentificationCode" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
 	<xs:complexType name="SLC-StateEducationAgency">
 		<xs:annotation>
 			<xs:documentation>StateEducationAgency with key field:
@@ -1283,10 +1127,8 @@
 					<xs:element name="CumulativeGradePointAverage" type="xs:decimal" minOccurs="0"/>
 					<xs:element name="GradeValueQualifier" type="GradeValueQualifier" minOccurs="0"/>
 					<xs:element name="ClassRanking" type="ClassRanking" minOccurs="0"/>
-					<xs:element name="AcademicHonors" type="AcademicHonor" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="Recognitions" type="Recognition" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="AcademicHonors" type="AcademicHonor" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Recognitions" type="Recognition" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="ProjectedGraduationDate" type="xs:date" minOccurs="0"/>
 					<xs:element name="SessionCreditsEarned" type="Credits" minOccurs="0"/>
 					<xs:element name="SessionCreditsAttempted" type="Credits" minOccurs="0"/>
@@ -1294,10 +1136,8 @@
 					<xs:element name="SessionGradePointAverage" type="xs:decimal" minOccurs="0"/>
 					<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
 					<xs:element name="SessionReference" type="SLC-SessionReferenceType"/>
-					<xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType"
-						minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="DiplomaReference" type="SLC-DiplomaReferenceType"
-						minOccurs="0"/>
+					<xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="DiplomaReference" type="SLC-DiplomaReferenceType" minOccurs="0"/>
 					<xs:element name="SchoolYear" type="SchoolYearType"/>
 				</xs:sequence>
 			</xs:extension>
@@ -1321,19 +1161,14 @@
 					<xs:element name="AdministrationEndDate" type="xs:date" minOccurs="0"/>
 					<xs:element name="SerialNumber" type="IdentificationCode" minOccurs="0"/>
 					<xs:element name="AdministrationLanguage" type="LanguageItemType" minOccurs="0"/>
-					<xs:element name="AdministrationEnvironment"
-						type="AdministrationEnvironmentType" minOccurs="0"/>
-					<xs:element name="SpecialAccommodations" type="SpecialAccommodationsType"
-						minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="LinguisticAccommodations" type="LinguisticAccommodationsType"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AdministrationEnvironment" type="AdministrationEnvironmentType" minOccurs="0"/>
+					<xs:element name="SpecialAccommodations" type="SpecialAccommodationsType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LinguisticAccommodations" type="LinguisticAccommodationsType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="RetestIndicator" type="RetestIndicatorType" minOccurs="0"/>
 					<xs:element name="ReasonNotTested" type="ReasonNotTestedType" minOccurs="0"/>
-					<xs:element name="ScoreResults" type="ScoreResult" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="ScoreResults" type="ScoreResult" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="GradeLevelWhenAssessed" type="GradeLevelType" minOccurs="0"/>
-					<xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType"
-						minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
 					<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType"/>
 				</xs:sequence>
@@ -1360,12 +1195,9 @@
 					<xs:element name="ResponseIndicator" type="ResponseIndicatorType" minOccurs="0"/>
 					<xs:element name="AssessmentItemResult" type="AssessmentItemResultType"/>
 					<xs:element name="RawScoreResult" type="xs:int" minOccurs="0"/>
-					<xs:element name="StudentAssessmentReference"
-						type="SLC-StudentAssessmentReferenceType"/>
-					<xs:element name="StudentObjectiveAssessmentReference"
-						type="SLC-StudentObjectiveAssessmentReferenceType" minOccurs="0"/>
-					<xs:element name="AssessmentItemReference"
-						type="SLC-AssessmentItemReferenceType"/>
+					<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType"/>
+					<xs:element name="StudentObjectiveAssessmentReference" type="SLC-StudentObjectiveAssessmentReferenceType" minOccurs="0"/>
+					<xs:element name="AssessmentItemReference" type="SLC-AssessmentItemReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1389,15 +1221,12 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:choice>
-						<xs:element name="LearningObjectiveReference"
-							type="SLC-LearningObjectiveReferenceType"/>
-						<xs:element name="StudentCompetencyObjectiveReference"
-							type="SLC-StudentCompetencyObjectiveReferenceType"/>
+						<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType"/>
+						<xs:element name="StudentCompetencyObjectiveReference" type="SLC-StudentCompetencyObjectiveReferenceType"/>
 					</xs:choice>
 					<xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType"/>
 					<xs:element name="DiagnosticStatement" type="text" minOccurs="0"/>
-					<xs:element name="StudentSectionAssociationReference"
-						type="SLC-StudentSectionAssociationReferenceType"/>
+					<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1419,8 +1248,7 @@
 					<xs:element name="Objective" type="Objective"/>
 					<xs:element name="Description" type="Description" minOccurs="0"/>
 					<xs:element name="ObjectiveGradeLevel" type="GradeLevelType"/>
-					<xs:element name="EducationOrganizationReference"
-						type="SLC-EducationalOrgReferenceType"/>
+					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1450,13 +1278,10 @@
 						</xs:simpleType>
 					</xs:element>
 					<xs:element name="NumericGradeEarned" type="xs:integer" minOccurs="0"/>
-					<xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType"
-						minOccurs="0"/>
+					<xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType" minOccurs="0"/>
 					<xs:element name="DiagnosticStatement" type="text" minOccurs="0"/>
-					<xs:element name="StudentSectionAssociationReference"
-						type="SLC-StudentSectionAssociationReferenceType"/>
-					<xs:element name="GradebookEntryReference"
-						type="SLC-GradebookEntryReferenceType"/>
+					<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
+					<xs:element name="GradebookEntryReference" type="SLC-GradebookEntryReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1478,12 +1303,9 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded"/>
-					<xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType"
-						minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="StudentAssessmentReference"
-						type="SLC-StudentAssessmentReferenceType"/>
-					<xs:element name="ObjectiveAssessmentReference"
-						type="SLC-ObjectiveAssessmentReferenceType"/>
+					<xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType"/>
+					<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1502,8 +1324,7 @@
 		<xs:complexContent>
 			<xs:extension base="SLC-Staff">
 				<xs:sequence>
-					<xs:element name="TeacherUniqueStateId" type="UniqueStateIdentifier"
-						minOccurs="0"/>
+					<xs:element name="TeacherUniqueStateId" type="UniqueStateIdentifier" minOccurs="0"/>
 					<xs:element name="HighlyQualifiedTeacher" type="xs:boolean" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
@@ -1611,13 +1432,10 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
-					<xs:element name="DisciplineIncidentReference"
-						type="SLC-DisciplineIncidentReferenceType"/>
+					<xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType"/>
 					<xs:element name="StudentParticipationCode" type="StudentParticipationCodeType"/>
-					<xs:element name="Behaviors" type="BehaviorDescriptorType" minOccurs="0"
-						maxOccurs="unbounded"/>
-					<xs:element name="SecondaryBehaviors" type="SecondaryBehavior" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="Behaviors" type="BehaviorDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="SecondaryBehaviors" type="SecondaryBehavior" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1664,13 +1482,11 @@
 				<xs:sequence>
 					<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
 					<xs:element name="ProgramReference" type="SLC-ProgramReferenceType"/>
-					<xs:element name="Services" type="ServiceDescriptorType" minOccurs="0"
-						maxOccurs="unbounded"/>
+					<xs:element name="Services" type="ServiceDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="BeginDate" type="xs:date"/>
 					<xs:element name="EndDate" type="xs:date" minOccurs="0"/>
 					<xs:element name="ReasonExited" type="ReasonExitedType" minOccurs="0"/>
-					<xs:element name="EducationOrganizationReference"
-						type="SLC-EducationalOrgReferenceType"/>
+					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1701,8 +1517,7 @@
 					<xs:element name="ExitWithdrawDate" type="xs:date" minOccurs="0"/>
 					<xs:element name="ExitWithdrawType" type="ExitWithdrawType" minOccurs="0"/>
 					<xs:element name="EducationalPlans" type="EducationalPlansType" minOccurs="0"/>
-					<xs:element name="GraduationPlanReference"
-						type="SLC-GraduationPlanReferenceType" minOccurs="0"/>
+					<xs:element name="GraduationPlanReference" type="SLC-GraduationPlanReferenceType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1807,7 +1622,6 @@
 			<xs:element name="AcademicWeekIdentity" type="SLC-AcademicWeekIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
-
 	<xs:complexType name="SLC-AssessmentFamilyIdentityType">
 		<xs:annotation>
 			<xs:documentation>AssessmentFamilyTitle and Version (optional).</xs:documentation>
@@ -1840,8 +1654,7 @@
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
 				<xs:sequence>
-					<xs:element name="AssessmentFamilyIdentity"
-						type="SLC-AssessmentFamilyIdentityType"/>
+					<xs:element name="AssessmentFamilyIdentity" type="SLC-AssessmentFamilyIdentityType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1938,8 +1751,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="AssessmentPeriodDescriptorIdentity"
-				type="SLC-AssessmentPeriodDescriptorIdentityType"/>
+			<xs:element name="AssessmentPeriodDescriptorIdentity" type="SLC-AssessmentPeriodDescriptorIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-AssessmentReferenceType">
@@ -1963,7 +1775,6 @@
 			<xs:documentation>SLC addition.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-
 			<xs:element name="SchoolYear" type="SchoolYearType">
 				<xs:annotation>
 					<xs:appinfo>
@@ -2073,8 +1884,7 @@
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
 				<xs:sequence>
-					<xs:element name="ClassPeriodIdentity" type="SLC-ClassPeriodIdentityType"
-						minOccurs="0"/>
+					<xs:element name="ClassPeriodIdentity" type="SLC-ClassPeriodIdentityType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -2102,8 +1912,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="CompetencyLevelDescriptorIdentity"
-				type="SLC-CompetencyLevelDescriptorIdentityType"/>
+			<xs:element name="CompetencyLevelDescriptorIdentity" type="SLC-CompetencyLevelDescriptorIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-CohortIdentityType">
@@ -2236,8 +2045,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="StudentAcademicRecordReference"
-				type="SLC-StudentAcademicRecordReferenceType">
+			<xs:element name="StudentAcademicRecordReference" type="SLC-StudentAcademicRecordReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>studentAcademicRecord</sli:keyFieldName>
@@ -2359,8 +2167,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="DisciplineIncidentIdentity" type="SLC-DisciplineIncidentIdentityType"
-			/>
+			<xs:element name="DisciplineIncidentIdentity" type="SLC-DisciplineIncidentIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-EducationalOrgIdentityType">
@@ -2387,8 +2194,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="EducationalOrgIdentity" type="SLC-EducationalOrgIdentityType"
-				minOccurs="0"/>
+			<xs:element name="EducationalOrgIdentity" type="SLC-EducationalOrgIdentityType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-GradebookEntryIdentityType">
@@ -2461,8 +2267,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"
-				minOccurs="0">
+			<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>gradingPeriodId</sli:keyFieldName>
@@ -2544,8 +2349,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType"
-				minOccurs="0">
+			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>educationOrganizationId</sli:keyFieldName>
@@ -2698,8 +2502,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ObjectiveAssessmentIdentity"
-				type="SLC-ObjectiveAssessmentIdentityType"/>
+			<xs:element name="ObjectiveAssessmentIdentity" type="SLC-ObjectiveAssessmentIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-ParentIdentityType">
@@ -2768,8 +2571,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"
-				minOccurs="0">
+			<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation/>
 					<xs:appinfo>
@@ -2839,8 +2641,7 @@
 				SessionName.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType"
-				minOccurs="0">
+			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation/>
 					<xs:appinfo>
@@ -2932,8 +2733,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffCohortAssociationIdentity"
-				type="SLC-StaffCohortAssociationIdentityType"/>
+			<xs:element name="StaffCohortAssociationIdentity" type="SLC-StaffCohortAssociationIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StaffEducationOrgAssignmentAssociationIdentityType">
@@ -2980,8 +2780,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffEducationOrgAssignmentAssociationIdentity"
-				type="SLC-StaffEducationOrgAssignmentAssociationIdentityType"/>
+			<xs:element name="StaffEducationOrgAssignmentAssociationIdentity" type="SLC-StaffEducationOrgAssignmentAssociationIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StaffProgramAssociationIdentityType">
@@ -3021,8 +2820,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffProgramAssociationIdentity"
-				type="SLC-StaffProgramAssociationIdentityType"/>
+			<xs:element name="StaffProgramAssociationIdentity" type="SLC-StaffProgramAssociationIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentAcademicRecordIdentityType">
@@ -3064,8 +2862,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentAcademicRecordIdentity"
-				type="SLC-StudentAcademicRecordIdentityType"/>
+			<xs:element name="StudentAcademicRecordIdentity" type="SLC-StudentAcademicRecordIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentAssessmentIdentityType">
@@ -3142,8 +2939,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentAssessmentItemIdentity"
-				type="SLC-StudentAssessmentItemIdentityType"/>
+			<xs:element name="StudentAssessmentItemIdentity" type="SLC-StudentAssessmentItemIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentCohortAssociationIdentityType">
@@ -3183,8 +2979,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentCohortAssociationIdentity"
-				type="SLC-StudentCohortAssociationIdentityType"/>
+			<xs:element name="StudentCohortAssociationIdentity" type="SLC-StudentCohortAssociationIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentCompetencyIdentityType">
@@ -3195,16 +2990,14 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:choice>
-				<xs:element name="LearningObjectiveReference"
-					type="SLC-LearningObjectiveReferenceType">
+				<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType">
 					<xs:annotation>
 						<xs:appinfo>
 							<sli:keyFieldName>objectiveId.learningObjectiveId</sli:keyFieldName>
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="StudentCompetencyObjectiveReference"
-					type="SLC-StudentCompetencyObjectiveReferenceType">
+				<xs:element name="StudentCompetencyObjectiveReference" type="SLC-StudentCompetencyObjectiveReferenceType">
 					<xs:annotation>
 						<xs:appinfo>
 							<sli:keyFieldName>objectiveId.studentCompetencyObjectiveId</sli:keyFieldName>
@@ -3219,8 +3012,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="StudentSectionAssociationReference"
-				type="SLC-StudentSectionAssociationReferenceType">
+			<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>studentSectionAssociationId</sli:keyFieldName>
@@ -3253,8 +3045,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentCompetencyObjectiveIdentity"
-				type="SLC-StudentCompetencyObjectiveIdentityType"/>
+			<xs:element name="StudentCompetencyObjectiveIdentity" type="SLC-StudentCompetencyObjectiveIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentCompetencyReferenceType">
@@ -3282,8 +3073,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="DisciplineIncidentReference"
-				type="SLC-DisciplineIncidentReferenceType">
+			<xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>disciplineIncidentId</sli:keyFieldName>
@@ -3301,8 +3091,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentDisciplineIncidentAssociationIdentity"
-				type="SLC-StudentDisciplineIncidentAssociationIdentityType"/>
+			<xs:element name="StudentDisciplineIncidentAssociationIdentity" type="SLC-StudentDisciplineIncidentAssociationIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentGradebookEntryIdentityType">
@@ -3310,8 +3099,7 @@
 			<xs:documentation>New SLC identity type for StudentGradebookEntry.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentSectionAssociationReference"
-				type="SLC-StudentSectionAssociationReferenceType">
+			<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType">
 				<xs:annotation>
 					<xs:documentation/>
 					<xs:appinfo>
@@ -3339,8 +3127,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentGradebookEntryIdentity"
-				type="SLC-StudentGradebookEntryIdentityType">
+			<xs:element name="StudentGradebookEntryIdentity" type="SLC-StudentGradebookEntryIdentityType">
 				<xs:annotation>
 					<xs:documentation/>
 				</xs:annotation>
@@ -3392,8 +3179,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentParentAssociationIdentity"
-				type="SLC-StudentParentAssociationIdentityType"/>
+			<xs:element name="StudentParentAssociationIdentity" type="SLC-StudentParentAssociationIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentProgramAssociationIdentityType">
@@ -3440,8 +3226,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentProgramAssociationIdentity"
-				type="SLC-StudentProgramAssociationIdentityType"/>
+			<xs:element name="StudentProgramAssociationIdentity" type="SLC-StudentProgramAssociationIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentObjectiveAssessmentIdentityType">
@@ -3457,8 +3242,7 @@
 						student's specific test administration.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ObjectiveAssessmentReference"
-				type="SLC-ObjectiveAssessmentReferenceType">
+			<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType">
 				<xs:annotation>
 					<xs:documentation>Reference to the test objective that is being measured by the
 						objective-level assessment.</xs:documentation>
@@ -3472,8 +3256,7 @@
 				StudentObjectiveAssessment.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentObjectiveAssessmentIdentity"
-				type="SLC-StudentObjectiveAssessmentIdentityType"/>
+			<xs:element name="StudentObjectiveAssessmentIdentity" type="SLC-StudentObjectiveAssessmentIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentReferenceType">
@@ -3525,8 +3308,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentSchoolAssociationIdentity"
-				type="SLC-StudentSchoolAssociationIdentityType"/>
+			<xs:element name="StudentSchoolAssociationIdentity" type="SLC-StudentSchoolAssociationIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentSectionAssociationIdentityType">
@@ -3570,8 +3352,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentSectionAssociationIdentity"
-				type="SLC-StudentSectionAssociationIdentityType"/>
+			<xs:element name="StudentSectionAssociationIdentity" type="SLC-StudentSectionAssociationIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-TeacherSchoolAssociationIdentityType">
@@ -3611,8 +3392,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="TeacherSchoolAssociationIdentity"
-				type="SLC-TeacherSchoolAssociationIdentityType"/>
+			<xs:element name="TeacherSchoolAssociationIdentity" type="SLC-TeacherSchoolAssociationIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-TeacherSectionAssociationIdentityType">
@@ -3645,8 +3425,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="TeacherSectionAssociationIdentity"
-				type="SLC-TeacherSectionAssociationIdentityType"/>
+			<xs:element name="TeacherSectionAssociationIdentity" type="SLC-TeacherSectionAssociationIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:annotation>
@@ -3659,8 +3438,7 @@
 				identifies. </xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="RacialCategory" type="RaceItemType" minOccurs="1"
-				maxOccurs="unbounded">
+			<xs:element name="RacialCategory" type="RaceItemType" minOccurs="1" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>One or more racial categories associated with the student or
 						staff.</xs:documentation>
@@ -3683,8 +3461,7 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="IdentificationSystem" type="SLC-StaffIdentificationSystemType"
-			use="required">
+		<xs:attribute name="IdentificationSystem" type="SLC-StaffIdentificationSystemType" use="required">
 			<xs:annotation>
 				<xs:documentation>A coding scheme that is used for identification and record-keeping
 					purposes by schools, social services, or other agencies to refer to a staff
@@ -3735,8 +3512,7 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="IdentificationSystem" type="SLC-StudentIdentificationSystemType"
-			use="required">
+		<xs:attribute name="IdentificationSystem" type="SLC-StudentIdentificationSystemType" use="required">
 			<xs:annotation>
 				<xs:documentation>A coding scheme that is used for identification and record-keeping
 					purposes by schools, social services, or other agencies to refer to a
