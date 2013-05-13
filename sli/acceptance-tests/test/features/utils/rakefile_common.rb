@@ -57,7 +57,10 @@ def allLeaAllowAppForTenant(appName, tenantName)
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
   db = conn[PropLoader.getProps['api_database_name']]
   appColl = db.collection("application")
-  appId = appColl.find_one({"body.name" => appName})["_id"]
+  app = appColl.find_one({"body.name" => appName})
+  raise "ERROR: Could not find an application named #{appName}" if app.nil?
+
+  appId = app["_id"]
   puts("The app #{appName} id is #{appId}") if ENV['DEBUG']
   
   dbTenant = conn[convertTenantIdToDbName(tenantName)]
