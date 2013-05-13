@@ -36,6 +36,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.lea.CourseExtractor;
 import org.slc.sli.bulk.extract.lea.EdorgExtractor;
 import org.slc.sli.bulk.extract.lea.EntityExtract;
 import org.slc.sli.bulk.extract.lea.EntityToLeaCache;
@@ -165,6 +166,10 @@ public class LocalEdOrgExtractorTest {
         Mockito.when(mockFactory.buildSectionExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),Mockito.any(Repository.class),
                 Mockito.any(EntityToLeaCache.class), Mockito.any(EntityToLeaCache.class))).thenReturn(mockExtract);
 
+        CourseExtractor courseExtract = Mockito.mock(CourseExtractor.class);
+        Mockito.when(
+                mockFactory.buildCourseExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
+                        Mockito.any(Repository.class))).thenReturn(courseExtract);
 
     }
     

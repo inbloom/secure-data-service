@@ -95,6 +95,7 @@ public class LEAExtractorFactory {
             Repository<Entity> repo) {
         return new CohortExtractor(extractor, map, repo);
     }
+
     public EntityExtract buildStaffCohortAssociationExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo) {
         return new StaffCohortAssociationExtractor(extractor, map, repo);
@@ -107,5 +108,10 @@ public class LEAExtractorFactory {
     public EntityExtract buildStaffProgramAssociationExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo) {
         return new StaffProgramAssociationExtractor(extractor, map, repo);
+    }
+    
+    public CourseExtractor buildCourseExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new CourseExtractor(extractor, map, repo);
     }
 }
