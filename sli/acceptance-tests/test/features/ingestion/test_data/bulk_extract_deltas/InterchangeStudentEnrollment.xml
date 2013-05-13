@@ -133,38 +133,38 @@
     </GraduationPlanReference>
   </StudentSchoolAssociation>
   <Action ActionType="DELETE">
-    <StudentSchoolAssociation>
-      <StudentReference>
-        <StudentIdentity>
-          <StudentUniqueStateId>12</StudentUniqueStateId>
-        </StudentIdentity>
-      </StudentReference>
-      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <SchoolYear>2015-2016</SchoolYear>
-      <EntryDate>2013-09-05</EntryDate>
-      <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-      <EntryType>Original entry into a United States school from a foreign country with no interruption in schooling</EntryType>
-      <RepeatGradeIndicator>true</RepeatGradeIndicator>
-      <ClassOf>2018-2019</ClassOf>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>12</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2013-2014</SchoolYear>
+    <EntryDate>2013-09-09</EntryDate>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+      <EntryType>Transfer from a school outside of the country</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2015-2016</ClassOf>
       <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
-      <ExitWithdrawDate>2014-06-02</ExitWithdrawDate>
+    <ExitWithdrawDate>2014-06-04</ExitWithdrawDate>
       <EducationalPlans>
-        <EducationalPlan>Career Suggestions</EducationalPlan>
+      	<EducationalPlan>Completion and Reach Age 22</EducationalPlan>
       </EducationalPlans>
-      <GraduationPlanReference>
-        <GraduationPlanIdentity>
-          <GraduationPlanType>Distinguished</GraduationPlanType>
-          <EducationalOrgReference>
-            <EducationalOrgIdentity>
-              <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-            </EducationalOrgIdentity>
-          </EducationalOrgReference>
-        </GraduationPlanIdentity>
-      </GraduationPlanReference>
-    </StudentSchoolAssociation>
-  </Action>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Distinguished</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+ </Action>
 </InterchangeStudentEnrollment>

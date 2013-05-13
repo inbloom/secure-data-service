@@ -19,10 +19,12 @@ package org.slc.sli.bulk.extract.context.resolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.bulk.extract.context.resolver.impl.CohortContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.GradebookEntryContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.SessionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherDirectRelatedContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
@@ -70,6 +72,12 @@ public class EdOrgContextResolverFactory {
     @Autowired
     private GradebookEntryContextResolver gradebookEntryContextResolver;
 
+    @Autowired
+    private CohortContextResolver cohortResolver;
+    
+    @Autowired
+    private SessionContextResolver sessionResolver;
+    
     /**
      * find responsible resolver for this entity type
      * 
@@ -93,7 +101,8 @@ public class EdOrgContextResolverFactory {
                 || EntityNames.GRADE.equals(entityType)
                 || EntityNames.REPORT_CARD.equals(entityType)
                 || EntityNames.STUDENT_ACADEMIC_RECORD.equals(entityType)
-                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)) {
+                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)
+                || EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType)) {
             return studentDirectRelatedContextResolver;
         }
         
@@ -112,12 +121,21 @@ public class EdOrgContextResolverFactory {
         
         if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(entityType)
                 || EntityNames.TEACHER_SECTION_ASSOCIATION.equals(entityType)
-                || EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType)) {
+                || EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType)
+                || EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType)) {
             return staffTeacherRelatedResolver;
         }
 
         if (EntityNames.GRADEBOOK_ENTRY.equals(entityType)) {
             return gradebookEntryContextResolver;
+        }
+        
+        if (EntityNames.COHORT.equals(entityType)) {
+            return cohortResolver;
+        }
+        
+        if (EntityNames.SESSION.equals(entityType)) {
+            return sessionResolver;
         }
 
         return null;
