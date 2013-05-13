@@ -307,7 +307,6 @@ end
 
 When /^the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:$/ do |table|
   Minitar.unpack(@filePath, @unpackDir)
-  puts "DEBUG: @filePath is #{@filePath}"
 	table.hashes.map do |entity|
     exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
     assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
@@ -440,7 +439,6 @@ end
 
 When /^I POST and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
-    puts "DEBUG: entity is #{api_params['entity']}, type is #{api_params['type']}, return code is #{api_params['returnCode']}"
     step "I POST a \"#{api_params['entity']}\" of type \"#{api_params['type']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
   end

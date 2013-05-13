@@ -66,7 +66,7 @@ Given I clean the bulk extract file system and database
      And I verify this "deleted" file should contains:
        | id                                                                                     | condition                             |
        | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id                                            | entityType = student                  |
-       | 8a0a6c0791cd0656d07278b0813d113065c6426f_id                                            | entityType = studentSchoolAssociation |
+       | 54759a8d56aba10b1b300e66657cd6fcc3ca6ac9_id                                            | entityType = studentSchoolAssociation |
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
 
@@ -111,7 +111,7 @@ Given I clean the bulk extract file system and database
    
      And I verify this "deleted" file should contains:
        | id                                          | condition                                |
-       | 8a0a6c0791cd0656d07278b0813d113065c6426f_id | entityType = studentSchoolAssociation |
+       | 54759a8d56aba10b1b300e66657cd6fcc3ca6ac9_id | entityType = studentSchoolAssociation |
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id | entityType = parent                      |
        | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
@@ -181,8 +181,8 @@ Scenario: Generate a bulk extract in a different LEA
    And I should not see a warning log file created
 
   When I trigger a delta extract
-   #And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+   And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   #And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
    And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
    And I should receive a return code of 200
    #And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>" for "<IL-HIGHWIND>"
