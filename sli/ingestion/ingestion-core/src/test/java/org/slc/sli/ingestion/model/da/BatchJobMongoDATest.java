@@ -41,6 +41,7 @@ import com.mongodb.WriteConcern;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -58,7 +59,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
@@ -305,33 +305,6 @@ public class BatchJobMongoDATest {
         Assert.assertNotNull(mockBatchJobMongoDA.createPersistanceLatch(entities, BATCHJOBID));
    }
 
-    @Test
-    public void testExceptionSetStagedEntitiesForJob() {
-        DBCollection collection = Mockito.mock(DBCollection.class);
-        Mockito.when(mockMongoTemplate.getCollection("stagedEntities")).thenReturn(collection);
-        MongoException exception = Mockito.mock(MongoException.DuplicateKey.class);
-        Mockito.when(collection
-                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenThrow(exception);
-
-        Mockito.when(exception.getCode()).thenReturn(DUP_KEY_CODE);
-        mockBatchJobMongoDA.setStagedEntitiesForJob(new HashSet<IngestionStagedEntity>(), "student");
-
-        Mockito.verify(exception, times(1)).getCode();
-   }
-
-    @Test
-    public void testSetStagedEntitiesForJob() {
-
-        DBCollection collection = Mockito.mock(DBCollection.class);
-
-        Mockito.when(mockMongoTemplate.getCollection("stagedEntities")).thenReturn(collection);
-        Mockito.when(collection
-                .insert(Mockito.any(DBObject.class))).thenReturn(null);
-
-        mockBatchJobMongoDA.setStagedEntitiesForJob(new HashSet<IngestionStagedEntity>(), "student");
-
-        Mockito.verify(collection).insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class));
-   }
 
     @Test
     public void testRemoveStagedEntityForJob() {

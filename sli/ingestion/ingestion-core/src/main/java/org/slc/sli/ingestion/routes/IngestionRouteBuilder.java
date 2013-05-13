@@ -40,9 +40,6 @@ import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
-import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
-import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
 import org.slc.sli.ingestion.validation.IndexValidationException;
 import org.slc.sli.ingestion.validation.IndexValidatorExecutor;
@@ -77,13 +74,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired(required = true)
     private PersistenceProcessor persistenceProcessor;
-
-
-    @Autowired
-    private OrchestraPreProcessor orchestraPreProcessor;
-
-    @Autowired
-    private AggregationPostProcessor aggregationPostProcessor;
 
     @Autowired
     private JobReportingProcessor jobReportingProcessor;
