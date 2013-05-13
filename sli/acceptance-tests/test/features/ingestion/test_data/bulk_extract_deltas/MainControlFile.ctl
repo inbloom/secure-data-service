@@ -5,3 +5,4 @@ edfi-xml,StudentAssessment,InterchangeStudentAssessment.xml,2265e5a5808d5420923a
 edfi-xml,StudentParent,Parents.xml,907120a106422a540fd87fd5de92849e
 edfi-xml,EducationOrganization,InterchangeEdOrg.xml,0d9520c1beaf3865df37bafb24df273c
 edfi-xml,MasterSchedule,InterchangeMasterSchedule.xml,a33e275c0e82c2224c1268865e1fdb9e
+edfi-xml,StaffAssociation,InterchangeStaffAssociation.xml,3e1fbf8481ab40399b8d5ff707221925

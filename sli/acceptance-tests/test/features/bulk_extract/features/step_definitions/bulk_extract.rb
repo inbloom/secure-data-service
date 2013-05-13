@@ -1481,7 +1481,8 @@ def remove_edorg_from_mongo(edorg_id, tenant)
 end
 
 def cleanDir(directory)
-  puts "stubbed out"
+  puts "download_path is #{directory}"
+  `ls -al #{directory}`
 end
 
 def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)

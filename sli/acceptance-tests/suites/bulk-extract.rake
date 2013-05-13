@@ -93,6 +93,9 @@ end
 
 desc "Extract SEA only public data"
 task :bulkExtractSEAPublicTest do
+  runTests("test/features/bulk_extract/features/bulk_extract_sea_ingest.feature")
+  allLeaAllowApp("SDK Sample")
+  authorizeEdorg("SDK Sample")
   runTests("test/features/bulk_extract/features/bulk_extract_sea_public.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
@@ -129,7 +132,7 @@ task :bulkExtractTests => [:realmInit] do
   authorizeEdorg("SDK Sample")
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractSimpleEntitiesTest"].execute
-  Rake::Task["bulkExtractSuperdocTest"].execute  
+  Rake::Task["bulkExtractSuperdocTest"].execute
   Rake::Task["bulkExtractEdorgStaffTest"].execute
   Rake::Task["bulkExtractIntegrationTest"].execute
   Rake::Task["bulkExtractApiTests"].execute
