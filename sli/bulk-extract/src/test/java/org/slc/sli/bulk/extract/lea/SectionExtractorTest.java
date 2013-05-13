@@ -37,16 +37,15 @@ public class SectionExtractorTest {
     private static final String LEA = "HUZZAH";
     private SectionExtractor se;
     private EntityExtractor ex;
+    private Repository<Entity> repo;
 
     @Before
     @SuppressWarnings("unchecked")
     public void setUp() throws Exception {
 
-        Repository<Entity> repo = Mockito.mock(Repository.class);
+        repo = Mockito.mock(Repository.class);
 
         ex = Mockito.mock(EntityExtractor.class);
-        List<Entity> list = Arrays.asList(AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate());
-        Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         Map<String, ExtractFile> map = new HashMap<String, ExtractFile>();
         // init map
@@ -62,10 +61,23 @@ public class SectionExtractorTest {
     }
 
     @Test
-    public void testExtractEntities() throws Exception {
+    public void testEdorgBasedExtract() throws Exception {
+        List<Entity> list = Arrays.asList(AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate(), AccessibleVia.EDORG.generate());
+        Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
+
         se.extractEntities(null);
         Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class));
     }
+
+    @Test
+    public void testStudentBasedExtract() throws Exception {
+        List<Entity> list = Arrays.asList(AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate(), AccessibleVia.STUDENT.generate());
+        Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
+
+        se.extractEntities(null);
+        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class));
+    }
+
 
     private static enum AccessibleVia {
         NONE(new Function<Entity, Entity>() {
@@ -86,13 +98,19 @@ public class SectionExtractorTest {
         STUDENT(new Function<Entity, Entity>() {
 
             @Override
+            @SuppressWarnings("unchecked")
             public Entity apply(Entity input) {
                 List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-                Map<String, Map<String, Object>> entity = new HashMap<String, Map<String, Object>>();
+                Map<String, Object> entity = new HashMap<String,Object>();
                 entity.put("body", new HashMap<String, Object>());
-                entity.get("body").put("studentId", students.get(1));
-                Mockito.when(input.getDenormalizedData().get("studentSectionAssociation")).thenReturn(list);
-                return input;
+                ((Map<String,Object>)entity.get("body")).put("studentId", students.get(1));
+                list.add(entity);
+
+                Map<String,List<Map<String,Object>>> map = new HashMap<String, List<Map<String, Object>>>();
+                map.put("studentSectionAssociation", list);
+                Mockito.when(input.getDenormalizedData()).thenReturn(map);
+
+                 return input;
             }
         }),
         BOTH(new Function<Entity, Entity>() {
