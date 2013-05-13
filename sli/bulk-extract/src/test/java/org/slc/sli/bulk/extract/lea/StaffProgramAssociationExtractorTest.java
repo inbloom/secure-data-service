@@ -35,8 +35,8 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 
-public class StaffCohortAssociationExtractorTest {
-    private StaffCohortAssociationExtractor extractor;
+public class StaffProgramAssociationExtractorTest {
+    private StaffProgramAssociationExtractor extractor;
     
     @Mock
     private EntityExtractor mockExtractor;
@@ -57,7 +57,7 @@ public class StaffCohortAssociationExtractorTest {
         MockitoAnnotations.initMocks(this);
         entityBody = new HashMap<String, Object>();
         entityBody.put(ParameterConstants.STAFF_ID, "Staff1");
-        extractor = new StaffCohortAssociationExtractor(mockExtractor, mockMap, mockRepo);
+        extractor = new StaffProgramAssociationExtractor(mockExtractor, mockMap, mockRepo);
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         staffToLeaCache = new EntityToLeaCache();
         staffToLeaCache.addEntry("Staff1", "LEA");
@@ -71,33 +71,33 @@ public class StaffCohortAssociationExtractorTest {
     
     @Test
     public void testExtractOneEntity() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_COHORT_ASSOCIATION), Mockito.eq(new NeutralQuery())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_PROGRAM_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
         extractor.extractEntities(staffToLeaCache);
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq(EntityNames.STAFF_COHORT_ASSOCIATION));
+                Mockito.eq(EntityNames.STAFF_PROGRAM_ASSOCIATION));
     }
     
     @Test
     public void testExtractManyEntity() {
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_COHORT_ASSOCIATION), Mockito.eq(new NeutralQuery())))
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_PROGRAM_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity, mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
         extractor.extractEntities(staffToLeaCache);
         Mockito.verify(mockExtractor, Mockito.times(2)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq(EntityNames.STAFF_COHORT_ASSOCIATION));
+                Mockito.eq(EntityNames.STAFF_PROGRAM_ASSOCIATION));
     }
     
     
     @Test
     public void testExtractNoEntityBecauseOfLEAMiss() {
         Mockito.when(mockEntity.getEntityId()).thenReturn("Staff2");
-        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_COHORT_ASSOCIATION), 
+        Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_PROGRAM_ASSOCIATION), 
                 Mockito.eq(new NeutralQuery()))).thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);
         extractor.extractEntities(staffToLeaCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
-                Mockito.eq(EntityNames.STAFF_COHORT_ASSOCIATION));
+                Mockito.eq(EntityNames.STAFF_PROGRAM_ASSOCIATION));
     }
 }
