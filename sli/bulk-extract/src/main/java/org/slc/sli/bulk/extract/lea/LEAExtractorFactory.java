@@ -99,4 +99,8 @@ public class LEAExtractorFactory {
             Repository<Entity> repo) {
         return new StaffCohortAssociationExtractor(extractor, map, repo);
     }
+
+    public EntityExtract buildSectionExtractor(EntityExtractor entityExtractor, LEAExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToLeaCache entityCache, EntityToLeaCache edorgCache) {
+        return new SectionExtractor(entityExtractor, leaToExtractFileMap, repository, entityCache, edorgCache);
+    }
 }

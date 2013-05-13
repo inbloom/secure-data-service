@@ -24,12 +24,14 @@ import java.util.Set;
 public class EntityToLeaCache {
     
     private Map<String, Set<String>> cache;
+    private Map<String, String> flatInverse;
     
     /**
      * Simple constructor that creates the internal cache.
      */
     public EntityToLeaCache() {
         cache = new HashMap<String, Set<String>>();
+        flatInverse = new HashMap<String, String>();
     }
 
     /**
@@ -45,9 +47,13 @@ public class EntityToLeaCache {
         }
         leas.add(leaId);
         cache.put(entityId, leas);
-
+        flatInverse.put(leaId, entityId);
     }
-    
+
+    public String leaFromEdorg(String edorgId) {
+        return flatInverse.get(edorgId);
+    }
+
     /**
      * Gets the set of LEAs associated with the entity.
      * 
