@@ -34,12 +34,12 @@ def main()
     # Check the argumment signature.
     tenantCleaner = check_args(ARGV)
     if (tenantCleaner == nil)
+      # Help was requested.
       print_help()
-      exit 0
+    else
+      # Perform the actual bulk extract cleanup.
+      tenantCleaner.clean()
     end
-
-    # Perform the actual bulk extract cleanup.
-    tenantCleaner.clean()
   rescue Exception => ex
     puts "FATAL: " + ex.message
     @logger.fatal ex.message
