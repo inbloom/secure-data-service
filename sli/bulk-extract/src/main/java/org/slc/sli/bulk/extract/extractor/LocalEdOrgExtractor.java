@@ -30,6 +30,7 @@ import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.lea.CourseExtractor;
+import org.slc.sli.bulk.extract.lea.CourseOfferingExtractor;
 import org.slc.sli.bulk.extract.lea.EdorgExtractor;
 import org.slc.sli.bulk.extract.lea.EntityExtract;
 import org.slc.sli.bulk.extract.lea.EntityToLeaCache;
@@ -136,8 +137,12 @@ public class LocalEdOrgExtractor {
         
         genericExtractor = factory.buildCohortExtractor(entityExtractor, leaToExtractFileMap, repository);
         genericExtractor.extractEntities(edorgCache);
+
+        EntityToLeaCache courseOfferingCache = new EntityToLeaCache(); //TODO create during section extraction
+        CourseOfferingExtractor courseOfferingExtractor = factory.buildCourseOfferingExtractor(entityExtractor, leaToExtractFileMap, repository);
+        courseOfferingExtractor.extractEntities(edorgCache, courseOfferingCache);
         
-        EntityToLeaCache courseCache = new EntityToLeaCache(); //TODO create during section extraction
+        EntityToLeaCache courseCache = courseOfferingExtractor.getCourseCache();
         CourseExtractor courseExtractor = factory.buildCourseExtractor(entityExtractor, leaToExtractFileMap, repository);
         courseExtractor.extractEntities(edorgCache, courseCache);
         

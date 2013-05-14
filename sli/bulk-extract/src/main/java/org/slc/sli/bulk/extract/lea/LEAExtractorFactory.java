@@ -114,4 +114,9 @@ public class LEAExtractorFactory {
             Repository<Entity> repo) {
         return new CourseExtractor(extractor, map, repo);
     }
+
+    public CourseOfferingExtractor buildCourseOfferingExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new CourseOfferingExtractor(extractor, map, repo);
+    }
 }
