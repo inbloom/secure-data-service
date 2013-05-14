@@ -15,17 +15,17 @@
  */
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.google.common.base.Predicate;
+import org.slc.sli.bulk.extract.BulkExtractEntity;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-import com.google.common.base.Predicate;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author dkornishev
@@ -36,6 +36,9 @@ public class SectionExtractor implements EntityExtract {
     private final Repository<Entity> repository;
     private final EntityToLeaCache studentCache;
     private final EntityToLeaCache edorgCache;
+    private final EntityToLeaCache courseOfferingCache = new EntityToLeaCache();
+    private final EntityToLeaCache ssaCache = new EntityToLeaCache();
+
 
     public SectionExtractor(EntityExtractor entityExtractor, LEAExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToLeaCache studentCache, EntityToLeaCache edorgCache) {
 
@@ -56,7 +59,13 @@ public class SectionExtractor implements EntityExtract {
             String lea = this.edorgCache.leaFromEdorg((String) section.getBody().get("schoolId"));
 
             if (null != lea) {  // Edorgs way
-                this.entityExtractor.extractEntity(section, this.leaToExtractFileMap.getExtractFileForLea(lea), "section");
+                extract(section, lea, new Predicate<Entity>() {
+                    @Override
+                    public boolean apply(Entity input) {
+                        return true;
+                    }
+                });
+
             } else {    // Student way
                 List<Map<String, Object>> assocs = section.getDenormalizedData().get("studentSectionAssociation");
 
@@ -67,16 +76,15 @@ public class SectionExtractor implements EntityExtract {
                         final String studentId = body.get("studentId");
                         Set<String> leas = this.studentCache.getEntriesById(studentId);
                         for (String lea2 : leas) {
-                        	Predicate<Entity> filter = new Predicate<Entity>() {
-								@Override
-								public boolean apply(Entity input) {
-									Map<String, Object> body = input.getBody();
-									return body.keySet().contains("studentId") && studentId.equals(body.get("studentId"));
-								}
-                        	};
-                        	
-                        	
-                            this.entityExtractor.extractEntity(section, this.leaToExtractFileMap.getExtractFileForLea(lea2), "section", filter);
+                            Predicate<Entity> filter = new Predicate<Entity>() {
+                                @Override
+                                public boolean apply(Entity input) {
+                                    Map<String, Object> body = input.getBody();
+                                    return body.keySet().contains("studentId") && studentId.equals(body.get("studentId"));
+                                }
+                            };
+
+                            extract(section, lea2, filter);
                         }
                     }
                 }
@@ -85,5 +93,29 @@ public class SectionExtractor implements EntityExtract {
 
 
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void extract(Entity section, String lea, Predicate<Entity> filter) {
+        this.entityExtractor.extractEntity(section, this.leaToExtractFileMap.getExtractFileForLea(lea), "section", filter);
+        this.courseOfferingCache.addEntry((String) section.getBody().get("courseOfferingId"), lea);
+
+        List<Map<String, Object>> ssas = section.getDenormalizedData().get("studentSectionAssociation");
+
+        if (null != ssas) {
+            for (Map<String, Object> ssa : ssas) {
+                if (filter.apply(new BulkExtractEntity((Map<String, Object>) ssa.get("body"), (String) ssa.get("_id")))) {
+                    this.ssaCache.addEntry((String) ssa.get("_id"), lea);
+                }
+            }
+        }
+    }
+
+    public EntityToLeaCache getCourseOfferingCache() {
+        return courseOfferingCache;
+    }
+
+    public EntityToLeaCache getSsaCache() {
+        return ssaCache;
     }
 }

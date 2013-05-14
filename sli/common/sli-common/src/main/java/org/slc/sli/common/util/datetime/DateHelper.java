@@ -16,13 +16,13 @@
 
 package org.slc.sli.common.util.datetime;
 
-import java.util.Map;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 @Component
 public class DateHelper {
@@ -36,7 +36,7 @@ public class DateHelper {
             date = getNowMinusGracePeriod();
         } else {
             date = DateTime.now();
-            
+
         }
         return date.toString(fmt);
     }
@@ -52,23 +52,20 @@ public class DateHelper {
     }
 
     public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
-        DateTime expirationDate = DateTime.now();
-        if (useGracePeriod) {
-            int numDays = Integer.parseInt(gracePeriod);
-            expirationDate = expirationDate.minusDays(numDays);
-        }
-        if (body.containsKey(fieldName)) {
-            String dateStringToCheck = (String) body.get(fieldName);
+        boolean expired = false;
+        if (null != body.get(fieldName)) {
+            DateTime expire = DateTime.parse((String) body.get(fieldName), fmt);
+            DateTime now = DateTime.now();
 
-            if (dateStringToCheck == null) {
-                return false;
+            if (useGracePeriod) {
+                int numDays = Integer.parseInt(gracePeriod);
+                now = now.minusDays(numDays);
             }
 
-            DateTime dateToCheck = DateTime.parse(dateStringToCheck, fmt);
-    
-            return dateToCheck.isBefore(expirationDate);
+            expired = now.isAfter(expire);
         }
-        return false;
+
+        return expired;
     }
 
     /**
@@ -83,10 +80,10 @@ public class DateHelper {
     public boolean isLhsBeforeRhs(DateTime lhs, DateTime rhs) {
         return !rhs.toLocalDate().isBefore(lhs.toLocalDate());
     }
-    
+
     /**
      * Returns our internal format for dates.
-     * 
+     *
      * @return
      */
     public DateTimeFormatter getDateTimeFormat() {
