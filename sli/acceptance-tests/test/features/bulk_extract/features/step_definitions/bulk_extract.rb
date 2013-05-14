@@ -470,8 +470,10 @@ end
 
 When /^I POST and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
+    print "Posting #{api_params['type']} .. "
     step "I POST a \"#{api_params['entity']}\" of type \"#{api_params['type']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
+    print "OK\n"
   end
 end
 
@@ -488,8 +490,10 @@ end
 
 When /^I PUT and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
+    print "Putting #{api_params['entity']} .."
     step "I PUT the \"#{api_params['field']}\" for a \"#{api_params['entity']}\" entity to \"#{api_params['value']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
+    print "OK\n"
   end
 end
 
@@ -528,8 +532,10 @@ end
 
 When /^I PATCH and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
+    print "Patching #{api_params['entity']} .."
     step "I PATCH the \"#{api_params['field']}\" for a \"#{api_params['entity']}\" entity to \"#{api_params['value']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
+    print "OK\n"
   end
 end
 
@@ -546,8 +552,10 @@ end
 
 When /^I DELETE and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
+    print "Deleting #{api_params['entity']} .."
     step "I DELETE an \"#{api_params['entity']}\" of id \"#{api_params['id']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
+    print "OK\n"
   end
 end
 
@@ -559,6 +567,7 @@ end
 
 def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
+    "courseOffering" => "courseOfferings",
     "educationOrganization" => "educationOrganizations",
     "invalidEntry" => "school",
     "newParentDad" => "parents",
@@ -567,10 +576,12 @@ def getEntityEndpoint(entity)
     "parent" => "parents",
     "patchEdOrg" => "educationOrganizations",
     "school" => "educationOrganizations",
+    "section" => "sections",
     "staffStudent" => "students",
     "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
     "newStudent" => "students",
     "studentSchoolAssociation" => "studentSchoolAssociations",
+    "studentSectionAssociation" => "/schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students/9bf3036428c40861238fdc820568fde53e658d88_id/studentSectionAssociations",
     "studentParentAssociation" => "studentParentAssociations",
     "newStudentParentAssociation" => "studentParentAssociations",
     "wrongSchoolURI" => "schoolz"
@@ -583,13 +594,14 @@ def getEntityBodyFromApi(entity, api_version, verb)
   entity_to_uri_map = {
     "school" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
     "educationOrganization" => "educationOrganizations",
-    "courseOffering" => "courseOfferings",
+    "newCourseOffering" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/courseOfferings",
     "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
     "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
     "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
     "parent" => "parents",
     "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
     "section" => "sections",
+    "newSection" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/sections",
     "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
     "staffProgramAssociation" => "staffProgramAssociations",
     "staffStudent" => "students",
@@ -1396,11 +1408,11 @@ def prepareBody(verb, value, response_map)
         }
       },
       "newStudentSchoolAssociation" => {
-        "exitWithdrawDate" => "2014-06-02",
+        "exitWithdrawDate" => "2014-05-22",
         "entityType" => "studentSchoolAssociation",
-        "entryDate" => "2013-09-05",
-        "entryGradeLevel" => "Tenth grade",
-        "schoolYear" => "2012-2013",
+        "entryDate" => "2013-08-26",
+        "entryGradeLevel" => "Eleventh grade",
+        "schoolYear" => "2013-2014",
         "educationalPlans" => [],
         "schoolChoiceTransfer" => true,
         "entryType" => "Other",
@@ -1408,90 +1420,151 @@ def prepareBody(verb, value, response_map)
         "repeatGradeIndicator" => true,
         "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
       },
-      "newStudent" => {
-        "loginId" => "new-student-1@bazinga.org",
-        "sex" => "Male",
-        "studentCharacteristics" => [{
-            "endDate" => "2013-04-01",
-            "beginDate" => "2013-03-11",
-            "designatedBy" => "Teacher",
-            "characteristic" => "Unschooled Refugee"
+      "newCourseOffering" => {
+        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+        "courseId" => "06ccb498c620fdab155a6d70bcc4123b021fa60d_id",
+        "localCourseCode" => "101 English",
+        "localCourseTitle" => "Eleventh grade English"
+      },
+      "newSection" => {
+        "uniqueSectionCode" => "English00101",
+        "sequenceOfCourse" => 1,
+        "educationalEnvironment" => "Classroom",
+        "mediumOfInstruction" => "Face-to-face instruction",
+        "populationServed" => "Regular Students",
+        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+        "courseOfferingId" => "38edd8479722ccf576313b4640708212841a5406_id"
+      },
+      "newStudentSectionAssociation" => {
+        "entityType" => "studentSectionAssociation",
+        "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "homeroomIndicator" => true,
+        "repeatIdentifier" => "Repeated, counted in grade point average"
+      },
+      "newStudentAssessment" => {
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+        "administrationDate" => "2013-08-27",
+        "specialAccommodations" => ["Large Print"],
+        "administrationEndDate" => "2008-12-09",
+        "gradeLevelWhenAssessed" => "Eighth grade",
+        "performanceLevelDescriptors" => [
+          [{
+            "codeValue" => "30 code"
+          }]
+        ],
+        "administrationEnvironment" => "Classroom",
+        "retestIndicator" => "Primary Administration",
+        "studentObjectiveAssessments" => [{
+          "entityType" => "studentAssessment",
+          "performanceLevelDescriptors" => [
+            [{
+              "codeValue" => "code1"
+            }]
+          ],
+          "scoreResults" => [{
+            "result" => "32",
+            "assessmentReportingMethod" => "Scale score"
+          }],
+          "objectiveAssessment" => {
+            "nomenclature" => "Nomenclature",
+            "identificationCode" => "2013-Eleventh grade Assessment 2.OA-0",
+            "percentOfAssessment" => 50,
+            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "assessmentPerformanceLevel" => [{
+              "performanceLevelDescriptor" => [{
+                "codeValue" => "code1"
+              }],
+              "assessmentReportingMethod" => "Number score",
+              "minimumScore" => 0,
+              "maximumScore" => 50
+            }],
+            "learningObjectives" => [
+              "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id",
+              "8b6407c747e3de04c8e8365b1aa202f1dc3510c6_id",
+              "ea27f2c3cd548cf82682a75e29182462da366912_id",
+              "b2c4add05d75ba5144203d8dc3e1c5cb79b58c7b_id",
+              "f515c869a5b8507f7462dafd65c20710fc300182_id"
+            ],
+            "maxRawScore" => 50
+          }
         }],
-        "disabilities" => [{
-            "orderOfDisability" => 15,
-            "disability" => "Mental Retardation",
-            "disabilityDiagnosis" => "Diagnosis A"
+        "reasonNotTested" => "Not appropriate (ARD decision)",
+        "serialNumber" => "30 code",
+        "scoreResults" => [{
+          "result" => "32",
+          "assessmentReportingMethod" => "Scale score"
         }],
-        "hispanicLatinoEthnicity" => false,
-        "cohortYears" => [{
-            "schoolYear" => "2013-2014",
-            "cohortYearType" => "Fourth grade"
-        }],
-        "section504Disabilities" => ["Sensory Impairment"],
-        "oldEthnicity" => "Hispanic",
-        "entityType" => "student",
-        "race" => ["White"],
-        "programParticipations" => [{
-            "program" => "Bilingual Summer",
-            "endDate" => "2014-02-10",
-            "beginDate" => "2013-11-14",
-            "designatedBy" => "Teacher"
-        }],
-        "languages" => ["English"],
-        "studentUniqueStateId" => "101",
-        "profileThumbnail" => "101 thumb",
-        "name" => {
-            "middleName" => "Treble",
-            "lastSurname" => "Samsonite",
-            "firstName" => "Jimson"
+        "linguisticAccommodations" => ["Bilingual Dictionary"],
+        "administrationLanguage" => "English",
+        "studentAssessmentItems" => [{
+          "rawScoreResult" => 82,
+          "responseIndicator" => "Effective response",
+          "assessmentResponse" => "false",
+          "assessmentItemResult" => "Incorrect",
+          "assessmentItem" => {
+            "identificationCode" => "2013-Eleventh grade Assessment 2#1",
+            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "correctResponse" => "true",
+            "itemCategory" => "True-False",
+            "maxRawScore" => 10
+          }
+        }, {
+          "rawScoreResult" => 29,
+          "responseIndicator" => "Nonscorable response",
+          "assessmentResponse" => "false",
+          "assessmentItemResult" => "Correct",
+          "assessmentItem" => {
+              "identificationCode" => "2013-Eleventh grade Assessment 2#4",
+              "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+              "correctResponse" => "false",
+              "itemCategory" => "True-False",
+              "maxRawScore" => 10
+          }
+        }, {
+          "rawScoreResult" => 58,
+          "responseIndicator" => "Nonscorable response",
+          "assessmentResponse" => "false",
+          "assessmentItemResult" => "Correct",
+          "assessmentItem" => {
+            "identificationCode" => "2013-Eleventh grade Assessment 2#2",
+            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "correctResponse" => "false",
+            "itemCategory" => "True-False",
+            "maxRawScore" => 10
+          }
         },
-        "birthData" => {
-            "birthDate" => "1999-11-10"
-        },
-        "otherName" => [{
-            "middleName" => "Camino",
-            "generationCodeSuffix" => "V",
-            "lastSurname" => "Duran",
-            "personalTitlePrefix" => "Mr",
-            "firstName" => "Roberto",
-            "otherNameType" => "Alias"
-        }],
-        "studentIndicators" => [{
-            "indicator" => "Indicator 3",
-            "indicatorName" => "Name 3",
-            "indicatorGroup" => "Group A",
-            "endDate" => "2013-07-12",
-            "beginDate" => "2012-06-15",
-            "designatedBy" => "Parent"
-        }],
-        "homeLanguages" => ["English"],
-        "learningStyles" => {
-            "visualLearning" => 38,
-            "auditoryLearning" => 24,
-            "tactileLearning" => 33
-        },
-        "limitedEnglishProficiency" => "NotLimited",
-        "studentIdentificationCode" => [{
-            "identificationCode" => "abcde",
-            "identificationSystem" => "Other",
-            "assigningOrganizationCode" => "Other"
-        }],
-        "address" => [{
-            "streetNumberName" => "512 Byte Street",
-            "postalCode" => "60601",
-            "stateAbbreviation" => "IL",
-            "addressType" => "Home",
-            "city" => "Chicago"
-        }],
-        "schoolFoodServicesEligibility" => "Full price",
-        "displacementStatus" => "Status BBB",
-        "electronicMail" => [{
-            "emailAddress" => "new-student-1@bazinga.org",
-            "emailAddressType" => "Home/Personal"
-        }],
-        "telephone" => [{
-            "telephoneNumber" => "(919)555-4510"
+        {
+          "rawScoreResult" => 16,
+          "responseIndicator" => "Ineffective response",
+          "assessmentResponse" => "false",
+          "assessmentItemResult" => "Incorrect",
+          "assessmentItem" => {
+            "identificationCode" => "2013-Eleventh grade Assessment 2#3",
+            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "correctResponse" => "true",
+            "itemCategory" => "True-False",
+            "maxRawScore" => 10
+          }
         }]
+      },
+      "newGradebookEntry" => {
+
+      },
+      "newGrade" => {
+
+      },
+      "newReportCard" => {
+
+      },
+      "newStudentAcademicRecord" => {
+
+      },
+      "newGradebookEntry" => {
+
       }
     },
     "PATCH" => {

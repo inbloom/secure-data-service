@@ -462,5 +462,28 @@ Given I clean the bulk extract file system and database
         | 9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id | entityType = studentParentAssociation |
         | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
 
+@shortcut
+Scenario: Users from different LEAs requesting Delta extracts
+Given I clean the bulk extract file system and database
+  And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"  
+ When I POST and validate the following entities:
+    |  entity                        |  type                       |  returnCode  |
+    |  newMinStudent                 |  staffStudent               |  201         |
+    |  newStudentSchoolAssociation   |  studentSchoolAssociation   |  201         |
+    |  newParentFather               |  parent                     |  201         |
+    |  newParentMother               |  parent                     |  201         |
+    |  newStudentFatherAssociation   |  studentParentAssociation   |  201         |
+    |  newCourseOffering             |  courseOffering             |  201         |
+    |  newSection                    |  section                    |  201         |
+    |  newStudentSectionAssociation  |  studentSectionAssociation  |  201         |
+    |  newStudentAssessment          |  studentAssessment          |  201         |
+    |  newGradebookEntry             |  gradebookEntry             |  201         |
+    |  newGrade                      |  grade                      |  201         |
+    |  newReportCard                 |  reportCard                 |  201         |
+    |  newStudentAcademicRecord      |  studentAcademicRecord      |  201         |
+
+
+
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database
