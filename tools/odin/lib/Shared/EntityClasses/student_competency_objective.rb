@@ -49,17 +49,16 @@ class StudentCompetencyObjective < BaseEntity
   attr_accessor :description
 
   def initialize(sco, objetive, grade, edorg_id)
-    @rand                  = Random.new((standard + AcademicSubjectType.to_string(subject) + GradeLevelType.to_string(grade)).size)
     @sco_id                = sco
     @objective             = objective
-    @objective_grade       = grade
+    @objective_grade       = GradeLevelType.to_string(grade)
     @edorg_id              = edorg_id
 
     optional { @description  = nil }
   end
 
   def self.build_sco(count, objective, grade, edorg_id)
-    (1..count).collect{|x| StudentCompetencyObjective.new("Student Competency Objective #{x}", objective, grade, edorg_id)}
+    (1..count).collect{|x| StudentCompetencyObjective.new("SCO #{grade} #{edorg_id} #{x}", objective, grade, edorg_id)}
   end
 
   # define equality between two entities by iterating over instance variables and comparing each field for equality
