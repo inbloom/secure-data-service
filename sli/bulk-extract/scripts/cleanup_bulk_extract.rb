@@ -21,28 +21,59 @@ limitations under the License.
 # Clean up the bulk extraction zone and bulk extract database according to arguments.
 # This is the implementation which uses the TenantCleaner class.
 
-CURRENT_ABSOLUTE_PARENT_DIRNAME ||= File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME)))
+require 'yaml'
+require 'logger'
+
+CURRENT_ABSOLUTE_PARENT_DIRNAME = File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME)))
 require_relative CURRENT_ABSOLUTE_PARENT_DIRNAME + '/lib/TenantCleaner.rb'
 
-def main()
-  @logger.info ""
-  @logger.info "--------------------------------------------------"
-  @logger.info ""
-  @logger.info $PROGRAM_NAME + " " + ARGV.join(" ")
+LogLevels = {"UNKNOWN" => Logger::UNKNOWN, "FATAL" => Logger::FATAL, "ERROR" => Logger::ERROR, "WARN" => Logger::WARN, \
+             "INFO" => Logger::INFO, "DEBUG" => Logger::DEBUG}
 
+CONFIGURATION_FILE = CURRENT_ABSOLUTE_PARENT_DIRNAME + "/config/bulk_extract_cleanup.yml"
+
+# Get configuration properties.
+PROPERTIES = YAML::load_file(CURRENT_ABSOLUTE_PARENT_DIRNAME + '/config/bulk_extract_cleanup.yml')
+
+# Logger properties 
+LOG_FILE_PATHNAME = PROPERTIES['log_file_pathname']
+LOG_FILE_ROTATION = PROPERTIES['log_file_rotation']
+LOG_LEVEL = LogLevels[PROPERTIES['log_level']]
+
+# TenantCleaner properties.
+DATABASE_NAME = PROPERTIES['sli_database_name']
+DATABASE_HOST = PROPERTIES['bulk_extract_host']
+DATABASE_PORT = PROPERTIES['bulk_extract_port']
+REMOVE_DB_RECORD_RETRIES = PROPERTIES['remove_db_record_retries']
+REMOVE_DB_RECORD_RETRY_SECS = PROPERTIES['remove_db_record_retry_interval_secs']
+
+# Create logger.
+begin
+  LOGGER = Logger.new(LOG_FILE_PATHNAME, LOG_FILE_ROTATION)
+  LOGGER.level = LOG_LEVEL
+rescue Exception => ex
+  puts "FATAL: Cannot create log file " + LOG_FILE_PATHNAME + ": " + ex.message
+  exit 1
+end
+
+def main()
   begin
+    # Initialize the log file.
+    puts "Writing output to log file " + LOG_FILE_PATHNAME
+    LOGGER.info ""
+    LOGGER.info "--------------------------------------------------"
+    LOGGER.info ""
+    LOGGER.info $PROGRAM_NAME + " " + ARGV.join(" ")
+
     # Check the argumment signature.
     tenantCleaner = check_args(ARGV)
-    if (tenantCleaner == nil)
-      print_help()
-      exit 0
+    if (tenantCleaner != nil)
+      # Perform the actual bulk extract cleanup.
+      tenantCleaner.clean()
     end
-
-    # Perform the actual bulk extract cleanup.
-    tenantCleaner.clean()
   rescue Exception => ex
     puts "FATAL: " + ex.message
-    @logger.fatal ex.message
+    (LOGGER.fatal ex.message) if (LOGGER != nil)
     print_usage() if (ex.class == ArgumentError)
     exit 1
   end
@@ -86,8 +117,7 @@ def print_help()
        "             2013-05-10T01:33, 2013-05-10, \"Sun May 12 12:07:22 EDT 2013\", etc.\n" + \
        "             Time without at least 'hh:mmZ' suffix is local time, e.g. 2013-05-10T00:33:27 (EST)\n" + \
        "             becomes 2013-05-10T00:33:27-05:00, or 2013-05-10T05:33:27Z (GMT)"
-  puts "      <edOrg> specifies educational organization state unique ID or database ID,\n" + \
-       "              e.g. IL-DAYBREAK or 1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+  puts "      <edOrg> specifies educational organization state unique ID, e.g. IL-DAYBREAK"
   puts "      <file> specifies extract file full directory pathname, e.g. /bulk/extract/tarfile.tar"
   puts "      Any parameter containing whitespace must be quoted, e.g. -e\"Sunset Central High School\""
 end
@@ -97,6 +127,7 @@ def check_args(argv)
   if ((argv.length < 1) || (argv.length > 3))
     raise(ArgumentError, "Wrong number of arguments")
   elsif ((argv.length == 1) && (argv[0].eql?("-h") || argv[0].eql?("-help")))
+    print_help()
     return nil
   end
 
@@ -134,12 +165,13 @@ def check_args(argv)
   if (tenant == nil)
     raise(ArgumentError, "Tenant not specified")
   end
-  return TenantCleaner.new(tenant, date, edorg, file, @logger)
+  return TenantCleaner.new(tenant, date, edorg, file, LOGGER, DATABASE_HOST, DATABASE_PORT, DATABASE_NAME, \
+                           REMOVE_DB_RECORD_RETRIES, REMOVE_DB_RECORD_RETRY_SECS)
 end
 
 # Run the main program here.
 main()
 
 at_exit do
-  @logger.close
+  LOGGER.close if (LOGGER != nil)
 end

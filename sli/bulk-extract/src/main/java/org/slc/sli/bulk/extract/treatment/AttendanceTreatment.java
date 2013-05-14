@@ -19,15 +19,25 @@ import java.util.Map;
 
 import org.slc.sli.common.migration.strategy.impl.AttendanceStrategyHelper;
 import org.slc.sli.domain.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Treat attendance entity.
  * @author ablum
  *
  */
 public class AttendanceTreatment implements Treatment {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(AttendanceTreatment.class);
 
     @Override
     public Entity apply(Entity entity) {
+        // Don't apply the treatment if it already has been applied.
+        // It can get treated multiple times for different LEAs and Apps.
+        if (entity.getBody().containsKey("schoolYearAttendance")) {
+            LOG.debug("Treatment has already been applied to attendance entity: {}", new Object[] { entity.getEntityId() });
+            return entity;
+        }
         Map<String,Object> treated = AttendanceStrategyHelper.wrap(entity.getBody());
         entity.getBody().clear();
         entity.getBody().putAll(treated);
