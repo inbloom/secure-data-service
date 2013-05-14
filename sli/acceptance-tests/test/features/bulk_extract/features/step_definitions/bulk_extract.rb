@@ -968,6 +968,7 @@ Then /^I have a fake bulk extract tar file for the following tenants and differe
 end
 
 Then /^I clean up the cleanup script test data$/ do
+  disable_NOTABLESCAN()
   Dir[@parentDir + "/**/*"].each do |item|
     path = File.expand_path(item)
     puts path
@@ -975,28 +976,35 @@ Then /^I clean up the cleanup script test data$/ do
     coll.remove({"body.path" => path})
   end
   FileUtils.rm_rf(@parentDir)
+  enable_NOTABLESCAN()
 end
 
 Then /^I should not see the following tenant bulk extract file:$/ do |table|
+  disable_NOTABLESCAN()
   table.hashes.map do |row|
     destFile = File.expand_path(createCleanupFile(@parentDir, row["tenant"], row["Edorg"], row["app"], row["date"]))
     assert(!File.exist?(destFile), "File " + destFile + " was not removed")
     checkMongoQueryCounts("bulkExtractFiles",  {"body.path" => destFile}, 0)
   end
+  enable_NOTABLESCAN()
 end
 
 Then /^I should see the following tenant bulk extract file:$/ do |table|
+  disable_NOTABLESCAN()
   table.hashes.map do |row|
     destFile = File.expand_path(createCleanupFile(@parentDir, row["tenant"], row["Edorg"], row["app"], row["date"]))
     assert(File.exist?(destFile), "File " + destFile + " was removed")
     checkMongoQueryCounts("bulkExtractFiles",  {"body.path" => destFile}, 1)
   end
+  enable_NOTABLESCAN()
 end
 
 Then /^the following test tenant and edorg are clean:$/ do |table|
+  disable_NOTABLESCAN()
   table.hashes.map do |row|
     remove_edorg_from_mongo(row["Edorg"], row["tenant"])
   end
+  enable_NOTABLESCAN()
 end
 
 ############################################################
