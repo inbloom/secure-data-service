@@ -51,7 +51,7 @@ When zip file is scp to ingestion landing zone
      | assessment                               |                  1|
      | student                                  |                  1|
      | studentAssessment                        |                  2|
-    And I should see "Processed 5 records." in the resulting batch job file
+    And I should see "Processed 4 records." in the resulting batch job file
     And I should not see a warning log file created
 
 Scenario: Post Attendance without required parent records in database
@@ -185,7 +185,7 @@ When zip file is scp to ingestion landing zone
     Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  4|
-    And I should see "Processed 4 records." in the resulting batch job file
+    And I should see "Processed 2 records." in the resulting batch job file
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter                  | searchValue                | searchType           |
        | assessmentPeriodDescriptor  | 1                   | body.codeValue                   | READ2-BOY-2011             | string               |

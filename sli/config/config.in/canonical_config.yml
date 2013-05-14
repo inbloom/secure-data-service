@@ -96,6 +96,9 @@ default:
         sli.security.truststore.path: /tmp/trustey.jks
         sli.security.truststore.password: changeit
 
+        sli.session.cache.ttl: 10
+        sli.session.cache.tli: 5
+
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
         sli.mongodb.database: sli

@@ -72,7 +72,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       |  entityType                            | count |  id  | 
       #|  assessment                            |   |         |  
       |  attendance                            | 150 |         |
-      #|  cohort                                |   |         |
+      |  cohort                                |   5|         |
       #|  competencyLevelDescriptor             |   |         |
       #|  course                                |   |         |
       #|  courseOffering                        |   |         |
@@ -82,7 +82,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       |  educationOrganization                 | 5 |          |
       |  grade                                 | 8 |         |
       #|  gradebookEntry                        |   |         |
-      #|  gradingPeriod                         |   |         |
+      |  gradingPeriod                         |  13 |         |
       #|  graduationPlan                        |   |         |
       #|  learningObjective                     |   |         |
       #|  learningStandard                      |   |         |
@@ -91,11 +91,11 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       |  reportCard                            | 4 |         |
       # |  school                                |   |        |
       #|  section                               |   |         |
-      #|  session                               |   |         |
+      |  session                               |  22 |         |
       |  staff                                 | 10 | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
-#      |  staffCohortAssociation                | 7 |         |
+      |  staffCohortAssociation                | 2 |         |
       |  staffEducationOrganizationAssociation | 10 | 346a3cc0939419b34283ec6cac2330e19a483f6f_id |
-      # |  staffProgramAssociation               | 7 |         |
+      |  staffProgramAssociation               | 6 |         |
       |  student                               | 156 |         |
       |  studentAcademicRecord                 | 234 |         |
       |  studentAssessment                     | 406 |         |

@@ -285,16 +285,16 @@ And the extract contains a file for each of the following entities:
       |  entityType                            |
       # |  assessment                            |
       |  attendance                            |
-      # |  cohort                                |
+      |  cohort                                |
       # |  course                                |
       # |  courseTranscript                      |
       # |  courseOffering                        |
       # |  disciplineIncident                    |
       # |  disciplineAction                      |
       |  educationOrganization                 |
-      # |  grade                                 |
+      |  grade                                 |
       # |  gradebookEntry                        |
-      # |  gradingPeriod                         |
+      |  gradingPeriod                         |
       # |  learningObjective                     |
       # |  learningStandard                      |
       |  parent                                |
@@ -302,15 +302,15 @@ And the extract contains a file for each of the following entities:
       |  reportCard                            |
       |  school                                |
       # |  section                               |
-      # |  session                               |
+      |  session                               |
       |  staff                                 |
-      # |  staffCohortAssociation                |
+      |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |
       # |  staffProgramAssociation               |
       |  student                               |
       |  studentAcademicRecord                 |
       |  studentAssessment                     |
-      # |  studentCohortAssociation              |
+      |  studentCohortAssociation              |
       # |  studentCompetency                     |
       # |  studentCompetencyObjective            |
       |  studentDisciplineIncidentAssociation  |
@@ -339,14 +339,17 @@ Given the pre-existing bulk extrac testing app key has been created
   When I PATCH the postalCode for the lea entity to 11999
   Then I should receive a return code of 204
   When the operator triggers a delta for the production tenant
-   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
+   #And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
+   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "picard"
    And I get back a response code of "200"
    And I store the URL for the latest delta for the LEA
    And the number of returned URLs is correct:
    |   fieldName  | count |
-   |   fullLeas   |  0    |
+   |   fullLeas   |  1    |
    |   deltaLeas  |  1    |
-   And I request and download "delta" extract file for the lea
+   And I request and download a "delta" extract file for the lea
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
+   |  entityType                            |
    |  educationOrganization                 |
+   |  school                                |

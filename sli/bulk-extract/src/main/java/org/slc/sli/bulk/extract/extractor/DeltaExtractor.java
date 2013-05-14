@@ -48,6 +48,7 @@ import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
@@ -97,6 +98,8 @@ public class DeltaExtractor {
     @Qualifier("secondaryRepo")
     Repository<Entity> repo;
     
+    Set<String> subdocs = EmbeddedDocumentRelations.getSubDocuments();
+
     @Value("${sli.bulk.extract.output.directory:extract}")
     private String baseDirectory;
 
@@ -159,8 +162,12 @@ public class DeltaExtractor {
             Entity entity = delta.getEntity();
             Set<String> types = typeResolver.resolveType(entity.getType());
             for (String type : types) {
-                Entity e = new MongoEntity(type, entity.getEntityId(), new HashMap<String, Object>(), null);
-                entityWriteManager.writeDelete(e, extractFile);
+                // filter out obvious subdocs that don't make sense...
+                // a subdoc must have an id that is double the normal id size
+                if (!subdocs.contains(type) || entity.getEntityId().length() == lea.length() * 2) {
+                    Entity e = new MongoEntity(type, entity.getEntityId(), new HashMap<String, Object>(), null);
+                    entityWriteManager.writeDelete(e, extractFile);
+                }
             }
         }
     }
@@ -195,20 +202,18 @@ public class DeltaExtractor {
         if (!appPerLeaCollectionRecords.containsKey(key)) {
             EntityExtractor.CollectionWrittenRecord collectionRecord = new EntityExtractor.CollectionWrittenRecord(type);
             appPerLeaCollectionRecords.put(key, collectionRecord);
-            return collectionRecord;
         }
 
         return appPerLeaCollectionRecords.get(key);
     }
 
     private ExtractFile getExtractFile(String lea, String tenant, DateTime deltaUptoTime, Set<String> appsForLEA) {
-        String key = lea;
         if (!appPerLeaExtractFiles.containsKey(lea)) {
             ExtractFile appPerLeaExtractFile = getExtractFilePerLEA(tenant, lea, deltaUptoTime, appsForLEA);
-            appPerLeaExtractFiles.put(key, appPerLeaExtractFile);
+            appPerLeaExtractFiles.put(lea, appPerLeaExtractFile);
         }
 
-        return appPerLeaExtractFiles.get(key);
+        return appPerLeaExtractFiles.get(lea);
     }
 
     /* filter out all non top level LEAs */

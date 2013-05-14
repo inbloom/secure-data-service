@@ -105,6 +105,7 @@ Scenario: Delete Orphan StudentAssessment with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentAssessment                         |        -1|
+        | recordHash                                |        -1|
 
 Scenario: Delete Orphan StudentAssessment Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -126,6 +127,7 @@ Scenario: Delete Orphan StudentAssessment Reference with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
         | studentAssessment                         |        -1|
+        | recordHash                                |        -1|
 
 Scenario: Delete StudentAssessment with cascade = false, force = true and log violations = true
   Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -160,7 +162,7 @@ Scenario: Delete StudentAssessment with cascade = false, force = true and log vi
    	  | studentAssessment<hollow>        |    1|
       | studentAssessmentItem            |    0|
       | studentObjectiveAssessment       |    0|
-      #| recordHash                       |   -1| record Hash is not supported for StudentAssessment
+      | recordHash                       |   -1|
 
 
 Scenario: Delete StudentAssessment Ref with cascade = false, force = true and log violations = true
@@ -196,4 +198,4 @@ Scenario: Delete StudentAssessment Ref with cascade = false, force = true and lo
    	  | studentAssessment<hollow>        |    1|
       | studentAssessmentItem            |    0|
       | studentObjectiveAssessment       |    0|
-      #| recordHash                       |   -1|  
+      | recordHash                       |   -1|

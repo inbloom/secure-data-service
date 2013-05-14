@@ -40,7 +40,7 @@
             <EmailAddress>Bennie.Cimmino@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -86,7 +86,7 @@
             <EmailAddress>rafaela_coleson@yahoo.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -109,7 +109,7 @@
             <EmailAddress>ARchie_Forker@yahoo.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>true</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -159,7 +159,7 @@
             <EmailAddress>ti.troung@yahoo.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
     </Student>
   	<!--  Linda Kim's 8th graders -->
 	<Student>
@@ -193,7 +193,7 @@
 			<TelephoneNumber>312-608-2213</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -233,7 +233,7 @@
 			<EmailAddress>a.ausiello@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>true</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -267,7 +267,7 @@
 			<TelephoneNumber>312-230-0970</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -317,7 +317,7 @@
 			<EmailAddress>Rudy_Bedoya@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>true</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -342,7 +342,7 @@
 			<EmailAddress>m.sollars@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -374,7 +374,7 @@
 			<EmailAddress>dberdan@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -412,7 +412,7 @@
 			<EmailAddress>Oma.Bevington@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -451,7 +451,7 @@
 			<EmailAddress>Vernell.Boseman@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -475,7 +475,7 @@
             <EmailAddress>c.ortiz@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
