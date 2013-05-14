@@ -59,4 +59,14 @@ public class AttendanceTreatmentTest {
         Assert.assertNotNull(schoolYearAttendance.get("attendanceEvent"));
 
     }
+    
+    @Test
+    public void testDuplicateApplication() {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("schoolYearAttendance", new Object());
+
+        Entity entity = new BulkExtractEntity(body, "student");
+        Entity treated = treat.apply(entity);
+        Assert.assertEquals(entity, treated);
+    }
 }
