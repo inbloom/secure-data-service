@@ -153,10 +153,10 @@ public class BulkExtract {
     /**
      * Send an LEA extract or a SEA public data extract
      *
-     * @param lea
+     * @param edOrgId
      *            The uuid of the lea/sea to get the extract
      * @return
-     *         A response with a lea tar file
+     *         A response with a lea/sea tar file
      * @throws Exception
      *             On Error
      */
@@ -254,15 +254,13 @@ public class BulkExtract {
         boolean approvedLEAExists = false;
         for (String leaId : helper.getChildLEAsOfEdOrg(seaEntity)) {
             LOG.debug("Checking lea: {} for sea: {}", leaId, seaEntity.getEntityId());
-            if (edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
                 try {
-                    appAuthHelper.checkApplicationAuthorization(leaId);
+                    canAccessLEAExtract(leaId);
                     approvedLEAExists = true;
                     break;
                 } catch (AccessDeniedException e) {
                     approvedLEAExists = false;
                 }
-            }
         }
         if (!approvedLEAExists) {
             throw new AccessDeniedException("User is not authorized to access SEA public extract");
