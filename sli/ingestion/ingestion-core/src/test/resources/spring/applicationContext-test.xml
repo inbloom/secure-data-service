@@ -108,7 +108,6 @@
     <property name="transformer" ref="smooksEdFi2SLITransformer" />
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
     <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
-    <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
     <property name="recordLvlHashNeutralRecordTypes" ref="recordLevelDeltaEnabledEntities" />
   </bean>
 
