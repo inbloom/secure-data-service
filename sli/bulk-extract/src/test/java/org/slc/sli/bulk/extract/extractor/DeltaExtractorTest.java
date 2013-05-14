@@ -36,7 +36,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
@@ -51,6 +50,8 @@ import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
+
+import com.google.common.base.Predicate;
 
 public class DeltaExtractorTest {
     
@@ -177,7 +178,7 @@ public class DeltaExtractorTest {
     public void test() {
         extractor.execute("Midgar", new DateTime(), "");
         try {
-            verify(entityExtractor, times(1)).write(any(Entity.class), any(ExtractFile.class), any(EntityExtractor.CollectionWrittenRecord.class), null);
+            verify(entityExtractor, times(1)).write(any(Entity.class), any(ExtractFile.class), any(EntityExtractor.CollectionWrittenRecord.class), (Predicate) Mockito.isNull());
             verify(entityWriteManager, times(6)).writeDelete(any(Entity.class), any(ExtractFile.class));
         } catch (FileNotFoundException e) {
             fail("should never throw exceptions in mocks");
