@@ -2,14 +2,17 @@
 <InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
   <Section>
-    <UniqueSectionCode>1</UniqueSectionCode>
+    <UniqueSectionCode>2</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
-    <EducationalEnvironment>Laboratory</EducationalEnvironment>
-    <MediumOfInstruction>Technology-based instruction in classroom</MediumOfInstruction>
-    <PopulationServed>Gifted and Talented Students</PopulationServed>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Twelve month year hour credit" CreditConversion="1">
+        <Credit>0</Credit>
+      </AvailableCredit>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>55</LocalCourseCode>
+        <LocalCourseCode>85</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -17,7 +20,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
                 <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
               </EducationalOrgIdentity>
             </EducationalOrgReference>
-            <SessionName>2012-2013 Year Round session: IL-DAYBREAK</SessionName>
+            <SessionName>2013-2014 Year Round session: IL-DAYBREAK</SessionName>
           </SessionIdentity>
         </SessionReference>
         <EducationalOrgReference>
@@ -39,7 +42,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <SessionName>2012-2013 Year Round session: IL-DAYBREAK</SessionName>
+        <SessionName>2013-2014 Year Round session: IL-DAYBREAK</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>

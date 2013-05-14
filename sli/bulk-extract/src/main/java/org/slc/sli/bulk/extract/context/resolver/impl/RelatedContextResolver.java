@@ -16,6 +16,7 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
@@ -25,31 +26,35 @@ import org.slc.sli.domain.Entity;
  * Resolver for entities directly related to another entity
  * 
  * @author nbrown
- *
+ * 
  */
 public abstract class RelatedContextResolver implements ContextResolver {
     
     public RelatedContextResolver() {
         super();
     }
-
+    
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
         if (entity.getBody() == null) {
             return Collections.emptySet();
         }
         
-        String reference = getReferenceProperty(entity.getType());
-        if (reference == null) {
-            return Collections.emptySet();
-        }
-        
-        String referredId = (String) entity.getBody().get(reference);
+        String referredId = getReferredId(entity.getType(), entity.getBody());
         if (referredId == null) {
             return Collections.emptySet();
         }
         
         return getReferredResolver().findGoverningLEA(referredId);
+    }
+    
+    protected String getReferredId(String type, Map<String, Object> body) {
+        String reference = getReferenceProperty(type);
+        if (reference == null) {
+            return null;
+        }
+        String referredId = (String) body.get(reference);
+        return referredId;
     }
     
     protected abstract String getReferenceProperty(String entityType);

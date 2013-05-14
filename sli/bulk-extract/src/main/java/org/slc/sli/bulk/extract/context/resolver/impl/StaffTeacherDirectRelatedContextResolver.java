@@ -28,9 +28,9 @@ import org.slc.sli.common.constants.EntityNames;
  */
 @Component
 public class StaffTeacherDirectRelatedContextResolver extends RelatedContextResolver {
-    
+    public static final String STAFF_ID = "staffId";
     public static final String TEACHER_ID = "teacherId";
-
+    
     @Autowired
     private StaffTeacherContextResolver staffTeacherResolver;
     
@@ -44,7 +44,12 @@ public class StaffTeacherDirectRelatedContextResolver extends RelatedContextReso
         if (EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType)) {
             return StaffTeacherContextResolver.STAFF_REFERENCE;
         }
-
+        
+        if (EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType)) {
+            // curse you edfi!!!!!
+            return STAFF_ID;
+        }
+        
         return null;
     }
     

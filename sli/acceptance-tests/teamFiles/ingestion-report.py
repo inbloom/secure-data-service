@@ -10,12 +10,13 @@ def main():
 
     # Get data
     series = {}
-    counts = { "3M": 4021274,
-               "24M": 32185687,
+    counts = { "10k_4M": 3899674,
+               #"34k_13M": 13233491,
+               "68k_26M": 26464524,
              }
     raw_data = ""
     for line in fileinput.input():
-        expr_str = r'odin_73_compat_(.+)\.zip - Day (.+) run took (.+) seconds, starting at ([^\s]+) and .*CompletedSuccessfully'
+        expr_str = r'odin_76_canonical_(.+)\.zip - Day (.+) run took (.+) seconds, starting at ([^\s]+) and .*CompletedSuccessfully'
         expr = re.compile(expr_str)
         mres = re.search(expr, line)
         if mres is None:

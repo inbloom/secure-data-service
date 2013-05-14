@@ -25,9 +25,22 @@ end
 desc "Trigger ingestion and extract of the ingestion"
 task :bulkExtractSetup do
   Rake::Task["bulkExtractCleanup"].execute
-  Rake::Task["ingestionSmokeTests"].execute 
-  @tags = ["~@wip", "~@sandbox"]
-
+  runTests("test/features/bulk_extract/features/bulk_extract_ingestion.feature")
+  puts "DEBUG: running realmInit"
+  Rake::Task["realmInit"].invoke
+  
+  # Don't do this, you just nuked all the bootstrapped apps
+  #setFixture("application", "application_fixture.json", "test/data", false)
+  puts "DEBUG: running allLeaAllowApp SDK Sample"
+  allLeaAllowApp("SDK Sample")  
+  puts "DEBUG: running authorizeEdorg SDK Sample"
+  authorizeEdorg("SDK Sample")
+  puts "DEBUG: running allLeaAllowApp Paved ZOO"
+  allLeaAllowApp("Paved Z00")
+  puts "DEBUG: running authorizeEdorg Paved ZOO"
+  authorizeEdorg("Paved Z00")
+  puts "DEBUG: running bulkExtractTriggerTest"
+  Rake::Task["bulkExtractTriggerTest"].execute
 end
 
 desc "Trigger ingestion and extract of the ingestion"
@@ -119,26 +132,18 @@ task :bulkExtractApiTests do
 end
 
 desc "Run RC E2E Tests in Production mode"
-task :bulkExtractTests => [:realmInit] do
-  CLEAN_EXTRACT_LOC = false
-  TRIGGER_NEW_EXTRACT = false
-
-  Rake::Task["bulkExtractSetup"].execute
-  Rake::Task["addBootstrapAppAuths"].execute
-  allLeaAllowApp("SDK Sample")
-  authorizeEdorg("SDK Sample")
-  Rake::Task["bulkExtractTriggerTest"].execute
-  Rake::Task["bulkExtractSimpleEntitiesTest"].execute
-  Rake::Task["bulkExtractSuperdocTest"].execute  
-  Rake::Task["bulkExtractEdorgStaffTest"].execute
-  Rake::Task["bulkExtractIntegrationTest"].execute
-  Rake::Task["bulkExtractApiTests"].execute
-  Rake::Task["bulkExtractDeltasTest"].execute
-  Rake::Task["bulkExtractSchedulerTest"].execute
-  Rake::Task["bulkExtractNegativeTests"].execute
-  Rake::Task["bulkExtractTlsTests"].execute
-  Rake::Task["bulkExtractSEAPublicTest"].execute
-  Rake::Task["bulkExtractCleanup"].execute
+task :bulkExtractTests => [:bulkExtractSetup] do
+  Rake::Task["bulkExtractSimpleEntitiesTest"].invoke
+  Rake::Task["bulkExtractSuperdocTest"].invoke
+  Rake::Task["bulkExtractEdorgStaffTest"].invoke
+  Rake::Task["bulkExtractIntegrationTest"].invoke
+  Rake::Task["bulkExtractApiTests"].invoke
+  Rake::Task["bulkExtractDeltasTest"].invoke
+  Rake::Task["bulkExtractSchedulerTest"].invoke
+  Rake::Task["bulkExtractNegativeTests"].invoke
+  Rake::Task["bulkExtractTlsTests"].invoke
+  Rake::Task["bulkExtractSEAPublicTest"].invoke
+  Rake::Task["bulkExtractCleanup"].invoke
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

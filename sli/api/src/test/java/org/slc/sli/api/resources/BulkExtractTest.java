@@ -369,6 +369,7 @@ public class BulkExtractTest {
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
         authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("Midvale"));
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("Midvale"));
         Entity mockAuth = Mockito.mock(Entity.class);
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
@@ -421,7 +422,7 @@ public class BulkExtractTest {
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAuth);
-        bulkExtract.getLEAExtract(CONTEXT, req, "BLEEP");
+        bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -469,7 +470,7 @@ public class BulkExtractTest {
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAuth);
-        bulkExtract.getLEAExtract(CONTEXT, req, "BLEEP");
+        bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -485,7 +486,7 @@ public class BulkExtractTest {
         when(mockEntity.getEntityId()).thenReturn("App1");
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        bulkExtract.getLEAExtract(CONTEXT, req, "BLEEP");
+        bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -494,7 +495,7 @@ public class BulkExtractTest {
         // No BE Field
         Mockito.when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class)))
                 .thenReturn(false);
-        bulkExtract.getLEAExtract(CONTEXT, req, "BLEEP");
+        bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -680,7 +681,7 @@ public class BulkExtractTest {
             assertTrue(!e.getMessage().isEmpty());
         }
         try {
-            bulkExtract.getLEAExtract(CONTEXT, req, null);
+            bulkExtract.getLEAorSEAExtract(CONTEXT, req, null);
             fail("Should have thrown exception for null lea");
         } catch (IllegalArgumentException e) {
             assertTrue(!e.getMessage().isEmpty());
@@ -695,6 +696,48 @@ public class BulkExtractTest {
         } catch (IllegalArgumentException e) {
             assertTrue(!e.getMessage().isEmpty());
         }
+    }
+
+    @Test
+    public void testSEAPublicDataExtract() throws IOException, ParseException {
+        injector.setOauthAuthenticationWithEducationRole();
+        mockApplicationEntity();
+        Entity mockedEntity = mockBulkExtractEntity(null);
+        Mockito.when(edOrgHelper.byId(eq("SeaPub"))).thenReturn(mockedEntity);
+        Mockito.when(edOrgHelper.isSEA(mockedEntity)).thenReturn(true);
+        Mockito.when(edOrgHelper.getChildLEAsOfEdOrg(mockedEntity)).thenReturn(Arrays.asList("lea123"));
+
+        Map<String, Object> authBody = new HashMap<String, Object>();
+        authBody.put("applicationId", "App1");
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("lea123"));
+        Entity mockAppAuth = Mockito.mock(Entity.class);
+        Mockito.when(mockAppAuth.getBody()).thenReturn(authBody);
+        Mockito.when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockAppAuth);
+
+        Response res = bulkExtract.getLEAorSEAExtract(CONTEXT, req, "SeaPub");
+
+        assertEquals(200, res.getStatus());
+        MultivaluedMap<String, Object> headers = res.getMetadata();
+        assertNotNull(headers);
+        assertTrue(headers.containsKey("content-disposition"));
+        assertTrue(headers.containsKey("last-modified"));
+        String header = (String) headers.getFirst("content-disposition");
+        assertNotNull(header);
+        assertTrue(header.startsWith("attachment"));
+        assertTrue(header.indexOf(INPUT_FILE_NAME) > 0);
+
+        Object entity = res.getEntity();
+        assertNotNull(entity);
+
+        StreamingOutput out = (StreamingOutput) entity;
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        out.write(os);
+        os.flush();
+        byte[] responseData = os.toByteArray();
+        String s = new String(responseData);
+
+        assertEquals(BULK_DATA, s);
     }
 
     private Entity mockApplicationEntity() {
