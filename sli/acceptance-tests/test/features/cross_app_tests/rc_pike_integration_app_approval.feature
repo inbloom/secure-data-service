@@ -306,7 +306,7 @@ And the extract contains a file for each of the following entities:
       |  staff                                 |
       |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |
-      # |  staffProgramAssociation               |
+      |  staffProgramAssociation               |
       |  student                               |
       |  studentAcademicRecord                 |
       |  studentAssessment                     |
