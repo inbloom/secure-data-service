@@ -26,6 +26,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "grade" delta was extracted in the same format as the api
    And The "reportCard" delta was extracted in the same format as the api
    And The "studentAcademicRecord" delta was extracted in the same format as the api
+   And The "attendance" delta was extracted in the same format as the api
    And The "student" delta was extracted in the same format as the api
    And The "studentSchoolAssociation" delta was extracted in the same format as the api
    And The "studentAssessment" delta was extracted in the same format as the api
@@ -34,6 +35,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "studentCohortAssociation" delta was extracted in the same format as the api
    And The "staffCohortAssociation" delta was extracted in the same format as the api
    And The "session" delta was extracted in the same format as the api
+   And The "gradingPeriod" delta was extracted in the same format as the api
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
@@ -49,6 +51,7 @@ Given I clean the bulk extract file system and database
      And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
      When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
+       |  attendance                            |
        |  student                               |
        |  studentSchoolAssociation              |
        |  studentAssessment                     |
@@ -93,8 +96,17 @@ Given I clean the bulk extract file system and database
        | id                                          | condition                                |
        | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
 
+    And I verify this "attendance" file should contains:
+      | id                                          | condition                                |
+      | aefc3c964b1caf4754c8792be9886edaa2f84d4c_id | schoolYearAttendance.attendanceEvent.reason = change_2       |
+
+    And I verify this "attendance" file should not contains:
+      | id                                          | condition                                |
+      | aefc3c964b1caf4754c8792be9886edaa2f84d4c_id | schoolYearAttendance.attendanceEvent.date = 2013-09-09        |
+
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
+       |  attendance                            |
        |  parent                                |
        |  section                               |
        |  student                               |
@@ -167,6 +179,10 @@ Given I clean the bulk extract file system and database
      And I verify this "staff" file should contains:
        | id                                          | condition                                |
        | b7beb5d73c2189c680e16826e2e57d4d71970181_id | staffUniqueStateId = stff-0000000004     |
+
+    And I verify this "attendance" file should contains:
+      | id                                          | condition                                |
+      | 07185fb3e72af3e0c2f48cf64b474b1731c52b20_id | schoolYearAttendance.attendanceEvent.reason = change_1       |
 
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database
@@ -315,9 +331,7 @@ Given I clean the bulk extract file system and database
  Then I should receive a return code of 204
  When I trigger a delta extract
 
-#Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
 Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  #And in my list of rights I have BULK_EXTRACT
   When I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "vavedra9ub"
   When I get back a response code of "200"
   When I store the URL for the latest delta for LEA "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
@@ -327,7 +341,6 @@ Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-D
   |   deltaLeas  |  1    |
   When I request listed delta via API for "19cca28d-7357-4044-8df9-caad4b1c8ee4"
   Then I should receive a return code of 200
-  #And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I download and decrypt the delta
   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
   |  entityType                            |
