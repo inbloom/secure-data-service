@@ -518,7 +518,7 @@ Given I clean the bulk extract file system and database
         |  parent                                |
         |  studentParentAssociation              |
         |  studentSchoolAssociation              |
-      #  |  courseOffering                        |
+        |  courseOffering                        |
         |  section                               |
         |  studentSectionAssociation             |
       #  |  studentAssessment                   |
