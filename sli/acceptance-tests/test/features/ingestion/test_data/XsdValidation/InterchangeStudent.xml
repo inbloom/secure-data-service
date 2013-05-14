@@ -13,7 +13,7 @@
       <BirthDate>2006-07-02</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race></Race>
+    
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -34,7 +34,7 @@
       <BirthDate>2002-03-25</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race></Race>
+    
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -54,7 +54,7 @@
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race></Race>
+    
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities></Section504Disabilities>
     <DisplacementStatus>false</DisplacementStatus>
@@ -76,7 +76,7 @@
       <BirthDate>2002-03-25</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race></Race>
+    
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency></LimitedEnglishProficiency>

@@ -45,8 +45,6 @@ public class StaffCohortAssociationExtractorTest {
     @Mock
     private Repository<Entity> mockRepo;
     @Mock
-    private EntityToLeaCache mockCache;
-    @Mock
     private Entity mockEntity;
     @Mock
     private ExtractFile mockFile;

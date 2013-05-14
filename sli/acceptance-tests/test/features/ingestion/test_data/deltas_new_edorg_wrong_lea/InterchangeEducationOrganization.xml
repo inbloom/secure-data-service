@@ -37,7 +37,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
  
     <LocalEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>5</StateOrganizationId>
+        <StateOrganizationId>IL-HIGHWIND</StateOrganizationId>
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>

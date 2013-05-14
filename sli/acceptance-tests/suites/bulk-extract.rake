@@ -114,7 +114,7 @@ task :bulkExtractApiTests => [:bulkExtractSetup] do
 end
 
 desc "Run RC E2E Tests in Production mode"
-task :bulkExtractTests => [:bulkExtractSetup]do
+task :bulkExtractTests => [:bulkExtractSetup] do
   Rake::Task["bulkExtractSimpleEntitiesTest"].invoke
   Rake::Task["bulkExtractSuperdocTest"].invoke
   Rake::Task["bulkExtractEdorgStaffTest"].invoke
