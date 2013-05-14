@@ -188,6 +188,11 @@ And /^I clear crontab$/ do
     assert(result.length==0, "current crontab is not empty but #{result}")
 end
 
+When /^I only remove bulk extract file for tenant:"(.*?)", edorg:"(.*?)", app:"().*?"date:"(.*?)"$/ do |tenant, edorg, app, date|
+  path = File.expand_path(createCleanupFile(@parentDir, tenant, edorg, app, date))
+  FileUtils.rm(path)
+end
+
 When /^I execute cleanup script for tenant:"(.*?)", edorg:"(.*?)", date:"(.*?)", path:"(.*?)"$/ do |tenant, edorg, date, path|
   @log = "cleanup/out.log"
   puts CLEANUP_SCRIPT
@@ -208,7 +213,12 @@ end
 
 And /^I should see error message$/ do
   errorMessage = "FATAL:"
-  puts "HERRE I AM"
+  puts @cleanResult
+  assert(@cleanResult.to_s.include?(errorMessage), "Result of bulk extract cleanup script should include error message but was " + @cleanResult )
+end
+
+And /^I should see warning message$/ do
+  errorMessage = "Warning:"
   puts @cleanResult
   assert(@cleanResult.to_s.include?(errorMessage), "Result of bulk extract cleanup script should include error message but was " + @cleanResult )
 end
