@@ -3,6 +3,7 @@
 
 Feature: As an bulk extract user, I want to be able to get the state public entities
 
+
 Scenario: As a valid user unsuccessful attempt to get SEA public data extract using BEEP when extract has not been triggered
     Given The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
@@ -77,7 +78,14 @@ Scenario Outline: Extract received through the API should have all the valid dat
     |  school                                |
     |  session                               |
 
-Scenario: API call to the SEA BEEP with an invalid edOrg
+@wip
+Scenario: As a valid user get SEA public data delta extract using BEEP
+  Given in my list of rights I have BULK_EXTRACT
+  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id/delta/2013-04-30T17:22:26.391Z"
+  Then I get back a response code of "404"
+
+  Scenario: API call to the SEA BEEP with an invalid edOrg
   Given in my list of rights I have BULK_EXTRACT
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   When I make a call to the bulk extract end point "/bulk/extract/bdb4be44075c7e7d1a7b066c81ff338ed1936_id"
@@ -94,6 +102,13 @@ Scenario: Invalid user tries to access SEA public data
     And in my list of rights I have BULK_EXTRACT
     When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
     When I get back a response code of "403"
+
+@wip
+Scenario: SEA public data delta extract using BEEP with invalid users
+  Given in my list of rights I have BULK_EXTRACT
+  When I log into "SDK Sample" with a token of "linda.kim", a "Teacher" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id/delta/2013-04-30T17:22:26.391Z"
+  Then I get back a response code of "403"
 
 Scenario: Bulk extract should fail if there is more than 1 SEA in the tenant.
     Given I am using local data store
