@@ -16,12 +16,14 @@
 
 package org.slc.sli.bulk.extract.context.resolver;
 
+import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.bulk.extract.context.resolver.impl.CohortContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.GradebookEntryContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.GradingPeriodContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SessionContextResolver;
@@ -30,6 +32,8 @@ import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherDirectRelatedC
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
 import org.slc.sli.common.constants.EntityNames;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Factory class for context resolvers, which are used to
@@ -41,7 +45,8 @@ import org.slc.sli.common.constants.EntityNames;
  */
 @Component
 public class EdOrgContextResolverFactory {
-    
+    private static final Logger LOG = LoggerFactory.getLogger(EdOrgContextResolverFactory.class);
+      
     @Autowired
     private EducationOrganizationContextResolver edOrgContextResolver;
     
@@ -78,6 +83,9 @@ public class EdOrgContextResolverFactory {
     @Autowired
     private SessionContextResolver sessionResolver;
     
+    @Autowired
+    private GradingPeriodContextResolver gradingPeriodResolver;
+    
     /**
      * find responsible resolver for this entity type
      * 
@@ -102,7 +110,8 @@ public class EdOrgContextResolverFactory {
                 || EntityNames.REPORT_CARD.equals(entityType)
                 || EntityNames.STUDENT_ACADEMIC_RECORD.equals(entityType)
                 || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)
-                || EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType)) {
+                || EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType)
+                || EntityNames.ATTENDANCE.equals(entityType)) {
             return studentDirectRelatedContextResolver;
         }
         
@@ -138,6 +147,11 @@ public class EdOrgContextResolverFactory {
             return sessionResolver;
         }
 
+        if (EntityNames.GRADING_PERIOD.equals(entityType)) {
+            return gradingPeriodResolver;
+        }
+
+        LOG.debug("unable to resolve entity type {}", entityType);
         return null;
     }
 }
