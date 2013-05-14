@@ -74,6 +74,7 @@ Given I clean the bulk extract file system and database
        | 54759a8d56aba10b1b300e66657cd6fcc3ca6ac9_id                                            | entityType = studentSchoolAssociation |
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
+       | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                  |
 
      # Teacher 03 and related entities should be in both DAYBREAk and HIGHWIND
      And I verify this "teacher" file should contains:
@@ -135,6 +136,7 @@ Given I clean the bulk extract file system and database
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id | entityType = parent                      |
        | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
+       | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                     |
 
      And I verify this "student" file should contains: 
        #this is student 11, which has updated information
