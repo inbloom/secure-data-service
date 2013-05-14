@@ -161,28 +161,25 @@ public class BulkExtract {
      *             On Error
      */
     @GET
-    @Path("extract/{leaId}")
+    @Path("extract/{edOrgId}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getLEAorSEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("leaId") String leaId) {
+    public Response getLEAorSEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("edOrgId") String edOrgId) {
 
-        if (leaId == null || leaId.isEmpty()) {
-            throw new IllegalArgumentException("leaId cannot be missing");
+        if (edOrgId == null || edOrgId.isEmpty()) {
+            throw new IllegalArgumentException("edOrgId cannot be missing");
         }
         validateRequestCertificate(request);
 
-        Entity entity = helper.byId(leaId);
-        boolean isSEA = entity != null && helper.isSEA(entity);
-        if (isSEA) {
-            return getSEAExtractResponse(context.getRequest(), entity, leaId);
+        boolean isPublicData = false;
+        Entity entity = helper.byId(edOrgId);
+
+        if (helper.isSEA(entity)) {
+            isPublicData = true;
+            canAccessSEAExtract(entity);
+        } else {
+            canAccessLEAExtract(edOrgId);
         }
-
-        if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
-            throw new AccessDeniedException("User is not authorized access this extract");
-        }
-
-        appAuthHelper.checkApplicationAuthorization(leaId);
-
-        return getExtractResponse(context.getRequest(), null, leaId, false);
+        return getExtractResponse(context.getRequest(), null, edOrgId, isPublicData);
     }
 
     /**
@@ -248,34 +245,40 @@ public class BulkExtract {
     }
 
     /**
-     * Get the SEA public bulk extract response
+     * Validate if the user can access SEA extract
      *
-     * @param req       the http request context
      * @param seaEntity the SEA Entity
-     * @param seaId     the SEA id
-     * @return the jax-rs response to send back.
      */
-    Response getSEAExtractResponse(final HttpRequestContext req, final Entity seaEntity, final String seaId) {
+    void canAccessSEAExtract(final Entity seaEntity) {
 
-        boolean leaFound = false;
-        for (String edorgId : helper.getChildLEAsOfEdOrg(seaEntity)) {
-            LOG.debug("Checking leaId: {} for seaId: {}",edorgId,seaId);
-            if (edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(edorgId)))) {
+        boolean approvedLEAExists = false;
+        for (String leaId : helper.getChildLEAsOfEdOrg(seaEntity)) {
+            LOG.debug("Checking lea: {} for sea: {}", leaId, seaEntity.getEntityId());
+            if (edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
                 try {
-                    appAuthHelper.checkApplicationAuthorization(edorgId);
-                    leaFound = true;
+                    appAuthHelper.checkApplicationAuthorization(leaId);
+                    approvedLEAExists = true;
                     break;
                 } catch (AccessDeniedException e) {
-                    leaFound = false;
+                    approvedLEAExists = false;
                 }
             }
         }
-
-        if (!leaFound) {
-            throw new AccessDeniedException("User is not authorized access SEA public extract");
+        if (!approvedLEAExists) {
+            throw new AccessDeniedException("User is not authorized to access SEA public extract");
         }
+    }
 
-        return getExtractResponse(req, null, seaId, true);
+    /**
+     * Validate if the user can access LEA extract
+     *
+     * @param leaId the LEA id
+     */
+    void canAccessLEAExtract(String leaId) {
+        if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
+                throw new AccessDeniedException("User is not authorized to access this extract");
+            }
+        appAuthHelper.checkApplicationAuthorization(leaId);
     }
 
     /**
