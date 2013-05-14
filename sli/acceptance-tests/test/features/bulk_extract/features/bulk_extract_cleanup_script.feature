@@ -1,6 +1,5 @@
 @RALLY_US5716
 
-
 Feature: As an bulk extract user, I will be able to cleanup bulk extract file with the script
 
   Background: Prepare data and database
@@ -66,7 +65,20 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
       |  Hyrule     |    a1    | 2013-04-08T14:07:43.870Z   |    Daybreak-clean-test |
       |  Hyrule     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |
       |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    Daybreak-clean-test |
-  @wip
+
+  Scenario: I clean up all bulk extract file for a Edorg in tenant up to certain date
+    When I execute cleanup script for tenant:"Midgar", edorg:"Daybreak-clean-test", date:"2013-04-08", path:""
+    Then I should not see the following tenant bulk extract file:
+      |  tenant     |    app   |          date              |    Edorg               |
+      |  Midgar     |    a2    | 2013-03-08T14:07:43.870Z   |    Daybreak-clean-test |
+      |  Midgar     |    a1    | 2013-04-08T03:59:00.870Z   |    Daybreak-clean-test |
+    And I should see the following tenant bulk extract file:
+      |  tenant     |    app   |          date              |    Edorg               |
+      |  Midgar     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |
+      |  Hyrule     |    a1    | 2013-04-08T14:07:43.870Z   |    Daybreak-clean-test |
+      |  Hyrule     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |
+      |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    Daybreak-clean-test |
+
   Scenario: I clean up all bulk extract file for a tenant up to certain date
     When I execute cleanup script for tenant:"Midgar", edorg:"", date:"2013-05-09T14:07:43.870Z", path:""
     Then I should not see the following tenant bulk extract file:
@@ -80,10 +92,9 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
       |  Hyrule     |    a1    | 2013-05-08T14:07:43.870Z   |    Sunset-clean-test   |
       |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    Daybreak-clean-test |
 
-    @wip
   Scenario: I clean up a bulk extract file for a tenant
-    When I execute cleanup script for tenant:"Midgar", edorg:"", date:"", path:"app-Midgar-Daybreak-clean-test-2013-04-08-10-07-43"
-    When I execute cleanup script for tenant:"Midgar", edorg:"", date:"", path:"app-Hyrule-Daybreak-clean-test-2013-04-08-10-07-43"
+    When I execute cleanup script for tenant:"Midgar", edorg:"", date:"", path:"Daybreak-clean-test/Daybreak-clean-test-a1-2013-04-08-10-07-43.tar"
+    When I execute cleanup script for tenant:"Midgar", edorg:"", date:"", path:"Daybreak-clean-test/Daybreak-clean-test-a1-2013-04-08-10-07-43.tar"
     Then I should see error message
     When I only remove bulk extract file for tenant:"Midgar", edorg:"Sunset-clean-test", app:"a1", date:"2013-05-08T14:07:43.870Z"
     When I execute cleanup script for tenant:"Midgar", edorg:"Sunset-clean-test", date:"2013-05-08T14:07:43.870Z", path:""
@@ -100,7 +111,7 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
       |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    Daybreak-clean-test |
 
   Scenario: I clean up all bulk extract file with incorrect input
-    When I execute cleanup script for tenant:"Midgar", edorg:"Daybreak-clean-test", date:"2013-04-08T14:07:43.870Z", path:"app-Midgar-Daybreak-clean-test-2013-04-08-10-07-43"
+    When I execute cleanup script for tenant:"Midgar", edorg:"Daybreak-clean-test", date:"2013-04-08T14:07:43.870Z", path:"Daybreak-clean-test/Daybreak-clean-test-a1-2013-04-08-10-07-43.tar"
     Then I should see error message
     When I execute cleanup script for tenant:"", edorg:"Daybreak-clean-test", date:"2013-04-08T14:07:43.870Z", path:"test-"
     Then I should see error message
