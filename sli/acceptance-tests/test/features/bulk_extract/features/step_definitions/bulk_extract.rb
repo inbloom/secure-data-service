@@ -829,7 +829,6 @@ Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)
     openDecryptedFile(appId)
 
     step "the extract contains a file for each of the following entities:", table
-
 end
 
 Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name, should, table|
@@ -855,12 +854,8 @@ Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name,
         assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
         success = false
         json_entities.each {|e|
-            # we may have multiple entities with the same id in the delete file
-            json_value = get_field_value(e, field)
-            if (json_value.to_s == value.to_s)
-                success = true
-                break
-            end
+            success = find_value_in_map(e, field, value)
+            break if success
         }
         if (look_for)
             assert(success, "can't find an entity with id #{id} that matches #{entity['condition']}")
@@ -869,6 +864,9 @@ Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name,
         end
     end
 end
+
+
+
 
 Then /^I reingest the SEA so I can continue my other tests$/ do
   step "I am using local data store"
@@ -1010,6 +1008,37 @@ end
 ############################################################
 # Functions
 ############################################################
+
+
+# checks the map for field that has a value.  If it encounters and array, it'll iterate over it's contents.
+# e.g. find_value_in_map(attendance_entity, "attendanceEvent.reason", "test")
+def find_value_in_map(entity, fields, value)
+  find_in_map(entity, fields) do |x|
+    x.to_s == value
+  end
+end
+
+def find_in_map(entity, fields)
+  if entity.is_a? Array
+    entity.each do |x|
+      found = find_in_map(x, fields, &Proc.new)
+      return found if found
+    end
+    return false
+  end
+
+  fields = fields.split('.').map { |x| x.strip } if not fields.is_a? Array
+  f = fields[0]
+
+  return false if entity[f].nil?
+  if fields.size == 1
+    found = yield entity[f]
+    return found
+  else
+    found = find_in_map(entity[f], fields.slice(1..fields.size), &Proc.new)
+    return found
+  end
+end
 
 def bulkExtractTrigger(trigger_script, jar_file, properties_file, keystore_file, options="")
   command = "#{trigger_script}"

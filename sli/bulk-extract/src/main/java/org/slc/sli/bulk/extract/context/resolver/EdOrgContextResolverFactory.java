@@ -110,7 +110,8 @@ public class EdOrgContextResolverFactory {
                 || EntityNames.REPORT_CARD.equals(entityType)
                 || EntityNames.STUDENT_ACADEMIC_RECORD.equals(entityType)
                 || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)
-                || EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType)) {
+                || EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType)
+                || EntityNames.ATTENDANCE.equals(entityType)) {
             return studentDirectRelatedContextResolver;
         }
         
