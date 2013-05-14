@@ -473,12 +473,11 @@ Given I clean the bulk extract file system and database
         | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                  |
         | 41f42690a7c8eb5b99637fade00fc72f599dab07_id | entityType = parent                   |
         | 41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id | entityType = parent                   |
-        | bc3588737cb477e9f721421104b783179887fbdb_id | entityType = studentSchoolAssociation |
+        | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation |
         | 9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id | entityType = studentParentAssociation |
         | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
 
-@shortcut
-Scenario: Users from different LEAs requesting Delta extracts
+Scenario: Create Student, course offering and section as SEA Admin, users from different LEAs requesting Delta extracts
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"  
@@ -492,13 +491,44 @@ Given I clean the bulk extract file system and database
     |  newCourseOffering             |  courseOffering             |  201         |
     |  newSection                    |  section                    |  201         |
     |  newStudentSectionAssociation  |  studentSectionAssociation  |  201         |
-    |  newStudentAssessment          |  studentAssessment          |  201         |
-    |  newGradebookEntry             |  gradebookEntry             |  201         |
-    |  newGrade                      |  grade                      |  201         |
-    |  newReportCard                 |  reportCard                 |  201         |
-    |  newStudentAcademicRecord      |  studentAcademicRecord      |  201         |
+  #  |  newStudentAssessment          |  studentAssessment          |  201         |
+  #  |  newGradebookEntry             |  gradebookEntry             |  201         |
+  #  |  newGrade                      |  grade                      |  201         |
+  #  |  newReportCard                 |  reportCard                 |  201         |
+  #  |  newStudentAcademicRecord      |  studentAcademicRecord      |  201         |
 
+ When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  student                               |
+        |  parent                                |
+        |  studentParentAssociation              |
+        |  studentSchoolAssociation              |
+      #  |  courseOffering                        |
+        |  section                               |
+        |  studentSectionAssociation             |
+      #  |  studentAssessment                   |
+      #  |  gradebookEntry                      |
+      #  |  grade                               |
+      #  |  reportCard                          |
+      #  |  studentAcademicRecord               |
 
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I verify this "section" file should contains:
+    | id                                          | condition                        |
+    | 4030207003b03d055bba0b5019b31046164eff4e_id | entityType = section             |
+    | 4030207003b03d055bba0b5019b31046164eff4e_id | sessionId = bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id        |
+    | 4030207003b03d055bba0b5019b31046164eff4e_id | courseOfferingId = 38edd8479722ccf576313b4640708212841a5406_id |
+    | 4030207003b03d055bba0b5019b31046164eff4e_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id         |
+
+  And I verify this "studentSectionAssociation" file should contains:
+  | id                                                                                     | condition                        |
+  | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | entityType = studentSectionAssociation                         |
+  | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id        |
+ # | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | courseOfferingId = 38edd8479722ccf576313b4640708212841a5406_id |
+ # | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id         |
+  | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | beginDate = 2013-08-27 |
 
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database

@@ -591,7 +591,7 @@ def getEntityEndpoint(entity)
     "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
     "newStudent" => "students",
     "studentSchoolAssociation" => "studentSchoolAssociations",
-    "studentSectionAssociation" => "/schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students/9bf3036428c40861238fdc820568fde53e658d88_id/studentSectionAssociations",
+    "studentSectionAssociation" => "studentSectionAssociations",
     "studentParentAssociation" => "studentParentAssociations",
     "newStudentParentAssociation" => "studentParentAssociations",
     "wrongSchoolURI" => "schoolz"
@@ -1449,7 +1449,7 @@ def prepareBody(verb, value, response_map)
       "newStudentSchoolAssociation" => {
         "exitWithdrawDate" => "2014-05-22",
         "entityType" => "studentSchoolAssociation",
-        "entryDate" => "2013-08-26",
+        "entryDate" => "2013-08-27",
         "entryGradeLevel" => "Eleventh grade",
         "schoolYear" => "2013-2014",
         "educationalPlans" => [],
@@ -1480,6 +1480,7 @@ def prepareBody(verb, value, response_map)
         "entityType" => "studentSectionAssociation",
         "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
         "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "beginDate" => "2013-08-27",
         "homeroomIndicator" => true,
         "repeatIdentifier" => "Repeated, counted in grade point average"
       },
