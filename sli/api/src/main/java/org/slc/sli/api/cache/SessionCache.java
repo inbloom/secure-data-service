@@ -33,9 +33,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class SessionCache {
 
-    private static final int TIME_TO_LIVE = 900;
-    private static final int TIME_TO_IDLE = 300;
-    private static final int MAX_ENTRIES = 10000;
+    @Value("${sli.session.cache.ttl:900}")
+    private int timeToLive;
+    @Value("${sli.session.cache.tli:300}")
+    private int timeToIdle;
+    @Value("${sli.session.cache.maxEntries:10000}")
+    private int maxEntries;
 
     private static final String TOPIC_NAME = "sessionSync";
     private static final String CACHE_NAME = "session";
@@ -67,7 +70,7 @@ public class SessionCache {
         c.setName("sessionManager");
         manager = CacheManager.create(c);
         CacheConfiguration config = new CacheConfiguration();
-        config.eternal(false).name(CACHE_NAME).maxEntriesLocalHeap(MAX_ENTRIES).memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LRU).timeToIdleSeconds(TIME_TO_IDLE).timeToLiveSeconds(TIME_TO_LIVE);
+        config.eternal(false).name(CACHE_NAME).maxEntriesLocalHeap(maxEntries).memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LRU).timeToIdleSeconds(timeToIdle).timeToLiveSeconds(timeToLive);
         if (!manager.cacheExists(CACHE_NAME)) {
             manager.addCache(new Cache(config));
         }

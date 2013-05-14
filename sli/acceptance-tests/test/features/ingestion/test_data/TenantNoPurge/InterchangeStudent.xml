@@ -1,5 +1,5 @@
 <InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
   <Student>
     <StudentUniqueStateId>530425896</StudentUniqueStateId>
     <Name>
@@ -13,7 +13,6 @@
       <BirthDate>2006-07-02</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race></Race>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -31,7 +30,6 @@
       <BirthDate>2002-03-25</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race></Race>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>

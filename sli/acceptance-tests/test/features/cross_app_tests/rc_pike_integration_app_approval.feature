@@ -285,7 +285,7 @@ And the extract contains a file for each of the following entities:
       |  entityType                            |
       # |  assessment                            |
       |  attendance                            |
-      # |  cohort                                |
+      |  cohort                                |
       # |  course                                |
       # |  courseTranscript                      |
       # |  courseOffering                        |
@@ -294,7 +294,7 @@ And the extract contains a file for each of the following entities:
       |  educationOrganization                 |
       |  grade                                 |
       # |  gradebookEntry                        |
-      # |  gradingPeriod                         |
+      |  gradingPeriod                         |
       # |  learningObjective                     |
       # |  learningStandard                      |
       |  parent                                |
@@ -302,9 +302,9 @@ And the extract contains a file for each of the following entities:
       |  reportCard                            |
       |  school                                |
       # |  section                               |
-      # |  session                               |
+      |  session                               |
       |  staff                                 |
-      # |  staffCohortAssociation                |
+      |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |
       # |  staffProgramAssociation               |
       |  student                               |
@@ -349,3 +349,7 @@ Given the pre-existing bulk extrac testing app key has been created
    |   deltaLeas  |  1    |
    And I request and download a "delta" extract file for the lea
    And there is a metadata file in the extract
+   And the extract contains a file for each of the following entities:
+   |  entityType                            |
+   |  educationOrganization                 |
+   |  school                                |

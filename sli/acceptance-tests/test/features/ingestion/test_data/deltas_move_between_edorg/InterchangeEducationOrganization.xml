@@ -36,7 +36,7 @@
       <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
       <LocalEducationAgencyReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>5</StateOrganizationId>
+          <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
         </EducationalOrgIdentity>
       </LocalEducationAgencyReference>
     </School>
@@ -76,7 +76,7 @@
     <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
     <LocalEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        <StateOrganizationId>IL-HIGHWIND</StateOrganizationId>
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>

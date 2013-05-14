@@ -62,28 +62,13 @@ Then /^I should be on Portal home page$/ do
   home = @driver.find_elements(:class, "sli_home_title")
   assert(home.length == 1, "User is not on the portal home page. Current URL: " + @driver.current_url)
 
-  if (@driver.page_source.include?("d_popup"))
-    accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
-    puts accept.inspect
-    puts "EULA is present"
-    accept.click
-    sleep 2
-    attempts = 1
-    while attempts < 6 && @driver.page_source.include?("d_popup")
-      attempts += 1
-      puts "EULA still present.  Trying attempt #{attempts}..."
-      accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
-      accept.click
-    end
-    assertWithWait("EULA pop up did not get dismissed") { !(@driver.page_source.include?("d_popup")) }
-  else
-    puts "EULA has already been accepted"
-  end
+  eula_go_away()
 end
 
 Then /^I should be on the authentication failed page$/ do
   @driver.page_source.include?('Invalid')
 end
+
 
 Then /^I should be on the admin page$/ do
   title = @driver.find_element(:class, "sli_home_title").text
@@ -101,7 +86,12 @@ Then /^(?:|I )should not see "([^\"]*)"$/ do |text|
 end
 
 When /^I click on Admin$/ do
-  clickOnLink("Admin")
+  retryOnFailure do
+    clickOnLink("Admin")
+    sleep 2
+    eula_go_away()
+    step "I should be on the admin page"
+  end
 end
 
 And /^I should see logo$/ do
@@ -167,6 +157,26 @@ end
 
 Then /^I exit out of the iframe$/ do
   @driver.switch_to.default_content
+end
+
+def eula_go_away()
+  if (@driver.page_source.include?("d_popup"))
+    accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
+    puts accept.inspect
+    puts "EULA is present"
+    accept.click
+    sleep 2
+    attempts = 1
+    while attempts < 6 && @driver.page_source.include?("d_popup")
+      attempts += 1
+      puts "EULA still present.  Trying attempt #{attempts}..."
+      accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
+      accept.click
+    end
+    assertWithWait("EULA pop up did not get dismissed") { !(@driver.page_source.include?("d_popup")) }
+  else
+    puts "EULA has already been accepted"
+  end
 end
 
 def isIframePresent()

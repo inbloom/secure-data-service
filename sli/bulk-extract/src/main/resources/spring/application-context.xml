@@ -13,6 +13,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <import resource="classpath:/spring/writer-context.xml" />
     
     <context:component-scan base-package="org.slc.sli.common.util.uuid" />
+    <context:component-scan base-package="org.slc.sli.common.util.datetime" />
     <context:component-scan base-package="org.slc.sli.common.domain" />
     <context:component-scan base-package="org.slc.sli.validation" />
     <context:component-scan base-package="org.slc.sli.common.encrypt.security" />

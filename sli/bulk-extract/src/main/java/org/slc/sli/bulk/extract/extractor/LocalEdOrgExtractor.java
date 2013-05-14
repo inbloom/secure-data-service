@@ -34,6 +34,7 @@ import org.slc.sli.bulk.extract.lea.EntityExtract;
 import org.slc.sli.bulk.extract.lea.EntityToLeaCache;
 import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
 import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
+import org.slc.sli.bulk.extract.lea.SessionExtractor;
 import org.slc.sli.bulk.extract.lea.StaffEdorgAssignmentExtractor;
 import org.slc.sli.bulk.extract.lea.StudentExtractor;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
@@ -115,7 +116,22 @@ public class LocalEdOrgExtractor {
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
         genericExtractor = factory.buildTeacherSchoolExtractor(entityExtractor, leaToExtractFileMap, repository);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
-
+        
+        //Session and gradingPeriod
+        SessionExtractor sessionExtractor = factory.buildSessionExtractor(entityExtractor, leaToExtractFileMap, repository);
+        sessionExtractor.extractEntities(edorgCache);
+        EntityExtract gradingPeriodExtractor = factory.buildGradingPeriodExtractor(entityExtractor, leaToExtractFileMap, repository);
+        gradingPeriodExtractor.extractEntities(sessionExtractor.getEntityToLeaCache());
+        
+        genericExtractor = factory.buildStaffProgramAssociationExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor.extractEntities(seaExtractor.getEntityCache());
+        
+        genericExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor.extractEntities(seaExtractor.getEntityCache());
+        
+        genericExtractor = factory.buildCohortExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor.extractEntities(edorgCache);
+        
         leaToExtractFileMap.closeFiles();
 
         // TODO extract other entities

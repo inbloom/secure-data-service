@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,7 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-public class SectionContextResolver implements ContextResolver {
+public class SectionContextResolver extends ReferrableResolver {
     private static final Logger LOG = LoggerFactory.getLogger(SectionContextResolver.class);
     
     @Autowired
@@ -59,11 +60,16 @@ public class SectionContextResolver implements ContextResolver {
                 if (studentId == null) {
                     LOG.warn("Student Section association without a student id: {}", studentAssociation);
                 } else {
-                    leas.addAll(studentResolver.getLEAsForStudentId(studentId));
+                    leas.addAll(studentResolver.findGoverningLEA(studentId));
                 }
             }
         }
         return leas;
+    }
+
+    @Override
+    protected String getCollection() {
+        return EntityNames.SECTION;
     }
     
 }

@@ -48,8 +48,11 @@ COMBINED_SUB_ENTITIES = ['assessmentItem','objectiveAssessment','studentAssessme
 
 ENCRYPTED_FIELDS = ['loginId', 'studentIdentificationCode','otherName','sex','address','electronicMail','name','telephone','birthData']
 MUTLI_ENTITY_COLLS = ['staff', 'educationOrganization']
+CLEANUP_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_cleanup_script'])
 
-$APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub"}
+$APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub",
+                       "22c2a28d-7327-4444-8ff9-caad4b1c7aa3" => "pavedz00ua" 
+                      }
 
 ############################################################
 # Transform
@@ -60,12 +63,15 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "app id"
   id = "vavedRa9uB"                                         if human_readable_id == "client id"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
+  id = "99d527622dcb51c465c515c0636d17e085302d5e_id"        if human_readable_id == "IL-HIGHWIND"
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
   id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "lea1_id"
   id = "884daa27d806c2d725bc469b273d840493f84b4d_id"        if human_readable_id == "sea_id"
   id = "352e8570bd1116d11a72755b987902440045d346_id"        if human_readable_id == "IL-DAYBREAK school"
   id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id"        if human_readable_id == "Orphaned School"
+  id = "02bdd6bf0fd5f761e6fc316ca6c763d4bb96c055_id"        if human_readable_id == "11 School District"
+  id = "c67b5565b3b6475bae9e042c96cb0b9db6b37b29_id"        if human_readable_id == "10 School District"
 
   id
 end
@@ -182,6 +188,40 @@ And /^I clear crontab$/ do
     assert(result.length==0, "current crontab is not empty but #{result}")
 end
 
+When /^I only remove bulk extract file for tenant:"(.*?)", edorg:"(.*?)", app:"().*?"date:"(.*?)"$/ do |tenant, edorg, app, date|
+  path = File.expand_path(createCleanupFile(@parentDir, tenant, edorg, app, date))
+  FileUtils.rm(path)
+end
+
+When /^I execute cleanup script for tenant:"(.*?)", edorg:"(.*?)", date:"(.*?)", path:"(.*?)"$/ do |tenant, edorg, date, path|
+  @log = "cleanup/out.log"
+  puts CLEANUP_SCRIPT
+  options = "-t#{tenant} "
+  if(!edorg.empty?)
+    options += " -e#{edorg}"
+  end
+  if(!date.empty?)
+    options += " -d#{date}"
+  end
+  if(!path.empty?)
+    options += " -f#{path}"
+  end
+  command  = "echo y | ruby #{CLEANUP_SCRIPT} #{options}"
+  @cleanResult, result = Open3.capture2(command)
+  puts @cleanResult
+end
+
+And /^I should see error message$/ do
+  errorMessage = "FATAL:"
+  puts @cleanResult
+  assert(@cleanResult.to_s.include?(errorMessage), "Result of bulk extract cleanup script should include error message but was " + @cleanResult )
+end
+
+And /^I should see warning message$/ do
+  errorMessage = "Warning:"
+  puts @cleanResult
+  assert(@cleanResult.to_s.include?(errorMessage), "Result of bulk extract cleanup script should include error message but was " + @cleanResult )
+end
 
 ############################################################
 # Given
@@ -243,6 +283,12 @@ Given /^the bulk extract files in the database are scrubbed/ do
   @coll.remove()
 end
 
+And /^I add all the test edorgs$/ do |table|
+  table.hashes.map do |row|
+    addTestEdorg(row["tenant"], row["Edorg"])
+  end
+end
+
 ############################################################
 # When
 ############################################################
@@ -254,7 +300,7 @@ end
 When /^I retrieve the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   @tenant = tenant
   getExtractInfoFromMongo(build_bulk_query(tenant,appId,nil,false, true))
-  openDecryptedFile(appId) 
+  openDecryptedFile(appId)
 end
 
 When /^I know the file-length of the extract file$/ do
@@ -263,11 +309,11 @@ end
 
 When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(build_bulk_query(tenant,appId))
-  openDecryptedFile(appId) 
+  openDecryptedFile(appId)
 end
 
 When /^I decrypt the extract file with application with id "(.*?)"$/ do |appId|
-  openDecryptedFile(appId) 
+  openDecryptedFile(appId)
 end
 
 When /^I verify that an extract tar file was created for the tenant "(.*?)"$/ do |tenant|
@@ -280,7 +326,7 @@ end
 When /^I verify this tar file is the same as the pre-generated delta file$/ do
    puts "pre-generated file at: #{@pre_generated}"
    puts "served file from API at: #{@filePath}"
-   assert(FileUtils.compare_file(@filePath, @pre_generated), "Delta file served from API is different from pre-generated file") 
+   assert(FileUtils.compare_file(@filePath, @pre_generated), "Delta file served from API is different from pre-generated file")
 end
 
 When /^there is a metadata file in the extract$/ do
@@ -302,7 +348,6 @@ end
 
 When /^the extract contains a file for each of the following entities with the appropriate count and does not have certain ids:$/ do |table|
   Minitar.unpack(@filePath, @unpackDir)
-
 	table.hashes.map do |entity|
     exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
     assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
@@ -339,7 +384,7 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
     parentCollection = subDocParent(collection)
 	  if(parentCollection == nil)
       count = @tenantDb.collection(collection).count()
-    else 
+    else
       count = @tenantDb.collection(parentCollection).aggregate([ {"$match" => {"#{collection}" => {"$exists" => true}}}, {"$unwind" => "$#{collection}"}]).size
     end
 	end
@@ -394,22 +439,22 @@ When /^I try to POST to the bulk extract endpoint/ do
   hash = {
     "stuff" => "Random stuff"
   }
-  @format = "application/vnd.slc+json"  
+  @format = "application/vnd.slc+json"
   restHttpPost("/bulk/extract/tenant",hash.to_json)
 end
 
 When /^I use an invalid tenant to trigger a bulk extract/ do
  # command  = "#{TRIGGER_SCRIPT}"
  # if (PROPERTIES_FILE !=nil && PROPERTIES_FILE != "")
- #   command = command + " -Dsli.conf=#{PROPERTIES_FILE}" 
+ #   command = command + " -Dsli.conf=#{PROPERTIES_FILE}"
  #   "Using extra property: -Dsli.conf=#{PROPERTIES_FILE}"
  #  end
  #  if (KEYSTORE_FILE !=nil && KEYSTORE_FILE != "")
- #   command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}" 
+ #   command = command + " -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
  #   puts "Using extra property: -Dsli.encryption.keyStore=#{KEYSTORE_FILE}"
  #  end
  #  if (JAR_FILE !=nil && JAR_FILE != "")
- #   command = command + " -f#{JAR_FILE}" 
+ #   command = command + " -f#{JAR_FILE}"
  #   puts "Using extra property:  -f#{JAR_FILE}"
  #  end
  #  command = command + " -tNoTenantForYou"
@@ -433,9 +478,16 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
   untar(@fileDir)
 end
 
+When /^I POST and validate the following entities:$/ do |table|
+  table.hashes.map do |api_params|
+    step "I POST a \"#{api_params['entity']}\" of type \"#{api_params['type']}\""
+    step "I should receive a return code of #{api_params['returnCode']}"
+  end
+end
+
 When /^I POST a "(.*?)" of type "(.*?)"$/ do |field, entity|
   response_map, value = nil
-  # POST is a special case. We are creating a brand-new entity. 
+  # POST is a special case. We are creating a brand-new entity.
   # Get entity body from the map specified by prepareBody()
   body = prepareBody("POST", value, response_map)
   # Get the endpoint that corresponds to the desired entity
@@ -444,12 +496,19 @@ When /^I POST a "(.*?)" of type "(.*?)"$/ do |field, entity|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
+When /^I PUT and validate the following entities:$/ do |table|
+  table.hashes.map do |api_params|
+    step "I PUT the \"#{api_params['field']}\" for a \"#{api_params['entity']}\" entity to \"#{api_params['value']}\""
+    step "I should receive a return code of #{api_params['returnCode']}"
+  end
+end
+
 When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
   # Get the desired entity from mongo
   response_map = getEntityBodyFromApi(entity, @api_version, "PUT")
   assert(response_map != nil, "No response from GET request for entity #{entity}")
   response_map = response_map[0] if response_map.is_a?(Array)
-  # Modify the response body field with value, will become PUT body 
+  # Modify the response body field with value, will become PUT body
   put_body = updateApiPutField(response_map, field, value)
   # Get the endpoint that corresponds to the desired entity
   endpoint = getEntityEndpoint(entity)
@@ -470,10 +529,18 @@ def getEntityId(entity)
   entity_to_id_map = {
     "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
     "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+    "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
     "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
     "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
   }
   return entity_to_id_map[entity]
+end
+
+When /^I PATCH and validate the following entities:$/ do |table|
+  table.hashes.map do |api_params|
+    step "I PATCH the \"#{api_params['field']}\" for a \"#{api_params['entity']}\" entity to \"#{api_params['value']}\""
+    step "I should receive a return code of #{api_params['returnCode']}"
+  end
 end
 
 When /^I PATCH the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
@@ -487,12 +554,18 @@ When /^I PATCH the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, 
   assert(@res != nil, "Response from rest-client PATCH is nil")
 end
 
+When /^I DELETE and validate the following entities:$/ do |table|
+  table.hashes.map do |api_params|
+    step "I DELETE an \"#{api_params['entity']}\" of id \"#{api_params['id']}\""
+    step "I should receive a return code of #{api_params['returnCode']}"
+  end
+end
+
 When /^I DELETE an "(.*?)" of id "(.*?)"$/ do |entity, id|
   # Get the endpoint that corresponds to the desired entity
   endpoint = getEntityEndpoint(entity)
   restHttpDelete("/#{@api_version}/#{endpoint}/#{id}")
 end
-
 
 def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
@@ -531,11 +604,11 @@ def getEntityBodyFromApi(entity, api_version, verb)
     "staffProgramAssociation" => "staffProgramAssociations",
     "staffStudent" => "students",
     "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-    "newStudent" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+    "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
     "studentCohortAssocation" => "studentCohortAssociations",
     "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-    "studentParentAssociation" => "students/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id/studentParentAssociations",
-    "newStudentParentAssociation" => "studentParentAssociations/fb63ac98670f5a762df1a13cdc912bce9c2187e7_id62cf87d9afc36d56bea7507ea0bee138ddcb2524_id",
+    "studentParentAssociation" => "students/9bf3036428c40861238fdc820568fde53e658d88_id/studentParentAssociations",
+    "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
     "studentProgramAssociation" => "studentProgramAssociations",
     "studentSchoolAssociation" => "studentSchoolAssociations",
     "studentSectionAssociation" => "studentSectionAssociations",
@@ -601,6 +674,7 @@ end
 
 When /^I download and decrypt the delta$/ do
   # Open the file, decrypt, and check against API
+  cleanDir(@download_path)
   download_path = streamBulkExtractFile(@download_path, @res.body)
   @decrypt_path = OUTPUT_DIRECTORY + "decrypt/" + @delta_file
   openDecryptedFile(@app_id, @decrypt_path, @download_path)
@@ -739,21 +813,20 @@ Then /^I should not see SEA data in the bulk extract deltas$/ do
 end
 
 Then /^I verify "(.*?)" delta bulk extract files are generated for LEA "(.*?)" in "(.*?)"$/ do |count, lea, tenant|
-  count = count.to_i 
+  count = count.to_i
   @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb ||= @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
   query = {"body.tenantId"=>tenant, "body.isDelta"=>true, "body.edorg"=>lea}
-  assert(count == @coll.count({query: query}), "Found #{@coll.count}, expected #{count}") 
+  assert(count == @coll.count({query: query}), "Found #{@coll.count({query: query})}, expected #{count}")
 end
 
-Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table| 
+Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table|
     opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
     getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true), opts)
-    openDecryptedFile(appId) 
-    
-    step "the extract contains a file for each of the following entities:", table
+    openDecryptedFile(appId)
 
+    step "the extract contains a file for each of the following entities:", table
 end
 
 Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name, should, table|
@@ -761,7 +834,7 @@ Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name,
     json_file_name = @unpackDir + "/#{file_name}.json"
     exists = File.exists?(json_file_name)
     unless exists
-      exists = File.exists?(json_file_name+".gz") 
+      exists = File.exists?(json_file_name+".gz")
       assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
       `gunzip -c #{json_file_name}.gz > #{json_file_name}`
     end
@@ -772,19 +845,15 @@ Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name,
         id = entity['id']
         json_entities = json_map[id]
         field, value = entity['condition'].split('=').map{|s| s.strip}
-        if ((entity['condition'].nil? || entity['condition'].empty?) && !look_for) 
+        if ((entity['condition'].nil? || entity['condition'].empty?) && !look_for)
             assert(json_entities.nil?, "Entity with id #{id} should not exist, but it does")
-            next 
+            next
         end
-        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}") 
+        assert(!json_entities.nil?, "Does not contain an entity with id: #{id}")
         success = false
         json_entities.each {|e|
-            # we may have multiple entities with the same id in the delete file
-            json_value = get_field_value(e, field)
-            if (json_value.to_s == value.to_s) 
-                success = true
-                break
-            end
+            success = find_value_in_map(e, field, value)
+            break if success
         }
         if (look_for)
             assert(success, "can't find an entity with id #{id} that matches #{entity['condition']}")
@@ -793,6 +862,9 @@ Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name,
         end
     end
 end
+
+
+
 
 Then /^I reingest the SEA so I can continue my other tests$/ do
   step "I am using local data store"
@@ -830,7 +902,7 @@ Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entit
   count = 0
 
   query = {query_field => @SEA_id}
-  
+
   case entity
   when "educationOrganization"
     #adding 1 because SEA is not part of the this mongo query
@@ -874,6 +946,56 @@ Then /^I verify that extract does not contain a file for the following entities:
   end
 end
 
+
+Then /^I have a fake bulk extract tar file for the following tenants and different dates:$/ do |table|
+  @parentDir = "extract/cleanup/"
+  testData = "#{File.dirname(__FILE__)}/../../test_data/cleanup/cleanup.tar"
+
+  unless File.directory?(@parentDir)
+    FileUtils.mkdir_p(@parentDir)
+  end
+
+  table.hashes.map do |row|
+    subDir = @parentDir + "/" + row["tenant"] + "/" + row["Edorg"] + "/"
+    puts subDir
+    FileUtils.mkdir_p(subDir);
+    destFile = createCleanupFile(@parentDir, row["tenant"], row["Edorg"], row["app"], row["date"])
+    puts destFile
+    FileUtils.cp(testData, destFile)
+    addFakeBEEntry(row["tenant"], row["Edorg"], row["app"], false, false, row["date"], File.expand_path(destFile))
+  end
+end
+
+Then /^I clean up the cleanup script test data$/ do
+  Dir[@parentDir + "/**/*"].each do |item|
+    path = File.expand_path(item)
+    puts path
+    coll = @conn.db('sli').collection('bulkExtractFiles')
+    coll.remove({"body.path" => path})
+  end
+  FileUtils.rm_rf(@parentDir)
+end
+
+Then /^I should not see the following tenant bulk extract file:$/ do |table|
+  table.hashes.map do |row|
+    destFile = File.expand_path(createCleanupFile(@parentDir, row["tenant"], row["Edorg"], row["app"], row["date"]))
+    assert(!File.exist?(destFile), "File " + destFile + " was not removed")
+  end
+end
+
+Then /^I should see the following tenant bulk extract file:$/ do |table|
+  table.hashes.map do |row|
+    destFile = File.expand_path(createCleanupFile(@parentDir, row["tenant"], row["Edorg"], row["app"], row["date"]))
+    assert(File.exist?(destFile), "File " + destFile + " was not removed")
+  end
+end
+
+Then /^the following test tenant and edorg are clean:$/ do |table|
+  table.hashes.map do |row|
+    remove_edorg_from_mongo(row["Edorg"], row["tenant"])
+  end
+end
+
 ############################################################
 # Hooks
 ############################################################
@@ -885,18 +1007,49 @@ end
 # Functions
 ############################################################
 
+
+# checks the map for field that has a value.  If it encounters and array, it'll iterate over it's contents.
+# e.g. find_value_in_map(attendance_entity, "attendanceEvent.reason", "test")
+def find_value_in_map(entity, fields, value)
+  find_in_map(entity, fields) do |x|
+    x.to_s == value
+  end
+end
+
+def find_in_map(entity, fields)
+  if entity.is_a? Array
+    entity.each do |x|
+      found = find_in_map(x, fields, &Proc.new)
+      return found if found
+    end
+    return false
+  end
+
+  fields = fields.split('.').map { |x| x.strip } if not fields.is_a? Array
+  f = fields[0]
+
+  return false if entity[f].nil?
+  if fields.size == 1
+    found = yield entity[f]
+    return found
+  else
+    found = find_in_map(entity[f], fields.slice(1..fields.size), &Proc.new)
+    return found
+  end
+end
+
 def bulkExtractTrigger(trigger_script, jar_file, properties_file, keystore_file, options="")
   command = "#{trigger_script}"
   if (properties_file !=nil && properties_file != "")
-    command = command + " -Dsli.conf=#{properties_file}" 
+    command = command + " -Dsli.conf=#{properties_file}"
     puts "Using extra property: -Dsli.conf=#{properties_file}"
   end
   if (keystore_file !=nil && keystore_file != "")
-    command = command + " -Dsli.encryption.keyStore=#{keystore_file}" 
+    command = command + " -Dsli.encryption.keyStore=#{keystore_file}"
     puts "Using extra property: -Dsli.encryption.keyStore=#{keystore_file}"
   end
   if (jar_file !=nil && jar_file != "")
-    command = command + " -f#{jar_file}" 
+    command = command + " -f#{jar_file}"
     puts "Using extra property:  -f#{jar_file}"
   end
   command = command + options
@@ -911,7 +1064,7 @@ def getExtractInfoFromMongo(query, query_opts={})
 
   match = @coll.find_one(query, query_opts)
   assert(match !=nil, "Database was not updated with bulk extract file location")
-  
+
   edorg = match['body']['edorg'] || ""
   @encryptFilePath = match['body']['path']
   @unpackDir = File.dirname(@encryptFilePath) + "/#{edorg}/unpack"
@@ -933,7 +1086,7 @@ def getExtractInfoFromMongo(query, query_opts={})
 end
 
 def getMongoRecordFromJson(jsonRecord)
-	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant)) 
+	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
 	case jsonRecord['entityType']
   	when "stateEducationAgency", "localEducationAgency", "school"
   	  collection = "educationOrganization"
@@ -963,7 +1116,7 @@ def	compareRecords(mongoRecord, jsonRecord)
 	jsonRecord.delete('id')
 	jsonRecord.delete('entityType')
 
-    if (ENCRYPTED_ENTITIES.include?(mongoRecord['type'])) 
+    if (ENCRYPTED_ENTITIES.include?(mongoRecord['type']))
         compareEncryptedRecords(mongoRecord, jsonRecord)
     elsif(mongoRecord['type'] == 'attendance')
       compareAttendances(mongoRecord, jsonRecord)
@@ -982,10 +1135,10 @@ def compareAttendances(mongoRecord, jsonRecord)
 end
 
 def compareEncryptedRecords(mongoRecord, jsonRecord)
-    assert(get_nested_keys(mongoRecord['body']).eql?(get_nested_keys(jsonRecord)), 
+    assert(get_nested_keys(mongoRecord['body']).eql?(get_nested_keys(jsonRecord)),
       "Record fields do not match for records \nMONGORecord:\n" + get_nested_keys(mongoRecord['body']).to_s + "\nJSONRecord:\n" + get_nested_keys(jsonRecord).to_s)
 
-    assert(removeEncryptedFields(mongoRecord['body']).eql?(removeEncryptedFields(jsonRecord)), 
+    assert(removeEncryptedFields(mongoRecord['body']).eql?(removeEncryptedFields(jsonRecord)),
       "Record bodies do not match for records \nMONGORecord:\n" + mongoRecord['body'].to_s + "\nJSONRecord:\n" + jsonRecord.to_s )
 end
 
@@ -1008,13 +1161,13 @@ def get_nested_keys(hash, keys=Array.new)
 end
 
 def entityToUri(entity)
-  
+
   uri = String.new(entity)
 
   case entity
   when "staff", "competencyLevelDescriptor"
   when "gradebookEntry", "studentGradebookEntry", "studentCompetency"
-    uri[-1] = "ies" 
+    uri[-1] = "ies"
   when "staffEducationOrganizationAssociation"
     uri = "staffEducationOrgAssignmentAssociations"
   else
@@ -1024,14 +1177,14 @@ def entityToUri(entity)
   uri
 end
 
-def compareToApi(collection, collFile)
+def compareToApi(collection, collFile, sample_size=10)
   found = false
   uri = entityToUri(collection)
-    
-  collFile.each do |extractRecord|
-    
+
+  (collFile.shuffle.take(sample_size)).each do |extractRecord|
+
     id = extractRecord["id"]
-      
+
     #Make API call and get JSON for the collection
     @format = "application/vnd.slc+json"
     restHttpGet("/v1/#{uri}/#{id}")
@@ -1039,7 +1192,7 @@ def compareToApi(collection, collFile)
     assert(@res.code != 404, "Response from rest-client GET is not 200 (Got a #{@res.code})")
     if @res.code == 200
       apiRecord = JSON.parse(@res.body)
-      assert(apiRecord != nil, "Result of JSON parsing is nil")    
+      assert(apiRecord != nil, "Result of JSON parsing is nil")
       apiRecord.delete("links")
       if COMBINED_ENTITIES.include?(collection)
         COMBINED_SUB_ENTITIES.each do |entity|
@@ -1058,7 +1211,7 @@ def compareToApi(collection, collFile)
       found = true
     end
   end
-    
+
   assert(found, "No API records for #{collection} were fetched successfully.")
 end
 
@@ -1068,16 +1221,16 @@ def decryptFile(file, client_id)
   encryptediv = file[0,256]
   encryptedsecret = file[256,256]
   encryptedmessage = file[512,file.length - 512]
- 
+
   decrypted_iv = private_key.private_decrypt(encryptediv)
   decrypted_secret = private_key.private_decrypt(encryptedsecret)
- 
+
   aes = OpenSSL::Cipher.new('AES-128-CBC')
   aes.decrypt
   aes.key = decrypted_secret
   aes.iv = decrypted_iv
   @plain = aes.update(encryptedmessage) + aes.final
-  if $SLI_DEBUG 
+  if $SLI_DEBUG
     puts("Decrypted iv type is #{decrypted_iv.class}")
     puts("Cipher is #{aes}")
     puts("Plain text length is #{@plain.length}")
@@ -1087,7 +1240,7 @@ end
 
 def untar(filePath)
   puts "Untarring #{@filePath}"
-  `tar -xf #{@filePath} -C #{@fileDir}` 
+  `tar -xf #{@filePath} -C #{@fileDir}`
 end
 
 def parentEdorgCheck(entity, entityId, leaId)
@@ -1131,26 +1284,26 @@ def openDecryptedFile(appId, filePath=@filePath, encryptFilePath=@encryptFilePat
   file = File.open(encryptFilePath, 'rb') { |f| f.read}
   decryptFile(file, $APP_CONVERSION_MAP[appId])
   FileUtils.mkdir_p(File.dirname(filePath)) if !File.exists?(File.dirname(filePath))
-  File.open(filePath, 'w') {|f| f.write(@plain) }  
+  File.open(filePath, 'w') {|f| f.write(@plain) }
 end
 
-def to_map(json) 
+def to_map(json)
   map = {}
   json.each { |e|
     map[e['id']] ||= []
-    map[e['id']] << e 
+    map[e['id']] << e
   }
   map
 end
 
-def get_field_value(json_entity, field) 
+def get_field_value(json_entity, field)
   return nil if json_entity.nil?
   field_list = field.split(".").map {|s| s.strip}
   entity = json_entity
   field_list.each { |f|
-    if (entity.is_a? Array) 
+    if (entity.is_a? Array)
         entity = entity.sort()[0]
-    end 
+    end
     entity = entity[f]
   }
   entity.to_s.strip
@@ -1223,7 +1376,7 @@ def prepareBody(verb, value, response_map)
       "newStudentMotherAssociation" => {
         "entityType" => "studentParentAssociation",
         "parentId" => "41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
-        "studentId" => "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
         "relation" => "Mother",
         "contactPriority" => 3
       },
@@ -1253,7 +1406,7 @@ def prepareBody(verb, value, response_map)
       "newStudentFatherAssociation" => {
         "entityType" => "studentParentAssociation",
         "parentId" => "41f42690a7c8eb5b99637fade00fc72f599dab07_id",
-        "studentId" => "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
         "relation" => "Father",
         "contactPriority" => 3
       },
@@ -1263,8 +1416,8 @@ def prepareBody(verb, value, response_map)
         "entityType" => "student",
         "race" => ["White"],
         "languages" => ["English"],
-        "studentUniqueStateId" => "201",
-        "profileThumbnail" => "201 thumb",
+        "studentUniqueStateId" => "nsmin-1",
+        "profileThumbnail" => "1201 thumb",
         "name" => {
             "middleName" => "Robot",
             "lastSurname" => "Samsonite",
@@ -1290,7 +1443,7 @@ def prepareBody(verb, value, response_map)
         "educationalPlans" => [],
         "schoolChoiceTransfer" => true,
         "entryType" => "Other",
-        "studentId" => "fb63ac98670f5a762df1a13cdc912bce9c2187e7_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
         "repeatGradeIndicator" => true,
         "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
       },
@@ -1421,6 +1574,11 @@ def remove_edorg_from_mongo(edorg_id, tenant)
   collection.remove({'body.stateOrganizationId' => edorg_id})
 end
 
+def cleanDir(directory)
+  puts "download_path is #{directory}"
+  `ls -al #{directory}`
+end
+
 def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
   query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
   query.merge!({"body.edorg"=>lea}) unless lea.nil?
@@ -1438,6 +1596,36 @@ def getSEAPublicRefField(entity)
       query_field = "educationOrganizationId"
   end
   return query_field
+end
+
+def createCleanupFile(baseDir, tenant, edorg, app, date)
+  date = DateTime.parse(date).to_time
+  dateString = date.strftime("%Y-%m-%d-%H-%M-%S")
+  puts dateString
+  return baseDir + "/" + tenant + "/" + edorg + "/" + edorg + "-" + app + "-" + dateString + ".tar"
+end
+
+def addFakeBEEntry(tenant, edorg, app, isDelta, isPublic, date, path)
+  edorg_id = getEdorgId(tenant, edorg)
+  query = {"type" => "bulkExtractEntity", "body" =>{"tenantId"=>tenant, "edorg" => edorg_id,
+           "applicationId" => app, "isDelta" => isDelta, "isPublicData" => isPublic,
+           "path" => path, "date" => DateTime.parse(date).to_time.iso8601}}
+  sliDB = @conn.db("sli")
+  coll = sliDB.collection('bulkExtractFiles')
+  coll.insert(query)
+
+end
+
+def addTestEdorg(tenant, edorg)
+  tenantDB = @conn.db(convertTenantIdToDbName(tenant))
+  edorg_id = getEdorgId(tenant, edorg)
+  edorgQuery = {"type" => "localEducationAgency", "_id"=>edorg_id, "body" => {"stateOrganizationId" => edorg}}
+  edorgColl = tenantDB.collection("educationOrganization")
+  edorgColl.insert(edorgQuery)
+end
+
+def getEdorgId(tenant, edorg)
+  return tenant + "-" + edorg
 end
 
 After('@scheduler') do
