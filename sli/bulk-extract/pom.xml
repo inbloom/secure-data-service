@@ -42,7 +42,12 @@
 			<groupId>org.slc.sli.common</groupId>
 			<artifactId>common-encrypt</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+    </dependencies>
 	<build>
 		<plugins>
 			<plugin>
