@@ -50,13 +50,9 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
     private DateHelper dateHelper;
 
     @Override
-    public Set<String> findGoverningLEA(Entity entity) {
+    protected Set<String> resolve(Entity entity) {
         Set<String> leas = new HashSet<String>();
-        if (getCache().containsKey(entity.getEntityId())) {
-            LOG.debug("got LEAs from cache for {}", entity);
-            return getCache().get(entity.getEntityId());
-        }
-       
+
         String id = entity.getEntityId();
         if (id == null) {
             return leas;
@@ -72,7 +68,6 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
             }
         }
         
-        getCache().put(entity.getEntityId(), leas);
         return leas;
     }
     
