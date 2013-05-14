@@ -78,7 +78,7 @@ Scenario Outline: Extract received through the API should have all the valid dat
     |  school                                |
     |  session                               |
 
-@wip
+
 Scenario: As a valid user get SEA public data delta extract using BEEP
   Given in my list of rights I have BULK_EXTRACT
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -103,7 +103,7 @@ Scenario: Invalid user tries to access SEA public data
     When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
     When I get back a response code of "403"
 
-@wip
+
 Scenario: SEA public data delta extract using BEEP with invalid users
   Given in my list of rights I have BULK_EXTRACT
   When I log into "SDK Sample" with a token of "linda.kim", a "Teacher" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
