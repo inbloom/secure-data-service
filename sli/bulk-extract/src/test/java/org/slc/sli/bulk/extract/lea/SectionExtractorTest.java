@@ -17,7 +17,7 @@ package org.slc.sli.bulk.extract.lea;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -32,10 +32,13 @@ import java.util.*;
 /**
  * User: dkornishev
  */
+@SuppressWarnings("unchecked")
 public class SectionExtractorTest {
 
-    private static final List<String> accessible = Arrays.asList("nature", "chaos", "sorcery");
-    private static final List<String> students = Arrays.asList("Mitsubishi", "Kawasaki");
+    private static final List<String> EDORGS = Arrays.asList("nature", "chaos", "sorcery");
+    private static final List<String> STUDENTS = Arrays.asList("Mitsubishi", "Kawasaki");
+    private static final List<String> COURSE_OFFERINGS = Arrays.asList("witchcraft", "demonology", "escatronics");
+    private static final List<String> SSA = Arrays.asList("phenomenology");
     private static final String LEA = "HUZZAH";
     private SectionExtractor se;
     private EntityExtractor ex;
@@ -54,10 +57,10 @@ public class SectionExtractorTest {
         LEAExtractFileMap leaMap = new LEAExtractFileMap(map);
 
         EntityToLeaCache studentCache = new EntityToLeaCache();
-        studentCache.addEntry(students.get(1), LEA);
+        studentCache.addEntry(STUDENTS.get(1), LEA);
 
         EntityToLeaCache edorgCache = new EntityToLeaCache();
-        edorgCache.addEntry(LEA, accessible.get(0));
+        edorgCache.addEntry(LEA, EDORGS.get(0));
 
         se = new SectionExtractor(ex, leaMap, repo, studentCache, edorgCache);
     }
@@ -68,7 +71,7 @@ public class SectionExtractorTest {
         Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         se.extractEntities(null);
-        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class));
+        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
     }
 
     @Test
@@ -87,12 +90,11 @@ public class SectionExtractorTest {
         Mockito.when(repo.findEach(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
 
         se.extractEntities(null);
-        Mockito.verify(ex, Mockito.times(2)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class));
-        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
+        Mockito.verify(ex, Mockito.times(5)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.any(String.class), Mockito.any(Predicate.class));
 
+        Assert.assertTrue("Course offerings must contain expected id" ,se.getCourseOfferingCache().getEntityIds().contains(COURSE_OFFERINGS.get(2)));
+        Assert.assertTrue("StudentSectionAssociations must contain expected id", se.getSsaCache().getEntityIds().contains(SSA.get(0)));
     }
-
-
 
 
     private static enum AccessibleVia {
@@ -107,7 +109,7 @@ public class SectionExtractorTest {
 
             @Override
             public Entity apply(Entity input) {
-                input.getBody().put("schoolId", accessible.get(0));
+                input.getBody().put("schoolId", EDORGS.get(0));
                 return input;
             }
         }),
@@ -118,8 +120,9 @@ public class SectionExtractorTest {
             public Entity apply(Entity input) {
                 List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
                 Map<String, Object> entity = new HashMap<String, Object>();
+                entity.put("_id",SSA.get(0));
                 entity.put("body", new HashMap<String, Object>());
-                ((Map<String, Object>) entity.get("body")).put("studentId", students.get(1));
+                ((Map<String, Object>) entity.get("body")).put("studentId", STUDENTS.get(1));
                 list.add(entity);
 
                 Map<String, List<Map<String, Object>>> map = new HashMap<String, List<Map<String, Object>>>();
@@ -146,6 +149,7 @@ public class SectionExtractorTest {
         public Entity generate() {
             Entity e = Mockito.mock(Entity.class);
             Map<String, Object> map = new HashMap<String, Object>();
+            map.put("courseOfferingId",COURSE_OFFERINGS.get(2));
             Mockito.when(e.getBody()).thenReturn(map);
             return this.closure.apply(e);
         }

@@ -12,7 +12,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </AvailableCredit>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>85</LocalCourseCode>
+        <LocalCourseCode>45</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -46,4 +46,64 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </SessionIdentity>
     </SessionReference>
   </Section>
+  <CourseOffering>
+    <!--ID: 1c4d8ea0c38aab28c05b5b40e8cf71e79e455ea2_id this should only appear in DAYBREAK -->
+    <LocalCourseCode>2</LocalCourseCode>
+    <LocalCourseTitle>First grade modified course</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2013-2014 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>2</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <!-- ID: 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id should follow section 1 to both LEAs -->
+    <LocalCourseCode>45</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade Advanced English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2013-2014 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>21</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
 </InterchangeMasterSchedule>
