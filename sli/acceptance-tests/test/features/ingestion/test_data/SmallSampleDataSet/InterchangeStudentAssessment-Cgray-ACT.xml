@@ -33,7 +33,7 @@
                 <AdministrationDate>2011-05-01</AdministrationDate>
                 <StudentReference>
                     <StudentIdentity>
-                        <StudentUniqueStateId>900000003</StudentUniqueStateId>
+                        <StudentUniqueStateId>900000000</StudentUniqueStateId>
                     </StudentIdentity>
                 </StudentReference>
                 <AssessmentReference>
@@ -168,7 +168,7 @@
                 <AdministrationDate>2011-05-01</AdministrationDate>
                 <StudentReference>
                     <StudentIdentity>
-                        <StudentUniqueStateId>900000003</StudentUniqueStateId>
+                        <StudentUniqueStateId>900000000</StudentUniqueStateId>
                     </StudentIdentity>
                 </StudentReference>
                 <AssessmentReference>
@@ -195,7 +195,7 @@
                 <AdministrationDate>2011-05-01</AdministrationDate>
                 <StudentReference>
                     <StudentIdentity>
-                        <StudentUniqueStateId>900000003</StudentUniqueStateId>
+                        <StudentUniqueStateId>900000000</StudentUniqueStateId>
                     </StudentIdentity>
                 </StudentReference>
                 <AssessmentReference>
