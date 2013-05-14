@@ -16,13 +16,10 @@
 
 package org.slc.sli.ingestion.processors;
 
-import static org.slc.sli.ingestion.util.NeutralRecordUtils.getByPath;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,8 +37,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.dal.NeutralRecordReadConverter;
 import org.slc.sli.ingestion.delta.SliDeltaManager;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.model.Error;
@@ -89,12 +84,6 @@ public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNo
     private Map<String, Set<String>> entityPersistTypeMap;
 
     private AbstractIngestionHandler<SimpleEntity, Entity> entityPersistHandler;
-
-    @Autowired
-    private NeutralRecordReadConverter neutralRecordReadConverter;
-
-    @Autowired
-    private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -445,28 +434,8 @@ public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNo
         this.entityPersistHandler = defaultEntityPersistHandler;
     }
 
-    public NeutralRecordReadConverter getNeutralRecordReadConverter() {
-        return neutralRecordReadConverter;
-    }
-
-    public void setNeutralRecordReadConverter(NeutralRecordReadConverter neutralRecordReadConverter) {
-        this.neutralRecordReadConverter = neutralRecordReadConverter;
-    }
-
     public void setRecordLvlHashNeutralRecordTypes(Set<String> recordLvlHashNeutralRecordTypes) {
         this.recordLvlHashNeutralRecordTypes = recordLvlHashNeutralRecordTypes;
-    }
-
-    public Iterable<NeutralRecord> queryBatchFromDb(String collectionName, String jobId, RangedWorkNote workNote) {
-        Criteria batchJob = Criteria.where(BATCH_JOB_ID).is(jobId);
-        @SuppressWarnings("boxing")
-        Criteria limiter = Criteria.where(CREATION_TIME).gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
-
-        Query query = new Query().limit(0);
-        query.addCriteria(batchJob);
-        query.addCriteria(limiter);
-
-        return neutralRecordMongoAccess.getRecordRepository().findAllByQuery(collectionName, query);
     }
 
     private static enum EntityPipelineType {
