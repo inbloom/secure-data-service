@@ -181,6 +181,10 @@ Given I clean the bulk extract file system and database
        | id                                          | condition                                |
        | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
        | fe472294f0e40fd428b1a67b9765360004562bab_id | staffUniqueStateId = tech-0000000001     |
+     And I verify this "teacher" file should not contains:
+       # teacher 02 should not show up as we expired his staffEdorgAssociations 
+       | id                                          | condition                                |
+       | 631d712727054d49d706d5a3a7eb8faaad0cbeba_id |                                          |
      And I verify this "teacherSchoolAssociation" file should contains:
        | id                                          | condition                                |
        | c063086ce77b13c4e593ff8261024a6ef30e0a8d_id | teacherId = cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id |
