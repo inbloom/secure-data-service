@@ -36,6 +36,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "staffCohortAssociation" delta was extracted in the same format as the api
    And The "session" delta was extracted in the same format as the api
    And The "gradingPeriod" delta was extracted in the same format as the api
+   And The "courseOffering" delta was extracted in the same format as the api
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
@@ -65,6 +66,7 @@ Given I clean the bulk extract file system and database
        |  staffEducationOrganizationAssociation |
        |  teacher                               |
        |  teacherSchoolAssociation              |
+       |  courseOffering                        |
        |  deleted                               |
      And I verify this "deleted" file should contains:
        | id                                                                                     | condition                             |
@@ -104,6 +106,11 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | aefc3c964b1caf4754c8792be9886edaa2f84d4c_id | schoolYearAttendance.attendanceEvent.date = 2013-09-09        |
 
+    # only has section 45 since it followed the section
+    And I verify this "courseOffering" file should contains:
+      | id                                          | condition                                |
+      | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
+
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
@@ -119,6 +126,7 @@ Given I clean the bulk extract file system and database
        |  teacher                               |
        |  teacherSchoolAssociation              |
        |  teacherSectionAssociation             |
+       |  courseOffering                        |
        |  deleted                               |
    
      And I verify this "deleted" file should contains:
@@ -183,6 +191,11 @@ Given I clean the bulk extract file system and database
     And I verify this "attendance" file should contains:
       | id                                          | condition                                |
       | 07185fb3e72af3e0c2f48cf64b474b1731c52b20_id | schoolYearAttendance.attendanceEvent.reason = change_1       |
+
+    And I verify this "courseOffering" file should contains:
+      | id                                          | condition                                |
+      | 1c4d8ea0c38aab28c05b5b40e8cf71e79e455ea2_id | localCourseTitle = First grade modified course |
+      | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
 
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database

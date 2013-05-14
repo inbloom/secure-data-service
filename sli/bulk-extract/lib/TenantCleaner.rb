@@ -19,23 +19,32 @@ limitations under the License.
 # Clean up the bulk extraction zone and bulk extract database according to arguments.
 # This is the definition of the TenantCleaner class.
 
+require 'yaml'
 require 'digest/sha1'
 require 'mongo'
 require 'time'
 require 'fileutils'
 
 class TenantCleaner
-  def initialize(tenantName, dateTime, edOrgName, filePathname, logger, dbHost, dbPort, dbName, \
-                 remDbRecRetries, remDbRecRetrySecs)
+  def initialize(logger, tenantName, dateTime, edOrgName, filePathname)
     @logger = logger
 
-    @conn = Mongo::Connection.new(dbHost, dbPort)
-    @sliDb = @conn.db(dbName)
+    getConfigProperties()
+    @conn = Mongo::Connection.new(@dbHost, @dbPort)
+    @sliDb = @conn.db(@dbName)
     @beColl = @sliDb.collection('bulkExtractFiles')
-    @remDbRecRetries = remDbRecRetries
-    @remDbRecRetrySecs = remDbRecRetrySecs
 
     verifyInitParams(tenantName, dateTime, edOrgName, filePathname)
+  end
+
+  def getConfigProperties()
+    absParentDirname = File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME)))
+    properties = YAML::load_file(absParentDirname + '/config/bulk_extract_cleanup.yml')
+    @dbHost = properties['bulk_extract_host']
+    @dbPort = properties['bulk_extract_port']
+    @dbName = properties['sli_database_name']
+    @remDbRecRetries = properties['remove_db_record_retries']
+    @remDbRecRetrySecs = properties['remove_db_record_retry_interval_secs']
   end
 
   def verifyInitParams(tenantName, dateTime, edOrgName, filePathname)

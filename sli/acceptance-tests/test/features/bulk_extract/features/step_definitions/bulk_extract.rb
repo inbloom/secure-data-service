@@ -188,7 +188,7 @@ And /^I clear crontab$/ do
     assert(result.length==0, "current crontab is not empty but #{result}")
 end
 
-When /^I only remove bulk extract file for tenant:"(.*?)", edorg:"(.*?)", app:"().*?"date:"(.*?)"$/ do |tenant, edorg, app, date|
+When /^I only remove bulk extract file for tenant:"(.*?)", edorg:"(.*?)", app:"(.*?)", date:"(.*?)"$/ do |tenant, edorg, app, date|
   path = File.expand_path(createCleanupFile(@parentDir, tenant, edorg, app, date))
   FileUtils.rm(path)
 end
@@ -204,7 +204,8 @@ When /^I execute cleanup script for tenant:"(.*?)", edorg:"(.*?)", date:"(.*?)",
     options += " -d#{date}"
   end
   if(!path.empty?)
-    options += " -f#{path}"
+    abPath = File.expand_path(@parentDir + tenant + "/" +  path)
+    options += " -f#{abPath}"
   end
   command  = "echo y | ruby #{CLEANUP_SCRIPT} #{options}"
   @cleanResult, result = Open3.capture2(command)
@@ -218,7 +219,7 @@ And /^I should see error message$/ do
 end
 
 And /^I should see warning message$/ do
-  errorMessage = "Warning:"
+  errorMessage = "1 files failed"
   puts @cleanResult
   assert(@cleanResult.to_s.include?(errorMessage), "Result of bulk extract cleanup script should include error message but was " + @cleanResult )
 end
@@ -967,6 +968,7 @@ Then /^I have a fake bulk extract tar file for the following tenants and differe
 end
 
 Then /^I clean up the cleanup script test data$/ do
+  disable_NOTABLESCAN()
   Dir[@parentDir + "/**/*"].each do |item|
     path = File.expand_path(item)
     puts path
@@ -974,26 +976,35 @@ Then /^I clean up the cleanup script test data$/ do
     coll.remove({"body.path" => path})
   end
   FileUtils.rm_rf(@parentDir)
+  enable_NOTABLESCAN()
 end
 
 Then /^I should not see the following tenant bulk extract file:$/ do |table|
+  disable_NOTABLESCAN()
   table.hashes.map do |row|
     destFile = File.expand_path(createCleanupFile(@parentDir, row["tenant"], row["Edorg"], row["app"], row["date"]))
     assert(!File.exist?(destFile), "File " + destFile + " was not removed")
+    checkMongoQueryCounts("bulkExtractFiles",  {"body.path" => destFile}, 0)
   end
+  enable_NOTABLESCAN()
 end
 
 Then /^I should see the following tenant bulk extract file:$/ do |table|
+  disable_NOTABLESCAN()
   table.hashes.map do |row|
     destFile = File.expand_path(createCleanupFile(@parentDir, row["tenant"], row["Edorg"], row["app"], row["date"]))
-    assert(File.exist?(destFile), "File " + destFile + " was not removed")
+    assert(File.exist?(destFile), "File " + destFile + " was removed")
+    checkMongoQueryCounts("bulkExtractFiles",  {"body.path" => destFile}, 1)
   end
+  enable_NOTABLESCAN()
 end
 
 Then /^the following test tenant and edorg are clean:$/ do |table|
+  disable_NOTABLESCAN()
   table.hashes.map do |row|
     remove_edorg_from_mongo(row["Edorg"], row["tenant"])
   end
+  enable_NOTABLESCAN()
 end
 
 ############################################################
@@ -1609,7 +1620,7 @@ def addFakeBEEntry(tenant, edorg, app, isDelta, isPublic, date, path)
   edorg_id = getEdorgId(tenant, edorg)
   query = {"type" => "bulkExtractEntity", "body" =>{"tenantId"=>tenant, "edorg" => edorg_id,
            "applicationId" => app, "isDelta" => isDelta, "isPublicData" => isPublic,
-           "path" => path, "date" => DateTime.parse(date).to_time.iso8601}}
+           "path" => path, "date" => Time.iso8601(date)}}
   sliDB = @conn.db("sli")
   coll = sliDB.collection('bulkExtractFiles')
   coll.insert(query)

@@ -49,6 +49,29 @@ public abstract class ReferrableResolver implements ContextResolver {
     }
     
     /**
+     * Return a list of LEAs IDs given the entity
+     * 
+     * @param an
+     *            entity
+     * @return a set of Strings which are IDs of the top level LEA
+     */
+    public Set<String> findGoverningLEA(Entity entity) {
+        if (entity == null || entity.getEntityId() == null) {
+            return Collections.emptySet();
+        }
+        String id = entity.getEntityId();
+        if (getCache().containsKey(id)) {
+            LOG.debug("got LEAs from cache for {}", entity);
+            return getCache().get(id);
+        }
+        
+        Set<String> leas = resolve(entity);
+
+        getCache().put(id, leas);
+        return leas;
+    }
+    
+    /**
      * Find the governing LEAs based on the id
      * 
      * @param id
@@ -79,4 +102,6 @@ public abstract class ReferrableResolver implements ContextResolver {
     
     protected abstract String getCollection();
     
+    protected abstract Set<String> resolve(Entity entity);
+
 }
