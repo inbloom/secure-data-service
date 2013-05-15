@@ -75,8 +75,8 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       |  attendance                            | 150 |         |
       |  cohort                                |   5|         |
       #|  competencyLevelDescriptor             |   |         |
-      #|  course                                |   |         |
-      #|  courseOffering                        |   |         |
+      |  course                                |   95|         |
+      |  courseOffering                        |   95|         |
       #|  courseTranscript                      |   |         |
       #|  disciplineIncident                    |   |         |
       #|  disciplineAction                      |   |         |
