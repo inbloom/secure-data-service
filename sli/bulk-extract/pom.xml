@@ -115,17 +115,33 @@
 				<version>2.2-beta-5</version>
 				<configuration>
 					<finalName>bulk_extract</finalName>
-					<descriptors>
-						<descriptor>assembly/tgz.xml</descriptor>
-					</descriptors>
 				</configuration>
 				<executions>
 					<execution>
-						<id>make-assembly</id>
+						<id>bulk-extract</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<configuration>
+							<finalName>bulk_extract</finalName>
+							<descriptors>
+								<descriptor>assembly/tgz.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+					<execution>
+						<id>bulk-extract-cleanup</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>bulk_extract_cleanup</finalName>
+							<descriptors>
+								<descriptor>assembly/tar.xml</descriptor>
+							</descriptors>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

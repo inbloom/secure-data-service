@@ -32,4 +32,4 @@ cd /opt/megatron/sli/sli/acceptance-tests/teamFiles/
 now=$(date +"%Y_%m_%d")
 filename="/opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01_logs/ingestion_performance_$now.log"
 echo "Starting automated performance testing, logging to $filename"
-nohup sh megtomcat01_ingestion_performance.sh $dataset $branch $delete >> $filename &
+nohup sh megtomcat01_ingestion_performance.sh $dataset $branch $delete >> $filename 2>&1 	&
