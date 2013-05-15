@@ -245,7 +245,13 @@ When /^I execute cleanup script for tenant:"(.*?)", edorg:"(.*?)", date:"(.*?)",
     options += " -d#{date}"
   end
   if(!path.empty?)
-    path.include?('Daybreak') || path.include?('Sunset') ? path_tenant = 'Midgar' : path_tenant = 'Hyrule'
+    if path.include?('Daybreak') || path.include?('Sunset')
+      path_tenant = 'Midgar'
+    elsif path.include?('NY')
+      path_tenant = 'Hyrule'
+    else
+      path_tenant = tenant
+    end
     abPath = File.expand_path(@parentDir + path_tenant + "/" +  path)
     options += " -f#{abPath}"
   end
@@ -1689,7 +1695,8 @@ def getSEAPublicRefField(entity)
 end
 
 def createCleanupFile(baseDir, tenant, edorg, app, date)
-  date = DateTime.parse(date).to_time
+  date = Time.parse(date)
+  date.gmtime
   dateString = date.strftime("%Y-%m-%d-%H-%M-%S")
   puts dateString
   return baseDir + "/" + tenant + "/" + edorg + "/" + edorg + "-" + app + "-" + dateString + ".tar"
