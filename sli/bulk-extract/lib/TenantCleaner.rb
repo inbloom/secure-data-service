@@ -19,50 +19,32 @@ limitations under the License.
 # Clean up the bulk extraction zone and bulk extract database according to arguments.
 # This is the definition of the TenantCleaner class.
 
-require 'rubygems'
-require 'digest/sha1'
 require 'yaml'
-require 'logger'
+require 'digest/sha1'
 require 'mongo'
 require 'time'
 require 'fileutils'
 
-LogLevels = {"FATAL" => Logger::FATAL, "ERROR" => Logger::ERROR, "WARN" => Logger::WARN, \
-             "INFO" => Logger::INFO, "DEBUG" => Logger::DEBUG}
-
-CURRENT_ABSOLUTE_PARENT_DIRNAME ||= File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME)))
-CONFIGURATION_FILE = CURRENT_ABSOLUTE_PARENT_DIRNAME + "/config/bulk_extract_cleanup.yml"
-DEFAULT_LOG_FILE_PATHNAME = "/tmp/logs/cleanup_bulk_extract.log"
-
-properties = YAML::load_file(CURRENT_ABSOLUTE_PARENT_DIRNAME + '/config/bulk_extract_cleanup.yml')
-
-# Logger setup.
-LOG_FILE_PATHNAME = properties['log_file_pathname']
-if ((File.exist?(LOG_FILE_PATHNAME) && !File.writable?(LOG_FILE_PATHNAME)) || \
-     !File.writable?(File.dirname(LOG_FILE_PATHNAME)))
-  puts "WARNING: Configured log file " + LOG_FILE_PATHNAME + " cannot be written"
-  LOG_FILE_PATHNAME = DEFAULT_LOG_FILE_PATHNAME
-end
-puts "Writing output to log file " + LOG_FILE_PATHNAME
-@logger = Logger.new(LOG_FILE_PATHNAME, properties['log_file_rotation'])
-@logger.level = LogLevels[properties['log_level']]
-
-# TenantCleaner setup.
-DATABASE_NAME = properties['sli_database_name']
-DATABASE_HOST = properties['bulk_extract_host']
-DATABASE_PORT = properties['bulk_extract_port']
-REMOVE_DB_RECORD_RETRIES = properties['remove_db_record_retries']
-REMOVE_DB_RECORD_RETRY_SECS = properties['remove_db_record_retry_interval_secs']
-
 class TenantCleaner
-  def initialize(tenantName, dateTime, edOrgName, filePathname, logger)
+  def initialize(logger, tenantName, dateTime, edOrgName, filePathname)
     @logger = logger
 
-    @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
-    @sliDb = @conn.db(DATABASE_NAME)
+    getConfigProperties()
+    @conn = Mongo::Connection.new(@dbHost, @dbPort)
+    @sliDb = @conn.db(@dbName)
     @beColl = @sliDb.collection('bulkExtractFiles')
 
     verifyInitParams(tenantName, dateTime, edOrgName, filePathname)
+  end
+
+  def getConfigProperties()
+    absParentDirname = File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME)))
+    properties = YAML::load_file(absParentDirname + '/config/bulk_extract_cleanup.yml')
+    @dbHost = properties['bulk_extract_host']
+    @dbPort = properties['bulk_extract_port']
+    @dbName = properties['sli_database_name']
+    @remDbRecRetries = properties['remove_db_record_retries']
+    @remDbRecRetrySecs = properties['remove_db_record_retry_interval_secs']
   end
 
   def verifyInitParams(tenantName, dateTime, edOrgName, filePathname)
@@ -98,12 +80,9 @@ class TenantCleaner
     # Verify Ed Org, if not null.
     if (edOrgName != nil)
       edOrgColl = @tenantDb.collection('educationOrganization')
-      edOrgRecord = edOrgColl.find_one({"_id"=>edOrgName})
+      edOrgRecord = edOrgColl.find_one({"body.stateOrganizationId"=>edOrgName})
       if (edOrgRecord == nil)
-        edOrgRecord = edOrgColl.find_one({"body.stateOrganizationId"=>edOrgName})
-        if (edOrgRecord == nil)
-          raise(NameError, "Tenant " + @tenant + " does not contain EdOrg " + edOrgName)
-        end
+        raise(NameError, "Tenant " + @tenant + " does not contain EdOrg " + edOrgName)
       end
       @edOrgId = edOrgRecord['_id']
       @edOrgBERecords = @beColl.find({"body.tenantId"=>@tenant, "body.edorg"=>@edOrgId})
@@ -143,7 +122,7 @@ class TenantCleaner
       end
       if (!@datedBERecords.has_next?)
         if (@edOrgId != nil)
-          raise(NameError, "Tenant " + @tenant + " does not have bulk extract files for EdOrg " + edOrgName + \
+          raise(NameError, "Tenant " + @tenant + " does not have bulk extract files for EdOrg " + @edOrg + \
                            " dated up to " + dateTime)
         else
           raise(NameError, "Tenant " + @tenant + " does not have bulk extract files dated up to " + dateTime)
@@ -274,12 +253,12 @@ class TenantCleaner
         end
       rescue Exception => ex
         retries += 1
-        if (retries <= REMOVE_DB_RECORD_RETRIES)
+        if (retries <= @remDbRecRetries)
           puts "ERROR: Cannot remove database record: " + ex.message
-          puts "Retrying in " + REMOVE_DB_RECORD_RETRY_SECS.to_s + " seconds (retry # " + retries.to_s + ")..."
+          puts "Retrying in " + @remDbRecRetrySecs.to_s + " seconds (retry # " + retries.to_s + ")..."
           @logger.error "Cannot remove database record: " + ex.message
-          @logger.error "Retrying in " + REMOVE_DB_RECORD_RETRY_SECS.to_s + " seconds (retry # " + retries.to_s + ")..."
-          sleep(REMOVE_DB_RECORD_RETRY_SECS)
+          @logger.error "Retrying in " + @remDbRecRetrySecs.to_s + " seconds (retry # " + retries.to_s + ")..."
+          sleep(@remDbRecRetrySecs)
           retry
         end
       end

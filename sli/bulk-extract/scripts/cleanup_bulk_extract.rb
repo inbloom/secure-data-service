@@ -21,32 +21,59 @@ limitations under the License.
 # Clean up the bulk extraction zone and bulk extract database according to arguments.
 # This is the implementation which uses the TenantCleaner class.
 
-CURRENT_ABSOLUTE_PARENT_DIRNAME ||= File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME)))
-require_relative CURRENT_ABSOLUTE_PARENT_DIRNAME + '/lib/TenantCleaner.rb'
+require 'yaml'
+require 'logger'
+
+require File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME))) + '/lib/TenantCleaner.rb'
+
+# Create logger.
+begin
+  LogLevels = {"DEBUG" => Logger::DEBUG, "INFO" => Logger::INFO, "WARN" => Logger::WARN, \
+               "ERROR" => Logger::ERROR, "FATAL" => Logger::FATAL, "UNKNOWN" => Logger::UNKNOWN}
+
+  # Get configuration properties.
+  absParentDirname = File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME)))
+  properties = YAML::load_file(absParentDirname + '/config/bulk_extract_cleanup.yml')
+
+  # Get logger properties 
+  LOG_FILE_PATHNAME = properties['log_file_pathname']
+  logFileRotation = properties['log_file_rotation']
+  logLevel = LogLevels[properties['log_level']]
+
+  # Create logger.
+  LOGGER = Logger.new(LOG_FILE_PATHNAME, logFileRotation)
+  LOGGER.level = logLevel
+rescue Exception => ex
+  puts "FATAL: Cannot create log file " + LOG_FILE_PATHNAME + ": " + ex.message
+  exit 1
+end
 
 def main()
-  @logger.info ""
-  @logger.info "--------------------------------------------------"
-  @logger.info ""
-  @logger.info $PROGRAM_NAME + " " + ARGV.join(" ")
-
   begin
+    # Startup the logger.
+    start_logger()
+
     # Check the argumment signature.
     tenantCleaner = check_args(ARGV)
-    if (tenantCleaner == nil)
-      print_help()
-      exit 0
+    if (tenantCleaner != nil)
+      # Perform the actual bulk extract cleanup.
+      tenantCleaner.clean()
     end
-
-    # Perform the actual bulk extract cleanup.
-    tenantCleaner.clean()
   rescue Exception => ex
     puts "FATAL: " + ex.message
-    @logger.fatal ex.message
+    (LOGGER.fatal ex.message) if (LOGGER != nil)
     print_usage() if (ex.class == ArgumentError)
     exit 1
   end
   exit 0
+end
+
+def start_logger()
+  puts "Writing output to log file " + LOG_FILE_PATHNAME
+  LOGGER.info ""
+  LOGGER.info "--------------------------------------------------"
+  LOGGER.info ""
+  LOGGER.info $PROGRAM_NAME + " " + ARGV.join(" ")
 end
 
 def print_usage()
@@ -86,8 +113,7 @@ def print_help()
        "             2013-05-10T01:33, 2013-05-10, \"Sun May 12 12:07:22 EDT 2013\", etc.\n" + \
        "             Time without at least 'hh:mmZ' suffix is local time, e.g. 2013-05-10T00:33:27 (EST)\n" + \
        "             becomes 2013-05-10T00:33:27-05:00, or 2013-05-10T05:33:27Z (GMT)"
-  puts "      <edOrg> specifies educational organization state unique ID or database ID,\n" + \
-       "              e.g. IL-DAYBREAK or 1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+  puts "      <edOrg> specifies educational organization state unique ID, e.g. IL-DAYBREAK"
   puts "      <file> specifies extract file full directory pathname, e.g. /bulk/extract/tarfile.tar"
   puts "      Any parameter containing whitespace must be quoted, e.g. -e\"Sunset Central High School\""
 end
@@ -97,6 +123,7 @@ def check_args(argv)
   if ((argv.length < 1) || (argv.length > 3))
     raise(ArgumentError, "Wrong number of arguments")
   elsif ((argv.length == 1) && (argv[0].eql?("-h") || argv[0].eql?("-help")))
+    print_help()
     return nil
   end
 
@@ -134,12 +161,12 @@ def check_args(argv)
   if (tenant == nil)
     raise(ArgumentError, "Tenant not specified")
   end
-  return TenantCleaner.new(tenant, date, edorg, file, @logger)
+  return TenantCleaner.new(LOGGER, tenant, date, edorg, file)
 end
 
 # Run the main program here.
 main()
 
 at_exit do
-  @logger.close
+  LOGGER.close if (LOGGER != nil)
 end

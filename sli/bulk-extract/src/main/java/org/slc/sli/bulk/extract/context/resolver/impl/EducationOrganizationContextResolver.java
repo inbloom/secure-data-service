@@ -42,15 +42,8 @@ public class EducationOrganizationContextResolver extends ReferrableResolver {
     private static final Logger LOG = LoggerFactory.getLogger(EducationOrganizationContextResolver.class);
 
     @Override
-    public Set<String> findGoverningLEA(Entity entity) {
+    protected Set<String> resolve(Entity entity) {
         LOG.debug("finding governing LEA of {}", entity);
-        if (entity == null) {
-            return new HashSet<String>();
-        }
-        if(getCache().containsKey(entity.getEntityId())) {
-            LOG.debug("got LEAs from cache for {}", entity);
-            return getCache().get(entity.getEntityId());
-        }
         Set<String> results = new HashSet<String>();
 
         if (!(helper.isLEA(entity) || helper.isSchool(entity))) {
@@ -62,7 +55,6 @@ public class EducationOrganizationContextResolver extends ReferrableResolver {
         if (topLevelLEA != null) {
             results.add(topLevelLEA.getEntityId());
         }
-        getCache().put(entity.getEntityId(), results);
         return results;
     }
     

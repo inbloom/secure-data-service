@@ -174,5 +174,6 @@ Then /^the extract contains a file for each of the following entities:$/ do |tab
   end
 
   fileList = Dir.entries(@unpackDir)
+  puts "Files in upackDir:  #{fileList}"
   assert((fileList.size-3)==table.hashes.size, "Expected " + table.hashes.size.to_s + " extract files, Actual:" + (fileList.size-3).to_s)
 end

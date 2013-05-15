@@ -8,6 +8,7 @@ def generate(scenario="10students")
   puts "Shell command will be #{command}"
   FileUtils.cd @odin_working_path
   t1 = Time.now
+  puts "Generating Data based on #{scenario} scenario.."
   `#{command}`
   runtime(t1, Time.now)
   FileUtils.cd @at_working_path

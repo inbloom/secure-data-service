@@ -61,7 +61,7 @@ public class ExtractFile {
     private String edorg;
 
     private File parentDir;
-    private String archiveName = "";
+    private String archiveName;
 
 
     private Map<String, PublicKey> clientKeys = null;
@@ -71,7 +71,7 @@ public class ExtractFile {
     private static final Logger LOG = LoggerFactory.getLogger(ExtractFile.class);
 
     /**
-     *Parameterized constructor.
+     * Parameterized constructor.
      *
      * @param parentDir
      *          parent directory
@@ -131,6 +131,8 @@ public class ExtractFile {
     /**
      * Generates the archive file for the extract.
      *
+     * @return
+     *          True on success; otherwise False
      */
     public boolean generateArchive() {
 
@@ -169,10 +171,12 @@ public class ExtractFile {
     }
 
     /**
-     * Generate the metadata file and create the tarball
+     * Generate the metadata file and create the tarball.
      * 
      * @param startTime
+     *          Date Time of the extract
      * @return
+     *          True on success; otherwise False
      */
     public boolean finalizeExtraction(DateTime startTime) {
         boolean success = true;
@@ -185,7 +189,7 @@ public class ExtractFile {
         }
         
         try {
-            success = this.generateArchive();
+            success = success && this.generateArchive();
         } catch (Exception e) {
             success = false;
             LOG.error("Error generating archive file: {}", e.getMessage());
@@ -197,7 +201,6 @@ public class ExtractFile {
     private OutputStream getAppStream(String app) throws Exception {
         File archive = new File(parentDir, getFileName(app));
         OutputStream f = null;
-        CipherOutputStream stream = null;
 
         try {
             f = new BufferedOutputStream(new FileOutputStream(archive));
@@ -217,14 +220,11 @@ public class ExtractFile {
             f.write(encryptedIV);
             f.write(encryptedSecret);
 
-             stream = new CipherOutputStream(f, cipherSecretKeyPair.getLeft());
-
+             return new CipherOutputStream(f, cipherSecretKeyPair.getLeft());
         } catch(Exception e) {
             IOUtils.closeQuietly(f);
             throw e;
         }
-
-        return stream;
     }
 
     /**
@@ -237,8 +237,8 @@ public class ExtractFile {
     }
 
     private PublicKey getApplicationPublicKey(String app) {
-		return clientKeys.get(app);
-	}
+        return clientKeys.get(app);
+    }
 
     private static byte[] encryptDataWithRSAPublicKey(byte[] rawData, PublicKey publicKey) {
         byte[] encryptedData = null;
@@ -262,7 +262,6 @@ public class ExtractFile {
         return encryptedData;
     }
 
-
     private static Pair<Cipher, SecretKey> getCiphers() throws Exception {
         SecretKey secret = KeyGenerator.getInstance("AES").generateKey();
 
@@ -271,7 +270,6 @@ public class ExtractFile {
 
         return Pair.of(encrypt, secret);
     }
-
 
     private static void archiveFile(TarArchiveOutputStream tarArchiveOutputStream, File fileToArchive) throws IOException {
         tarArchiveOutputStream.putArchiveEntry(tarArchiveOutputStream
@@ -314,23 +312,21 @@ public class ExtractFile {
     }
 
     /**
-     * Get edorg
+     * Get the edorg.
      * 
-     * @return the edorg this extractFile is responsible
+     * @return the education organization this extractFile is responsible
      */
     public String getEdorg() {
         return this.edorg;
     }
 
     /**
-     * Set edorg
+     * Set the edorg.
      * 
-     * @param the
-     *            edorg this extractFile is responsible
+     * @param edorg
+     *            Education organization this extractFile is responsible
      */
     public void setEdorg(String edorg) {
         this.edorg = edorg;
     }
-
-
 }
