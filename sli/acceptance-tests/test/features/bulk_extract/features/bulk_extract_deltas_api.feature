@@ -37,6 +37,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "session" delta was extracted in the same format as the api
    And The "gradingPeriod" delta was extracted in the same format as the api
    And The "courseOffering" delta was extracted in the same format as the api
+   And The "course" delta was extracted in the same format as the api
    And The "program" delta was extracted in the same format as the api
    And The "studentProgramAssociation" delta was extracted in the same format as the api
    And The "staffProgramAssociation" delta was extracted in the same format as the api
@@ -69,6 +70,7 @@ Given I clean the bulk extract file system and database
        |  staffEducationOrganizationAssociation |
        |  teacher                               |
        |  teacherSchoolAssociation              |
+       |  course                                |
        |  courseOffering                        |
        |  program                               |
        |  deleted                               |
@@ -115,6 +117,14 @@ Given I clean the bulk extract file system and database
     And I verify this "courseOffering" file should contain:
       | id                                          | condition                                |
       | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
+    # I belong to DAYBREAK, but I creepily followed the above courseOffering to HIGHWIND
+    And I verify this "course" file should contain:
+      | id                                          | condition                                |
+      | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
+    # this course belongs to DAYBREAK, so should not show up here
+    And I verify this "course" file should not contain:
+      | id                                          | condition                                |
+      | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id |                                          |
 
     # Since student 1 is valid for Highwind, these two should be included
     And I verify this "program" file should contain:
@@ -143,6 +153,7 @@ Given I clean the bulk extract file system and database
        |  teacherSchoolAssociation              |
        |  teacherSectionAssociation             |
        |  courseOffering                        |
+       |  course                                |
        |  program                               |
        |  deleted                               |
    
@@ -218,6 +229,10 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 1c4d8ea0c38aab28c05b5b40e8cf71e79e455ea2_id | localCourseTitle = First grade modified course |
       | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
+    And I verify this "course" file should contain:
+      | id                                          | condition                                |
+      | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
+      | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id | uniqueCourseId = DAYBREAK1               |
 
     And I verify this "program" file should contain:
       | id                                          | condition                                |
@@ -635,6 +650,14 @@ Given I clean the bulk extract file system and database
     | d913396aef918602b8049027dbdce8826c054402_id | schoolId = 1b5de2516221069fd8f690349ef0cc1cffbb6dca_id   |
     | d913396aef918602b8049027dbdce8826c054402_id | exitWithdrawDate = 2014-05-22                            |
     | d913396aef918602b8049027dbdce8826c054402_id | entryDate = 2013-08-27                                   |
+
+Scenario: Test access to the api
+  Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
+  Then I should receive a return code of 403
+  Given I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
+  And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
+  Then I should receive a return code of 200
 
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database
