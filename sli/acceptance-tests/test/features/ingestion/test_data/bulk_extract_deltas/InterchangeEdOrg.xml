@@ -38,28 +38,4 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>
-  <Program>
-    <ProgramId>137</ProgramId>
-    <ProgramType>Gifted and Talented</ProgramType>
-    <ProgramSponsor>State Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:135</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>102</ProgramId>
-    <ProgramType>Gifted and Talented</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:102</CodeValue>
-    </Services>
-  </Program>
-  <Program>
-    <ProgramId>108</ProgramId>
-    <ProgramType>Gifted and Talented</ProgramType>
-    <ProgramSponsor>Local Education Agency</ProgramSponsor>
-    <Services>
-      <CodeValue>srv:103</CodeValue>
-    </Services>
-  </Program>
 </InterchangeEducationOrganization>
