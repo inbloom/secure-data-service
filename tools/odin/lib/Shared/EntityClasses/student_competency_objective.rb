@@ -48,7 +48,7 @@ class StudentCompetencyObjective < BaseEntity
   # optional fields
   attr_accessor :description
 
-  def initialize(sco, objetive, grade, edorg_id)
+  def initialize(sco, objective, grade, edorg_id)
     @sco_id                = sco
     @objective             = objective
     @objective_grade       = GradeLevelType.to_string(grade)
